@@ -1,7 +1,6 @@
 <?php
 
 use Cake\Routing\DispatcherFactory;
-use App\Controller\AppController;
 
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', dirname(__DIR__));
