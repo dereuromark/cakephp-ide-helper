@@ -1,0 +1,9 @@
+/phpunit.phar
+/vendor/
+/tmp/
+/composer.lock
+/composer.phar
+# IDE and editor specific files #
+#################################
+/nbproject
+.idea
