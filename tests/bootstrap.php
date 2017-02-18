@@ -60,8 +60,6 @@ Cake\Core\Plugin::load('IdeHelper', ['path' => ROOT . DS, 'autoload' => true, 'b
 DispatcherFactory::add('Routing');
 DispatcherFactory::add('ControllerFactory');
 
-class_alias(AppController::class, 'App\Controller\AppController');
-
 // Ensure default test connection is defined
 if (!getenv('db_class')) {
 	putenv('db_class=Cake\Database\Driver\Sqlite');
