@@ -27,7 +27,7 @@
 	},
 	"require-dev": {
 		"dereuromark/cakephp-tools": "^1.2",
-		"phpunit/phunit": "<6.0",
+		"phpunit/phpunit": "<6.0",
 		"fig-r/psr2r-sniffer": "dev-master"
 	},
 	"autoload": {
