@@ -3,6 +3,7 @@
 Note that freshly [baking](https://github.com/cakephp/bake) your code will result in similar results,
 but often times there is already existing code, and re-baking it is not an option.
 
+
 ## Controllers
 All controllers should at least annotate their primary model.
 
@@ -43,34 +44,38 @@ namespace App\Controller;
  * @property \App\Model\Table\MyApplesTable $MyApples
  */
 class ApplesController extends AppController {
-	
+
 	public $modelClass = 'MyApples';
+
 }
 ```
 
-### Tables
+
+## Tables
 Tables should annotate their relations.
 
 //TODO
 
 
-### Entities
+## Entities
 Entities should annotate their fields and relations.
 
 //TODO
 
-### Shells
+
+## Shells
 Shells should annotate their primary model at least.
 
 //TODO
 
 
-### Helpers
+## Helpers
 Helpers should annotate any helper they use.
 
 //TODO
 
-### Templates
+
+## Templates
 Templates should have a `/** @var \App\View\AppView $this */` added on top if they use any helper or access the request object.
 
 //TODO
