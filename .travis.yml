@@ -34,10 +34,10 @@ before_script:
   - cp phpunit.xml.dist phpunit.xml
 
 script:
-  - sh -c "if [ '$DEFAULT' = '1' ]; then phpunit; fi"
+  - sh -c "if [ '$DEFAULT' = '1' ]; then vendor/bin/phpunit; fi"
   - sh -c "if [ '$PHPCS' = '1' ]; then vendor/bin/phpcs -p --extensions=php --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=vendor --ignore=docs --ignore=config/Migrations . ; fi"
 
-  - sh -c "if [ '$CODECOVERAGE' = '1' ]; then phpunit --coverage-clover=clover.xml || true; fi"
+  - sh -c "if [ '$CODECOVERAGE' = '1' ]; then vendor/bin/phpunit --coverage-clover=clover.xml || true; fi"
   - sh -c "if [ '$CODECOVERAGE' = '1' ]; then wget -O codecov.sh https://codecov.io/bash; fi"
   - sh -c "if [ '$CODECOVERAGE' = '1' ]; then bash codecov.sh; fi"
 
