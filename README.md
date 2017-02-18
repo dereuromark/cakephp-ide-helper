@@ -47,4 +47,4 @@ bin/cake annotation controllers -p FooBar
 
 You can use `-d` (`--dry-run`) to simulate the output without actually modifying the files.
 
-See the [/docs](Docs) for details.
+See the **[Docs](/docs)** for details.
