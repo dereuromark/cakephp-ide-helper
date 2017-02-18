@@ -23,8 +23,9 @@ So for now:
 - Annotate existing classes (e.g. when upgrading an application)
 
 ## Install
+Install it as `require-dev` dependency:
 ```
-composer require dereuromark/cakephp-ide-helper:dev-master
+composer require --dev dereuromark/cakephp-ide-helper:dev-master
 ```
 
 ## Setup
