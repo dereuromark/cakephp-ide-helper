@@ -23,8 +23,6 @@ So for now:
 - Annotate existing classes (e.g. when upgrading an application)
 
 ## Install
-
-### Composer (preferred)
 ```
 composer require dereuromark/cakephp-ide-helper:dev-master
 ```
@@ -36,7 +34,15 @@ bin/cake plugin load IdeHelper
 ```
 
 ### Using the annotation shell
-Running it for a plugin:
+Running it on your app:
+```
+bin/cake annotation controllers -v
+```
+Use `-v` for verbose and detailed output.
+
+Running it on a loaded plugin:
 ```
 bin/cake annotation controllers -p FooBar
 ```
+
+You can use `-d` (`--dry-run`) to simulate the output without actually modifying the files.
