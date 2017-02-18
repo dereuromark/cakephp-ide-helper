@@ -24,12 +24,14 @@ becomes
 namespace App\Controller;
 
 /**
- * @property \App\Model\Table\ApplesTable \$Apples
+ * @property \App\Model\Table\ApplesTable $Apples
  */
 class ApplesController extends AppController {
 }
 ```
 You get autocompletion on any `$this->Apples->...()` usage in your controllers then.
+
+Use `-p PluginName` to annotate inside a plugin. It will then use the plugin name as namespace.
 
 ### Primary model via $modelClass definition
 When defining `$modelClass` it will be used instead:
@@ -38,7 +40,7 @@ When defining `$modelClass` it will be used instead:
 namespace App\Controller;
 
 /**
- * @property \App\Model\Table\MyApplesTable \$MyApples
+ * @property \App\Model\Table\MyApplesTable $MyApples
  */
 class ApplesController extends AppController {
 	
