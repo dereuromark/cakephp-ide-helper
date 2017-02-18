@@ -7,10 +7,9 @@ define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', dirname(__DIR__));
 define('APP_DIR', 'src');
 
-define('APP', rtrim(sys_get_temp_dir(), DS) . DS . APP_DIR . DS);
-if (!is_dir(APP)) {
-	mkdir(APP, 0770, true);
-}
+// Point app constants to the test app.
+define('TEST_APP', ROOT . DS . 'tests' . DS . 'test_app' . DS);
+define('APP', TEST_APP . 'src' . DS);
 
 define('TMP', ROOT . DS . 'tmp' . DS);
 if (!is_dir(TMP)) {
@@ -30,9 +29,6 @@ require CORE_PATH . 'config/bootstrap.php';
 
 Cake\Core\Configure::write('App', [
 	'namespace' => 'App',
-	'paths' => [
-		'templates' => [ROOT . DS . 'tests' . DS . 'test_app' . DS . 'src' . DS . 'Template' . DS],
-	]
 ]);
 
 Cake\Core\Configure::write('debug', true);
