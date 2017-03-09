@@ -151,6 +151,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 			$className = App::className($entity, ($this->config(static::CONFIG_PLUGIN) ? $this->config(static::CONFIG_PLUGIN) . '.' : '') . 'Model/Entity');
 			if (!$className) {
 				unset($entities[$key]);
+				continue;
 			}
 
 			$entities[$key] = '@var \\' . $className . ' $' . $key;

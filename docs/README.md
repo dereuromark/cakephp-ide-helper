@@ -90,3 +90,22 @@ bin/cake annotation templates
 ```
 Templates should have a `/** @var \App\View\AppView $this */` added on top if they use any helper or access the request object.
 They should also annotate entities they use.
+
+A template such as
+```html
+<h2>Some header</h2>
+<?php echo $this->Form->create($user); ?>
+<?php foreach ($groups as $group): ?>
+<?php endforeach; ?>
+<li><?= $this->Html->link(__('Edit Email'), ['action' => 'edit', $email->id]) ?> </li>
+```
+would then get the following added on top:
+```php
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Email $email
+ * @var \App\Model\Entity\Group[] $groups
+ */
+?>
+```
