@@ -105,46 +105,18 @@ class EntityAnnotatorTest extends TestCase {
 			'id' => [
 				'kind' => 'column',
 				'type' => 'integer',
-				'length' => 11,
-				'unsigned' => false,
-				'null' => false,
-				'default' => null,
-				'comment' => '',
-				'autoIncrement' => true,
-				'baseType' => null,
-				'precision' => null
 			],
 			'name' => [
 				'kind' => 'column',
 				'type' => 'string',
-				'length' => 100,
-				'null' => false,
-				'default' => null,
-				'comment' => '',
-				'baseType' => null,
-				'precision' => null,
-				'fixed' => null
 			],
 			'content' => [
 				'kind' => 'column',
 				'type' => 'string',
-				'length' => 100,
-				'null' => false,
-				'default' => null,
-				'comment' => '',
-				'baseType' => null,
-				'precision' => null,
-				'fixed' => null
 			],
 			'created' => [
 				'kind' => 'column',
 				'type' => 'datetime',
-				'length' => null,
-				'null' => true,
-				'default' => null,
-				'comment' => '',
-				'baseType' => null,
-				'precision' => null
 			],
 		];
 		$annotator = $this->_getAnnotatorMock(['schema' => $schema]);

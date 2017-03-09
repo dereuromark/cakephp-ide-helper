@@ -69,7 +69,7 @@ abstract class AbstractAnnotator {
 	protected function _storeFile($path, $contents) {
 		if ($this->config(static::CONFIG_DRY_RUN)) {
 			return;
-		}dd($this->config());
+		}
 		file_put_contents($path, $contents);
 	}
 
