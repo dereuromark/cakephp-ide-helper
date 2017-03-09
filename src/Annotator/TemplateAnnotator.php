@@ -140,24 +140,13 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 * @return array
 	 */
 	protected function getEntityAnnotations($content) {
-		$formEntities = $this->_parseFormEntities($content);
-		$loopEntities = $this->_parseLoopEntities($content);
-		$entities = $this->_parseEntities($content);
+		$loopEntityAnnotations = $this->_parseLoopEntities($content);
+		$formEntityAnnotations = $this->_parseFormEntities($content);
+		$entityAnnotations = $this->_parseEntities($content);
 
-		$entities = $formEntities + $loopEntities + $entities;
-		$entities = array_unique($entities);
+		$entityAnnotations = $loopEntityAnnotations + $formEntityAnnotations + $entityAnnotations;
 
-		foreach ($entities as $key => $entity) {
-			$className = App::className($entity, ($this->config(static::CONFIG_PLUGIN) ? $this->config(static::CONFIG_PLUGIN) . '.' : '') . 'Model/Entity');
-			if (!$className) {
-				unset($entities[$key]);
-				continue;
-			}
-
-			$entities[$key] = '@var \\' . $className . ' $' . $key;
-		}
-
-		return $entities;
+		return $entityAnnotations;
 	}
 
 	/**
@@ -175,7 +164,14 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		$entities = array_unique($matches[1]);
 		foreach ($entities as $entity) {
-			$result[$entity] = Inflector::classify($entity);
+			$entityName = Inflector::classify($entity);
+
+			$className = App::className(($this->config(static::CONFIG_PLUGIN) ? $this->config(static::CONFIG_PLUGIN) . '.' : '') . $entityName, 'Model/Entity');
+			if (!$className) {
+				continue;
+			}
+
+			$result[$entity] = '@var \\' . $className . ' $' . $entity;
 		}
 
 		return $result;
@@ -199,7 +195,15 @@ class TemplateAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$result[$entity] = Inflector::classify($entity);
+			$entityName = Inflector::classify($entity);
+
+			$className = App::className(($this->config(static::CONFIG_PLUGIN) ? $this->config(static::CONFIG_PLUGIN) . '.' : '') . $entityName, 'Model/Entity');
+			if (!$className) {
+				continue;
+			}
+
+			$result[$matches[1][$key]] = '@var \\' . $className . '[] $' . $matches[1][$key];
+			$result[$entity] = null;
 		}
 
 		return $result;
@@ -227,7 +231,14 @@ class TemplateAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$result[$entity] = Inflector::classify($entity);
+			$entityName = Inflector::classify($entity);
+
+			$className = App::className(($this->config(static::CONFIG_PLUGIN) ? $this->config(static::CONFIG_PLUGIN) . '.' : '') . $entityName, 'Model/Entity');
+			if (!$className) {
+				continue;
+			}
+
+			$result[$entity] = '@var \\' . $className . ' $' . $entity;
 		}
 
 		return $result;
