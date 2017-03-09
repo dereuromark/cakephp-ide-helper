@@ -2,13 +2,17 @@
 
 use Cake\Routing\DispatcherFactory;
 
-define('DS', DIRECTORY_SEPARATOR);
+if (!defined('DS')) {
+	define('DS', DIRECTORY_SEPARATOR);
+}
+
 define('ROOT', dirname(__DIR__));
 define('APP_DIR', 'src');
 
 // Point app constants to the test app.
-define('TEST_APP', ROOT . DS . 'tests' . DS . 'test_app' . DS);
-define('APP', TEST_APP . 'src' . DS);
+define('TEST_ROOT', ROOT . DS . 'tests' . DS . 'test_app' . DS);
+define('APP', TEST_ROOT . APP_DIR . DS);
+define('TEST_FILES', ROOT . DS . 'tests' . DS . 'test_files' . DS);
 
 define('TMP', ROOT . DS . 'tmp' . DS);
 if (!is_dir(TMP)) {

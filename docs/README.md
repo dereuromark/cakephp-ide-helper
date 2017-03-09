@@ -50,14 +50,20 @@ class ApplesController extends AppController {
 }
 ```
 
+## Models
+This will ensure the annotations for tables and their entities:
 
-## Tables
-Tables should annotate their relations.
+```
+bin/cake annotation controllers
+```
+
+### Tables
+Tables should annotate their relations as well as behavior mixins.
 
 //TODO
 
 
-## Entities
+### Entities
 Entities should annotate their fields and relations.
 
 //TODO
@@ -68,6 +74,8 @@ Shells should annotate their primary model at least.
 
 //TODO
 
+## View
+The AppView class should annotate the helpers of the plugins and the app.
 
 ## Helpers
 Helpers should annotate any helper they use.

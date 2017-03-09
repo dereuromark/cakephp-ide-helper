@@ -4,6 +4,8 @@ namespace IdeHelper\Shell;
 use Cake\Console\Shell;
 use Cake\Core\App;
 use Cake\Filesystem\Folder;
+use IdeHelper\Annotator\ModelAnnotator;
+use IdeHelper\Console\Io;
 use PHP_CodeSniffer;
 use PHP_CodeSniffer_File;
 use PHP_CodeSniffer_Fixer;
@@ -27,6 +29,40 @@ class AnnotationShell extends Shell {
 	/**
 	 * @return void
 	 */
+	public function models() {
+		$plugin = $this->param('plugin');
+		$folders = App::path('Model/Table', $plugin);
+
+		foreach ($folders as $folder) {
+			$this->_models($folder);
+		}
+
+		$this->out('Done');
+	}
+
+	/**
+	 * @param string $folder
+	 * @return void
+	 */
+	protected function _models($folder) {
+		$this->out($folder, 1, Shell::VERBOSE);
+
+		$folderContent = (new Folder($folder))->read();
+
+		$count = 0;
+		foreach ($folderContent[1] as $file) {
+			$annotator = new ModelAnnotator($this->_io(), $this->params);
+
+			$result = $annotator->annotate($folder . $file);
+			if ($result) {
+				$count++;
+			}
+		}
+	}
+
+	/**
+	 * @return void
+	 */
 	public function controllers() {
 		$plugin = $this->param('plugin');
 		$folders = App::path('Controller', $plugin);
@@ -45,22 +81,23 @@ class AnnotationShell extends Shell {
 	protected function _controllers($folder) {
 		$this->out($folder, 1, Shell::VERBOSE);
 
-		$x = (new Folder($folder))->read();
+		$folderContent = (new Folder($folder))->read();
 
-		foreach ($x[1] as $file) {
+		foreach ($folderContent[1] as $file) {
 			$name = pathinfo($file, PATHINFO_FILENAME);
 			if (substr($name, -13) === 'AppController' || substr($name, -10) !== 'Controller') {
 				continue;
 			}
 
 			$content = file_get_contents($folder . $file);
-			if (preg_match('/@property .+Table \$/', $content)) {
+			if (preg_match('/\* @property .+Table \$/', $content)) {
 				continue;
 			}
 
+			$_SERVER['argv'] = [];
 			$phpcs = new PHP_CodeSniffer();
 			$phpcs->process([], null, []);
-			$phpcsFile = new PHP_CodeSniffer_File($file, [], [], $phpcs);
+			$phpcsFile = new PHP_CodeSniffer_File($folder . $file, [], [], $phpcs);
 			$phpcsFile->start($content);
 
 			$tokens = $phpcsFile->getTokens();
@@ -69,8 +106,8 @@ class AnnotationShell extends Shell {
 
 			$prevCode = $phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$emptyTokens, $classIndex, null, true);
 
-			$x = $phpcsFile->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $classIndex, $prevCode);
-			if ($x) {
+			$closeTagIndex = $phpcsFile->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $classIndex, $prevCode);
+			if ($closeTagIndex) {
 				continue;
 			}
 
@@ -84,9 +121,15 @@ class AnnotationShell extends Shell {
 			$namespace = $this->param('plugin') ?: 'App';
 			$namespace = str_replace('/', '\\', $namespace);
 
+			//$table = TableRegistry::get(($this->param('plugin')? $this->param('plugin') .'.' : '') . $modelName);
+			$className = "{$namespace}\\Model\\Table\\{$modelName}Table";
+			if (!class_exists($className)) {
+				continue;
+			}
+
 			$docBlock = <<<PHP
 /**
- * @property \\{$namespace}\\Model\\Table\\{$modelName}Table \${$modelName}
+ * @property \\{$className} \${$modelName}
  */
 
 PHP;
@@ -99,23 +142,10 @@ PHP;
 			$this->out($name);
 		}
 
-		if (!empty($x[0]) && in_array('Admin', $x[0])) {
+		if (!empty($folderContent[0]) && in_array('Admin', $folderContent[0])) {
 			$this->_controllers($folder . 'Admin' . DS);
 			return;
 		}
-	}
-
-	/**
-	 * @param string $path
-	 *
-	 * @return array
-	 */
-	protected function _getTokens($path) {
-		$phpcs = new PHP_CodeSniffer();
-		$phpcs->process([], null, []);
-		$file = $phpcs->processFile($path);
-		$file->start();
-		return $file->getTokens();
 	}
 
 	/**
@@ -151,10 +181,20 @@ PHP;
 
 		return parent::getOptionParser()
 			->description('Annotation Shell for better IDE auto-complete/hinting')
-			->addSubcommand('controllers', [
+			->addSubcommand('models', [
+				'help' => 'Annotate fields and relations in table and entity class',
+				'parser' => $subcommandParser
+			])->addSubcommand('controllers', [
 				'help' => 'Annotate primary model in controller class',
 				'parser' => $subcommandParser
 			]);
+	}
+
+	/**
+	 * @return \IdeHelper\Console\Io
+	 */
+	protected function _io() {
+		return new Io($this->io());
 	}
 
 }

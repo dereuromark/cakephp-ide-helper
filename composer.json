@@ -23,11 +23,11 @@
 	"require": {
 		"php": ">=5.5",
 		"cakephp/cakephp": "^3.3",
-		"squizlabs/php_codesniffer": "^2.8"
+		"squizlabs/php_codesniffer": "^2.8",
+		"cakephp/bake": "^1.3"
 	},
 	"require-dev": {
 		"dereuromark/cakephp-tools": "^1.2",
-		"phpunit/phpunit": "<6.0",
 		"fig-r/psr2r-sniffer": "dev-master"
 	},
 	"autoload": {
@@ -40,10 +40,13 @@
 		"psr-4": {
 			"IdeHelper\\Test\\": "tests",
 			"Cake\\Test\\": "vendor/cakephp/cakephp/tests",
-			"TestApp\\": "tests/test_app/src"
+			"App\\": "tests/test_app/src"
 		}
 	},
 	"scripts": {
+		"setup": "[ ! -f phpunit.phar ] && wget https://phar.phpunit.de/phpunit.phar || true",
+		"test": "php phpunit.phar",
+		"coverage" : "php phpunit.phar --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml",
 		"cs-check": "phpcs -p --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/cakephp-ide-helper/vendor/,/tmp/,/logs/ --extensions=php ./",
 		"cs-fix": "phpcbf -f --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/cakephp-ide-helper/vendor/,/tmp/,/logs/ --extensions=php ./"
 	}
