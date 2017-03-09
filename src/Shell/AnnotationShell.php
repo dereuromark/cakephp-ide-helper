@@ -5,6 +5,7 @@ use Cake\Console\Shell;
 use Cake\Core\App;
 use Cake\Filesystem\Folder;
 use IdeHelper\Annotator\ModelAnnotator;
+use IdeHelper\Annotator\TemplateAnnotator;
 use IdeHelper\Console\Io;
 use PHP_CodeSniffer;
 use PHP_CodeSniffer_File;
@@ -36,8 +37,6 @@ class AnnotationShell extends Shell {
 		foreach ($folders as $folder) {
 			$this->_models($folder);
 		}
-
-		$this->out('Done');
 	}
 
 	/**
@@ -70,8 +69,6 @@ class AnnotationShell extends Shell {
 		foreach ($folders as $folder) {
 			$this->_controllers($folder);
 		}
-
-		$this->out('Done');
 	}
 
 	/**
@@ -149,6 +146,38 @@ PHP;
 	}
 
 	/**
+	 * @return void
+	 */
+	public function templates() {
+		$plugin = $this->param('plugin');
+		$folders = App::path('Template', $plugin);
+
+		foreach ($folders as $folder) {
+			$this->_templates($folder);
+		}
+	}
+
+	/**
+	 * @param string $folder
+	 * @return void
+	 */
+	protected function _templates($folder) {
+		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, false, true);
+
+		$this->out(str_replace(APP, '', $folder), 1, Shell::VERBOSE);
+		foreach ($folderContent[1] as $file) {
+			$name = pathinfo($file, PATHINFO_FILENAME);
+			$this->out(' * ' . $name, 1, Shell::VERBOSE);
+			$annotator = new TemplateAnnotator($this->_io(), $this->params);
+			$annotator->annotate($file);
+		}
+
+		foreach ($folderContent[0] as $subFolder) {
+			$this->_templates($subFolder);
+		}
+	}
+
+	/**
 	 * @param string $path
 	 * @param string $contents
 	 * @return void
@@ -186,6 +215,9 @@ PHP;
 				'parser' => $subcommandParser
 			])->addSubcommand('controllers', [
 				'help' => 'Annotate primary model in controller class',
+				'parser' => $subcommandParser
+			])->addSubcommand('templates', [
+				'help' => 'Annotate view templates and elements',
 				'parser' => $subcommandParser
 			]);
 	}

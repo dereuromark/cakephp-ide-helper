@@ -84,6 +84,9 @@ Helpers should annotate any helper they use.
 
 
 ## Templates
+This will ensure annotations for view templates and elements:
+```
+bin/cake annotation templates
+```
 Templates should have a `/** @var \App\View\AppView $this */` added on top if they use any helper or access the request object.
-
-//TODO
+They should also annotate entities they use.
