@@ -7,21 +7,14 @@ use Cake\Console\ConsoleIo;
 use Cake\Database\Schema\TableSchema;
 use Cake\ORM\TableRegistry;
 use IdeHelper\Annotator\AbstractAnnotator;
-use IdeHelper\Annotator\ModelAnnotator;
+use IdeHelper\Annotator\TemplateAnnotator;
 use IdeHelper\Console\Io;
 use Tools\TestSuite\ConsoleOutput;
 use Tools\TestSuite\TestCase;
 
 /**
  */
-class ModelAnnotatorTest extends TestCase {
-
-	/**
-	 * @var array
-	 */
-	public $fixtures = [
-		'plugin.ide_helper.foo'
-	];
+class TemplateAnnotatorTest extends TestCase {
 
 	/**
 	 * @var \Tools\TestSuite\ConsoleOutput
@@ -57,35 +50,6 @@ class ModelAnnotatorTest extends TestCase {
 				'baseType' => null,
 				'precision' => null
 			],
-			'name' => [
-				'type' => 'string',
-				'length' => 100,
-				'null' => false,
-				'default' => null,
-				'comment' => '',
-				'baseType' => null,
-				'precision' => null,
-				'fixed' => null
-			],
-			'content' => [
-				'type' => 'string',
-				'length' => 100,
-				'null' => false,
-				'default' => null,
-				'comment' => '',
-				'baseType' => null,
-				'precision' => null,
-				'fixed' => null
-			],
-			'created' => [
-				'type' => 'datetime',
-				'length' => null,
-				'null' => true,
-				'default' => null,
-				'comment' => '',
-				'baseType' => null,
-				'precision' => null
-			],
 		];
 		$schema = new TableSchema('Foo', $columns);
 		$x->setSchema($schema);
@@ -93,12 +57,14 @@ class ModelAnnotatorTest extends TestCase {
 	}
 
 	/**
+	 * Tests create() parsing part and creating a new PHP tag in first line.
+	 *
 	 * @return void
 	 */
 	public function testAnnotate() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/FooTable.php'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/table.ctp'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -109,21 +75,48 @@ class ModelAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = APP . 'Model/Table/FooTable.php';
+		$path = APP . 'Template/Foos/edit.ctp';
 		$annotator->annotate($path);
 
 		$output = (string)$this->out->output();
 
-		$this->assertTextContains('FooTable', $output);
+		$this->assertTextContains('* 2 annotations added', $output);
+	}
+
+	/**
+	 * Tests loop and entity->field, as well as writing into an existing PHP tag.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateLoop() {
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/loop.ctp'));
+		$callback = function($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->debug($expectedContent);
+				$this->debug($value);
+			}
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP . 'Template/Foos/loop.ctp';
+		$annotator->annotate($path);
+
+		$output = (string)$this->out->output();
+
+		$this->assertTextContains('* 2 annotations added', $output);
 	}
 
 	/**
 	 * @param array $params
-	 * @return \IdeHelper\Annotator\ModelAnnotator|\PHPUnit_Framework_MockObject_MockObject
+	 * @return \IdeHelper\Annotator\TemplateAnnotator|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function _getAnnotatorMock(array $params) {
 		$params += [AbstractAnnotator::CONFIG_DRY_RUN => true];
-		return $this->getMockBuilder(ModelAnnotator::class)->setMethods(['_storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
+		return $this->getMockBuilder(TemplateAnnotator::class)->setMethods(['_storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
 	}
 
 }

@@ -41,14 +41,21 @@ class TemplateAnnotator extends AbstractAnnotator {
 			$annotations[] = $entityAnnotation;
 		}
 
+		return $this->_annotate($path, $content, $annotations);
+	}
+
+	/**
+	 * @param string $path
+	 * @param string $content
+	 * @param array $annotations
+	 *
+	 * @return bool
+	 */
+	protected function _annotate($path, $content, array $annotations) {
 		if (!$annotations) {
 			return false;
 		}
 
-		return $this->_annotate($path, $content, $annotations);
-	}
-
-	protected function _annotate($path, $content, $annotations) {
 		$helper = new DocBlockHelper(new View());
 
 		$annotationString = $helper->classDescription('', '', $annotations);

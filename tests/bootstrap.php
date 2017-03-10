@@ -32,6 +32,9 @@ require CORE_PATH . 'config/bootstrap.php';
 
 Cake\Core\Configure::write('App', [
 	'namespace' => 'App',
+	'paths' => [
+		'templates' => [APP . 'Template' . DS],
+	]
 ]);
 
 Cake\Core\Configure::write('debug', true);
@@ -58,7 +61,8 @@ $cache = [
 
 Cake\Cache\Cache::config($cache);
 
-Cake\Core\Plugin::load('IdeHelper', ['path' => ROOT . DS, 'autoload' => true, 'bootstrap' => false]);
+Cake\Core\Plugin::load('IdeHelper', ['path' => ROOT . DS, 'autoload' => true]);
+Cake\Core\Plugin::load('Shim', ['path' => ROOT . DS . 'vendor/dereuromark/cakephp-shim/', 'autoload' => true]);
 
 DispatcherFactory::add('Routing');
 DispatcherFactory::add('ControllerFactory');

@@ -9,6 +9,8 @@
 
 IdeHelper plugin for CakePHP applications.
 
+> Boost your productivity. Avoid mistakes.
+
 **This branch is for CakePHP 3.x**
 
 ## Features
@@ -36,13 +38,13 @@ bin/cake plugin load IdeHelper
 ### Using the annotation shell
 Running it on your app:
 ```
-bin/cake annotation [type] -v
+bin/cake annotations [type] -v
 ```
 Use `-v` for verbose and detailed output.
 
 Running it on a loaded plugin:
 ```
-bin/cake annotation [type] -p FooBar
+bin/cake annotations [type] -p FooBar
 ```
 
 You can use `-d` (`--dry-run`) to simulate the output without actually modifying the files.
