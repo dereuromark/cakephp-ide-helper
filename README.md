@@ -7,20 +7,19 @@
 [![License](https://poser.pugx.org/dereuromark/cakephp-ide-helper/license.png)](https://packagist.org/packages/dereuromark/cakephp-ide-helper)
 [![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-ide-helper/d/total.png)](https://packagist.org/packages/dereuromark/cakephp-ide-helper)
 
-IdeHelper engine for CakePHP applications.
+IdeHelper plugin for CakePHP applications.
 
 **This branch is for CakePHP 3.x**
 
-Note: Highly unstable still at this point.
-
 ## Features
 
-The main idea is to improve IDE compatability and use annotations to make the IDE understand the
+The main idea is to improve IDE compatibility and use annotations to make the IDE understand the
 "magic" of CakePHP, so you can click through the classes and object chains as well as see obvious issues and mistakes.
 The IDE will usually mark problematic code yellow (missing, wrong method etc).
 
 So for now:
-- Annotate existing classes (e.g. when upgrading an application)
+- Add annotations to existing classes (e.g. when upgrading an application) just like baking would to new code.
+- Can run multiple times without adding the annotations again.
 
 ## Install
 Install it as `require-dev` dependency:
@@ -37,13 +36,13 @@ bin/cake plugin load IdeHelper
 ### Using the annotation shell
 Running it on your app:
 ```
-bin/cake annotation controllers -v
+bin/cake annotation [type] -v
 ```
 Use `-v` for verbose and detailed output.
 
 Running it on a loaded plugin:
 ```
-bin/cake annotation controllers -p FooBar
+bin/cake annotation [type] -p FooBar
 ```
 
 You can use `-d` (`--dry-run`) to simulate the output without actually modifying the files.
