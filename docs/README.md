@@ -54,20 +54,43 @@ class ApplesController extends AppController {
 This will ensure the annotations for tables and their entities:
 
 ```
-bin/cake annotation controllers
+bin/cake annotation models
 ```
 
 ### Tables
-Tables should annotate their relations as well as behavior mixins.
+Tables should annotate their entity related methods, their relations and behavior mixins.
 
-//TODO
-
+A LocationsTable class would then get the following doc block annotations added if not already present:
+```php
+/**
+ * @method \App\Model\Entity\Location get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Location newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Location[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Location|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Location patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Location[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Location findOrCreate($search, callable $callback = null, $options = [])
+```
 
 ### Entities
 Entities should annotate their fields and relations.
 
-//TODO
-
+A Location entity could look like this afterwards:
+```php
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property \App\Model\Entity\User $user
+ * @property string $location
+ * @property string $details
+ * @property \Cake\I18n\Time $created
+ * @property \Cake\I18n\Time $modified
+ *
+ * @property \App\Model\Entity\Image[] $images
+ */
+class Location extends Entity {
+}
+```
 
 ## Shells
 Shells should annotate their primary model at least.
