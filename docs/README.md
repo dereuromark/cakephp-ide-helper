@@ -70,6 +70,11 @@ A LocationsTable class would then get the following doc block annotations added 
  * @method \App\Model\Entity\Location patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Location[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Location findOrCreate($search, callable $callback = null, $options = [])
+ *
+ * @property \App\Model\Table\ImagesTable|\Cake\ORM\Association\HasMany $Images
+ * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
+ *
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
 ```
 
 ### Entities
@@ -87,6 +92,7 @@ A Location entity could look like this afterwards:
  * @property \Cake\I18n\Time $modified
  *
  * @property \App\Model\Entity\Image[] $images
+ * @property \App\Model\Entity\User $user
  */
 class Location extends Entity {
 }
