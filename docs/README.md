@@ -228,6 +228,21 @@ would then get the following added on top:
 ?>
 ```
 
+## Running all commands
+```
+bin/cake annotations all
+```
+By default it will be interactive, asking you for each class type if you want to continue.
+You can use `-f` (force) to disable interactive mode, but in this case it is recommended to make the output more verbose:
+```
+bin/cake annotations all -f -v
+```
+
+Also make sure you commited or backuped all project files.
+
+Tip: If you want to check if it would be modifying any files, you can run it with `-d` (dry-run) param.
+
+
 ## Writing your own annotators
 Just extend the shell on application level, add your command and create your own Annotator class:
 ```php

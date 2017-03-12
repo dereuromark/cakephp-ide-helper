@@ -102,4 +102,22 @@ class AnnotationsShellTest extends TestCase {
 		$this->assertTextContains('* 1 annotations added', $output);
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testAll() {
+		$this->Shell->runCommand(['all', '-f', '-d', '-v']);
+		$output = (string)$this->out->output();
+
+		$this->assertTextContains('[Models]', $output);
+		$this->assertTextContains('[Controllers]', $output);
+		$this->assertTextContains('[View]', $output);
+		$this->assertTextContains('[Templates]', $output);
+		$this->assertTextContains('[Shells]', $output);
+		$this->assertTextContains('[Components]', $output);
+		$this->assertTextContains('[Helpers]', $output);
+		//$this->assertTextContains('FooController', $output);
+		//$this->assertTextContains('* 1 annotations added', $output);
+	}
+
 }

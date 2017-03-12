@@ -4,6 +4,7 @@ namespace IdeHelper\Shell;
 use Cake\Console\Shell;
 use Cake\Core\App;
 use Cake\Filesystem\Folder;
+use Cake\Utility\Inflector;
 use IdeHelper\Annotator\ComponentAnnotator;
 use IdeHelper\Annotator\ControllerAnnotator;
 use IdeHelper\Annotator\HelperAnnotator;
@@ -26,6 +27,41 @@ class AnnotationsShell extends Shell {
 	 */
 	public function startup() {
 		parent::startup();
+	}
+
+	/**
+	 * @return void
+	 */
+	public function all() {
+		$types = [
+			'models',
+			'controllers',
+			'view',
+			'templates',
+			'shells',
+			'components',
+			'helpers',
+		];
+
+		if ($this->param('force')) {
+			$this->interactive = false;
+		}
+
+		foreach ($types as $type) {
+			$typeName = Inflector::humanize($type);
+			if ($this->param('force')) {
+				$this->out('[' . $typeName . ']');
+			}
+			$in = $this->in($typeName . '?', ['y', 'n', 'a'], 'y');
+			if ($in === 'a') {
+				$this->abort('Aborted');
+			}
+			if ($in !== 'y') {
+				continue;
+			}
+
+			$this->$type();
+		}
 	}
 
 	/**
@@ -248,39 +284,49 @@ class AnnotationsShell extends Shell {
 			'options' => [
 				'dry-run' => [
 					'short' => 'd',
-					'help' => 'Dry run the task',
+					'help' => 'Dry run the task. Don\'t modify any files.',
 					'boolean' => true,
 				],
 				'plugin' => [
 					'short' => 'p',
-					'help' => 'Plugin',
+					'help' => 'The plugin to run. Defaults to the application otherwise.',
 					'default' => null,
 				],
 			]
 		];
 
+		$allParser = $subcommandParser;
+		$allParser['options']['force'] = [
+			'short' => 'f',
+			'help' => 'Force (disable interactive mode).',
+			'boolean' => true,
+		];
+
 		return parent::getOptionParser()
-			->setDescription('Annotation Shell for better IDE auto-complete/hinting')
-			->addSubcommand('models', [
-				'help' => 'Annotate fields and relations in table and entity class',
+			->setDescription('Annotation Shell for generating better IDE auto-complete/hinting.')
+			->addSubcommand('all', [
+				'help' => 'Annotate all supported classes.',
+				'parser' => $allParser
+			])->addSubcommand('models', [
+				'help' => 'Annotate fields and relations in table and entity class.',
 				'parser' => $subcommandParser
 			])->addSubcommand('controllers', [
-				'help' => 'Annotate primary model as well as used models in controller class',
+				'help' => 'Annotate primary model as well as used models in controller class.',
 				'parser' => $subcommandParser
 			])->addSubcommand('templates', [
-				'help' => 'Annotate helpers in view templates and elements',
+				'help' => 'Annotate helpers in view templates and elements.',
 				'parser' => $subcommandParser
 			])->addSubcommand('view', [
-				'help' => 'Annotate used helpers in AppView',
+				'help' => 'Annotate used helpers in AppView.',
 				'parser' => $subcommandParser
 			])->addSubcommand('components', [
-				'help' => 'Annotate used components inside components',
+				'help' => 'Annotate used components inside components.',
 				'parser' => $subcommandParser
 			])->addSubcommand('helpers', [
-				'help' => 'Annotate used helpers inside helpers',
+				'help' => 'Annotate used helpers inside helpers.',
 				'parser' => $subcommandParser
 			])->addSubcommand('shells', [
-				'help' => 'Annotate primary model as well as used models in shells',
+				'help' => 'Annotate primary model as well as used models in shells.',
 				'parser' => $subcommandParser
 			]);
 	}
