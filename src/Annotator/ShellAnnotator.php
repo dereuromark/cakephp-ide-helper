@@ -1,9 +1,6 @@
 <?php
 namespace IdeHelper\Annotator;
 
-use Cake\Core\App;
-use Cake\Utility\Inflector;
-
 /**
  */
 class ShellAnnotator extends AbstractAnnotator {
