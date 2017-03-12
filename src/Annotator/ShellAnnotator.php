@@ -1,8 +1,6 @@
 <?php
 namespace IdeHelper\Annotator;
 
-/**
- */
 class ShellAnnotator extends AbstractAnnotator {
 
 	/**
@@ -14,9 +12,6 @@ class ShellAnnotator extends AbstractAnnotator {
 		if ($className === 'Shell' || substr($className, -5) !== 'Shell' && substr($className, -4) !== 'Task') {
 			return null;
 		}
-
-		//$isTask = substr($className, -4) === 'Task';
-		//$name = substr($className, 0, $isTask ? -4 : -5);
 
 		$content = file_get_contents($path);
 		$primaryModelClass = $this->_getPrimaryModelClass($content);

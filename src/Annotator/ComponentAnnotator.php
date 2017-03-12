@@ -5,8 +5,6 @@ use Cake\Controller\ComponentRegistry;
 use Cake\Core\App;
 use Cake\Core\Plugin;
 
-/**
- */
 class ComponentAnnotator extends AbstractAnnotator {
 
 	/**

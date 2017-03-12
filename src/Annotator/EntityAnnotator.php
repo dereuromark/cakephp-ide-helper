@@ -4,8 +4,6 @@ namespace IdeHelper\Annotator;
 use Bake\View\Helper\DocBlockHelper;
 use Cake\View\View;
 
-/**
- */
 class EntityAnnotator extends AbstractAnnotator {
 
 	/**

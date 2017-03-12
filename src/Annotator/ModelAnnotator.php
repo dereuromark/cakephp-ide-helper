@@ -6,8 +6,6 @@ use Cake\Core\App;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 
-/**
- */
 class ModelAnnotator extends AbstractAnnotator {
 
 	/**

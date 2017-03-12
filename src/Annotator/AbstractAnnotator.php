@@ -12,8 +12,6 @@ use PHP_CodeSniffer_Fixer;
 use PHP_CodeSniffer_Tokens;
 use ReflectionClass;
 
-/**
- */
 abstract class AbstractAnnotator {
 
 	use InstanceConfigTrait;

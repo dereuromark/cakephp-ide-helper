@@ -6,8 +6,6 @@ use Cake\Core\App;
 use Cake\Utility\Inflector;
 use Cake\View\View;
 
-/**
- */
 class TemplateAnnotator extends AbstractAnnotator {
 
 	/**

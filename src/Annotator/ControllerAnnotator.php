@@ -1,8 +1,6 @@
 <?php
 namespace IdeHelper\Annotator;
 
-/**
- */
 class ControllerAnnotator extends AbstractAnnotator {
 
 	/**

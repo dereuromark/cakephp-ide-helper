@@ -5,8 +5,6 @@ use Cake\Core\App;
 use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 
-/**
- */
 class ViewAnnotator extends AbstractAnnotator {
 
 	/**

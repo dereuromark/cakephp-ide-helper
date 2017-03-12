@@ -5,8 +5,6 @@ use Cake\Core\App;
 use Cake\Core\Plugin;
 use Cake\View\View;
 
-/**
- */
 class HelperAnnotator extends AbstractAnnotator {
 
 	/**
