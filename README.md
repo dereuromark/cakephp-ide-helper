@@ -35,7 +35,7 @@ Enable the plugin in your `config/bootstrap_cli.php` or call
 bin/cake plugin load IdeHelper --cli
 ```
 
-Note: As require-dev dependency this should only be loaded for local development (with some check).
+Note: As require-dev dependency this should only be loaded for local development (include a check or try/catch).
 
 ### Using the annotation shell
 Running it on your app:
