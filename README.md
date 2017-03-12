@@ -19,9 +19,17 @@ The main idea is to improve IDE compatibility and use annotations to make the ID
 "magic" of CakePHP, so you can click through the classes and object chains as well as see obvious issues and mistakes.
 The IDE will usually mark problematic code yellow (missing, wrong method etc).
 
-So for now:
-- Add annotations to existing classes (e.g. when upgrading an application) just like baking would to new code.
+- Add annotations to existing code (e.g. when upgrading an application) just like baking would to new code.
 - Can run multiple times without adding the annotations again.
+
+Supported by this plugin:
+- Models (Tables and Entities)
+- Controllers
+- View (AppView)
+- Templates (`.ctp` files)
+- Shells (and Tasks)
+- Components
+- Helpers
 
 ## Install
 Install it as `require-dev` dependency:
