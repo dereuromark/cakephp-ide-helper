@@ -22,7 +22,7 @@ The IDE will usually mark problematic code yellow (missing, wrong method etc).
 - Add annotations to existing code (e.g. when upgrading an application) just like baking would to new code.
 - Can run multiple times without adding the annotations again.
 - Works with your application as well as any loaded plugin.
-- CI check support, can e.g. be run in travis just like coding standards check.
+- CI check support, hook it up just like the coding standards check.
 
 Supported annotations by this plugin:
 - Models (Tables and Entities)
