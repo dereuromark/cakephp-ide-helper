@@ -19,7 +19,9 @@ class ControllerAnnotator extends AbstractAnnotator {
 		$primaryModelClass = $this->_getPrimaryModelClass($content, $className);
 
 		$usedModels = $this->_getUsedModels($content);
-		$usedModels[] = $primaryModelClass;
+		if ($primaryModelClass) {
+			$usedModels[] = $primaryModelClass;
+		}
 		$usedModels = array_unique($usedModels);
 
 		$annotations = $this->_getModelAnnotations($usedModels, $content);
