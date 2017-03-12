@@ -7,6 +7,7 @@ use IdeHelper\Console\Io;
 use PHP_CodeSniffer;
 use PHP_CodeSniffer_File;
 use PHP_CodeSniffer_Fixer;
+use ReflectionClass;
 
 /**
  */
@@ -105,6 +106,28 @@ abstract class AbstractAnnotator {
 		}
 
 		return $annotations;
+	}
+
+	/**
+	 * Gets protected/private property of a class.
+	 *
+	 * So
+	 *   $this->invokeProperty($object, '_foo');
+	 * is equal to
+	 *   $object->_foo
+	 * (assuming the property was directly publicly accessible
+	 *
+	 * @param object &$object Instantiated object that we want the property off.
+	 * @param string $name Property name to fetch.
+	 *
+	 * @return mixed Property value.
+	 */
+	protected function invokeProperty(&$object, $name) {
+		$reflection = new ReflectionClass(get_class($object));
+		$property = $reflection->getProperty($name);
+		$property->setAccessible(true);
+
+		return $property->getValue($object);
 	}
 
 }

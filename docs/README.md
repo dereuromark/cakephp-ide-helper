@@ -95,6 +95,10 @@ class Location extends Entity {
 ## Shells
 Shells and Tasks should annotate their primary model as well as all manually loaded models.
 
+```
+bin/cake annotations shells
+```
+
 ```php
 	/**
 	 * @var string
@@ -120,6 +124,10 @@ will result in the following annotation:
 ## View
 The AppView class should annotate the helpers of the plugins and the app.
 
+```
+bin/cake annotations view
+```
+
 With template content like
 ```html
 <?php echo $this->My->foo($bar); ?>
@@ -135,8 +143,37 @@ class AppView extends View {
 } 
 ```
 
+## Components
+Components should annotate any component they use.
+
+```
+bin/cake annotations components
+```
+
+A component containing
+```php
+	/**
+	 * @var array
+	 */
+	public $helpers = [
+		'RequestHandler',
+		'Flash.Flash',
+	];
+```
+would get the following annotations:
+```php
+/**
+ * @property \App\Controller\Component\RequestHandlerComponent $RequestHandler
+ * @property \Flash\Controller\Component\FlashComponent $Flash
+ */
+```
+
 ## Helpers
 Helpers should annotate any helper they use.
+
+```
+bin/cake annotations helpers
+```
 
 A helper containing
 ```php

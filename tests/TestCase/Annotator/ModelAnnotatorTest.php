@@ -98,7 +98,7 @@ class ModelAnnotatorTest extends TestCase {
 	public function testAnnotate() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/FooTable.php'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/FooTable.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {

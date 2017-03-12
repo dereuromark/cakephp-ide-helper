@@ -2,23 +2,15 @@
 namespace IdeHelper\Annotator;
 
 use Bake\View\Helper\DocBlockHelper;
+use Cake\Controller\ComponentRegistry;
 use Cake\Core\App;
 use Cake\Core\Plugin;
 use Cake\View\View;
-use IdeHelper\Console\Io;
 use PHP_CodeSniffer_Tokens;
 
 /**
  */
-class HelperAnnotator extends AbstractAnnotator {
-
-	/**
-	 * @param \IdeHelper\Console\Io $io
-	 * @param array $config
-	 */
-	public function __construct(Io $io, array $config) {
-		parent::__construct($io, $config);
-	}
+class ComponentAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $path Path to file.
@@ -29,14 +21,14 @@ class HelperAnnotator extends AbstractAnnotator {
 		$annotations = [];
 
 		$name = pathinfo($path, PATHINFO_FILENAME);
-		$name = substr($name, 0, -6);
-		$className = App::className($name, 'View/Helper', 'Helper');
-		$helper = new $className(new View());
+		$name = substr($name, 0, -9);
+		$className = App::className($name, 'Controller/Component', 'Component');
+		$object = new $className(new ComponentRegistry());
 
-		$helperMap = $this->invokeProperty($helper, '_helperMap');
+		$helperMap = $this->invokeProperty($object, '_componentMap');
 
-		$helperAnnotations = $this->_getHelperAnnotations($helperMap);
-		foreach ($helperAnnotations as $helperAnnotation) {
+		$componentAnnotations = $this->_getComponentAnnotations($helperMap);
+		foreach ($componentAnnotations as $helperAnnotation) {
 			if (preg_match('/' . preg_quote($helperAnnotation) . '/', $content)) {
 				continue;
 			}
@@ -93,45 +85,45 @@ class HelperAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param array $helperMap
+	 * @param array $map
 	 * @return array
 	 */
-	protected function _getHelperAnnotations($helperMap) {
-		if (empty($helperMap)) {
+	protected function _getComponentAnnotations($map) {
+		if (empty($map)) {
 			return [];
 		}
 
-		$helperAnnotations = [];
-		foreach ($helperMap as $helper => $config) {
+		$annotations = [];
+		foreach ($map as $name => $config) {
 			$className = $this->_findClassName($config['class']);
 			if (!$className) {
 				continue;
 			}
 
-			$helperAnnotations[] = '@property \\' . $className . ' $' . $helper;
+			$annotations[] = '@property \\' . $className . ' $' . $name;
 		}
 
-		return $helperAnnotations;
+		return $annotations;
 	}
 
 	/**
-	 * @param string $helper
+	 * @param string $component
 	 *
 	 * @return string|null
 	 */
-	protected function _findClassName($helper) {
+	protected function _findClassName($component) {
 		$plugins = Plugin::loaded();
-		if (class_exists($helper)) {
-			return $helper;
+		if (class_exists($component)) {
+			return $component;
 		}
 
-		$className = App::className($helper, 'View/Helper', 'Helper');
+		$className = App::className($component, 'Controller/Component', 'Component');
 		if ($className) {
 			return $className;
 		}
 
 		foreach ($plugins as $plugin) {
-			$className = App::className($plugin . '.' . $helper, 'View/Helper', 'Helper');
+			$className = App::className($plugin . '.' . $component, 'Controller/Component', 'Component');
 			if ($className) {
 				return $className;
 			}

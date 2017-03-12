@@ -121,7 +121,7 @@ class EntityAnnotatorTest extends TestCase {
 		];
 		$annotator = $this->_getAnnotatorMock(['schema' => $schema]);
 
-		$expectedContent = str_replace(["\r\n", "\r"], "\n", file_get_contents(TEST_FILES . 'Model/Foo.php'));
+		$expectedContent = str_replace(["\r\n", "\r"], "\n", file_get_contents(TEST_FILES . 'Model/Entity/Foo.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {

@@ -4,6 +4,7 @@ namespace IdeHelper\Shell;
 use Cake\Console\Shell;
 use Cake\Core\App;
 use Cake\Filesystem\Folder;
+use IdeHelper\Annotator\ComponentAnnotator;
 use IdeHelper\Annotator\ControllerAnnotator;
 use IdeHelper\Annotator\HelperAnnotator;
 use IdeHelper\Annotator\ModelAnnotator;
@@ -11,10 +12,6 @@ use IdeHelper\Annotator\ShellAnnotator;
 use IdeHelper\Annotator\TemplateAnnotator;
 use IdeHelper\Annotator\ViewAnnotator;
 use IdeHelper\Console\Io;
-use PHP_CodeSniffer;
-use PHP_CodeSniffer_File;
-use PHP_CodeSniffer_Fixer;
-use PHP_CodeSniffer_Tokens;
 
 /**
  * Shell for improving IDE support.
@@ -163,6 +160,38 @@ class AnnotationsShell extends Shell {
 	/**
 	 * @return void
 	 */
+	public function components() {
+		$plugin = $this->param('plugin');
+		$folders = App::path('Controller/Component', $plugin);
+
+		foreach ($folders as $folder) {
+			$this->_components($folder);
+		}
+	}
+
+	/**
+	 * @param string $folder
+	 * @return void
+	 */
+	protected function _components($folder) {
+		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, false, true);
+
+		$this->out(str_replace(APP, '', $folder), 1, Shell::VERBOSE);
+		foreach ($folderContent[1] as $file) {
+			$name = pathinfo($file, PATHINFO_FILENAME);
+			$this->out(' * ' . $name, 1, Shell::VERBOSE);
+			$annotator = new ComponentAnnotator($this->_io(), $this->params);
+			$annotator->annotate($file);
+		}
+
+		foreach ($folderContent[0] as $subFolder) {
+			$this->_components($subFolder);
+		}
+	}
+
+	/**
+	 * @return void
+	 */
 	public function shells() {
 		$plugin = $this->param('plugin');
 		$folders = App::path('Shell', $plugin);
@@ -243,6 +272,9 @@ class AnnotationsShell extends Shell {
 				'parser' => $subcommandParser
 			])->addSubcommand('view', [
 				'help' => 'Annotate used helpers in AppView',
+				'parser' => $subcommandParser
+			])->addSubcommand('components', [
+				'help' => 'Annotate used components inside components',
 				'parser' => $subcommandParser
 			])->addSubcommand('helpers', [
 				'help' => 'Annotate used helpers inside helpers',
