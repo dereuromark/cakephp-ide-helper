@@ -254,7 +254,7 @@ It will return an error code if any modification has to be done.
 
 It is advised to hook it in along with your cs check, e.g. for travis:
 ```
-- if [[ $PHPCS == 1 ]]; then bin/cake annotations all -f -d --cli -v . ; fi
+- if [[ $PHPCS == 1 ]]; then bin/cake annotations all -f -d --cli -v ; fi
 ```
 
 ## Writing your own annotators
