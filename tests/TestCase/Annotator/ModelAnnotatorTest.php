@@ -114,7 +114,7 @@ class ModelAnnotatorTest extends TestCase {
 
 		$output = (string)$this->out->output();
 
-		$this->assertTextContains('FooTable', $output);
+		$this->assertTextContains('  * 7 annotations added', $output);
 	}
 
 	/**

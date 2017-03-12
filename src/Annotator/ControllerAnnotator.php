@@ -1,10 +1,6 @@
 <?php
 namespace IdeHelper\Annotator;
 
-use Bake\View\Helper\DocBlockHelper;
-use Cake\View\View;
-use PHP_CodeSniffer_Tokens;
-
 /**
  */
 class ControllerAnnotator extends AbstractAnnotator {
@@ -28,37 +24,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 		$annotations = $this->_getModelAnnotations($usedModels, $content);
 
-		$helper = new DocBlockHelper(new View());
-
-		$annotationString = $helper->classDescription('', '', $annotations);
-
-		$file = $this->_getFile($path);
-		$file->start($content);
-
-		$tokens = $file->getTokens();
-
-		$classIndex = $file->findNext(T_CLASS, 0);
-
-		$prevCode = $file->findPrevious(PHP_CodeSniffer_Tokens::$emptyTokens, $classIndex, null, true);
-
-		$closeTagIndex = $file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $classIndex, $prevCode);
-		if ($closeTagIndex) {
-			return false;
-		}
-
-		$fixer = $this->_getFixer();
-		$fixer->startFile($file);
-
-		$docBlock = $annotationString . PHP_EOL;
-		$fixer->replaceToken($classIndex, $docBlock . $tokens[$classIndex]['content']);
-
-		$contents = $fixer->getContents();
-
-		$this->_storeFile($path, $contents);
-
-		$this->_io->out('   * ' . count($annotations) . ' annotations added');
-
-		return true;
+		return $this->_annotate($path, $content, $annotations);
 	}
 
 	/**

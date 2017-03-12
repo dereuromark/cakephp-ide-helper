@@ -4,8 +4,6 @@ namespace App\Model\Table;
 use Cake\ORM\Table;
 
 /**
- * Foo Model
- *
  * @method \App\Model\Entity\Foo get($primaryKey, $options = [])
  * @method \App\Model\Entity\Foo newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Foo[] newEntities(array $data, array $options = [])

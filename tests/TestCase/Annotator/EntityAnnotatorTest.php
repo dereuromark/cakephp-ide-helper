@@ -137,7 +137,42 @@ class EntityAnnotatorTest extends TestCase {
 
 		$output = (string)$this->out->output();
 
-		$this->assertTextContains('Foo', $output);
+		$this->assertTextContains('* 4 annotations added', $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAnnotateWithExistingDocBlock() {
+		$schema = [
+			'id' => [
+				'kind' => 'column',
+				'type' => 'integer',
+			],
+			'name' => [
+				'kind' => 'column',
+				'type' => 'string',
+			],
+		];
+		$annotator = $this->_getAnnotatorMock(['schema' => $schema]);
+
+		$expectedContent = str_replace(["\r\n", "\r"], "\n", file_get_contents(TEST_FILES . 'Model/Entity/Car.php'));
+		$callback = function($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->debug($expectedContent);
+				$this->debug($value);
+			}
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP . 'Model/Entity/Car.php';
+		$annotator->annotate($path);
+
+		$output = (string)$this->out->output();
+
+		$this->assertTextContains('* 2 annotations added', $output);
 	}
 
 	/**

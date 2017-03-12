@@ -2,13 +2,10 @@
 namespace IdeHelper\Annotator;
 
 use Bake\Shell\Task\ModelTask;
-use Bake\View\Helper\DocBlockHelper;
 use Cake\Core\App;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
-use Cake\View\View;
 use IdeHelper\Console\Io;
-use PHP_CodeSniffer_Tokens;
 
 /**
  */
@@ -46,10 +43,9 @@ class ModelAnnotator extends AbstractAnnotator {
 		$table = TableRegistry::get($plugin ? ($plugin . '.' . $modelName) : $modelName);
 
 		$entityClassName = $table->getEntityClass();
-		//$namespace = substr($className, 0, strrpos($className, '\\'));
 		$entityName = substr($entityClassName, strrpos($entityClassName, '\\') + 1);
 
-		$resTable = $this->_table($path, $className, $modelName, $entityName);
+		$resTable = $this->_table($path, $className, $entityName);
 		$resEntity = $this->_entity($entityName, $schema);
 
 		return $resTable || $resEntity;
@@ -58,12 +54,11 @@ class ModelAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $path
 	 * @param string $className
-	 * @param string $modelName
 	 * @param string $entityName
 	 *
 	 * @return bool
 	 */
-	protected function _table($path, $className, $modelName, $entityName) {
+	protected function _table($path, $className, $entityName) {
 		$content = file_get_contents($path);
 		if (preg_match('/\* @method .+ \$/', $content)) {
 			return false;
@@ -95,37 +90,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			$annotations[] = "@mixin \\Cake\\ORM\\Behavior\\{$behavior}Behavior";
 		}
 
-		$helper = new DocBlockHelper(new View());
-
-		$annotations = $helper->classDescription($modelName, 'Model', $annotations);
-
-		$file = $this->_getFile($path);
-		$file->start($content);
-
-		$tokens = $file->getTokens();
-
-		$classIndex = $file->findNext(T_CLASS, 0);
-
-		$prevCode = $file->findPrevious(PHP_CodeSniffer_Tokens::$emptyTokens, $classIndex, null, true);
-
-		$closeTagIndex = $file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $classIndex, $prevCode);
-		if ($closeTagIndex) {
-			return false;
-		}
-
-		$fixer = $this->_getFixer();
-		$fixer->startFile($file);
-
-		$docBlock = $annotations . PHP_EOL;
-		$fixer->replaceToken($classIndex, $docBlock . $tokens[$classIndex]['content']);
-
-		$contents = $fixer->getContents();
-
-		$this->_storeFile($path, $contents);
-
-		$this->_io->out($className);
-
-		return true;
+		return $this->_annotate($path, $content, $annotations);
 	}
 
 	/**
@@ -150,7 +115,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			return null;
 		}
 
-		$annotator = new EntityAnnotator($this->_io, ['schema' => $schema] + $this->_config);
+		$annotator = new EntityAnnotator($this->_io, ['schema' => $schema] + $this->getConfig());
 		$annotator->annotate($entityPath);
 
 		return true;

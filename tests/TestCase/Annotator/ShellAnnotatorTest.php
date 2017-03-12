@@ -65,7 +65,7 @@ class ShellAnnotatorTest extends TestCase {
 
 		$output = (string)$this->out->output();
 
-		$this->assertTextContains('MyShell', $output);
+		$this->assertTextContains('   * 2 annotations added', $output);
 	}
 
 	/**
