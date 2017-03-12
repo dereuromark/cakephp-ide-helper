@@ -2,6 +2,8 @@
 namespace IdeHelper\Annotator;
 
 use Bake\Shell\Task\ModelTask;
+use Cake\Console\ConsoleIo;
+use Cake\Console\ConsoleOutput;
 use Cake\Core\App;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
@@ -22,11 +24,14 @@ class ModelAnnotator extends AbstractAnnotator {
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
 		$table = TableRegistry::get($plugin ? ($plugin . '.' . $modelName) : $modelName);
 
-		$task = new ModelTask();
+		$tmp = tempnam ('/tmp', 'annotator-');
+		$task = new ModelTask(new ConsoleIo(new ConsoleOutput($tmp)));
 		$schema = $task->getEntityPropertySchema($table);
 		if (!$schema) {
 			return null;
 		}
+		$task->connection = 'default';
+		$associations = $task->getAssociations($table);
 
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
 		$table = TableRegistry::get($plugin ? ($plugin . '.' . $modelName) : $modelName);
@@ -34,7 +39,7 @@ class ModelAnnotator extends AbstractAnnotator {
 		$entityClassName = $table->getEntityClass();
 		$entityName = substr($entityClassName, strrpos($entityClassName, '\\') + 1);
 
-		$resTable = $this->_table($path, $className, $entityName);
+		$resTable = $this->_table($path, $entityName, $associations);
 		$resEntity = $this->_entity($entityName, $schema);
 
 		return $resTable || $resEntity;
@@ -42,21 +47,16 @@ class ModelAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $path
-	 * @param string $className
 	 * @param string $entityName
+	 * @param array $associations
 	 *
 	 * @return bool
 	 */
-	protected function _table($path, $className, $entityName) {
+	protected function _table($path, $entityName, array $associations) {
 		$content = file_get_contents($path);
-		if (preg_match('/\* @method .+ \$/', $content)) {
-			return false;
-		}
 
 		$entity = $entityName;
 
-		//TODO
-		$associations = [];
 		//TODO
 		$behaviors = [];
 
@@ -64,8 +64,18 @@ class ModelAnnotator extends AbstractAnnotator {
 		$annotations = [];
 		foreach ($associations as $type => $assocs) {
 			foreach ($assocs as $assoc) {
+				//BC (https://github.com/cakephp/bake/pull/324)
+				if (empty($assoc['namespace'])) {
+					$tableName = !empty($assoc['className']) ? $assoc['className'] : $assoc['alias'];
+					$assoc['namespace'] = App::className($tableName, 'Model/Table', 'Table');
+				}
+				if (empty($assoc['namespace'])) {
+					continue;
+				}
+
+				$className = $assoc['namespace'];
 				$typeStr = Inflector::camelize($type);
-				$annotations[] = "@property \\Cake\\ORM\\Association\\{$typeStr} \${$assoc['alias']}";
+				$annotations[] = "@property \\{$className}|\\Cake\\ORM\\Association\\{$typeStr} \${$assoc['alias']}";
 			}
 		}
 		$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} get(\$primaryKey, \$options = [])";
@@ -77,6 +87,12 @@ class ModelAnnotator extends AbstractAnnotator {
 		$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} findOrCreate(\$search, callable \$callback = null, \$options = [])";
 		foreach ($behaviors as $behavior => $behaviorData) {
 			$annotations[] = "@mixin \\Cake\\ORM\\Behavior\\{$behavior}Behavior";
+		}
+
+		foreach ($annotations as $key => $annotation) {
+			if (preg_match('/' . preg_quote($annotation) . '/', $content)) {
+				unset($annotations[$key]);
+			}
 		}
 
 		return $this->_annotate($path, $content, $annotations);
