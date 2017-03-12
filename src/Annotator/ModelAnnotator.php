@@ -5,8 +5,8 @@ use Bake\Shell\Task\ModelTask;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOutput;
 use Cake\Core\App;
+use Cake\ORM\AssociationCollection;
 use Cake\ORM\TableRegistry;
-use Cake\Utility\Inflector;
 
 class ModelAnnotator extends AbstractAnnotator {
 
@@ -30,11 +30,8 @@ class ModelAnnotator extends AbstractAnnotator {
 		if (!$schema) {
 			return null;
 		}
-		$task->connection = 'default';
-		$associations = $task->getAssociations($table);
 
-		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
-		$table = TableRegistry::get($plugin ? ($plugin . '.' . $modelName) : $modelName);
+		$associations = $this->_getAssociations($table->associations());
 
 		$entityClassName = $table->getEntityClass();
 		$entityName = substr($entityClassName, strrpos($entityClassName, '\\') + 1);
@@ -62,19 +59,8 @@ class ModelAnnotator extends AbstractAnnotator {
 		$namespace = $this->getConfig(static::CONFIG_NAMESPACE);
 		$annotations = [];
 		foreach ($associations as $type => $assocs) {
-			foreach ($assocs as $assoc) {
-				//BC (https://github.com/cakephp/bake/pull/324)
-				if (empty($assoc['namespace'])) {
-					$tableName = !empty($assoc['className']) ? $assoc['className'] : $assoc['alias'];
-					$assoc['namespace'] = App::className($tableName, 'Model/Table', 'Table');
-				}
-				if (empty($assoc['namespace'])) {
-					continue;
-				}
-
-				$className = $assoc['namespace'];
-				$typeStr = Inflector::camelize($type);
-				$annotations[] = "@property \\{$className}|\\Cake\\ORM\\Association\\{$typeStr} \${$assoc['alias']}";
+			foreach ($assocs as $name => $className) {
+				$annotations[] = "@property \\{$className}|\\{$type} \${$name}";
 			}
 		}
 		$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} get(\$primaryKey, \$options = [])";
@@ -147,6 +133,28 @@ class ModelAnnotator extends AbstractAnnotator {
 		$behaviors = $matches[1];
 
 		return array_unique($behaviors);
+	}
+
+	/**
+	 * @param \Cake\ORM\AssociationCollection $tableAssociations
+	 * @return array
+	 */
+	protected function _getAssociations(AssociationCollection $tableAssociations) {
+		$associations = [];
+		foreach ($tableAssociations->keys() as $key) {
+			$association = $tableAssociations->get($key);
+			$type = get_class($association);
+
+			$name = $association->alias();
+			$table = $association->className() ?: $association->alias();
+			$className = App::className($table, 'Model/Table', 'Table');
+			if (!$className) {
+				continue;
+			}
+
+			$associations[$type][$name] = $className;
+		}
+		return $associations;
 	}
 
 }
