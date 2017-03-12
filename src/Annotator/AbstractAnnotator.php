@@ -1,12 +1,15 @@
 <?php
 namespace IdeHelper\Annotator;
 
+use Bake\View\Helper\DocBlockHelper;
 use Cake\Core\App;
 use Cake\Core\InstanceConfigTrait;
+use Cake\View\View;
 use IdeHelper\Console\Io;
 use PHP_CodeSniffer;
 use PHP_CodeSniffer_File;
 use PHP_CodeSniffer_Fixer;
+use PHP_CodeSniffer_Tokens;
 use ReflectionClass;
 
 /**
@@ -80,6 +83,93 @@ abstract class AbstractAnnotator {
 	 */
 	protected function _getFixer() {
 		return new PHP_CodeSniffer_Fixer();
+	}
+
+	/**
+	 * @param string $path
+	 * @param string $content
+	 * @param array $annotations
+	 *
+	 * @return bool
+	 */
+	protected function _annotate($path, $content, array $annotations) {
+		if (!$annotations) {
+			return false;
+		}
+
+		$file = $this->_getFile($path);
+		$file->start($content);
+
+		$classIndex = $file->findNext(T_CLASS, 0);
+
+		$prevCode = $file->findPrevious(PHP_CodeSniffer_Tokens::$emptyTokens, $classIndex - 1, null, true);
+
+		$closeTagIndex = $file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $classIndex - 1, $prevCode);
+		if ($closeTagIndex) {
+			$contents = $this->_appendToExistingDocBlock($file, $closeTagIndex, $annotations);
+		} else {
+			$contents = $this->_addNewDocBlock($file, $classIndex, $annotations);
+		}
+
+		$this->_storeFile($path, $contents);
+
+		$this->_io->out('   * ' . count($annotations) . ' annotations added');
+
+		return true;
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer_File $file
+	 * @param int $closeTagIndex
+	 * @param array $annotations
+	 *
+	 * @return string
+	 */
+	protected function _appendToExistingDocBlock(PHP_CodeSniffer_File $file, $closeTagIndex, $annotations) {
+		$tokens = $file->getTokens();
+
+		$lastTagIndexOfPreviousLine = $closeTagIndex;
+		while ($tokens[$lastTagIndexOfPreviousLine]['line'] === $tokens[$closeTagIndex]['line']) {
+			$lastTagIndexOfPreviousLine--;
+		}
+
+		$fixer = $this->_getFixer();
+		$fixer->startFile($file);
+
+		$annotationString = '';
+		foreach ($annotations as $annotation) {
+			$annotationString .= ' * ' . $annotation . "\n";
+		}
+
+		$fixer->addContent($lastTagIndexOfPreviousLine, $annotationString);
+
+		$contents = $fixer->getContents();
+
+		return $contents;
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer_File $file
+	 * @param string $classIndex
+	 * @param array $annotations
+	 *
+	 * @return string
+	 */
+	protected function _addNewDocBlock(PHP_CodeSniffer_File $file, $classIndex, array $annotations) {
+		$tokens = $file->getTokens();
+
+		$helper = new DocBlockHelper(new View());
+		$annotationString = $helper->classDescription('', '', $annotations);
+
+		$fixer = $this->_getFixer();
+		$fixer->startFile($file);
+
+		$docBlock = $annotationString . PHP_EOL;
+		$fixer->replaceToken($classIndex, $docBlock . $tokens[$classIndex]['content']);
+
+		$contents = $fixer->getContents();
+
+		return $contents;
 	}
 
 	/**
