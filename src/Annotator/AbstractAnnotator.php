@@ -113,7 +113,11 @@ abstract class AbstractAnnotator {
 
 		$this->_storeFile($path, $contents);
 
-		$this->_io->out('   * ' . count($annotations) . ' annotations added');
+		if (count($annotations)) {
+			$this->_io->out('   * ' . count($annotations) . ' annotations added');
+		} else {
+			$this->_io->verbose('   * ' . count($annotations) . ' annotations added');
+		}
 
 		return true;
 	}
@@ -133,10 +137,12 @@ abstract class AbstractAnnotator {
 			$lastTagIndexOfPreviousLine--;
 		}
 
+		$needsNewline = $this->_needsNewLineInDocBlock($file, $lastTagIndexOfPreviousLine);
+
 		$fixer = $this->_getFixer();
 		$fixer->startFile($file);
 
-		$annotationString = '';
+		$annotationString = $needsNewline ? ' *' . "\n" : '';
 		foreach ($annotations as $annotation) {
 			$annotationString .= ' * ' . $annotation . "\n";
 		}
@@ -146,6 +152,27 @@ abstract class AbstractAnnotator {
 		$contents = $fixer->getContents();
 
 		return $contents;
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer_File $file
+	 * @param int $lastTagIndexOfPreviousLine
+	 *
+	 * @return bool
+	 */
+	protected function _needsNewLineInDocBlock(PHP_CodeSniffer_File $file, $lastTagIndexOfPreviousLine) {
+		$tokens = $file->getTokens();
+
+		$line = $tokens[$lastTagIndexOfPreviousLine]['line'];
+		$index = $lastTagIndexOfPreviousLine - 1;
+		while ($tokens[$index]['line'] === $line) {
+			if ($tokens[$index]['code'] === T_DOC_COMMENT_TAG) {
+				return false;
+			}
+			$index--;
+		}
+
+		return true;
 	}
 
 	/**
