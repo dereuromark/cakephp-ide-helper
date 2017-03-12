@@ -4,6 +4,7 @@ namespace IdeHelper\Shell;
 use Cake\Console\Shell;
 use Cake\Core\App;
 use Cake\Filesystem\Folder;
+use IdeHelper\Annotator\ControllerAnnotator;
 use IdeHelper\Annotator\HelperAnnotator;
 use IdeHelper\Annotator\ModelAnnotator;
 use IdeHelper\Annotator\ShellAnnotator;
@@ -84,62 +85,9 @@ class AnnotationsShell extends Shell {
 		$folderContent = (new Folder($folder))->read();
 
 		foreach ($folderContent[1] as $file) {
-			$name = pathinfo($file, PATHINFO_FILENAME);
-			if (substr($name, -13) === 'AppController' || substr($name, -10) !== 'Controller') {
-				continue;
-			}
-
-			$content = file_get_contents($folder . $file);
-			if (preg_match('/\* @property .+Table \$/', $content)) {
-				continue;
-			}
-
-			$_SERVER['argv'] = [];
-			$phpcs = new PHP_CodeSniffer();
-			$phpcs->process([], null, []);
-			$phpcsFile = new PHP_CodeSniffer_File($folder . $file, [], [], $phpcs);
-			$phpcsFile->start($content);
-
-			$tokens = $phpcsFile->getTokens();
-
-			$classIndex = $phpcsFile->findNext(T_CLASS, 0);
-
-			$prevCode = $phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$emptyTokens, $classIndex, null, true);
-
-			$closeTagIndex = $phpcsFile->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $classIndex, $prevCode);
-			if ($closeTagIndex) {
-				continue;
-			}
-
-			$fixer = new PHP_CodeSniffer_Fixer();
-			$fixer->startFile($phpcsFile);
-
-			$modelName = substr($name, 0, -10);
-			if (preg_match('/public \$modelClass = \'(\w+)\'/', $content, $matches)) {
-				$modelName = $matches[1];
-			}
-			$namespace = $this->param('plugin') ?: 'App';
-			$namespace = str_replace('/', '\\', $namespace);
-
-			//$table = TableRegistry::get(($this->param('plugin')? $this->param('plugin') .'.' : '') . $modelName);
-			$className = "{$namespace}\\Model\\Table\\{$modelName}Table";
-			if (!class_exists($className)) {
-				continue;
-			}
-
-			$docBlock = <<<PHP
-/**
- * @property \\{$className} \${$modelName}
- */
-
-PHP;
-
-			$fixer->replaceToken($classIndex, $docBlock . $tokens[$classIndex]['content']);
-
-			$contents = $fixer->getContents();
-			$this->_storeFile($folder . $file, $contents);
-
-			$this->out($name);
+			$this->out(' * ' . $file, 1, Shell::VERBOSE);
+			$annotator = new ControllerAnnotator($this->_io(), $this->params);
+			$annotator->annotate($folder . $file);
 		}
 
 		if (!empty($folderContent[0]) && in_array('Admin', $folderContent[0])) {
@@ -264,18 +212,6 @@ PHP;
 	}
 
 	/**
-	 * @param string $path
-	 * @param string $contents
-	 * @return void
-	 */
-	protected function _storeFile($path, $contents) {
-		if ($this->param('dry-run')) {
-			return;
-		}
-		file_put_contents($path, $contents);
-	}
-
-	/**
 	 * @return \Cake\Console\ConsoleOptionParser
 	 */
 	public function getOptionParser() {
@@ -284,7 +220,7 @@ PHP;
 				'dry-run' => [
 					'short' => 'd',
 					'help' => 'Dry run the task',
-					'boolean' => true
+					'boolean' => true,
 				],
 				'plugin' => [
 					'short' => 'p',

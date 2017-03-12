@@ -10,15 +10,7 @@ use PHP_CodeSniffer_Tokens;
 
 /**
  */
-class ShellAnnotator extends AbstractAnnotator {
-
-	/**
-	 * @param \IdeHelper\Console\Io $io
-	 * @param array $config
-	 */
-	public function __construct(Io $io, array $config) {
-		parent::__construct($io, $config);
-	}
+class ControllerAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $path Path to file.
@@ -26,15 +18,13 @@ class ShellAnnotator extends AbstractAnnotator {
 	 */
 	public function annotate($path) {
 		$className = pathinfo($path, PATHINFO_FILENAME);
-		if ($className === 'Shell' || substr($className, -5) !== 'Shell' && substr($className, -4) !== 'Task') {
+		if (substr($className, -13) === 'AppController' || substr($className, -10) !== 'Controller') {
 			return null;
 		}
 
-		//$isTask = substr($className, -4) === 'Task';
-		//$name = substr($className, 0, $isTask ? -4 : -5);
-
 		$content = file_get_contents($path);
-		$primaryModelClass = $this->_getPrimaryModelClass($content);
+		$primaryModelClass = $this->_getPrimaryModelClass($content, $className);
+
 		$usedModels = $this->_getUsedModels($content);
 		$usedModels[] = $primaryModelClass;
 		$usedModels = array_unique($usedModels);
@@ -43,7 +33,7 @@ class ShellAnnotator extends AbstractAnnotator {
 
 		$helper = new DocBlockHelper(new View());
 
-		$annotations = $helper->classDescription('', '', $annotations);
+		$annotationString = $helper->classDescription('', '', $annotations);
 
 		$file = $this->_getFile($path);
 		$file->start($content);
@@ -62,29 +52,36 @@ class ShellAnnotator extends AbstractAnnotator {
 		$fixer = $this->_getFixer();
 		$fixer->startFile($file);
 
-		$docBlock = $annotations . PHP_EOL;
+		$docBlock = $annotationString . PHP_EOL;
 		$fixer->replaceToken($classIndex, $docBlock . $tokens[$classIndex]['content']);
 
 		$contents = $fixer->getContents();
 
 		$this->_storeFile($path, $contents);
 
-		$this->_io->out($className);
+		$this->_io->out('   * ' . count($annotations) . ' annotations added');
 
 		return true;
 	}
 
 	/**
 	 * @param string $content
-	 *
-	 * @return string|null
+	 * @param $className
+	 * @return null|string
 	 */
-	protected function _getPrimaryModelClass($content) {
-		if (!preg_match('/\bpublic \$modelClass = \'([a-z.]+)\'/i', $content, $matches)) {
+	protected function _getPrimaryModelClass($content, $className) {
+		if (preg_match('/\bpublic \$modelClass = \'([a-z.]+)\'/i', $content, $matches)) {
+			return $matches[1];
+		}
+
+		if (preg_match('/\bpublic \$modelClass = false;/i', $content, $matches)) {
 			return null;
 		}
 
-		$modelName = $matches[1];
+		$modelName = substr($className, 0, -10);
+		if ($this->config(static::CONFIG_PLUGIN)) {
+			$modelName = $this->config(static::CONFIG_PLUGIN) . $modelName;
+		}
 
 		return $modelName;
 	}

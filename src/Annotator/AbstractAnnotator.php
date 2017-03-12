@@ -1,6 +1,7 @@
 <?php
 namespace IdeHelper\Annotator;
 
+use Cake\Core\App;
 use Cake\Core\InstanceConfigTrait;
 use IdeHelper\Console\Io;
 use PHP_CodeSniffer;
@@ -78,6 +79,32 @@ abstract class AbstractAnnotator {
 	 */
 	protected function _getFixer() {
 		return new PHP_CodeSniffer_Fixer();
+	}
+
+	/**
+	 * @param array $usedModels
+	 * @param string $content
+	 * @return array
+	 */
+	protected function _getModelAnnotations($usedModels, $content) {
+		$annotations = [];
+
+		foreach ($usedModels as $usedModel) {
+			$className = App::className($usedModel, 'Model/Table', 'Table');
+			if (!$className) {
+				continue;
+			}
+			list(, $name) = pluginSplit($usedModel);
+
+			$annotation = '@property \\' . $className . ' $' . $name;
+			if (preg_match('/' . preg_quote($annotation) . '/', $content)) {
+				continue;
+			}
+
+			$annotations[] = $annotation;
+		}
+
+		return $annotations;
 	}
 
 }

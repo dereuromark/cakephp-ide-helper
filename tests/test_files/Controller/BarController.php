@@ -1,6 +1,10 @@
 <?php
 namespace App\Controller;
 
+/**
+ * @property \App\Model\Table\WheelsTable $Wheels
+ * @property \App\Model\Table\BarBarsTable $BarBars
+ */
 class BarController extends AppController {
 
 	/**
