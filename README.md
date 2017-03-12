@@ -37,7 +37,7 @@ Supported annotations by this plugin:
 This plugin is **supposed to work with ANY IDE that supports annotations**.
 The so far 100% compatible and tested ones are:
 - PHPStorm
-- ... [Report or PR your IDE of choice here to confirm full compatibility]
+- ... [Report or PR your IDE of choice here to confirm its full compatibility]
 
 ## Install
 Install it as `require-dev` dependency:
