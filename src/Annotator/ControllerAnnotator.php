@@ -42,8 +42,8 @@ class ControllerAnnotator extends AbstractAnnotator {
 		}
 
 		$modelName = substr($className, 0, -10);
-		if ($this->config(static::CONFIG_PLUGIN)) {
-			$modelName = $this->config(static::CONFIG_PLUGIN) . $modelName;
+		if ($this->getConfig(static::CONFIG_PLUGIN)) {
+			$modelName = $this->getConfig(static::CONFIG_PLUGIN) . $modelName;
 		}
 
 		return $modelName;

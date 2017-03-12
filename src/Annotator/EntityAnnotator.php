@@ -24,7 +24,7 @@ class EntityAnnotator extends AbstractAnnotator {
 		}
 
 		$helper = new DocBlockHelper(new View());
-		$schema = $this->config('schema');
+		$schema = $this->getConfig('schema');
 		$propertyHintMap = $helper->buildEntityPropertyHintTypeMap($schema);
 
 		$annotations = $helper->propertyHints($propertyHintMap);

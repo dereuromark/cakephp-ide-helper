@@ -173,7 +173,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 		foreach ($entities as $entity) {
 			$entityName = Inflector::classify($entity);
 
-			$className = App::className(($this->config(static::CONFIG_PLUGIN) ? $this->config(static::CONFIG_PLUGIN) . '.' : '') . $entityName, 'Model/Entity');
+			$className = App::className(($this->getConfig(static::CONFIG_PLUGIN) ? $this->getConfig(static::CONFIG_PLUGIN) . '.' : '') . $entityName, 'Model/Entity');
 			if (!$className) {
 				continue;
 			}
@@ -204,7 +204,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 			$entityName = Inflector::classify($entity);
 
-			$className = App::className(($this->config(static::CONFIG_PLUGIN) ? $this->config(static::CONFIG_PLUGIN) . '.' : '') . $entityName, 'Model/Entity');
+			$className = App::className(($this->getConfig(static::CONFIG_PLUGIN) ? $this->getConfig(static::CONFIG_PLUGIN) . '.' : '') . $entityName, 'Model/Entity');
 			if (!$className) {
 				continue;
 			}
@@ -240,7 +240,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 			$entityName = Inflector::classify($entity);
 
-			$className = App::className(($this->config(static::CONFIG_PLUGIN) ? $this->config(static::CONFIG_PLUGIN) . '.' : '') . $entityName, 'Model/Entity');
+			$className = App::className(($this->getConfig(static::CONFIG_PLUGIN) ? $this->getConfig(static::CONFIG_PLUGIN) . '.' : '') . $entityName, 'Model/Entity');
 			if (!$className) {
 				continue;
 			}
