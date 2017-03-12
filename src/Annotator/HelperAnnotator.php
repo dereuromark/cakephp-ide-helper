@@ -20,7 +20,7 @@ class HelperAnnotator extends AbstractAnnotator {
 		$className = App::className($name, 'View/Helper', 'Helper');
 		$helper = new $className(new View());
 
-		$helperMap = $this->invokeProperty($helper, '_helperMap');
+		$helperMap = $this->_invokeProperty($helper, '_helperMap');
 
 		$helperAnnotations = $this->_getHelperAnnotations($helperMap);
 		foreach ($helperAnnotations as $helperAnnotation) {

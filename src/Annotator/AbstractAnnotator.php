@@ -237,14 +237,14 @@ abstract class AbstractAnnotator {
 	 *   $this->invokeProperty($object, '_foo');
 	 * is equal to
 	 *   $object->_foo
-	 * (assuming the property was directly publicly accessible
+	 * (assuming the property was directly publicly accessible)
 	 *
 	 * @param object &$object Instantiated object that we want the property off.
 	 * @param string $name Property name to fetch.
 	 *
 	 * @return mixed Property value.
 	 */
-	protected function invokeProperty(&$object, $name) {
+	protected function _invokeProperty(&$object, $name) {
 		$reflection = new ReflectionClass(get_class($object));
 		$property = $reflection->getProperty($name);
 		$property->setAccessible(true);

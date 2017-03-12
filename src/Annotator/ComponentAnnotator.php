@@ -20,7 +20,7 @@ class ComponentAnnotator extends AbstractAnnotator {
 		$className = App::className($name, 'Controller/Component', 'Component');
 		$object = new $className(new ComponentRegistry());
 
-		$helperMap = $this->invokeProperty($object, '_componentMap');
+		$helperMap = $this->_invokeProperty($object, '_componentMap');
 
 		$componentAnnotations = $this->_getComponentAnnotations($helperMap);
 		foreach ($componentAnnotations as $helperAnnotation) {
