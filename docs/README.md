@@ -242,6 +242,20 @@ Also make sure you commited or backuped all project files.
 
 Tip: If you want to check if it would be modifying any files, you can run it with `-d` (dry-run) param.
 
+## Continuous integration support
+The tool can also be run like the coding standards check in your CI. 
+This way no annotation can be forgotten, when making PRs for your project.
+
+For this, use the `--cli` option along with `-d` (dry run):
+```
+bin/cake annotations all -f -d --cli -v
+```
+It will return an error code if any modification has to be done.
+
+It is advised to hook it in along with your cs check, e.g. for travis:
+```
+- if [[ $PHPCS == 1 ]]; then bin/cake annotations all -f -d --cli -v . ; fi
+```
 
 ## Writing your own annotators
 Just extend the shell on application level, add your command and create your own Annotator class:

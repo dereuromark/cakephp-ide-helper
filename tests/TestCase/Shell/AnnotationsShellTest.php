@@ -106,7 +106,9 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testAll() {
-		$this->Shell->runCommand(['all', '-f', '-d', '-v']);
+		$result = $this->Shell->runCommand(['all', '-f', '-d', '-v']);
+		$this->assertTrue($result);
+
 		$output = (string)$this->out->output();
 
 		$this->assertTextContains('[Models]', $output);
@@ -118,6 +120,14 @@ class AnnotationsShellTest extends TestCase {
 		$this->assertTextContains('[Helpers]', $output);
 		//$this->assertTextContains('FooController', $output);
 		//$this->assertTextContains('* 1 annotations added', $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAllCiMode() {
+		$result = $this->Shell->runCommand(['all', '-f', '-d', '-v', '--ci']);
+		$this->assertFalse($result);
 	}
 
 }

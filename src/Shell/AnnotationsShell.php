@@ -5,6 +5,7 @@ use Cake\Console\Shell;
 use Cake\Core\App;
 use Cake\Filesystem\Folder;
 use Cake\Utility\Inflector;
+use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\ComponentAnnotator;
 use IdeHelper\Annotator\ControllerAnnotator;
 use IdeHelper\Annotator\HelperAnnotator;
@@ -27,10 +28,16 @@ class AnnotationsShell extends Shell {
 	 */
 	public function startup() {
 		parent::startup();
+
+		if ($this->param('ci')) {
+			if (!$this->param('dry-run') || !$this->param('force')) {
+				$this->abort('Continuous Integration mode requires -d and -f params!');
+			}
+		}
 	}
 
 	/**
-	 * @return void
+	 * @return bool
 	 */
 	public function all() {
 		$types = [
@@ -62,6 +69,12 @@ class AnnotationsShell extends Shell {
 
 			$this->$type();
 		}
+
+		if ($this->param('ci')) {
+			return AbstractAnnotator::$output === false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -299,6 +312,10 @@ class AnnotationsShell extends Shell {
 		$allParser['options']['force'] = [
 			'short' => 'f',
 			'help' => 'Force (disable interactive mode).',
+			'boolean' => true,
+		];
+		$allParser['options']['ci'] = [
+			'help' => 'Enable CI mode (requires dry-run and force mode).',
 			'boolean' => true,
 		];
 
