@@ -57,8 +57,7 @@ class ModelAnnotator extends AbstractAnnotator {
 
 		$entity = $entityName;
 
-		//TODO
-		$behaviors = [];
+		$behaviors = $this->_parseLoadedBehaviors($content);
 
 		$namespace = $this->getConfig(static::CONFIG_NAMESPACE);
 		$annotations = [];
@@ -85,8 +84,17 @@ class ModelAnnotator extends AbstractAnnotator {
 		$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} patchEntity(\\Cake\\Datasource\\EntityInterface \$entity, array \$data, array \$options = [])";
 		$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[] patchEntities(\$entities, array \$data, array \$options = [])";
 		$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} findOrCreate(\$search, callable \$callback = null, \$options = [])";
-		foreach ($behaviors as $behavior => $behaviorData) {
-			$annotations[] = "@mixin \\Cake\\ORM\\Behavior\\{$behavior}Behavior";
+
+		foreach ($behaviors as $behavior) {
+			$className = App::className($behavior, 'Model/Behavior', 'Behavior');
+			if (!$className) {
+				$className = App::className($behavior, 'ORM/Behavior', 'Behavior');
+			}
+			if (!$className) {
+				continue;
+			}
+
+			$annotations[] = "@mixin \\{$className}";
 		}
 
 		foreach ($annotations as $key => $annotation) {
@@ -124,6 +132,21 @@ class ModelAnnotator extends AbstractAnnotator {
 		$annotator->annotate($entityPath);
 
 		return true;
+	}
+
+	/**
+	 * @param string $content
+	 * @return array
+	 */
+	protected function _parseLoadedBehaviors($content) {
+		preg_match_all('/\$this-\>addBehavior\(\'([a-z.]+)\'/i', $content, $matches);
+		if (empty($matches)) {
+			return [];
+		}
+
+		$behaviors = $matches[1];
+
+		return array_unique($behaviors);
 	}
 
 }

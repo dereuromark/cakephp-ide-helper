@@ -17,9 +17,6 @@ class EntityAnnotator extends AbstractAnnotator {
 		}
 
 		$content = file_get_contents($path);
-		if (preg_match('/\* @property .+ \$/', $content)) {
-			return null;
-		}
 
 		$helper = new DocBlockHelper(new View());
 		$schema = $this->getConfig('schema');
@@ -31,6 +28,12 @@ class EntityAnnotator extends AbstractAnnotator {
 		if ($associationHintMap) {
 			$annotations[] = '';
 			$annotations = array_merge($annotations, $helper->propertyHints($associationHintMap));
+		}
+
+		foreach ($annotations as $key => $annotation) {
+			if (preg_match('/' . preg_quote($annotation) . '/', $content)) {
+				unset($annotations[$key]);
+			}
 		}
 
 		return $this->_annotate($path, $content, $annotations);
