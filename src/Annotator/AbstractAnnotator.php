@@ -23,6 +23,11 @@ abstract class AbstractAnnotator {
 	const CONFIG_NAMESPACE = 'namespace';
 
 	/**
+	 * @var bool
+	 */
+	public static $output = false;
+
+	/**
 	 * @var \Cake\Console\ConsoleIo
 	 */
 	protected $_io;
@@ -72,6 +77,8 @@ abstract class AbstractAnnotator {
 	 * @return void
 	 */
 	protected function _storeFile($path, $contents) {
+		static::$output = true;
+
 		if ($this->getConfig(static::CONFIG_DRY_RUN)) {
 			return;
 		}

@@ -5,19 +5,10 @@ use Bake\Shell\Task\ModelTask;
 use Cake\Core\App;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
-use IdeHelper\Console\Io;
 
 /**
  */
 class ModelAnnotator extends AbstractAnnotator {
-
-	/**
-	 * @param \IdeHelper\Console\Io $io
-	 * @param array $config
-	 */
-	public function __construct(Io $io, array $config) {
-		parent::__construct($io, $config);
-	}
 
 	/**
 	 * @param string $path Path to file.

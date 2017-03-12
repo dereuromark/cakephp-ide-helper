@@ -5,19 +5,10 @@ use Bake\View\Helper\DocBlockHelper;
 use Cake\Core\App;
 use Cake\Utility\Inflector;
 use Cake\View\View;
-use IdeHelper\Console\Io;
 
 /**
  */
 class TemplateAnnotator extends AbstractAnnotator {
-
-	/**
-	 * @param \IdeHelper\Console\Io $io
-	 * @param array $config
-	 */
-	public function __construct(Io $io, array $config) {
-		parent::__construct($io, $config);
-	}
 
 	/**
 	 * @param string $path Path to file.

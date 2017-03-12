@@ -3,19 +3,10 @@ namespace IdeHelper\Annotator;
 
 use Cake\Core\App;
 use Cake\Utility\Inflector;
-use IdeHelper\Console\Io;
 
 /**
  */
 class ShellAnnotator extends AbstractAnnotator {
-
-	/**
-	 * @param \IdeHelper\Console\Io $io
-	 * @param array $config
-	 */
-	public function __construct(Io $io, array $config) {
-		parent::__construct($io, $config);
-	}
 
 	/**
 	 * @param string $path Path to file.

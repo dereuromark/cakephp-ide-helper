@@ -4,19 +4,10 @@ namespace IdeHelper\Annotator;
 use Cake\Core\App;
 use Cake\Core\Plugin;
 use Cake\View\View;
-use IdeHelper\Console\Io;
 
 /**
  */
 class HelperAnnotator extends AbstractAnnotator {
-
-	/**
-	 * @param \IdeHelper\Console\Io $io
-	 * @param array $config
-	 */
-	public function __construct(Io $io, array $config) {
-		parent::__construct($io, $config);
-	}
 
 	/**
 	 * @param string $path Path to file.
