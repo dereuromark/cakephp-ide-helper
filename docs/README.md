@@ -256,6 +256,8 @@ It is advised to hook it in along with your cs check, e.g. for travis:
 ```
 - if [[ $PHPCS == 1 ]]; then bin/cake annotations all -f -d --cli -v ; fi
 ```
+Note: This will need some additional setup, like migrations to be run prior to the call.
+The database must exist and replicate the actual DB.
 
 ## Writing your own annotators
 Just extend the shell on application level, add your command and create your own Annotator class:
