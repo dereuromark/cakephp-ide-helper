@@ -42,7 +42,7 @@ The so far 100% compatible and tested ones are:
 ## Install
 Install it as `require-dev` dependency:
 ```
-composer require --dev dereuromark/cakephp-ide-helper:dev-master
+composer require --dev dereuromark/cakephp-ide-helper
 ```
 
 ## Setup
