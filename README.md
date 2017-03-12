@@ -11,7 +11,7 @@ IdeHelper plugin for CakePHP applications.
 
 > Boost your productivity. Avoid mistakes.
 
-**This branch is for CakePHP 3.x**
+**This branch is for CakePHP 3.4+**
 
 ## Features
 
@@ -32,6 +32,12 @@ Supported annotations by this plugin:
 - Shells (and Tasks)
 - Components
 - Helpers
+
+### IDE support
+This plugin is supposed to work with ANY IDE that supports annotations.
+The so far 100% compatible and tested ones are:
+- PHPStorm
+- ... [Report or PR your IDE of choice here to confirm full compatibiblity]
 
 ## Install
 Install it as `require-dev` dependency:
