@@ -24,9 +24,9 @@ The IDE will usually mark problematic code yellow (missing, wrong method etc).
 
 Supported by this plugin:
 - Models (Tables and Entities)
-- Controllers
+- Controllers (including prefixes like `Admin`)
 - View (AppView)
-- Templates (`.ctp` files)
+- Templates (`.ctp` files including elements)
 - Shells (and Tasks)
 - Components
 - Helpers
