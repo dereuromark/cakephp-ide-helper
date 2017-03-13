@@ -21,17 +21,15 @@ class ModelAnnotator extends AbstractAnnotator {
 
 		$modelName = substr($className, 0, -5);
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
+
+		$table = TableRegistry::get($plugin ? ($plugin . '.' . $modelName) : $modelName);
+
 		try {
-			$table = TableRegistry::get($plugin ? ($plugin . '.' . $modelName) : $modelName);
+			$schema = $table->getSchema();
 		} catch (Exception $e) {
 			return null;
 		}
-
-		$schema = $table->getSchema();
-		if (!$schema) {
-			return null;
-		}
-
+		
 		$associations = $this->_getAssociations($table->associations());
 
 		$entityClassName = $table->getEntityClass();
