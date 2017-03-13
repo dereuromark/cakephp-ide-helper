@@ -11,6 +11,7 @@ use PHP_CodeSniffer_File;
 use PHP_CodeSniffer_Fixer;
 use PHP_CodeSniffer_Tokens;
 use ReflectionClass;
+use SebastianBergmann\Diff\Differ;
 
 abstract class AbstractAnnotator {
 
@@ -19,6 +20,7 @@ abstract class AbstractAnnotator {
 	const CONFIG_DRY_RUN = 'dry-run';
 	const CONFIG_PLUGIN = 'plugin';
 	const CONFIG_NAMESPACE = 'namespace';
+	const CONFIG_VERBOSE = 'verbose';
 
 	/**
 	 * @var bool
@@ -70,6 +72,50 @@ abstract class AbstractAnnotator {
 	}
 
 	/**
+	 * @param string $oldContent
+	 * @param string $newContent
+	 * @return void
+	 */
+	protected function _displayDiff($oldContent, $newContent) {
+		if (!$this->getConfig(static::CONFIG_DRY_RUN) || !$this->getConfig(static::CONFIG_VERBOSE)) {
+			return;
+		}
+
+		$differ = new Differ(null);
+		$array = $differ->diffToArray($oldContent, $newContent);
+
+		$begin = null;
+		$end = null;
+		foreach ($array as $key => $row) {
+			if ($row[1] === 0) {
+				continue;
+			}
+
+			if ($begin === null) {
+				$begin = $key;
+			}
+			$end = $key;
+		}
+		if ($begin === null) {
+			return;
+		}
+		$firstLineOfOutput = $begin > 0 ? $begin - 1 : 0;
+		$lastLineOfOutput = count($array) - 1 > $end ? $end + 1 : $end;
+
+		for ($i = $firstLineOfOutput; $i <= $lastLineOfOutput; $i++) {
+			$row = $array[$i];
+			$char = ' ';
+			if ($row[1] === 1) {
+				$char = '+';
+			} elseif ($row[1] === 2) {
+				$char = '-';
+			}
+
+			$this->_io->verbose('   | ' . $char . $row[0]);
+		}
+	}
+
+	/**
 	 * @param string $path
 	 * @param string $contents
 	 * @return void
@@ -111,12 +157,13 @@ abstract class AbstractAnnotator {
 
 		$closeTagIndex = $file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $classIndex - 1, $prevCode);
 		if ($closeTagIndex) {
-			$contents = $this->_appendToExistingDocBlock($file, $closeTagIndex, $annotations);
+			$newContent = $this->_appendToExistingDocBlock($file, $closeTagIndex, $annotations);
 		} else {
-			$contents = $this->_addNewDocBlock($file, $classIndex, $annotations);
+			$newContent = $this->_addNewDocBlock($file, $classIndex, $annotations);
 		}
 
-		$this->_storeFile($path, $contents);
+		$this->_displayDiff($content, $newContent);
+		$this->_storeFile($path, $newContent);
 
 		if (count($annotations)) {
 			$this->_io->out('   * ' . count($annotations) . ' annotations added');
