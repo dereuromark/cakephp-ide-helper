@@ -5,6 +5,7 @@ use Cake\Core\App;
 use Cake\Database\Schema\TableSchema;
 use Cake\ORM\AssociationCollection;
 use Cake\ORM\TableRegistry;
+use Exception;
 
 class ModelAnnotator extends AbstractAnnotator {
 
@@ -22,7 +23,7 @@ class ModelAnnotator extends AbstractAnnotator {
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
 		try {
 			$table = TableRegistry::get($plugin ? ($plugin . '.' . $modelName) : $modelName);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			return null;
 		}
 
