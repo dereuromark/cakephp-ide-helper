@@ -246,7 +246,24 @@ bin/cake annotations all -f -v
 
 Also make sure you commited or backuped all project files.
 
-Tip: If you want to check if it would be modifying any files, you can run it with `-d` (dry-run) param.
+## Dry-Run and Diff
+If you want to check if it would be modifying any files, you can run it with `-d` (dry-run) param.
+
+Tip: Use it together with `-v` (verbose) to get visual feedback on what would change.
+It will output a nice little diff for each modification:
+```
+Template/Tickets
+ * edit
+ * index
+ * view
+   | +<?php
+   | +/**
+   | + * @var \App\View\AppView $this
+   | + * @var \App\Model\Entity\Ticket $ticket
+   | + */
+   | +?>
+   |  <nav class="large-3 medium-4 columns" id="actions-sidebar">
+```
 
 ## Continuous integration support
 The tool can also be run like the coding standards check in your CI. 
