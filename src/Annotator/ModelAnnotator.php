@@ -29,7 +29,7 @@ class ModelAnnotator extends AbstractAnnotator {
 		} catch (Exception $e) {
 			return null;
 		}
-		
+
 		$associations = $this->_getAssociations($table->associations());
 
 		$entityClassName = $table->getEntityClass();
