@@ -66,6 +66,6 @@ bin/cake annotations [type] -p FooBar
 ```
 
 You can use `-d` (`--dry-run`) to simulate the output without actually modifying the files. 
-It will print out a diff of the changes instead (in verbose mode). 
+Also very useful: It will print out a diff of the changes instead (in verbose mode). 
 
 See the **[Docs](/docs)** for details.
