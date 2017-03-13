@@ -54,9 +54,9 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		$tokens = $file->getTokens();
 
-		$classIndex = $file->findNext(T_OPEN_TAG, 0);
+		$phpOpenTagIndex = $file->findNext(T_OPEN_TAG, 0);
 		$needsPhpTag = true;
-		if ($classIndex === 0 || $this->_isFirstContent($tokens, $classIndex)) {
+		if ($phpOpenTagIndex === 0 || $phpOpenTagIndex > 0 && $this->_isFirstContent($tokens, $phpOpenTagIndex)) {
 			$needsPhpTag = false;
 		}
 		if ($needsPhpTag) {
@@ -70,7 +70,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 		if ($needsPhpTag) {
 			$fixer->addContentBefore(0, $docBlock);
 		} else {
-			$fixer->addContent($classIndex, $docBlock);
+			$fixer->addContent($phpOpenTagIndex, $docBlock);
 		}
 
 		$newContent = $fixer->getContents();
@@ -114,12 +114,12 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param array $tokens
-	 * @param int $classIndex
+	 * @param int $phpOpenTagIndex
 	 *
 	 * @return bool
 	 */
-	protected function _isFirstContent(array $tokens, $classIndex) {
-		for ($i = $classIndex - 1; $i >= 0; $i--) {
+	protected function _isFirstContent(array $tokens, $phpOpenTagIndex) {
+		for ($i = $phpOpenTagIndex - 1; $i >= 0; $i--) {
 			if ($tokens[$i]['type'] !== T_INLINE_HTML) {
 				return false;
 			}
