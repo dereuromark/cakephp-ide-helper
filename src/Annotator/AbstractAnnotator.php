@@ -77,7 +77,7 @@ abstract class AbstractAnnotator {
 	 * @return void
 	 */
 	protected function _displayDiff($oldContent, $newContent) {
-		if (!$this->getConfig(static::CONFIG_DRY_RUN) || !$this->getConfig(static::CONFIG_VERBOSE)) {
+		if (!$this->getConfig(static::CONFIG_VERBOSE)) {
 			return;
 		}
 
