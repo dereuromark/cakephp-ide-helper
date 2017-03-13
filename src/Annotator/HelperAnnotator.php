@@ -12,15 +12,23 @@ class HelperAnnotator extends AbstractAnnotator {
 	 * @return bool
 	 */
 	public function annotate($path) {
-		$content = file_get_contents($path);
-		$annotations = [];
-
 		$name = pathinfo($path, PATHINFO_FILENAME);
+		if (substr($name, -6) !== 'Helper') {
+			return false;
+		}
+
 		$name = substr($name, 0, -6);
 		$className = App::className($name, 'View/Helper', 'Helper');
+		if (!$className) {
+			return false;
+		}
+
 		$helper = new $className(new View());
 
 		$helperMap = $this->_invokeProperty($helper, '_helperMap');
+
+		$content = file_get_contents($path);
+		$annotations = [];
 
 		$helperAnnotations = $this->_getHelperAnnotations($helperMap);
 		foreach ($helperAnnotations as $helperAnnotation) {

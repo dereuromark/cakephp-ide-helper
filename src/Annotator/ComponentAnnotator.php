@@ -12,15 +12,22 @@ class ComponentAnnotator extends AbstractAnnotator {
 	 * @return bool
 	 */
 	public function annotate($path) {
-		$content = file_get_contents($path);
-		$annotations = [];
-
 		$name = pathinfo($path, PATHINFO_FILENAME);
+		if (substr($name, -9) !== 'Component') {
+			return false;
+		}
+
 		$name = substr($name, 0, -9);
 		$className = App::className($name, 'Controller/Component', 'Component');
-		$object = new $className(new ComponentRegistry());
+		if (!$className) {
+			return false;
+		}
 
+		$object = new $className(new ComponentRegistry());
 		$helperMap = $this->_invokeProperty($object, '_componentMap');
+
+		$annotations = [];
+		$content = file_get_contents($path);
 
 		$componentAnnotations = $this->_getComponentAnnotations($helperMap);
 		foreach ($componentAnnotations as $helperAnnotation) {

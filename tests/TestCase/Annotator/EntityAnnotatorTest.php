@@ -101,24 +101,7 @@ class EntityAnnotatorTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotate() {
-		$schema = [
-			'id' => [
-				'kind' => 'column',
-				'type' => 'integer',
-			],
-			'name' => [
-				'kind' => 'column',
-				'type' => 'string',
-			],
-			'content' => [
-				'kind' => 'column',
-				'type' => 'string',
-			],
-			'created' => [
-				'kind' => 'column',
-				'type' => 'datetime',
-			],
-		];
+		$schema = TableRegistry::get('Foo')->getSchema();
 		$annotator = $this->_getAnnotatorMock(['schema' => $schema]);
 
 		$expectedContent = str_replace(["\r\n", "\r"], "\n", file_get_contents(TEST_FILES . 'Model/Entity/Foo.php'));
@@ -144,16 +127,7 @@ class EntityAnnotatorTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotateWithExistingDocBlock() {
-		$schema = [
-			'id' => [
-				'kind' => 'column',
-				'type' => 'integer',
-			],
-			'name' => [
-				'kind' => 'column',
-				'type' => 'string',
-			],
-		];
+		$schema = TableRegistry::get('Foo')->getSchema();
 		$annotator = $this->_getAnnotatorMock(['schema' => $schema]);
 
 		$expectedContent = str_replace(["\r\n", "\r"], "\n", file_get_contents(TEST_FILES . 'Model/Entity/Car.php'));
@@ -172,7 +146,7 @@ class EntityAnnotatorTest extends TestCase {
 
 		$output = (string)$this->out->output();
 
-		$this->assertTextContains('* 2 annotations added', $output);
+		$this->assertTextContains('* 4 annotations added', $output);
 	}
 
 	/**

@@ -19,8 +19,18 @@ class EntityAnnotator extends AbstractAnnotator {
 		$content = file_get_contents($path);
 
 		$helper = new DocBlockHelper(new View());
-		$schema = $this->getConfig('schema');
+		/* @var \Cake\Database\Schema\TableSchema $tableSchema */
+		$tableSchema = $this->getConfig('schema');
+		$columns = $tableSchema->columns();
+		$schema = [];
+		foreach ($columns as $column) {
+			$row = $tableSchema->column($column);
+			$row['kind'] = 'column';
+			$schema[$column] = $row;
+		}
+
 		$propertyHintMap = $helper->buildEntityPropertyHintTypeMap($schema);
+		$propertyHintMap = array_filter($propertyHintMap);
 
 		$annotations = $helper->propertyHints($propertyHintMap);
 		$associationHintMap = $helper->buildEntityAssociationHintTypeMap($schema);

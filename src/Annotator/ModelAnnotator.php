@@ -1,10 +1,8 @@
 <?php
 namespace IdeHelper\Annotator;
 
-use Bake\Shell\Task\ModelTask;
-use Cake\Console\ConsoleIo;
-use Cake\Console\ConsoleOutput;
 use Cake\Core\App;
+use Cake\Database\Schema\TableSchema;
 use Cake\ORM\AssociationCollection;
 use Cake\ORM\TableRegistry;
 
@@ -24,9 +22,7 @@ class ModelAnnotator extends AbstractAnnotator {
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
 		$table = TableRegistry::get($plugin ? ($plugin . '.' . $modelName) : $modelName);
 
-		$tmp = tempnam ('/tmp', 'annotator-');
-		$task = new ModelTask(new ConsoleIo(new ConsoleOutput($tmp)));
-		$schema = $task->getEntityPropertySchema($table);
+		$schema = $table->getSchema();
 		if (!$schema) {
 			return null;
 		}
@@ -94,11 +90,11 @@ class ModelAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $entityName
-	 * @param array $schema
+	 * @param \Cake\Database\Schema\TableSchema $schema
 	 *
 	 * @return bool|null
 	 */
-	protected function _entity($entityName, array $schema) {
+	protected function _entity($entityName, TableSchema $schema) {
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
 		$entityPaths = App::path('Model/Entity', $plugin);
 		$entityPath = null;
@@ -113,6 +109,9 @@ class ModelAnnotator extends AbstractAnnotator {
 		if (!$entityPath) {
 			return null;
 		}
+
+		$file = pathinfo($entityPath, PATHINFO_BASENAME);
+		$this->_io->verbose(' * ' . $file);
 
 		$annotator = new EntityAnnotator($this->_io, ['schema' => $schema] + $this->getConfig());
 		$annotator->annotate($entityPath);

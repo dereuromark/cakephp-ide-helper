@@ -101,6 +101,7 @@ class AnnotationsShell extends Shell {
 		$count = 0;
 		foreach ($folderContent[1] as $file) {
 			$annotator = new ModelAnnotator($this->_io(), $this->params);
+			$this->out(' * ' . $file, 1, Shell::VERBOSE);
 
 			$result = $annotator->annotate($folder . $file);
 			if ($result) {
