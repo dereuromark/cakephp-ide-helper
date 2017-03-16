@@ -2,8 +2,11 @@
 namespace IdeHelper\Annotator;
 
 use Cake\Controller\ComponentRegistry;
+use Cake\Controller\Controller;
 use Cake\Core\App;
 use Cake\Core\Plugin;
+use Cake\Network\Request;
+use Cake\Network\Session;
 
 class ComponentAnnotator extends AbstractAnnotator {
 
@@ -23,7 +26,10 @@ class ComponentAnnotator extends AbstractAnnotator {
 			return false;
 		}
 
-		$object = new $className(new ComponentRegistry());
+		$request = new Request();
+		$request->session(new Session());
+		$controller = new Controller();
+		$object = new $className(new ComponentRegistry($controller));
 		$helperMap = $this->_invokeProperty($object, '_componentMap');
 
 		$annotations = [];
