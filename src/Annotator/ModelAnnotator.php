@@ -25,12 +25,20 @@ class ModelAnnotator extends AbstractAnnotator {
 		try {
 			$table = TableRegistry::get($plugin ? ($plugin . '.' . $modelName) : $modelName);
 			$schema = $table->getSchema();
-			$associations = $this->_getAssociations($table->associations());
 		} catch (Exception $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping table and entity: ' . $e->getMessage());
 			}
 			return null;
+		}
+
+		try {
+			$associations = $this->_getAssociations($table->associations());
+		} catch (Exception $e) {
+			if ($this->getConfig(static::CONFIG_VERBOSE)) {
+				$this->_io->warn('   Skipping associations: ' . $e->getMessage());
+			}
+			$associations = [];
 		}
 
 		$entityClassName = $table->getEntityClass();
