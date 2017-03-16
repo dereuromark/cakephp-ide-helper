@@ -54,7 +54,10 @@ class AnnotationsShell extends Shell {
 			$this->interactive = false;
 		}
 
-		foreach ($types as $type) {
+		foreach ($types as $key => $type) {
+			if ($key !== 0) {
+				$this->out();
+			}
 			$typeName = Inflector::humanize($type);
 			if ($this->param('force')) {
 				$this->out('[' . $typeName . ']');
@@ -94,14 +97,14 @@ class AnnotationsShell extends Shell {
 	 * @return void
 	 */
 	protected function _models($folder) {
-		$this->out($folder, 1, Shell::VERBOSE);
+		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
 
 		$folderContent = (new Folder($folder))->read();
 
 		$count = 0;
 		foreach ($folderContent[1] as $file) {
 			$annotator = new ModelAnnotator($this->_io(), $this->params);
-			$this->out(' * ' . $file, 1, Shell::VERBOSE);
+			$this->out('-> ' . $file, 1, Shell::VERBOSE);
 
 			$result = $annotator->annotate($folder . $file);
 			if ($result) {
@@ -127,12 +130,12 @@ class AnnotationsShell extends Shell {
 	 * @return void
 	 */
 	protected function _controllers($folder) {
-		$this->out($folder, 1, Shell::VERBOSE);
+		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
 
 		$folderContent = (new Folder($folder))->read();
 
 		foreach ($folderContent[1] as $file) {
-			$this->out(' * ' . $file, 1, Shell::VERBOSE);
+			$this->out('-> ' . $file, 1, Shell::VERBOSE);
 			$annotator = new ControllerAnnotator($this->_io(), $this->params);
 			$annotator->annotate($folder . $file);
 		}
@@ -162,10 +165,10 @@ class AnnotationsShell extends Shell {
 	protected function _templates($folder) {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, false, true);
 
-		$this->out(str_replace(APP, '', $folder), 1, Shell::VERBOSE);
+		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
 		foreach ($folderContent[1] as $file) {
 			$name = pathinfo($file, PATHINFO_FILENAME);
-			$this->out(' * ' . $name, 1, Shell::VERBOSE);
+			$this->out('-> ' . $name, 1, Shell::VERBOSE);
 			$annotator = new TemplateAnnotator($this->_io(), $this->params);
 			$annotator->annotate($file);
 		}
@@ -194,10 +197,10 @@ class AnnotationsShell extends Shell {
 	protected function _helpers($folder) {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, false, true);
 
-		$this->out(str_replace(APP, '', $folder), 1, Shell::VERBOSE);
+		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
 		foreach ($folderContent[1] as $file) {
 			$name = pathinfo($file, PATHINFO_FILENAME);
-			$this->out(' * ' . $name, 1, Shell::VERBOSE);
+			$this->out('-> ' . $name, 1, Shell::VERBOSE);
 			$annotator = new HelperAnnotator($this->_io(), $this->params);
 			$annotator->annotate($file);
 		}
@@ -226,10 +229,10 @@ class AnnotationsShell extends Shell {
 	protected function _components($folder) {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, false, true);
 
-		$this->out(str_replace(APP, '', $folder), 1, Shell::VERBOSE);
+		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
 		foreach ($folderContent[1] as $file) {
 			$name = pathinfo($file, PATHINFO_FILENAME);
-			$this->out(' * ' . $name, 1, Shell::VERBOSE);
+			$this->out('-> ' . $name, 1, Shell::VERBOSE);
 			$annotator = new ComponentAnnotator($this->_io(), $this->params);
 			$annotator->annotate($file);
 		}
@@ -258,10 +261,10 @@ class AnnotationsShell extends Shell {
 	protected function _shells($folder) {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, false, true);
 
-		$this->out(str_replace(APP, '', $folder), 1, Shell::VERBOSE);
+		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
 		foreach ($folderContent[1] as $file) {
 			$name = pathinfo($file, PATHINFO_FILENAME);
-			$this->out(' * ' . $name, 1, Shell::VERBOSE);
+			$this->out('-> ' . $name, 1, Shell::VERBOSE);
 			$annotator = new ShellAnnotator($this->_io(), $this->params);
 			$annotator->annotate($file);
 		}
@@ -276,6 +279,9 @@ class AnnotationsShell extends Shell {
 	 */
 	public function view() {
 		if ($this->param('plugin')) {
+			if ($this->param('force')) {
+				return;
+			}
 			$this->abort('Plugin not supported for this command');
 		}
 
@@ -283,8 +289,13 @@ class AnnotationsShell extends Shell {
 		$className = App::className('App', 'View', 'View');
 		$file = APP . 'View' . DS . 'AppView.php';
 		if (!$className || !file_exists($file)) {
-			$this->abort('You need to create `AppView.php` first in `src/View/`.');
+			$this->warn('You need to create `AppView.php` first in `src/View/`.');
+			return;
 		}
+
+		$folder = pathinfo($file, PATHINFO_DIRNAME);
+		$this->out(str_replace(ROOT, '', $folder));
+		$this->out(' -> ' . pathinfo($file, PATHINFO_BASENAME));
 
 		$annotator = new ViewAnnotator($this->_io(), $this->params);
 		$annotator->annotate($file);

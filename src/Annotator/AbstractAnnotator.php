@@ -2,6 +2,7 @@
 namespace IdeHelper\Annotator;
 
 use Bake\View\Helper\DocBlockHelper;
+use Cake\Console\Shell;
 use Cake\Core\App;
 use Cake\Core\InstanceConfigTrait;
 use Cake\View\View;
@@ -111,7 +112,7 @@ abstract class AbstractAnnotator {
 				$char = '-';
 			}
 
-			$this->_io->verbose('   | ' . $char . $row[0]);
+			$this->_io->info('   | ' . $char . $row[0], 1, Shell::VERBOSE);
 		}
 	}
 
@@ -166,9 +167,9 @@ abstract class AbstractAnnotator {
 		$this->_storeFile($path, $newContent);
 
 		if (count($annotations)) {
-			$this->_io->out('   * ' . count($annotations) . ' annotations added');
+			$this->_io->success('   -> ' . count($annotations) . ' annotations added');
 		} else {
-			$this->_io->verbose('   * ' . count($annotations) . ' annotations added');
+			$this->_io->verbose('   -> ' . count($annotations) . ' annotations added');
 		}
 
 		return true;

@@ -282,6 +282,9 @@ It is advised to hook it in along with your cs check, e.g. for travis:
 Note: This will need some additional setup, like migrations to be run prior to the call.
 The database must exist and replicate the actual DB.
 
+You can definitely add this into a pre-commit hook, though, for local development.
+This way your VCS would not commit before those annotations are all in line.
+
 ## Writing your own annotators
 Just extend the shell on application level, add your command and create your own Annotator class:
 ```php

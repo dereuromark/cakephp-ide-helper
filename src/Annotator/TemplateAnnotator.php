@@ -78,7 +78,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 		$this->_displayDiff($content, $newContent);
 		$this->_storeFile($path, $newContent);
 
-		$this->_io->out('   * ' . count($annotations) . ' annotations added');
+		$this->_io->success('   -> ' . count($annotations) . ' annotations added');
 
 		return true;
 	}

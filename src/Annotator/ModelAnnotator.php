@@ -22,11 +22,21 @@ class ModelAnnotator extends AbstractAnnotator {
 		$modelName = substr($className, 0, -5);
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
 
-		$table = TableRegistry::get($plugin ? ($plugin . '.' . $modelName) : $modelName);
+		try {
+			$table = TableRegistry::get($plugin ? ($plugin . '.' . $modelName) : $modelName);
+		} catch (Exception $e) {
+			if ($this->getConfig(static::CONFIG_VERBOSE)) {
+				$this->_io->warn('   Skipping table and entity: ' . $e->getMessage());
+			}
+			return null;
+		}
 
 		try {
 			$schema = $table->getSchema();
 		} catch (Exception $e) {
+			if ($this->getConfig(static::CONFIG_VERBOSE)) {
+				$this->_io->warn('   Skipping table and entity: ' . $e->getMessage());
+			}
 			return null;
 		}
 
@@ -114,7 +124,7 @@ class ModelAnnotator extends AbstractAnnotator {
 		}
 
 		$file = pathinfo($entityPath, PATHINFO_BASENAME);
-		$this->_io->verbose(' * ' . $file);
+		$this->_io->verbose('   ' . $file);
 
 		$annotator = new EntityAnnotator($this->_io, ['schema' => $schema] + $this->getConfig());
 		$annotator->annotate($entityPath);
@@ -147,8 +157,8 @@ class ModelAnnotator extends AbstractAnnotator {
 			$association = $tableAssociations->get($key);
 			$type = get_class($association);
 
-			$name = $association->alias();
-			$table = $association->className() ?: $association->alias();
+			$name = $association->getAlias();
+			$table = $association->className() ?: $association->getAlias();
 			$className = App::className($table, 'Model/Table', 'Table');
 			if (!$className) {
 				continue;

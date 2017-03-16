@@ -91,6 +91,19 @@ class Io {
 	}
 
 	/**
+	 * Convenience method for out() that wraps message between <comment /> tag
+	 *
+	 * @param string|array|null $message A string or an array of strings to output
+	 * @param int $newlines Number of newlines to append
+	 * @param int $level The message's output level, see above.
+	 * @return int|bool The number of bytes returned from writing to stdout.
+	 * @see http://book.cakephp.org/3.0/en/console-and-shells.html#Shell::out
+	 */
+	public function comment($message = null, $newlines = 1, $level = Shell::NORMAL) {
+		return $this->out('<comment>' . $message . '</comment>', $newlines, $level);
+	}
+
+	/**
 	 * Convenience method for err() that wraps message between <warning /> tag
 	 *
 	 * @param string|array|null $message A string or an array of strings to output
