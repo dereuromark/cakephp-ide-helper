@@ -24,23 +24,14 @@ class ModelAnnotator extends AbstractAnnotator {
 
 		try {
 			$table = TableRegistry::get($plugin ? ($plugin . '.' . $modelName) : $modelName);
-		} catch (Exception $e) {
-			if ($this->getConfig(static::CONFIG_VERBOSE)) {
-				$this->_io->warn('   Skipping table and entity: ' . $e->getMessage());
-			}
-			return null;
-		}
-
-		try {
 			$schema = $table->getSchema();
+			$associations = $this->_getAssociations($table->associations());
 		} catch (Exception $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping table and entity: ' . $e->getMessage());
 			}
 			return null;
 		}
-
-		$associations = $this->_getAssociations($table->associations());
 
 		$entityClassName = $table->getEntityClass();
 		$entityName = substr($entityClassName, strrpos($entityClassName, '\\') + 1);
@@ -72,7 +63,6 @@ class ModelAnnotator extends AbstractAnnotator {
 				$annotations[] = "@property \\{$className}|\\{$type} \${$name}";
 			}
 		}
-
 		if (class_exists("{$namespace}\\Model\\Entity\\{$entity}")) {
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} get(\$primaryKey, \$options = [])";
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} newEntity(\$data = null, array \$options = [])";
@@ -82,7 +72,6 @@ class ModelAnnotator extends AbstractAnnotator {
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[] patchEntities(\$entities, array \$data, array \$options = [])";
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} findOrCreate(\$search, callable \$callback = null, \$options = [])";
 		}
-
 		foreach ($behaviors as $behavior) {
 			$className = App::className($behavior, 'Model/Behavior', 'Behavior');
 			if (!$className) {
