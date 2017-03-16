@@ -234,6 +234,19 @@ would then get the following added on top:
 ?>
 ```
 
+### Skipping folders
+Certain template folders, like for Bake template generation, should be skipped. 
+This is done by default for `/src/Template/Bake/` in your app or your plugin.
+
+If you want to adjust this, set `IdeHelper.skipTemplatePaths` via Configure:
+```
+	'IdeHelper' => [
+		'skipTemplatePaths' => [
+			...
+		],
+	],
+```
+
 ## Running all commands
 ```
 bin/cake annotations all

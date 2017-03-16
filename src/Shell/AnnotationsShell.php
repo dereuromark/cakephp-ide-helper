@@ -3,6 +3,7 @@ namespace IdeHelper\Shell;
 
 use Cake\Console\Shell;
 use Cake\Core\App;
+use Cake\Core\Configure;
 use Cake\Filesystem\Folder;
 use Cake\Utility\Inflector;
 use IdeHelper\Annotator\AbstractAnnotator;
@@ -24,6 +25,15 @@ use IdeHelper\Console\Io;
 class AnnotationsShell extends Shell {
 
 	/**
+	 * @var array
+	 */
+	protected $_config = [
+		'skipTemplatePaths' => [
+			'/src/Template/Bake/',
+		],
+	];
+
+	/**
 	 * @return void
 	 */
 	public function startup() {
@@ -33,6 +43,11 @@ class AnnotationsShell extends Shell {
 			if (!$this->param('dry-run') || !$this->param('force')) {
 				$this->abort('Continuous Integration mode requires -d and -f params!');
 			}
+		}
+
+		$skip = (array)Configure::read('IdeHelper.skipTemplatePaths');
+		if ($skip) {
+			$this->_config['skipTemplatePaths'] = $skip;
 		}
 	}
 
@@ -99,7 +114,7 @@ class AnnotationsShell extends Shell {
 	protected function _models($folder) {
 		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
 
-		$folderContent = (new Folder($folder))->read();
+		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);
 
 		$count = 0;
 		foreach ($folderContent[1] as $file) {
@@ -132,7 +147,7 @@ class AnnotationsShell extends Shell {
 	protected function _controllers($folder) {
 		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
 
-		$folderContent = (new Folder($folder))->read();
+		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);
 
 		foreach ($folderContent[1] as $file) {
 			$this->out('-> ' . $file, 1, Shell::VERBOSE);
@@ -163,7 +178,7 @@ class AnnotationsShell extends Shell {
 	 * @return void
 	 */
 	protected function _templates($folder) {
-		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, false, true);
+		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true, true);
 
 		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
 		foreach ($folderContent[1] as $file) {
@@ -174,6 +189,17 @@ class AnnotationsShell extends Shell {
 		}
 
 		foreach ($folderContent[0] as $subFolder) {
+			foreach ($this->_config['skipTemplatePaths'] as $skip) {
+				if (strpos($subFolder, $skip) === false) {
+					continue;
+				}
+
+				if ($this->param('verbose')) {
+					$this->warn(sprintf('Skipped template folder `%s`', str_replace(ROOT, '', $subFolder)));
+				}
+				break 2;
+			}
+
 			$this->_templates($subFolder);
 		}
 	}
@@ -195,7 +221,7 @@ class AnnotationsShell extends Shell {
 	 * @return void
 	 */
 	protected function _helpers($folder) {
-		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, false, true);
+		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true, true);
 
 		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
 		foreach ($folderContent[1] as $file) {
@@ -227,7 +253,7 @@ class AnnotationsShell extends Shell {
 	 * @return void
 	 */
 	protected function _components($folder) {
-		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, false, true);
+		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true, true);
 
 		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
 		foreach ($folderContent[1] as $file) {
@@ -259,7 +285,7 @@ class AnnotationsShell extends Shell {
 	 * @return void
 	 */
 	protected function _shells($folder) {
-		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, false, true);
+		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true, true);
 
 		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
 		foreach ($folderContent[1] as $file) {
