@@ -219,7 +219,7 @@ abstract class AbstractAnnotator {
 		$line = $tokens[$lastTagIndexOfPreviousLine]['line'];
 		$index = $lastTagIndexOfPreviousLine - 1;
 		while ($tokens[$index]['line'] === $line) {
-			if ($tokens[$index]['code'] === T_DOC_COMMENT_TAG) {
+			if ($tokens[$index]['code'] === T_DOC_COMMENT_TAG || $tokens[$index]['code'] === T_DOC_COMMENT_OPEN_TAG) {
 				return false;
 			}
 			$index--;

@@ -69,6 +69,31 @@ class ShellAnnotatorTest extends TestCase {
 	}
 
 	/**
+	 * @return void
+	 */
+	public function testAnnotatePlugins() {
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Shell/MyPluginShell.php'));
+		$callback = function($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->debug($expectedContent);
+				$this->debug($value);
+			}
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP . 'Shell/MyPluginShell.php';
+		$annotator->annotate($path);
+
+		$output = (string)$this->out->output();
+
+		$this->assertTextContains('   -> 2 annotations added', $output);
+	}
+
+	/**
 	 * @param array $params
 	 * @return \IdeHelper\Annotator\ShellAnnotator|\PHPUnit_Framework_MockObject_MockObject
 	 */

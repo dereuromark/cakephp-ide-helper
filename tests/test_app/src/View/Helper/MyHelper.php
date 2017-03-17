@@ -12,6 +12,7 @@ class MyHelper extends Helper {
 		'Html',
 		'Form',
 		'Shim.Configure',
+		'SomeInvalidOneWillBeIgnored',
 	];
 
 }

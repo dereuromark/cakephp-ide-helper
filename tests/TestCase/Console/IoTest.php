@@ -78,6 +78,16 @@ class IoTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testComment() {
+		$this->io->comment('Foo');
+
+		$output = $this->out->output();
+		$this->assertTextContains('Foo', $output);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testWarn() {
 		$this->io->warn('Foo');
 
