@@ -118,6 +118,20 @@ class ModelAnnotatorTest extends TestCase {
 	}
 
 	/**
+	 * @return void
+	 */
+	public function testAnnotateCatchExceptions() {
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$path = APP . 'Model/Table/ExceptionsTable.php';
+		$annotator->annotate($path);
+
+		$output = (string)$this->out->output();
+
+		$this->assertTextNotContains('annotations added', $output);
+	}
+
+	/**
 	 * @param array $params
 	 * @return \IdeHelper\Annotator\ModelAnnotator|\PHPUnit_Framework_MockObject_MockObject
 	 */
