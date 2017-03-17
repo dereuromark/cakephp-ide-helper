@@ -5,6 +5,7 @@ use Bake\View\Helper\DocBlockHelper;
 use Cake\Core\App;
 use Cake\Utility\Inflector;
 use Cake\View\View;
+use PHP_CodeSniffer_File;
 
 class TemplateAnnotator extends AbstractAnnotator {
 
@@ -52,13 +53,8 @@ class TemplateAnnotator extends AbstractAnnotator {
 		$file = $this->_getFile($path);
 		$file->start($content);
 
-		$tokens = $file->getTokens();
-
 		$phpOpenTagIndex = $file->findNext(T_OPEN_TAG, 0);
-		$needsPhpTag = true;
-		if ($phpOpenTagIndex === 0 || $phpOpenTagIndex > 0 && $this->_isFirstContent($tokens, $phpOpenTagIndex)) {
-			$needsPhpTag = false;
-		}
+		$needsPhpTag = $this->needsPhpTag($file, $phpOpenTagIndex);
 		if ($needsPhpTag) {
 			$annotationString = '<?php' . PHP_EOL . $annotationString . PHP_EOL . '?>';
 		}
@@ -81,6 +77,31 @@ class TemplateAnnotator extends AbstractAnnotator {
 		$this->_io->success('   -> ' . count($annotations) . ' annotations added');
 
 		return true;
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer_File $file
+	 * @param int $phpOpenTagIndex
+	 * @return bool
+	 */
+	protected function needsPhpTag(PHP_CodeSniffer_File $file, $phpOpenTagIndex) {
+		$needsPhpTag = true;
+
+		$tokens = $file->getTokens();
+
+		if ($phpOpenTagIndex === 0 || $phpOpenTagIndex > 0 && $this->_isFirstContent($tokens, $phpOpenTagIndex)) {
+			$needsPhpTag = false;
+		}
+		if ($needsPhpTag) {
+			return true;
+		}
+
+		$nextIndex = $file->findNext(T_WHITESPACE, $phpOpenTagIndex + 1, null, true);
+		if ($tokens[$nextIndex]['line'] === $tokens[$phpOpenTagIndex]['line']) {
+			return true;
+		}
+
+		return $needsPhpTag;
 	}
 
 	/**
