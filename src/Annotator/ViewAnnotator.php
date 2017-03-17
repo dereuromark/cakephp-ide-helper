@@ -2,10 +2,12 @@
 namespace IdeHelper\Annotator;
 
 use Cake\Core\App;
-use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
+use IdeHelper\Annotator\Traits\HelperTrait;
 
 class ViewAnnotator extends AbstractAnnotator {
+
+	use HelperTrait;
 
 	/**
 	 * @param string $path Path to file.
@@ -52,29 +54,6 @@ class ViewAnnotator extends AbstractAnnotator {
 		}
 
 		return $helperAnnotations;
-	}
-
-	/**
-	 * @param string $helper
-	 *
-	 * @return string|null
-	 */
-	protected function _findClassName($helper) {
-		$plugins = Plugin::loaded();
-
-		$className = App::className($helper, 'View/Helper', 'Helper');
-		if ($className) {
-			return $className;
-		}
-
-		foreach ($plugins as $plugin) {
-			$className = App::className($plugin . '.' . $helper, 'View/Helper', 'Helper');
-			if ($className) {
-				return $className;
-			}
-		}
-
-		return null;
 	}
 
 	/**

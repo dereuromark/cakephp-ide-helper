@@ -4,11 +4,13 @@ namespace IdeHelper\Annotator;
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
 use Cake\Core\App;
-use Cake\Core\Plugin;
 use Cake\Network\Request;
 use Cake\Network\Session;
+use IdeHelper\Annotator\Traits\ComponentTrait;
 
 class ComponentAnnotator extends AbstractAnnotator {
+
+	use ComponentTrait;
 
 	/**
 	 * @param string $path Path to file.
@@ -26,32 +28,40 @@ class ComponentAnnotator extends AbstractAnnotator {
 			return false;
 		}
 
-		$request = new Request();
-		$request->session(new Session());
-		$controller = new Controller();
-		$object = new $className(new ComponentRegistry($controller));
-		$helperMap = $this->_invokeProperty($object, '_componentMap');
-
 		$annotations = [];
 		$content = file_get_contents($path);
 
-		$componentAnnotations = $this->_getComponentAnnotations($helperMap);
-		foreach ($componentAnnotations as $helperAnnotation) {
-			if (preg_match('/' . preg_quote($helperAnnotation) . '/', $content)) {
+		$componentAnnotations = $this->_getComponentAnnotations($className);
+		foreach ($componentAnnotations as $componentAnnotation) {
+			if (preg_match('/' . preg_quote($componentAnnotation) . '/', $content)) {
 				continue;
 			}
 
-			$annotations[] = $helperAnnotation;
+			$annotations[] = $componentAnnotation;
 		}
 
 		return $this->_annotate($path, $content, $annotations);
 	}
 
 	/**
-	 * @param array $map
+	 * @param string $className
 	 * @return array
 	 */
-	protected function _getComponentAnnotations($map) {
+	protected function _getComponentAnnotations($className) {
+		$request = new Request();
+		$request->session(new Session());
+		$controller = new Controller();
+		try {
+			$object = new $className(new ComponentRegistry($controller));
+		} catch (\Exception $e) {
+			if ($this->getConfig(static::CONFIG_VERBOSE)) {
+				$this->_io->warn('   Skipping component annotations: ' . $e->getMessage());
+			}
+			return [];
+		}
+
+		$map = $this->_invokeProperty($object, '_componentMap');
+
 		if (empty($map)) {
 			return [];
 		}
@@ -67,32 +77,6 @@ class ComponentAnnotator extends AbstractAnnotator {
 		}
 
 		return $annotations;
-	}
-
-	/**
-	 * @param string $component
-	 *
-	 * @return string|null
-	 */
-	protected function _findClassName($component) {
-		$plugins = Plugin::loaded();
-		if (class_exists($component)) {
-			return $component;
-		}
-
-		$className = App::className($component, 'Controller/Component', 'Component');
-		if ($className) {
-			return $className;
-		}
-
-		foreach ($plugins as $plugin) {
-			$className = App::className($plugin . '.' . $component, 'Controller/Component', 'Component');
-			if ($className) {
-				return $className;
-			}
-		}
-
-		return null;
 	}
 
 }

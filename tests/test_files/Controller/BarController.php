@@ -4,6 +4,7 @@ namespace App\Controller;
 /**
  * @property \App\Model\Table\WheelsTable $Wheels
  * @property \App\Model\Table\BarBarsTable $BarBars
+ * @property \Shim\Controller\Component\SessionComponent $Session
  */
 class BarController extends AppController {
 
@@ -15,7 +16,7 @@ class BarController extends AppController {
 	/**
 	 * @var array
 	 */
-	public $components = ['Flash'];
+	public $components = ['Flash', 'Shim.Session'];
 
 	/**
 	 * @return void

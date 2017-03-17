@@ -11,7 +11,7 @@ class BarController extends AppController {
 	/**
 	 * @var array
 	 */
-	public $components = ['Flash'];
+	public $components = ['Flash', 'Shim.Session'];
 
 	/**
 	 * @return void

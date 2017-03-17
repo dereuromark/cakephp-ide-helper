@@ -90,7 +90,32 @@ class ControllerAnnotatorTest extends TestCase {
 
 		$output = (string)$this->out->output();
 
-		$this->assertTextContains('   -> 2 annotations added', $output);
+		$this->assertTextContains('   -> 3 annotations added', $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAnnotateWithAppController() {
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Controller/AppController.php'));
+		$callback = function($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->debug($expectedContent);
+				$this->debug($value);
+			}
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP . 'Controller/AppController.php';
+		$annotator->annotate($path);
+
+		$output = (string)$this->out->output();
+
+		$this->assertTextContains('   -> 1 annotations added', $output);
 	}
 
 	/**
