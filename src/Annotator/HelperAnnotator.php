@@ -3,6 +3,7 @@ namespace IdeHelper\Annotator;
 
 use Cake\Core\App;
 use Cake\View\View;
+use Exception;
 use IdeHelper\Annotator\Traits\HelperTrait;
 
 class HelperAnnotator extends AbstractAnnotator {
@@ -25,7 +26,14 @@ class HelperAnnotator extends AbstractAnnotator {
 			return false;
 		}
 
-		$helper = new $className(new View());
+		try {
+			$helper = new $className(new View());
+		} catch (Exception $e) {
+			if ($this->getConfig(static::CONFIG_VERBOSE)) {
+				$this->_io->warn('   Skipping helper annotations: ' . $e->getMessage());
+			}
+			return false;
+		}
 
 		$helperMap = $this->_invokeProperty($helper, '_helperMap');
 
