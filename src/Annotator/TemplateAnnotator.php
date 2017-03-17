@@ -22,7 +22,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 			$annotations[] = $this->_getViewAnnotation();
 		}
 
-		$entityAnnotations = $this->getEntityAnnotations($content);
+		$entityAnnotations = $this->_getEntityAnnotations($content);
 		foreach ($entityAnnotations as $entityAnnotation) {
 			if (preg_match('/' . preg_quote($entityAnnotation) . '/', $content)) {
 				continue;
@@ -54,7 +54,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 		$file->start($content);
 
 		$phpOpenTagIndex = $file->findNext(T_OPEN_TAG, 0);
-		$needsPhpTag = $this->needsPhpTag($file, $phpOpenTagIndex);
+		$needsPhpTag = $this->_needsPhpTag($file, $phpOpenTagIndex);
 		if ($needsPhpTag) {
 			$annotationString = '<?php' . PHP_EOL . $annotationString . PHP_EOL . '?>';
 		}
@@ -84,7 +84,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 * @param int $phpOpenTagIndex
 	 * @return bool
 	 */
-	protected function needsPhpTag(PHP_CodeSniffer_File $file, $phpOpenTagIndex) {
+	protected function _needsPhpTag(PHP_CodeSniffer_File $file, $phpOpenTagIndex) {
 		$needsPhpTag = true;
 
 		$tokens = $file->getTokens();
@@ -157,7 +157,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 *
 	 * @return array
 	 */
-	protected function getEntityAnnotations($content) {
+	protected function _getEntityAnnotations($content) {
 		$loopEntityAnnotations = $this->_parseLoopEntities($content);
 		$formEntityAnnotations = $this->_parseFormEntities($content);
 		$entityAnnotations = $this->_parseEntities($content);
