@@ -6,6 +6,7 @@ but often times there is already existing code, and re-baking it is not an optio
 
 ## Controllers
 All controllers should at least annotate their primary model.
+They should also annotate the other loaded models as well as the loaded components.
 
 ```
 bin/cake annotations controllers
