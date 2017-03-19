@@ -110,11 +110,13 @@ abstract class AbstractAnnotator {
 			$char = ' ';
 			if ($row[1] === 1) {
 				$char = '+';
+				$this->_io->info('   | ' . $char . $row[0], 1, Shell::VERBOSE);
 			} elseif ($row[1] === 2) {
 				$char = '-';
+				$this->_io->out('<warning>' . '   | ' . $char . $row[0] . '</warning>', 1);
+			} else {
+				$this->_io->out('   | ' . $char . $row[0], 1, Shell::VERBOSE);
 			}
-
-			$this->_io->info('   | ' . $char . $row[0], 1, Shell::VERBOSE);
 		}
 	}
 

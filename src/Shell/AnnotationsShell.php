@@ -40,8 +40,8 @@ class AnnotationsShell extends Shell {
 		parent::startup();
 
 		if ($this->param('ci')) {
-			if (!$this->param('dry-run') || !$this->param('force')) {
-				$this->abort('Continuous Integration mode requires -d and -f params!');
+			if (!$this->param('dry-run') || $this->param('interactive')) {
+				$this->abort('Continuous Integration mode requires -d param as well as no -i param!');
 			}
 		}
 
@@ -58,14 +58,16 @@ class AnnotationsShell extends Shell {
 		$types = [
 			'models',
 			'controllers',
-			'view',
 			'templates',
 			'shells',
 			'components',
 			'helpers',
 		];
+		if (!$this->param('plugin')) {
+			$types[] = 'view';
+		}
 
-		if ($this->param('force')) {
+		if (!$this->param('interactive')) {
 			$this->interactive = false;
 		}
 
@@ -74,7 +76,7 @@ class AnnotationsShell extends Shell {
 				$this->out();
 			}
 			$typeName = Inflector::humanize($type);
-			if ($this->param('force')) {
+			if (!$this->param('interactive')) {
 				$this->out('[' . $typeName . ']');
 			}
 			$in = $this->in($typeName . '?', ['y', 'n', 'a'], 'y');
@@ -305,10 +307,7 @@ class AnnotationsShell extends Shell {
 	 */
 	public function view() {
 		if ($this->param('plugin')) {
-			if ($this->param('force')) {
-				return;
-			}
-			$this->abort('Plugin not supported for this command');
+			$this->abort('Plugin option not supported for this command');
 		}
 
 		//TODO: Improve finding the correct one by introspecting loadHelper() calls and $helpers config.
@@ -347,13 +346,13 @@ class AnnotationsShell extends Shell {
 		];
 
 		$allParser = $subcommandParser;
-		$allParser['options']['force'] = [
-			'short' => 'f',
-			'help' => 'Force (disable interactive mode).',
+		$allParser['options']['interactive'] = [
+			'short' => 'i',
+			'help' => 'Interactive mode (prompt before each type).',
 			'boolean' => true,
 		];
 		$allParser['options']['ci'] = [
-			'help' => 'Enable CI mode (requires dry-run and force mode).',
+			'help' => 'Enable CI mode (requires dry-run).',
 			'boolean' => true,
 		];
 

@@ -15,8 +15,6 @@ class AnnotationsShellTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		//'plugin.ide_helper.foo',
-		//'plugin.ide_helper.bar_bars',
 		'plugin.ide_helper.cars',
 		'plugin.ide_helper.wheels',
 	];
@@ -106,7 +104,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testAll() {
-		$result = $this->Shell->runCommand(['all', '-f', '-d', '-v']);
+		$result = $this->Shell->runCommand(['all', '-d', '-v']);
 		$this->assertTrue($result);
 
 		$output = (string)$this->out->output();
@@ -126,7 +124,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testAllCiMode() {
-		$result = $this->Shell->runCommand(['all', '-f', '-d', '-v', '--ci']);
+		$result = $this->Shell->runCommand(['all', '-d', '-v', '--ci']);
 		$this->assertFalse($result);
 	}
 

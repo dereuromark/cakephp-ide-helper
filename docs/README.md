@@ -253,9 +253,9 @@ If you want to adjust this, set `IdeHelper.skipTemplatePaths` via Configure:
 bin/cake annotations all
 ```
 By default it will be interactive, asking you for each class type if you want to continue.
-You can use `-f` (force) to disable interactive mode, but in this case it is recommended to make the output more verbose:
+You can use `-i` (interactive) to enable interactive mode. It is also recommended to make the output more verbose:
 ```
-bin/cake annotations all -f -v
+bin/cake annotations all -i -v
 ```
 
 Also make sure you commited or backuped all project files.
@@ -267,9 +267,9 @@ Tip: Use it together with `-v` (verbose) to get visual feedback on what would ch
 It will output a nice little diff for each modification:
 ```
 Template/Tickets
- * edit
- * index
- * view
+-> edit
+-> index
+-> view
    | +<?php
    | +/**
    | + * @var \App\View\AppView $this
@@ -285,13 +285,13 @@ This way no annotation can be forgotten, when making PRs for your project.
 
 For this, use the `--cli` option along with `-d` (dry run):
 ```
-bin/cake annotations all -f -d --cli -v
+bin/cake annotations all -v -d --cli
 ```
 It will return an error code if any modification has to be done.
 
 It is advised to hook it in along with your cs check, e.g. for travis:
 ```
-- if [[ $PHPCS == 1 ]]; then bin/cake annotations all -f -d --cli -v ; fi
+- if [[ $PHPCS == 1 ]]; then bin/cake annotations all -v -d --cli ; fi
 ```
 Note: This will need some additional setup, like migrations to be run prior to the call.
 The database must exist and replicate the actual DB.
