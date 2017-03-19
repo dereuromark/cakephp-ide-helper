@@ -1,0 +1,83 @@
+<?php
+
+namespace IdeHelper\Annotation;
+
+use RuntimeException;
+
+abstract class AbstractAnnotation {
+
+	const TAG = '';
+
+	/**
+	 * @var string
+	 */
+	protected $type;
+
+	/**
+	 * @var string|null
+	 */
+	protected $classNameToReplace;
+
+	/**
+	 * @var int|null
+	 */
+	protected $index;
+
+	/**
+	 * @param string $type
+	 * @param int|null $index
+	 */
+	public function __construct($type, $index = null) {
+		$this->type = $type;
+		$this->index = $index;
+	}
+
+	/**
+	 * @param string $type
+	 * @return void
+	 */
+	public function replaceClassName($type) {
+		$this->classNameToReplace = $type;
+	}
+
+	/**
+	 * @return string
+	 */
+	abstract public function build();
+
+	/**
+	 * @return string
+	 */
+	public function __toString() {
+		return static::TAG . ' ' . $this->build();
+	}
+
+	/**
+	 * @param string $type
+	 * @return void
+	 */
+	public function setType($type) {
+		$this->type = $type;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getType() {
+		return $this->type;
+	}
+
+	/**
+	 * @return int|null
+	 */
+	public function getIndex() {
+		if ($this->index === null) {
+			throw new RuntimeException('You cannot get an non-defined index.');
+		}
+
+		return $this->index;
+	}
+
+	abstract public function matches(self $annotation);
+
+}
