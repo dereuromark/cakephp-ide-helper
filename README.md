@@ -34,6 +34,8 @@ Supported annotations by this plugin:
 - Components
 - Helpers
 
+![Screenshot](docs/screenshot.png)
+
 ### IDE support
 This plugin is **supposed to work with ANY IDE that supports annotations**.
 The so far 100% compatible and tested ones are:
