@@ -30,23 +30,14 @@ class MethodAnnotationTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testSetType() {
+	public function testReplaceWith() {
+		$replacementAnnotation = new MethodAnnotation('\\Something\\Model\\Entity\\Else', 'doSth(array $options = [])');
+
 		$annotation = new MethodAnnotation('\\Foo\\Model\\Entity\\Bar', 'doSth()');
-		$annotation->setType('\\Something\\Model\\Entity\\Else');
+		$annotation->replaceWith($replacementAnnotation);
 
 		$result = (string)$annotation;
-		$this->assertSame('@method \\Something\\Model\\Entity\\Else doSth()', $result);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testSetTypeComplex() {
-		$annotation = new MethodAnnotation('\\Foo\\Model\\Entity\\Bar[]|bool', 'doSth()');
-		$annotation->setType('\\Something\\Model\\Entity\\Else[]|bool');
-
-		$result = (string)$annotation;
-		$this->assertSame('@method \\Something\\Model\\Entity\\Else[]|bool doSth()', $result);
+		$this->assertSame('@method \\Something\\Model\\Entity\\Else doSth(array $options = [])', $result);
 	}
 
 	/**

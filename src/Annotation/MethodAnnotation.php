@@ -44,11 +44,21 @@ class MethodAnnotation extends AbstractAnnotation {
 		if ($annotation::TAG !== static::TAG) {
 			return false;
 		}
-		if ($annotation->getMethod() !== $this->method) {
+		$methodName = substr($annotation->getMethod(), 0, strpos($annotation->getMethod(), '('));
+		if ($methodName !== substr($this->method, 0, strpos($this->method, '('))) {
 			return false;
 		}
 
 		return true;
+	}
+
+	/**
+	 * @param \IdeHelper\Annotation\AbstractAnnotation|\IdeHelper\Annotation\MethodAnnotation $annotation
+	 * @return void
+	 */
+	public function replaceWith(AbstractAnnotation $annotation) {
+		$this->type = $annotation->getType();
+		$this->method = $annotation->getMethod();
 	}
 
 }

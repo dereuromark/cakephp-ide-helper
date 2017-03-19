@@ -51,4 +51,13 @@ class PropertyAnnotation extends AbstractAnnotation {
 		return true;
 	}
 
+	/**
+	 * @param \IdeHelper\Annotation\AbstractAnnotation|\IdeHelper\Annotation\PropertyAnnotation $annotation
+	 * @return void
+	 */
+	public function replaceWith(AbstractAnnotation $annotation) {
+		$this->type = $annotation->getType();
+		$this->property = $annotation->getProperty();
+	}
+
 }

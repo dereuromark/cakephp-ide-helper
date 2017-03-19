@@ -30,9 +30,11 @@ class PropertyAnnotationTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testSetType() {
+	public function testReplaceWith() {
+		$replacementAnnotation = new PropertyAnnotation('\\Something\\Model\\Table\\Else', '$baz');
+
 		$annotation = new PropertyAnnotation('\\Foo\\Model\\Table\\Bar', '$baz');
-		$annotation->setType('\\Something\\Model\\Table\\Else');
+		$annotation->replaceWith($replacementAnnotation);
 
 		$result = (string)$annotation;
 		$this->assertSame('@property \\Something\\Model\\Table\\Else $baz', $result);

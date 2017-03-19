@@ -46,18 +46,24 @@ abstract class AbstractAnnotation {
 	abstract public function build();
 
 	/**
+	 * @param \IdeHelper\Annotation\AbstractAnnotation $annotation
+	 *
+	 * @return bool
+	 */
+	abstract public function matches(self $annotation);
+
+	/**
+	 * @param \IdeHelper\Annotation\AbstractAnnotation $annotation
+	 *
+	 * @return void
+	 */
+	abstract public function replaceWith(self $annotation);
+
+	/**
 	 * @return string
 	 */
 	public function __toString() {
 		return static::TAG . ' ' . $this->build();
-	}
-
-	/**
-	 * @param string $type
-	 * @return void
-	 */
-	public function setType($type) {
-		$this->type = $type;
 	}
 
 	/**
@@ -66,7 +72,6 @@ abstract class AbstractAnnotation {
 	public function getType() {
 		return $this->type;
 	}
-
 	/**
 	 * @return int|null
 	 */
@@ -77,7 +82,5 @@ abstract class AbstractAnnotation {
 
 		return $this->index;
 	}
-
-	abstract public function matches(self $annotation);
 
 }

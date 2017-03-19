@@ -246,7 +246,7 @@ abstract class AbstractAnnotator {
 	protected function _needsReplacing(AbstractAnnotation $annotation, array $existingAnnotations) {
 		foreach ($existingAnnotations as $existingAnnotation) {
 			if ($existingAnnotation->matches($annotation)) {
-				$existingAnnotation->setType($annotation->getType());
+				$existingAnnotation->replaceWith($annotation);
 				return $existingAnnotation;
 			}
 		}
