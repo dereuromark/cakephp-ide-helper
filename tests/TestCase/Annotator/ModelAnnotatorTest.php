@@ -20,7 +20,8 @@ class ModelAnnotatorTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.ide_helper.foo'
+		'plugin.ide_helper.foo',
+		'plugin.ide_helper.wheels',
 	];
 
 	/**
@@ -115,6 +116,31 @@ class ModelAnnotatorTest extends TestCase {
 		$output = (string)$this->out->output();
 
 		$this->assertTextContains('  -> 9 annotations added', $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAnnotateExistingMerge() {
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/WheelsTable.php'));
+		$callback = function($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->debug($expectedContent);
+				$this->debug($value);
+			}
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP . 'Model/Table/WheelsTable.php';
+		$annotator->annotate($path);
+
+		$output = (string)$this->out->output();
+
+		$this->assertTextContains('  -> 7 annotations added', $output);
 	}
 
 	/**
