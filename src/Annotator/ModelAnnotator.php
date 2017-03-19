@@ -84,11 +84,7 @@ class ModelAnnotator extends AbstractAnnotator {
 		}
 		// Make replacable via array structure
 		foreach ($annotations as $key => $annotation) {
-			preg_match('/(.+?) (.+?) (.+)/', $annotation, $matches);
-			if (!$matches) {
-				continue;
-			}
-			$annotation = AnnotationFactory::create($matches[1], $matches[2], $matches[3]);
+			$annotation = AnnotationFactory::createFromString($annotation);
 			if (!$annotation) {
 				continue;
 			}

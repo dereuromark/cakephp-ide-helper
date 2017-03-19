@@ -27,4 +27,17 @@ class AnnotationFactory {
 		return null;
 	}
 
+	/**
+	 * @param string $annotation (e.g. `@method \Foo\Bar myMethod($x)`)
+	 *
+	 * @return \IdeHelper\Annotation\AbstractAnnotation|null
+	 */
+	public static function createFromString($annotation) {
+		preg_match('/(.+?) (.+?) (.+)/', $annotation, $matches);
+		if (!$matches) {
+			return null;
+		}
+		return static::create($matches[1], $matches[2], $matches[3]);
+	}
+
 }
