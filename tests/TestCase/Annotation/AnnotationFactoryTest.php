@@ -27,6 +27,23 @@ class AnnotationFactoryTest extends TestCase {
 
 		$annotation = AnnotationFactory::create('@property', '\\Foo\\Model\\Entity\\Bar', '$baz', 1);
 		$this->assertInstanceOf(PropertyAnnotation::class, $annotation);
+
+		$annotation = AnnotationFactory::create('@foooo', '\\Foo', '$foo');
+		$this->assertNull($annotation);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testCreateFromString() {
+		$annotation = AnnotationFactory::createFromString('@method \\Foo\\Model\\Entity\\Bar doSth($x, $y, $z)');
+		$this->assertInstanceOf(MethodAnnotation::class, $annotation);
+
+		$annotation = AnnotationFactory::createFromString('@property \\Foo\\Model\\Entity\\Bar $baz');
+		$this->assertInstanceOf(PropertyAnnotation::class, $annotation);
+
+		$annotation = AnnotationFactory::createFromString('@property\\Foo\\Model\\Entity\\Bar$baz');
+		$this->assertNull($annotation);
 	}
 
 }

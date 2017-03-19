@@ -60,4 +60,26 @@ class MethodAnnotationTest extends TestCase {
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testIndex() {
+		$annotation = new MethodAnnotation('', '', 1);
+
+		$this->assertTrue($annotation->hasIndex());
+		$this->assertSame(1, $index = $annotation->getIndex());
+	}
+
+	/**
+	 * @expectedException \RuntimeException
+	 * @return void
+	 */
+	public function testIndexInvalidCall() {
+		$annotation = new MethodAnnotation('', '');
+
+		$this->assertFalse($annotation->hasIndex());
+
+		$annotation->getIndex();
+	}
+
 }

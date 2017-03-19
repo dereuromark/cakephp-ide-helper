@@ -14,11 +14,6 @@ abstract class AbstractAnnotation {
 	protected $type;
 
 	/**
-	 * @var string|null
-	 */
-	protected $classNameToReplace;
-
-	/**
 	 * @var int|null
 	 */
 	protected $index;
@@ -30,14 +25,6 @@ abstract class AbstractAnnotation {
 	public function __construct($type, $index = null) {
 		$this->type = $type;
 		$this->index = $index;
-	}
-
-	/**
-	 * @param string $type
-	 * @return void
-	 */
-	public function replaceClassName($type) {
-		$this->classNameToReplace = $type;
 	}
 
 	/**
@@ -72,12 +59,20 @@ abstract class AbstractAnnotation {
 	public function getType() {
 		return $this->type;
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasIndex() {
+		return $this->index !== null;
+	}
+
 	/**
 	 * @return int|null
 	 */
 	public function getIndex() {
 		if ($this->index === null) {
-			throw new RuntimeException('You cannot get an non-defined index.');
+			throw new RuntimeException('You cannot get an non-defined index. You can check with hasIndex() before calling this method.');
 		}
 
 		return $this->index;
