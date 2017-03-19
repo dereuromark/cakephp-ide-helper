@@ -46,15 +46,63 @@ class TemplateAnnotator extends AbstractAnnotator {
 			return false;
 		}
 
-		$helper = new DocBlockHelper(new View());
-
-		$annotationString = $helper->classDescription('', '', $annotations);
-
 		$file = $this->_getFile($path);
 		$file->start($content);
 
 		$phpOpenTagIndex = $file->findNext(T_OPEN_TAG, 0);
 		$needsPhpTag = $this->_needsPhpTag($file, $phpOpenTagIndex);
+
+		$closeTagIndex = $this->_findExistingDocBlock($file, $phpOpenTagIndex, $needsPhpTag);
+		if ($closeTagIndex) {
+			$newContent = $this->_appendToExistingDocBlock($file, $closeTagIndex, $annotations);
+		} else {
+			$newContent = $this->_addNewTemplateDocBlock($file, $phpOpenTagIndex, $annotations, $needsPhpTag);
+		}
+
+		$this->_displayDiff($content, $newContent);
+		$this->_storeFile($path, $newContent);
+
+		if (count($annotations)) {
+			$this->_io->success('   -> ' . count($annotations) . ' annotations added');
+		} else {
+			$this->_io->verbose('   -> ' . count($annotations) . ' annotations added');
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer_File $file
+	 * @param int $phpOpenTagIndex
+	 * @param bool $needsPhpTag
+	 * @return int|null
+	 */
+	protected function _findExistingDocBlock(PHP_CodeSniffer_File $file, $phpOpenTagIndex, $needsPhpTag) {
+		if ($needsPhpTag) {
+			return null;
+		}
+
+		$tokens = $file->getTokens();
+
+		$nextIndex = $file->findNext(T_WHITESPACE, $phpOpenTagIndex + 1, null, true);
+		if ($tokens[$nextIndex]['code'] !== T_DOC_COMMENT_OPEN_TAG) {
+			return null;
+		}
+
+		return $tokens[$nextIndex]['comment_closer'];
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer_File $file
+	 * @param string $phpOpenTagIndex
+	 * @param array $annotations
+	 * @param bool $needsPhpTag
+	 * @return string
+	 */
+	protected function _addNewTemplateDocBlock(PHP_CodeSniffer_File $file, $phpOpenTagIndex, array $annotations, $needsPhpTag) {
+		$helper = new DocBlockHelper(new View());
+		$annotationString = $helper->classDescription('', '', $annotations);
+
 		if ($needsPhpTag) {
 			$annotationString = '<?php' . PHP_EOL . $annotationString . PHP_EOL . '?>';
 		}
@@ -71,12 +119,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		$newContent = $fixer->getContents();
 
-		$this->_displayDiff($content, $newContent);
-		$this->_storeFile($path, $newContent);
-
-		$this->_io->success('   -> ' . count($annotations) . ' annotations added');
-
-		return true;
+		return $newContent;
 	}
 
 	/**

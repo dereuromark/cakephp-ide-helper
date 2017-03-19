@@ -6,6 +6,7 @@ use Cake\Database\Schema\TableSchema;
 use Cake\ORM\AssociationCollection;
 use Cake\ORM\TableRegistry;
 use Exception;
+use IdeHelper\Annotation\AnnotationFactory;
 
 class ModelAnnotator extends AbstractAnnotator {
 
@@ -72,6 +73,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			}
 		}
 		if (class_exists("{$namespace}\\Model\\Entity\\{$entity}")) {
+			// Copied from bake plugin
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} get(\$primaryKey, \$options = [])";
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} newEntity(\$data = null, array \$options = [])";
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[] newEntities(array \$data, array \$options = [])";
@@ -80,6 +82,20 @@ class ModelAnnotator extends AbstractAnnotator {
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[] patchEntities(\$entities, array \$data, array \$options = [])";
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} findOrCreate(\$search, callable \$callback = null, \$options = [])";
 		}
+		// Make replacable via array structure
+		foreach ($annotations as $key => $annotation) {
+			preg_match('/(.+?) (.+?) (.+)/', $annotation, $matches);
+			if (!$matches) {
+				continue;
+			}
+			$annotation = AnnotationFactory::create($matches[1], $matches[2], $matches[3]);
+			if (!$annotation) {
+				continue;
+			}
+
+			$annotations[$key] = $annotation;
+		}
+
 		foreach ($behaviors as $behavior) {
 			$className = App::className($behavior, 'Model/Behavior', 'Behavior');
 			if (!$className) {
