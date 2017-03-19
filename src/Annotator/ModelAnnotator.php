@@ -73,7 +73,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			}
 		}
 		if (class_exists("{$namespace}\\Model\\Entity\\{$entity}")) {
-			// Copied from bake plugin
+			// Copied from Bake plugin
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} get(\$primaryKey, \$options = [])";
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} newEntity(\$data = null, array \$options = [])";
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[] newEntities(array \$data, array \$options = [])";
@@ -82,7 +82,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[] patchEntities(\$entities, array \$data, array \$options = [])";
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} findOrCreate(\$search, callable \$callback = null, \$options = [])";
 		}
-		// Make replacable via array structure
+		// Make replacable via parsed object
 		foreach ($annotations as $key => $annotation) {
 			$annotation = AnnotationFactory::createFromString($annotation);
 			if (!$annotation) {
