@@ -67,7 +67,7 @@ class MethodAnnotationTest extends TestCase {
 		$annotation = new MethodAnnotation('', '', 1);
 
 		$this->assertTrue($annotation->hasIndex());
-		$this->assertSame(1, $index = $annotation->getIndex());
+		$this->assertSame(1, $annotation->getIndex());
 	}
 
 	/**
