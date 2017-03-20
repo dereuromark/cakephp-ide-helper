@@ -11,11 +11,25 @@ use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\ReplacableAnnotationInterface;
 use IdeHelper\Console\Io;
 use PHP_CodeSniffer;
+use PHP_CodeSniffer\Config;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Fixer;
+use PHP_CodeSniffer\Ruleset;
+use PHP_CodeSniffer\Runner;
+use PHP_CodeSniffer\Util\Tokens;
 use PHP_CodeSniffer_File;
-use PHP_CodeSniffer_Fixer;
-use PHP_CodeSniffer_Tokens;
 use ReflectionClass;
 use SebastianBergmann\Diff\Differ;
+
+$manualAutoload = getcwd() . '/vendor/squizlabs/php_codesniffer/autoload.php';
+if (!class_exists(Config::class) && file_exists($manualAutoload)) {
+	require $manualAutoload;
+}
+if (!class_exists(Runner::class)) {
+	class_alias('\PHP_CodeSniffer_File', File::class);
+	class_alias('\PHP_CodeSniffer_Fixer', Fixer::class);
+	class_alias('\PHP_CodeSniffer_Tokens', Tokens::class);
+}
 
 abstract class AbstractAnnotator {
 
@@ -64,15 +78,37 @@ abstract class AbstractAnnotator {
 
 	/**
 	 * @param string $file
+	 * @param string|null $content
 	 *
-	 * @return \PHP_CodeSniffer_File
+	 * @return \PHP_CodeSniffer\Files\File
 	 */
-	protected function _getFile($file) {
+	protected function _getFile($file, $content = null) {
 		$_SERVER['argv'] = [];
 
-		$phpcs = new PHP_CodeSniffer();
-		$phpcs->process([], null, []);
-		return new PHP_CodeSniffer_File($file, [], [], $phpcs);
+		if (!class_exists(Runner::class)) {
+			// phpcs 2.x
+			$phpcs = new PHP_CodeSniffer();
+			$phpcs->process([], null, []);
+			$fileObject = new PHP_CodeSniffer_File($file, [], [], $phpcs);
+
+			$fileObject->start($content !== null ? $content : file_get_contents($file));
+
+			return $fileObject;
+		}
+
+		$phpcs = new Runner();
+
+		$config = new Config();
+		$phpcs->config = $config;
+		$phpcs->init();
+
+		$ruleset = new Ruleset($config);
+
+		$fileObject = new File($file, $ruleset, $config);
+		$fileObject->setContent($content !== null ? $content : file_get_contents($file));
+		$fileObject->parse();
+
+		return $fileObject;
 	}
 
 	/**
@@ -136,10 +172,16 @@ abstract class AbstractAnnotator {
 	}
 
 	/**
-	 * @return \PHP_CodeSniffer_Fixer
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 *
+	 * @return \PHP_CodeSniffer\Fixer
 	 */
-	protected function _getFixer() {
-		return new PHP_CodeSniffer_Fixer();
+	protected function _getFixer($file) {
+		$fixer = new Fixer();
+
+		$fixer->startFile($file);
+
+		return $fixer;
 	}
 
 	/**
@@ -155,11 +197,10 @@ abstract class AbstractAnnotator {
 		}
 
 		$file = $this->_getFile($path);
-		$file->start($content);
 
 		$classIndex = $file->findNext(T_CLASS, 0);
 
-		$prevCode = $file->findPrevious(PHP_CodeSniffer_Tokens::$emptyTokens, $classIndex - 1, null, true);
+		$prevCode = $file->findPrevious(Tokens::$emptyTokens, $classIndex - 1, null, true);
 
 		$closeTagIndex = $file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $classIndex - 1, $prevCode);
 		if ($closeTagIndex) {
@@ -181,13 +222,13 @@ abstract class AbstractAnnotator {
 	}
 
 	/**
-	 * @param \PHP_CodeSniffer_File $file
+	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $closeTagIndex
 	 * @param array &$annotations
 	 *
 	 * @return string
 	 */
-	protected function _appendToExistingDocBlock(PHP_CodeSniffer_File $file, $closeTagIndex, array &$annotations) {
+	protected function _appendToExistingDocBlock(File $file, $closeTagIndex, array &$annotations) {
 		$existingAnnotations = $this->_parseExistingAnnotations($file, $closeTagIndex);
 
 		/* @var \IdeHelper\Annotation\AbstractAnnotation[] $replacingAnnotations */
@@ -220,8 +261,7 @@ abstract class AbstractAnnotator {
 
 		$needsNewline = $this->_needsNewLineInDocBlock($file, $lastTagIndexOfPreviousLine);
 
-		$fixer = $this->_getFixer();
-		$fixer->startFile($file);
+		$fixer = $this->_getFixer($file);
 
 		$fixer->beginChangeset();
 
@@ -283,12 +323,12 @@ abstract class AbstractAnnotator {
 	}
 
 	/**
-	 * @param \PHP_CodeSniffer_File $file
+	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $closeTagIndex
 	 *
 	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
-	protected function _parseExistingAnnotations(PHP_CodeSniffer_File $file, $closeTagIndex) {
+	protected function _parseExistingAnnotations(File $file, $closeTagIndex) {
 		$tokens = $file->getTokens();
 
 		$startTagIndex = $tokens[$closeTagIndex]['comment_opener'];
@@ -324,12 +364,12 @@ abstract class AbstractAnnotator {
 	}
 
 	/**
- * @param \PHP_CodeSniffer_File $file
+ * @param \File $file
  * @param int $lastTagIndexOfPreviousLine
  *
  * @return bool
  */
-	protected function _needsNewLineInDocBlock(PHP_CodeSniffer_File $file, $lastTagIndexOfPreviousLine) {
+	protected function _needsNewLineInDocBlock(File $file, $lastTagIndexOfPreviousLine) {
 		$tokens = $file->getTokens();
 
 		$line = $tokens[$lastTagIndexOfPreviousLine]['line'];
@@ -345,13 +385,13 @@ abstract class AbstractAnnotator {
 	}
 
 	/**
-	 * @param \PHP_CodeSniffer_File $file
+	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param string $classIndex
 	 * @param \IdeHelper\Annotation\AbstractAnnotation[]|string[] $annotations
 	 *
 	 * @return string
 	 */
-	protected function _addNewDocBlock(PHP_CodeSniffer_File $file, $classIndex, array $annotations) {
+	protected function _addNewDocBlock(File $file, $classIndex, array $annotations) {
 		$tokens = $file->getTokens();
 
 		foreach ($annotations as $key => $annotation) {
@@ -364,8 +404,7 @@ abstract class AbstractAnnotator {
 		$helper = new DocBlockHelper(new View());
 		$annotationString = $helper->classDescription('', '', (array)$annotations);
 
-		$fixer = $this->_getFixer();
-		$fixer->startFile($file);
+		$fixer = $this->_getFixer($file);
 
 		$docBlock = $annotationString . PHP_EOL;
 		$fixer->replaceToken($classIndex, $docBlock . $tokens[$classIndex]['content']);

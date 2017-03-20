@@ -18,6 +18,9 @@ matrix:
 
   include:
     - php: 7.0
+      env: BC=1
+
+    - php: 7.0
       env: PHPCS=1 DEFAULT=0
 
     - php: 7.0
@@ -32,7 +35,10 @@ before_script:
 
   - if [[ $DB == 'mysql' ]]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi
 
-  - if [[ $PHPCS != 1 ]]; then composer require phpunit/phpunit:"*"; fi
+  - if [[ $BC == 1 ]]; then composer remove --dev fig-r/psr2r-sniffer; fi
+  - if [[ $BC == 1 ]]; then composer require --dev squizlabs/php_codesniffer:"^2.8"; fi
+
+  - if [[ $PHPCS != 1 ]]; then composer require --dev phpunit/phpunit:"*"; fi
 
   - phpenv rehash
   - set +H
@@ -40,7 +46,7 @@ before_script:
 
 script:
   - if [[ $DEFAULT == 1 ]]; then vendor/bin/phpunit; fi
-  - if [[ $PHPCS == 1 ]]; then vendor/bin/phpcs -p --extensions=php --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=vendor --ignore=docs --ignore=config/Migrations . ; fi
+  - if [[ $PHPCS == 1 ]]; then vendor/bin/phpcs -p --extensions=php --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/vendor/,/tmp/,/logs/ --extensions=php . ; fi
   - if [[ $PHPSTAN == 1 ]]; then composer require --dev phpstan/phpstan && vendor/bin/phpstan analyse -c tests/phpstan.neon -l 3 src; fi
 
   - if [[ $CODECOVERAGE == 1 ]]; then vendor/bin/phpunit --coverage-clover=clover.xml || true; fi
