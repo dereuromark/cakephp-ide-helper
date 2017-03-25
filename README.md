@@ -38,8 +38,9 @@ Supported annotations by this plugin:
 
 ### IDE support
 This plugin is **supposed to work with ANY IDE that supports annotations**.
-The so far 100% compatible and tested ones are:
+IDE's tested so far for 100% compatibility:
 - PHPStorm
+- IntelliJ
 - ... [Report or PR your IDE of choice here to confirm its full compatibility]
 
 ## Install
