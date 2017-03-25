@@ -57,7 +57,7 @@ bin/cake plugin load IdeHelper --cli
 
 Note: As require-dev dependency this should only be loaded for local development (include a check or try/catch).
 
-### Using the annotation shell
+## Using the annotation shell
 Running it on your app:
 ```
 bin/cake annotations [type] -v
