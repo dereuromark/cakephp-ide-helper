@@ -43,6 +43,8 @@ IDEs tested so far for 100% compatibility:
 - IntelliJ
 - ... [Report or PR your IDE of choice here to confirm its full compatibility]
 
+See [Wiki](/dereuromark/cakephp-ide-helper/wiki) for details and tips/settings.
+
 ## Install
 Install it as `require-dev` dependency:
 ```
