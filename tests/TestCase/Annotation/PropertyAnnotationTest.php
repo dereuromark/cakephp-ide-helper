@@ -45,17 +45,17 @@ class PropertyAnnotationTest extends TestCase {
 	 */
 	public function testMatches() {
 		$annotation = new PropertyAnnotation('\\Foo\\Model\\Table\\Bar', '$baz');
-		$comparisonAnnotation = new PropertyAnnotation('Something\\Else', '$baz');
+		$comparisonAnnotation = new PropertyAnnotation('\\Something\\Else', '$baz');
 		$result = $annotation->matches($comparisonAnnotation);
 		$this->assertTrue($result);
 
 		$annotation = new PropertyAnnotation('\\Foo\\Model\\Table\\Bar', '$baz');
-		$comparisonAnnotation = new PropertyAnnotation('Foo\\Model\\Table\\Bar', '$bbb');
+		$comparisonAnnotation = new PropertyAnnotation('\\Foo\\Model\\Table\\Bar', '$bbb');
 		$result = $annotation->matches($comparisonAnnotation);
 		$this->assertFalse($result);
 
 		$annotation = new PropertyAnnotation('\\Foo\\Model\\Table\\Bar', '$baz');
-		$comparisonAnnotation = new MethodAnnotation('Foo\\Model\\Table\\Bar', '$baz');
+		$comparisonAnnotation = new MethodAnnotation('\\Foo\\Model\\Table\\Bar', '$baz');
 		$result = $annotation->matches($comparisonAnnotation);
 		$this->assertFalse($result);
 	}

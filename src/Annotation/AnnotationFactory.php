@@ -22,6 +22,8 @@ class AnnotationFactory {
 				return new PropertyAnnotation($type, $content, $index);
 			case MethodAnnotation::TAG:
 				return new MethodAnnotation($type, $content, $index);
+			case VariableAnnotation::TAG:
+				return new VariableAnnotation($type, $content, $index);
 		}
 
 		return null;

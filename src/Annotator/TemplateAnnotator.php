@@ -5,6 +5,8 @@ use Bake\View\Helper\DocBlockHelper;
 use Cake\Core\App;
 use Cake\Utility\Inflector;
 use Cake\View\View;
+use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\VariableAnnotation;
 use PHP_CodeSniffer_File;
 
 class TemplateAnnotator extends AbstractAnnotator {
@@ -101,6 +103,14 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 */
 	protected function _addNewTemplateDocBlock(PHP_CodeSniffer_File $file, $phpOpenTagIndex, array $annotations, $needsPhpTag) {
 		$helper = new DocBlockHelper(new View());
+
+		foreach ($annotations as $key => $annotation) {
+			if (is_string($annotation)) {
+				continue;
+			}
+			$annotations[$key] = (string)$annotation;
+		}
+
 		$annotationString = $helper->classDescription('', '', $annotations);
 
 		if ($needsPhpTag) {
@@ -153,7 +163,8 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 * @return bool
 	 */
 	protected function _needsViewAnnotation($content) {
-		if (preg_match('/\* \@var .+ \$this\b/', $content)) {
+		$viewAnnotation = $this->_getViewAnnotation()->build();
+		if (preg_match('/' . preg_quote($viewAnnotation) . '\b/', $content)) {
 			return false;
 		}
 
@@ -165,7 +176,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @return string
+	 * @return \IdeHelper\Annotation\VariableAnnotation
 	 */
 	protected function _getViewAnnotation() {
 		$className = 'App\View\AppView';
@@ -173,7 +184,10 @@ class TemplateAnnotator extends AbstractAnnotator {
 			$className = 'Cake\View\View';
 		}
 
-		return '@var \\' . $className . ' $this';
+		/* @var \IdeHelper\Annotation\VariableAnnotation $annotation */
+		$annotation = AnnotationFactory::create(VariableAnnotation::TAG, '\\' . $className, '$this');
+
+		return $annotation;
 	}
 
 	/**

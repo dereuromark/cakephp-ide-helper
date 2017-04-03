@@ -45,17 +45,17 @@ class MethodAnnotationTest extends TestCase {
 	 */
 	public function testMatches() {
 		$annotation = new MethodAnnotation('\\Foo\\Model\\Entity\\Bar', 'doSth()');
-		$comparisonAnnotation = new MethodAnnotation('Something\\Else', 'doSth()');
+		$comparisonAnnotation = new MethodAnnotation('\\Something\\Else', 'doSth()');
 		$result = $annotation->matches($comparisonAnnotation);
 		$this->assertTrue($result);
 
 		$annotation = new MethodAnnotation('\\Foo\\Model\\Entity\\Bar', 'doSth()');
-		$comparisonAnnotation = new MethodAnnotation('Foo\\Model\\Entity\\Bar', 'sthElse()');
+		$comparisonAnnotation = new MethodAnnotation('\\Foo\\Model\\Entity\\Bar', 'sthElse()');
 		$result = $annotation->matches($comparisonAnnotation);
 		$this->assertFalse($result);
 
 		$annotation = new MethodAnnotation('\\Foo\\Model\\Entity\\Bar', 'doSth()');
-		$comparisonAnnotation = new PropertyAnnotation('Foo\\Model\\Entity\\Bar', 'doSth()');
+		$comparisonAnnotation = new PropertyAnnotation('\\Foo\\Model\\Entity\\Bar', 'doSth()');
 		$result = $annotation->matches($comparisonAnnotation);
 		$this->assertFalse($result);
 	}
