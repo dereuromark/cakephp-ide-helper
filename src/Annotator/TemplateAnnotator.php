@@ -44,7 +44,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 * @return bool
 	 */
 	protected function _annotate($path, $content, array $annotations) {
-		if (!$annotations) {
+		if (!count($annotations)) {
 			return false;
 		}
 
@@ -111,7 +111,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 			$annotations[$key] = (string)$annotation;
 		}
 
-		$annotationString = $helper->classDescription('', '', $annotations);
+		$annotationString = $helper->classDescription('', '', (array)$annotations);
 
 		if ($needsPhpTag) {
 			$annotationString = '<?php' . PHP_EOL . $annotationString . PHP_EOL . '?>';

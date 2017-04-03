@@ -8,6 +8,7 @@ use Cake\Core\InstanceConfigTrait;
 use Cake\View\View;
 use IdeHelper\Annotation\AbstractAnnotation;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\VariableAnnotation;
 use IdeHelper\Console\Io;
 use PHP_CodeSniffer;
 use PHP_CodeSniffer_File;
@@ -149,7 +150,7 @@ abstract class AbstractAnnotator {
 	 * @return bool
 	 */
 	protected function _annotate($path, $content, array $annotations) {
-		if (!$annotations) {
+		if (!count($annotations)) {
 			return false;
 		}
 
@@ -182,28 +183,34 @@ abstract class AbstractAnnotator {
 	/**
 	 * @param \PHP_CodeSniffer_File $file
 	 * @param int $closeTagIndex
-	 * @param array $annotations
+	 * @param array &$annotations
 	 *
 	 * @return string
 	 */
-	protected function _appendToExistingDocBlock(PHP_CodeSniffer_File $file, $closeTagIndex, $annotations) {
+	protected function _appendToExistingDocBlock(PHP_CodeSniffer_File $file, $closeTagIndex, array &$annotations) {
 		$existingAnnotations = $this->_parseExistingAnnotations($file, $closeTagIndex);
 
 		/* @var \IdeHelper\Annotation\AbstractAnnotation[] $replacingAnnotations */
 		$replacingAnnotations = [];
+		$addingAnnotations = [];
 		foreach ($annotations as $key => $annotation) {
 			if (!is_object($annotation)) {
+				$addingAnnotations[] = $annotation;
 				continue;
 			}
+			if (!$this->_allowsReplacing($annotation, $existingAnnotations)) {
+				unset($annotations[$key]);
+				continue;
+			}
+
 			$toBeReplaced = $this->_needsReplacing($annotation, $existingAnnotations);
 			if (!$toBeReplaced) {
+				$addingAnnotations[] = $annotation;
 				continue;
 			}
 
 			$replacingAnnotations[] = $toBeReplaced;
-			unset($annotations[$key]);
 		}
-
 		$tokens = $file->getTokens();
 
 		$lastTagIndexOfPreviousLine = $closeTagIndex;
@@ -222,9 +229,9 @@ abstract class AbstractAnnotator {
 			$fixer->replaceToken($annotation->getIndex(), $annotation->build());
 		}
 
-		if ($annotations) {
+		if (count($addingAnnotations)) {
 			$annotationString = $needsNewline ? ' *' . "\n" : '';
-			foreach ($annotations as $annotation) {
+			foreach ($addingAnnotations as $annotation) {
 				$annotationString .= ' * ' . $annotation . "\n";
 			}
 
@@ -240,14 +247,16 @@ abstract class AbstractAnnotator {
 
 	/**
 	 * @param \IdeHelper\Annotation\AbstractAnnotation $annotation
-	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $existingAnnotations
+	 * @param \IdeHelper\Annotation\AbstractAnnotation[]|\array $existingAnnotations
 	 * @return \IdeHelper\Annotation\AbstractAnnotation|null
 	 */
 	protected function _needsReplacing(AbstractAnnotation $annotation, array $existingAnnotations) {
 		foreach ($existingAnnotations as $existingAnnotation) {
 			if ($existingAnnotation->matches($annotation)) {
-				$existingAnnotation->replaceWith($annotation);
-				return $existingAnnotation;
+				$newAnnotation = clone $existingAnnotation;
+				$newAnnotation->replaceWith($annotation);
+
+				return $newAnnotation;
 			}
 		}
 
@@ -255,17 +264,36 @@ abstract class AbstractAnnotator {
 	}
 
 	/**
+	 * @param \IdeHelper\Annotation\AbstractAnnotation $annotation
+	 * @param \IdeHelper\Annotation\AbstractAnnotation[]|\array $existingAnnotations
+	 * @return bool
+	 */
+	protected function _allowsReplacing(AbstractAnnotation $annotation, array $existingAnnotations) {
+		foreach ($existingAnnotations as $existingAnnotation) {
+			if (!$existingAnnotation instanceof VariableAnnotation) {
+				continue;
+			}
+			/* @var \IdeHelper\Annotation\VariableAnnotation $existingAnnotation */
+			if ($existingAnnotation->matches($annotation) && $existingAnnotation->getDescription() !== '') {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * @param \PHP_CodeSniffer_File $file
 	 * @param int $closeTagIndex
 	 *
-	 * @return array
+	 * @return \array
 	 */
 	protected function _parseExistingAnnotations(PHP_CodeSniffer_File $file, $closeTagIndex) {
 		$tokens = $file->getTokens();
 
 		$startTagIndex = $tokens[$closeTagIndex]['comment_opener'];
 
-		$docBlockParams = [];
+		$annotations = [];
 		for ($i = $startTagIndex + 1; $i < $closeTagIndex; $i++) {
 			if ($tokens[$i]['type'] !== 'T_DOC_COMMENT_TAG') {
 				continue;
@@ -289,10 +317,10 @@ abstract class AbstractAnnotator {
 				$content = substr($content, 0, $spacePos);
 			}
 
-			$docBlockParams[] = AnnotationFactory::create($tokens[$i]['content'], $content, trim($appendix), $classNameIndex);
+			$annotations[] = AnnotationFactory::create($tokens[$i]['content'], $content, trim($appendix), $classNameIndex);
 		}
 
-		return $docBlockParams;
+		return $annotations;
 	}
 
 	/**
@@ -319,7 +347,7 @@ abstract class AbstractAnnotator {
 	/**
 	 * @param \PHP_CodeSniffer_File $file
 	 * @param string $classIndex
-	 * @param array $annotations
+	 * @param \IdeHelper\Annotation\AbstractAnnotation[]|\array $annotations
 	 *
 	 * @return string
 	 */
@@ -334,7 +362,7 @@ abstract class AbstractAnnotator {
 		}
 
 		$helper = new DocBlockHelper(new View());
-		$annotationString = $helper->classDescription('', '', $annotations);
+		$annotationString = $helper->classDescription('', '', (array)$annotations);
 
 		$fixer = $this->_getFixer();
 		$fixer->startFile($file);

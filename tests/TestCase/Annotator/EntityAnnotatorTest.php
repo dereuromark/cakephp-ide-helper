@@ -12,9 +12,9 @@ use IdeHelper\Console\Io;
 use Tools\TestSuite\ConsoleOutput;
 use Tools\TestSuite\TestCase;
 
-/**
- */
 class EntityAnnotatorTest extends TestCase {
+
+	use DiffHelperTrait;
 
 	/**
 	 * @var array
@@ -108,8 +108,7 @@ class EntityAnnotatorTest extends TestCase {
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
-				$this->debug($expectedContent);
-				$this->debug($value);
+				$this->_displayDiff($expectedContent, $value);
 			}
 			return $value === $expectedContent;
 		};
@@ -134,8 +133,7 @@ class EntityAnnotatorTest extends TestCase {
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
-				$this->debug($expectedContent);
-				$this->debug($value);
+				$this->_displayDiff($expectedContent, $value);
 			}
 			return $value === $expectedContent;
 		};

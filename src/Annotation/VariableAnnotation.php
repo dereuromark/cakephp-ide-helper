@@ -12,13 +12,24 @@ class VariableAnnotation extends AbstractAnnotation {
 	protected $variable;
 
 	/**
+	 * @var string
+	 */
+	protected $description;
+
+	/**
 	 * @param string $type
 	 * @param string $variable
 	 * @param int|null $index
 	 */
 	public function __construct($type, $variable, $index = null) {
 		parent::__construct($type, $index);
+
+		$description = '';
+		if (strpos($variable, ' ') !== false) {
+			list($variable, $description) = explode(' ', $variable, 2);
+		}
 		$this->variable = $variable;
+		$this->description = $description;
 	}
 
 	/**
@@ -31,8 +42,17 @@ class VariableAnnotation extends AbstractAnnotation {
 	/**
 	 * @return string
 	 */
+	public function getDescription() {
+		return $this->description;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function build() {
-		return $this->type . ' ' . $this->variable;
+		$description = $this->description !== '' ? (' ' . $this->description) : '';
+
+		return $this->type . ' ' . $this->variable . $description;
 	}
 
 	/**

@@ -16,6 +16,8 @@ use Tools\TestSuite\TestCase;
  */
 class TemplateAnnotatorTest extends TestCase {
 
+	use DiffHelperTrait;
+
 	/**
 	 * @var \Tools\TestSuite\ConsoleOutput
 	 */
@@ -68,8 +70,7 @@ class TemplateAnnotatorTest extends TestCase {
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
-				$this->debug($expectedContent);
-				$this->debug($value);
+				$this->_displayDiff($expectedContent, $value);
 			}
 			return $value === $expectedContent;
 		};
@@ -95,8 +96,7 @@ class TemplateAnnotatorTest extends TestCase {
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
-				$this->debug($expectedContent);
-				$this->debug($value);
+				$this->_displayDiff($expectedContent, $value);
 			}
 			return $value === $expectedContent;
 		};
@@ -122,8 +122,7 @@ class TemplateAnnotatorTest extends TestCase {
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
-				$this->debug($expectedContent);
-				$this->debug($value);
+				$this->_displayDiff($expectedContent, $value);
 			}
 			return $value === $expectedContent;
 		};
@@ -149,8 +148,7 @@ class TemplateAnnotatorTest extends TestCase {
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
-				$this->debug($expectedContent);
-				$this->debug($value);
+				$this->_displayDiff($expectedContent, $value);
 			}
 			return $value === $expectedContent;
 		};
@@ -176,8 +174,7 @@ class TemplateAnnotatorTest extends TestCase {
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
-				$this->debug($expectedContent);
-				$this->debug($value);
+				$this->_displayDiff($expectedContent, $value);
 			}
 			return $value === $expectedContent;
 		};
@@ -188,7 +185,7 @@ class TemplateAnnotatorTest extends TestCase {
 
 		$output = (string)$this->out->output();
 
-		$this->assertTextContains('   -> 3 annotations added', $output);
+		$this->assertTextContains('   -> 2 annotations added', $output);
 	}
 
 	/**
