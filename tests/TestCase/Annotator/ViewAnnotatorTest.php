@@ -14,7 +14,7 @@ use Tools\TestSuite\TestCase;
 class ViewAnnotatorTest extends TestCase {
 
 	use DiffHelperTrait;
-	
+
 	/**
 	 * @var \Tools\TestSuite\ConsoleOutput
 	 */

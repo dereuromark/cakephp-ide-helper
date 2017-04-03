@@ -248,6 +248,20 @@ If you want to adjust this, set `IdeHelper.skipTemplatePaths` via Configure:
 	],
 ```
 
+### Skipping variables
+In some cases the existing annotations might be matching different entities (e.g. Plugin vs App namespace).
+If those would be replaced wrongly, you can easily mark them to be ignored by adding any comment description to it:
+```php
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \My\Custom\Entity $car !
+ */
+?>
+```
+The `!` would prevent the entity annotation to be replaced.
+
+
 ## Running all commands
 ```
 bin/cake annotations all
