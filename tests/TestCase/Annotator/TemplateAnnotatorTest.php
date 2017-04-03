@@ -165,6 +165,33 @@ class TemplateAnnotatorTest extends TestCase {
 	}
 
 	/**
+	 * Tests merging with existing PHP tag and doc block and replacing outdated annotations.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateExistingOutdated() {
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/outdated.ctp'));
+		$callback = function($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->debug($expectedContent);
+				$this->debug($value);
+			}
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP . 'Template/Foos/outdated.ctp';
+		$annotator->annotate($path);
+
+		$output = (string)$this->out->output();
+
+		$this->assertTextContains('   -> 1 annotations added', $output);
+	}
+
+	/**
 	 * @param array $params
 	 * @return \IdeHelper\Annotator\TemplateAnnotator|\PHPUnit_Framework_MockObject_MockObject
 	 */
