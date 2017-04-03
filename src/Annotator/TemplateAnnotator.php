@@ -246,7 +246,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$result[$entity] = '@var \\' . $className . ' $' . $entity;
+			$result[$entity] = AnnotationFactory::create(VariableAnnotation::TAG, '\\' . $className, '$' . $entity);
 		}
 
 		return $result;
@@ -277,7 +277,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$result[$matches[1][$key]] = '@var \\' . $className . '[] $' . $matches[1][$key];
+			$result[$matches[1][$key]] = AnnotationFactory::create(VariableAnnotation::TAG, '\\' . $className . '[]', '$' . $matches[1][$key]);
 			$result[$entity] = null;
 		}
 
@@ -313,7 +313,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$result[$entity] = '@var \\' . $className . ' $' . $entity;
+			$result[$entity] = AnnotationFactory::create(VariableAnnotation::TAG, '\\' . $className, '$' . $entity);
 		}
 
 		return $result;
