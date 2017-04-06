@@ -32,7 +32,7 @@ abstract class AbstractAnnotator {
 	public static $output = false;
 
 	/**
-	 * @var \Cake\Console\ConsoleIo
+	 * @var \IdeHelper\Console\Io
 	 */
 	protected $_io;
 
@@ -247,7 +247,7 @@ abstract class AbstractAnnotator {
 
 	/**
 	 * @param \IdeHelper\Annotation\AbstractAnnotation $annotation
-	 * @param \IdeHelper\Annotation\AbstractAnnotation[]|\array $existingAnnotations
+	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $existingAnnotations
 	 * @return \IdeHelper\Annotation\AbstractAnnotation|null
 	 */
 	protected function _needsReplacing(AbstractAnnotation $annotation, array $existingAnnotations) {
@@ -265,7 +265,7 @@ abstract class AbstractAnnotator {
 
 	/**
 	 * @param \IdeHelper\Annotation\AbstractAnnotation $annotation
-	 * @param \IdeHelper\Annotation\AbstractAnnotation[]|\array $existingAnnotations
+	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $existingAnnotations
 	 * @return bool
 	 */
 	protected function _allowsReplacing(AbstractAnnotation $annotation, array $existingAnnotations) {
@@ -286,7 +286,7 @@ abstract class AbstractAnnotator {
 	 * @param \PHP_CodeSniffer_File $file
 	 * @param int $closeTagIndex
 	 *
-	 * @return \array
+	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
 	protected function _parseExistingAnnotations(PHP_CodeSniffer_File $file, $closeTagIndex) {
 		$tokens = $file->getTokens();
@@ -347,7 +347,7 @@ abstract class AbstractAnnotator {
 	/**
 	 * @param \PHP_CodeSniffer_File $file
 	 * @param string $classIndex
-	 * @param \IdeHelper\Annotation\AbstractAnnotation[]|\array $annotations
+	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
 	 *
 	 * @return string
 	 */

@@ -23,7 +23,8 @@ class ComponentAnnotator extends AbstractAnnotator {
 		}
 
 		$name = substr($name, 0, -9);
-		$className = App::className($name, 'Controller/Component', 'Component');
+		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
+		$className = App::className(($plugin ? $plugin . '.' : '') . $name, 'Controller/Component', 'Component');
 		if (!$className) {
 			return false;
 		}

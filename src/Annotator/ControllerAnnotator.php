@@ -18,7 +18,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 	public function annotate($path) {
 		$className = pathinfo($path, PATHINFO_FILENAME);
 		if (substr($className, -10) !== 'Controller') {
-			return null;
+			return false;
 		}
 
 		$content = file_get_contents($path);
@@ -118,7 +118,8 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 * @return array
 	 */
 	protected function _getUsedComponents($controllerName) {
-		$className = App::className($controllerName, 'Controller');
+		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
+		$className = App::className(($plugin ? $plugin . '.' : '') . $controllerName, 'Controller');
 		if (!$className) {
 			return [];
 		}

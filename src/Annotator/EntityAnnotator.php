@@ -8,12 +8,12 @@ class EntityAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $path Path to file.
-	 * @return null|string
+	 * @return bool
 	 */
 	public function annotate($path) {
 		$name = pathinfo($path, PATHINFO_FILENAME);
 		if ($name === 'Entity') {
-			return null;
+			return false;
 		}
 
 		$content = file_get_contents($path);

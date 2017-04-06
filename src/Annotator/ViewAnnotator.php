@@ -10,6 +10,11 @@ class ViewAnnotator extends AbstractAnnotator {
 	use HelperTrait;
 
 	/**
+	 * @var array
+	 */
+	protected $helpers = [];
+
+	/**
 	 * @param string $path Path to file.
 	 * @return bool
 	 */

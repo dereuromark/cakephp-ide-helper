@@ -101,7 +101,7 @@ class AnnotationsShell extends Shell {
 	 * @return void
 	 */
 	public function models() {
-		$plugin = $this->param('plugin');
+		$plugin = $this->param('plugin') ?: null;;
 		$folders = App::path('Model/Table', $plugin);
 
 		foreach ($folders as $folder) {
@@ -134,7 +134,7 @@ class AnnotationsShell extends Shell {
 	 * @return void
 	 */
 	public function controllers() {
-		$plugin = $this->param('plugin');
+		$plugin = $this->param('plugin') ?: null;
 		$folders = App::path('Controller', $plugin);
 
 		foreach ($folders as $folder) {
@@ -167,7 +167,7 @@ class AnnotationsShell extends Shell {
 	 * @return void
 	 */
 	public function templates() {
-		$plugin = $this->param('plugin');
+		$plugin = $this->param('plugin') ?: null;
 		$folders = App::path('Template', $plugin);
 
 		foreach ($folders as $folder) {
@@ -210,7 +210,7 @@ class AnnotationsShell extends Shell {
 	 * @return void
 	 */
 	public function helpers() {
-		$plugin = $this->param('plugin');
+		$plugin = $this->param('plugin') ?: null;
 		$folders = App::path('View/Helper', $plugin);
 
 		foreach ($folders as $folder) {
@@ -242,7 +242,7 @@ class AnnotationsShell extends Shell {
 	 * @return void
 	 */
 	public function components() {
-		$plugin = $this->param('plugin');
+		$plugin = $this->param('plugin') ?: null;
 		$folders = App::path('Controller/Component', $plugin);
 
 		foreach ($folders as $folder) {
@@ -274,7 +274,7 @@ class AnnotationsShell extends Shell {
 	 * @return void
 	 */
 	public function shells() {
-		$plugin = $this->param('plugin');
+		$plugin = $this->param('plugin') ?: null;
 		$folders = App::path('Shell', $plugin);
 
 		foreach ($folders as $folder) {

@@ -17,7 +17,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	public function annotate($path) {
 		$className = pathinfo($path, PATHINFO_FILENAME);
 		if ($className === 'Table' || substr($className, -5) !== 'Table') {
-			return null;
+			return false;
 		}
 
 		$modelName = substr($className, 0, -5);
@@ -30,7 +30,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping table and entity: ' . $e->getMessage());
 			}
-			return null;
+			return false;
 		}
 
 		try {

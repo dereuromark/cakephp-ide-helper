@@ -10,7 +10,7 @@ class ShellAnnotator extends AbstractAnnotator {
 	public function annotate($path) {
 		$className = pathinfo($path, PATHINFO_FILENAME);
 		if ($className === 'Shell' || substr($className, -5) !== 'Shell' && substr($className, -4) !== 'Task') {
-			return null;
+			return false;
 		}
 
 		$content = file_get_contents($path);
