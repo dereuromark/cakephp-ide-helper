@@ -347,7 +347,7 @@ abstract class AbstractAnnotator {
 	/**
 	 * @param \PHP_CodeSniffer_File $file
 	 * @param string $classIndex
-	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
+	 * @param \IdeHelper\Annotation\AbstractAnnotation[]|string[] $annotations
 	 *
 	 * @return string
 	 */

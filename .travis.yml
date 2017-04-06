@@ -27,7 +27,8 @@ matrix:
       env: CODECOVERAGE=1 DEFAULT=0
 
   allow_failures:
-    - env:
+    - php: 7.0
+      env: PHPSTAN=1 DEFAULT=0
 
 before_script:
   - composer self-update
