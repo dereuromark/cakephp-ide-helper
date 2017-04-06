@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Cake\PHPStan;
+namespace IdeHelper\PHPStan;
 
 use Cake\ORM\Association;
 use Cake\ORM\Table;
