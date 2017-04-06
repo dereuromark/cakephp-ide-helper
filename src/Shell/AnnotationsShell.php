@@ -101,7 +101,7 @@ class AnnotationsShell extends Shell {
 	 * @return void
 	 */
 	public function models() {
-		$plugin = $this->param('plugin') ?: null;;
+		$plugin = $this->param('plugin') ?: null;
 		$folders = App::path('Model/Table', $plugin);
 
 		foreach ($folders as $folder) {
