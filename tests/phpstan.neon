@@ -4,3 +4,6 @@ services:
         tags:
             - phpstan.broker.methodsClassReflectionExtension
             - phpstan.broker.propertiesClassReflectionExtension
+parameters:
+    ignoreErrors:
+        - '#Call to an undefined method Cake\\ORM\\Association::getAlias\(\)#'
