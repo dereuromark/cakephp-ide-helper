@@ -49,7 +49,7 @@
 		"test": "php phpunit.phar",
 		"test-coverage" : "php phpunit.phar --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml",
 		"test-setup": "[ ! -f phpunit.phar ] && wget https://phar.phpunit.de/phpunit.phar || true",
-		"phpstan": "phpstan analyse -c phpstan.neon -l 3 src",
+		"phpstan": "phpstan analyse -c tests/phpstan.neon -l 3 src",
 		"cs-check": "phpcs -p --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/cakephp-ide-helper/vendor/,/tmp/,/logs/ --extensions=php ./",
 		"cs-fix": "phpcbf -f --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/cakephp-ide-helper/vendor/,/tmp/,/logs/ --extensions=php ./"
 	}
