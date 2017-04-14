@@ -2,7 +2,7 @@
 
 namespace IdeHelper\Annotation;
 
-class PropertyAnnotation extends AbstractAnnotation {
+class PropertyAnnotation extends AbstractAnnotation implements ReplacableAnnotationInterface {
 
 	const TAG = '@property';
 
@@ -12,13 +12,25 @@ class PropertyAnnotation extends AbstractAnnotation {
 	protected $property;
 
 	/**
+	 * @var string
+	 */
+	protected $description;
+
+	/**
 	 * @param string $type
 	 * @param string $property
 	 * @param int|null $index
 	 */
 	public function __construct($type, $property, $index = null) {
 		parent::__construct($type, $index);
+
+		$description = '';
+		if (strpos($property, ' ') !== false) {
+			list($property, $description) = explode(' ', $property, 2);
+		}
+
 		$this->property = $property;
+		$this->description = $description;
 	}
 
 	/**
@@ -31,8 +43,17 @@ class PropertyAnnotation extends AbstractAnnotation {
 	/**
 	 * @return string
 	 */
+	public function getDescription() {
+		return $this->description;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function build() {
-		return $this->type . ' ' . $this->property;
+		$description = $this->description !== '' ? (' ' . $this->description) : '';
+
+		return $this->type . ' ' . $this->property . $description;
 	}
 
 	/**

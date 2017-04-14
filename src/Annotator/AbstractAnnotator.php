@@ -8,7 +8,7 @@ use Cake\Core\InstanceConfigTrait;
 use Cake\View\View;
 use IdeHelper\Annotation\AbstractAnnotation;
 use IdeHelper\Annotation\AnnotationFactory;
-use IdeHelper\Annotation\VariableAnnotation;
+use IdeHelper\Annotation\ReplacableAnnotationInterface;
 use IdeHelper\Console\Io;
 use PHP_CodeSniffer;
 use PHP_CodeSniffer_File;
@@ -270,10 +270,10 @@ abstract class AbstractAnnotator {
 	 */
 	protected function _allowsReplacing(AbstractAnnotation $annotation, array $existingAnnotations) {
 		foreach ($existingAnnotations as $existingAnnotation) {
-			if (!$existingAnnotation instanceof VariableAnnotation) {
+			if (!$existingAnnotation instanceof ReplacableAnnotationInterface) {
 				continue;
 			}
-			/* @var \IdeHelper\Annotation\VariableAnnotation $existingAnnotation */
+			/* @var \IdeHelper\Annotation\ReplacableAnnotationInterface $existingAnnotation */
 			if ($existingAnnotation->matches($annotation) && $existingAnnotation->getDescription() !== '') {
 				return false;
 			}
@@ -298,7 +298,7 @@ abstract class AbstractAnnotator {
 			if ($tokens[$i]['type'] !== 'T_DOC_COMMENT_TAG') {
 				continue;
 			}
-			if (!in_array($tokens[$i]['content'], ['@param', '@var', '@method'])) {
+			if (!in_array($tokens[$i]['content'], ['@property', '@var', '@method'])) {
 				continue;
 			}
 

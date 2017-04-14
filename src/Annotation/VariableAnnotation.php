@@ -2,7 +2,7 @@
 
 namespace IdeHelper\Annotation;
 
-class VariableAnnotation extends AbstractAnnotation {
+class VariableAnnotation extends AbstractAnnotation implements ReplacableAnnotationInterface {
 
 	const TAG = '@var';
 

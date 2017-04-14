@@ -12,75 +12,70 @@ use PHPStan\Reflection\MethodsClassReflectionExtension;
 use PHPStan\Reflection\PropertiesClassReflectionExtension;
 use PHPStan\Reflection\PropertyReflection;
 
-class AssociationTableMixinClassReflectionExtension implements PropertiesClassReflectionExtension, MethodsClassReflectionExtension, BrokerAwareClassReflectionExtension
-{
-    /**
-     * @var \PHPStan\Broker\Broker
-     */
-    private $broker;
+class AssociationTableMixinClassReflectionExtension implements PropertiesClassReflectionExtension, MethodsClassReflectionExtension, BrokerAwareClassReflectionExtension {
 
-    /**
-     * @param Broker $broker Class reflection broker
-     * @return void
-     */
-    public function setBroker(Broker $broker)
-    {
-        $this->broker = $broker;
-    }
+	/**
+	 * @var \PHPStan\Broker\Broker
+	 */
+	private $broker;
 
-    /**
-     * @return ClassReflection
-     */
-    protected function getTableReflection(): ClassReflection
-    {
-        return $this->broker->getClass(Table::class);
-    }
+	/**
+	 * @param \PHPStan\Broker\Broker $broker Class reflection broker
+	 * @return void
+	 */
+	public function setBroker(Broker $broker) {
+		$this->broker = $broker;
+	}
 
-    /**
-     * @param ClassReflection $classReflection Class reflection
-     * @param string $methodName Method name
-     * @return bool
-     */
-    public function hasMethod(ClassReflection $classReflection, string $methodName): bool
-    {
-        if (!$classReflection->isSubclassOf(Association::class)) {
-            return false;
-        }
+	/**
+	 * @return \PHPStan\Reflection\ClassReflection
+	 */
+	protected function getTableReflection(): ClassReflection {
+		return $this->broker->getClass(Table::class);
+	}
 
-        return $this->getTableReflection()->hasMethod($methodName);
-    }
+	/**
+	 * @param \PHPStan\Reflection\ClassReflection $classReflection Class reflection
+	 * @param string $methodName Method name
+	 * @return bool
+	 */
+	public function hasMethod(ClassReflection $classReflection, string $methodName): bool {
+		if (!$classReflection->isSubclassOf(Association::class)) {
+			return false;
+		}
 
-    /**
-     * @param ClassReflection $classReflection Class reflection
-     * @param string $methodName Method name
-     * @return MethodReflection
-     */
-    public function getMethod(ClassReflection $classReflection, string $methodName): MethodReflection
-    {
-        return $this->getTableReflection()->getMethod($methodName);
-    }
+		return $this->getTableReflection()->hasMethod($methodName);
+	}
 
-    /**
-     * @param ClassReflection $classReflection Class reflection
-     * @param string $propertyName Method name
-     * @return bool
-     */
-    public function hasProperty(ClassReflection $classReflection, string $propertyName): bool
-    {
-        if (!$classReflection->isSubclassOf(Association::class)) {
-            return false;
-        }
+	/**
+	 * @param \PHPStan\Reflection\ClassReflection $classReflection Class reflection
+	 * @param string $methodName Method name
+	 * @return \PHPStan\Reflection\MethodReflection
+	 */
+	public function getMethod(ClassReflection $classReflection, string $methodName): MethodReflection {
+		return $this->getTableReflection()->getMethod($methodName);
+	}
 
-        return $this->getTableReflection()->hasProperty($propertyName);
-    }
+	/**
+	 * @param \PHPStan\Reflection\ClassReflection $classReflection Class reflection
+	 * @param string $propertyName Method name
+	 * @return bool
+	 */
+	public function hasProperty(ClassReflection $classReflection, string $propertyName): bool {
+		if (!$classReflection->isSubclassOf(Association::class)) {
+			return false;
+		}
 
-    /**
-     * @param ClassReflection $classReflection Class reflection
-     * @param string $propertyName Method name
-     * @return PropertyReflection
-     */
-    public function getProperty(ClassReflection $classReflection, string $propertyName): PropertyReflection
-    {
-        return $this->getTableReflection()->getProperty($propertyName);
-    }
+		return $this->getTableReflection()->hasProperty($propertyName);
+	}
+
+	/**
+	 * @param \PHPStan\Reflection\ClassReflection $classReflection Class reflection
+	 * @param string $propertyName Method name
+	 * @return \PHPStan\Reflection\PropertyReflection
+	 */
+	public function getProperty(ClassReflection $classReflection, string $propertyName): PropertyReflection {
+		return $this->getTableReflection()->getProperty($propertyName);
+	}
+
 }
