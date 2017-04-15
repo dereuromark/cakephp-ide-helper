@@ -66,7 +66,7 @@ class TemplateAnnotatorTest extends TestCase {
 	public function testAnnotate() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/table.ctp'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/edit.ctp'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {

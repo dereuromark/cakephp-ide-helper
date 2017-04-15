@@ -5,5 +5,5 @@
  */
 ?>
 <div>
-	<?php echo $this->Form->create($foo); ?>
+	<?php echo $this->Form->create($foo, []); ?>
 </div>
