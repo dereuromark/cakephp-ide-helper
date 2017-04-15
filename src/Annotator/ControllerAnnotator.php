@@ -99,13 +99,11 @@ class ControllerAnnotator extends AbstractAnnotator {
 		}
 
 		$annotations = [];
-		foreach ($map as $component) {
-			$className = $this->_findClassName($component);
-			if (!$className || substr($className, 0, 5) === 'Cake\\') {
+		foreach ($map as $component => $className) {
+			if (substr($className, 0, 5) === 'Cake\\') {
 				continue;
 			}
 
-			list($plugin, $component) = pluginSplit($component);
 			$annotations[] = '@property \\' . $className . ' $' . $component;
 		}
 
@@ -126,15 +124,20 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 		$request = new Request();
 		$request->session(new Session());
+		/** @var \App\Controller\AppController $controller */
 		$controller = new $className();
 
-		$components = array_keys($controller->components);
+		$components = [];
+		foreach ($controller->components()->loaded() as $component) {
+			$components[$component] = get_class($controller->components()->get($component));
+		}
+
 		if ($controllerName === 'AppController') {
 			return $components;
 		}
 
 		$appControllerComponents = $this->_getUsedComponents('AppController');
-		$components = array_diff($components, $appControllerComponents);
+		$components = array_diff_key($components, $appControllerComponents);
 
 		return $components;
 	}

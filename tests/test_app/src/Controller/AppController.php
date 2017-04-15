@@ -10,4 +10,13 @@ class AppController extends Controller {
 	 */
 	public $components = ['Flash', 'RequestHandler'];
 
+	/**
+	 * @return void
+	 */
+	public function initialize() {
+		parent::initialize();
+
+		$this->loadComponent('Tools.Common');
+	}
+
 }
