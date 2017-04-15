@@ -125,7 +125,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 		$request = new Request();
 		$request->session(new Session());
-		/** @var \App\Controller\AppController $controller */
+		/* @var \App\Controller\AppController $controller */
 		$controller = new $className();
 
 		$components = [];
