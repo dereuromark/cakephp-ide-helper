@@ -3,6 +3,9 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 
+/**
+ * @property \Tools\Controller\Component\CommonOldComponent $Common
+ */
 class AppController extends Controller {
 
 	/**

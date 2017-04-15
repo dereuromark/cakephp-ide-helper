@@ -5,6 +5,7 @@ use Cake\Core\App;
 use Cake\Network\Request;
 use Cake\Network\Session;
 use Exception;
+use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotator\Traits\ComponentTrait;
 
 class ControllerAnnotator extends AbstractAnnotator {
@@ -104,7 +105,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$annotations[] = '@property \\' . $className . ' $' . $component;
+			$annotations[] = AnnotationFactory::create('@property', '\\' . $className, '$' . $component);
 		}
 
 		return $annotations;
