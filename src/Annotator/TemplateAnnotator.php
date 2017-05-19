@@ -277,7 +277,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$result[$matches[1][$key]] = AnnotationFactory::create(VariableAnnotation::TAG, '\\' . $className . '[]', '$' . $matches[1][$key]);
+			$result[$matches[1][$key]] = AnnotationFactory::create(VariableAnnotation::TAG, '\\' . $className . '[]|\Cake\Collection\CollectionInterface', '$' . $matches[1][$key]);
 			$result[$entity] = null;
 		}
 

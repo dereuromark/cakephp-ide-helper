@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Car[] $cars
+ * @var \App\Model\Entity\Car[]|\Cake\Collection\CollectionInterface $cars
  * @var \App\Model\Entity\Wheel $wheel
  */
 ?>

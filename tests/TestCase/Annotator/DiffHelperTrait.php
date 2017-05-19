@@ -7,6 +7,8 @@ use SebastianBergmann\Diff\Differ;
 trait DiffHelperTrait {
 
 	/**
+	 * Outputs some debug info for tests.
+	 *
 	 * @param string $expected
 	 * @param string $actual
 	 *
