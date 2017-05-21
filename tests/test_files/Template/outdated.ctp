@@ -2,7 +2,7 @@
 /**
  * @var \App\View\AppView $this
  * @var \Cake\ORM\Entity $car !
- * @var \App\Model\Entity\Wheel[] $wheels
+ * @var \App\Model\Entity\Wheel[]|\Cake\Collection\CollectionInterface $wheels
  */
 ?>
 <div>
