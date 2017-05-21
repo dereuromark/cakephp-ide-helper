@@ -117,7 +117,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 * @return array
 	 */
 	protected function _getUsedComponents($controllerName) {
-		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
+		$plugin = $controllerName !== 'AppController' ? $this->getConfig(static::CONFIG_PLUGIN) : null;
 		$className = App::className(($plugin ? $plugin . '.' : '') . $controllerName, 'Controller');
 		if (!$className) {
 			return [];
