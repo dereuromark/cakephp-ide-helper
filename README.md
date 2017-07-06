@@ -34,7 +34,7 @@ Supported annotations by this plugin:
 - Components
 - Helpers
 
-![Screenshot](docs/screenshot.jpg)
+![Screenshot](https://github.com/dereuromark/cakephp-ide-helper/docs/screenshot.jpg)
 
 ### IDE support
 This plugin is **supposed to work with ANY IDE that supports annotations**.
@@ -74,4 +74,4 @@ bin/cake annotations [type] -p FooBar
 You can use `-d` (`--dry-run`) to simulate the output without actually modifying the files. 
 Also very useful: It will print out a diff of the changes instead (in verbose mode). 
 
-See the **[Docs](/docs)** for details.
+See the **[Docs](https://github.com/dereuromark/cakephp-ide-helper/docs)** for details.
