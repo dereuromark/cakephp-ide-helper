@@ -34,7 +34,7 @@ Supported annotations by this plugin:
 - Components
 - Helpers
 
-![Screenshot](https://github.com/dereuromark/cakephp-ide-helper/tree/master/docs/screenshot.jpg)
+![Screenshot](docs/screenshot.jpg)
 
 ### IDE support
 This plugin is **supposed to work with ANY IDE that supports annotations**.
