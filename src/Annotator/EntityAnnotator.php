@@ -3,6 +3,7 @@ namespace IdeHelper\Annotator;
 
 use Bake\View\Helper\DocBlockHelper;
 use Cake\View\View;
+use IdeHelper\Annotation\AnnotationFactory;
 
 class EntityAnnotator extends AbstractAnnotator {
 
@@ -43,7 +44,16 @@ class EntityAnnotator extends AbstractAnnotator {
 		foreach ($annotations as $key => $annotation) {
 			if (preg_match('/' . preg_quote($annotation) . '/', $content)) {
 				unset($annotations[$key]);
+				continue;
 			}
+
+			// Make replacable via parsed object
+			$annotation = AnnotationFactory::createFromString($annotation);
+			if (!$annotation) {
+				continue;
+			}
+
+			$annotations[$key] = $annotation;
 		}
 
 		return $this->_annotate($path, $content, $annotations);

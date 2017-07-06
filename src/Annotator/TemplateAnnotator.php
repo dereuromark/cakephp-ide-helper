@@ -7,7 +7,7 @@ use Cake\Utility\Inflector;
 use Cake\View\View;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\VariableAnnotation;
-use PHP_CodeSniffer_File;
+use PHP_CodeSniffer\Files\File;
 
 class TemplateAnnotator extends AbstractAnnotator {
 
@@ -48,8 +48,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 			return false;
 		}
 
-		$file = $this->_getFile($path);
-		$file->start($content);
+		$file = $this->_getFile($path, $content);
 
 		$phpOpenTagIndex = $file->findNext(T_OPEN_TAG, 0);
 		$needsPhpTag = $this->_needsPhpTag($file, $phpOpenTagIndex);
@@ -74,12 +73,12 @@ class TemplateAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param \PHP_CodeSniffer_File $file
+	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $phpOpenTagIndex
 	 * @param bool $needsPhpTag
 	 * @return int|null
 	 */
-	protected function _findExistingDocBlock(PHP_CodeSniffer_File $file, $phpOpenTagIndex, $needsPhpTag) {
+	protected function _findExistingDocBlock(File $file, $phpOpenTagIndex, $needsPhpTag) {
 		if ($needsPhpTag) {
 			return null;
 		}
@@ -95,13 +94,13 @@ class TemplateAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param \PHP_CodeSniffer_File $file
+	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param string $phpOpenTagIndex
 	 * @param array $annotations
 	 * @param bool $needsPhpTag
 	 * @return string
 	 */
-	protected function _addNewTemplateDocBlock(PHP_CodeSniffer_File $file, $phpOpenTagIndex, array $annotations, $needsPhpTag) {
+	protected function _addNewTemplateDocBlock(File $file, $phpOpenTagIndex, array $annotations, $needsPhpTag) {
 		$helper = new DocBlockHelper(new View());
 
 		foreach ($annotations as $key => $annotation) {
@@ -117,8 +116,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 			$annotationString = '<?php' . PHP_EOL . $annotationString . PHP_EOL . '?>';
 		}
 
-		$fixer = $this->_getFixer();
-		$fixer->startFile($file);
+		$fixer = $this->_getFixer($file);
 
 		$docBlock = $annotationString . PHP_EOL;
 		if ($needsPhpTag) {
@@ -133,11 +131,11 @@ class TemplateAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param \PHP_CodeSniffer_File $file
+	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $phpOpenTagIndex
 	 * @return bool
 	 */
-	protected function _needsPhpTag(PHP_CodeSniffer_File $file, $phpOpenTagIndex) {
+	protected function _needsPhpTag(File $file, $phpOpenTagIndex) {
 		$needsPhpTag = true;
 
 		$tokens = $file->getTokens();
