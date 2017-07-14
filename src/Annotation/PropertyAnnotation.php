@@ -28,6 +28,9 @@ class PropertyAnnotation extends AbstractAnnotation implements ReplacableAnnotat
 		if (strpos($property, ' ') !== false) {
 			list($property, $description) = explode(' ', $property, 2);
 		}
+		if (substr($property, 0, 1) !== '$') {
+			$property = '$' . $property;
+		}
 
 		$this->property = $property;
 		$this->description = $description;
