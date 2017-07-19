@@ -297,15 +297,15 @@ Template/Tickets
 The tool can also be run like the coding standards check in your CI. 
 This way no annotation can be forgotten, when making PRs for your project.
 
-For this, use the `--cli` option along with `-d` (dry run):
+For this, use the `--ci` option along with `-d` (dry run):
 ```
-bin/cake annotations all -v -d --cli
+bin/cake annotations all -v -d --ci
 ```
 It will return an error code if any modification has to be done.
 
 It is advised to hook it in along with your cs check, e.g. for travis:
 ```
-- if [[ $PHPCS == 1 ]]; then bin/cake annotations all -v -d --cli ; fi
+- if [[ $PHPCS == 1 ]]; then bin/cake annotations all -v -d --ci ; fi
 ```
 Note: This will need some additional setup, like migrations to be run prior to the call.
 The database must exist and replicate the actual DB.
