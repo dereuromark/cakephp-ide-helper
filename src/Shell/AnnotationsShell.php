@@ -157,8 +157,14 @@ class AnnotationsShell extends Shell {
 			$annotator->annotate($folder . $file);
 		}
 
-		if (!empty($folderContent[0]) && in_array('Admin', $folderContent[0])) {
-			$this->_controllers($folder . 'Admin' . DS);
+		foreach ($folderContent[0] as $subFolder) {
+			$prefixes = (array)Configure::read('IdeHelper.prefixes') ?: ['Admin'];
+
+			if (!in_array($subFolder, $prefixes, true)) {
+				continue;
+			}
+
+			$this->_controllers($folder . $subFolder . DS);
 			return;
 		}
 	}
