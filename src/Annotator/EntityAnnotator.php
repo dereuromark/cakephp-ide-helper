@@ -42,7 +42,8 @@ class EntityAnnotator extends AbstractAnnotator {
 		}
 
 		foreach ($annotations as $key => $annotation) {
-			if (preg_match('/' . preg_quote($annotation) . '/', $content)) {
+			$regexAnnotation = str_replace('\$', '[\$]?', preg_quote($annotation));
+			if (preg_match('/' . $regexAnnotation . '/', $content)) {
 				unset($annotations[$key]);
 				continue;
 			}

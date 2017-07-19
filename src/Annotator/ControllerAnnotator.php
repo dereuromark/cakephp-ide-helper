@@ -35,7 +35,8 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 		$componentAnnotations = $this->_getComponentAnnotations($className);
 		foreach ($componentAnnotations as $componentAnnotation) {
-			if (preg_match('/' . preg_quote($componentAnnotation) . '/', $content)) {
+			$regexAnnotation = str_replace('\$', '[\$]?', preg_quote($componentAnnotation));
+			if (preg_match('/' . $regexAnnotation . '/', $content)) {
 				continue;
 			}
 

@@ -43,7 +43,8 @@ class HelperAnnotator extends AbstractAnnotator {
 
 		$helperAnnotations = $this->_getHelperAnnotations($helperMap);
 		foreach ($helperAnnotations as $helperAnnotation) {
-			if (preg_match('/' . preg_quote($helperAnnotation) . '/', $content)) {
+			$regexAnnotation = str_replace('\$', '[\$]?', preg_quote($helperAnnotation));
+			if (preg_match('/' . $regexAnnotation . '/', $content)) {
 				continue;
 			}
 

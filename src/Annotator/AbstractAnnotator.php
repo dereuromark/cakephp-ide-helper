@@ -426,7 +426,8 @@ abstract class AbstractAnnotator {
 			list(, $name) = pluginSplit($usedModel);
 
 			$annotation = '@property \\' . $className . ' $' . $name;
-			if (preg_match('/' . preg_quote($annotation) . '/', $content)) {
+			$regexAnnotation = str_replace('\$', '[\$]?', preg_quote($annotation));
+			if (preg_match('/' . $regexAnnotation . '/', $content)) {
 				continue;
 			}
 

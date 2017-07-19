@@ -86,7 +86,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 		$tokens = $file->getTokens();
 
 		$nextIndex = $file->findNext(T_WHITESPACE, $phpOpenTagIndex + 1, null, true);
-		if ($tokens[$nextIndex]['code'] !== T_DOC_COMMENT_OPEN_TAG) {
+		if ($tokens[$nextIndex]['type'] !== 'T_DOC_COMMENT_OPEN_TAG') {
 			return null;
 		}
 
