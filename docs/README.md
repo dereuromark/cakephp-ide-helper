@@ -51,6 +51,10 @@ class ApplesController extends AppController {
 }
 ```
 
+### Custom Prefixes
+By default, the annotator supports the `Admin` prefix for your controllers (as subfolder).
+Using Configure key `'IdeHelper.prefixes'` you can configure the prefix whitelist and use your own prefix array.
+
 ## Models
 This will ensure the annotations for tables and their entities:
 
