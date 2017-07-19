@@ -13,7 +13,8 @@
 		},
 		{
 			"name": "Other contributors",
-			"homepage": "https://github.com/dereuromark/cakephp-ide-helper/graphs/contributors"
+			"homepage": "https://github.com/dereuromark/cakephp-ide-helper/graphs/contributors",
+			"role": "Developer"
 		}
 	],
 	"support": {
