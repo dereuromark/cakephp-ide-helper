@@ -117,10 +117,6 @@ abstract class AbstractAnnotator {
 	 * @return void
 	 */
 	protected function _displayDiff($oldContent, $newContent) {
-		if (!$this->getConfig(static::CONFIG_VERBOSE)) {
-			return;
-		}
-
 		$differ = new Differ(null);
 		$array = $differ->diffToArray($oldContent, $newContent);
 
