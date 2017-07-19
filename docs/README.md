@@ -331,3 +331,6 @@ class MyAnnotator extends AbstractAnnotator {
 }
 ```
 Then read a folder, iterate over it and invoke your annotator from the shell command with a specific path.
+
+## Configure options
+You have a full list of default and possible Configure options, please see the `app.dist.php` file in `/config/` directory.
