@@ -1,7 +1,8 @@
 #  CakePHP IdeHelper Plugin Documentation
 
 Note that freshly [baking](https://github.com/cakephp/bake) your code will result in similar results,
-but often times there is already existing code, and re-baking it is not an option.
+but often times there is already existing code, and re-baking it is not an option then usually.
+And of course it also keeps your manually addd or modified code annotated.
 
 
 ## Controllers
@@ -281,12 +282,9 @@ Also make sure you commited or backuped all project files.
 ## Dry-Run and Diff
 If you want to check if it would be modifying any files, you can run it with `-d` (dry-run) param.
 
-Tip: Use it together with `-v` (verbose) to get visual feedback on what would change.
 It will output a nice little diff for each modification:
 ```
 Template/Tickets
--> edit
--> index
 -> view
    | +<?php
    | +/**
@@ -296,6 +294,8 @@ Template/Tickets
    | +?>
    |  <nav class="large-3 medium-4 columns" id="actions-sidebar">
 ```
+
+Tip: Use it together with `-v` (verbose) to get more information on what files got processed.
 
 ## Continuous integration support
 The tool can also be run like the coding standards check in your CI. 
