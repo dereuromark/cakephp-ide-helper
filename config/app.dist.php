@@ -1,6 +1,6 @@
 <?php
 return [
-	 // Copy the following over to your project one in /src/config/
+	 // Copy the following over to your project one in ROOT/config/
 	'IdeHelper' => [
 		// Controller prefixes to check for
 		'prefixes' => [
