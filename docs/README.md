@@ -52,8 +52,8 @@ class ApplesController extends AppController {
 ```
 
 ### Custom Prefixes
-By default, the annotator supports the `Admin` prefix for your controllers (as subfolder).
-Using Configure key `'IdeHelper.prefixes'` you can configure the prefix whitelist and use your own array of prefixes.
+By default, the annotator supports any prefix for your controllers (as subfolder).
+Using Configure key `'IdeHelper.prefixes'` you can configure a prefix whitelist.
 
 ## Models
 This will ensure the annotations for tables and their entities:
@@ -333,4 +333,5 @@ class MyAnnotator extends AbstractAnnotator {
 Then read a folder, iterate over it and invoke your annotator from the shell command with a specific path.
 
 ## Configure options
-You have a full list of default and possible Configure options, please see the `app.dist.php` file in `/config/` directory.
+You have a full list of possible Configure options, please see the `app.dist.php` file in `/config/` directory.
+The content can be directly copy-pasted into your project config.

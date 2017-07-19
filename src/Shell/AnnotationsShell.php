@@ -158,9 +158,9 @@ class AnnotationsShell extends Shell {
 		}
 
 		foreach ($folderContent[0] as $subFolder) {
-			$prefixes = (array)Configure::read('IdeHelper.prefixes') ?: ['Admin'];
+			$prefixes = (array)Configure::read('IdeHelper.prefixes') ?: null;
 
-			if (!in_array($subFolder, $prefixes, true)) {
+			if ($prefixes !== null && !in_array($subFolder, $prefixes, true)) {
 				continue;
 			}
 
