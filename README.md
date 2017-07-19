@@ -62,16 +62,20 @@ Note: As require-dev dependency this should only be loaded for local development
 ## Using the annotation shell
 Running it on your app:
 ```
-bin/cake annotations [type] -v
+bin/cake annotations [type]
 ```
-Use `-v` for verbose and detailed output.
+By default it will print out a diff of the changes incl the amount of modified lines if applicable.
 
 Running it on a loaded plugin:
 ```
 bin/cake annotations [type] -p FooBar
 ```
 
-You can use `-d` (`--dry-run`) to simulate the output without actually modifying the files. 
-Also very useful: It will print out a diff of the changes instead (in verbose mode). 
+Use `-v` for verbose and detailed output:
+```
+bin/cake annotations [type] -v
+```
+
+You can add `-d` (`--dry-run`) to simulate the output without actually modifying the files.
 
 See the **[Docs](https://github.com/dereuromark/cakephp-ide-helper/tree/master/docs)** for details.
