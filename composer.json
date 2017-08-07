@@ -26,7 +26,7 @@
 		"cakephp/cakephp": "^3.4",
 		"squizlabs/php_codesniffer": "^2.8 || ^3.0",
 		"cakephp/bake": "^1.3.2",
-		"sebastian/diff": "^1.4"
+		"sebastian/diff": "^1.4 || ^2.0"
 	},
 	"require-dev": {
 		"dereuromark/cakephp-tools": "^1.2",
@@ -48,7 +48,7 @@
 	},
 	"scripts": {
 		"test": "php phpunit.phar",
-		"test-setup": "[ ! -f phpunit.phar ] && wget https://phar.phpunit.de/phpunit-5.7.phar && mv phpunit-5.7.phar phpunit.phar || true",
+		"test-setup": "[ ! -f phpunit.phar ] && wget https://phar.phpunit.de/phpunit-5.7.20.phar && mv phpunit-5.7.20.phar phpunit.phar || true",
 		"test-coverage" : "php phpunit.phar --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml",
 		"phpstan": "phpstan analyse -c tests/phpstan.neon -l 3 src",
 		"phpstan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan && mv composer.backup composer.json",
