@@ -98,7 +98,11 @@ abstract class AbstractAnnotator {
 
 		$phpcs = new Runner();
 
-		$config = new Config();
+		if (defined('PHP_CODESNIFFER_CBF') === false) {
+			define('PHP_CODESNIFFER_CBF', false);
+		}
+		// Explictly specifying standard prevents it from searching for phpcs.xml type files.
+		$config = new Config(['--standard=PSR2']);
 		$phpcs->config = $config;
 		$phpcs->init();
 
