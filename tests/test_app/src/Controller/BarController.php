@@ -22,4 +22,11 @@ class BarController extends AppController {
 		$this->loadModel('Wheels');
 	}
 
+	/**
+	 * @return \Cake\Http\Response|void
+	 */
+	public function index() {
+		$query = $this->paginate($this->BarBars);
+	}
+
 }
