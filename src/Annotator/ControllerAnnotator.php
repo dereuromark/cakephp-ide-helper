@@ -157,27 +157,12 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 * @return array
 	 */
 	protected function _getPaginationAnnotations($content, $primaryModelClass) {
-		preg_match_all('/\$this-\>paginate\(\$this-\>([a-z]+)/i', $content, $matches);
-		if (empty($matches[1])) {
+		$entityTypehints = $this->_extractPaginateEntityTypehints($content, $primaryModelClass);
+		if (!$entityTypehints) {
 			return [];
 		}
 
-		$result = [];
-
-		$models = $matches[1];
-		foreach ($models as $model) {
-			$entityClassName = $this->getEntity($model);
-			if (empty($entityClassName)) {
-				dd($entityClassName);
-			}
-
-			$typehint = '\\' . ltrim($entityClassName, '\\') . '[]';
-			if (in_array($typehint, $result)) {
-				continue;
-			}
-			$result[] = $typehint;
-		}
-		$type = implode('|', $result);
+		$type = implode('|', $entityTypehints);
 
 		$annotations = [AnnotationFactory::create('@method', $type, 'paginate($object = null, array $settings = [])')];
 
@@ -189,6 +174,43 @@ class ControllerAnnotator extends AbstractAnnotator {
 		}
 
 		return $annotations;
+	}
+
+	/**
+	 * @param string $content
+	 * @param string $primaryModelClass
+	 *
+	 * @return array
+	 */
+	protected function _extractPaginateEntityTypehints($content, $primaryModelClass) {
+		$models = [];
+
+		preg_match_all('/\$this-\>paginate\(\)/i', $content, $matches);
+		if (!empty($matches[0])) {
+			$models[] = $primaryModelClass;
+		}
+
+		preg_match_all('/\$this-\>paginate\(\$this-\>([a-z]+)\)/i', $content, $matches);
+		if (!empty($matches[1])) {
+			$models = array_merge($models, $matches[1]);
+		}
+
+		if (!$models) {
+			return [];
+		}
+
+		$result = [];
+		foreach ($models as $model) {
+			$entityClassName = $this->getEntity($model);
+
+			$typehint = '\\' . ltrim($entityClassName, '\\') . '[]';
+			if (in_array($typehint, $result)) {
+				continue;
+			}
+			$result[] = $typehint;
+		}
+
+		return $result;
 	}
 
 	/**
