@@ -95,7 +95,7 @@ class AnnotationsShellTest extends TestCase {
 		$output = (string)$this->out->output();
 
 		$this->assertTextContains('BarController', $output);
-		$this->assertTextContains('   -> 3 annotations added', $output);
+		$this->assertTextContains('   -> 4 annotations added', $output);
 		$this->assertTextContains('FooController', $output);
 		$this->assertTextContains('   -> 1 annotations added', $output);
 	}

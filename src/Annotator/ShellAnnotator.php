@@ -48,7 +48,7 @@ class ShellAnnotator extends AbstractAnnotator {
 	 */
 	protected function _getUsedModels($content) {
 		preg_match_all('/\$this-\>loadModel\(\'([a-z.]+)\'/i', $content, $matches);
-		if (empty($matches)) {
+		if (empty($matches[1])) {
 			return [];
 		}
 

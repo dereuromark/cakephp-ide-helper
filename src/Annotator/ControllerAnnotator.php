@@ -4,6 +4,7 @@ namespace IdeHelper\Annotator;
 use Cake\Core\App;
 use Cake\Network\Request;
 use Cake\Network\Session;
+use Cake\ORM\TableRegistry;
 use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotator\Traits\ComponentTrait;
@@ -43,6 +44,11 @@ class ControllerAnnotator extends AbstractAnnotator {
 			$annotations[] = $componentAnnotation;
 		}
 
+		$paginationAnnotations = $this->_getPaginationAnnotations($content, $primaryModelClass);
+		foreach ($paginationAnnotations as $paginationAnnotation) {
+			$annotations[] = $paginationAnnotation;
+		}
+
 		return $this->_annotate($path, $content, $annotations);
 	}
 
@@ -75,7 +81,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 */
 	protected function _getUsedModels($content) {
 		preg_match_all('/\$this-\>loadModel\(\'([a-z.]+)\'/i', $content, $matches);
-		if (empty($matches)) {
+		if (empty($matches[1])) {
 			return [];
 		}
 
@@ -142,6 +148,85 @@ class ControllerAnnotator extends AbstractAnnotator {
 		$components = array_diff_key($components, $appControllerComponents);
 
 		return $components;
+	}
+
+	/**
+	 * @param string $content
+	 * @param string $primaryModelClass
+	 *
+	 * @return array
+	 */
+	protected function _getPaginationAnnotations($content, $primaryModelClass) {
+		$entityTypehints = $this->_extractPaginateEntityTypehints($content, $primaryModelClass);
+		if (!$entityTypehints) {
+			return [];
+		}
+
+		$type = implode('|', $entityTypehints);
+
+		$annotations = [AnnotationFactory::create('@method', $type, 'paginate($object = null, array $settings = [])')];
+
+		foreach ($annotations as $key => $annotation) {
+			$annotationRegex = preg_quote($annotation);
+			if (preg_match('/' . $annotationRegex . '/', $content)) {
+				unset($annotations[$key]);
+			}
+		}
+
+		return $annotations;
+	}
+
+	/**
+	 * @param string $content
+	 * @param string $primaryModelClass
+	 *
+	 * @return array
+	 */
+	protected function _extractPaginateEntityTypehints($content, $primaryModelClass) {
+		$models = [];
+
+		preg_match_all('/\$this-\>paginate\(\)/i', $content, $matches);
+		if (!empty($matches[0])) {
+			$models[] = $primaryModelClass;
+		}
+
+		preg_match_all('/\$this-\>paginate\(\$this-\>([a-z]+)\)/i', $content, $matches);
+		if (!empty($matches[1])) {
+			$models = array_merge($models, $matches[1]);
+		}
+
+		if (!$models) {
+			return [];
+		}
+
+		$result = [];
+		foreach ($models as $model) {
+			$entityClassName = $this->getEntity($model);
+
+			$typehint = '\\' . ltrim($entityClassName, '\\') . '[]';
+			if (in_array($typehint, $result)) {
+				continue;
+			}
+			$result[] = $typehint;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @param string $modelName
+	 *
+	 * @return string|null
+	 */
+	protected function getEntity($modelName) {
+		if ($this->getConfig(static::CONFIG_PLUGIN)) {
+			$modelName = $this->getConfig(static::CONFIG_PLUGIN) . '.' . $modelName;
+		}
+		$table = TableRegistry::get($modelName);
+
+		$entityClassName = $table->getEntityClass();
+
+		return $entityClassName;
 	}
 
 }
