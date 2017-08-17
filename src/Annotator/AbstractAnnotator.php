@@ -144,15 +144,18 @@ abstract class AbstractAnnotator {
 
 		for ($i = $firstLineOfOutput; $i <= $lastLineOfOutput; $i++) {
 			$row = $array[$i];
+
 			$char = ' ';
+			$output = trim($row[0], "\n\r\0\x0B");
+
 			if ($row[1] === 1) {
 				$char = '+';
-				$this->_io->info('   | ' . $char . $row[0], 1, Shell::VERBOSE);
+				$this->_io->info('   | ' . $char . $output, 1, Shell::VERBOSE);
 			} elseif ($row[1] === 2) {
 				$char = '-';
-				$this->_io->out('<warning>' . '   | ' . $char . $row[0] . '</warning>', 1);
+				$this->_io->out('<warning>' . '   | ' . $char . $output . '</warning>', 1);
 			} else {
-				$this->_io->out('   | ' . $char . $row[0], 1, Shell::VERBOSE);
+				$this->_io->out('   | ' . $char . $output, 1, Shell::VERBOSE);
 			}
 		}
 	}
