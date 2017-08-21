@@ -155,7 +155,7 @@ abstract class AbstractAnnotator {
 				$this->_io->info('   | ' . $char . $output, 1, Shell::VERBOSE);
 			} elseif ($row[1] === 2) {
 				$char = '-';
-				$this->_io->out('<warning>' . '   | ' . $char . $output . '</warning>', 1);
+				$this->_io->out('<warning>' . '   | ' . $char . $output . '</warning>', 1, Shell::VERBOSE);
 			} else {
 				$this->_io->out('   | ' . $char . $output, 1, Shell::VERBOSE);
 			}
