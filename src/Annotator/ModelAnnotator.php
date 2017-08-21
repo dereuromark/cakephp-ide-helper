@@ -7,6 +7,7 @@ use Cake\ORM\AssociationCollection;
 use Cake\ORM\TableRegistry;
 use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
+use RuntimeException;
 
 class ModelAnnotator extends AbstractAnnotator {
 
@@ -86,7 +87,7 @@ class ModelAnnotator extends AbstractAnnotator {
 		foreach ($annotations as $key => $annotation) {
 			$annotation = AnnotationFactory::createFromString($annotation);
 			if (!$annotation) {
-				continue;
+				throw new RuntimeException('Cannot factorize annotation ' . $annotation);
 			}
 
 			$annotations[$key] = $annotation;
@@ -101,7 +102,7 @@ class ModelAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$annotations[] = "@mixin \\{$className}";
+			$annotations[] = AnnotationFactory::create('@mixin', "\\{$className}");
 		}
 
 		foreach ($annotations as $key => $annotation) {

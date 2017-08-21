@@ -12,11 +12,11 @@ class AnnotationFactory {
 	/**
 	 * @param string $tag
 	 * @param string $type
-	 * @param string $content
+	 * @param string|null $content
 	 * @param int|null $index
 	 * @return \IdeHelper\Annotation\AbstractAnnotation|null
 	 */
-	public static function create($tag, $type, $content, $index = null) {
+	public static function create($tag, $type, $content = null, $index = null) {
 		switch ($tag) {
 			case PropertyAnnotation::TAG:
 				return new PropertyAnnotation($type, $content, $index);
@@ -24,18 +24,25 @@ class AnnotationFactory {
 				return new MethodAnnotation($type, $content, $index);
 			case VariableAnnotation::TAG:
 				return new VariableAnnotation($type, $content, $index);
+			case MixinAnnotation::TAG:
+				return new MixinAnnotation($type, $index);
 		}
 
 		return null;
 	}
 
 	/**
-	 * @param string $annotation (e.g. `@method \Foo\Bar myMethod($x)`)
+	 * @param string $annotation (e.g. `@method \Foo\Bar myMethod($x, $y)`)
 	 *
 	 * @return \IdeHelper\Annotation\AbstractAnnotation|null
 	 */
 	public static function createFromString($annotation) {
-		preg_match('/(.+?) (.+?) (.+)/', $annotation, $matches);
+		preg_match('/^\@mixin (.+)\s*(.+)?$/', $annotation, $matches);
+		if ($matches) {
+			return static::create('@mixin', $matches[1]);
+		}
+
+		preg_match('/^(\@property|\@method|\@var) ([^ ]+) (.+)$/', $annotation, $matches);
 		if (!$matches) {
 			return null;
 		}

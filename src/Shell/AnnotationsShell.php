@@ -347,6 +347,11 @@ class AnnotationsShell extends Shell {
 					'help' => 'The plugin to run. Defaults to the application otherwise.',
 					'default' => null,
 				],
+				'remove' => [
+					'short' => 'r',
+					'help' => 'Remove outdated annotations.',
+					'boolean' => true,
+				],
 			]
 		];
 

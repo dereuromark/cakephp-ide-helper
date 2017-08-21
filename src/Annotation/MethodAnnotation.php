@@ -12,13 +12,27 @@ class MethodAnnotation extends AbstractAnnotation {
 	protected $method;
 
 	/**
+	 * @var string
+	 */
+	protected $description;
+
+	/**
 	 * @param string $type
 	 * @param string $method
 	 * @param int|null $index
 	 */
 	public function __construct($type, $method, $index = null) {
 		parent::__construct($type, $index);
+
+		$description = '';
+		$closingBrace = strrpos($method, ') ');
+		if ($closingBrace !== false && $closingBrace !== strlen($method) - 1) {
+			$description = substr($method, $closingBrace + 2);
+			$method = substr($method, 0, $closingBrace + 1);
+		}
+
 		$this->method = $method;
+		$this->description = $description;
 	}
 
 	/**
@@ -31,8 +45,17 @@ class MethodAnnotation extends AbstractAnnotation {
 	/**
 	 * @return string
 	 */
+	public function getDescription() {
+		return $this->description;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function build() {
-		return $this->type . ' ' . $this->method;
+		$description = $this->description !== '' ? (' ' . $this->description) : '';
+
+		return $this->type . ' ' . $this->method . $description;
 	}
 
 	/**
