@@ -236,7 +236,7 @@ abstract class AbstractAnnotator {
 	protected function _appendToExistingDocBlock(File $file, $closeTagIndex, array &$annotations) {
 		$existingAnnotations = $this->_parseExistingAnnotations($file, $closeTagIndex);
 
-		/* @var \IdeHelper\Annotation\AbstractAnnotation[] $replacingAnnotations */
+		/** @var \IdeHelper\Annotation\AbstractAnnotation[] $replacingAnnotations */
 		$replacingAnnotations = [];
 		$addingAnnotations = [];
 		foreach ($annotations as $key => $annotation) {
@@ -352,7 +352,7 @@ abstract class AbstractAnnotator {
 			if (!$existingAnnotation instanceof ReplacableAnnotationInterface) {
 				continue;
 			}
-			/* @var \IdeHelper\Annotation\ReplacableAnnotationInterface $existingAnnotation */
+			/** @var \IdeHelper\Annotation\ReplacableAnnotationInterface $existingAnnotation */
 			if ($existingAnnotation->matches($annotation) && $existingAnnotation->getDescription() !== '') {
 				unset ($existingAnnotations[$key]);
 

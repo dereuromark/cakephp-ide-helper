@@ -20,7 +20,7 @@ class EntityAnnotator extends AbstractAnnotator {
 		$content = file_get_contents($path);
 
 		$helper = new DocBlockHelper(new View());
-		/* @var \Cake\Database\Schema\TableSchema $tableSchema */
+		/** @var \Cake\Database\Schema\TableSchema $tableSchema */
 		$tableSchema = $this->getConfig('schema');
 		$columns = $tableSchema->columns();
 		$schema = [];
