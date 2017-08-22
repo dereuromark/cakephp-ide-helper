@@ -8,16 +8,7 @@ use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
 use Tools\TestSuite\TestCase;
 
-/**
- */
 class AnnotationFactoryTest extends TestCase {
-
-	/**
-	 * @return void
-	 */
-	public function setUp() {
-		parent::setUp();
-	}
 
 	/**
 	 * @return void
