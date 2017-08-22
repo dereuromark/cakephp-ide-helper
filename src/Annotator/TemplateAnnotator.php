@@ -182,7 +182,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 			$className = 'Cake\View\View';
 		}
 
-		/* @var \IdeHelper\Annotation\VariableAnnotation $annotation */
+		/** @var \IdeHelper\Annotation\VariableAnnotation $annotation */
 		$annotation = AnnotationFactory::create(VariableAnnotation::TAG, '\\' . $className, '$this');
 
 		return $annotation;

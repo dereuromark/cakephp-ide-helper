@@ -6,16 +6,7 @@ use IdeHelper\Annotation\MethodAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
 use Tools\TestSuite\TestCase;
 
-/**
- */
 class PropertyAnnotationTest extends TestCase {
-
-	/**
-	 * @return void
-	 */
-	public function setUp() {
-		parent::setUp();
-	}
 
 	/**
 	 * @return void

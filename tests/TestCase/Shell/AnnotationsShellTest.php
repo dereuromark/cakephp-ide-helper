@@ -7,8 +7,6 @@ use IdeHelper\Shell\AnnotationsShell;
 use Tools\TestSuite\ConsoleOutput;
 use Tools\TestSuite\TestCase;
 
-/**
- */
 class AnnotationsShellTest extends TestCase {
 
 	/**
@@ -28,6 +26,11 @@ class AnnotationsShellTest extends TestCase {
 	 * @var \Tools\TestSuite\ConsoleOutput
 	 */
 	protected $out;
+
+	/**
+	 * @var \Tools\TestSuite\ConsoleOutput
+	 */
+	protected $err;
 
 	/**
 	 * @return void
@@ -61,7 +64,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function _testModels() {
-		$this->Shell->runCommand(['models', '-d', '-v']);
+		$this->Shell->runCommand(['models', '-d', '-v', '-r']);
 
 		$output = $this->out->output();
 		$this->assertTextContains('   -> 2 annotations added', $output);
@@ -71,7 +74,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testView() {
-		$this->Shell->runCommand(['view', '-d', '-v']);
+		$this->Shell->runCommand(['view', '-d', '-v', '-r']);
 
 		$output = $this->out->output();
 		$this->assertTextContains('   -> 2 annotations added', $output);
@@ -80,8 +83,38 @@ class AnnotationsShellTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testHelpers() {
+		$this->Shell->runCommand(['helpers', '-d', '-v', '-r']);
+
+		$output = $this->out->output();
+		$this->assertTextContains(' annotations added', $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testComponents() {
+		$this->Shell->runCommand(['components', '-d', '-v', '-r']);
+
+		$output = $this->out->output();
+		$this->assertTextContains(' annotations added', $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testShells() {
+		$this->Shell->runCommand(['shells', '-d', '-v', '-r']);
+
+		$output = $this->out->output();
+		$this->assertTextContains(' annotations added', $output);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testTemplates() {
-		$this->Shell->runCommand(['templates', '-d', '-v']);
+		$this->Shell->runCommand(['templates', '-d', '-v', '-r']);
 
 		$output = $this->out->output();
 		$this->assertTextContains('   -> 2 annotations added', $output);
@@ -91,7 +124,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testControllers() {
-		$this->Shell->runCommand(['controllers', '-d', '-v']);
+		$this->Shell->runCommand(['controllers', '-d', '-v', '-r']);
 		$output = (string)$this->out->output();
 
 		$this->assertTextContains('BarController', $output);
@@ -104,7 +137,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testAll() {
-		$result = $this->Shell->runCommand(['all', '-d', '-v']);
+		$result = $this->Shell->runCommand(['all', '-d', '-v', '-r']);
 		$this->assertTrue($result);
 
 		$output = (string)$this->out->output();
@@ -116,15 +149,13 @@ class AnnotationsShellTest extends TestCase {
 		$this->assertTextContains('[Shells]', $output);
 		$this->assertTextContains('[Components]', $output);
 		$this->assertTextContains('[Helpers]', $output);
-		//$this->assertTextContains('FooController', $output);
-		//$this->assertTextContains('   -> 1 annotations added', $output);
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testAllCiMode() {
-		$result = $this->Shell->runCommand(['all', '-d', '-v', '--ci']);
+		$result = $this->Shell->runCommand(['all', '-d', '-v', '-r', '--ci']);
 		$this->assertFalse($result);
 	}
 

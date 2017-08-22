@@ -19,6 +19,7 @@ use PHP_CodeSniffer\Runner;
 use PHP_CodeSniffer\Util\Tokens;
 use PHP_CodeSniffer_File;
 use ReflectionClass;
+use RuntimeException;
 use SebastianBergmann\Diff\Differ;
 
 $manualAutoload = getcwd() . '/vendor/squizlabs/php_codesniffer/autoload.php';
@@ -39,6 +40,7 @@ abstract class AbstractAnnotator {
 	const CONFIG_PLUGIN = 'plugin';
 	const CONFIG_NAMESPACE = 'namespace';
 	const CONFIG_VERBOSE = 'verbose';
+	const CONFIG_REMOVE = 'remove';
 
 	/**
 	 * @var bool
@@ -153,7 +155,7 @@ abstract class AbstractAnnotator {
 				$this->_io->info('   | ' . $char . $output, 1, Shell::VERBOSE);
 			} elseif ($row[1] === 2) {
 				$char = '-';
-				$this->_io->out('<warning>' . '   | ' . $char . $output . '</warning>', 1);
+				$this->_io->out('<warning>' . '   | ' . $char . $output . '</warning>', 1, Shell::VERBOSE);
 			} else {
 				$this->_io->out('   | ' . $char . $output, 1, Shell::VERBOSE);
 			}
@@ -234,13 +236,12 @@ abstract class AbstractAnnotator {
 	protected function _appendToExistingDocBlock(File $file, $closeTagIndex, array &$annotations) {
 		$existingAnnotations = $this->_parseExistingAnnotations($file, $closeTagIndex);
 
-		/* @var \IdeHelper\Annotation\AbstractAnnotation[] $replacingAnnotations */
+		/** @var \IdeHelper\Annotation\AbstractAnnotation[] $replacingAnnotations */
 		$replacingAnnotations = [];
 		$addingAnnotations = [];
 		foreach ($annotations as $key => $annotation) {
 			if (!is_object($annotation)) {
-				$addingAnnotations[] = $annotation;
-				continue;
+				throw new RuntimeException('Must be object: ' . $annotation);
 			}
 			if (!$this->_allowsReplacing($annotation, $existingAnnotations)) {
 				unset($annotations[$key]);
@@ -281,6 +282,23 @@ abstract class AbstractAnnotator {
 			$fixer->addContent($lastTagIndexOfPreviousLine, $annotationString);
 		}
 
+		if ($this->getConfig(static::CONFIG_REMOVE)) {
+			foreach ($existingAnnotations as $key => $existingAnnotation) {
+				if (!is_object($existingAnnotation)) {
+					unset($existingAnnotations[$key]);
+				}
+			}
+
+			$removingAnnotations = $existingAnnotations;
+			foreach ($removingAnnotations as $annotation) {
+				$lastWhitespaceOfPreviousLine = $this->getLastWhitespaceOfPreviousLine($tokens, $annotation->getIndex());
+				$index = $annotation->getIndex();
+				for ($i = $lastWhitespaceOfPreviousLine; $i <= $index; $i++) {
+					$fixer->replaceToken($i, '');
+				}
+			}
+		}
+
 		$fixer->endChangeset();
 
 		$contents = $fixer->getContents();
@@ -289,15 +307,33 @@ abstract class AbstractAnnotator {
 	}
 
 	/**
+	 * @param array $tokens
+	 * @param int $index
+	 *
+	 * @return int
+	 */
+	protected function getLastWhitespaceOfPreviousLine(array $tokens, $index) {
+		$currentLine = $tokens[$index]['line'];
+		$index--;
+		while ($tokens[$index]['line'] === $currentLine) {
+			$index--;
+		}
+
+		return $index;
+	}
+
+	/**
 	 * @param \IdeHelper\Annotation\AbstractAnnotation $annotation
 	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $existingAnnotations
 	 * @return \IdeHelper\Annotation\AbstractAnnotation|null
 	 */
-	protected function _needsReplacing(AbstractAnnotation $annotation, array $existingAnnotations) {
-		foreach ($existingAnnotations as $existingAnnotation) {
+	protected function _needsReplacing(AbstractAnnotation $annotation, array &$existingAnnotations) {
+		foreach ($existingAnnotations as $key => $existingAnnotation) {
 			if ($existingAnnotation->matches($annotation)) {
 				$newAnnotation = clone $existingAnnotation;
 				$newAnnotation->replaceWith($annotation);
+
+				unset ($existingAnnotations[$key]);
 
 				return $newAnnotation;
 			}
@@ -311,13 +347,15 @@ abstract class AbstractAnnotator {
 	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $existingAnnotations
 	 * @return bool
 	 */
-	protected function _allowsReplacing(AbstractAnnotation $annotation, array $existingAnnotations) {
-		foreach ($existingAnnotations as $existingAnnotation) {
+	protected function _allowsReplacing(AbstractAnnotation $annotation, array &$existingAnnotations) {
+		foreach ($existingAnnotations as $key => $existingAnnotation) {
 			if (!$existingAnnotation instanceof ReplacableAnnotationInterface) {
 				continue;
 			}
-			/* @var \IdeHelper\Annotation\ReplacableAnnotationInterface $existingAnnotation */
+			/** @var \IdeHelper\Annotation\ReplacableAnnotationInterface $existingAnnotation */
 			if ($existingAnnotation->matches($annotation) && $existingAnnotation->getDescription() !== '') {
+				unset ($existingAnnotations[$key]);
+
 				return false;
 			}
 		}
@@ -438,7 +476,7 @@ abstract class AbstractAnnotator {
 				continue;
 			}
 
-			$annotations[] = $annotation;
+			$annotations[] = AnnotationFactory::create('@property', '\\' . $className, '$' . $name);
 		}
 
 		return $annotations;

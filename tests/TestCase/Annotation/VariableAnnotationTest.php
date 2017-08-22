@@ -6,16 +6,7 @@ use IdeHelper\Annotation\MethodAnnotation;
 use IdeHelper\Annotation\VariableAnnotation;
 use Tools\TestSuite\TestCase;
 
-/**
- */
 class VariableAnnotationTest extends TestCase {
-
-	/**
-	 * @return void
-	 */
-	public function setUp() {
-		parent::setUp();
-	}
 
 	/**
 	 * @return void
