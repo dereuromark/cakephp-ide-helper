@@ -297,6 +297,11 @@ Template/Tickets
 
 Tip: Use it together with `-v` (verbose) to get more information on what files got processed.
 
+## Removing outdated annotations
+NEW: With `-r`/`--remove` there is now basic support for finding and removing outdated annotations.
+Please use this only after normally running and commiting your annotation changes to be sure you can review and
+verify the changes. This feature is still in a very alpha phase.
+
 ## Continuous integration support
 The tool can also be run like the coding standards check in your CI. 
 This way no annotation can be forgotten, when making PRs for your project.
