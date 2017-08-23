@@ -2,7 +2,7 @@
 
 namespace IdeHelper\Annotation;
 
-class MethodAnnotation extends AbstractAnnotation {
+class MethodAnnotation extends AbstractAnnotation implements ReplacableAnnotationInterface {
 
 	const TAG = '@method';
 

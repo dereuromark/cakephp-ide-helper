@@ -36,11 +36,6 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 		$componentAnnotations = $this->_getComponentAnnotations($className);
 		foreach ($componentAnnotations as $componentAnnotation) {
-			$regexAnnotation = str_replace('\$', '[\$]?', preg_quote($componentAnnotation));
-			if (preg_match('/' . $regexAnnotation . '/', $content)) {
-				continue;
-			}
-
 			$annotations[] = $componentAnnotation;
 		}
 
@@ -92,7 +87,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $controllerName
-	 * @return array
+	 * @return \IdeHelper\Annotation\ReplacableAnnotationInterface[]
 	 */
 	protected function _getComponentAnnotations($controllerName) {
 		try {
@@ -154,7 +149,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 * @param string $content
 	 * @param string $primaryModelClass
 	 *
-	 * @return array
+	 * @return \IdeHelper\Annotation\ReplacableAnnotationInterface[]
 	 */
 	protected function _getPaginationAnnotations($content, $primaryModelClass) {
 		$entityTypehints = $this->_extractPaginateEntityTypehints($content, $primaryModelClass);
@@ -165,13 +160,6 @@ class ControllerAnnotator extends AbstractAnnotator {
 		$type = implode('|', $entityTypehints);
 
 		$annotations = [AnnotationFactory::create('@method', $type, 'paginate($object = null, array $settings = [])')];
-
-		foreach ($annotations as $key => $annotation) {
-			$annotationRegex = preg_quote($annotation);
-			if (preg_match('/' . $annotationRegex . '/', $content)) {
-				unset($annotations[$key]);
-			}
-		}
 
 		return $annotations;
 	}

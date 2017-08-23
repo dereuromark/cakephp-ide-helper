@@ -39,17 +39,8 @@ class HelperAnnotator extends AbstractAnnotator {
 		$helperMap = $this->_invokeProperty($helper, '_helperMap');
 
 		$content = file_get_contents($path);
-		$annotations = [];
 
-		$helperAnnotations = $this->_getHelperAnnotations($helperMap);
-		foreach ($helperAnnotations as $helperAnnotation) {
-			$regexAnnotation = str_replace('\$', '[\$]?', preg_quote($helperAnnotation));
-			if (preg_match('/' . $regexAnnotation . '/', $content)) {
-				continue;
-			}
-
-			$annotations[] = $helperAnnotation;
-		}
+		$annotations = $this->_getHelperAnnotations($helperMap);
 
 		return $this->_annotate($path, $content, $annotations);
 	}

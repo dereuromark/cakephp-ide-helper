@@ -42,13 +42,6 @@ class EntityAnnotator extends AbstractAnnotator {
 		}
 
 		foreach ($annotations as $key => $annotation) {
-			$regexAnnotation = str_replace('\$', '[\$]?', preg_quote($annotation));
-			if (preg_match('/' . $regexAnnotation . '/', $content)) {
-				unset($annotations[$key]);
-				continue;
-			}
-
-			// Make replacable via parsed object
 			$annotation = AnnotationFactory::createFromString($annotation);
 			if (!$annotation) {
 				continue;

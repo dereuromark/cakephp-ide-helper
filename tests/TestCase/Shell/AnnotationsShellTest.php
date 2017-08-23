@@ -67,7 +67,7 @@ class AnnotationsShellTest extends TestCase {
 		$this->Shell->runCommand(['models', '-d', '-v', '-r']);
 
 		$output = $this->out->output();
-		$this->assertTextContains('   -> 2 annotations added', $output);
+		$this->assertTextContains(' annotations added', $output);
 	}
 
 	/**
@@ -77,7 +77,7 @@ class AnnotationsShellTest extends TestCase {
 		$this->Shell->runCommand(['view', '-d', '-v', '-r']);
 
 		$output = $this->out->output();
-		$this->assertTextContains('   -> 2 annotations added', $output);
+		$this->assertTextContains(' annotations added', $output);
 	}
 
 	/**
@@ -117,7 +117,7 @@ class AnnotationsShellTest extends TestCase {
 		$this->Shell->runCommand(['templates', '-d', '-v', '-r']);
 
 		$output = $this->out->output();
-		$this->assertTextContains('   -> 2 annotations added', $output);
+		$this->assertTextContains(' annotations added', $output);
 	}
 
 	/**
@@ -128,9 +128,8 @@ class AnnotationsShellTest extends TestCase {
 		$output = (string)$this->out->output();
 
 		$this->assertTextContains('BarController', $output);
-		$this->assertTextContains('   -> 4 annotations added', $output);
+		$this->assertTextContains(' annotations added', $output);
 		$this->assertTextContains('FooController', $output);
-		$this->assertTextContains('   -> 1 annotations added', $output);
 	}
 
 	/**

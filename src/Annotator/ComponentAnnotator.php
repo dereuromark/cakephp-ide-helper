@@ -35,11 +35,6 @@ class ComponentAnnotator extends AbstractAnnotator {
 
 		$componentAnnotations = $this->_getComponentAnnotations($className);
 		foreach ($componentAnnotations as $componentAnnotation) {
-			$regexAnnotation = str_replace('\$', '[\$]?', preg_quote($componentAnnotation));
-			if (preg_match('/' . $regexAnnotation . '/', $content)) {
-				continue;
-			}
-
 			$annotations[] = $componentAnnotation;
 		}
 
@@ -48,7 +43,7 @@ class ComponentAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $className
-	 * @return array
+	 * @return \IdeHelper\Annotation\ReplacableAnnotationInterface[]
 	 */
 	protected function _getComponentAnnotations($className) {
 		$request = new Request();

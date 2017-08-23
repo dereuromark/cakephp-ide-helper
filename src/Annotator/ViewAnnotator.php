@@ -24,11 +24,6 @@ class ViewAnnotator extends AbstractAnnotator {
 
 		$helperAnnotations = $this->_getHelperAnnotations();
 		foreach ($helperAnnotations as $helperAnnotation) {
-			$regexAnnotation = str_replace('\$', '[\$]?', preg_quote($helperAnnotation));
-			if (preg_match('/' . $regexAnnotation . '/', $content)) {
-				continue;
-			}
-
 			$annotations[] = $helperAnnotation;
 		}
 

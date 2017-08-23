@@ -42,6 +42,10 @@ abstract class AbstractAnnotator {
 	const CONFIG_VERBOSE = 'verbose';
 	const CONFIG_REMOVE = 'remove';
 
+	const COUNT_REMOVED = 'removed';
+	const COUNT_UPDATED = 'updated';
+	const COUNT_ADDED = 'added';
+
 	/**
 	 * @var bool
 	 */
@@ -190,6 +194,11 @@ abstract class AbstractAnnotator {
 	}
 
 	/**
+	 * @var array
+	 */
+	protected $_counter = [];
+
+	/**
 	 * @param string $path
 	 * @param string $content
 	 * @param array $annotations
@@ -208,20 +217,21 @@ abstract class AbstractAnnotator {
 		$prevCode = $file->findPrevious(Tokens::$emptyTokens, $classIndex - 1, null, true);
 
 		$closeTagIndex = $file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $classIndex - 1, $prevCode);
+		$this->_resetCounter();
 		if ($closeTagIndex) {
 			$newContent = $this->_appendToExistingDocBlock($file, $closeTagIndex, $annotations);
 		} else {
 			$newContent = $this->_addNewDocBlock($file, $classIndex, $annotations);
 		}
 
+		if ($newContent === $content) {
+			return false;
+		}
+
 		$this->_displayDiff($content, $newContent);
 		$this->_storeFile($path, $newContent);
 
-		if (count($annotations)) {
-			$this->_io->success('   -> ' . count($annotations) . ' annotations added');
-		} else {
-			$this->_io->verbose('   -> ' . count($annotations) . ' annotations added');
-		}
+		$this->_report();
 
 		return true;
 	}
@@ -243,6 +253,11 @@ abstract class AbstractAnnotator {
 			if (!is_object($annotation)) {
 				throw new RuntimeException('Must be object: ' . $annotation);
 			}
+			if ($this->_exists($annotation, $existingAnnotations)) {
+				unset($annotations[$key]);
+				continue;
+			}
+
 			if (!$this->_allowsReplacing($annotation, $existingAnnotations)) {
 				unset($annotations[$key]);
 				continue;
@@ -271,6 +286,7 @@ abstract class AbstractAnnotator {
 
 		foreach ($replacingAnnotations as $annotation) {
 			$fixer->replaceToken($annotation->getIndex(), $annotation->build());
+			$this->_counter[static::COUNT_UPDATED]++;
 		}
 
 		if (count($addingAnnotations)) {
@@ -280,6 +296,7 @@ abstract class AbstractAnnotator {
 			}
 
 			$fixer->addContent($lastTagIndexOfPreviousLine, $annotationString);
+			$this->_counter[static::COUNT_ADDED]++;
 		}
 
 		if ($this->getConfig(static::CONFIG_REMOVE)) {
@@ -296,6 +313,7 @@ abstract class AbstractAnnotator {
 				for ($i = $lastWhitespaceOfPreviousLine; $i <= $index; $i++) {
 					$fixer->replaceToken($i, '');
 				}
+				$this->_counter[static::COUNT_REMOVED]++;
 			}
 		}
 
@@ -320,6 +338,23 @@ abstract class AbstractAnnotator {
 		}
 
 		return $index;
+	}
+
+	/**
+	 * @param \IdeHelper\Annotation\AbstractAnnotation $annotation
+	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $existingAnnotations
+	 * @return bool
+	 */
+	protected function _exists(AbstractAnnotation $annotation, array &$existingAnnotations) {
+		foreach ($existingAnnotations as $key => $existingAnnotation) {
+			if ($existingAnnotation->build() === $annotation->build()) {
+				unset ($existingAnnotations[$key]);
+
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -367,7 +402,7 @@ abstract class AbstractAnnotator {
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $closeTagIndex
 	 *
-	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 * @return \IdeHelper\Annotation\ReplacableAnnotationInterface[]
 	 */
 	protected function _parseExistingAnnotations(File $file, $closeTagIndex) {
 		$tokens = $file->getTokens();
@@ -405,11 +440,11 @@ abstract class AbstractAnnotator {
 	}
 
 	/**
- * @param \File $file
- * @param int $lastTagIndexOfPreviousLine
- *
- * @return bool
- */
+	 * @param \File $file
+	 * @param int $lastTagIndexOfPreviousLine
+	 *
+	 * @return bool
+	 */
 	protected function _needsNewLineInDocBlock(File $file, $lastTagIndexOfPreviousLine) {
 		$tokens = $file->getTokens();
 
@@ -443,7 +478,7 @@ abstract class AbstractAnnotator {
 		}
 
 		$helper = new DocBlockHelper(new View());
-		$annotationString = $helper->classDescription('', '', (array)$annotations);
+		$annotationString = $helper->classDescription('', '', $annotations);
 
 		$fixer = $this->_getFixer($file);
 
@@ -452,13 +487,15 @@ abstract class AbstractAnnotator {
 
 		$contents = $fixer->getContents();
 
+		$this->_counter[static::COUNT_ADDED] = count($annotations);
+
 		return $contents;
 	}
 
 	/**
 	 * @param array $usedModels
 	 * @param string $content
-	 * @return array
+	 * @return \IdeHelper\Annotation\ReplacableAnnotationInterface[]
 	 */
 	protected function _getModelAnnotations($usedModels, $content) {
 		$annotations = [];
@@ -469,12 +506,6 @@ abstract class AbstractAnnotator {
 				continue;
 			}
 			list(, $name) = pluginSplit($usedModel);
-
-			$annotation = '@property \\' . $className . ' $' . $name;
-			$regexAnnotation = str_replace('\$', '[\$]?', preg_quote($annotation));
-			if (preg_match('/' . $regexAnnotation . '/', $content)) {
-				continue;
-			}
 
 			$annotations[] = AnnotationFactory::create('@property', '\\' . $className, '$' . $name);
 		}
@@ -502,6 +533,43 @@ abstract class AbstractAnnotator {
 		$property->setAccessible(true);
 
 		return $property->getValue($object);
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function _report() {
+		$out = [];
+
+		$added = !empty($this->_counter[static::COUNT_ADDED]) ? $this->_counter[static::COUNT_ADDED] : 0;
+		if ($added) {
+			$out[] = $added . ' ' . ($added === 1 ? 'annotation' : 'annotations') . ' added';
+		}
+		$updated = !empty($this->_counter[static::COUNT_UPDATED]) ? $this->_counter[static::COUNT_UPDATED] : 0;
+		if ($updated) {
+			$out[] = $updated . ' ' . ($updated === 1 ? 'annotation' : 'annotations') . ' updated';
+		}
+		$removed = !empty($this->_counter[static::COUNT_REMOVED]) ? $this->_counter[static::COUNT_REMOVED] : 0;
+		if ($removed) {
+			$out[] = $removed . ' ' . ($removed === 1 ? 'annotation' : 'annotations') . ' removed';
+		}
+
+		if (!$out) {
+			return;
+		}
+
+		$this->_io->success('   -> ' . implode(', ', $out));
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function _resetCounter() {
+		$this->_counter = [
+			static::COUNT_ADDED => 0,
+			static::COUNT_UPDATED => 0,
+			static::COUNT_REMOVED => 0,
+		];
 	}
 
 }

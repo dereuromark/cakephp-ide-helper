@@ -54,6 +54,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 		$needsPhpTag = $this->_needsPhpTag($file, $phpOpenTagIndex);
 
 		$closeTagIndex = $this->_findExistingDocBlock($file, $phpOpenTagIndex, $needsPhpTag);
+		$this->_resetCounter();
 		if ($closeTagIndex) {
 			$newContent = $this->_appendToExistingDocBlock($file, $closeTagIndex, $annotations);
 		} else {
@@ -63,11 +64,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 		$this->_displayDiff($content, $newContent);
 		$this->_storeFile($path, $newContent);
 
-		if (count($annotations)) {
-			$this->_io->success('   -> ' . count($annotations) . ' annotations added');
-		} else {
-			$this->_io->verbose('   -> ' . count($annotations) . ' annotations added');
-		}
+		$this->_report();
 
 		return true;
 	}
@@ -110,7 +107,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 			$annotations[$key] = (string)$annotation;
 		}
 
-		$annotationString = $helper->classDescription('', '', (array)$annotations);
+		$annotationString = $helper->classDescription('', '', $annotations);
 
 		if ($needsPhpTag) {
 			$annotationString = '<?php' . PHP_EOL . $annotationString . PHP_EOL . '?>';
@@ -126,6 +123,8 @@ class TemplateAnnotator extends AbstractAnnotator {
 		}
 
 		$newContent = $fixer->getContents();
+
+		$this->_counter[static::COUNT_ADDED] = count($annotations);
 
 		return $newContent;
 	}

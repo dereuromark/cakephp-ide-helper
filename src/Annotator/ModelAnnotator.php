@@ -105,13 +105,6 @@ class ModelAnnotator extends AbstractAnnotator {
 			$annotations[] = AnnotationFactory::create('@mixin', "\\{$className}");
 		}
 
-		foreach ($annotations as $key => $annotation) {
-			$regexAnnotation = str_replace('\$', '[\$]?', preg_quote($annotation));
-			if (preg_match('/' . $regexAnnotation . '/', $content)) {
-				unset($annotations[$key]);
-			}
-		}
-
 		return $this->_annotate($path, $content, $annotations);
 	}
 
@@ -180,6 +173,7 @@ class ModelAnnotator extends AbstractAnnotator {
 
 			$associations[$type][$name] = $className;
 		}
+
 		return $associations;
 	}
 
