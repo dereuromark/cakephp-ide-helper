@@ -43,7 +43,7 @@ class ComponentAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $className
-	 * @return \IdeHelper\Annotation\ReplacableAnnotationInterface[]
+	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
 	protected function _getComponentAnnotations($className) {
 		$request = new Request();

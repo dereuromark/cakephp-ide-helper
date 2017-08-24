@@ -2,7 +2,7 @@
 
 namespace IdeHelper\Annotation;
 
-class MixinAnnotation extends AbstractAnnotation implements ReplacableAnnotationInterface {
+class MixinAnnotation extends AbstractAnnotation {
 
 	const TAG = '@mixin';
 
@@ -43,7 +43,7 @@ class MixinAnnotation extends AbstractAnnotation implements ReplacableAnnotation
 	}
 
 	/**
-	 * @param \IdeHelper\Annotation\AbstractAnnotation|\IdeHelper\Annotation\PropertyAnnotation $annotation
+	 * @param \IdeHelper\Annotation\AbstractAnnotation|\IdeHelper\Annotation\MixinAnnotation $annotation
 	 *
 	 * @return bool
 	 */
@@ -59,7 +59,7 @@ class MixinAnnotation extends AbstractAnnotation implements ReplacableAnnotation
 	}
 
 	/**
-	 * @param \IdeHelper\Annotation\AbstractAnnotation|\IdeHelper\Annotation\PropertyAnnotation $annotation
+	 * @param \IdeHelper\Annotation\AbstractAnnotation|\IdeHelper\Annotation\MixinAnnotation $annotation
 	 * @return void
 	 */
 	public function replaceWith(AbstractAnnotation $annotation) {

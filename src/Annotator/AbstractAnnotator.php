@@ -8,7 +8,6 @@ use Cake\Core\InstanceConfigTrait;
 use Cake\View\View;
 use IdeHelper\Annotation\AbstractAnnotation;
 use IdeHelper\Annotation\AnnotationFactory;
-use IdeHelper\Annotation\ReplacableAnnotationInterface;
 use IdeHelper\Console\Io;
 use PHP_CodeSniffer;
 use PHP_CodeSniffer\Config;
@@ -301,7 +300,7 @@ abstract class AbstractAnnotator {
 
 		if ($this->getConfig(static::CONFIG_REMOVE)) {
 			foreach ($existingAnnotations as $key => $existingAnnotation) {
-				if (!is_object($existingAnnotation)) {
+				if (!is_object($existingAnnotation) || $existingAnnotation->getDescription() !== '') {
 					unset($existingAnnotations[$key]);
 				}
 			}
@@ -384,10 +383,6 @@ abstract class AbstractAnnotator {
 	 */
 	protected function _allowsReplacing(AbstractAnnotation $annotation, array &$existingAnnotations) {
 		foreach ($existingAnnotations as $key => $existingAnnotation) {
-			if (!$existingAnnotation instanceof ReplacableAnnotationInterface) {
-				continue;
-			}
-			/** @var \IdeHelper\Annotation\ReplacableAnnotationInterface $existingAnnotation */
 			if ($existingAnnotation->matches($annotation) && $existingAnnotation->getDescription() !== '') {
 				unset ($existingAnnotations[$key]);
 
@@ -402,7 +397,7 @@ abstract class AbstractAnnotator {
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $closeTagIndex
 	 *
-	 * @return \IdeHelper\Annotation\ReplacableAnnotationInterface[]
+	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
 	protected function _parseExistingAnnotations(File $file, $closeTagIndex) {
 		$tokens = $file->getTokens();
@@ -414,7 +409,7 @@ abstract class AbstractAnnotator {
 			if ($tokens[$i]['type'] !== 'T_DOC_COMMENT_TAG') {
 				continue;
 			}
-			if (!in_array($tokens[$i]['content'], ['@property', '@var', '@method'])) {
+			if (!in_array($tokens[$i]['content'], ['@property', '@var', '@method', '@mixin'])) {
 				continue;
 			}
 
@@ -495,7 +490,7 @@ abstract class AbstractAnnotator {
 	/**
 	 * @param array $usedModels
 	 * @param string $content
-	 * @return \IdeHelper\Annotation\ReplacableAnnotationInterface[]
+	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
 	protected function _getModelAnnotations($usedModels, $content) {
 		$annotations = [];

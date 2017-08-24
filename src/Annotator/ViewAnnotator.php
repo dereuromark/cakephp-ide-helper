@@ -3,6 +3,7 @@ namespace IdeHelper\Annotator;
 
 use Cake\Core\App;
 use Cake\Filesystem\Folder;
+use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotator\Traits\HelperTrait;
 
 class ViewAnnotator extends AbstractAnnotator {
@@ -31,7 +32,7 @@ class ViewAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @return array
+	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
 	protected function _getHelperAnnotations() {
 		$plugin = null;
@@ -51,7 +52,7 @@ class ViewAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$helperAnnotations[] = '@property \\' . $className . ' $' . $helper;
+			$helperAnnotations[] = AnnotationFactory::create('@property', '\\' . $className, '$' . $helper);
 		}
 
 		return $helperAnnotations;

@@ -87,7 +87,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $controllerName
-	 * @return \IdeHelper\Annotation\ReplacableAnnotationInterface[]
+	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
 	protected function _getComponentAnnotations($controllerName) {
 		try {
@@ -149,7 +149,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 * @param string $content
 	 * @param string $primaryModelClass
 	 *
-	 * @return \IdeHelper\Annotation\ReplacableAnnotationInterface[]
+	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
 	protected function _getPaginationAnnotations($content, $primaryModelClass) {
 		$entityTypehints = $this->_extractPaginateEntityTypehints($content, $primaryModelClass);

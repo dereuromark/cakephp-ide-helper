@@ -4,6 +4,7 @@ namespace IdeHelper\Annotator;
 use Cake\Core\App;
 use Cake\View\View;
 use Exception;
+use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotator\Traits\HelperTrait;
 
 class HelperAnnotator extends AbstractAnnotator {
@@ -47,7 +48,7 @@ class HelperAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param array $helperMap
-	 * @return array
+	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
 	protected function _getHelperAnnotations($helperMap) {
 		if (empty($helperMap)) {
@@ -61,7 +62,7 @@ class HelperAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$helperAnnotations[] = '@property \\' . $className . ' $' . $helper;
+			$helperAnnotations[] = AnnotationFactory::create('@property', '\\' . $className, '$' . $helper);
 		}
 
 		return $helperAnnotations;

@@ -4,7 +4,7 @@ namespace IdeHelper\Annotation;
 
 use RuntimeException;
 
-abstract class AbstractAnnotation {
+abstract class AbstractAnnotation implements AnnotationInterface, ReplacableAnnotationInterface {
 
 	const TAG = '';
 
@@ -26,25 +26,6 @@ abstract class AbstractAnnotation {
 		$this->type = $type;
 		$this->index = $index;
 	}
-
-	/**
-	 * @return string
-	 */
-	abstract public function build();
-
-	/**
-	 * @param \IdeHelper\Annotation\AbstractAnnotation $annotation
-	 *
-	 * @return bool
-	 */
-	abstract public function matches(self $annotation);
-
-	/**
-	 * @param \IdeHelper\Annotation\AbstractAnnotation $annotation
-	 *
-	 * @return void
-	 */
-	abstract public function replaceWith(self $annotation);
 
 	/**
 	 * @return string
