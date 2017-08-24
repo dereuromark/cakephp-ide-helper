@@ -349,7 +349,7 @@ class AnnotationsShell extends Shell {
 				],
 				'remove' => [
 					'short' => 'r',
-					'help' => 'Remove outdated annotations.',
+					'help' => 'Remove outdated annotations. Make sure you commited first or have a backup!',
 					'boolean' => true,
 				],
 			]

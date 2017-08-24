@@ -299,8 +299,11 @@ Tip: Use it together with `-v` (verbose) to get more information on what files g
 
 ## Removing outdated annotations
 NEW: With `-r`/`--remove` there is now basic support for finding and removing outdated annotations.
-Please use this only after normally running and commiting your annotation changes to be sure you can review and
+Please use this only after normally running and committing your annotation changes to be sure you can review and
 verify the changes. This feature is still in a very alpha phase.
+
+Note that you can prevent removal (just as updating) by adding a comment to your annotation.
+That will skip any attempt to remove it.
 
 ## Continuous integration support
 The tool can also be run like the coding standards check in your CI. 

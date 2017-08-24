@@ -2,7 +2,7 @@
 
 namespace IdeHelper\Annotation;
 
-class PropertyAnnotation extends AbstractAnnotation implements ReplacableAnnotationInterface {
+class PropertyAnnotation extends AbstractAnnotation {
 
 	const TAG = '@property';
 
