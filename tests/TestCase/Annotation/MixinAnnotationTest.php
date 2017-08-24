@@ -36,7 +36,7 @@ class MixinAnnotationTest extends TestCase {
 	 */
 	public function testMatches() {
 		$annotation = new MixinAnnotation('\\Foo\\Model\\Entity\\Bar');
-		$comparisonAnnotation = new MixinAnnotation('\\Foo\\Model\\Entity\\Bar !!!');
+		$comparisonAnnotation = new MixinAnnotation('\\Foo\\Model\\Entity\\Bar');
 		$result = $annotation->matches($comparisonAnnotation);
 		$this->assertTrue($result);
 
@@ -49,6 +49,25 @@ class MixinAnnotationTest extends TestCase {
 		$comparisonAnnotation = new PropertyAnnotation('\\Foo\\Model\\Entity\\Bar', '$bar');
 		$result = $annotation->matches($comparisonAnnotation);
 		$this->assertFalse($result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testMatchesWithDescription() {
+		$annotation = new MixinAnnotation('\\Foo\\Model\\Entity\\Bar !');
+		$comparisonAnnotation = new MixinAnnotation('\\Foo\\Model\\Entity\\Bar');
+		$result = $annotation->matches($comparisonAnnotation);
+		$this->assertTrue($result);
+		$this->assertSame('!', $annotation->getDescription());
+		$this->assertSame('', $comparisonAnnotation->getDescription());
+
+		$annotation = new MixinAnnotation('\\Foo\\Model\\Entity\\Bar');
+		$comparisonAnnotation = new MixinAnnotation('\\Foo\\Model\\Entity\\Bar !');
+		$result = $annotation->matches($comparisonAnnotation);
+		$this->assertTrue($result);
+		$this->assertSame('', $annotation->getDescription());
+		$this->assertSame('!', $comparisonAnnotation->getDescription());
 	}
 
 	/**

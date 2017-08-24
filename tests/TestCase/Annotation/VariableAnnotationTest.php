@@ -51,4 +51,17 @@ class VariableAnnotationTest extends TestCase {
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testMatchesWithDescription() {
+		$annotation = new VariableAnnotation('\\Foo\\Model\\Table\\Bar', '$baz !');
+		$comparisonAnnotation = new VariableAnnotation('\\Something\\Else', '$baz');
+		$result = $annotation->matches($comparisonAnnotation);
+
+		$this->assertTrue($result);
+		$this->assertSame('!', $annotation->getDescription());
+		$this->assertSame('', $comparisonAnnotation->getDescription());
+	}
+
 }

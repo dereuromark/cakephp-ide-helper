@@ -247,7 +247,6 @@ abstract class AbstractAnnotator {
 	protected function _appendToExistingDocBlock(File $file, $closeTagIndex, array &$annotations) {
 		$existingAnnotations = $this->_parseExistingAnnotations($file, $closeTagIndex);
 
-		/** @var \IdeHelper\Annotation\AbstractAnnotation[] $replacingAnnotations */
 		$replacingAnnotations = [];
 		$addingAnnotations = [];
 		foreach ($annotations as $key => $annotation) {
@@ -273,6 +272,7 @@ abstract class AbstractAnnotator {
 
 			$replacingAnnotations[] = $toBeReplaced;
 		}
+
 		$tokens = $file->getTokens();
 
 		$lastTagIndexOfPreviousLine = $closeTagIndex;
@@ -303,6 +303,11 @@ abstract class AbstractAnnotator {
 
 		if ($this->getConfig(static::CONFIG_REMOVE)) {
 			foreach ($existingAnnotations as $key => $existingAnnotation) {
+				if ($existingAnnotation->isInUse()) {
+					unset($existingAnnotations[$key]);
+					continue;
+				}
+
 				if ($existingAnnotation->getDescription() !== '') {
 					$this->_counter[static::COUNT_SKIPPED]++;
 					unset($existingAnnotations[$key]);
@@ -423,23 +428,53 @@ abstract class AbstractAnnotator {
 				continue;
 			}
 
-			$content = $tokens[$classNameIndex]['content'];
+			$type = $tokens[$classNameIndex]['content'];
 
 			$appendix = '';
-			$spacePos = strpos($content, ' ');
+			$spacePos = strpos($type, ' ');
 			if ($spacePos) {
-				$appendix = substr($content, $spacePos);
-				$content = substr($content, 0, $spacePos);
+				$appendix = substr($type, $spacePos);
+				$type = substr($type, 0, $spacePos);
 			}
 
-			$annotations[] = AnnotationFactory::create($tokens[$i]['content'], $content, trim($appendix), $classNameIndex);
+			$tag = $tokens[$i]['content'];
+			$content = trim($appendix);
+			$annotation = AnnotationFactory::create($tag, $type, $content, $classNameIndex);
+			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === '@var' && $this->inUse($tokens, $closeTagIndex, $content)) {
+				$annotation->setInUse();
+			}
+
+			$annotations[] = $annotation;
 		}
 
 		return $annotations;
 	}
 
 	/**
-	 * @param \File $file
+	 * @param array $tokens
+	 * @param int $closeTagIndex
+	 * @param string $variable
+	 *
+	 * @return bool
+	 */
+	protected function inUse(array $tokens, $closeTagIndex, $variable) {
+		if ($variable === '$this') {
+			return false;
+		}
+
+		$i = $closeTagIndex + 1;
+		while (isset($tokens[$i])) {
+			if ($tokens[$i]['code'] === T_VARIABLE && $tokens[$i]['content'] === $variable) {
+				return true;
+			}
+			$i++;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $lastTagIndexOfPreviousLine
 	 *
 	 * @return bool

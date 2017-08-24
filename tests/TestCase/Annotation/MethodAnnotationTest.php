@@ -54,6 +54,19 @@ class MethodAnnotationTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testMatchesWithDescription() {
+		$annotation = new MethodAnnotation('\\Foo\\Model\\Table\\Bar', 'doSth() !');
+		$comparisonAnnotation = new MethodAnnotation('\\Something\\Else', 'doSth()');
+		$result = $annotation->matches($comparisonAnnotation);
+
+		$this->assertTrue($result);
+		$this->assertSame('!', $annotation->getDescription());
+		$this->assertSame('', $comparisonAnnotation->getDescription());
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testIndex() {
 		$annotation = new MethodAnnotation('', '', 1);
 

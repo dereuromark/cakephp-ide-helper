@@ -3,6 +3,7 @@ namespace IdeHelper\Annotator;
 
 use Bake\View\Helper\DocBlockHelper;
 use Cake\Core\App;
+use Cake\Core\Configure;
 use Cake\Utility\Inflector;
 use Cake\View\View;
 use IdeHelper\Annotation\AnnotationFactory;
@@ -26,10 +27,9 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		$entityAnnotations = $this->_getEntityAnnotations($content);
 		foreach ($entityAnnotations as $entityAnnotation) {
-			if (preg_match('/' . preg_quote($entityAnnotation) . '/', $content)) {
+			if (!$entityAnnotation) {
 				continue;
 			}
-
 			$annotations[] = $entityAnnotation;
 		}
 
@@ -160,9 +160,8 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 * @return bool
 	 */
 	protected function _needsViewAnnotation($content) {
-		$viewAnnotation = $this->_getViewAnnotation()->build();
-		if (preg_match('/' . preg_quote($viewAnnotation) . '\b/', $content)) {
-			return false;
+		if (Configure::read('IdeHelper.preemptive')) {
+			return true;
 		}
 
 		if (preg_match('/\$this-\>/', $content)) {
@@ -236,14 +235,16 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		$entities = array_unique($matches[1]);
 		foreach ($entities as $entity) {
-			$entityName = Inflector::classify($entity);
+			$entityName = Inflector::camelize(Inflector::underscore($entity));
 
 			$className = App::className(($this->getConfig(static::CONFIG_PLUGIN) ? $this->getConfig(static::CONFIG_PLUGIN) . '.' : '') . $entityName, 'Model/Entity');
 			if (!$className) {
 				continue;
 			}
 
-			$result[$entity] = AnnotationFactory::create(VariableAnnotation::TAG, '\\' . $className, '$' . $entity);
+			$annotation = AnnotationFactory::create(VariableAnnotation::TAG, '\\' . $className, '$' . $entity);
+
+			$result[$entity] = $annotation;
 		}
 
 		return $result;
@@ -267,7 +268,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$entityName = Inflector::classify($entity);
+			$entityName = Inflector::camelize(Inflector::underscore($entity));
 
 			$className = App::className(($this->getConfig(static::CONFIG_PLUGIN) ? $this->getConfig(static::CONFIG_PLUGIN) . '.' : '') . $entityName, 'Model/Entity');
 			if (!$className) {
@@ -275,6 +276,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 			}
 
 			$result[$matches[1][$key]] = AnnotationFactory::create(VariableAnnotation::TAG, '\\' . $className . '[]|\Cake\Collection\CollectionInterface', '$' . $matches[1][$key]);
+			// We do not need the singular then
 			$result[$entity] = null;
 		}
 
@@ -299,11 +301,8 @@ class TemplateAnnotator extends AbstractAnnotator {
 			if ($entity === 'this') {
 				continue;
 			}
-			if (preg_match('/ as \$' . $entity . '\b/', $content)) {
-				continue;
-			}
 
-			$entityName = Inflector::classify($entity);
+			$entityName = Inflector::camelize(Inflector::underscore($entity));
 
 			$className = App::className(($this->getConfig(static::CONFIG_PLUGIN) ? $this->getConfig(static::CONFIG_PLUGIN) . '.' : '') . $entityName, 'Model/Entity');
 			if (!$className) {

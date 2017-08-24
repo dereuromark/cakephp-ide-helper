@@ -152,7 +152,10 @@ class EntityAnnotatorTest extends TestCase {
 	 * @return \IdeHelper\Annotator\EntityAnnotator|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function _getAnnotatorMock(array $params) {
-		$params += [AbstractAnnotator::CONFIG_DRY_RUN => true];
+		$params += [
+			AbstractAnnotator::CONFIG_REMOVE => true,
+			AbstractAnnotator::CONFIG_DRY_RUN => true
+		];
 		return $this->getMockBuilder(EntityAnnotator::class)->setMethods(['_storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
 	}
 

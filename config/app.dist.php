@@ -9,6 +9,8 @@ return [
 		// Template paths to skip
 		'skipTemplatePaths' => [
 			'/src/Template/Bake/',
-		]
+		],
+		// Always add annotations even if not needed
+		'preemptive' => false,
 	],
 ];

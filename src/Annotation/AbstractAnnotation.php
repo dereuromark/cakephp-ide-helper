@@ -19,6 +19,13 @@ abstract class AbstractAnnotation implements AnnotationInterface, ReplacableAnno
 	protected $index;
 
 	/**
+	 * Needed for removing annotations
+	 *
+	 * @var bool
+	 */
+	protected $isInUse = false;
+
+	/**
 	 * @param string $type
 	 * @param int|null $index
 	 */
@@ -57,6 +64,22 @@ abstract class AbstractAnnotation implements AnnotationInterface, ReplacableAnno
 		}
 
 		return $this->index;
+	}
+
+	/**
+	 * @param bool $inUse
+	 *
+	 * @return void
+	 */
+	public function setInUse($inUse = true) {
+		$this->isInUse = (bool)$inUse;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isInUse() {
+		return $this->isInUse;
 	}
 
 }

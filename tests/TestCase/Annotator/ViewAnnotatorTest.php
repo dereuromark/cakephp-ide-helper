@@ -66,7 +66,10 @@ class ViewAnnotatorTest extends TestCase {
 	 * @return \IdeHelper\Annotator\ViewAnnotator|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function _getAnnotatorMock(array $params) {
-		$params += [AbstractAnnotator::CONFIG_DRY_RUN => true];
+		$params += [
+			AbstractAnnotator::CONFIG_REMOVE => true,
+			AbstractAnnotator::CONFIG_DRY_RUN => true
+		];
 		return $this->getMockBuilder(ViewAnnotator::class)->setMethods(['_storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
 	}
 
