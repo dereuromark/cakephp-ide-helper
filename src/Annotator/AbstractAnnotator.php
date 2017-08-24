@@ -44,6 +44,7 @@ abstract class AbstractAnnotator {
 	const COUNT_REMOVED = 'removed';
 	const COUNT_UPDATED = 'updated';
 	const COUNT_ADDED = 'added';
+	const COUNT_SKIPPED = 'skipped';
 
 	/**
 	 * @var bool
@@ -224,6 +225,7 @@ abstract class AbstractAnnotator {
 		}
 
 		if ($newContent === $content) {
+			$this->_reportSkipped();
 			return false;
 		}
 
@@ -259,6 +261,7 @@ abstract class AbstractAnnotator {
 
 			if (!$this->_allowsReplacing($annotation, $existingAnnotations)) {
 				unset($annotations[$key]);
+				$this->_counter[static::COUNT_SKIPPED]++;
 				continue;
 			}
 
@@ -300,7 +303,8 @@ abstract class AbstractAnnotator {
 
 		if ($this->getConfig(static::CONFIG_REMOVE)) {
 			foreach ($existingAnnotations as $key => $existingAnnotation) {
-				if (!is_object($existingAnnotation) || $existingAnnotation->getDescription() !== '') {
+				if ($existingAnnotation->getDescription() !== '') {
+					$this->_counter[static::COUNT_SKIPPED]++;
 					unset($existingAnnotations[$key]);
 				}
 			}
@@ -548,6 +552,10 @@ abstract class AbstractAnnotator {
 		if ($removed) {
 			$out[] = $removed . ' ' . ($removed === 1 ? 'annotation' : 'annotations') . ' removed';
 		}
+		$skipped = !empty($this->_counter[static::COUNT_SKIPPED]) ? $this->_counter[static::COUNT_SKIPPED] : 0;
+		if ($skipped) {
+			$out[] = $skipped . ' ' . ($skipped === 1 ? 'annotation' : 'annotations') . ' skipped';
+		}
 
 		if (!$out) {
 			return;
@@ -559,11 +567,31 @@ abstract class AbstractAnnotator {
 	/**
 	 * @return void
 	 */
+	protected function _reportSkipped()
+	{
+		$out = [];
+
+		$skipped = !empty($this->_counter[static::COUNT_SKIPPED]) ? $this->_counter[static::COUNT_SKIPPED] : 0;
+		if ($skipped) {
+			$out[] = $skipped . ' ' . ($skipped === 1 ? 'annotation' : 'annotations') . ' skipped';
+		}
+
+		if (!$out) {
+			return;
+		}
+
+		$this->_io->out('   -> ' . implode(', ', $out));
+	}
+
+	/**
+	 * @return void
+	 */
 	protected function _resetCounter() {
 		$this->_counter = [
 			static::COUNT_ADDED => 0,
 			static::COUNT_UPDATED => 0,
 			static::COUNT_REMOVED => 0,
+			static::COUNT_SKIPPED => 0,
 		];
 	}
 
