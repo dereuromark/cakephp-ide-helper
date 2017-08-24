@@ -567,8 +567,7 @@ abstract class AbstractAnnotator {
 	/**
 	 * @return void
 	 */
-	protected function _reportSkipped()
-	{
+	protected function _reportSkipped() {
 		$out = [];
 
 		$skipped = !empty($this->_counter[static::COUNT_SKIPPED]) ? $this->_counter[static::COUNT_SKIPPED] : 0;
