@@ -2,8 +2,11 @@
 namespace IdeHelper\Annotator;
 
 use Bake\View\Helper\DocBlockHelper;
+use Cake\Core\Configure;
+use Cake\Utility\Inflector;
 use Cake\View\View;
 use IdeHelper\Annotation\AnnotationFactory;
+use RuntimeException;
 
 class EntityAnnotator extends AbstractAnnotator {
 
@@ -23,6 +26,7 @@ class EntityAnnotator extends AbstractAnnotator {
 		/** @var \Cake\Database\Schema\TableSchema $tableSchema */
 		$tableSchema = $this->getConfig('schema');
 		$columns = $tableSchema->columns();
+
 		$schema = [];
 		foreach ($columns as $column) {
 			$row = $tableSchema->column($column);
@@ -30,27 +34,114 @@ class EntityAnnotator extends AbstractAnnotator {
 			$schema[$column] = $row;
 		}
 
+		$schema = $this->hydrateSchemaFromAssoc($schema);
+
 		$propertyHintMap = $helper->buildEntityPropertyHintTypeMap($schema);
+		$propertyHintMap = $this->buildExtendedEntityPropertyHintTypeMap($schema, $propertyHintMap);
+
 		$propertyHintMap = array_filter($propertyHintMap);
 
 		$annotations = $helper->propertyHints($propertyHintMap);
 		$associationHintMap = $helper->buildEntityAssociationHintTypeMap($schema);
 
 		if ($associationHintMap) {
-			$annotations[] = '';
 			$annotations = array_merge($annotations, $helper->propertyHints($associationHintMap));
 		}
 
 		foreach ($annotations as $key => $annotation) {
-			$annotation = AnnotationFactory::createFromString($annotation);
-			if (!$annotation) {
-				continue;
+			$annotationObject = AnnotationFactory::createFromString($annotation);
+			if (!$annotationObject) {
+				throw new RuntimeException('Cannot factorize annotation `' . $annotation . '`');
 			}
 
-			$annotations[$key] = $annotation;
+			$annotations[$key] = $annotationObject;
 		}
 
 		return $this->_annotate($path, $content, $annotations);
+	}
+
+	/**
+	 * From Bake Plugin
+	 *
+	 * @param array $schema
+	 *
+	 * @return array
+	 */
+	protected function hydrateSchemaFromAssoc(array $schema) {
+		/** @var \Cake\ORM\AssociationCollection|\Cake\ORM\Association[] $associations */
+		$associations = $this->getConfig('associations');
+
+		foreach ($associations as $association) {
+			$entityClass = '\\' . ltrim($association->getTarget()->getEntityClass(), '\\');
+
+			if ($entityClass === '\Cake\ORM\Entity') {
+				$namespace = Configure::read('App.namespace');
+
+				list($plugin) = pluginSplit($association->getTarget()->getRegistryAlias());
+				if ($plugin !== null) {
+					$namespace = $plugin;
+				}
+				$namespace = str_replace('/', '\\', trim($namespace, '\\'));
+
+				$entityClass = $this->_entityName($association->getTarget()->getAlias());
+				$entityClass = '\\' . $namespace . '\Model\Entity\\' . $entityClass;
+			}
+
+			$schema[$association->getProperty()] = [
+				'kind' => 'association',
+				'association' => $association,
+				'type' => $entityClass
+			];
+		}
+
+		return $schema;
+	}
+
+	/**
+	 * Creates the proper entity name (singular) for the specified name
+	 *
+	 * @param string $name Name
+	 * @return string Camelized and plural model name
+	 */
+	protected function _entityName($name) {
+		return Inflector::singularize(Inflector::camelize($name));
+	}
+
+	/**
+	 * @param array $propertySchema
+	 * @param array $propertyHintMap
+	 *
+	 * @return array
+	 */
+	protected function buildExtendedEntityPropertyHintTypeMap(array $propertySchema, array $propertyHintMap) {
+		foreach ($propertySchema as $property => $info) {
+			if ($info['kind'] === 'column' && !isset($propertyHintMap[$property])) {
+				$propertyHintMap[$property] = $this->columnTypeToHintType($info['type']);
+			}
+		}
+
+		return $propertyHintMap;
+	}
+
+	/**
+	 * Converts a column type to its DocBlock type counterpart.
+	 *
+	 * @see \Cake\Database\Type
+	 *
+	 * @param string $type The column type.
+	 * @return null|string The DocBlock type, or `null` for unsupported column types.
+	 */
+	public function columnTypeToHintType($type) {
+		switch ($type) {
+			case 'mediumtext':
+			case 'longtext':
+				return 'string';
+			case 'array':
+			case 'json':
+				return 'array';
+		}
+
+		return null;
 	}
 
 }

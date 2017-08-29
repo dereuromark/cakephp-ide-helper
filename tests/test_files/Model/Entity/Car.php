@@ -10,6 +10,7 @@ use Cake\ORM\Entity;
  * @property string $name
  * @property string $content
  * @property \Cake\I18n\Time $created
+ * @property \App\Model\Entity\Wheel[] $wheels
  */
 class Car extends Entity {
 }

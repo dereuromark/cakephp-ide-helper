@@ -1,6 +1,7 @@
 <?php
 namespace IdeHelper\Annotator;
 
+use Bake\Shell\Task\ModelTask;
 use Cake\Core\App;
 use Cake\Database\Schema\TableSchema;
 use Cake\ORM\AssociationCollection;
@@ -34,8 +35,11 @@ class ModelAnnotator extends AbstractAnnotator {
 			return false;
 		}
 
+		$tableAssociations = [];
 		try {
-			$associations = $this->_getAssociations($table->associations());
+			$tableAssociations = $table->associations();
+			$associations = $this->_getAssociations($tableAssociations);
+
 		} catch (Exception $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping associations: ' . $e->getMessage());
@@ -47,7 +51,7 @@ class ModelAnnotator extends AbstractAnnotator {
 		$entityName = substr($entityClassName, strrpos($entityClassName, '\\') + 1);
 
 		$resTable = $this->_table($path, $entityName, $associations);
-		$resEntity = $this->_entity($entityName, $schema);
+		$resEntity = $this->_entity($entityName, $schema, $tableAssociations);
 
 		return $resTable || $resEntity;
 	}
@@ -73,6 +77,7 @@ class ModelAnnotator extends AbstractAnnotator {
 				$annotations[] = "@property \\{$className}|\\{$type} \${$name}";
 			}
 		}
+
 		if (class_exists("{$namespace}\\Model\\Entity\\{$entity}")) {
 			// Copied from Bake plugin
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} get(\$primaryKey, \$options = [])";
@@ -111,10 +116,11 @@ class ModelAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $entityName
 	 * @param \Cake\Database\Schema\TableSchema $schema
+	 * @param \Cake\ORM\AssociationCollection $associations
 	 *
 	 * @return bool|null
 	 */
-	protected function _entity($entityName, TableSchema $schema) {
+	protected function _entity($entityName, TableSchema $schema, AssociationCollection $associations) {
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
 		$entityPaths = App::path('Model/Entity', $plugin);
 		$entityPath = null;
@@ -133,7 +139,7 @@ class ModelAnnotator extends AbstractAnnotator {
 		$file = pathinfo($entityPath, PATHINFO_BASENAME);
 		$this->_io->verbose('   ' . $file);
 
-		$annotator = new EntityAnnotator($this->_io, ['schema' => $schema] + $this->getConfig());
+		$annotator = new EntityAnnotator($this->_io, ['schema' => $schema, 'associations' => $associations] + $this->getConfig());
 		$annotator->annotate($entityPath);
 
 		return true;

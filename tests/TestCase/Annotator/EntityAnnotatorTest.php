@@ -101,8 +101,12 @@ class EntityAnnotatorTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotate() {
-		$schema = TableRegistry::get('Foo')->getSchema();
-		$annotator = $this->_getAnnotatorMock(['schema' => $schema]);
+		/** @var \App\Model\Table\FooTable $Table */
+		$Table = TableRegistry::get('Foo');
+
+		$schema = $Table->getSchema();
+		$associations = $Table->associations();
+		$annotator = $this->_getAnnotatorMock(['schema' => $schema, 'associations' => $associations]);
 
 		$expectedContent = str_replace(["\r\n", "\r"], "\n", file_get_contents(TEST_FILES . 'Model/Entity/Foo.php'));
 		$callback = function($value) use ($expectedContent) {
@@ -126,8 +130,13 @@ class EntityAnnotatorTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotateWithExistingDocBlock() {
-		$schema = TableRegistry::get('Foo')->getSchema();
-		$annotator = $this->_getAnnotatorMock(['schema' => $schema]);
+		/** @var \App\Model\Table\FooTable $Table */
+		$Table = TableRegistry::get('Foo');
+		$Table->hasMany('Wheels');
+
+		$schema = $Table->getSchema();
+		$associations = $Table->associations();
+		$annotator = $this->_getAnnotatorMock(['schema' => $schema, 'associations' => $associations]);
 
 		$expectedContent = str_replace(["\r\n", "\r"], "\n", file_get_contents(TEST_FILES . 'Model/Entity/Car.php'));
 		$callback = function($value) use ($expectedContent) {
