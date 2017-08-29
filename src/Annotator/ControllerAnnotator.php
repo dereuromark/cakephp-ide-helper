@@ -107,7 +107,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$annotations[] = AnnotationFactory::create('@property', '\\' . $className, '$' . $component);
+			$annotations[] = AnnotationFactory::createOrFail('@property', '\\' . $className, '$' . $component);
 		}
 
 		return $annotations;
@@ -159,7 +159,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 		$type = implode('|', $entityTypehints);
 
-		$annotations = [AnnotationFactory::create('@method', $type, 'paginate($object = null, array $settings = [])')];
+		$annotations = [AnnotationFactory::createOrFail('@method', $type, 'paginate($object = null, array $settings = [])')];
 
 		return $annotations;
 	}

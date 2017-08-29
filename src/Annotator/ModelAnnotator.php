@@ -89,12 +89,12 @@ class ModelAnnotator extends AbstractAnnotator {
 		}
 		// Make replacable via parsed object
 		foreach ($annotations as $key => $annotation) {
-			$annotation = AnnotationFactory::createFromString($annotation);
-			if (!$annotation) {
+			$annotationObject = AnnotationFactory::createFromString($annotation);
+			if (!$annotationObject) {
 				throw new RuntimeException('Cannot factorize annotation ' . $annotation);
 			}
 
-			$annotations[$key] = $annotation;
+			$annotations[$key] = $annotationObject;
 		}
 
 		foreach ($behaviors as $behavior) {
@@ -106,7 +106,7 @@ class ModelAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$annotations[] = AnnotationFactory::create('@mixin', "\\{$className}");
+			$annotations[] = AnnotationFactory::createOrFail('@mixin', "\\{$className}");
 		}
 
 		return $this->_annotate($path, $content, $annotations);

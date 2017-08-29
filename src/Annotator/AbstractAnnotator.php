@@ -439,7 +439,7 @@ abstract class AbstractAnnotator {
 
 			$tag = $tokens[$i]['content'];
 			$content = trim($appendix);
-			$annotation = AnnotationFactory::create($tag, $type, $content, $classNameIndex);
+			$annotation = AnnotationFactory::createOrFail($tag, $type, $content, $classNameIndex);
 			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === '@var' && $this->inUse($tokens, $closeTagIndex, $content)) {
 				$annotation->setInUse();
 			}
@@ -541,7 +541,7 @@ abstract class AbstractAnnotator {
 			}
 			list(, $name) = pluginSplit($usedModel);
 
-			$annotations[] = AnnotationFactory::create('@property', '\\' . $className, '$' . $name);
+			$annotations[] = AnnotationFactory::createOrFail('@property', '\\' . $className, '$' . $name);
 		}
 
 		return $annotations;

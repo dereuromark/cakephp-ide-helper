@@ -21,20 +21,22 @@ class ViewAnnotator extends AbstractAnnotator {
 	 */
 	public function annotate($path) {
 		$content = file_get_contents($path);
-		$annotations = [];
 
-		$helperAnnotations = $this->_getHelperAnnotations();
-		foreach ($helperAnnotations as $helperAnnotation) {
-			$annotations[] = $helperAnnotation;
+		$helpers = $this->_getHelpers();
+		$annotations = [];
+		foreach ($helpers as $alias => $className) {
+			$annotations[] = AnnotationFactory::createOrFail('@property', '\\' . $className, '$' . $alias);
 		}
 
 		return $this->_annotate($path, $content, $annotations);
 	}
 
 	/**
-	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 * @return array
 	 */
-	protected function _getHelperAnnotations() {
+	protected function _getHelpers() {
+		$helperArray = $this->_parseViewClass();
+
 		$plugin = null;
 		$folders = App::path('Template', $plugin);
 
@@ -45,17 +47,20 @@ class ViewAnnotator extends AbstractAnnotator {
 
 		$helpers = array_unique($this->helpers);
 
-		$helperAnnotations = [];
 		foreach ($helpers as $helper) {
+			if (isset($helperArray[$helper])) {
+				continue;
+			}
+
 			$className = $this->_findClassName($helper);
 			if (!$className || strpos($className, 'Cake\\') === 0) {
 				continue;
 			}
 
-			$helperAnnotations[] = AnnotationFactory::create('@property', '\\' . $className, '$' . $helper);
+			$helperArray[$helper] = $className;
 		}
 
-		return $helperAnnotations;
+		return $helperArray;
 	}
 
 	/**
@@ -67,7 +72,7 @@ class ViewAnnotator extends AbstractAnnotator {
 
 		foreach ($folderContent[1] as $file) {
 			$content = file_get_contents($file);
-			$helpers = $this->_parseHelpers($content);
+			$helpers = $this->_parseHelpersInContent($content);
 			$this->helpers = array_merge($this->helpers, $helpers);
 		}
 
@@ -81,13 +86,34 @@ class ViewAnnotator extends AbstractAnnotator {
 	 *
 	 * @return array
 	 */
-	protected function _parseHelpers($content) {
+	protected function _parseHelpersInContent($content) {
 		preg_match_all('/\$this-\>([A-Z][A-Za-z]+)-\>/', $content, $matches);
 		if (empty($matches[1])) {
 			return [];
 		}
 
 		$helpers = array_unique($matches[1]);
+
+		return $helpers;
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function _parseViewClass() {
+		$helpers = [];
+
+		$className = App::className('App', 'View', 'View');
+		/** @var \App\View\AppView $View */
+		$View = new $className();
+		foreach ($View->helpers() as $alias => $helper) {
+			$className = get_class($helper);
+			if (strpos($className, 'Cake\\') === 0) {
+				continue;
+			}
+
+			$helpers[$alias] = $className;
+		}
 
 		return $helpers;
 	}

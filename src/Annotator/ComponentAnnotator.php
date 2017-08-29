@@ -71,7 +71,7 @@ class ComponentAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$annotations[] = AnnotationFactory::create('@property', '\\' . $className, '$' . $name);
+			$annotations[] = AnnotationFactory::createOrFail('@property', '\\' . $className, '$' . $name);
 		}
 
 		return $annotations;

@@ -181,7 +181,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 		}
 
 		/** @var \IdeHelper\Annotation\VariableAnnotation $annotation */
-		$annotation = AnnotationFactory::create(VariableAnnotation::TAG, '\\' . $className, '$this');
+		$annotation = AnnotationFactory::createOrFail(VariableAnnotation::TAG, '\\' . $className, '$this');
 
 		return $annotation;
 	}
@@ -242,7 +242,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$annotation = AnnotationFactory::create(VariableAnnotation::TAG, '\\' . $className, '$' . $entity);
+			$annotation = AnnotationFactory::createOrFail(VariableAnnotation::TAG, '\\' . $className, '$' . $entity);
 
 			$result[$entity] = $annotation;
 		}
@@ -275,7 +275,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$result[$matches[1][$key]] = AnnotationFactory::create(VariableAnnotation::TAG, '\\' . $className . '[]|\Cake\Collection\CollectionInterface', '$' . $matches[1][$key]);
+			$result[$matches[1][$key]] = AnnotationFactory::createOrFail(VariableAnnotation::TAG, '\\' . $className . '[]|\Cake\Collection\CollectionInterface', '$' . $matches[1][$key]);
 			// We do not need the singular then
 			$result[$entity] = null;
 		}
@@ -309,7 +309,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$result[$entity] = AnnotationFactory::create(VariableAnnotation::TAG, '\\' . $className, '$' . $entity);
+			$result[$entity] = AnnotationFactory::createOrFail(VariableAnnotation::TAG, '\\' . $className, '$' . $entity);
 		}
 
 		return $result;

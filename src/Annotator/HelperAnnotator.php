@@ -62,7 +62,7 @@ class HelperAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$helperAnnotations[] = AnnotationFactory::create('@property', '\\' . $className, '$' . $helper);
+			$helperAnnotations[] = AnnotationFactory::createOrFail('@property', '\\' . $className, '$' . $helper);
 		}
 
 		return $helperAnnotations;
