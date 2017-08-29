@@ -25,7 +25,7 @@ The IDE will usually mark problematic code yellow (missing, wrong method etc).
 - Works with your application as well as any loaded plugin.
 - CI check support, hook it up just like the coding standards check.
 
-Supported annotations by this plugin:
+Supports annotations for:
 - Models (Tables and Entities)
 - Controllers (including prefixes like `Admin`)
 - View (AppView)
