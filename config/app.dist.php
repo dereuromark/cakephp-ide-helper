@@ -10,6 +10,9 @@ return [
 		'skipTemplatePaths' => [
 			'/src/Template/Bake/',
 		],
+		// Custom Entity field type mapping
+		'typeMap' => [
+		],
 		// Always add annotations even if not needed
 		'preemptive' => false,
 	],

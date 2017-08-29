@@ -11,6 +11,21 @@ use RuntimeException;
 class EntityAnnotator extends AbstractAnnotator {
 
 	/**
+	 * @var array|null
+	 */
+	protected static $typeMap;
+
+	/**
+	 * @var array
+	 */
+	protected static $typeMapDefaults = [
+		'mediumtext' => 'string',
+		'longtext' => 'string',
+		'array' => 'array',
+		'json' => 'array',
+	];
+
+	/**
 	 * @param string $path Path to file.
 	 * @return bool
 	 */
@@ -131,14 +146,13 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @param string $type The column type.
 	 * @return null|string The DocBlock type, or `null` for unsupported column types.
 	 */
-	public function columnTypeToHintType($type) {
-		switch ($type) {
-			case 'mediumtext':
-			case 'longtext':
-				return 'string';
-			case 'array':
-			case 'json':
-				return 'array';
+	protected function columnTypeToHintType($type) {
+		if (!static::$typeMap) {
+			static::$typeMap = (array)Configure::read('IdeHelper.typeMap') + static::$typeMapDefaults;
+		}
+
+		if (isset(static::$typeMap[$type])) {
+			return static::$typeMap[$type];
 		}
 
 		return null;

@@ -4,6 +4,7 @@ namespace IdeHelper\Test\TestCase\Annotator;
 
 use App\Model\Table\FooTable;
 use Cake\Console\ConsoleIo;
+use Cake\Core\Configure;
 use Cake\Database\Schema\TableSchema;
 use Cake\ORM\TableRegistry;
 use IdeHelper\Annotator\AbstractAnnotator;
@@ -43,6 +44,8 @@ class EntityAnnotatorTest extends TestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
+
+		Configure::delete('IdeHelper');
 
 		$this->out = new ConsoleOutput();
 		$this->err = new ConsoleOutput();
@@ -95,6 +98,49 @@ class EntityAnnotatorTest extends TestCase {
 		$schema = new TableSchema('Foo', $columns);
 		$x->setSchema($schema);
 		TableRegistry::set('Foo', $x);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testBuildExtendedEntityPropertyHintTypeMap() {
+		$config = [];
+		$annotator = new EntityAnnotator(new Io(new ConsoleIo()), $config);
+
+		Configure::write('IdeHelper.typeMap', [
+			'custom' => 'array',
+			'longtext' => null,
+		]);
+
+		$propertySchema = [
+			'invalid' => [
+				'kind' => 'column',
+				'type' => 'invalid',
+			],
+			'custom' => [
+				'kind' => 'column',
+				'type' => 'custom',
+			],
+			'json' => [
+				'kind' => 'column',
+				'type' => 'json',
+			],
+			'resetted' => [
+				'kind' => 'column',
+				'type' => 'longtext',
+			],
+		];
+		$propertyMap = [
+		];
+
+		$result = $this->invokeMethod($annotator, 'buildExtendedEntityPropertyHintTypeMap', [$propertySchema, $propertyMap]);
+		$expected = [
+			'invalid' => null,
+			'custom' => 'array',
+			'json' => 'array',
+			'resetted' => null,
+		];
+		$this->assertSame($result, $expected);
 	}
 
 	/**
