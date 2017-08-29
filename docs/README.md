@@ -104,6 +104,18 @@ class Location extends Entity {
 }
 ```
 
+Using Configure key `'IdeHelper.typeMap'` you can set a custom array of types to be used for the field mapping here.
+Overwriting the defaults of this plugin is also possible, to skip (reset) just set the value to null:
+```php
+	'IdeHelper' => [
+		'typeMap' => [
+			'custom' => 'array',
+			'longtext => null,
+			...
+ 		],
+	],
+```
+
 ## Shells
 Shells and Tasks should annotate their primary model as well as all manually loaded models.
 
