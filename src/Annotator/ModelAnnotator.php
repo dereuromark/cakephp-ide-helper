@@ -1,7 +1,6 @@
 <?php
 namespace IdeHelper\Annotator;
 
-use Bake\Shell\Task\ModelTask;
 use Cake\Core\App;
 use Cake\Database\Schema\TableSchema;
 use Cake\ORM\AssociationCollection;
