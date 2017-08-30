@@ -58,10 +58,10 @@ class AnnotationsShell extends Shell {
 		$types = [
 			'models',
 			'controllers',
-			'templates',
 			'shells',
 			'components',
 			'helpers',
+			'templates',
 		];
 		if (!$this->param('plugin')) {
 			$types[] = 'view';
