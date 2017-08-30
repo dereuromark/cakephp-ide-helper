@@ -9,6 +9,7 @@ use Cake\View\View;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\VariableAnnotation;
 use PHP_CodeSniffer\Files\File;
+use RuntimeException;
 
 class TemplateAnnotator extends AbstractAnnotator {
 
@@ -39,7 +40,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $path
 	 * @param string $content
-	 * @param array $annotations
+	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
 	 *
 	 * @return bool
 	 */
@@ -93,7 +94,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param string $phpOpenTagIndex
-	 * @param array $annotations
+	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
 	 * @param bool $needsPhpTag
 	 * @return string
 	 */
@@ -101,8 +102,8 @@ class TemplateAnnotator extends AbstractAnnotator {
 		$helper = new DocBlockHelper(new View());
 
 		foreach ($annotations as $key => $annotation) {
-			if (is_string($annotation)) {
-				continue;
+			if (!is_object($annotation)) {
+				throw new RuntimeException('Must be object: ' . $annotation);
 			}
 			$annotations[$key] = (string)$annotation;
 		}

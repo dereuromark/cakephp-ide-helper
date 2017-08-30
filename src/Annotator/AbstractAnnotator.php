@@ -240,7 +240,7 @@ abstract class AbstractAnnotator {
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $closeTagIndex
-	 * @param array &$annotations
+	 * @param \IdeHelper\Annotation\AbstractAnnotation[] &$annotations
 	 *
 	 * @return string
 	 */
@@ -484,6 +484,7 @@ abstract class AbstractAnnotator {
 
 		$line = $tokens[$lastTagIndexOfPreviousLine]['line'];
 		$index = $lastTagIndexOfPreviousLine - 1;
+
 		while ($tokens[$index]['line'] === $line) {
 			if ($tokens[$index]['code'] === T_DOC_COMMENT_TAG || $tokens[$index]['code'] === T_DOC_COMMENT_OPEN_TAG) {
 				return false;
