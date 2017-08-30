@@ -101,14 +101,15 @@ class TemplateAnnotator extends AbstractAnnotator {
 	protected function _addNewTemplateDocBlock(File $file, $phpOpenTagIndex, array $annotations, $needsPhpTag) {
 		$helper = new DocBlockHelper(new View());
 
+		$annotationStrings = [];
 		foreach ($annotations as $key => $annotation) {
 			if (!is_object($annotation)) {
 				throw new RuntimeException('Must be object: ' . print_r($annotation, true));
 			}
-			$annotations[$key] = (string)$annotation;
+			$annotationStrings[$key] = (string)$annotation;
 		}
 
-		$annotationString = $helper->classDescription('', '', $annotations);
+		$annotationString = $helper->classDescription('', '', $annotationStrings);
 
 		if ($needsPhpTag) {
 			$annotationString = '<?php' . PHP_EOL . $annotationString . PHP_EOL . '?>';
