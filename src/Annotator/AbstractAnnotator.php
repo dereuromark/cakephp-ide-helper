@@ -251,7 +251,7 @@ abstract class AbstractAnnotator {
 		$addingAnnotations = [];
 		foreach ($annotations as $key => $annotation) {
 			if (!is_object($annotation)) {
-				throw new RuntimeException('Must be object: ' . $annotation);
+				throw new RuntimeException('Must be object: ' . print_r($annotation, true));
 			}
 			if ($this->_exists($annotation, $existingAnnotations)) {
 				unset($annotations[$key]);

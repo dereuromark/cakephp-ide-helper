@@ -103,7 +103,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		foreach ($annotations as $key => $annotation) {
 			if (!is_object($annotation)) {
-				throw new RuntimeException('Must be object: ' . $annotation);
+				throw new RuntimeException('Must be object: ' . print_r($annotation, true));
 			}
 			$annotations[$key] = (string)$annotation;
 		}
