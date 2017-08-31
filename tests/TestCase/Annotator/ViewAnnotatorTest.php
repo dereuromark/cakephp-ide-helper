@@ -58,7 +58,7 @@ class ViewAnnotatorTest extends TestCase {
 
 		$output = (string)$this->out->output();
 
-		$this->assertTextContains('   -> 2 annotations added', $output);
+		$this->assertTextContains('   -> 3 annotations added', $output);
 	}
 
 	/**

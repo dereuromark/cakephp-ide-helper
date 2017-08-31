@@ -4,6 +4,7 @@ namespace App\View;
 use Cake\View\View;
 
 /**
+ * @property \App\View\Helper\HtmlHelper $Html
  * @property \App\View\Helper\MyHelper $My
  * @property \Shim\View\Helper\ConfigureHelper $Configure
  */
