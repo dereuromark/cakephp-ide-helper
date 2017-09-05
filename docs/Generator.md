@@ -42,7 +42,7 @@ class MyTask implements TaskInterface {
 Then add it to the config:
 ```php
 'IdeHelper' => [
-	'tasks' => [
+	'generatorTasks' => [
 		App\Generator\Task\MyTask::class,
 	],
 ],

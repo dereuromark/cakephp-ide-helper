@@ -25,7 +25,7 @@ class TaskCollection {
 	 */
 	public function __construct(array $tasks = []) {
 		if (!$tasks) {
-			$configTasks = (array)Configure::read('IdeHelper.tasks');
+			$configTasks = (array)Configure::read('IdeHelper.generatorTasks');
 			$tasks = array_merge($this->defaultTasks, $configTasks);
 		}
 

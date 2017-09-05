@@ -15,5 +15,8 @@ return [
 		],
 		// Always add annotations even if not needed
 		'preemptive' => false,
+		// For meta file generator
+		'generatorTasks' => [
+		],
 	],
 ];
