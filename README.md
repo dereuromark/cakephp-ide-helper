@@ -46,37 +46,5 @@ IDEs tested so far for 100% compatibility:
 
 See [Wiki](https://github.com/dereuromark/cakephp-ide-helper/wiki) for details and tips/settings.
 
-## Install
-Install it as `require-dev` dependency:
-```
-composer require --dev dereuromark/cakephp-ide-helper
-```
-
-## Setup
-Enable the plugin in your `config/bootstrap_cli.php` or call
-```
-bin/cake plugin load IdeHelper --cli
-```
-
-Note: As require-dev dependency this should only be loaded for local development (include a check or try/catch).
-
-## Using the annotation shell
-Running it on your app:
-```
-bin/cake annotations [type]
-```
-By default it will print out a diff of the changes incl the amount of modified lines if applicable.
-
-Running it on a loaded plugin:
-```
-bin/cake annotations [type] -p FooBar
-```
-
-Use `-v` for verbose and detailed output:
-```
-bin/cake annotations [type] -v
-```
-
-You can add `-d` (`--dry-run`) to simulate the output without actually modifying the files.
-
+### Install, Setup, Usage
 See the **[Docs](https://github.com/dereuromark/cakephp-ide-helper/tree/master/docs)** for details.

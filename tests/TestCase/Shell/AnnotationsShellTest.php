@@ -63,7 +63,7 @@ class AnnotationsShellTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function _testModels() {
+	public function testModels() {
 		$this->Shell->runCommand(['models', '-d', '-v', '-r']);
 
 		$output = $this->out->output();
