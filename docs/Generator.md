@@ -19,7 +19,7 @@ With the generated meta file this becomes not necessary anymore.
 It will automatically detect this static factory call in the map and hint `$users` as `\App\Model\Table\UsersTable`, making
 `doSomething()` available in the IDE for method argument checking and following.
 
-## Adding your own tasks
+### Adding your own tasks
 Just create your own Task class:
 ```php
 <?php
@@ -47,3 +47,7 @@ Then add it to the config:
 	],
 ],
 ```
+
+### CI or pre-commit check
+Using `-d` (dry run) option you will get an error code if the file would need updating.
+This way you can automate the check for CI tooling or commit hooks.
