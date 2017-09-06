@@ -22,7 +22,6 @@ It will automatically detect this static factory call in the map and hint `$user
 ### Adding your own tasks
 Just create your own Task class:
 ```php
-<?php
 namespace App\Generator\Task;
 
 use IdeHelper\Generator\Task\TaskInterface;
@@ -48,6 +47,24 @@ Then add it to the config:
 ],
 ```
 
+#### Example
+So let's imagine you have the following methods you want to annotate:
+```php
+$alpha = MyFactory::create('alpha'); // Returns \My\Cool\Alpha class
+$beta = MyFactory::create('beta'); // Returns \My\Cool\Beta class
+```
+Then make sure your Task's `collect()` method returns something like:
+```php
+[
+	'\Namespace\PackageName\MyFactory::create(0)' => [
+		'alpha' => '\My\Cool\Alpha::class',
+		'beta' => '\My\Cool\Beta::class',
+	]
+]
+```
+
+For more examples and details see their [documentation](https://confluence.jetbrains.com/display/PhpStorm/PhpStorm+Advanced+Metadata).
+
 ### CI or pre-commit check
-Using `-d` (dry run) option you will get an error code if the file would need updating.
+Using `-d` (dry run) option you will get an error code 2 if the file would need updating.
 This way you can automate the check for CI tooling or commit hooks.

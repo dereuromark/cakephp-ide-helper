@@ -24,6 +24,8 @@ use IdeHelper\Console\Io;
  */
 class AnnotationsShell extends Shell {
 
+	const CODE_CHANGES = 2;
+
 	/**
 	 * @var array
 	 */
@@ -52,7 +54,7 @@ class AnnotationsShell extends Shell {
 	}
 
 	/**
-	 * @return bool
+	 * @return int
 	 */
 	public function all() {
 		$types = [
@@ -91,10 +93,10 @@ class AnnotationsShell extends Shell {
 		}
 
 		if ($this->param('ci')) {
-			return AbstractAnnotator::$output === false;
+			return AbstractAnnotator::$output === false ? static::CODE_SUCCESS : static::CODE_CHANGES;
 		}
 
-		return true;
+		return static::CODE_SUCCESS;
 	}
 
 	/**
@@ -362,7 +364,7 @@ class AnnotationsShell extends Shell {
 			'boolean' => true,
 		];
 		$allParser['options']['ci'] = [
-			'help' => 'Enable CI mode (requires dry-run).',
+			'help' => 'Enable CI mode (requires dry-run). This will return an error code ' . static::CODE_CHANGES . ' if changes are necessary.',
 			'boolean' => true,
 		];
 

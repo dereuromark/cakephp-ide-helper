@@ -70,7 +70,7 @@ class PhpstormShellTest extends TestCase {
 		$output = $this->out->output();
 		$this->assertTextContains(' needs updating', $output);
 
-		$this->assertSame(PhpstormShell::CODE_ERROR, $result);
+		$this->assertSame(PhpstormShell::CODE_CHANGES, $result);
 	}
 
 	/**

@@ -329,7 +329,7 @@ For this, use the `--ci` option along with `-d` (dry run):
 ```
 bin/cake annotations all -v -d --ci
 ```
-It will return an error code if any modification has to be done.
+It will return an error code 2 if any modification has to be done.
 
 It is advised to hook it in along with your cs check, e.g. for travis:
 ```
