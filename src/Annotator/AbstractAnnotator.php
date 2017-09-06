@@ -68,6 +68,7 @@ abstract class AbstractAnnotator {
 	 * @param array $config
 	 */
 	public function __construct(Io $io, array $config) {
+		static::$output = false;
 		$this->_io = $io;
 		$this->setConfig($config);
 
