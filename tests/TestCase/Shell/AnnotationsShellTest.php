@@ -155,7 +155,10 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testAllCiMode() {
-		$result = $this->Shell->runCommand(['all', '-d', '-r', '--ci']);
+		$result = $this->Shell->runCommand(['all', '-d', '-v', '-r', '--ci']);
+
+		$output = (string)$this->out->output();
+		debug($output);
 
 		$this->assertSame(AnnotationsShell::CODE_SUCCESS, $result);
 	}
@@ -166,7 +169,7 @@ class AnnotationsShellTest extends TestCase {
 	public function testAllCiModeChanges() {
 		AbstractAnnotator::$output = true;
 
-		$result = $this->Shell->runCommand(['all', '-d', '-r', '--ci']);
+		$result = $this->Shell->runCommand(['all', '-d', '-v', '-r', '--ci']);
 
 		$this->assertSame(AnnotationsShell::CODE_CHANGES, $result);
 	}
