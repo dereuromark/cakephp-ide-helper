@@ -13,6 +13,8 @@ use IdeHelper\Generator\TaskCollection;
  */
 class PhpstormShell extends Shell {
 
+	const CODE_CHANGES = 2;
+
 	/**
 	 * @return void
 	 */
@@ -39,7 +41,7 @@ class PhpstormShell extends Shell {
 
 		if ($this->param('dry-run')) {
 			$this->out('Meta file `.phpstorm.meta.php` needs updating.');
-			return static::CODE_ERROR;
+			return static::CODE_CHANGES;
 		}
 
 		file_put_contents($file, $content);
@@ -57,7 +59,7 @@ class PhpstormShell extends Shell {
 			'options' => [
 				'dry-run' => [
 					'short' => 'd',
-					'help' => 'Dry run the task. This will output an error code 1 if file needs changing. Can be used for CI checking.',
+					'help' => 'Dry run the task. This will output an error code ' . static::CODE_CHANGES. ' if file needs changing. Can be used for CI checking.',
 					'boolean' => true,
 				],
 			]
