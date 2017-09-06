@@ -364,7 +364,7 @@ class AnnotationsShell extends Shell {
 			'boolean' => true,
 		];
 		$allParser['options']['ci'] = [
-			'help' => 'Enable CI mode (requires dry-run). This will return an error code ' . static::CODE_CHANGES. ' if changes are necessary.',
+			'help' => 'Enable CI mode (requires dry-run). This will return an error code ' . static::CODE_CHANGES . ' if changes are necessary.',
 			'boolean' => true,
 		];
 

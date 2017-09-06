@@ -59,7 +59,7 @@ class PhpstormShell extends Shell {
 			'options' => [
 				'dry-run' => [
 					'short' => 'd',
-					'help' => 'Dry run the task. This will output an error code ' . static::CODE_CHANGES. ' if file needs changing. Can be used for CI checking.',
+					'help' => 'Dry run the task. This will output an error code ' . static::CODE_CHANGES . ' if file needs changing. Can be used for CI checking.',
 					'boolean' => true,
 				],
 			]
