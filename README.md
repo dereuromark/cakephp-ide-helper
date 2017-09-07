@@ -37,9 +37,9 @@ Supports annotations for:
 ![Screenshot](docs/screenshot.jpg)
 
 ### IDE support
-This plugin is **supposed to work with ANY IDE that supports annotations**.
+This plugin is supposed to work with ANY IDE that supports annotations.
 IDEs tested so far for 100% compatibility:
-- PHPStorm
+- **PHPStorm** (incl. meta file generator)
 - IntelliJ
 - Atom
 - ... [Report or PR your IDE of choice here to confirm its full compatibility]
