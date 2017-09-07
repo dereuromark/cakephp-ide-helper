@@ -8,6 +8,15 @@ use Cake\Filesystem\Folder;
 class ModelTask implements TaskInterface {
 
 	/**
+	 * @var array
+	 */
+	protected $aliases = [
+		'\Cake\ORM\TableRegistry::get(0)',
+		'\Cake\ORM\Locator\LocatorInterface::get(0)',
+		'\Cake\Datasource\ModelAwareTrait::loadModel(0)'
+	];
+
+	/**
 	 * @return array
 	 */
 	public function collect() {
@@ -18,7 +27,12 @@ class ModelTask implements TaskInterface {
 			$map[$model] = '\\' . $className . '::class';
 		}
 
-		return ['\Cake\ORM\TableRegistry::get(0)' => $map];
+		$result = [];
+		foreach ($this->aliases as $alias) {
+			$result[$alias] = $map;
+		}
+
+		return $result;
 	}
 
 	/**
