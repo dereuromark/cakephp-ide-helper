@@ -19,10 +19,7 @@ class PhpstormGenerator implements GeneratorInterface {
 	 * @return string
 	 */
 	public function generate() {
-		$map = [];
-		foreach ($this->taskCollection->tasks() as $task) {
-			$map += $task->collect();
-		}
+		$map = $this->taskCollection->getMap();
 
 		return $this->build($map);
 	}

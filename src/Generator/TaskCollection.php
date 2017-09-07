@@ -64,4 +64,16 @@ class TaskCollection {
 		return $this->tasks;
 	}
 
+	/**
+	 * @return array
+	 */
+	public function getMap() {
+		$map = [];
+		foreach ($this->tasks as $task) {
+			$map += $task->collect();
+		}
+
+		return $map;
+	}
+
 }

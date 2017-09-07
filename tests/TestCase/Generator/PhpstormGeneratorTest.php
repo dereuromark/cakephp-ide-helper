@@ -22,6 +22,11 @@ class PhpstormGeneratorTest extends TestCase {
 
 		$taskCollection = new TaskCollection();
 		$this->generator = new PhpstormGenerator($taskCollection);
+
+		$file = TMP . '.meta.php';
+		if (file_exists($file)) {
+			unlink($file);
+		}
 	}
 
 	/**
@@ -32,7 +37,7 @@ class PhpstormGeneratorTest extends TestCase {
 
 		$expected = file_get_contents(Plugin::path('IdeHelper') . 'tests' . DS . 'test_files' . DS . 'meta' . DS . 'phpstorm' . DS . '.meta.php');
 
-		$this->assertSame($result, $expected);
+		$this->assertTextEquals($result, $expected);
 	}
 
 }
