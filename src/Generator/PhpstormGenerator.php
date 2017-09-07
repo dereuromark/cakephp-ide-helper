@@ -33,11 +33,11 @@ class PhpstormGenerator implements GeneratorInterface {
 	 * @return string
 	 */
 	protected function build(array $map) {
-		$overrides = '';
+		$overrides = [];
 		foreach ($map as $method => $array) {
 			$mapDefinitions = $this->buildMapDefinitions($array);
 
-			$overrides .= <<<TXT
+			$overrides[] = <<<TXT
 	override(
 		$method,
 		map([
@@ -47,6 +47,7 @@ $mapDefinitions
 TXT;
 
 		}
+		$overrides = implode(PHP_EOL . PHP_EOL, $overrides);
 
 		$template = <<<TXT
 <?php
