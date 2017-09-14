@@ -296,10 +296,10 @@ abstract class AbstractAnnotator {
 			$annotationString = $needsNewline ? ' *' . "\n" : '';
 			foreach ($addingAnnotations as $annotation) {
 				$annotationString .= ' * ' . $annotation . "\n";
+				$this->_counter[static::COUNT_ADDED]++;
 			}
 
 			$fixer->addContent($lastTagIndexOfPreviousLine, $annotationString);
-			$this->_counter[static::COUNT_ADDED]++;
 		}
 
 		if ($this->getConfig(static::CONFIG_REMOVE)) {
