@@ -1,5 +1,9 @@
 #  Meta File Generator
 
+![Model Typehinting](img/model_typehinting.png)
+
+![Model Autocomplete](img/model_autocomplete.png) 
+
 ## Phpstorm
 This command will generate your `.phpstorm.meta.php` in your app's root dir:
 ```
