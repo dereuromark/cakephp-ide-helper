@@ -23,7 +23,7 @@ With the generated meta file this becomes not necessary anymore.
 It will automatically detect this static factory call in the map and hint `$users` as `\App\Model\Table\UsersTable`, making
 `doSomething()` available in the IDE for method argument checking and following.
 
-This task also annotates the dynamic model factory calls (e.g. `$this->getTableLocator()->get('Users')`).
+This task also annotates the dynamic model factory calls (e.g. `$this->getTableLocator()->get('Users')`) or `loadModel()` usage.
 
 ### Adding your own tasks
 Just create your own Task class:

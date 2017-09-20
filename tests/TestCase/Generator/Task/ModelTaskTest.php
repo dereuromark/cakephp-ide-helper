@@ -27,7 +27,7 @@ class ModelTaskTest extends TestCase {
 	public function testCollect() {
 		$result = $this->task->collect();
 
-		$this->assertCount(3, $result);
+		$this->assertCount(4, $result);
 
 		$expectedMap = [
 			'BarBars' => '\App\Model\Table\BarBarsTable::class',
