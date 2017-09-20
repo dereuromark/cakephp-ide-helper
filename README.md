@@ -39,12 +39,17 @@ Supports annotations for:
 ### IDE support
 This plugin is supposed to work with ANY IDE that supports annotations.
 IDEs tested so far for 100% compatibility:
-- **PHPStorm** (incl. meta file generator)
+- **[PHPStorm](https://github.com/dereuromark/cakephp-ide-helper/wiki/PHPStorm)** (incl. meta file generator)
 - IntelliJ
 - Atom
 - ... [Report or PR your IDE of choice here to confirm its full compatibility]
 
 See [Wiki](https://github.com/dereuromark/cakephp-ide-helper/wiki) for details and tips/settings.
+
+### Plugins with meta file generator tasks
+The following plugins use this plugin to improve IDE compatibility around factory and magic string usage:
+- **[Queue](https://github.com/dereuromark/cakephp-queue)** for `QueuedJobsTable::createJob()` usage.
+- ... (add yours here)
 
 ### Install, Setup, Usage
 See the **[Docs](https://github.com/dereuromark/cakephp-ide-helper/tree/master/docs)** for details.
