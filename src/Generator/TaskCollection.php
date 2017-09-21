@@ -2,6 +2,7 @@
 namespace IdeHelper\Generator;
 
 use Cake\Core\Configure;
+use IdeHelper\Generator\Task\BehaviorTask;
 use IdeHelper\Generator\Task\ComponentTask;
 use IdeHelper\Generator\Task\HelperTask;
 use IdeHelper\Generator\Task\ModelTask;
@@ -15,6 +16,7 @@ class TaskCollection {
 	 */
 	protected $defaultTasks = [
 		ModelTask::class => ModelTask::class,
+		BehaviorTask::class => BehaviorTask::class,
 		ComponentTask::class => ComponentTask::class,
 		HelperTask::class => HelperTask::class,
 	];
@@ -32,6 +34,10 @@ class TaskCollection {
 		$tasks += $defaultTasks;
 
 		foreach ($tasks as $task) {
+			if (!$task) {
+				continue;
+			}
+
 			$this->add($task);
 		}
 	}

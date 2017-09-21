@@ -63,6 +63,7 @@ Using associative arrays you can even exchange any native task with your own imp
 ],
 ```
 The native class name is the key then, your replacement the value.
+Setting the value to `null` completely disables a native task.
 
 #### Example
 So let's imagine you have the following methods you want to annotate:
