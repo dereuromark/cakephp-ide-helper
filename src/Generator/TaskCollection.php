@@ -2,6 +2,8 @@
 namespace IdeHelper\Generator;
 
 use Cake\Core\Configure;
+use IdeHelper\Generator\Task\ComponentTask;
+use IdeHelper\Generator\Task\HelperTask;
 use IdeHelper\Generator\Task\ModelTask;
 use IdeHelper\Generator\Task\TaskInterface;
 use InvalidArgumentException;
@@ -12,7 +14,9 @@ class TaskCollection {
 	 * @var array
 	 */
 	protected $defaultTasks = [
-		ModelTask::class,
+		ModelTask::class => ModelTask::class,
+		ComponentTask::class => ComponentTask::class,
+		HelperTask::class => HelperTask::class,
 	];
 
 	/**
@@ -24,10 +28,8 @@ class TaskCollection {
 	 * @param array $tasks
 	 */
 	public function __construct(array $tasks = []) {
-		if (!$tasks) {
-			$configTasks = (array)Configure::read('IdeHelper.generatorTasks');
-			$tasks = array_merge($this->defaultTasks, $configTasks);
-		}
+		$defaultTasks = (array)Configure::read('IdeHelper.generatorTasks') + $this->defaultTasks;
+		$tasks += $defaultTasks;
 
 		foreach ($tasks as $task) {
 			$this->add($task);

@@ -48,10 +48,21 @@ Then add it to the config:
 ```php
 'IdeHelper' => [
 	'generatorTasks' => [
-		App\Generator\Task\MyTask::class,
+		\App\Generator\Task\MyTask::class,
 	],
 ],
 ```
+
+#### Replacing native tasks
+Using associative arrays you can even exchange any native task with your own implementation:
+```php
+'IdeHelper' => [
+	'generatorTasks' => [
+		\IdeHelper\Generator\Task\ModelTask::class => \App\Generator\Task\MyEnhancedModelTask::class,
+	],
+],
+```
+The native class name is the key then, your replacement the value.
 
 #### Example
 So let's imagine you have the following methods you want to annotate:
