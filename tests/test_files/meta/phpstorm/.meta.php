@@ -59,6 +59,17 @@ namespace PHPSTORM_META {
 	);
 
 	override(
+		\Cake\ORM\Table::addBehavior(0),
+		map([
+			'CounterCache' => \Cake\ORM\Table::class,
+			'Timestamp' => \Cake\ORM\Table::class,
+			'Translate' => \Cake\ORM\Table::class,
+			'Tree' => \Cake\ORM\Table::class,
+			'Shim.Nullable' => \Cake\ORM\Table::class,
+		])
+	);
+
+	override(
 		\Cake\Controller\Controller::loadComponent(0),
 		map([
 			'Auth' => \Cake\Controller\Component\AuthComponent::class,
