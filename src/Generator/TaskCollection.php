@@ -34,6 +34,10 @@ class TaskCollection {
 		$tasks += $defaultTasks;
 
 		foreach ($tasks as $task) {
+			if (!$task) {
+				continue;
+			}
+
 			$this->add($task);
 		}
 	}
