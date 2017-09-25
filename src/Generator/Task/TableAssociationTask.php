@@ -12,8 +12,6 @@ use Cake\ORM\Table;
 class TableAssociationTask extends ModelTask {
 
 	const CLASS_TABLE = Table::class;
-	const CLASS_ASSOCITATION = Association::class;
-	const CLASS_QUERY = Query::class;
 
 	/**
 	 * @var array
