@@ -83,12 +83,12 @@ class PhpstormShellTest extends TestCase {
 		$result = $this->Shell->runCommand(['generate']);
 
 		$output = $this->out->output();
-		$this->assertTextContains('Meta file `/.phpstorm.meta.php/ide-helper.meta.php` generated.', $output);
+		$this->assertTextContains('Meta file `/.phpstorm.meta.php/.ide-helper.meta.php` generated.', $output);
 
 		$result = $this->Shell->runCommand(['generate']);
 
 		$output = $this->out->output();
-		$this->assertTextContains('Meta file `/.phpstorm.meta.php/ide-helper.meta.php` still up to date.', $output);
+		$this->assertTextContains('Meta file `/.phpstorm.meta.php/.ide-helper.meta.php` still up to date.', $output);
 
 		$this->assertSame(PhpstormShell::CODE_SUCCESS, $result);
 	}

@@ -5,7 +5,7 @@
 ![Model Autocomplete](img/model_autocomplete.png) 
 
 ## Phpstorm
-This command will generate your `ide-helper.meta.php` in your app's `ROOT/.phpstorm.meta.php/` directory:
+This command will generate your `.ide-helper.meta.php` in your app's `ROOT/.phpstorm.meta.php/` directory:
 ```
 bin/cake phpstorm generate
 ```
@@ -13,7 +13,7 @@ bin/cake phpstorm generate
 Make sure it is indexed (maybe a restart of PhpStorm could be required).
 
 Note: We are using a directory here to allow custom and manually created meta files along with this generated file.
-Any file inside this directory will be parsed and used.
+Any file inside this directory will be parsed and used. Prefixing with a `.` dot is recommended for PHPCS to skip this file automatically.
 
 ### Models
 ```php
