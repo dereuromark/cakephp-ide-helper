@@ -1,12 +1,10 @@
 <?php
 namespace IdeHelper\Generator\Task;
 
-use Cake\ORM\Association;
 use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Association\BelongsToMany;
 use Cake\ORM\Association\HasMany;
 use Cake\ORM\Association\HasOne;
-use Cake\ORM\Query;
 use Cake\ORM\Table;
 
 class TableAssociationTask extends ModelTask {
