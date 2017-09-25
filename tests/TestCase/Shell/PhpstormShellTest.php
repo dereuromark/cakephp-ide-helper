@@ -41,6 +41,9 @@ class PhpstormShellTest extends TestCase {
 		if (!is_dir(LOGS)) {
 			mkdir(LOGS, 0770, true);
 		}
+		if (file_exists(TMP . '.meta.php')) {
+			unlink(TMP . '.meta.php');
+		}
 
 		$this->out = new ConsoleOutput();
 		$this->err = new ConsoleOutput();
@@ -80,7 +83,12 @@ class PhpstormShellTest extends TestCase {
 		$result = $this->Shell->runCommand(['generate']);
 
 		$output = $this->out->output();
-		$this->assertTextContains('Meta file `.phpstorm.meta.php` generated.', $output);
+		$this->assertTextContains('Meta file `/.phpstorm.meta.php/ide-helper.meta.php` generated.', $output);
+
+		$result = $this->Shell->runCommand(['generate']);
+
+		$output = $this->out->output();
+		$this->assertTextContains('Meta file `/.phpstorm.meta.php/ide-helper.meta.php` still up to date.', $output);
 
 		$this->assertSame(PhpstormShell::CODE_SUCCESS, $result);
 	}
