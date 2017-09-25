@@ -107,6 +107,62 @@ namespace PHPSTORM_META {
 	);
 
 	override(
+		\Cake\ORM\Table::belongsTo(0),
+		map([
+			'BarBars' => \Cake\ORM\Association\BelongsTo::class,
+			'Cars' => \Cake\ORM\Association\BelongsTo::class,
+			'Exceptions' => \Cake\ORM\Association\BelongsTo::class,
+			'Foo' => \Cake\ORM\Association\BelongsTo::class,
+			'WheelsExtra' => \Cake\ORM\Association\BelongsTo::class,
+			'Wheels' => \Cake\ORM\Association\BelongsTo::class,
+			'Awesome.Houses' => \Cake\ORM\Association\BelongsTo::class,
+			'Awesome.Windows' => \Cake\ORM\Association\BelongsTo::class,
+		])
+	);
+
+	override(
+		\Cake\ORM\Table::hasOne(0),
+		map([
+			'BarBars' => \Cake\ORM\Association\HasOne::class,
+			'Cars' => \Cake\ORM\Association\HasOne::class,
+			'Exceptions' => \Cake\ORM\Association\HasOne::class,
+			'Foo' => \Cake\ORM\Association\HasOne::class,
+			'WheelsExtra' => \Cake\ORM\Association\HasOne::class,
+			'Wheels' => \Cake\ORM\Association\HasOne::class,
+			'Awesome.Houses' => \Cake\ORM\Association\HasOne::class,
+			'Awesome.Windows' => \Cake\ORM\Association\HasOne::class,
+		])
+	);
+
+	override(
+		\Cake\ORM\Table::hasMany(0),
+		map([
+			'BarBars' => \Cake\ORM\Association\HasMany::class,
+			'Cars' => \Cake\ORM\Association\HasMany::class,
+			'Exceptions' => \Cake\ORM\Association\HasMany::class,
+			'Foo' => \Cake\ORM\Association\HasMany::class,
+			'WheelsExtra' => \Cake\ORM\Association\HasMany::class,
+			'Wheels' => \Cake\ORM\Association\HasMany::class,
+			'Awesome.Houses' => \Cake\ORM\Association\HasMany::class,
+			'Awesome.Windows' => \Cake\ORM\Association\HasMany::class,
+		])
+	);
+
+	override(
+		\Cake\ORM\Table::belongToMany(0),
+		map([
+			'BarBars' => \Cake\ORM\Association\BelongsToMany::class,
+			'Cars' => \Cake\ORM\Association\BelongsToMany::class,
+			'Exceptions' => \Cake\ORM\Association\BelongsToMany::class,
+			'Foo' => \Cake\ORM\Association\BelongsToMany::class,
+			'WheelsExtra' => \Cake\ORM\Association\BelongsToMany::class,
+			'Wheels' => \Cake\ORM\Association\BelongsToMany::class,
+			'Awesome.Houses' => \Cake\ORM\Association\BelongsToMany::class,
+			'Awesome.Windows' => \Cake\ORM\Association\BelongsToMany::class,
+		])
+	);
+
+	override(
 		\Cake\ORM\Table::find(0),
 		map([
 			'all' => \Cake\ORM\Query::class,

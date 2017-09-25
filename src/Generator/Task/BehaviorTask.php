@@ -8,11 +8,13 @@ use Cake\ORM\Table;
 
 class BehaviorTask implements TaskInterface {
 
+	const CLASS_TABLE = Table::class;
+
 	/**
 	 * @var array
 	 */
 	protected $aliases = [
-		'\Cake\ORM\Table::addBehavior(0)',
+		'\\' . self::CLASS_TABLE . '::addBehavior(0)',
 	];
 
 	/**

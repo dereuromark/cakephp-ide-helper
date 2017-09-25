@@ -37,7 +37,7 @@ class PhpstormGeneratorTest extends TestCase {
 
 		$expected = file_get_contents(Plugin::path('IdeHelper') . 'tests' . DS . 'test_files' . DS . 'meta' . DS . 'phpstorm' . DS . '.meta.php');
 
-		$this->assertTextEquals($result, $expected);
+		$this->assertTextEquals($expected, $result);
 	}
 
 }
