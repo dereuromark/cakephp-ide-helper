@@ -88,7 +88,7 @@ class PhpstormShell extends Shell {
 	 */
 	protected function getMetaFilePath() {
 		if (is_file(ROOT . DS . '.phpstorm.meta.php')) {
-			throw new RuntimeException('Please use a directory called `ROOT/.phpstorm.meta.php/` and store your custom files there.');
+			throw new RuntimeException('Please use a directory called `ROOT/.phpstorm.meta.php/` and store your custom files there. Remove any root file you still have.');
 		}
 
 		return ROOT . DS . '.phpstorm.meta.php' . DS . 'ide-helper.meta.php';
