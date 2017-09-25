@@ -6,6 +6,7 @@ use IdeHelper\Generator\Task\BehaviorTask;
 use IdeHelper\Generator\Task\ComponentTask;
 use IdeHelper\Generator\Task\HelperTask;
 use IdeHelper\Generator\Task\ModelTask;
+use IdeHelper\Generator\Task\TableFinderTask;
 use IdeHelper\Generator\Task\TaskInterface;
 use InvalidArgumentException;
 
@@ -19,6 +20,7 @@ class TaskCollection {
 		BehaviorTask::class => BehaviorTask::class,
 		ComponentTask::class => ComponentTask::class,
 		HelperTask::class => HelperTask::class,
+		TableFinderTask::class => TableFinderTask::class,
 	];
 
 	/**
