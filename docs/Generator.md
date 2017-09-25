@@ -51,7 +51,7 @@ Then add it to the config:
 ```php
 'IdeHelper' => [
 	'generatorTasks' => [
-		\App\Generator\Task\MyTask::class,
+		'MyTask' => \App\Generator\Task\MyTask::class,
 	],
 ],
 ```
