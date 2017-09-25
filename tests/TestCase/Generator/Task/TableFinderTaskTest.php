@@ -5,7 +5,7 @@ namespace IdeHelper\Test\TestCase\Generator\Task;
 use IdeHelper\Generator\Task\TableFinderTask;
 use Tools\TestSuite\TestCase;
 
-class TableFinderTest extends TestCase {
+class TableFinderTaskTest extends TestCase {
 
 	/**
 	 * @var \IdeHelper\Generator\Task\TableFinderTask

@@ -23,7 +23,7 @@ class PhpstormGeneratorTest extends TestCase {
 		$taskCollection = new TaskCollection();
 		$this->generator = new PhpstormGenerator($taskCollection);
 
-		$file = TMP . '.meta.php';
+		$file = TMP . 'ide-helper.meta.php';
 		if (file_exists($file)) {
 			unlink($file);
 		}
@@ -35,7 +35,7 @@ class PhpstormGeneratorTest extends TestCase {
 	public function testCollect() {
 		$result = $this->generator->generate();
 
-		$expected = file_get_contents(Plugin::path('IdeHelper') . 'tests' . DS . 'test_files' . DS . 'meta' . DS . 'phpstorm' . DS . '.meta.php');
+		$expected = file_get_contents(Plugin::path('IdeHelper') . 'tests' . DS . 'test_files' . DS . 'meta' . DS . 'phpstorm' . DS . 'ide-helper.meta.php');
 
 		$this->assertTextEquals($result, $expected);
 	}

@@ -106,4 +106,22 @@ namespace PHPSTORM_META {
 		])
 	);
 
+	override(
+		\Cake\ORM\Table::find(0),
+		map([
+			'all' => \Cake\ORM\Query::class,
+			'list' => \Cake\ORM\Query::class,
+			'threaded' => \Cake\ORM\Query::class,
+		])
+	);
+
+	override(
+		\Cake\ORM\Association::find(0),
+		map([
+			'all' => \Cake\ORM\Query::class,
+			'list' => \Cake\ORM\Query::class,
+			'threaded' => \Cake\ORM\Query::class,
+		])
+	);
+
 }
