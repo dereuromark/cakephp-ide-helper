@@ -278,10 +278,8 @@ If those would be replaced wrongly, you can easily mark them to be ignored by ad
 The `!` would prevent the entity annotation to be replaced.
 
 ### Preemptive annotating
-Using Configure key `'IdeHelper.preemptive'` set to `true` you can be a bit more preemptive in annotations.
-E.g. `@var \App\View\AppView $this` will then be always added to View templates, even if not currently needed.
+By default `@var \App\View\AppView $this` is always added to View templates, even if not currently needed.
 This allows to have immediate typehinting once actually needed.
-
 
 ## Running all commands
 ```

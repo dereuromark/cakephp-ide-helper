@@ -1,9 +1,13 @@
 <?php
 namespace IdeHelper\Generator\Task;
 
+use Cake\Core\Configure;
 use Cake\ORM\Association;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
+use Exception;
+use ReflectionClass;
 
 class TableFinderTask extends ModelTask {
 
@@ -34,16 +38,69 @@ class TableFinderTask extends ModelTask {
 	 * @return array
 	 */
 	protected function collectFinders() {
-		$finders = [];
-
 		$baseFinders = $this->getFinderMethods(static::CLASS_TABLE);
-		$finders[static::CLASS_TABLE] = $baseFinders;
-		$finders[static::CLASS_ASSOCITATION] = $baseFinders;
+		$customFinders = $this->getCustomFinders();
 
-		//$models = $this->collectModels();
-		//TODO: Specific tables and chaining (associations)
+		$allFinders = array_merge($baseFinders, $customFinders);
+		$allFinders = array_unique($allFinders);
+
+		$finders = [];
+		$finders[static::CLASS_TABLE] = $allFinders;
+		$finders[static::CLASS_ASSOCITATION] = $allFinders;
 
 		return $finders;
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getCustomFinders() {
+		// Currently this only works with the base Table, not specific Tables, thus the option here
+		if (!Configure::read('IdeHelper.preemptive')) {
+			return [];
+		}
+
+		$models = $this->collectModels();
+
+		$allFinders = [];
+		foreach ($models as $model => $className) {
+			$customFinders = $this->getFinderMethods($className);
+
+			try {
+				$modelObject = TableRegistry::get($model);
+				$behaviors = $modelObject->behaviors();
+				$finderMap = $this->invokeProperty($behaviors, '_finderMap');
+				$customFinders = array_merge($customFinders, array_keys($finderMap));
+
+			} catch (Exception $exception) {
+			}
+
+			$allFinders = array_merge($allFinders, $customFinders);
+		}
+
+		return array_unique($allFinders);
+	}
+
+	/**
+	 * Gets protected/private property of a class.
+	 *
+	 * So
+	 *   $this->invokeProperty($object, '_foo');
+	 * is equal to
+	 *   $object->_foo
+	 * (assuming the property was directly publicly accessible)
+	 *
+	 * @param object &$object Instantiated object that we want the property off.
+	 * @param string $name Property name to fetch.
+	 *
+	 * @return mixed Property value.
+	 */
+	protected function invokeProperty(&$object, $name) {
+		$reflection = new ReflectionClass(get_class($object));
+		$property = $reflection->getProperty($name);
+		$property->setAccessible(true);
+
+		return $property->getValue($object);
 	}
 
 	/**
@@ -56,15 +113,28 @@ class TableFinderTask extends ModelTask {
 
 		$methods = get_class_methods($className);
 		foreach ($methods as $method) {
-			if ($method === 'findOrCreate') {
-				continue;
-			}
-			if (!preg_match('/^find([A-Z][a-zA-Z]+)/', $method, $matches)) {
-				continue;
-			}
-
-			$result[] = lcfirst($matches[1]);
+			$result = $this->addMethod($result, $method);
 		}
+
+		return $result;
+	}
+
+	/**
+	 * @param array $result
+	 * @param string $method
+	 *
+	 * @return array
+	 */
+	protected function addMethod(array $result, $method) {
+		// We must exclude all find...By... patterns as possible false positives for now (refs https://github.com/cakephp/cakephp/issues/11240)
+		if ($method === 'findOrCreate' || preg_match('/^find.*By[A-Z][a-zA-Z]+/', $method)) {
+			return $result;
+		}
+		if (!preg_match('/^find([A-Z][a-zA-Z]+)/', $method, $matches)) {
+			return $result;
+		}
+
+		$result[] = lcfirst($matches[1]);
 
 		return $result;
 	}

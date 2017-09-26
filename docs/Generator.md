@@ -28,6 +28,42 @@ It will automatically detect this static factory call in the map and hint `$user
 
 This task also annotates the dynamic model factory calls (e.g. `$this->getTableLocator()->get('Users')`) or `loadModel()` usage.
 
+### TableAssociations
+The following is now auto-completed, for example:
+```php
+$this->belongsTo('Authors');
+$this->hasOne('Book');
+$this->hasMany('Articles');
+$this->belongsToMany('Tags.Tags');
+```
+
+### TableFinders
+The `'threaded'` string is now auto-completed, for example:
+```php
+$this->Posts->find('threaded')
+```
+
+Note: Using Configure key `'IdeHelper.preemptive'` set to `true` you can be a bit more verbose and include all possible custom finders, including those from behaviors.
+
+
+### Behaviors
+The following is now auto-completed, for example:
+```php
+$this->addBehavior('Tools.Slugged')
+```
+
+### Components
+The following is now auto-completed, for example:
+```php
+$this->loadComponent('Security')
+```
+
+### Helpers
+The following is now auto-completed, for example:
+```php
+$this->loadHelper('Tools.Tree')
+```
+
 ### Adding your own tasks
 Just create your own Task class:
 ```php

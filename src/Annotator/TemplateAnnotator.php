@@ -3,7 +3,6 @@ namespace IdeHelper\Annotator;
 
 use Bake\View\Helper\DocBlockHelper;
 use Cake\Core\App;
-use Cake\Core\Configure;
 use Cake\Utility\Inflector;
 use Cake\View\View;
 use IdeHelper\Annotation\AnnotationFactory;
@@ -162,15 +161,8 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 * @return bool
 	 */
 	protected function _needsViewAnnotation($content) {
-		if (Configure::read('IdeHelper.preemptive')) {
-			return true;
-		}
-
-		if (preg_match('/\$this-\>/', $content)) {
-			return true;
-		}
-
-		return false;
+		// We just always add it for convenience now
+		return true;
 	}
 
 	/**

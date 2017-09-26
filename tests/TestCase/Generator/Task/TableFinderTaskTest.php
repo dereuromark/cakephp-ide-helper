@@ -4,8 +4,11 @@ namespace IdeHelper\Test\TestCase\Generator\Task;
 
 use IdeHelper\Generator\Task\TableFinderTask;
 use Tools\TestSuite\TestCase;
+use Tools\TestSuite\ToolsTestTrait;
 
 class TableFinderTaskTest extends TestCase {
+
+	use ToolsTestTrait;
 
 	/**
 	 * @var \IdeHelper\Generator\Task\TableFinderTask
@@ -36,6 +39,32 @@ class TableFinderTaskTest extends TestCase {
 		];
 		$map = array_shift($result);
 		$this->assertSame($expectedMap, $map);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAddMethod() {
+		$result = [];
+		$method = 'findSomethingCustom';
+
+		$result = $this->invokeMethod($this->task, 'addMethod', [$result, $method]);
+		$this->assertSame(['somethingCustom'], $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAddMethodInvalid() {
+		$result = [];
+
+		$method = 'findBySomethingCustom';
+		$result = $this->invokeMethod($this->task, 'addMethod', [$result, $method]);
+		$this->assertSame([], $result);
+
+		$method = 'findSomethingCustomBySomethingElse';
+		$result = $this->invokeMethod($this->task, 'addMethod', [$result, $method]);
+		$this->assertSame([], $result);
 	}
 
 }

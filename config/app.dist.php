@@ -13,7 +13,7 @@ return [
 		// Custom Entity field type mapping
 		'typeMap' => [
 		],
-		// Always add annotations even if not needed
+		// Always add annotations/meta even if not yet needed
 		'preemptive' => false,
 		// For meta file generator
 		'generatorTasks' => [

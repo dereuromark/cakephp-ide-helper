@@ -110,7 +110,7 @@ class TemplateAnnotatorTest extends TestCase {
 
 		$output = (string)$this->out->output();
 
-		$this->assertTextContains('   -> 2 annotations added', $output);
+		$this->assertTextContains('   -> 3 annotations added', $output);
 	}
 
 	/**
@@ -148,34 +148,6 @@ class TemplateAnnotatorTest extends TestCase {
 		$annotator = $this->_getAnnotatorMock([]);
 
 		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/existing.ctp'));
-		$callback = function($value) use ($expectedContent) {
-			$value = str_replace(["\r\n", "\r"], "\n", $value);
-			if ($value !== $expectedContent) {
-				$this->_displayDiff($expectedContent, $value);
-			}
-			return $value === $expectedContent;
-		};
-		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
-
-		$path = APP . 'Template/Foos/existing.ctp';
-		$annotator->annotate($path);
-
-		$output = (string)$this->out->output();
-
-		$this->assertTextContains('   -> 2 annotations added, 1 annotation removed', $output);
-	}
-
-	/**
-	 * Tests merging with existing PHP tag and doc block.
-	 *
-	 * @return void
-	 */
-	public function testAnnotateExistingPreemptive() {
-		$annotator = $this->_getAnnotatorMock([]);
-
-		Configure::write('IdeHelper.preemptive', true);
-
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/existing_preemptive.ctp'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {

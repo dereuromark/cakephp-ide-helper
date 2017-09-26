@@ -18,6 +18,20 @@ class ModelTask implements TaskInterface {
 	];
 
 	/**
+	 * Buffer
+	 *
+	 * @var array|null
+	 */
+	protected static $models;
+
+	/**
+	 * @return void
+	 */
+	public static function clearBuffer() {
+		static::$models = null;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function collect() {
@@ -40,6 +54,10 @@ class ModelTask implements TaskInterface {
 	 * @return string[]
 	 */
 	protected function collectModels() {
+		if (static::$models !== null) {
+			return static::$models;
+		}
+
 		$models = [];
 
 		$folders = App::path('Model/Table');
@@ -54,6 +72,8 @@ class ModelTask implements TaskInterface {
 				$models = $this->addModels($models, $folder, $plugin);
 			}
 		}
+
+		static::$models = $models;
 
 		return $models;
 	}
