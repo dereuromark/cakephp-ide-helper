@@ -2,6 +2,7 @@
 
 namespace IdeHelper\Test\TestCase\Generator\Task;
 
+use Cake\Core\Configure;
 use IdeHelper\Generator\Task\TableAssociationTask;
 use Tools\TestSuite\TestCase;
 
@@ -18,7 +19,18 @@ class TableAssociationTaskTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
+		Configure::write('IdeHelper.preemptive', true);
+
 		$this->task = new TableAssociationTask();
+	}
+
+	/**
+	 * @return void
+	 */
+	public function tearDown() {
+		Configure::delete('IdeHelper');
+
+		parent::tearDown();
 	}
 
 	/**
