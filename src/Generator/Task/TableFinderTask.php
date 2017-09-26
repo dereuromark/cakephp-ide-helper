@@ -4,6 +4,8 @@ namespace IdeHelper\Generator\Task;
 use Cake\ORM\Association;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
+use ReflectionClass;
 
 class TableFinderTask extends ModelTask {
 
@@ -40,10 +42,51 @@ class TableFinderTask extends ModelTask {
 		$finders[static::CLASS_TABLE] = $baseFinders;
 		$finders[static::CLASS_ASSOCITATION] = $baseFinders;
 
-		//$models = $this->collectModels();
-		//TODO: Specific tables and chaining (associations)
+		$models = $this->collectModels();
+		foreach ($models as $model => $className) {
+			$methods = $this->getFinderMethods($className);
+			$methods = array_diff($methods, $baseFinders);
+
+			try {
+				$modelObject = TableRegistry::get($model);
+				$behaviors = $modelObject->behaviors();
+				$finderMap = $this->invokeProperty($behaviors, '_finderMap');
+				$methods = array_merge($methods, array_keys($finderMap));
+				$methods = array_unique($methods);
+
+			} catch (\Exception $exception) {
+			}
+
+			if (!$methods) {
+				continue;
+			}
+
+			$finders[$model] = $methods;
+		}
 
 		return $finders;
+	}
+
+	/**
+	 * Gets protected/private property of a class.
+	 *
+	 * So
+	 *   $this->invokeProperty($object, '_foo');
+	 * is equal to
+	 *   $object->_foo
+	 * (assuming the property was directly publicly accessible)
+	 *
+	 * @param object &$object Instantiated object that we want the property off.
+	 * @param string $name Property name to fetch.
+	 *
+	 * @return mixed Property value.
+	 */
+	protected function invokeProperty(&$object, $name) {
+		$reflection = new ReflectionClass(get_class($object));
+		$property = $reflection->getProperty($name);
+		$property->setAccessible(true);
+
+		return $property->getValue($object);
 	}
 
 	/**
@@ -56,7 +99,8 @@ class TableFinderTask extends ModelTask {
 
 		$methods = get_class_methods($className);
 		foreach ($methods as $method) {
-			if ($method === 'findOrCreate') {
+			// We must exclude all find...By... patterns as possible false positives for now (refs https://github.com/cakephp/cakephp/issues/11240)
+			if ($method === 'findOrCreate' || preg_match('/^find.*By[A-Z][a-zA-Z]+/', $method)) {
 				continue;
 			}
 			if (!preg_match('/^find([A-Z][a-zA-Z]+)/', $method, $matches)) {
