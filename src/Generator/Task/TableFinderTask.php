@@ -5,6 +5,7 @@ use Cake\ORM\Association;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
+use Exception;
 use ReflectionClass;
 
 class TableFinderTask extends ModelTask {
@@ -44,24 +45,24 @@ class TableFinderTask extends ModelTask {
 
 		$models = $this->collectModels();
 		foreach ($models as $model => $className) {
-			$methods = $this->getFinderMethods($className);
-			$methods = array_diff($methods, $baseFinders);
+			$customFinders = $this->getFinderMethods($className);
+			$customFinders = array_diff($customFinders, $baseFinders);
 
 			try {
 				$modelObject = TableRegistry::get($model);
 				$behaviors = $modelObject->behaviors();
 				$finderMap = $this->invokeProperty($behaviors, '_finderMap');
-				$methods = array_merge($methods, array_keys($finderMap));
-				$methods = array_unique($methods);
+				$customFinders = array_merge($customFinders, array_keys($finderMap));
+				$customFinders = array_unique($customFinders);
 
-			} catch (\Exception $exception) {
+			} catch (Exception $exception) {
 			}
 
-			if (!$methods) {
+			if (!$customFinders) {
 				continue;
 			}
 
-			$finders[$model] = $methods;
+			$finders[$model] = $customFinders;
 		}
 
 		return $finders;
