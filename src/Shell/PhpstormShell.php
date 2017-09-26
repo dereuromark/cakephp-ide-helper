@@ -100,7 +100,7 @@ class PhpstormShell extends Shell {
 	 */
 	protected function ensureDir() {
 		if (!file_exists(dirname($this->getMetaFilePath()))) {
-			mkdir(dirname($this->getMetaFilePath()), '0775', true);
+			mkdir(dirname($this->getMetaFilePath()), '0777', true);
 		}
 	}
 
