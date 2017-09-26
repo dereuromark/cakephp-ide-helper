@@ -45,6 +45,7 @@ class PhpstormShell extends Shell {
 			return static::CODE_CHANGES;
 		}
 
+		$this->ensureDir();
 		file_put_contents($file, $content);
 
 		$this->out('Meta file `/.phpstorm.meta.php/.ide-helper.meta.php` generated.');
@@ -91,12 +92,16 @@ class PhpstormShell extends Shell {
 			throw new RuntimeException('Please use a directory called `ROOT/.phpstorm.meta.php/` and store your custom files there. Remove any root file you still have.');
 		}
 
-		// Force creating dir
-		if (!file_exists(ROOT . DS . '.phpstorm.meta.php')) {
-			mkdir(dirname(ROOT . DS . '.phpstorm.meta.php'));
-		}
-
 		return ROOT . DS . '.phpstorm.meta.php' . DS . '.ide-helper.meta.php';
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function ensureDir() {
+		if (!file_exists(dirname($this->getMetaFilePath()))) {
+			mkdir(dirname($this->getMetaFilePath()), '0775', true);
+		}
 	}
 
 }
