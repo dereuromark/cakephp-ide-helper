@@ -67,6 +67,26 @@ class PhpstormShellTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testDirExists()
+	{
+		$this->assertSame(false, file_exists(TMP . '.meta.php'));
+		$this->Shell->runCommand(['generate']);
+		$this->assertSame(true, file_exists(TMP . '.meta.php'));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testDirExistsDryRun()
+	{
+		$this->assertSame(false, file_exists(TMP . '.meta.php'));
+		$this->Shell->runCommand(['generate', '-d']);
+		$this->assertSame(false, file_exists(TMP . '.meta.php'));
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testGenerateDryRun() {
 		$result = $this->Shell->runCommand(['generate', '-d']);
 

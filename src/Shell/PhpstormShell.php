@@ -91,6 +91,11 @@ class PhpstormShell extends Shell {
 			throw new RuntimeException('Please use a directory called `ROOT/.phpstorm.meta.php/` and store your custom files there. Remove any root file you still have.');
 		}
 
+		// Force creating dir
+		if (!file_exists(ROOT . DS . '.phpstorm.meta.php')) {
+			mkdir(dirname(ROOT . DS . '.phpstorm.meta.php'));
+		}
+
 		return ROOT . DS . '.phpstorm.meta.php' . DS . '.ide-helper.meta.php';
 	}
 
