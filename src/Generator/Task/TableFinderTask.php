@@ -125,8 +125,7 @@ class TableFinderTask extends ModelTask {
 	 *
 	 * @return array
 	 */
-	protected function addMethod(array $result, $method)
-	{
+	protected function addMethod(array $result, $method) {
 		// We must exclude all find...By... patterns as possible false positives for now (refs https://github.com/cakephp/cakephp/issues/11240)
 		if ($method === 'findOrCreate' || preg_match('/^find.*By[A-Z][a-zA-Z]+/', $method)) {
 			return $result;
