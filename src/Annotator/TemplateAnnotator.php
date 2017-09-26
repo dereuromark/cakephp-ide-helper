@@ -162,15 +162,8 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 * @return bool
 	 */
 	protected function _needsViewAnnotation($content) {
-		if (Configure::read('IdeHelper.preemptive')) {
-			return true;
-		}
-
-		if (preg_match('/\$this-\>/', $content)) {
-			return true;
-		}
-
-		return false;
+		// We just always add it for convenience now
+		return true;
 	}
 
 	/**

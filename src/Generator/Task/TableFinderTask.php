@@ -1,6 +1,7 @@
 <?php
 namespace IdeHelper\Generator\Task;
 
+use Cake\Core\Configure;
 use Cake\ORM\Association;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
@@ -37,35 +38,47 @@ class TableFinderTask extends ModelTask {
 	 * @return array
 	 */
 	protected function collectFinders() {
-		$finders = [];
-
 		$baseFinders = $this->getFinderMethods(static::CLASS_TABLE);
-		$finders[static::CLASS_TABLE] = $baseFinders;
-		$finders[static::CLASS_ASSOCITATION] = $baseFinders;
+		$customFinders = $this->getCustomFinders();
+
+		$allFinders = array_merge($baseFinders, $customFinders);
+		$allFinders = array_unique($allFinders);
+
+		$finders = [];
+		$finders[static::CLASS_TABLE] = $allFinders;
+		$finders[static::CLASS_ASSOCITATION] = $allFinders;
+
+		return $finders;
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getCustomFinders() {
+		// Currently this only works with the base Table, not specific Tables, thus the option here
+		if (!Configure::read('IdeHelper.preemptive')) {
+			return [];
+		}
 
 		$models = $this->collectModels();
+
+		$allFinders = [];
 		foreach ($models as $model => $className) {
 			$customFinders = $this->getFinderMethods($className);
-			$customFinders = array_diff($customFinders, $baseFinders);
 
 			try {
 				$modelObject = TableRegistry::get($model);
 				$behaviors = $modelObject->behaviors();
 				$finderMap = $this->invokeProperty($behaviors, '_finderMap');
 				$customFinders = array_merge($customFinders, array_keys($finderMap));
-				$customFinders = array_unique($customFinders);
 
 			} catch (Exception $exception) {
 			}
 
-			if (!$customFinders) {
-				continue;
-			}
-
-			$finders[$model] = $customFinders;
+			$allFinders = array_merge($allFinders, $customFinders);
 		}
 
-		return $finders;
+		return array_unique($allFinders);
 	}
 
 	/**
