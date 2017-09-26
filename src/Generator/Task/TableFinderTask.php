@@ -100,16 +100,29 @@ class TableFinderTask extends ModelTask {
 
 		$methods = get_class_methods($className);
 		foreach ($methods as $method) {
-			// We must exclude all find...By... patterns as possible false positives for now (refs https://github.com/cakephp/cakephp/issues/11240)
-			if ($method === 'findOrCreate' || preg_match('/^find.*By[A-Z][a-zA-Z]+/', $method)) {
-				continue;
-			}
-			if (!preg_match('/^find([A-Z][a-zA-Z]+)/', $method, $matches)) {
-				continue;
-			}
-
-			$result[] = lcfirst($matches[1]);
+			$result = $this->addMethod($result, $method);
 		}
+
+		return $result;
+	}
+
+	/**
+	 * @param array $result
+	 * @param string $method
+	 *
+	 * @return array
+	 */
+	protected function addMethod(array $result, $method)
+	{
+		// We must exclude all find...By... patterns as possible false positives for now (refs https://github.com/cakephp/cakephp/issues/11240)
+		if ($method === 'findOrCreate' || preg_match('/^find.*By[A-Z][a-zA-Z]+/', $method)) {
+			return $result;
+		}
+		if (!preg_match('/^find([A-Z][a-zA-Z]+)/', $method, $matches)) {
+			return $result;
+		}
+
+		$result[] = lcfirst($matches[1]);
 
 		return $result;
 	}
