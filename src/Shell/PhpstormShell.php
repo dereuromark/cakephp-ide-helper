@@ -45,6 +45,7 @@ class PhpstormShell extends Shell {
 			return static::CODE_CHANGES;
 		}
 
+		$this->ensureDir();
 		file_put_contents($file, $content);
 
 		$this->out('Meta file `/.phpstorm.meta.php/.ide-helper.meta.php` generated.');
@@ -92,6 +93,15 @@ class PhpstormShell extends Shell {
 		}
 
 		return ROOT . DS . '.phpstorm.meta.php' . DS . '.ide-helper.meta.php';
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function ensureDir() {
+		if (!file_exists(dirname($this->getMetaFilePath()))) {
+			mkdir(dirname($this->getMetaFilePath()), 0775, true);
+		}
 	}
 
 }

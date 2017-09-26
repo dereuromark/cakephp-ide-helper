@@ -41,8 +41,9 @@ class PhpstormShellTest extends TestCase {
 		if (!is_dir(LOGS)) {
 			mkdir(LOGS, 0770, true);
 		}
-		if (file_exists(TMP . '.meta.php')) {
-			unlink(TMP . '.meta.php');
+		if (file_exists(TMP . 'phpstorm' . DS . '.meta.php')) {
+			unlink(TMP . 'phpstorm' . DS . '.meta.php');
+			rmdir(TMP . 'phpstorm');
 		}
 
 		$this->out = new ConsoleOutput();
@@ -53,7 +54,7 @@ class PhpstormShellTest extends TestCase {
 			->setMethods(['_stop', 'getMetaFilePath'])
 			->setConstructorArgs([$io])
 			->getMock();
-		$this->Shell->expects($this->any())->method('getMetaFilePath')->willReturn(TMP . '.meta.php');
+		$this->Shell->expects($this->any())->method('getMetaFilePath')->willReturn(TMP . 'phpstorm' . DS . '.meta.php');
 	}
 
 	/**
@@ -62,6 +63,25 @@ class PhpstormShellTest extends TestCase {
 	public function tearDown() {
 		parent::tearDown();
 		unset($this->Shell);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testDirExists() {
+		$this->assertFalse(file_exists(TMP . 'phpstorm'));
+		$this->Shell->runCommand(['generate']);
+		$this->assertTrue(file_exists(TMP . 'phpstorm' . DS . '.meta.php'));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testDirExistsDryRun() {
+		$this->assertFalse(file_exists(TMP . 'phpstorm'));
+		$this->Shell->runCommand(['generate', '-d']);
+		$this->assertFalse(file_exists(TMP . 'phpstorm' . DS . '.meta.php'));
+		$this->assertFalse(file_exists(TMP . 'phpstorm'));
 	}
 
 	/**
