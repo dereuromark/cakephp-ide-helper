@@ -40,22 +40,22 @@ class BehaviorTask implements TaskInterface {
 	 * @return string[]
 	 */
 	protected function collectBehaviors() {
-		$components = [];
+		$behaviors = [];
 
 		$folders = array_merge(App::core('ORM/Behavior'), App::path('Model/Behavior'));
 		foreach ($folders as $folder) {
-			$components = $this->addBehaviors($components, $folder);
+			$behaviors = $this->addBehaviors($behaviors, $folder);
 		}
 
 		$plugins = Plugin::loaded();
 		foreach ($plugins as $plugin) {
 			$folders = App::path('Model/Behavior', $plugin);
 			foreach ($folders as $folder) {
-				$components = $this->addBehaviors($components, $folder, $plugin);
+				$behaviors = $this->addBehaviors($behaviors, $folder, $plugin);
 			}
 		}
 
-		return $components;
+		return $behaviors;
 	}
 
 	/**
