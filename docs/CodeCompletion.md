@@ -73,8 +73,8 @@ Using associative arrays you can even exchange any native task with your own imp
 The native class name is the key then, your replacement the value.
 Setting the value to `null` completely disables a native task.
 
-#### Example
-So let's imagine you have the following property you want to annotate:
+#### Property example
+So let's imagine you have the following magic properties you want to annotate:
 ```php
 $alpha = $someObject->Alpha; // Returns \My\Cool\Alpha class
 $beta = $someObject->Beta; // Returns \My\Cool\Beta class
@@ -88,7 +88,7 @@ abstract class SomeObject extends SomeObjectInterface {
 	 *
 	 * @var \My\Cool\Alpha
 	 */
-	public $Aplha;
+	public $Alpha;
 
 	/**
 	 * Beta class.
@@ -101,3 +101,34 @@ abstract class SomeObject extends SomeObjectInterface {
 ```
 
 We can use `abstract` keyword to avoid direct implementation hinting.
+
+#### Method example
+Let's imagine you have the following magic methods you want to annotate:
+```php
+$alpha = $someObject->alpha(); // Returns \My\Cool\Alpha class
+$beta = $someObject->beta(); // Returns \My\Cool\Beta class
+```
+Then make sure your Task's `create()` method returns something like:
+```php
+abstract class SomeObject extends SomeObjectInterface {
+
+	/**
+	 * Alpha class.
+	 *
+	 * @var \My\Cool\Alpha
+	 */
+	protected $alpha;
+
+	...
+
+	/**
+	 * @return \My\Cool\Alpha
+	 */
+	public function search() {
+		return $this->alpha;
+	}
+
+	...
+
+}
+```
