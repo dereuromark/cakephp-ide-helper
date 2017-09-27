@@ -2,6 +2,8 @@
 
 In contrast to the PHPStorm meta file generator this one is supposed to be more generic and IDE agnostic.
 
+![Behavior Code Completion](img/code_completion.png) 
+
 ## Usage
 This command will generate your CodeCompletion `php` files in your app's `TMP/` directory:
 ```
