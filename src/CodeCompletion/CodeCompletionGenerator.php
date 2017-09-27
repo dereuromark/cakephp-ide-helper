@@ -9,14 +9,14 @@ class CodeCompletionGenerator {
 	protected $taskCollection;
 
 	/**
-	 * @param \IdeHelper\Generator\TaskCollection $taskCollection
+	 * @param \IdeHelper\CodeCompletion\TaskCollection $taskCollection
 	 */
 	public function __construct(TaskCollection $taskCollection) {
 		$this->taskCollection = $taskCollection;
 	}
 
 	/**
-	 * @return array
+	 * @return string[]
 	 */
 	public function generate() {
 		$map = $this->taskCollection->getMap();
@@ -46,8 +46,7 @@ TXT;
 	 *
 	 * @return string
 	 */
-	protected function buildContent(array $array)
-	{
+	protected function buildContent(array $array) {
 		return implode('', $array);
 	}
 
@@ -56,8 +55,7 @@ TXT;
 	 *
 	 * @return string
 	 */
-	protected function type($namespace)
-	{
+	protected function type($namespace) {
 		return preg_replace('/[^\da-z]/i', '', $namespace);
 	}
 

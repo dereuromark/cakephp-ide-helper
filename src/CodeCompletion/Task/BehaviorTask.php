@@ -4,7 +4,6 @@ namespace IdeHelper\CodeCompletion\Task;
 use Cake\Core\App;
 use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
-use Cake\ORM\Table;
 
 class BehaviorTask implements TaskInterface {
 
@@ -93,8 +92,7 @@ TXT;
 		return $components;
 	}
 
-	protected function build($behaviors)
-	{
+	protected function build($behaviors) {
 		$result = [];
 
 		foreach ($behaviors as $behavior => $className) {

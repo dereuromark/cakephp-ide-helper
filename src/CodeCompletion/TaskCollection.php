@@ -2,8 +2,8 @@
 namespace IdeHelper\CodeCompletion;
 
 use Cake\Core\Configure;
-use IdeHelper\CodeCompletion\Task\TaskInterface;
 use IdeHelper\CodeCompletion\Task\BehaviorTask;
+use IdeHelper\CodeCompletion\Task\TaskInterface;
 use InvalidArgumentException;
 
 class TaskCollection {
@@ -16,7 +16,7 @@ class TaskCollection {
 	];
 
 	/**
-	 * @var TaskInterface[]
+	 * @var \IdeHelper\CodeCompletion\Task\TaskInterface[]
 	 */
 	protected $tasks;
 
@@ -39,7 +39,7 @@ class TaskCollection {
 	/**
 	 * Adds a task to the collection.
 	 *
-	 * @param string|\IdeHelper\Generator\Task\TaskInterface $task The task to map.
+	 * @param string|\IdeHelper\CodeCompletion\Task\TaskInterface $task The task to map.
 	 * @return $this
 	 */
 	public function add($task) {
