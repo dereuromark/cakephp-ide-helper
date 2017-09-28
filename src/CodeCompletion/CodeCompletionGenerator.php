@@ -65,8 +65,7 @@ TXT;
 	/**
 	 * @return string
 	 */
-	protected function path()
-	{
+	protected function path() {
 		$path = Configure::read('IdeHelper.codeCompletionPath') ?: TMP;
 		if (!is_dir($path)) {
 			mkdir($path, 0775, true);
