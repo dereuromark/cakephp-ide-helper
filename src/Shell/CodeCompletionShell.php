@@ -4,27 +4,17 @@ namespace IdeHelper\Shell;
 use Cake\Console\Shell;
 use IdeHelper\CodeCompletion\CodeCompletionGenerator;
 use IdeHelper\CodeCompletion\TaskCollection;
-use RuntimeException;
 
 /**
- * Shell for generating a generic IDE auto-completion file.
+ * Shell for generating generic IDE auto-completion files.
  *
  * @author Mark Scherer
  * @license MIT
  */
 class CodeCompletionShell extends Shell {
 
-	const CODE_CHANGES = 2;
-
 	/**
-	 * @return void
-	 */
-	public function startup() {
-		parent::startup();
-	}
-
-	/**
-	 * Generates .phpstorm.meta.php file.
+	 * Generates CodeCompletation.php files.
 	 *
 	 * @return int
 	 */
@@ -71,17 +61,6 @@ class CodeCompletionShell extends Shell {
 		$taskCollection = new TaskCollection();
 
 		return new CodeCompletionGenerator($taskCollection);
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function getMetaFilePath() {
-		if (is_file(ROOT . DS . '.phpstorm.meta.php')) {
-			throw new RuntimeException('Please use a directory called `ROOT/.phpstorm.meta.php/` and store your custom files there. Remove any root file you still have.');
-		}
-
-		return ROOT . DS . '.phpstorm.meta.php' . DS . '.ide-helper.meta.php';
 	}
 
 }

@@ -17,13 +17,6 @@ class PhpstormShell extends Shell {
 	const CODE_CHANGES = 2;
 
 	/**
-	 * @return void
-	 */
-	public function startup() {
-		parent::startup();
-	}
-
-	/**
 	 * Generates .phpstorm.meta.php file.
 	 *
 	 * @return int
