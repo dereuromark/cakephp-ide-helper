@@ -134,3 +134,8 @@ abstract class SomeObject extends SomeObjectInterface {
 
 }
 ```
+
+### Custom path for files
+
+Using Configure key `'IdeHelper.codeCompletionPath'` you can use a custom path in your project if needed.
+This way the files can be added to version control. 

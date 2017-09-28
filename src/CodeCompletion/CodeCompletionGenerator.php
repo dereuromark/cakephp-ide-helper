@@ -1,6 +1,8 @@
 <?php
 namespace IdeHelper\CodeCompletion;
 
+use Cake\Core\Configure;
+
 class CodeCompletionGenerator {
 
 	/**
@@ -33,7 +35,8 @@ exit('Only for code completion - regenerate using `bin/cake code_completion gene
 $content
 TXT;
 
-			$filename = TMP . 'CodeCompletion' . $this->type($namespace) . '.php';
+			$path = $this->path();
+			$filename = $path . 'CodeCompletion' . $this->type($namespace) . '.php';
 
 			file_put_contents($filename, $template);
 		}
@@ -57,6 +60,19 @@ TXT;
 	 */
 	protected function type($namespace) {
 		return preg_replace('/[^\da-z]/i', '', $namespace);
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function path()
+	{
+		$path = Configure::read('IdeHelper.codeCompletionPath') ?: TMP;
+		if (!is_dir($path)) {
+			mkdir($path, 0775, true);
+		}
+
+		return $path;
 	}
 
 }

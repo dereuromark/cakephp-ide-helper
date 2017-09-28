@@ -18,5 +18,10 @@ return [
 		// For meta file generator
 		'generatorTasks' => [
 		],
+		// For code completion file generator
+		'codeCompletionTasks' => [
+		],
+		// If a custom directory should be used, defaults to TMP otherwise
+		'codeCompletionPath' => null,
 	],
 ];
