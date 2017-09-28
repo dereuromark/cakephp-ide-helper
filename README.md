@@ -36,8 +36,11 @@ Supports annotations for:
 
 ![Screenshot](docs/screenshot.jpg)
 
+Supports code completion help for:
+- Behaviors (property access on the BehaviorRegistry)
+
 ### IDE support
-This plugin is supposed to work with ANY IDE that supports annotations.
+This plugin is supposed to work with ANY IDE that supports annotations and code completion.
 IDEs tested so far for 100% compatibility:
 - **[PHPStorm](https://github.com/dereuromark/cakephp-ide-helper/wiki/PHPStorm)** (incl. meta file generator)
 - IntelliJ
