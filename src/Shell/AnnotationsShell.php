@@ -122,8 +122,14 @@ class AnnotationsShell extends Shell {
 
 		$count = 0;
 		foreach ($folderContent[1] as $file) {
+			$name = pathinfo($file, PATHINFO_FILENAME);
+			if ($this->_shouldSkip($name)) {
+				continue;
+			}
+
+			$this->out('-> ' . $name, 1, Shell::VERBOSE);
+
 			$annotator = new ModelAnnotator($this->_io(), $this->params);
-			$this->out('-> ' . $file, 1, Shell::VERBOSE);
 
 			$result = $annotator->annotate($folder . $file);
 			if ($result) {
@@ -154,7 +160,13 @@ class AnnotationsShell extends Shell {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);
 
 		foreach ($folderContent[1] as $file) {
-			$this->out('-> ' . $file, 1, Shell::VERBOSE);
+			$name = pathinfo($file, PATHINFO_FILENAME);
+			if ($this->_shouldSkip($name)) {
+				continue;
+			}
+
+			$this->out('-> ' . $name, 1, Shell::VERBOSE);
+
 			$annotator = new ControllerAnnotator($this->_io(), $this->params);
 			$annotator->annotate($folder . $file);
 		}
@@ -192,6 +204,15 @@ class AnnotationsShell extends Shell {
 		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
 		foreach ($folderContent[1] as $file) {
 			$name = pathinfo($file, PATHINFO_FILENAME);
+			$dir = $name;
+			$templatePathPos = strpos($folder, 'src' . DS . 'Template' . DS);
+			if ($templatePathPos) {
+				$dir = substr($folder, $templatePathPos + 13) . DS;
+			}
+			if ($this->_shouldSkip($dir)) {
+				continue;
+			}
+
 			$this->out('-> ' . $name, 1, Shell::VERBOSE);
 			$annotator = new TemplateAnnotator($this->_io(), $this->params);
 			$annotator->annotate($file);
@@ -235,6 +256,10 @@ class AnnotationsShell extends Shell {
 		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
 		foreach ($folderContent[1] as $file) {
 			$name = pathinfo($file, PATHINFO_FILENAME);
+			if ($this->_shouldSkip($name)) {
+				continue;
+			}
+
 			$this->out('-> ' . $name, 1, Shell::VERBOSE);
 			$annotator = new HelperAnnotator($this->_io(), $this->params);
 			$annotator->annotate($file);
@@ -267,6 +292,10 @@ class AnnotationsShell extends Shell {
 		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
 		foreach ($folderContent[1] as $file) {
 			$name = pathinfo($file, PATHINFO_FILENAME);
+			if ($this->_shouldSkip($name)) {
+				continue;
+			}
+
 			$this->out('-> ' . $name, 1, Shell::VERBOSE);
 			$annotator = new ComponentAnnotator($this->_io(), $this->params);
 			$annotator->annotate($file);
@@ -299,6 +328,10 @@ class AnnotationsShell extends Shell {
 		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
 		foreach ($folderContent[1] as $file) {
 			$name = pathinfo($file, PATHINFO_FILENAME);
+			if ($this->_shouldSkip($name)) {
+				continue;
+			}
+
 			$this->out('-> ' . $name, 1, Shell::VERBOSE);
 			$annotator = new ShellAnnotator($this->_io(), $this->params);
 			$annotator->annotate($file);
@@ -316,8 +349,10 @@ class AnnotationsShell extends Shell {
 		if ($this->param('plugin')) {
 			$this->abort('Plugin option not supported for this command');
 		}
+		if ($this->param('filter')) {
+			$this->abort('Filter option not supported for this command');
+		}
 
-		//TODO: Improve finding the correct one by introspecting loadHelper() calls and $helpers config.
 		$className = App::className('App', 'View', 'View');
 		$file = APP . 'View' . DS . 'AppView.php';
 		if (!$className || !file_exists($file)) {
@@ -353,6 +388,11 @@ class AnnotationsShell extends Shell {
 					'short' => 'r',
 					'help' => 'Remove outdated annotations. Make sure you commited first or have a backup!',
 					'boolean' => true,
+				],
+				'filter' => [
+					'short' => 'f',
+					'help' => 'Filter by search string in file name. For templates also in path.',
+					'default' => null,
 				],
 			]
 		];
@@ -402,6 +442,20 @@ class AnnotationsShell extends Shell {
 	 */
 	protected function _io() {
 		return new Io($this->io());
+	}
+
+	/**
+	 * @param string $fileName
+	 *
+	 * @return bool
+	 */
+	protected function _shouldSkip($fileName) {
+		$filter = $this->param('filter');
+		if (!$filter) {
+			return false;
+		}
+
+		return !(bool)preg_match('/' . preg_quote($filter, '/') . '/i', $fileName);
 	}
 
 }

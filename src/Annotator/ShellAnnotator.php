@@ -32,7 +32,7 @@ class ShellAnnotator extends AbstractAnnotator {
 	 * @return string|null
 	 */
 	protected function _getPrimaryModelClass($content) {
-		if (!preg_match('/\bpublic \$modelClass = \'([a-z.]+)\'/i', $content, $matches)) {
+		if (!preg_match('/\bpublic \$modelClass = \'([a-z.\/]+)\'/i', $content, $matches)) {
 			return null;
 		}
 
@@ -47,7 +47,7 @@ class ShellAnnotator extends AbstractAnnotator {
 	 * @return array
 	 */
 	protected function _getUsedModels($content) {
-		preg_match_all('/\$this-\>loadModel\(\'([a-z.]+)\'/i', $content, $matches);
+		preg_match_all('/\$this-\>loadModel\(\'([a-z.\/]+)\'/i', $content, $matches);
 		if (empty($matches[1])) {
 			return [];
 		}
