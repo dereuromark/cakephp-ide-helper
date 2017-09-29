@@ -115,6 +115,9 @@ class TemplateAnnotator extends AbstractAnnotator {
 		}
 
 		$annotationString = $helper->classDescription('', '', $annotationStrings);
+		if (PHP_EOL !== "\n") {
+			$annotationString = str_replace("\n", PHP_EOL, $annotationString);
+		}
 
 		if ($phpOpenTagIndex === null) {
 			$annotationString = '<?php' . PHP_EOL . $annotationString . PHP_EOL . '?>';

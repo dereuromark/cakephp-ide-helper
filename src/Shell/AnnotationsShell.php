@@ -207,7 +207,7 @@ class AnnotationsShell extends Shell {
 			$dir = $name;
 			$templatePathPos = strpos($folder, 'src' . DS . 'Template' . DS);
 			if ($templatePathPos) {
-				$dir = substr($folder, $templatePathPos + 13) . DS;
+				$dir = substr($folder, $templatePathPos + 13) . DS . $name;
 			}
 			if ($this->_shouldSkip($dir)) {
 				continue;
