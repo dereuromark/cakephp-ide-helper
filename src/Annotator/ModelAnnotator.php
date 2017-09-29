@@ -149,7 +149,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @return array
 	 */
 	protected function _parseLoadedBehaviors($content) {
-		preg_match_all('/\$this-\>addBehavior\(\'([a-z.]+)\'/i', $content, $matches);
+		preg_match_all('/\$this-\>addBehavior\(\'([a-z.\/]+)\'/i', $content, $matches);
 		if (empty($matches[1])) {
 			return [];
 		}

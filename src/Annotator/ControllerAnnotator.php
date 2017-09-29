@@ -53,7 +53,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 * @return null|string
 	 */
 	protected function _getPrimaryModelClass($content, $className) {
-		if (preg_match('/\bpublic \$modelClass = \'([a-z.]+)\'/i', $content, $matches)) {
+		if (preg_match('/\bpublic \$modelClass = \'([a-z.\/]+)\'/i', $content, $matches)) {
 			return $matches[1];
 		}
 
