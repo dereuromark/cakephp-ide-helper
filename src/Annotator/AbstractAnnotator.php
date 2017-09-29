@@ -219,7 +219,7 @@ abstract class AbstractAnnotator {
 
 		$closeTagIndex = $file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $classIndex - 1, $prevCode);
 		$this->_resetCounter();
-		if ($closeTagIndex) {
+		if ($closeTagIndex && !$this->isInlineDocBlock($file, $closeTagIndex)) {
 			$newContent = $this->_appendToExistingDocBlock($file, $closeTagIndex, $annotations);
 		} else {
 			$newContent = $this->_addNewDocBlock($file, $classIndex, $annotations);
@@ -240,13 +240,13 @@ abstract class AbstractAnnotator {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param int $closeTagIndex
+	 * @param int $docBlockCloseIndex
 	 * @param \IdeHelper\Annotation\AbstractAnnotation[] &$annotations
 	 *
 	 * @return string
 	 */
-	protected function _appendToExistingDocBlock(File $file, $closeTagIndex, array &$annotations) {
-		$existingAnnotations = $this->_parseExistingAnnotations($file, $closeTagIndex);
+	protected function _appendToExistingDocBlock(File $file, $docBlockCloseIndex, array &$annotations) {
+		$existingAnnotations = $this->_parseExistingAnnotations($file, $docBlockCloseIndex);
 
 		$replacingAnnotations = [];
 		$addingAnnotations = [];
@@ -275,9 +275,8 @@ abstract class AbstractAnnotator {
 		}
 
 		$tokens = $file->getTokens();
-
-		$lastTagIndexOfPreviousLine = $closeTagIndex;
-		while ($tokens[$lastTagIndexOfPreviousLine]['line'] === $tokens[$closeTagIndex]['line']) {
+		$lastTagIndexOfPreviousLine = $docBlockCloseIndex;
+		while ($tokens[$lastTagIndexOfPreviousLine]['line'] === $tokens[$docBlockCloseIndex]['line']) {
 			$lastTagIndexOfPreviousLine--;
 		}
 
@@ -498,7 +497,7 @@ abstract class AbstractAnnotator {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param string $classIndex
+	 * @param int $classIndex
 	 * @param \IdeHelper\Annotation\AbstractAnnotation[]|string[] $annotations
 	 *
 	 * @return string
@@ -526,6 +525,20 @@ abstract class AbstractAnnotator {
 		$this->_counter[static::COUNT_ADDED] = count($annotations);
 
 		return $contents;
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param int $docBlockCloseIndex
+	 *
+	 * @return bool
+	 */
+	protected function isInlineDocBlock(File $file, $docBlockCloseIndex) {
+		$tokens = $file->getTokens();
+
+		$docBlockOpenIndex = $tokens[$docBlockCloseIndex]['comment_opener'];
+
+		return $tokens[$docBlockCloseIndex]['line'] === $tokens[$docBlockOpenIndex]['line'];
 	}
 
 	/**
