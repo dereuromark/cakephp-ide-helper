@@ -2,7 +2,7 @@
 
 Note that freshly [baking](https://github.com/cakephp/bake) your code will result in similar results,
 but often times there is already existing code, and re-baking it is not an option then usually.
-And of course it also keeps your manually addd or modified code annotated.
+And of course it also keeps your manually added or modified code annotated.
 
 ## Controllers
 All controllers should at least annotate their primary model.
@@ -292,7 +292,7 @@ You can use `-i` (interactive) to enable interactive mode. It is also recommende
 bin/cake annotations all -i -v
 ```
 
-Also make sure you commited or backuped all project files.
+Also make sure you committed or backuped all project files.
 
 ## Dry-Run and Diff
 If you want to check if it would be modifying any files, you can run it with `-d` (dry-run) param.
@@ -311,6 +311,10 @@ Template/Tickets
 ```
 
 Tip: Use it together with `-v` (verbose) to get more information on what files got processed.
+
+## Quick-Filter files
+With the `-f`/`--filter` option you can quickly annotate only specific files. It will apply the filter to the file name.
+For templates it will also look in the folder name.
 
 ## Removing outdated annotations
 NEW: With `-r`/`--remove` there is now basic support for finding and removing outdated annotations.
