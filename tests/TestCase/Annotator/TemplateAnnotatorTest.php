@@ -12,12 +12,14 @@ use IdeHelper\Annotator\TemplateAnnotator;
 use IdeHelper\Console\Io;
 use Tools\TestSuite\ConsoleOutput;
 use Tools\TestSuite\TestCase;
+use Tools\TestSuite\ToolsTestTrait;
 
 /**
  */
 class TemplateAnnotatorTest extends TestCase {
 
 	use DiffHelperTrait;
+	use ToolsTestTrait;
 
 	/**
 	 * @var \Tools\TestSuite\ConsoleOutput
@@ -59,6 +61,42 @@ class TemplateAnnotatorTest extends TestCase {
 		TableRegistry::set('Foo', $x);
 
 		Configure::delete('IdeHelper');
+		Configure::write('IdeHelper.preemptive', true);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function tearDown() {
+		Configure::delete('IdeHelper');
+
+		parent::tearDown();
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testNeedsViewAnnotation()
+	{
+		Configure::write('IdeHelper.preemptive', false);
+
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$content = '';
+		$result = $this->invokeMethod($annotator, '_needsViewAnnotation', [$content]);
+		$this->assertFalse($result);
+
+		$content = 'Foo Bar';
+		$result = $this->invokeMethod($annotator, '_needsViewAnnotation', [$content]);
+		$this->assertFalse($result);
+
+		$content = 'Foo <?php echo $this->Foo->bar(); ?>';
+		$result = $this->invokeMethod($annotator, '_needsViewAnnotation', [$content]);
+		$this->assertTrue($result);
+
+		$content = 'Foo <?= $x; ?>';
+		$result = $this->invokeMethod($annotator, '_needsViewAnnotation', [$content]);
+		$this->assertTrue($result);
 	}
 
 	/**
@@ -196,7 +234,7 @@ class TemplateAnnotatorTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testAnnotateEmpty() {
+	public function testAnnotateEmptyPreemptive() {
 		$annotator = $this->_getAnnotatorMock([]);
 
 		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/empty.ctp'));
@@ -215,6 +253,28 @@ class TemplateAnnotatorTest extends TestCase {
 		$output = (string)$this->out->output();
 
 		$this->assertTextContains('   -> 1 annotation added', $output);
+	}
+
+	/**
+	 * Tests with empty template
+	 *
+	 * @return void
+	 */
+	public function testAnnotateEmpty() {
+		Configure::write('IdeHelper.preemptive', false);
+
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$callback = function($value) {
+		};
+		$annotator->expects($this->never())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP . 'Template/Foos/empty.ctp';
+		$annotator->annotate($path);
+
+		$output = (string)$this->out->output();
+
+		$this->assertTextEquals('', $output);
 	}
 
 	/**
