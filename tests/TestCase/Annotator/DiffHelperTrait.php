@@ -51,7 +51,7 @@ trait DiffHelperTrait {
 			}
 		}
 
-		debug($out);
+		echo PHP_EOL . '####### diff #######' . PHP_EOL . (implode(PHP_EOL, $out)) . PHP_EOL . '##### diff end #####' . PHP_EOL;
 	}
 
 }

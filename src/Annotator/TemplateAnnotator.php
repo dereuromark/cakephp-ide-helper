@@ -51,14 +51,23 @@ class TemplateAnnotator extends AbstractAnnotator {
 		$file = $this->_getFile($path, $content);
 
 		$phpOpenTagIndex = $file->findNext(T_OPEN_TAG, 0);
-		$needsPhpTag = $this->_needsPhpTag($file, $phpOpenTagIndex);
+		if ($phpOpenTagIndex === false) {
+			$phpOpenTagIndex = null;
+		}
 
-		$closeTagIndex = $this->_findExistingDocBlock($file, $phpOpenTagIndex, $needsPhpTag);
-		$this->_resetCounter();
-		if ($closeTagIndex) {
-			$newContent = $this->_appendToExistingDocBlock($file, $closeTagIndex, $annotations);
+		$needsPhpTag = $phpOpenTagIndex === null || $this->_needsPhpTag($file, $phpOpenTagIndex);
+		$docBlockCloseTagIndex = null;
+		if ($needsPhpTag) {
+			$phpOpenTagIndex = null;
 		} else {
-			$newContent = $this->_addNewTemplateDocBlock($file, $phpOpenTagIndex, $annotations, $needsPhpTag);
+			$docBlockCloseTagIndex = $this->_findExistingDocBlock($file, $phpOpenTagIndex);
+		}
+
+		$this->_resetCounter();
+		if ($docBlockCloseTagIndex && !$this->isInlineDocBlock($file, $docBlockCloseTagIndex)) {
+			$newContent = $this->_appendToExistingDocBlock($file, $docBlockCloseTagIndex, $annotations);
+		} else {
+			$newContent = $this->_addNewTemplateDocBlock($file, $annotations, $phpOpenTagIndex, $docBlockCloseTagIndex);
 		}
 
 		$this->_displayDiff($content, $newContent);
@@ -72,14 +81,9 @@ class TemplateAnnotator extends AbstractAnnotator {
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $phpOpenTagIndex
-	 * @param bool $needsPhpTag
 	 * @return int|null
 	 */
-	protected function _findExistingDocBlock(File $file, $phpOpenTagIndex, $needsPhpTag) {
-		if ($needsPhpTag) {
-			return null;
-		}
-
+	protected function _findExistingDocBlock(File $file, $phpOpenTagIndex) {
 		$tokens = $file->getTokens();
 
 		$nextIndex = $file->findNext(T_WHITESPACE, $phpOpenTagIndex + 1, null, true);
@@ -92,12 +96,12 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param string $phpOpenTagIndex
 	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
-	 * @param bool $needsPhpTag
+	 * @param int|null $phpOpenTagIndex
+	 *
 	 * @return string
 	 */
-	protected function _addNewTemplateDocBlock(File $file, $phpOpenTagIndex, array $annotations, $needsPhpTag) {
+	protected function _addNewTemplateDocBlock(File $file, array $annotations, $phpOpenTagIndex, $docBlockCloseIndex) {
 		$helper = new DocBlockHelper(new View());
 
 		$annotationStrings = [];
@@ -110,17 +114,31 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		$annotationString = $helper->classDescription('', '', $annotationStrings);
 
-		if ($needsPhpTag) {
+		if ($phpOpenTagIndex === null) {
 			$annotationString = '<?php' . PHP_EOL . $annotationString . PHP_EOL . '?>';
 		}
 
-		$fixer = $this->_getFixer($file);
-
 		$docBlock = $annotationString . PHP_EOL;
-		if ($needsPhpTag) {
+		if (!$file->getTokens()) {
+			$this->_counter[static::COUNT_ADDED] = count($annotations);
+
+			return $docBlock;
+		}
+
+		$fixer = $this->_getFixer($file);
+		if ($phpOpenTagIndex === null) {
 			$fixer->addContentBefore(0, $docBlock);
 		} else {
 			$fixer->addContent($phpOpenTagIndex, $docBlock);
+		}
+
+		if ($docBlockCloseIndex) {
+			$tokens = $file->getTokens();
+			$docBlockOpenIndex = $tokens[$docBlockCloseIndex]['comment_opener'];
+			for ($i = $docBlockCloseIndex + 1; $i >= $docBlockOpenIndex; $i--) {
+				$fixer->replaceToken($i, '');
+			}
+			$this->_counter[static::COUNT_REMOVED]++;
 		}
 
 		$newContent = $fixer->getContents();
