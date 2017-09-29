@@ -76,8 +76,7 @@ class TemplateAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testNeedsViewAnnotation()
-	{
+	public function testNeedsViewAnnotation() {
 		Configure::write('IdeHelper.preemptive', false);
 
 		$annotator = $this->_getAnnotatorMock([]);
