@@ -280,7 +280,7 @@ abstract class AbstractAnnotator {
 			$lastTagIndexOfPreviousLine--;
 		}
 
-		$needsNewline = $lastTagIndexOfPreviousLine <= 0 || $this->_needsNewLineInDocBlock($file, $lastTagIndexOfPreviousLine);
+		$needsNewline = $this->_needsNewLineInDocBlock($file, $lastTagIndexOfPreviousLine);
 
 		$fixer = $this->_getFixer($file);
 
@@ -533,8 +533,7 @@ abstract class AbstractAnnotator {
 	 *
 	 * @return bool
 	 */
-	protected function isInlineDocBlock(File $file, $docBlockCloseIndex)
-	{
+	protected function isInlineDocBlock(File $file, $docBlockCloseIndex) {
 		$tokens = $file->getTokens();
 
 		$docBlockOpenIndex = $tokens[$docBlockCloseIndex]['comment_opener'];

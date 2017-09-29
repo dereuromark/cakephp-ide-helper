@@ -98,6 +98,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
 	 * @param int|null $phpOpenTagIndex
+	 * @param int|null $docBlockCloseIndex
 	 *
 	 * @return string
 	 */
