@@ -514,6 +514,9 @@ abstract class AbstractAnnotator {
 
 		$helper = new DocBlockHelper(new View());
 		$annotationString = $helper->classDescription('', '', $annotations);
+		if (PHP_EOL !== "\n") {
+			$annotationString = str_replace("\n", PHP_EOL, $annotationString);
+		}
 
 		$fixer = $this->_getFixer($file);
 
