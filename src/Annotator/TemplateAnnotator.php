@@ -137,7 +137,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 			$fixer->addContent($phpOpenTagIndex, $docBlock);
 		}
 
-		if ($docBlockCloseIndex) {
+		if (false && $docBlockCloseIndex) {
 			$tokens = $file->getTokens();
 			$docBlockOpenIndex = $tokens[$docBlockCloseIndex]['comment_opener'];
 			for ($i = $docBlockCloseIndex + 1; $i >= $docBlockOpenIndex; $i--) {
