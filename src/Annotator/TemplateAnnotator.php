@@ -137,7 +137,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 			$fixer->addContent($phpOpenTagIndex, $docBlock);
 		}
 
-		if (false && $docBlockCloseIndex) {
+		if ($docBlockCloseIndex && $this->_isInlineDocBlockRedundant($file, $annotations, $docBlockCloseIndex)) {
 			$tokens = $file->getTokens();
 			$docBlockOpenIndex = $tokens[$docBlockCloseIndex]['comment_opener'];
 			for ($i = $docBlockCloseIndex + 1; $i >= $docBlockOpenIndex; $i--) {
@@ -341,6 +341,27 @@ class TemplateAnnotator extends AbstractAnnotator {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param array $annotations
+	 * @param int $docBlockCloseIndex
+	 *
+	 * @return bool
+	 */
+	protected function _isInlineDocBlockRedundant(File $file, array $annotations, $docBlockCloseIndex) {
+		$existingAnnotations = $this->_parseExistingAnnotations($file, $docBlockCloseIndex);
+
+		foreach ($existingAnnotations as $existingAnnotation) {
+			foreach ($annotations as $annotation) {
+				if ($existingAnnotation->build() === $annotation->build()) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 }
