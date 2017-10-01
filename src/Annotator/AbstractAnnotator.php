@@ -614,7 +614,7 @@ abstract class AbstractAnnotator {
 			return;
 		}
 
-		$this->_io->success('   -> ' . implode(', ', $out));
+		$this->_io->success('   -> ' . implode(', ', $out) . '.');
 	}
 
 	/**

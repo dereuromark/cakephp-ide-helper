@@ -137,18 +137,19 @@ class TemplateAnnotator extends AbstractAnnotator {
 			$fixer->addContent($phpOpenTagIndex, $docBlock);
 		}
 
+		$this->_counter[static::COUNT_ADDED] = count($annotations);
+
 		if ($docBlockCloseIndex && $this->_isInlineDocBlockRedundant($file, $annotations, $docBlockCloseIndex)) {
 			$tokens = $file->getTokens();
 			$docBlockOpenIndex = $tokens[$docBlockCloseIndex]['comment_opener'];
 			for ($i = $docBlockCloseIndex + 1; $i >= $docBlockOpenIndex; $i--) {
 				$fixer->replaceToken($i, '');
 			}
-			$this->_counter[static::COUNT_REMOVED]++;
+
+			$this->_counter[static::COUNT_ADDED]--;
 		}
 
 		$newContent = $fixer->getContents();
-
-		$this->_counter[static::COUNT_ADDED] = count($annotations);
 
 		return $newContent;
 	}

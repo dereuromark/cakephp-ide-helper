@@ -1,5 +1,5 @@
 <?php
-/** @var \App\Lib\DocumentManager\DataFactory $DataFactory */
+/** @var \App\Model\Entity\Wheel $wheel */
 ?>
 <div>
 	<?php echo h($wheel->id); ?>
