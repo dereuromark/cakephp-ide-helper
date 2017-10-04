@@ -11,6 +11,13 @@ class MyShell extends Shell {
 	public $modelClass = 'Cars';
 
 	/**
+	 * @var array
+	 */
+	public $tasks = [
+		'Assets',
+	];
+
+	/**
 	 * @return void
 	 */
 	public function main() {

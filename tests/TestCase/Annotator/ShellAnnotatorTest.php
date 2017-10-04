@@ -64,7 +64,7 @@ class ShellAnnotatorTest extends TestCase {
 
 		$output = (string)$this->out->output();
 
-		$this->assertTextContains('   -> 2 annotations added', $output);
+		$this->assertTextContains('   -> 3 annotations added.', $output);
 	}
 
 	/**
@@ -88,7 +88,7 @@ class ShellAnnotatorTest extends TestCase {
 
 		$output = (string)$this->out->output();
 
-		$this->assertTextContains('   -> 2 annotations added', $output);
+		$this->assertTextContains('   -> 2 annotations added.', $output);
 	}
 
 	/**

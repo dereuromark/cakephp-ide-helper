@@ -169,7 +169,7 @@ class EntityAnnotatorTest extends TestCase {
 
 		$output = (string)$this->out->output();
 
-		$this->assertTextContains('   -> 2 annotations added, 1 annotation updated', $output);
+		$this->assertTextContains('   -> 2 annotations added, 1 annotation updated.', $output);
 	}
 
 	/**

@@ -1,6 +1,11 @@
 <?php
 namespace IdeHelper\Annotator;
 
+use Cake\Core\App;
+use Exception;
+use IdeHelper\Annotation\AnnotationFactory;
+use ReflectionClass;
+
 class ShellAnnotator extends AbstractAnnotator {
 
 	/**
@@ -22,6 +27,11 @@ class ShellAnnotator extends AbstractAnnotator {
 		$usedModels = array_unique($usedModels);
 
 		$annotations = $this->_getModelAnnotations($usedModels, $content);
+
+		$usedTasks = $this->_getUsedTasks($className);
+		foreach ($usedTasks as $alias => $usedTask) {
+			$annotations[] = AnnotationFactory::createOrFail('@property', '\\' . $usedTask['fullClass'], '$' . $alias);
+		}
 
 		return $this->_annotate($path, $content, $annotations);
 	}
@@ -55,6 +65,57 @@ class ShellAnnotator extends AbstractAnnotator {
 		$models = $matches[1];
 
 		return array_unique($models);
+	}
+
+	/**
+	 * @param string $name
+	 *
+	 * @throws \Exception
+	 *
+	 * @return array
+	 */
+	protected function _getUsedTasks($name) {
+		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
+		if (substr($name, -4) === 'Task') {
+			$className = App::className(($plugin ? $plugin . '.' : '') . $name, 'Shell/Task');
+		} else {
+			$className = App::className(($plugin ? $plugin . '.' : '') . $name, 'Shell');
+		}
+		if (!$className) {
+			throw new Exception($name);
+		}
+
+		$reflection = new ReflectionClass($className);
+		if ($reflection->isAbstract()) {
+			return [];
+		}
+
+		try {
+			/** @var \Cake\Console\Shell $object */
+			$object = new $className();
+			$object->loadTasks();
+		} catch (Exception $e) {
+			if ($this->getConfig(static::CONFIG_VERBOSE)) {
+				$this->_io->warn('   Skipping shell task annotations: ' . $e->getMessage());
+			}
+			return [];
+		}
+
+		$map = $this->_invokeProperty($object, '_taskMap');
+		if (!$map) {
+			return [];
+		}
+		foreach ($map as $alias => $row) {
+			$fullClass = App::className($row['class'], 'Shell/Task', 'Task');
+			if (!$fullClass) {
+				$this->_io->warn('   Skipping invalid task ' . $alias . ': ' . $row['class']);
+				unset($map[$alias]);
+				continue;
+			}
+			$map[$alias]['fullClass'] = $fullClass;
+		}
+
+		return $map;
 	}
 
 }
