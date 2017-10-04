@@ -2,6 +2,7 @@
 namespace IdeHelper\Annotator;
 
 use Cake\Core\App;
+use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
 use ReflectionClass;
 
@@ -93,7 +94,7 @@ class ShellAnnotator extends AbstractAnnotator {
 			/** @var \Cake\Console\Shell $object */
 			$object = new $className();
 			$object->loadTasks();
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping shell task annotations: ' . $e->getMessage());
 			}
