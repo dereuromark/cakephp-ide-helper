@@ -82,7 +82,7 @@ class ShellAnnotator extends AbstractAnnotator {
 			$className = App::className(($plugin ? $plugin . '.' : '') . $name, 'Shell');
 		}
 		if (!$className) {
-			throw new \Exception($name);
+			throw new Exception($name);
 		}
 
 		$reflection = new ReflectionClass($className);
