@@ -65,7 +65,7 @@ class AnnotationsShell extends Shell {
 			'helpers',
 			'templates',
 		];
-		if (!$this->param('plugin')) {
+		if (!$this->param('plugin') && !$this->param('filter')) {
 			$types[] = 'view';
 		}
 
