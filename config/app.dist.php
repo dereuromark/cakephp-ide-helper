@@ -13,6 +13,8 @@ return [
 		// Custom Entity field type mapping
 		'typeMap' => [
 		],
+		// Default View class to use
+		'viewClass' => null,
 		// Always add annotations/meta even if not yet needed
 		'preemptive' => false,
 		// For meta file generator

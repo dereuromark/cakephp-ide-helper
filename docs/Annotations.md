@@ -144,6 +144,8 @@ will result in the following annotation:
  */
 ```
 
+They also should annotate any Tasks they use. 
+
 ## View
 The AppView class should annotate the helpers of the plugins and the app.
 
@@ -281,6 +283,10 @@ The `!` would prevent the entity annotation to be replaced.
 Using Configure key `'IdeHelper.preemptive'` set to `true` you can be a bit more preemptive in annotations.
 E.g. `@var \App\View\AppView $this` will then be always added to View templates, even if not currently needed.
 This allows to have immediate typehinting once actually needed, it is recommended to enable this setting.
+
+### Custom View class
+Using Configure key `'IdeHelper.viewClass'` a custom class name can be set to use instead of the default.
+E.g. `'App\View\MyCustomAppView'` or `MyCustomAppView::class` (incl. use statement).
 
 ## Running all commands
 ```

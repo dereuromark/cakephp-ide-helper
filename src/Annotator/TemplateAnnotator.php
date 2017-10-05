@@ -92,7 +92,14 @@ class TemplateAnnotator extends AbstractAnnotator {
 			return null;
 		}
 
-		return $tokens[$nextIndex]['comment_closer'];
+		$commentCloseIndex = $tokens[$nextIndex]['comment_closer'];
+
+		// Assume the first doc block is the license file doc block
+		while ($index = $this->_findExistingDocBlock($file, $commentCloseIndex)) {
+			$commentCloseIndex = $index;
+		}
+
+		return $commentCloseIndex;
 	}
 
 	/**
@@ -204,7 +211,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 * @return \IdeHelper\Annotation\VariableAnnotation
 	 */
 	protected function _getViewAnnotation() {
-		$className = 'App\View\AppView';
+		$className = Configure::read('IdeHelper.viewClass') ?: 'App\View\AppView';
 		if (!class_exists($className)) {
 			$className = 'Cake\View\View';
 		}
