@@ -1,5 +1,9 @@
 <?php
 /**
+ * @license MIT
+ */
+
+/**
  * @var \App\View\AppView $this
  */
 ?>
