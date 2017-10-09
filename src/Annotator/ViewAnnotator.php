@@ -42,6 +42,10 @@ class ViewAnnotator extends AbstractAnnotator {
 
 		$plugin = null;
 		$folders = App::path('Template', $plugin);
+		$plugins = (array)Configure::read('IdeHelper.includedPlugins');
+		foreach ($plugins as $plugin) {
+			$folders = array_merge($folders, App::path('Template', $plugin));
+		}
 
 		$this->helpers = [];
 		foreach ($folders as $folder) {
@@ -106,9 +110,12 @@ class ViewAnnotator extends AbstractAnnotator {
 	protected function _parseViewClass() {
 		$helpers = [];
 
-		$className = App::className('App', 'View', 'View');
+		$className = App::className('App', 'Controller', 'Controller');
+		/** @var \App\Controller\AppController $Controller */
+		$Controller = new $className();
 		/** @var \App\View\AppView $View */
-		$View = new $className();
+		$View = $Controller->createView();
+
 		foreach ($View->helpers() as $alias => $helper) {
 			$className = get_class($helper);
 			if (strpos($className, 'Cake\\') === 0) {

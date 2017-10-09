@@ -168,6 +168,10 @@ class AppView extends View {
 } 
 ```
 
+### Include plugins
+Using Configure key `'IdeHelper.includedPlugins'` you can set an array of (loaded!) plugins to include.
+Those will then also be parsed and all found helpers added to the AppView annotations.
+
 ## Components
 Components should annotate any component they use.
 

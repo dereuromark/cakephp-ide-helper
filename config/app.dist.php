@@ -15,6 +15,9 @@ return [
 		],
 		// Default View class to use
 		'viewClass' => null,
+		// Plugins to include for View annotations
+		'includedPlugins' => [
+		],
 		// Always add annotations/meta even if not yet needed
 		'preemptive' => false,
 		// For meta file generator
