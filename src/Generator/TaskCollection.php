@@ -4,6 +4,7 @@ namespace IdeHelper\Generator;
 use Cake\Core\Configure;
 use IdeHelper\Generator\Task\BehaviorTask;
 use IdeHelper\Generator\Task\ComponentTask;
+use IdeHelper\Generator\Task\DatabaseTypeTask;
 use IdeHelper\Generator\Task\HelperTask;
 use IdeHelper\Generator\Task\ModelTask;
 use IdeHelper\Generator\Task\TableAssociationTask;
@@ -23,6 +24,7 @@ class TaskCollection {
 		HelperTask::class => HelperTask::class,
 		TableAssociationTask::class => TableAssociationTask::class,
 		TableFinderTask::class => TableFinderTask::class,
+		DatabaseTypeTask::class => DatabaseTypeTask::class,
 	];
 
 	/**
