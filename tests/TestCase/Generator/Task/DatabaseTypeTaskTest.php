@@ -27,7 +27,7 @@ class DatabaseTypeTaskTest extends TestCase {
 	 * @return void
 	 */
 	public function testCollect() {
-		Type::map('uuid', UuidType::class);
+		Type::set('uuid', new UuidType());
 
 		$result = $this->task->collect();
 
