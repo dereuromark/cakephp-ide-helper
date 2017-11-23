@@ -180,4 +180,26 @@ namespace PHPSTORM_META {
 		])
 	);
 
+	override(
+		\Cake\Database\Type::build(0),
+		map([
+			'tinyinteger' => \Cake\Database\Type\IntegerType::class,
+			'smallinteger' => \Cake\Database\Type\IntegerType::class,
+			'integer' => \Cake\Database\Type\IntegerType::class,
+			'biginteger' => \Cake\Database\Type\IntegerType::class,
+			'binary' => \Cake\Database\Type\BinaryType::class,
+			'boolean' => \Cake\Database\Type\BoolType::class,
+			'date' => \Cake\Database\Type\DateType::class,
+			'datetime' => \Cake\Database\Type\DateTimeType::class,
+			'decimal' => \Cake\Database\Type\DecimalType::class,
+			'float' => \Cake\Database\Type\FloatType::class,
+			'json' => \Cake\Database\Type\JsonType::class,
+			'string' => \Cake\Database\Type\StringType::class,
+			'text' => \Cake\Database\Type\StringType::class,
+			'time' => \Cake\Database\Type\TimeType::class,
+			'timestamp' => \Cake\Database\Type\DateTimeType::class,
+			'uuid' => \Cake\Database\Type\UuidType::class,
+		])
+	);
+
 }
