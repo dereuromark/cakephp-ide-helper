@@ -35,6 +35,11 @@ class HelperAnnotator extends AbstractAnnotator {
 				$this->_io->warn('   Skipping helper annotations: ' . $e->getMessage());
 			}
 			return false;
+		} catch (\Throwable $e) {
+			if ($this->getConfig(static::CONFIG_VERBOSE)) {
+				$this->_io->warn('   Skipping helper annotations: ' . $e->getMessage());
+			}
+			return false;
 		}
 
 		$helperMap = $this->_invokeProperty($helper, '_helperMap');

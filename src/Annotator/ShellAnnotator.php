@@ -99,6 +99,11 @@ class ShellAnnotator extends AbstractAnnotator {
 				$this->_io->warn('   Skipping shell task annotations: ' . $e->getMessage());
 			}
 			return [];
+		} catch (\Throwable $e) {
+			if ($this->getConfig(static::CONFIG_VERBOSE)) {
+				$this->_io->warn('   Skipping shell task annotations: ' . $e->getMessage());
+			}
+			return [];
 		}
 
 		$map = $this->_invokeProperty($object, '_taskMap');

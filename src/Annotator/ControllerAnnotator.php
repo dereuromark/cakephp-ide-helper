@@ -8,6 +8,7 @@ use Cake\ORM\TableRegistry;
 use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotator\Traits\ComponentTrait;
+use Throwable;
 
 class ControllerAnnotator extends AbstractAnnotator {
 
@@ -96,7 +97,12 @@ class ControllerAnnotator extends AbstractAnnotator {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping component annotations: ' . $e->getMessage());
 			}
+		} catch (Throwable $e) {
+			if ($this->getConfig(static::CONFIG_VERBOSE)) {
+				$this->_io->warn('   Skipping component annotations: ' . $e->getMessage());
+			}
 		}
+
 		if (empty($map)) {
 			return [];
 		}

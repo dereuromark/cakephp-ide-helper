@@ -8,6 +8,7 @@ use Cake\ORM\TableRegistry;
 use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
 use RuntimeException;
+use Throwable;
 
 class ModelAnnotator extends AbstractAnnotator {
 
@@ -32,14 +33,23 @@ class ModelAnnotator extends AbstractAnnotator {
 				$this->_io->warn('   Skipping table and entity: ' . $e->getMessage());
 			}
 			return false;
+		} catch (Throwable $e) {
+			if ($this->getConfig(static::CONFIG_VERBOSE)) {
+				$this->_io->warn('   Skipping table and entity: ' . $e->getMessage());
+			}
+			return false;
 		}
 
 		$tableAssociations = [];
 		try {
 			$tableAssociations = $table->associations();
 			$associations = $this->_getAssociations($tableAssociations);
-
 		} catch (Exception $e) {
+			if ($this->getConfig(static::CONFIG_VERBOSE)) {
+				$this->_io->warn('   Skipping associations: ' . $e->getMessage());
+			}
+			$associations = [];
+		} catch (Throwable $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping associations: ' . $e->getMessage());
 			}
