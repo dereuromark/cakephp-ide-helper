@@ -24,7 +24,8 @@ use SebastianBergmann\Diff\Differ;
 $composerVendorDir = getcwd() . DS . 'vendor';
 $codesnifferDir = 'squizlabs' . DS . 'php_codesniffer';
 if (!is_dir($composerVendorDir . $codesnifferDir)) {
-	$composerVendorDir = substr(__DIR__, 0, strpos(__DIR__, DS . 'cakephp-ide-helper'));
+	$ideHelperDir = substr(__DIR__, 0, strpos(__DIR__, DS . 'cakephp-ide-helper'));
+	$composerVendorDir = dirname($ideHelperDir);
 }
 $manualAutoload = $composerVendorDir . DS . $codesnifferDir . DS . 'autoload.php';
 if (!class_exists(Config::class) && file_exists($manualAutoload)) {
