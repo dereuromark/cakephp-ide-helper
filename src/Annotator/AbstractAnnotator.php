@@ -21,7 +21,6 @@ use ReflectionClass;
 use RuntimeException;
 use SebastianBergmann\Diff\Differ;
 
-
 $composerVendorDir = getcwd() . DS . 'vendor' . DS;
 if (!is_dir($composerVendorDir)) {
 	$vendorDir = substr(__DIR__, 0, strpos(__DIR__, DS . 'cakephp-ide-helper'));
