@@ -21,7 +21,10 @@ use ReflectionClass;
 use RuntimeException;
 use SebastianBergmann\Diff\Differ;
 
-$manualAutoload = getcwd() . '/vendor/squizlabs/php_codesniffer/autoload.php';
+$currentDir = __DIR__;
+$vendorDir = substr($currentDir, 0, strpos($currentDir, '/cakephp-ide-helper'));
+$composerVendorDir = dirname($vendorDir);
+$manualAutoload = $composerVendorDir . '/squizlabs/php_codesniffer/autoload.php';
 if (!class_exists(Config::class) && file_exists($manualAutoload)) {
 	require $manualAutoload;
 }
