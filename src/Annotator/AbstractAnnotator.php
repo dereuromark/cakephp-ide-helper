@@ -22,9 +22,9 @@ use RuntimeException;
 use SebastianBergmann\Diff\Differ;
 
 $currentDir = __DIR__;
-$vendorDir = substr($currentDir, 0, strpos($currentDir, '/cakephp-ide-helper'));
+$vendorDir = substr($currentDir, 0, strpos($currentDir, DS . 'cakephp-ide-helper'));
 $composerVendorDir = dirname($vendorDir);
-$manualAutoload = $composerVendorDir . '/squizlabs/php_codesniffer/autoload.php';
+$manualAutoload = $composerVendorDir . DS . 'squizlabs' . DS . 'php_codesniffer' . DS . 'autoload.php';
 if (!class_exists(Config::class) && file_exists($manualAutoload)) {
 	require $manualAutoload;
 }
