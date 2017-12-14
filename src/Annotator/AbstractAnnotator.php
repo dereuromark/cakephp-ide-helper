@@ -21,10 +21,13 @@ use ReflectionClass;
 use RuntimeException;
 use SebastianBergmann\Diff\Differ;
 
-$currentDir = __DIR__;
-$vendorDir = substr($currentDir, 0, strpos($currentDir, DS . 'cakephp-ide-helper'));
-$composerVendorDir = dirname($vendorDir);
-$manualAutoload = $composerVendorDir . DS . 'squizlabs' . DS . 'php_codesniffer' . DS . 'autoload.php';
+
+$composerVendorDir = getcwd() . DS . 'vendor' . DS;
+if (!is_dir($composerVendorDir)) {
+	$vendorDir = substr(__DIR__, 0, strpos(__DIR__, DS . 'cakephp-ide-helper'));
+	$composerVendorDir = dirname($vendorDir) . DS;
+}
+$manualAutoload = $composerVendorDir . 'squizlabs' . DS . 'php_codesniffer' . DS . 'autoload.php';
 if (!class_exists(Config::class) && file_exists($manualAutoload)) {
 	require $manualAutoload;
 }
