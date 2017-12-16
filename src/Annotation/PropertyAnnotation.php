@@ -65,7 +65,7 @@ class PropertyAnnotation extends AbstractAnnotation {
 	 * @return bool
 	 */
 	public function matches(AbstractAnnotation $annotation) {
-		if ($annotation::TAG !== static::TAG) {
+		if (!$annotation instanceof self) {
 			return false;
 		}
 		if ($annotation->getProperty() !== $this->property) {
@@ -76,7 +76,7 @@ class PropertyAnnotation extends AbstractAnnotation {
 	}
 
 	/**
-	 * @param \IdeHelper\Annotation\AbstractAnnotation|\IdeHelper\Annotation\PropertyAnnotation $annotation
+	 * @param \IdeHelper\Annotation\PropertyAnnotation $annotation
 	 * @return void
 	 */
 	public function replaceWith(AbstractAnnotation $annotation) {

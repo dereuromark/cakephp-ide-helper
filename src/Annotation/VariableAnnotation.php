@@ -61,7 +61,7 @@ class VariableAnnotation extends AbstractAnnotation {
 	 * @return bool
 	 */
 	public function matches(AbstractAnnotation $annotation) {
-		if ($annotation::TAG !== static::TAG) {
+		if (!$annotation instanceof self) {
 			return false;
 		}
 		if ($annotation->getVariable() !== $this->variable) {
@@ -72,7 +72,7 @@ class VariableAnnotation extends AbstractAnnotation {
 	}
 
 	/**
-	 * @param \IdeHelper\Annotation\AbstractAnnotation|\IdeHelper\Annotation\VariableAnnotation $annotation
+	 * @param \IdeHelper\Annotation\VariableAnnotation $annotation
 	 * @return void
 	 */
 	public function replaceWith(AbstractAnnotation $annotation) {

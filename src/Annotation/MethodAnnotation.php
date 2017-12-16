@@ -64,7 +64,7 @@ class MethodAnnotation extends AbstractAnnotation {
 	 * @return bool
 	 */
 	public function matches(AbstractAnnotation $annotation) {
-		if ($annotation::TAG !== static::TAG) {
+		if (!$annotation instanceof self) {
 			return false;
 		}
 		$methodName = substr($annotation->getMethod(), 0, strpos($annotation->getMethod(), '('));
@@ -76,7 +76,7 @@ class MethodAnnotation extends AbstractAnnotation {
 	}
 
 	/**
-	 * @param \IdeHelper\Annotation\AbstractAnnotation|\IdeHelper\Annotation\MethodAnnotation $annotation
+	 * @param \IdeHelper\Annotation\MethodAnnotation $annotation
 	 * @return void
 	 */
 	public function replaceWith(AbstractAnnotation $annotation) {
