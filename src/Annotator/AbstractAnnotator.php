@@ -247,7 +247,7 @@ abstract class AbstractAnnotator {
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $docBlockCloseIndex
-	 * @param \IdeHelper\Annotation\AbstractAnnotation[] &$annotations
+	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
 	 *
 	 * @return string
 	 */
@@ -580,7 +580,7 @@ abstract class AbstractAnnotator {
 	 *   $object->_foo
 	 * (assuming the property was directly publicly accessible)
 	 *
-	 * @param object &$object Instantiated object that we want the property off.
+	 * @param object $object Instantiated object that we want the property off.
 	 * @param string $name Property name to fetch.
 	 *
 	 * @return mixed Property value.

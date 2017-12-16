@@ -13,6 +13,11 @@ use Throwable;
 class ModelAnnotator extends AbstractAnnotator {
 
 	/**
+	 * @var array
+	 */
+	protected $_cache = [];
+
+	/**
 	 * @param string $path Path to file.
 	 * @return bool
 	 */
@@ -28,6 +33,7 @@ class ModelAnnotator extends AbstractAnnotator {
 		try {
 			$table = TableRegistry::get($plugin ? ($plugin . '.' . $modelName) : $modelName);
 			$schema = $table->getSchema();
+			$behaviors = $this->_getBehaviors($table);
 		} catch (Exception $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping table and entity: ' . $e->getMessage());
@@ -59,7 +65,7 @@ class ModelAnnotator extends AbstractAnnotator {
 		$entityClassName = $table->getEntityClass();
 		$entityName = substr($entityClassName, strrpos($entityClassName, '\\') + 1);
 
-		$resTable = $this->_table($path, $entityName, $associations);
+		$resTable = $this->_table($path, $entityName, $associations, $behaviors);
 		$resEntity = $this->_entity($entityName, $schema, $tableAssociations);
 
 		return $resTable || $resEntity;
@@ -69,15 +75,16 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param string $path
 	 * @param string $entityName
 	 * @param array $associations
+	 * @param array $behaviors
 	 *
 	 * @return bool
 	 */
-	protected function _table($path, $entityName, array $associations) {
+	protected function _table($path, $entityName, array $associations, array $behaviors) {
 		$content = file_get_contents($path);
 
 		$entity = $entityName;
 
-		$behaviors = $this->_parseLoadedBehaviors($content);
+		$behaviors += $this->_parseLoadedBehaviors($content);
 
 		$namespace = $this->getConfig(static::CONFIG_NAMESPACE);
 		$annotations = [];
@@ -164,9 +171,15 @@ class ModelAnnotator extends AbstractAnnotator {
 			return [];
 		}
 
-		$behaviors = $matches[1];
+		$behaviors = array_unique($matches[1]);
 
-		return array_unique($behaviors);
+		$result = [];
+		foreach ($behaviors as $behavior) {
+			list (, $behaviorName) = pluginSplit($behavior);
+			$result[$behaviorName] = $behavior;
+		}
+
+		return $result;
 	}
 
 	/**
@@ -190,6 +203,77 @@ class ModelAnnotator extends AbstractAnnotator {
 		}
 
 		return $associations;
+	}
+
+	/**
+	 * @param \Cake\ORM\Table $table
+	 * @return array
+	 */
+	protected function _getBehaviors($table) {
+		$object = $table->behaviors();
+		$map = $this->_invokeProperty($object, '_loaded');
+
+		$behaviors = $this->_extractBehaviors($map);
+
+		$parentClass = get_parent_class($table);
+		if (isset($this->_cache[$parentClass])) {
+			$parentBehaviors = $this->_cache[$parentClass];
+		} else {
+			/** @var \Cake\ORM\Table $parent */
+			$parent = new $parentClass();
+
+			$object = $parent->behaviors();
+			$map = $this->_invokeProperty($object, '_loaded');
+			$this->_cache[$parentClass] = $parentBehaviors = $this->_extractBehaviors($map);
+		}
+
+		$result = array_diff_key($behaviors, $parentBehaviors);
+
+		return $result;
+	}
+
+	/**
+	 * @param array $map
+	 *
+	 * @return array
+	 */
+	protected function _extractBehaviors(array $map) {
+		$result = [];
+		foreach ($map as $name => $behavior) {
+			$behaviorClassName = get_class($behavior);
+			$pluginName = $this->_resolvePluginName($behaviorClassName, $name);
+			if ($pluginName === null) {
+				continue;
+			}
+			if ($pluginName) {
+				$pluginName .= '.';
+			}
+			$result[$name] = $pluginName . $name;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @param string $className
+	 * @param string $name
+	 *
+	 * @return string|null
+	 */
+	protected function _resolvePluginName($className, $name) {
+		if (strpos($className, 'Cake\\ORM') === 0) {
+			return '';
+		}
+		if (strpos($className, 'App\\Model\\') === 0) {
+			return '';
+		}
+
+		preg_match('#^(.+)\\\\Model\\\\Behavior\\\\' . $name . 'Behavior$#', $className, $matches);
+		if (!$matches) {
+			return null;
+		}
+
+		return $matches[1];
 	}
 
 }
