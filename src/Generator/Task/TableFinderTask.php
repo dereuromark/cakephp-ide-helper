@@ -90,7 +90,7 @@ class TableFinderTask extends ModelTask {
 	 *   $object->_foo
 	 * (assuming the property was directly publicly accessible)
 	 *
-	 * @param object &$object Instantiated object that we want the property off.
+	 * @param object $object Instantiated object that we want the property off.
 	 * @param string $name Property name to fetch.
 	 *
 	 * @return mixed Property value.

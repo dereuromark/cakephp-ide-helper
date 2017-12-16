@@ -50,7 +50,7 @@ TXT;
 			$behaviors = $this->addBehaviors($behaviors, $folder);
 		}
 
-		$plugins = Plugin::loaded();
+		$plugins = (array)Plugin::loaded();
 		foreach ($plugins as $plugin) {
 			$folders = App::path('Model/Behavior', $plugin);
 			foreach ($folders as $folder) {
