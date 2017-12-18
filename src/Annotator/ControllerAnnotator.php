@@ -57,7 +57,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 	protected function _getPrimaryModelClass($content, $className, $path) {
 		$dynamicallyFoundModelClass = $this->_findModelClass($className, $path);
 		if ($dynamicallyFoundModelClass !== null) {
-			return $dynamicallyFoundModelClass ?: null;
+			return $dynamicallyFoundModelClass !== false ? $dynamicallyFoundModelClass : null;
 		}
 
 		if (preg_match('/\bpublic \$modelClass = \'([a-z.\/]+)\'/i', $content, $matches)) {
