@@ -334,6 +334,17 @@ verify the changes. This feature is still in a very alpha phase.
 Note that you can prevent removal (just as updating) by adding a comment to your annotation.
 That will skip any attempt to remove it.
 
+## Skipping annotations for a class
+Sometimes you are extending another class, in that case you can use `@inherit` tag as class doc block to skip annotating here.
+
+In this case this table extend the Images table, but use the same `protected $_entityClass = Image::class;`, so skipping:
+```php
+/**
+ * @inheritdoc
+ */
+class CustomImagesTable extends ImagesTable ...
+```
+
 ## Continuous integration support
 The tool can also be run like the coding standards check in your CI. 
 This way no annotation can be forgotten, when making PRs for your project.

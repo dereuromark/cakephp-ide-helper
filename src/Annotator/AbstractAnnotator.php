@@ -225,6 +225,9 @@ abstract class AbstractAnnotator {
 
 		$closeTagIndex = $file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $classIndex - 1, $prevCode);
 		$this->_resetCounter();
+		if ($closeTagIndex && $this->shouldSkip($file, $closeTagIndex)) {
+			return false;
+		}
 		if ($closeTagIndex && !$this->isInlineDocBlock($file, $closeTagIndex)) {
 			$newContent = $this->_appendToExistingDocBlock($file, $closeTagIndex, $annotations);
 		} else {
@@ -548,6 +551,27 @@ abstract class AbstractAnnotator {
 		$docBlockOpenIndex = $tokens[$docBlockCloseIndex]['comment_opener'];
 
 		return $tokens[$docBlockCloseIndex]['line'] === $tokens[$docBlockOpenIndex]['line'];
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param int $docBlockCloseIndex
+	 * @return bool
+	 */
+	protected function shouldSkip(File $file, $docBlockCloseIndex) {
+		$tokens = $file->getTokens();
+		$docBlockOpenIndex = $tokens[$docBlockCloseIndex]['comment_opener'];
+
+		for ($i = $docBlockOpenIndex + 1; $i < $docBlockCloseIndex; $i++) {
+			if ($tokens[$i]['code'] !== T_DOC_COMMENT_TAG) {
+				continue;
+			}
+			if ($tokens[$i]['content'] === '@inheritdoc') {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

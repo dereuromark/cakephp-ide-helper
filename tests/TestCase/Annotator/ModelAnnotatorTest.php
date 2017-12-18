@@ -170,6 +170,29 @@ class ModelAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testAnnotateSkip() {
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/SkipMeTable.php'));
+		$callback = function($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->_displayDiff($expectedContent, $value);
+			}
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->never())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP . 'Model/Table/SkipMeTable.php.php';
+		$annotator->annotate($path);
+
+		$output = (string)$this->out->output();
+		$this->assertSame('', $output);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testAnnotateCatchExceptions() {
 		$annotator = $this->_getAnnotatorMock([]);
 
