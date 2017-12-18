@@ -34,6 +34,7 @@ class ModelTaskTest extends TestCase {
 			'Cars' => '\App\Model\Table\CarsTable::class',
 			'Exceptions' => '\App\Model\Table\ExceptionsTable::class',
 			'Foo' => '\App\Model\Table\FooTable::class',
+			'SkipMe' => '\App\Model\Table\SkipMeTable::class',
 			'WheelsExtra' => '\App\Model\Table\WheelsExtraTable::class',
 			'Wheels' => '\App\Model\Table\WheelsTable::class',
 			'Awesome.Houses' => '\Awesome\Model\Table\HousesTable::class',
