@@ -25,7 +25,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 		}
 
 		$content = file_get_contents($path);
-		$primaryModelClass = $this->_getPrimaryModelClass($content, $className);
+		$primaryModelClass = $this->_getPrimaryModelClass($content, $className, $path);
 
 		$usedModels = $this->_getUsedModels($content);
 		if ($primaryModelClass) {
@@ -51,9 +51,15 @@ class ControllerAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $content
 	 * @param string $className
-	 * @return null|string
+	 * @param string $path
+	 * @return string|null
 	 */
-	protected function _getPrimaryModelClass($content, $className) {
+	protected function _getPrimaryModelClass($content, $className, $path) {
+		$dynamicallyFoundModelClass = $this->_findModelClass($className, $path);
+		if ($dynamicallyFoundModelClass !== null) {
+			return $dynamicallyFoundModelClass ?: null;
+		}
+
 		if (preg_match('/\bpublic \$modelClass = \'([a-z.\/]+)\'/i', $content, $matches)) {
 			return $matches[1];
 		}
@@ -221,6 +227,41 @@ class ControllerAnnotator extends AbstractAnnotator {
 		$entityClassName = $table->getEntityClass();
 
 		return $entityClassName;
+	}
+
+	/**
+	 * @param string $className
+	 * @param string $path
+	 *
+	 * @return string|false|null
+	 */
+	protected function _findModelClass($className, $path) {
+		$plugin = $this->getConfig(static::CONFIG_PLUGIN) ? $this->getConfig(static::CONFIG_PLUGIN) . '.' : '';
+		preg_match('#/Controller/(\w+)/' . $className . '\.php#', $path, $matches);
+		$prefix = null;
+		if ($matches) {
+			$prefix = '/' . $matches[1];
+		}
+
+		$fullClassName = App::className($plugin . $className, 'Controller' . $prefix);
+
+		if (!$fullClassName) {
+			exit($path);
+		}
+
+		try {
+			$controller = new $fullClassName();
+		} catch (Exception $e) {
+			dd($path);
+			$this->_io->warn('   Could not look up model class for ' . $fullClassName . ': ' . $e->getMessage());
+			return null;
+		} catch (Throwable $e) {
+			dd($path);
+			$this->_io->warn('   Could not look up model class for ' . $fullClassName . ': ' . $e->getMessage());
+			return null;
+		}
+
+		return $controller->modelClass;
 	}
 
 }
