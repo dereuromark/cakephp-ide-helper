@@ -73,7 +73,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 			$modelName = $this->getConfig(static::CONFIG_PLUGIN) . '.' . $modelName;
 		}
 
-		return $modelName;
+		return $modelName ?: null;
 	}
 
 	/**
