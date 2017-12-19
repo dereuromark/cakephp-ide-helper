@@ -27,7 +27,7 @@ class FooTable extends Table {
 
 		$this->addBehavior('Tools.Confirmable');
 		$this->addBehavior('Timestamp');
-        $this->addBehavior('Example/Slug.Sluggable');
+		$this->addBehavior('Example/Slug.Sluggable');
 	}
 
 }
