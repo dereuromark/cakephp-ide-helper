@@ -14,6 +14,7 @@ class FooTable extends Table {
 
 		$this->addBehavior('Tools.Confirmable');
 		$this->addBehavior('Timestamp');
+		$this->addBehavior('MyNamespace/MyPlugin.My');
 	}
 
 }

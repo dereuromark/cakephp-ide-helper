@@ -64,6 +64,7 @@ Cake\Cache\Cache::config($cache);
 Cake\Core\Plugin::load('IdeHelper', ['path' => ROOT . DS, 'autoload' => true]);
 Cake\Core\Plugin::load('Shim', ['path' => ROOT . DS . 'vendor/dereuromark/cakephp-shim/', 'autoload' => true]);
 Cake\Core\Plugin::load('Awesome', ['path' => TEST_ROOT . 'plugins/Awesome/', 'autoload' => true]);
+Cake\Core\Plugin::load('MyBehavior/MyPlugin', ['path' => TEST_ROOT . 'plugins/MyBehavior/MyPlugin/', 'autoload' => true]);
 
 DispatcherFactory::add('Routing');
 DispatcherFactory::add('ControllerFactory');

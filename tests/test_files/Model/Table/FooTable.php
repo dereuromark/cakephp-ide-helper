@@ -14,6 +14,7 @@ use Cake\ORM\Table;
  *
  * @mixin \Tools\Model\Behavior\ConfirmableBehavior
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ * @mixin \MyNamespace\MyPlugin\Model\Behavior\MyBehavior
  */
 class FooTable extends Table {
 
@@ -26,6 +27,7 @@ class FooTable extends Table {
 
 		$this->addBehavior('Tools.Confirmable');
 		$this->addBehavior('Timestamp');
+		$this->addBehavior('MyNamespace/MyPlugin.My');
 	}
 
 }

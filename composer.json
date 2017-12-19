@@ -43,7 +43,8 @@
 			"IdeHelper\\Test\\": "tests/",
 			"IdeHelper\\PHPStan\\": "tests/PHPStan/",
 			"Cake\\Test\\": "vendor/cakephp/cakephp/tests/",
-			"App\\": "tests/test_app/src/"
+			"App\\": "tests/test_app/src/",
+			"MyNamespace\\MyPlugin\\": "tests/test_app/plugins/MyNamespace/MyPlugin/src/"
 		}
 	},
 	"scripts": {

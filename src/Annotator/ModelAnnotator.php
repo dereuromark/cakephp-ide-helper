@@ -273,7 +273,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			return null;
 		}
 
-		return $matches[1];
+		return str_replace('\\', '/', $matches[1]);
 	}
 
 }
