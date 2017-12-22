@@ -250,18 +250,26 @@ class ControllerAnnotator extends AbstractAnnotator {
 		}
 
 		try {
+			/** @var \Cake\Controller\Controller $controller */
 			$controller = new $fullClassName();
 		} catch (Exception $e) {
-			dd($path);
 			$this->_io->warn('   Could not look up model class for ' . $fullClassName . ': ' . $e->getMessage());
 			return null;
 		} catch (Throwable $e) {
-			dd($path);
 			$this->_io->warn('   Could not look up model class for ' . $fullClassName . ': ' . $e->getMessage());
 			return null;
 		}
 
-		return $controller->modelClass;
+		$modelClass = $controller->modelClass;
+
+		if ($this->getConfig(static::CONFIG_PLUGIN)) {
+			$pluginModelClass = $this->getConfig(static::CONFIG_PLUGIN) . '.' . $modelClass;
+			if (App::className($pluginModelClass, 'Model/Table', 'Table')) {
+				$modelClass = $pluginModelClass;
+			}
+		}
+
+		return $modelClass;
 	}
 
 }
