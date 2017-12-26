@@ -169,6 +169,8 @@ class ControllerAnnotator extends AbstractAnnotator {
 			return [];
 		}
 
+		$entityTypehints[] = '\Cake\Datasource\ResultSetInterface';
+
 		$type = implode('|', $entityTypehints);
 
 		$annotations = [AnnotationFactory::createOrFail('@method', $type, 'paginate($object = null, array $settings = [])')];
