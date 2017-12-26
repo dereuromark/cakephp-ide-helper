@@ -203,7 +203,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 		$result = [];
 		foreach ($models as $model) {
-			$entityClassName = $this->getEntity($model);
+			$entityClassName = $this->getEntity($model, $primaryModelClass);
 
 			$typehint = '\\' . ltrim($entityClassName, '\\') . '[]';
 			if (in_array($typehint, $result)) {
@@ -217,11 +217,12 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $modelName
+	 * @param string $primaryModelClass Can be plugin dot syntaxed
 	 *
 	 * @return string|null
 	 */
-	protected function getEntity($modelName) {
-		if ($this->getConfig(static::CONFIG_PLUGIN)) {
+	protected function getEntity($modelName, $primaryModelClass) {
+		if ($this->getConfig(static::CONFIG_PLUGIN) && $modelName !== $primaryModelClass && !strpos($modelName, '.')) {
 			$modelName = $this->getConfig(static::CONFIG_PLUGIN) . '.' . $modelName;
 		}
 		$table = TableRegistry::get($modelName);
