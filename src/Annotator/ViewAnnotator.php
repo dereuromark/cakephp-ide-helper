@@ -3,6 +3,7 @@ namespace IdeHelper\Annotator;
 
 use Cake\Core\App;
 use Cake\Core\Configure;
+use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotator\Traits\HelperTrait;
@@ -40,12 +41,7 @@ class ViewAnnotator extends AbstractAnnotator {
 
 		$helperArray = $this->_addAppHelpers($helperArray);
 
-		$plugin = null;
-		$folders = App::path('Template', $plugin);
-		$plugins = (array)Configure::read('IdeHelper.includedPlugins');
-		foreach ($plugins as $plugin) {
-			$folders = array_merge($folders, App::path('Template', $plugin));
-		}
+		$folders = $this->_getFolders();
 
 		$this->helpers = [];
 		foreach ($folders as $folder) {
@@ -157,6 +153,25 @@ class ViewAnnotator extends AbstractAnnotator {
 		}
 
 		return $helperArray;
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function _getFolders() {
+		$plugin = null;
+		$folders = App::path('Template', $plugin);
+		$plugins = Configure::read('IdeHelper.includedPlugins');
+		if ($plugins === true) {
+			$plugins = Plugin::loaded();
+		} else {
+			$plugins = (array)$plugins;
+		}
+		foreach ($plugins as $plugin) {
+			$folders = array_merge($folders, App::path('Template', $plugin));
+		}
+
+		return $folders;
 	}
 
 }
