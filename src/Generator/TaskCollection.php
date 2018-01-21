@@ -28,7 +28,7 @@ class TaskCollection {
 	];
 
 	/**
-	 * @var array
+	 * @var \IdeHelper\Generator\Task\TaskInterface[]
 	 */
 	protected $tasks;
 
