@@ -95,11 +95,12 @@ class ModelAnnotator extends AbstractAnnotator {
 		}
 
 		if (class_exists("{$namespace}\\Model\\Entity\\{$entity}")) {
-			// Copied from Bake plugin
+			// Copied from Bake plugin's DocBlockHelper
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} get(\$primaryKey, \$options = [])";
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} newEntity(\$data = null, array \$options = [])";
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[] newEntities(array \$data, array \$options = [])";
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}|bool save(\\Cake\\Datasource\\EntityInterface \$entity, \$options = [])";
+			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}|bool saveOrFail(\\Cake\\Datasource\\EntityInterface \$entity, \$options = [])";
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} patchEntity(\\Cake\\Datasource\\EntityInterface \$entity, array \$data, array \$options = [])";
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[] patchEntities(\$entities, array \$data, array \$options = [])";
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} findOrCreate(\$search, callable \$callback = null, \$options = [])";
