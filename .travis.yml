@@ -31,14 +31,14 @@ matrix:
       env: CODECOVERAGE=1 DEFAULT=0
 
 before_script:
-  - composer install --prefer-source --no-interaction
-
   - if [[ $DB == 'mysql' ]]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi
 
   - if [[ $BC == 1 ]]; then composer remove --dev fig-r/psr2r-sniffer; fi
   - if [[ $BC == 1 ]]; then composer require --dev squizlabs/php_codesniffer:"^2.8"; fi
 
-  - if [[ $PHPCS != 1 ]]; then composer require --dev phpunit/phpunit:"*"; fi
+  - if [[ $PHPCS != 1 ]]; then composer require --dev phpunit/phpunit:"^5.0|^6.0"; fi
+
+  - composer install --prefer-source --no-interaction
 
   - phpenv rehash
   - set +H
