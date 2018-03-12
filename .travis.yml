@@ -35,11 +35,11 @@ matrix:
 
 before_script:
   - if [[ $DB == 'mysql' ]]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi
-  
+
   - if [[ $BC == 1 ]]; then composer remove --dev fig-r/psr2r-sniffer; fi
   - if [[ $BC == 1 ]]; then composer require squizlabs/php_codesniffer:"^2.8"; fi
-  
-  - if [[ $PHPCS != 1 ]]; then composer require phpunit/phpunit:"^5.7.14|^6.0" ; fi  
+
+  - if [[ $PHPCS != 1 ]]; then composer require phpunit/phpunit:"^5.7.14|^6.0" ; fi
 
   - if [[ $PREFER_LOWEST != 1 ]]; then composer install --prefer-source --no-interaction ; fi
   - if [[ $PREFER_LOWEST == 1 ]]; then composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable ; fi
