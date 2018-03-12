@@ -42,7 +42,7 @@ before_script:
   - if [[ $PREFER_LOWEST != 1 ]]; then composer install --prefer-source --no-interaction ; fi
   - if [[ $PREFER_LOWEST == 1 ]]; then composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable ; fi
 
-  - if [[ $PHPCS != 1 ]]; then composer require --dev phpunit/phpunit:"^5.0|^6.0"; fi
+  - if [[ $PHPCS != 1 ]]; then composer require --dev phpunit/phpunit:"^5.0|^6.0" --update-with-all-dependencies ; fi
 
   - phpenv rehash
   - set +H
