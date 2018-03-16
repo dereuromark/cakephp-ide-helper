@@ -69,6 +69,7 @@ class ElementTask extends ModelTask {
 			foreach ($Regex as $file) {
 				$name = str_replace($path, '', $file[0]);
 				$name = substr($name, 0, -4);
+				$name = str_replace(DS, '/', $name);
 				if ($plugin) {
 					$name = $plugin . '.' . $name;
 				}
