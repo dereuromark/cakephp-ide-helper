@@ -74,6 +74,12 @@ Type::build('datetime')->useLocaleParser()->setLocaleFormat('d.m.Y H:i');
 ```
 The IDE will now recognize the returned type of class and allow auto-complete here, too.
 
+#### Elements
+Are you making heavy use of elements in templates?
+Tired of typing the full template name in `$this->element('...')` calls?
+
+With this generator PHPStorm can auto-complete this, including all elements for plugins.
+
 ### Adding your own tasks
 Just create your own Task class:
 ```php

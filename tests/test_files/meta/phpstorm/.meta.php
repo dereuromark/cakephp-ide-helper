@@ -210,4 +210,12 @@ namespace PHPSTORM_META {
 		])
 	);
 
+	override(
+		\Cake\View\View::element(0),
+		map([
+			'deeply/nested' => \Cake\View\View::class,
+			'example' => \Cake\View\View::class,
+		])
+	);
+
 }
