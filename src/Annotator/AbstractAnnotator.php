@@ -78,7 +78,7 @@ abstract class AbstractAnnotator {
 		$this->_io = $io;
 		$this->setConfig($config);
 
-		$namespace = $this->getConfig(static::CONFIG_PLUGIN) ?: 'App';
+		$namespace = $this->getConfig(static::CONFIG_PLUGIN) ?: Configure::read('App.namespace', 'App');
 		$namespace = str_replace('/', '\\', $namespace);
 		$this->setConfig(static::CONFIG_NAMESPACE, $namespace);
 	}
