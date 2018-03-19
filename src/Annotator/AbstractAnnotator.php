@@ -4,6 +4,7 @@ namespace IdeHelper\Annotator;
 use Bake\View\Helper\DocBlockHelper;
 use Cake\Console\Shell;
 use Cake\Core\App;
+use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
 use Cake\View\View;
 use IdeHelper\Annotation\AbstractAnnotation;
@@ -78,7 +79,7 @@ abstract class AbstractAnnotator {
 		$this->_io = $io;
 		$this->setConfig($config);
 
-		$namespace = $this->getConfig(static::CONFIG_PLUGIN) ?: 'App';
+		$namespace = $this->getConfig(static::CONFIG_PLUGIN) ?: Configure::read('App.namespace', 'App');
 		$namespace = str_replace('/', '\\', $namespace);
 		$this->setConfig(static::CONFIG_NAMESPACE, $namespace);
 	}
