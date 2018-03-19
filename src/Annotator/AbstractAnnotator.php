@@ -4,6 +4,7 @@ namespace IdeHelper\Annotator;
 use Bake\View\Helper\DocBlockHelper;
 use Cake\Console\Shell;
 use Cake\Core\App;
+use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
 use Cake\View\View;
 use IdeHelper\Annotation\AbstractAnnotation;
