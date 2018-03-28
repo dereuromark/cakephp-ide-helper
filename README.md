@@ -18,8 +18,8 @@ IdeHelper plugin for CakePHP applications.
 The main idea is to improve IDE compatibility and use annotations to make the IDE understand the
 "magic" of CakePHP, so you can click through the class methods and object chains as well as spot obvious issues and mistakes easier. The IDE will usually mark problematic code yellow (missing, wrong method etc).
 
-This also improves compatability with tools like [PHPStan](https://github.com/phpstan/phpstan).
-Those can then follow the code easier and procide more valuable help.
+This also improves compatibility with tools like [PHPStan](https://github.com/phpstan/phpstan).
+Those can then follow the code easier and provide more valuable help.
 
 - Add annotations to existing code (e.g. when upgrading an application) just like baking would to new code.
 - Can run multiple times without adding the annotations again.
