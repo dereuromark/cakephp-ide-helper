@@ -1,5 +1,8 @@
 <?php
 
+use Cake\Cache\Cache;
+use Cake\Core\Configure;
+use Cake\Core\Plugin;
 use Cake\Routing\DispatcherFactory;
 
 if (!defined('DS')) {
@@ -30,14 +33,13 @@ define('CAKE', CORE_PATH . APP_DIR . DS);
 require dirname(__DIR__) . '/vendor/autoload.php';
 require CORE_PATH . 'config/bootstrap.php';
 
-Cake\Core\Configure::write('App', [
+Configure::write('App', [
 	'namespace' => 'App',
 	'paths' => [
 		'templates' => [APP . 'Template' . DS],
 	],
 ]);
-Cake\Core\Configure::write('Error.errorLevel', E_ALL & ~E_USER_DEPRECATED);
-Cake\Core\Configure::write('debug', true);
+Configure::write('debug', true);
 
 $cache = [
 	'default' => [
@@ -59,12 +61,12 @@ $cache = [
 	]
 ];
 
-Cake\Cache\Cache::config($cache);
+Cache::setConfig($cache);
 
-Cake\Core\Plugin::load('IdeHelper', ['path' => ROOT . DS, 'autoload' => true]);
-Cake\Core\Plugin::load('Shim', ['path' => ROOT . DS . 'vendor/dereuromark/cakephp-shim/', 'autoload' => true]);
-Cake\Core\Plugin::load('Awesome', ['path' => TEST_ROOT . 'plugins/Awesome/', 'autoload' => true]);
-Cake\Core\Plugin::load('MyBehavior/MyPlugin', ['path' => TEST_ROOT . 'plugins/MyBehavior/MyPlugin/', 'autoload' => true]);
+Plugin::load('IdeHelper', ['path' => ROOT . DS, 'autoload' => true]);
+Plugin::load('Shim', ['path' => ROOT . DS . 'vendor/dereuromark/cakephp-shim/', 'autoload' => true]);
+Plugin::load('Awesome', ['path' => TEST_ROOT . 'plugins/Awesome/', 'autoload' => true]);
+Plugin::load('MyBehavior/MyPlugin', ['path' => TEST_ROOT . 'plugins/MyBehavior/MyPlugin/', 'autoload' => true]);
 
 DispatcherFactory::add('Routing');
 DispatcherFactory::add('ControllerFactory');
@@ -75,7 +77,7 @@ if (!getenv('db_class')) {
 	putenv('db_dsn=sqlite::memory:');
 }
 
-Cake\Datasource\ConnectionManager::config('test', [
+Cake\Datasource\ConnectionManager::setConfig('test', [
 	'className' => 'Cake\Database\Connection',
 	'driver' => getenv('db_class'),
 	'dsn' => getenv('db_dsn'),
@@ -87,7 +89,7 @@ Cake\Datasource\ConnectionManager::config('test', [
 	'cacheMetadata' => true,
 ]);
 
-Cake\Datasource\ConnectionManager::config('test_database_log', [
+Cake\Datasource\ConnectionManager::setConfig('test_database_log', [
 	'className' => 'Cake\Database\Connection',
 	'driver' => getenv('db_class'),
 	'dsn' => getenv('db_dsn'),

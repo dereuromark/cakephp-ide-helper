@@ -196,7 +196,6 @@ namespace PHPSTORM_META {
 			'integer' => \Cake\Database\Type\IntegerType::class,
 			'biginteger' => \Cake\Database\Type\IntegerType::class,
 			'binary' => \Cake\Database\Type\BinaryType::class,
-			'binaryuuid' => \Cake\Database\Type\BinaryUuidType::class,
 			'boolean' => \Cake\Database\Type\BoolType::class,
 			'date' => \Cake\Database\Type\DateType::class,
 			'datetime' => \Cake\Database\Type\DateTimeType::class,
