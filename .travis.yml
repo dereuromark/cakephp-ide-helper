@@ -18,9 +18,6 @@ matrix:
   fast_finish: true
 
   include:
-    - php: 7.0
-      env: BC=1
-
     - php: 7.1
       env: PHPCS=1 DEFAULT=0
 
@@ -35,9 +32,6 @@ matrix:
 
 before_script:
   - if [[ $DB == 'mysql' ]]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi
-
-  - if [[ $BC == 1 ]]; then composer remove --dev fig-r/psr2r-sniffer; fi
-  - if [[ $BC == 1 ]]; then composer require squizlabs/php_codesniffer:"^2.8"; fi
 
   - if [[ $PHPCS != 1 ]]; then composer require phpunit/phpunit:"^5.7.14|^6.0" ; fi
 

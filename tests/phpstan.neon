@@ -10,8 +10,3 @@ parameters:
         - %rootDir%/../../../tests/shim.php
     ignoreErrors:
         - '#Call to an undefined method Cake\\ORM\\Association::getAlias\(\)#'
-        - '#Instantiated class PHP\_CodeSniffer not found.#'
-        - '#Call to method process\(\) on an unknown class PHP\_CodeSniffer.#'
-        - '#Instantiated class PHP\_CodeSniffer\_File not found.#'
-        - '#Call to method start\(\) on an unknown class PHP\_CodeSniffer\_File.#'
-        - '#Method IdeHelper\\Annotator\\AbstractAnnotator::\_getFile\(\) should return PHP\_CodeSniffer\\Files\\File but returns PHP\_CodeSniffer\_File.#'

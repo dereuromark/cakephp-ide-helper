@@ -10,14 +10,12 @@ use Cake\View\View;
 use IdeHelper\Annotation\AbstractAnnotation;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Console\Io;
-use PHP_CodeSniffer;
 use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Fixer;
 use PHP_CodeSniffer\Ruleset;
 use PHP_CodeSniffer\Runner;
 use PHP_CodeSniffer\Util\Tokens;
-use PHP_CodeSniffer_File;
 use ReflectionClass;
 use RuntimeException;
 use SebastianBergmann\Diff\Differ;
@@ -31,11 +29,6 @@ if (!is_dir($composerVendorDir . DS . $codesnifferDir)) {
 $manualAutoload = $composerVendorDir . DS . $codesnifferDir . DS . 'autoload.php';
 if (!class_exists(Config::class) && file_exists($manualAutoload)) {
 	require $manualAutoload;
-}
-if (!class_exists(Runner::class)) {
-	class_alias('\PHP_CodeSniffer_File', File::class);
-	class_alias('\PHP_CodeSniffer_Fixer', Fixer::class);
-	class_alias('\PHP_CodeSniffer_Tokens', Tokens::class);
 }
 
 abstract class AbstractAnnotator {
@@ -98,17 +91,6 @@ abstract class AbstractAnnotator {
 	 */
 	protected function _getFile($file, $content = null) {
 		$_SERVER['argv'] = [];
-
-		if (!class_exists(Runner::class)) {
-			// phpcs 2.x
-			$phpcs = new PHP_CodeSniffer();
-			$phpcs->process([], null, []);
-			$fileObject = new PHP_CodeSniffer_File($file, [], [], $phpcs);
-
-			$fileObject->start($content !== null ? $content : file_get_contents($file));
-
-			return $fileObject;
-		}
 
 		$phpcs = new Runner();
 
