@@ -2,8 +2,6 @@
 namespace IdeHelper\Annotator;
 
 use Cake\Core\App;
-use Cake\Network\Request;
-use Cake\Network\Session;
 use Cake\ORM\TableRegistry;
 use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
@@ -137,8 +135,6 @@ class ControllerAnnotator extends AbstractAnnotator {
 			return [];
 		}
 
-		$request = new Request();
-		$request->session(new Session());
 		/** @var \App\Controller\AppController $controller */
 		$controller = new $className();
 

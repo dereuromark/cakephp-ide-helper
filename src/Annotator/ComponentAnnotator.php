@@ -4,8 +4,6 @@ namespace IdeHelper\Annotator;
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
 use Cake\Core\App;
-use Cake\Network\Request;
-use Cake\Network\Session;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotator\Traits\ComponentTrait;
 
@@ -46,8 +44,6 @@ class ComponentAnnotator extends AbstractAnnotator {
 	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
 	protected function _getComponentAnnotations($className) {
-		$request = new Request();
-		$request->session(new Session());
 		$controller = new Controller();
 		try {
 			$object = new $className(new ComponentRegistry($controller));
