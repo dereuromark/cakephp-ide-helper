@@ -9,15 +9,15 @@
     <php>
         <ini name="memory_limit" value="-1"/>
         <ini name="apc.enable_cli" value="1"/>
-		<!-- E_ALL & ~E_USER_DEPRECATED (16383)-->
-		<!-- E_ALL (32767) -->
+		<!-- E_ALL => 32767 -->
+		<!-- E_ALL & ~E_USER_DEPRECATED => 16383 -->
 		<ini name="error_reporting" value="16383"/>
     </php>
 
     <!-- Add any additional test suites you want to run here -->
     <testsuites>
         <testsuite name="ide-helper">
-            <directory>./tests/TestCase</directory>
+            <directory>tests/TestCase/</directory>
         </testsuite>
     </testsuites>
 
@@ -35,7 +35,7 @@
     <!-- Prevent coverage reports from looking in tests and vendors -->
     <filter>
         <whitelist>
-            <directory suffix=".php">./src/</directory>
+            <directory suffix=".php">src/</directory>
         </whitelist>
     </filter>
 

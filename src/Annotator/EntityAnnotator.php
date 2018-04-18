@@ -44,7 +44,7 @@ class EntityAnnotator extends AbstractAnnotator {
 
 		$schema = [];
 		foreach ($columns as $column) {
-			$row = $tableSchema->column($column);
+			$row = $tableSchema->getColumn($column);
 			$row['kind'] = 'column';
 			$schema[$column] = $row;
 		}

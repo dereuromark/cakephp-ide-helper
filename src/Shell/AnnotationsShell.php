@@ -441,7 +441,7 @@ class AnnotationsShell extends Shell {
 	 * @return \IdeHelper\Console\Io
 	 */
 	protected function _io() {
-		return new Io($this->io());
+		return new Io($this->getIo());
 	}
 
 	/**
