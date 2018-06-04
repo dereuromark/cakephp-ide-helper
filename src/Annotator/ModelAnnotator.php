@@ -78,6 +78,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param array $behaviors
 	 *
 	 * @return bool
+	 * @throws \RuntimeException
 	 */
 	protected function _table($path, $entityName, array $associations, array $behaviors) {
 		$content = file_get_contents($path);

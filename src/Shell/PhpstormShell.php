@@ -79,6 +79,7 @@ class PhpstormShell extends Shell {
 
 	/**
 	 * @return string
+	 * @throws \RuntimeException
 	 */
 	protected function getMetaFilePath() {
 		if (is_file(ROOT . DS . '.phpstorm.meta.php')) {

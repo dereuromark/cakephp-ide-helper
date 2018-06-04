@@ -4,9 +4,11 @@ namespace IdeHelper\Shell;
 use Cake\Console\Shell;
 use Cake\Core\App;
 use Cake\Core\Configure;
+use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use Cake\Utility\Inflector;
 use IdeHelper\Annotator\AbstractAnnotator;
+use IdeHelper\Annotator\ClassAnnotator;
 use IdeHelper\Annotator\ComponentAnnotator;
 use IdeHelper\Annotator\ControllerAnnotator;
 use IdeHelper\Annotator\HelperAnnotator;
@@ -63,6 +65,7 @@ class AnnotationsShell extends Shell {
 			'shells',
 			'components',
 			'helpers',
+			'classes',
 			'templates',
 		];
 		if (!$this->param('plugin') && !$this->param('filter')) {
@@ -120,7 +123,6 @@ class AnnotationsShell extends Shell {
 
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);
 
-		$count = 0;
 		foreach ($folderContent[1] as $file) {
 			$name = pathinfo($file, PATHINFO_FILENAME);
 			if ($this->_shouldSkip($name)) {
@@ -131,10 +133,63 @@ class AnnotationsShell extends Shell {
 
 			$annotator = new ModelAnnotator($this->_io(), $this->params);
 
-			$result = $annotator->annotate($folder . $file);
-			if ($result) {
-				$count++;
+			$annotator->annotate($folder . $file);
+		}
+	}
+
+	/**
+	 * @return void
+	 */
+	public function classes() {
+		$plugin = $this->param('plugin') ?: null;
+
+		$path = $plugin ? Plugin::path($plugin) : ROOT . DS;
+
+		$path .= 'src' . DS;
+
+		$folder = new Folder($path);
+
+		$folders = $folder->subdirectories();
+
+		foreach ($folders as $folder) {
+			$this->_classes($folder . DS);
+		}
+	}
+
+	/**
+	 * @param string $folder
+	 * @return void
+	 */
+	protected function _classes($folder) {
+		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
+
+		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);
+
+		foreach ($folderContent[1] as $file) {
+			$extension = pathinfo($file, PATHINFO_EXTENSION);
+			if ($extension !== 'php') {
+				continue;
 			}
+
+			$name = pathinfo($file, PATHINFO_FILENAME);
+			if ($this->_shouldSkip($name)) {
+				continue;
+			}
+
+			$this->out('-> ' . $name, 1, Shell::VERBOSE);
+
+			$annotator = new ClassAnnotator($this->_io(), $this->params);
+			$annotator->annotate($folder . $file);
+		}
+
+		foreach ($folderContent[0] as $subFolder) {
+			$prefixes = (array)Configure::read('IdeHelper.prefixes') ?: null;
+
+			if ($prefixes !== null && !in_array($subFolder, $prefixes, true)) {
+				continue;
+			}
+
+			$this->_controllers($folder . $subFolder . DS);
 		}
 	}
 
@@ -433,6 +488,9 @@ class AnnotationsShell extends Shell {
 				'parser' => $subcommandParser
 			])->addSubcommand('shells', [
 				'help' => 'Annotate primary model as well as used models in shells.',
+				'parser' => $subcommandParser
+			])->addSubcommand('classes', [
+				'help' => 'Annotate classes using class annotation tasks.',
 				'parser' => $subcommandParser
 			]);
 	}

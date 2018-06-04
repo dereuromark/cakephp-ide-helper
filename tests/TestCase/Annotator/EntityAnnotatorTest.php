@@ -35,7 +35,7 @@ class EntityAnnotatorTest extends TestCase {
 	protected $err;
 
 	/**
-	 * @var \Cake\Console\ConsoleIo
+	 * @var \IdeHelper\Console\Io
 	 */
 	protected $io;
 

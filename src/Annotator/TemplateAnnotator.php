@@ -108,6 +108,8 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 * @param int|null $phpOpenTagIndex
 	 * @param int|null $docBlockCloseIndex
 	 *
+	 * @throws \RuntimeException
+	 *
 	 * @return string
 	 */
 	protected function _addNewTemplateDocBlock(File $file, array $annotations, $phpOpenTagIndex, $docBlockCloseIndex) {

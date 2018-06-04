@@ -235,6 +235,8 @@ abstract class AbstractAnnotator {
 	 * @param int $docBlockCloseIndex
 	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
 	 *
+	 * @throws \RuntimeException
+	 *
 	 * @return string
 	 */
 	protected function _appendToExistingDocBlock(File $file, $docBlockCloseIndex, array &$annotations) {

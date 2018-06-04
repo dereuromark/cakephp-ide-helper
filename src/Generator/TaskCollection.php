@@ -55,6 +55,7 @@ class TaskCollection {
 	 *
 	 * @param string|\IdeHelper\Generator\Task\TaskInterface $task The task to map.
 	 * @return $this
+	 * @throws \InvalidArgumentException
 	 */
 	public function add($task) {
 		if (is_string($task)) {
