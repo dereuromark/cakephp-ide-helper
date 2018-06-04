@@ -2,10 +2,7 @@
 
 namespace IdeHelper\Test\TestCase\Annotator;
 
-use App\Model\Table\FooTable;
 use Cake\Console\ConsoleIo;
-use Cake\Database\Schema\TableSchema;
-use Cake\ORM\TableRegistry;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\ClassAnnotator;
 use IdeHelper\Console\Io;
@@ -13,16 +10,6 @@ use Tools\TestSuite\ConsoleOutput;
 use Tools\TestSuite\TestCase;
 
 class ClassAnnotatorTest extends TestCase {
-
-	use DiffHelperTrait;
-
-	/**
-	 * @var array
-	 */
-	public $fixtures = [
-		'plugin.ide_helper.foo',
-		'plugin.ide_helper.wheels',
-	];
 
 	/**
 	 * @var \Tools\TestSuite\ConsoleOutput
@@ -49,53 +36,6 @@ class ClassAnnotatorTest extends TestCase {
 		$this->err = new ConsoleOutput();
 		$consoleIo = new ConsoleIo($this->out, $this->err);
 		$this->io = new Io($consoleIo);
-
-		$x = TableRegistry::get('IdeHelper.Foo', ['className' => FooTable::class]);
-		$columns = [
-			'id' => [
-				'type' => 'integer',
-				'length' => 11,
-				'unsigned' => false,
-				'null' => false,
-				'default' => null,
-				'comment' => '',
-				'autoIncrement' => true,
-				'baseType' => null,
-				'precision' => null
-			],
-			'name' => [
-				'type' => 'string',
-				'length' => 100,
-				'null' => false,
-				'default' => null,
-				'comment' => '',
-				'baseType' => null,
-				'precision' => null,
-				'fixed' => null
-			],
-			'content' => [
-				'type' => 'string',
-				'length' => 100,
-				'null' => false,
-				'default' => null,
-				'comment' => '',
-				'baseType' => null,
-				'precision' => null,
-				'fixed' => null
-			],
-			'created' => [
-				'type' => 'datetime',
-				'length' => null,
-				'null' => true,
-				'default' => null,
-				'comment' => '',
-				'baseType' => null,
-				'precision' => null
-			],
-		];
-		$schema = new TableSchema('Foo', $columns);
-		$x->setSchema($schema);
-		TableRegistry::set('Foo', $x);
 	}
 
 	/**
