@@ -230,6 +230,67 @@ would get the following annotations:
  */
 ```
 
+## Classes and ClassAnnotationTasks
+
+In order to run certain "fixers" over all classes, class annotations and their tasks are available.
+Out of the box the following tasks are run:
+
+### ModelAware
+
+Any `use ModelAwareTrait` usage together with `$this->loadModel(...)` calls will add the required annotation on top of the class.
+
+### Custom Tasks
+
+Just create your own Task class:
+```php
+namespace App\Annotator\ClassAnnotatorTask;
+
+use IdeHelper\Annotator\ClassAnnotatorTask\AbstractClassAnnotatorTask;
+use IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface;
+
+class MyClassAnnotatorTask extends AbstractClassAnnotatorTask implements ClassAnnotatorTaskInterface {
+
+	/**
+	 * @return bool
+	 */
+	public function shouldRun() {
+		...
+	}
+	
+	/**
+	 * @param string $path
+	 * @return bool
+	 */
+	public function annotate($path) {
+		...
+	}
+
+}
+```
+
+Then add it to the config:
+```php
+'IdeHelper' => [
+	'classAnnotatorTasks' => [
+		'MyClassAnnotatorTask' => \App\Annotator\ClassAnnotatorTask\MyClassAnnotatorTask::class,
+	],
+],
+```
+The key `'MyClassAnnotatorTask'` can be any string.
+
+#### Replacing native tasks
+Using associative arrays you can even exchange any native task with your own implementation:
+```php
+'IdeHelper' => [
+	'classAnnotatorTasks' => [
+		\IdeHelper\Annotator\ClassAnnotatorTask\ModelAwareTask::class => \App\Annotator\ClassAnnotatorTask\MyEnhancedModelAwareTask::class,
+	],
+],
+```
+The native class name is the key then, your replacement the value.
+Setting the value to `null` completely disables a native task.
+
+
 ## Templates
 This will ensure annotations for view templates and elements:
 ```

@@ -57,6 +57,7 @@ class AnnotationFactory {
 	 * @param string|null $content
 	 * @param int|null $index
 	 * @return \IdeHelper\Annotation\AbstractAnnotation
+	 * @throws \RuntimeException
 	 */
 	public static function createOrFail($tag, $type, $content = null, $index = null) {
 		$annotation = static::create($tag, $type, $content, $index);
