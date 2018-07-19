@@ -67,7 +67,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 		}
 
 		$modelName = substr($className, 0, -10);
-		if ($this->getConfig(static::CONFIG_PLUGIN)) {
+		if ($modelName && $this->getConfig(static::CONFIG_PLUGIN)) {
 			$modelName = $this->getConfig(static::CONFIG_PLUGIN) . '.' . $modelName;
 		}
 
@@ -243,9 +243,8 @@ class ControllerAnnotator extends AbstractAnnotator {
 		}
 
 		$fullClassName = App::className($plugin . $className, 'Controller' . $prefix);
-
 		if (!$fullClassName) {
-			exit($path);
+			return null;
 		}
 
 		try {
@@ -260,6 +259,9 @@ class ControllerAnnotator extends AbstractAnnotator {
 		}
 
 		$modelClass = $controller->modelClass;
+		if (!$modelClass) {
+			return null;
+		}
 
 		if ($this->getConfig(static::CONFIG_PLUGIN)) {
 			$pluginModelClass = $this->getConfig(static::CONFIG_PLUGIN) . '.' . $modelClass;
