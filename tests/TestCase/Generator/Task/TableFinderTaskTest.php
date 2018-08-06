@@ -42,7 +42,7 @@ class TableFinderTaskTest extends TestCase {
 	public function testCollect() {
 		$result = $this->task->collect();
 
-		$this->assertCount(2, $result);
+		$this->assertCount(3, $result);
 
 		$expectedMap = [
 			'all' => '\Cake\ORM\Query::class',

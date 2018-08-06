@@ -2,6 +2,7 @@
 namespace IdeHelper\Generator\Task;
 
 use Cake\Core\Configure;
+use Cake\Datasource\QueryInterface;
 use Cake\ORM\Association;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
@@ -11,6 +12,7 @@ use ReflectionClass;
 
 class TableFinderTask extends ModelTask {
 
+	const INTERFACE_QUERY = QueryInterface::class;
 	const CLASS_TABLE = Table::class;
 	const CLASS_ASSOCITATION = Association::class;
 	const CLASS_QUERY = Query::class;
@@ -47,6 +49,7 @@ class TableFinderTask extends ModelTask {
 		$finders = [];
 		$finders[static::CLASS_TABLE] = $allFinders;
 		$finders[static::CLASS_ASSOCITATION] = $allFinders;
+		$finders[static::INTERFACE_QUERY] = $allFinders;
 
 		return $finders;
 	}

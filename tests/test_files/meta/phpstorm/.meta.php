@@ -189,6 +189,15 @@ namespace PHPSTORM_META {
 	);
 
 	override(
+		\Cake\Datasource\QueryInterface::find(0),
+		map([
+			'all' => \Cake\ORM\Query::class,
+			'list' => \Cake\ORM\Query::class,
+			'threaded' => \Cake\ORM\Query::class,
+		])
+	);
+
+	override(
 		\Cake\Database\Type::build(0),
 		map([
 			'tinyinteger' => \Cake\Database\Type\IntegerType::class,
