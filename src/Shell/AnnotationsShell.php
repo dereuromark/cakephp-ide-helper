@@ -189,7 +189,7 @@ class AnnotationsShell extends Shell {
 				continue;
 			}
 
-			$this->_controllers($folder . $subFolder . DS);
+			$this->_classes($folder . $subFolder . DS);
 		}
 	}
 

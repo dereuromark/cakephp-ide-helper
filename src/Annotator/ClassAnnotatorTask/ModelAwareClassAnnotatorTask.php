@@ -3,6 +3,7 @@
 namespace IdeHelper\Annotator\ClassAnnotatorTask;
 
 class ModelAwareClassAnnotatorTask extends AbstractClassAnnotatorTask implements ClassAnnotatorTaskInterface {
+
 	/**
 	 * @param string $path
 	 * @param string $content
