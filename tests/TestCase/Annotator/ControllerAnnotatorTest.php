@@ -117,7 +117,7 @@ class ControllerAnnotatorTest extends TestCase {
 
 	/**
 	 * @param array $params
-	 * @return \IdeHelper\Annotator\ControllerAnnotator|\PHPUnit_Framework_MockObject_MockObject
+	 * @return \IdeHelper\Annotator\ControllerAnnotator|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function _getAnnotatorMock(array $params) {
 		$params += [

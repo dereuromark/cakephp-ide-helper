@@ -19,7 +19,7 @@ class AnnotationsShellTest extends TestCase {
 	];
 
 	/**
-	 * @var \IdeHelper\Shell\AnnotationsShell|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \IdeHelper\Shell\AnnotationsShell|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $Shell;
 

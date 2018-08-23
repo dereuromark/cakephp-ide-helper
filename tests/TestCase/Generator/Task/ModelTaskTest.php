@@ -31,6 +31,7 @@ class ModelTaskTest extends TestCase {
 
 		$expectedMap = [
 			'BarBars' => '\App\Model\Table\BarBarsTable::class',
+			'Callbacks' => '\App\Model\Table\CallbacksTable::class',
 			'Cars' => '\App\Model\Table\CarsTable::class',
 			'Exceptions' => '\App\Model\Table\ExceptionsTable::class',
 			'Foo' => '\App\Model\Table\FooTable::class',

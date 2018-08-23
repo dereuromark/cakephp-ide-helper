@@ -6,6 +6,7 @@ namespace PHPSTORM_META {
 		\Cake\ORM\TableRegistry::get(0),
 		map([
 			'BarBars' => \App\Model\Table\BarBarsTable::class,
+			'Callbacks' => \App\Model\Table\CallbacksTable::class,
 			'Cars' => \App\Model\Table\CarsTable::class,
 			'Exceptions' => \App\Model\Table\ExceptionsTable::class,
 			'Foo' => \App\Model\Table\FooTable::class,
@@ -21,6 +22,7 @@ namespace PHPSTORM_META {
 		\Cake\ORM\Locator\LocatorInterface::get(0),
 		map([
 			'BarBars' => \App\Model\Table\BarBarsTable::class,
+			'Callbacks' => \App\Model\Table\CallbacksTable::class,
 			'Cars' => \App\Model\Table\CarsTable::class,
 			'Exceptions' => \App\Model\Table\ExceptionsTable::class,
 			'Foo' => \App\Model\Table\FooTable::class,
@@ -36,6 +38,7 @@ namespace PHPSTORM_META {
 		\Cake\Datasource\ModelAwareTrait::loadModel(0),
 		map([
 			'BarBars' => \App\Model\Table\BarBarsTable::class,
+			'Callbacks' => \App\Model\Table\CallbacksTable::class,
 			'Cars' => \App\Model\Table\CarsTable::class,
 			'Exceptions' => \App\Model\Table\ExceptionsTable::class,
 			'Foo' => \App\Model\Table\FooTable::class,
@@ -51,6 +54,7 @@ namespace PHPSTORM_META {
 		\ModelAwareTrait::loadModel(0),
 		map([
 			'BarBars' => \App\Model\Table\BarBarsTable::class,
+			'Callbacks' => \App\Model\Table\CallbacksTable::class,
 			'Cars' => \App\Model\Table\CarsTable::class,
 			'Exceptions' => \App\Model\Table\ExceptionsTable::class,
 			'Foo' => \App\Model\Table\FooTable::class,
@@ -114,6 +118,7 @@ namespace PHPSTORM_META {
 		\Cake\ORM\Table::belongsTo(0),
 		map([
 			'BarBars' => \Cake\ORM\Association\BelongsTo::class,
+			'Callbacks' => \Cake\ORM\Association\BelongsTo::class,
 			'Cars' => \Cake\ORM\Association\BelongsTo::class,
 			'Exceptions' => \Cake\ORM\Association\BelongsTo::class,
 			'Foo' => \Cake\ORM\Association\BelongsTo::class,
@@ -129,6 +134,7 @@ namespace PHPSTORM_META {
 		\Cake\ORM\Table::hasOne(0),
 		map([
 			'BarBars' => \Cake\ORM\Association\HasOne::class,
+			'Callbacks' => \Cake\ORM\Association\HasOne::class,
 			'Cars' => \Cake\ORM\Association\HasOne::class,
 			'Exceptions' => \Cake\ORM\Association\HasOne::class,
 			'Foo' => \Cake\ORM\Association\HasOne::class,
@@ -144,6 +150,7 @@ namespace PHPSTORM_META {
 		\Cake\ORM\Table::hasMany(0),
 		map([
 			'BarBars' => \Cake\ORM\Association\HasMany::class,
+			'Callbacks' => \Cake\ORM\Association\HasMany::class,
 			'Cars' => \Cake\ORM\Association\HasMany::class,
 			'Exceptions' => \Cake\ORM\Association\HasMany::class,
 			'Foo' => \Cake\ORM\Association\HasMany::class,
@@ -159,6 +166,7 @@ namespace PHPSTORM_META {
 		\Cake\ORM\Table::belongToMany(0),
 		map([
 			'BarBars' => \Cake\ORM\Association\BelongsToMany::class,
+			'Callbacks' => \Cake\ORM\Association\BelongsToMany::class,
 			'Cars' => \Cake\ORM\Association\BelongsToMany::class,
 			'Exceptions' => \Cake\ORM\Association\BelongsToMany::class,
 			'Foo' => \Cake\ORM\Association\BelongsToMany::class,

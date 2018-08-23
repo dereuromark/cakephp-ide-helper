@@ -18,7 +18,7 @@ class CodeCompletionShellTest extends TestCase {
 	];
 
 	/**
-	 * @var \IdeHelper\Shell\CodeCompletionShell|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \IdeHelper\Shell\CodeCompletionShell|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $Shell;
 

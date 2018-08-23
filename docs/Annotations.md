@@ -251,9 +251,11 @@ use IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface;
 class MyClassAnnotatorTask extends AbstractClassAnnotatorTask implements ClassAnnotatorTaskInterface {
 
 	/**
+	 * @param string $path
+	 * @param string $content
 	 * @return bool
 	 */
-	public function shouldRun() {
+	public function shouldRun($path, $content) {
 		...
 	}
 	
@@ -364,6 +366,84 @@ bin/cake annotations all -i -v
 ```
 
 Also make sure you committed or backuped all project files.
+
+
+## Callbacks and CallbackAnnotationTasks
+
+This is a separate annotations tool that focuses on methods and their doc block instead of classes.
+By default it ships with
+- TableCallbackAnnotatorTask
+
+### Table callback annotations
+Behaviors and generic code use the following signature:
+```php
+/**
+ * @param \Cake\Event\Event $event Event
+ * @param \Cake\Datasource\EntityInterface $entity Entity
+ * @param \ArrayObject $options Options
+ * @return void
+ */
+public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options)
+```
+And as long you only use methods and attributes of the EntityInterface (as contracted here), this is fine.
+
+But in specific Table class code, you usually also access the entities' concrete properties.
+Here using this typehint is somewhat a lie. To please IDE and tooling like PHPStan we can at least fix up the doc block, however.
+And that is what this task is doing, declaring the Post entity to be available and used inside.
+
+Inside the concrete PostsTable after running the `callbacks` command:
+```php
+/**
+ * @param \Cake\Event\Event $event Event
+ * @param \App\Model\Entity\Post $entity Entity
+ * @param \ArrayObject $options Options
+ * @return void
+ */
+public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options)
+```
+
+### Custom Tasks
+
+Just create your own Task class:
+```php
+namespace App\Annotator\CallbackAnnotatorTask;
+
+use IdeHelper\Annotator\CallbackAnnotatorTask\AbstractCallbackAnnotatorTask;
+use IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface;
+
+class MyCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implements CallbackAnnotatorTaskInterface {
+
+	/**
+	 * @param string $path
+	 * @return bool
+	 */
+	public function shouldRun($path) {
+		...
+	}
+	
+	/**
+	 * @param string $path
+	 * @return bool
+	 */
+	public function annotate($path) {
+		...
+	}
+
+}
+```
+
+Then add it to the config:
+```php
+'IdeHelper' => [
+	'CallbackAnnotatorTasks' => [
+		'MyCallbackAnnotatorTask' => \App\Annotator\CallbackAnnotatorTask\MyCallbackAnnotatorTask::class,
+	],
+],
+```
+The key `'MyCallbackAnnotatorTask'` can be any string.
+
+Overwriting the existing tasks works the same way as above for classes.
+
 
 ## Dry-Run and Diff
 If you want to check if it would be modifying any files, you can run it with `-d` (dry-run) param.

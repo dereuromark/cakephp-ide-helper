@@ -18,7 +18,7 @@ class PhpstormShellTest extends TestCase {
 	];
 
 	/**
-	 * @var \IdeHelper\Shell\PhpstormShell|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \IdeHelper\Shell\PhpstormShell|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $Shell;
 
