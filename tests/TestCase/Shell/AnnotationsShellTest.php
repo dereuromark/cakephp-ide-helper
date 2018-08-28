@@ -171,4 +171,21 @@ class AnnotationsShellTest extends TestCase {
 		$this->assertSame(AnnotationsShell::CODE_CHANGES, $result);
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testClasses() {
+		$result = $this->Shell->runCommand(['classes', '-d', '-v']);
+
+		$this->assertNull($result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testCallbacks() {
+		$result = $this->Shell->runCommand(['callbacks', '-d', '-v']);
+
+		$this->assertNull($result);
+	}
 }
