@@ -4,12 +4,12 @@ namespace IdeHelper\Test\TestCase\Annotator;
 
 use Cake\Console\ConsoleIo;
 use IdeHelper\Annotator\AbstractAnnotator;
-use IdeHelper\Annotator\ClassAnnotator;
+use IdeHelper\Annotator\CallbackAnnotator;
 use IdeHelper\Console\Io;
 use Tools\TestSuite\ConsoleOutput;
 use Tools\TestSuite\TestCase;
 
-class ClassAnnotatorTest extends TestCase {
+class CallbackAnnotatorTest extends TestCase {
 
 	/**
 	 * @var \Tools\TestSuite\ConsoleOutput
@@ -44,33 +44,32 @@ class ClassAnnotatorTest extends TestCase {
 	public function testAnnotate() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$path = APP . 'Custom/CustomClass.php';
-		$execPath = TMP . 'CustomClass.php';
+		$path = APP . 'Model/Table/CallbacksTable.php';
+		$execPath = TMP . 'CallbacksTable.php';
 		copy($path, $execPath);
 
 		$annotator->annotate($execPath);
 
 		$content = file_get_contents($execPath);
 
-		$testPath = TEST_FILES . 'Custom/CustomClass.php';
+		$testPath = TEST_FILES . 'Model/Table/CallbacksTable.php';
 		$expectedContent = file_get_contents($testPath);
 		$this->assertTextEquals($expectedContent, $content);
 
 		$output = (string)$this->out->output();
 
-		$this->assertTextContains('  -> 1 annotation added.', $output);
+		$this->assertTextContains('  -> 2 annotations updated.', $output);
 	}
 
 	/**
 	 * @param array $params
-	 * @return \IdeHelper\Annotator\ClassAnnotator
+	 * @return \IdeHelper\Annotator\CallbackAnnotator
 	 */
 	protected function _getAnnotatorMock(array $params) {
 		$params += [
-			//AbstractAnnotator::CONFIG_REMOVE => true,
 			AbstractAnnotator::CONFIG_VERBOSE => true,
 		];
-		return new ClassAnnotator($this->io, $params);
+		return new CallbackAnnotator($this->io, $params);
 	}
 
 }

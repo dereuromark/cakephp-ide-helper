@@ -2,9 +2,14 @@
 
 namespace IdeHelper\Annotator\ClassAnnotatorTask;
 
+/**
+ * Classes that use ModelAwareTrait should automatically have used tables - via loadModel() call - annotated.
+ */
 class ModelAwareClassAnnotatorTask extends AbstractClassAnnotatorTask implements ClassAnnotatorTaskInterface {
 
 	/**
+	 * Deprecated: $content, use $this->content instead.
+	 *
 	 * @param string $path
 	 * @param string $content
 	 * @return bool

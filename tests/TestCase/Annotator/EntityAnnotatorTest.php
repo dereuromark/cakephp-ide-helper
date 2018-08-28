@@ -204,7 +204,7 @@ class EntityAnnotatorTest extends TestCase {
 
 	/**
 	 * @param array $params
-	 * @return \IdeHelper\Annotator\EntityAnnotator|\PHPUnit_Framework_MockObject_MockObject
+	 * @return \IdeHelper\Annotator\EntityAnnotator|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function _getAnnotatorMock(array $params) {
 		$params += [

@@ -19,7 +19,7 @@ class AnnotationsShellTest extends TestCase {
 	];
 
 	/**
-	 * @var \IdeHelper\Shell\AnnotationsShell|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \IdeHelper\Shell\AnnotationsShell|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $Shell;
 
@@ -169,6 +169,24 @@ class AnnotationsShellTest extends TestCase {
 		$result = $this->Shell->runCommand(['all', '-d', '-r', '--ci']);
 
 		$this->assertSame(AnnotationsShell::CODE_CHANGES, $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testClasses() {
+		$result = $this->Shell->runCommand(['classes', '-d', '-v']);
+
+		$this->assertNull($result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testCallbacks() {
+		$result = $this->Shell->runCommand(['callbacks', '-d', '-v']);
+
+		$this->assertNull($result);
 	}
 
 }

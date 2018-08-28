@@ -46,6 +46,8 @@ abstract class AbstractAnnotator {
 	const COUNT_ADDED = 'added';
 	const COUNT_SKIPPED = 'skipped';
 
+	const TYPES = ['@property', '@var', '@method', '@mixin'];
+
 	/**
 	 * @var bool
 	 */
@@ -399,10 +401,11 @@ abstract class AbstractAnnotator {
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $closeTagIndex
+	 * @param array $types
 	 *
 	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
-	protected function _parseExistingAnnotations(File $file, $closeTagIndex) {
+	protected function _parseExistingAnnotations(File $file, $closeTagIndex, $types = self::TYPES) {
 		$tokens = $file->getTokens();
 
 		$startTagIndex = $tokens[$closeTagIndex]['comment_opener'];
@@ -412,7 +415,7 @@ abstract class AbstractAnnotator {
 			if ($tokens[$i]['type'] !== 'T_DOC_COMMENT_TAG') {
 				continue;
 			}
-			if (!in_array($tokens[$i]['content'], ['@property', '@var', '@method', '@mixin'])) {
+			if (!in_array($tokens[$i]['content'], $types)) {
 				continue;
 			}
 

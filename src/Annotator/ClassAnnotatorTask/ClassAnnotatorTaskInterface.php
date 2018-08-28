@@ -4,6 +4,8 @@ namespace IdeHelper\Annotator\ClassAnnotatorTask;
 interface ClassAnnotatorTaskInterface {
 
 	/**
+	 * Deprecated: $content, use $this->content instead.
+	 *
 	 * @param string $path
 	 * @param string $content
 	 * @return bool

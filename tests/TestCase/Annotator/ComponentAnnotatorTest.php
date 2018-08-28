@@ -87,7 +87,7 @@ class ComponentAnnotatorTest extends TestCase {
 
 	/**
 	 * @param array $params
-	 * @return \IdeHelper\Annotator\ComponentAnnotator|\PHPUnit_Framework_MockObject_MockObject
+	 * @return \IdeHelper\Annotator\ComponentAnnotator|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function _getAnnotatorMock(array $params) {
 		$params += [

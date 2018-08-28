@@ -73,7 +73,7 @@ abstract class AbstractAnnotation implements AnnotationInterface, ReplacableAnno
 	 * @return void
 	 */
 	public function setInUse($inUse = true) {
-		$this->isInUse = (bool)$inUse;
+		$this->isInUse = $inUse;
 	}
 
 	/**

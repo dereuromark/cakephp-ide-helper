@@ -206,7 +206,7 @@ class ModelAnnotatorTest extends TestCase {
 
 	/**
 	 * @param array $params
-	 * @return \IdeHelper\Annotator\ModelAnnotator|\PHPUnit_Framework_MockObject_MockObject
+	 * @return \IdeHelper\Annotator\ModelAnnotator|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function _getAnnotatorMock(array $params) {
 		$params += [

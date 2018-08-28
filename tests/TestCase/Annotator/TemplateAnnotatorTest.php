@@ -304,7 +304,7 @@ class TemplateAnnotatorTest extends TestCase {
 
 	/**
 	 * @param array $params
-	 * @return \IdeHelper\Annotator\TemplateAnnotator|\PHPUnit_Framework_MockObject_MockObject
+	 * @return \IdeHelper\Annotator\TemplateAnnotator|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function _getAnnotatorMock(array $params) {
 		$params += [

@@ -8,6 +8,7 @@ use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use Cake\Utility\Inflector;
 use IdeHelper\Annotator\AbstractAnnotator;
+use IdeHelper\Annotator\CallbackAnnotator;
 use IdeHelper\Annotator\ClassAnnotator;
 use IdeHelper\Annotator\ComponentAnnotator;
 use IdeHelper\Annotator\ControllerAnnotator;
@@ -52,6 +53,62 @@ class AnnotationsShell extends Shell {
 		$skip = (array)Configure::read('IdeHelper.skipTemplatePaths');
 		if ($skip) {
 			$this->_config['skipTemplatePaths'] = $skip;
+		}
+	}
+
+	/**
+	 * @return void
+	 */
+	public function callbacks() {
+		$plugin = $this->param('plugin') ?: null;
+
+		$path = $plugin ? Plugin::path($plugin) : ROOT . DS;
+
+		$path .= 'src' . DS;
+
+		$folder = new Folder($path);
+
+		$folders = $folder->subdirectories();
+
+		foreach ($folders as $folder) {
+			$this->_callbacks($folder . DS);
+		}
+	}
+
+	/**
+	 * @param string $folder
+	 * @return void
+	 */
+	protected function _callbacks($folder) {
+		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
+
+		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);
+
+		foreach ($folderContent[1] as $file) {
+			$extension = pathinfo($file, PATHINFO_EXTENSION);
+			if ($extension !== 'php') {
+				continue;
+			}
+
+			$name = pathinfo($file, PATHINFO_FILENAME);
+			if ($this->_shouldSkip($name)) {
+				continue;
+			}
+
+			$this->out('-> ' . $name, 1, Shell::VERBOSE);
+
+			$annotator = new CallbackAnnotator($this->_io(), $this->params);
+			$annotator->annotate($folder . $file);
+		}
+
+		foreach ($folderContent[0] as $subFolder) {
+			$prefixes = (array)Configure::read('IdeHelper.prefixes') ?: null;
+
+			if ($prefixes !== null && !in_array($subFolder, $prefixes, true)) {
+				continue;
+			}
+
+			$this->_callbacks($folder . $subFolder . DS);
 		}
 	}
 
@@ -452,6 +509,9 @@ class AnnotationsShell extends Shell {
 			]
 		];
 
+		$callbacksParser = $subcommandParser;
+		unset($callbacksParser['options']['remove']);
+
 		$allParser = $subcommandParser;
 		$allParser['options']['interactive'] = [
 			'short' => 'i',
@@ -492,6 +552,9 @@ class AnnotationsShell extends Shell {
 			])->addSubcommand('classes', [
 				'help' => 'Annotate classes using class annotation tasks.',
 				'parser' => $subcommandParser
+			])->addSubcommand('callbacks', [
+				'help' => 'Annotate callback methods using callback annotation tasks. This task is not part of "all"',
+				'parser' => $callbacksParser
 			]);
 	}
 
