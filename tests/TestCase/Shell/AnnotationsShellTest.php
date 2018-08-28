@@ -188,4 +188,5 @@ class AnnotationsShellTest extends TestCase {
 
 		$this->assertNull($result);
 	}
+
 }
