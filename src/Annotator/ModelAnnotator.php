@@ -210,12 +210,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			}
 
 			/** @var \Cake\ORM\Association\BelongsToMany $association */
-			$through = $association->getThrough();
-			if (!$through) {
-				$tableName = $this->_junctionTableName($association);
-				$through = Inflector::camelize($tableName);
-			}
-
+			$through = $this->throughAlias($association);
 			if (!$through) {
 				continue;
 			}
@@ -226,6 +221,22 @@ class ModelAnnotator extends AbstractAnnotator {
 		}
 
 		return $associations;
+	}
+
+	/**
+	 * @param \Cake\ORM\Association\BelongsToMany $association
+	 * @return string
+	 */
+	protected function throughAlias(BelongsToMany $association) {
+		$through = $association->getThrough();
+		if ($through) {
+			return $through;
+		}
+
+		$tableName = $this->_junctionTableName($association);
+		$through = Inflector::camelize($tableName);
+
+		return $through;
 	}
 
 	/**
