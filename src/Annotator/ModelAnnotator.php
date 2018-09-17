@@ -4,13 +4,18 @@ namespace IdeHelper\Annotator;
 use Cake\Core\App;
 use Cake\Database\Schema\TableSchema;
 use Cake\ORM\AssociationCollection;
+use Cake\ORM\Association\BelongsToMany;
+use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
+use Cake\Utility\Inflector;
 use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
 use RuntimeException;
 use Throwable;
 
 class ModelAnnotator extends AbstractAnnotator {
+
+	const CLASS_TABLE = Table::class;
 
 	/**
 	 * @var array
@@ -196,15 +201,48 @@ class ModelAnnotator extends AbstractAnnotator {
 
 			$name = $association->getAlias();
 			$table = $association->className() ?: $association->getAlias();
-			$className = App::className($table, 'Model/Table', 'Table');
-			if (!$className) {
+			$className = App::className($table, 'Model/Table', 'Table') ?: static::CLASS_TABLE;
+
+			$associations[$type][$name] = $className;
+
+			if ($type !== BelongsToMany::class) {
 				continue;
 			}
 
-			$associations[$type][$name] = $className;
+			/** @var \Cake\ORM\Association\BelongsToMany $association */
+			$through = $association->getThrough();
+			if (!$through) {
+				$tableName = $this->_junctionTableName($association);
+				$through = Inflector::camelize($tableName);
+			}
+
+			if (!$through) {
+				continue;
+			}
+
+			$className = App::className($through, 'Model/Table', 'Table') ?: static::CLASS_TABLE;
+
+			$associations[$type][$through] = $className;
 		}
 
 		return $associations;
+	}
+
+	/**
+	 * @uses \Cake\ORM\Association\BelongsToMany::_junctionTableName()
+	 *
+	 * @param \Cake\ORM\Association\BelongsToMany $association
+	 * @return string
+	 */
+	protected function _junctionTableName(BelongsToMany $association) {
+		$tablesNames = array_map('Cake\Utility\Inflector::underscore', [
+			$association->getSource()->getTable(),
+			$association->getTarget()->getTable()
+		]);
+
+		sort($tablesNames);
+
+		return implode('_', $tablesNames);
 	}
 
 	/**
