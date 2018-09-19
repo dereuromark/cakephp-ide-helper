@@ -3,6 +3,7 @@ namespace IdeHelper\Annotator;
 
 use Cake\Core\App;
 use Cake\Database\Schema\TableSchema;
+use Cake\ORM\Association\HasMany;
 use Cake\ORM\AssociationCollection;
 use Cake\ORM\Association\BelongsToMany;
 use Cake\ORM\Table;
@@ -217,6 +218,7 @@ class ModelAnnotator extends AbstractAnnotator {
 
 			$className = App::className($through, 'Model/Table', 'Table') ?: static::CLASS_TABLE;
 
+			$type = HasMany::class;
 			$associations[$type][$through] = $className;
 		}
 
