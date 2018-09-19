@@ -3,9 +3,9 @@ namespace IdeHelper\Annotator;
 
 use Cake\Core\App;
 use Cake\Database\Schema\TableSchema;
-use Cake\ORM\Association\HasMany;
 use Cake\ORM\AssociationCollection;
 use Cake\ORM\Association\BelongsToMany;
+use Cake\ORM\Association\HasMany;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
