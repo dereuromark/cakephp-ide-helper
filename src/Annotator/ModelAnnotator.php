@@ -219,6 +219,10 @@ class ModelAnnotator extends AbstractAnnotator {
 			$className = App::className($through, 'Model/Table', 'Table') ?: static::CLASS_TABLE;
 
 			$type = HasMany::class;
+			if (isset($associations[$type][$through])) {
+				continue;
+			}
+
 			$associations[$type][$through] = $className;
 		}
 
@@ -232,6 +236,10 @@ class ModelAnnotator extends AbstractAnnotator {
 	protected function throughAlias(BelongsToMany $association) {
 		$through = $association->getThrough();
 		if ($through) {
+			if (is_object($through)) {
+				return $through->getAlias();
+			}
+
 			return $through;
 		}
 
