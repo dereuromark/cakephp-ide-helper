@@ -28,6 +28,7 @@ use IdeHelper\Console\Io;
 class AnnotationsShell extends Shell {
 
 	const CODE_CHANGES = 2;
+	const TEMPLATE_EXTENSIONS = ['ctp', 'php'];
 
 	/**
 	 * @var array
@@ -315,6 +316,11 @@ class AnnotationsShell extends Shell {
 
 		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
 		foreach ($folderContent[1] as $file) {
+			$extension = pathinfo($file, PATHINFO_EXTENSION);
+			if ($this->_shouldSkipExtension($extension)) {
+				continue;
+			}
+
 			$name = pathinfo($file, PATHINFO_FILENAME);
 			$dir = $name;
 			$templatePathPos = strpos($folder, 'src' . DS . 'Template' . DS);
@@ -577,6 +583,18 @@ class AnnotationsShell extends Shell {
 		}
 
 		return !(bool)preg_match('/' . preg_quote($filter, '/') . '/i', $fileName);
+	}
+
+	/**
+	 * Checks template extensions against whitelist.
+	 *
+	 * @param string $extension
+	 * @return bool
+	 */
+	protected function _shouldSkipExtension($extension) {
+		$whitelist = Configure::read('IdeHelper.templateExtensions') ?: static::TEMPLATE_EXTENSIONS;
+
+		return !in_array($extension, $whitelist, true);
 	}
 
 }

@@ -10,6 +10,9 @@ return [
 		'skipTemplatePaths' => [
 			'/src/Template/Bake/',
 		],
+		'templateExtensions' => [
+			'ctp', 'php',
+		],
 		// Custom Entity field type mapping
 		'typeMap' => [
 		],

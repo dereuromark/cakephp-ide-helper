@@ -320,6 +320,10 @@ would then get the following added on top:
 ?>
 ```
 
+### Extensions
+To adjust the template extensions being processed set `IdeHelper.templateExtensions` via Configure.
+By default, all files of type `'ctp', 'php'` will be checked.
+
 ### Skipping folders
 Certain template folders, like for Bake template generation, should be skipped. 
 This is done by default for `/src/Template/Bake/` in your app or your plugin.
