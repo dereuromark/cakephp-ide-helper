@@ -101,6 +101,10 @@ class EntityAnnotator extends AbstractAnnotator {
 
 				$entityClass = $this->_entityName($association->getTarget()->getAlias());
 				$entityClass = '\\' . $namespace . '\Model\Entity\\' . $entityClass;
+
+				if (!class_exists($entityClass)) {
+					$entityClass = '\Cake\ORM\Entity';
+				}
 			}
 
 			$schema[$association->getProperty()] = [
