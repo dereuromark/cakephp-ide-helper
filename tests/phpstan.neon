@@ -6,7 +6,7 @@ services:
             - phpstan.broker.propertiesClassReflectionExtension
 parameters:
     autoload_files:
-        - %rootDir%/../../../../tests/bootstrap.php
-        - %rootDir%/../../../../tests/shim.php
+        - tests/bootstrap.php
+        - tests/shim.php
     ignoreErrors:
         - '#Call to an undefined method Cake\\ORM\\Association::getAlias\(\)#'
