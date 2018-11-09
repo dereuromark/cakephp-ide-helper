@@ -108,6 +108,7 @@ namespace PHPSTORM_META {
 			'Time' => \Cake\View\Helper\TimeHelper::class,
 			'Url' => \Cake\View\Helper\UrlHelper::class,
 			'My' => \App\View\Helper\MyHelper::class,
+			'IdeHelper.DocBlock' => \IdeHelper\View\Helper\DocBlockHelper::class,
 			'Shim.Configure' => \Shim\View\Helper\ConfigureHelper::class,
 			'Shim.Cookie' => \Shim\View\Helper\CookieHelper::class,
 			'Shim.Session' => \Shim\View\Helper\SessionHelper::class,

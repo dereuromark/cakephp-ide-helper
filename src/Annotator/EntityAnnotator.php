@@ -1,11 +1,11 @@
 <?php
 namespace IdeHelper\Annotator;
 
-use Bake\View\Helper\DocBlockHelper;
 use Cake\Core\Configure;
 use Cake\Utility\Inflector;
 use Cake\View\View;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\View\Helper\DocBlockHelper;
 use RuntimeException;
 
 class EntityAnnotator extends AbstractAnnotator {
@@ -53,7 +53,7 @@ class EntityAnnotator extends AbstractAnnotator {
 		$schema = $this->hydrateSchemaFromAssoc($schema);
 
 		$propertyHintMap = $helper->buildEntityPropertyHintTypeMap($schema);
-		$propertyHintMap = $this->buildExtendedEntityPropertyHintTypeMap($schema, $propertyHintMap);
+		$propertyHintMap = $this->buildExtendedEntityPropertyHintTypeMap($schema, $helper) + $propertyHintMap;
 
 		$propertyHintMap = array_filter($propertyHintMap);
 
@@ -129,14 +129,21 @@ class EntityAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param array $propertySchema
-	 * @param array $propertyHintMap
+	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
 	 *
 	 * @return array
 	 */
-	protected function buildExtendedEntityPropertyHintTypeMap(array $propertySchema, array $propertyHintMap) {
+	protected function buildExtendedEntityPropertyHintTypeMap(array $propertySchema, DocBlockHelper $helper) {
+		$propertyHintMap = [];
+
 		foreach ($propertySchema as $property => $info) {
-			if ($info['kind'] === 'column' && !isset($propertyHintMap[$property])) {
-				$propertyHintMap[$property] = $this->columnTypeToHintType($info['type']);
+			if ($info['kind'] === 'column') {
+				$type = $this->columnTypeToHintType($info['type']);
+				if ($type === null) {
+					continue;
+				}
+
+				$propertyHintMap[$property] = $helper->columnTypeNullable($info, $type);
 			}
 		}
 
@@ -152,7 +159,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @return null|string The DocBlock type, or `null` for unsupported column types.
 	 */
 	protected function columnTypeToHintType($type) {
-		if (!static::$typeMap) {
+		if (static::$typeMap === null) {
 			static::$typeMap = (array)Configure::read('IdeHelper.typeMap') + static::$typeMapDefaults;
 		}
 

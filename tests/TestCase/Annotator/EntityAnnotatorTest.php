@@ -7,9 +7,11 @@ use Cake\Console\ConsoleIo;
 use Cake\Core\Configure;
 use Cake\Database\Schema\TableSchema;
 use Cake\ORM\TableRegistry;
+use Cake\View\View;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\EntityAnnotator;
 use IdeHelper\Console\Io;
+use IdeHelper\View\Helper\DocBlockHelper;
 use Tools\TestSuite\ConsoleOutput;
 use Tools\TestSuite\TestCase;
 
@@ -88,6 +90,15 @@ class EntityAnnotatorTest extends TestCase {
 			'created' => [
 				'type' => 'datetime',
 				'length' => null,
+				'null' => false,
+				'default' => null,
+				'comment' => '',
+				'baseType' => null,
+				'precision' => null
+			],
+			'modified' => [
+				'type' => 'datetime',
+				'length' => null,
 				'null' => true,
 				'default' => null,
 				'comment' => '',
@@ -111,6 +122,9 @@ class EntityAnnotatorTest extends TestCase {
 			'custom' => 'array',
 			'longtext' => null,
 		]);
+		Configure::write('IdeHelper.nullableMap', [
+			'custom' => false,
+		]);
 
 		$propertySchema = [
 			'invalid' => [
@@ -120,25 +134,24 @@ class EntityAnnotatorTest extends TestCase {
 			'custom' => [
 				'kind' => 'column',
 				'type' => 'custom',
+				'null' => false,
 			],
 			'json' => [
 				'kind' => 'column',
 				'type' => 'json',
+				'null' => true,
 			],
 			'resetted' => [
 				'kind' => 'column',
 				'type' => 'longtext',
 			],
 		];
-		$propertyMap = [
-		];
+		$helper = new DocBlockHelper(new View());
 
-		$result = $this->invokeMethod($annotator, 'buildExtendedEntityPropertyHintTypeMap', [$propertySchema, $propertyMap]);
+		$result = $this->invokeMethod($annotator, 'buildExtendedEntityPropertyHintTypeMap', [$propertySchema, $helper]);
 		$expected = [
-			'invalid' => null,
 			'custom' => 'array',
-			'json' => 'array',
-			'resetted' => null,
+			'json' => 'array|null',
 		];
 		$this->assertSame($result, $expected);
 	}
@@ -155,7 +168,7 @@ class EntityAnnotatorTest extends TestCase {
 		$annotator = $this->_getAnnotatorMock(['schema' => $schema, 'associations' => $associations]);
 
 		$expectedContent = str_replace(["\r\n", "\r"], "\n", file_get_contents(TEST_FILES . 'Model/Entity/Foo.php'));
-		$callback = function($value) use ($expectedContent) {
+		$callback = function ($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
 				$this->_displayDiff($expectedContent, $value);
@@ -169,7 +182,7 @@ class EntityAnnotatorTest extends TestCase {
 
 		$output = (string)$this->out->output();
 
-		$this->assertTextContains('   -> 2 annotations added, 1 annotation updated.', $output);
+		$this->assertTextContains('   -> 3 annotations added, 1 annotation updated.', $output);
 	}
 
 	/**
@@ -185,7 +198,7 @@ class EntityAnnotatorTest extends TestCase {
 		$annotator = $this->_getAnnotatorMock(['schema' => $schema, 'associations' => $associations]);
 
 		$expectedContent = str_replace(["\r\n", "\r"], "\n", file_get_contents(TEST_FILES . 'Model/Entity/Car.php'));
-		$callback = function($value) use ($expectedContent) {
+		$callback = function ($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
 				$this->_displayDiff($expectedContent, $value);
@@ -199,7 +212,7 @@ class EntityAnnotatorTest extends TestCase {
 
 		$output = (string)$this->out->output();
 
-		$this->assertTextContains('   -> 5 annotations added', $output);
+		$this->assertTextContains('   -> 6 annotations added', $output);
 	}
 
 	/**
