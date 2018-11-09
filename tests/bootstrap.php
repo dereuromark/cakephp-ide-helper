@@ -3,6 +3,7 @@
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
+use Cake\Database\Type;
 use Cake\Routing\DispatcherFactory;
 
 if (!defined('DS')) {
@@ -62,6 +63,15 @@ $cache = [
 ];
 
 Cache::setConfig($cache);
+
+Type::build('time')
+	->useImmutable();
+Type::build('date')
+	->useImmutable();
+Type::build('datetime')
+	->useImmutable();
+Type::build('timestamp')
+	->useImmutable();
 
 Plugin::load('IdeHelper', ['path' => ROOT . DS, 'autoload' => true]);
 Plugin::load('Shim', ['path' => ROOT . DS . 'vendor/dereuromark/cakephp-shim/', 'autoload' => true]);
