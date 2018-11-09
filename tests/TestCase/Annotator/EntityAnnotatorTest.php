@@ -122,6 +122,9 @@ class EntityAnnotatorTest extends TestCase {
 			'custom' => 'array',
 			'longtext' => null,
 		]);
+		Configure::write('IdeHelper.nullableMap', [
+			'custom' => false,
+		]);
 
 		$propertySchema = [
 			'invalid' => [
@@ -131,10 +134,12 @@ class EntityAnnotatorTest extends TestCase {
 			'custom' => [
 				'kind' => 'column',
 				'type' => 'custom',
+				'null' => false,
 			],
 			'json' => [
 				'kind' => 'column',
 				'type' => 'json',
+				'null' => true,
 			],
 			'resetted' => [
 				'kind' => 'column',
@@ -146,7 +151,7 @@ class EntityAnnotatorTest extends TestCase {
 		$result = $this->invokeMethod($annotator, 'buildExtendedEntityPropertyHintTypeMap', [$propertySchema, $helper]);
 		$expected = [
 			'custom' => 'array',
-			'json' => 'array',
+			'json' => 'array|null',
 		];
 		$this->assertSame($result, $expected);
 	}

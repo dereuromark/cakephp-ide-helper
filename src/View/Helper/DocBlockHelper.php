@@ -41,7 +41,7 @@ class DocBlockHelper extends BakeDocBlockHelper {
 			return $type;
 		}
 
-		if (!static::$nullableMap) {
+		if (static::$nullableMap === null) {
 			static::$nullableMap = (array)Configure::read('IdeHelper.nullableMap');
 		}
 

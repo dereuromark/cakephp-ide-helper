@@ -159,7 +159,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @return null|string The DocBlock type, or `null` for unsupported column types.
 	 */
 	protected function columnTypeToHintType($type) {
-		if (!static::$typeMap) {
+		if (static::$typeMap === null) {
 			static::$typeMap = (array)Configure::read('IdeHelper.typeMap') + static::$typeMapDefaults;
 		}
 
