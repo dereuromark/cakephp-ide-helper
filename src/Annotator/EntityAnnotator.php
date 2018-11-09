@@ -1,11 +1,11 @@
 <?php
 namespace IdeHelper\Annotator;
 
-use IdeHelper\View\Helper\DocBlockHelper;
 use Cake\Core\Configure;
 use Cake\Utility\Inflector;
 use Cake\View\View;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\View\Helper\DocBlockHelper;
 use RuntimeException;
 
 class EntityAnnotator extends AbstractAnnotator {
