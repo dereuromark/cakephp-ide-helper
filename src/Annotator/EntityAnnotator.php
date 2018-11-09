@@ -4,6 +4,7 @@ namespace IdeHelper\Annotator;
 use Cake\Core\Configure;
 use Cake\Utility\Inflector;
 use Cake\View\View;
+use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\View\Helper\DocBlockHelper;
 use RuntimeException;
@@ -88,30 +89,34 @@ class EntityAnnotator extends AbstractAnnotator {
 		$associations = $this->getConfig('associations');
 
 		foreach ($associations as $association) {
-			$entityClass = '\\' . ltrim($association->getTarget()->getEntityClass(), '\\');
+			try {
+				$entityClass = '\\' . ltrim($association->getTarget()->getEntityClass(), '\\');
 
-			if ($entityClass === '\Cake\ORM\Entity') {
-				$namespace = Configure::read('App.namespace');
+				if ($entityClass === '\Cake\ORM\Entity') {
+					$namespace = Configure::read('App.namespace');
 
-				list($plugin) = pluginSplit($association->getTarget()->getRegistryAlias());
-				if ($plugin !== null) {
-					$namespace = $plugin;
+					list($plugin) = pluginSplit($association->getTarget()->getRegistryAlias());
+					if ($plugin !== null) {
+						$namespace = $plugin;
+					}
+					$namespace = str_replace('/', '\\', trim($namespace, '\\'));
+
+					$entityClass = $this->_entityName($association->getTarget()->getAlias());
+					$entityClass = '\\' . $namespace . '\Model\Entity\\' . $entityClass;
+
+					if (!class_exists($entityClass)) {
+						$entityClass = '\Cake\ORM\Entity';
+					}
 				}
-				$namespace = str_replace('/', '\\', trim($namespace, '\\'));
 
-				$entityClass = $this->_entityName($association->getTarget()->getAlias());
-				$entityClass = '\\' . $namespace . '\Model\Entity\\' . $entityClass;
-
-				if (!class_exists($entityClass)) {
-					$entityClass = '\Cake\ORM\Entity';
-				}
+				$schema[$association->getProperty()] = [
+					'kind' => 'association',
+					'association' => $association,
+					'type' => $entityClass
+				];
+			} catch (Exception $exception) {
+				continue;
 			}
-
-			$schema[$association->getProperty()] = [
-				'kind' => 'association',
-				'association' => $association,
-				'type' => $entityClass
-			];
 		}
 
 		return $schema;
