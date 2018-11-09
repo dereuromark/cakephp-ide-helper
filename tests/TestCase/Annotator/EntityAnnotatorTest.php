@@ -88,6 +88,15 @@ class EntityAnnotatorTest extends TestCase {
 			'created' => [
 				'type' => 'datetime',
 				'length' => null,
+				'null' => false,
+				'default' => null,
+				'comment' => '',
+				'baseType' => null,
+				'precision' => null
+			],
+			'modified' => [
+				'type' => 'datetime',
+				'length' => null,
 				'null' => true,
 				'default' => null,
 				'comment' => '',
@@ -155,7 +164,7 @@ class EntityAnnotatorTest extends TestCase {
 		$annotator = $this->_getAnnotatorMock(['schema' => $schema, 'associations' => $associations]);
 
 		$expectedContent = str_replace(["\r\n", "\r"], "\n", file_get_contents(TEST_FILES . 'Model/Entity/Foo.php'));
-		$callback = function($value) use ($expectedContent) {
+		$callback = function ($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
 				$this->_displayDiff($expectedContent, $value);
@@ -169,7 +178,7 @@ class EntityAnnotatorTest extends TestCase {
 
 		$output = (string)$this->out->output();
 
-		$this->assertTextContains('   -> 2 annotations added, 1 annotation updated.', $output);
+		$this->assertTextContains('   -> 3 annotations added, 1 annotation updated.', $output);
 	}
 
 	/**
@@ -185,7 +194,7 @@ class EntityAnnotatorTest extends TestCase {
 		$annotator = $this->_getAnnotatorMock(['schema' => $schema, 'associations' => $associations]);
 
 		$expectedContent = str_replace(["\r\n", "\r"], "\n", file_get_contents(TEST_FILES . 'Model/Entity/Car.php'));
-		$callback = function($value) use ($expectedContent) {
+		$callback = function ($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
 				$this->_displayDiff($expectedContent, $value);
@@ -199,7 +208,7 @@ class EntityAnnotatorTest extends TestCase {
 
 		$output = (string)$this->out->output();
 
-		$this->assertTextContains('   -> 5 annotations added', $output);
+		$this->assertTextContains('   -> 6 annotations added', $output);
 	}
 
 	/**

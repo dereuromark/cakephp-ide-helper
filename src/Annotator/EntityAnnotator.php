@@ -1,7 +1,7 @@
 <?php
 namespace IdeHelper\Annotator;
 
-use Bake\View\Helper\DocBlockHelper;
+use IdeHelper\View\Helper\DocBlockHelper;
 use Cake\Core\Configure;
 use Cake\Utility\Inflector;
 use Cake\View\View;
@@ -136,7 +136,11 @@ class EntityAnnotator extends AbstractAnnotator {
 	protected function buildExtendedEntityPropertyHintTypeMap(array $propertySchema, array $propertyHintMap) {
 		foreach ($propertySchema as $property => $info) {
 			if ($info['kind'] === 'column' && !isset($propertyHintMap[$property])) {
-				$propertyHintMap[$property] = $this->columnTypeToHintType($info['type']);
+				$type = $this->columnTypeToHintType($info['type']);
+				if (!empty($info['null'])) {
+					$type .= '|null';
+				}
+				$propertyHintMap[$property] = $type;
 			}
 		}
 
