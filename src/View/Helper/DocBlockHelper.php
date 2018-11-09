@@ -2,8 +2,14 @@
 namespace IdeHelper\View\Helper;
 
 use Bake\View\Helper\DocBlockHelper as BakeDocBlockHelper;
+use Cake\Core\Configure;
 
 class DocBlockHelper extends BakeDocBlockHelper {
+
+	/**
+	 * @var array|null
+	 */
+	protected static $nullableMap;
 
 	/**
 	 * Overwrite Bake plugin class method until https://github.com/cakephp/bake/pull/470 lands.
@@ -16,14 +22,36 @@ class DocBlockHelper extends BakeDocBlockHelper {
 		foreach ($propertySchema as $property => $info) {
 			if ($info['kind'] === 'column') {
 				$type = $this->columnTypeToHintType($info['type']);
-				if (!empty($info['null'])) {
-					$type .= '|null';
-				}
-				$properties[$property] = $type;
+
+				$properties[$property] = $this->columnTypeNullable($info, $type);
 			}
 		}
 
 		return $properties;
+	}
+
+	/**
+	 * @param array $info
+	 * @param string|null $type
+	 *
+	 * @return string
+	 */
+	public function columnTypeNullable(array $info, $type) {
+		if (!$type || empty($info['null'])) {
+			return $type;
+		}
+
+		if (!static::$nullableMap) {
+			static::$nullableMap = (array)Configure::read('IdeHelper.nullableMap');
+		}
+
+		if (isset(static::$nullableMap[$type]) && static::$nullableMap[$type] === false) {
+			return $type;
+		}
+
+		$type .= '|null';
+
+		return $type;
 	}
 
 }

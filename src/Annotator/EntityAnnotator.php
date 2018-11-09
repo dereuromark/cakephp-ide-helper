@@ -53,7 +53,7 @@ class EntityAnnotator extends AbstractAnnotator {
 		$schema = $this->hydrateSchemaFromAssoc($schema);
 
 		$propertyHintMap = $helper->buildEntityPropertyHintTypeMap($schema);
-		$propertyHintMap = $this->buildExtendedEntityPropertyHintTypeMap($schema, $propertyHintMap);
+		$propertyHintMap = $this->buildExtendedEntityPropertyHintTypeMap($schema, $helper) + $propertyHintMap;
 
 		$propertyHintMap = array_filter($propertyHintMap);
 
@@ -129,18 +129,21 @@ class EntityAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param array $propertySchema
-	 * @param array $propertyHintMap
+	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
 	 *
 	 * @return array
 	 */
-	protected function buildExtendedEntityPropertyHintTypeMap(array $propertySchema, array $propertyHintMap) {
+	protected function buildExtendedEntityPropertyHintTypeMap(array $propertySchema, DocBlockHelper $helper) {
+		$propertyHintMap = [];
+
 		foreach ($propertySchema as $property => $info) {
-			if ($info['kind'] === 'column' && !isset($propertyHintMap[$property])) {
+			if ($info['kind'] === 'column') {
 				$type = $this->columnTypeToHintType($info['type']);
-				if (!empty($info['null'])) {
-					$type .= '|null';
+				if ($type === null) {
+					continue;
 				}
-				$propertyHintMap[$property] = $type;
+
+				$propertyHintMap[$property] = $helper->columnTypeNullable($info, $type);
 			}
 		}
 

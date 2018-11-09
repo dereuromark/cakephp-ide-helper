@@ -115,6 +115,17 @@ Overwriting the defaults of this plugin is also possible, to skip (reset) just s
 	],
 ```
 
+Using Configure key `'IdeHelper.nullableMap'` you can set a custom array of types and if they can be nullable:
+```php
+	'IdeHelper' => [
+		'nullableMap' => [
+			'custom' => false,
+			'longtext => true,
+			...
+ 		],
+	],
+```
+
 ## Shells
 Shells and Tasks should annotate their primary model as well as all manually loaded models.
 

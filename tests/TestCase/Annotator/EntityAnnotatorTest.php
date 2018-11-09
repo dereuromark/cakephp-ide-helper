@@ -7,9 +7,11 @@ use Cake\Console\ConsoleIo;
 use Cake\Core\Configure;
 use Cake\Database\Schema\TableSchema;
 use Cake\ORM\TableRegistry;
+use Cake\View\View;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\EntityAnnotator;
 use IdeHelper\Console\Io;
+use IdeHelper\View\Helper\DocBlockHelper;
 use Tools\TestSuite\ConsoleOutput;
 use Tools\TestSuite\TestCase;
 
@@ -139,15 +141,12 @@ class EntityAnnotatorTest extends TestCase {
 				'type' => 'longtext',
 			],
 		];
-		$propertyMap = [
-		];
+		$helper = new DocBlockHelper(new View());
 
-		$result = $this->invokeMethod($annotator, 'buildExtendedEntityPropertyHintTypeMap', [$propertySchema, $propertyMap]);
+		$result = $this->invokeMethod($annotator, 'buildExtendedEntityPropertyHintTypeMap', [$propertySchema, $helper]);
 		$expected = [
-			'invalid' => null,
 			'custom' => 'array',
 			'json' => 'array',
-			'resetted' => null,
 		];
 		$this->assertSame($result, $expected);
 	}
