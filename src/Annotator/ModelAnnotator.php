@@ -201,7 +201,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			$type = get_class($association);
 
 			$name = $association->getAlias();
-			$table = $association->className() ?: $association->getAlias();
+			$table = $association->getClassName() ?: $association->getAlias();
 			$className = App::className($table, 'Model/Table', 'Table') ?: static::CLASS_TABLE;
 
 			$associations[$type][$name] = $className;
