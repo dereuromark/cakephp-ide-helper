@@ -215,15 +215,19 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 * @param string $modelName
 	 * @param string $primaryModelClass Can be plugin dot syntaxed
 	 *
-	 * @return string|null
+	 * @return string
 	 */
 	protected function getEntity($modelName, $primaryModelClass) {
 		if ($this->getConfig(static::CONFIG_PLUGIN) && $modelName !== $primaryModelClass && !strpos($modelName, '.')) {
 			$modelName = $this->getConfig(static::CONFIG_PLUGIN) . '.' . $modelName;
 		}
-		$table = TableRegistry::get($modelName);
-
-		$entityClassName = $table->getEntityClass();
+		
+		try {
+			$table = TableRegistry::get($modelName);
+			$entityClassName = $table->getEntityClass();
+		} catch (Exception $exception) {
+			return '\Cake\ORM\Entity';
+		}
 
 		return $entityClassName;
 	}
