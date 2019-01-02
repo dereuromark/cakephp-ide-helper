@@ -221,7 +221,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 		if ($this->getConfig(static::CONFIG_PLUGIN) && $modelName !== $primaryModelClass && !strpos($modelName, '.')) {
 			$modelName = $this->getConfig(static::CONFIG_PLUGIN) . '.' . $modelName;
 		}
-		
+
 		try {
 			$table = TableRegistry::get($modelName);
 			$entityClassName = $table->getEntityClass();
