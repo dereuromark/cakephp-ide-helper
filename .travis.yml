@@ -34,10 +34,6 @@ before_script:
   - if [[ $PREFER_LOWEST == 1 ]]; then composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable; fi
   - if [[ $PREFER_LOWEST == 1 ]]; then composer require --dev dereuromark/composer-prefer-lowest:dev-master; fi
 
-  - phpenv rehash
-  - set +H
-  - cp phpunit.xml.dist phpunit.xml
-
 script:
   - if [[ $DEFAULT == 1 ]]; then vendor/bin/phpunit; fi
   - if [[ $PREFER_LOWEST == 1 ]]; then vendor/bin/validate-prefer-lowest; fi
