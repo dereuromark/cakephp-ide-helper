@@ -2,9 +2,15 @@
 namespace IdeHelper\Generator\Task;
 
 use Cake\Core\Configure;
+use Cake\Core\PluginApplicationInterface;
 use Cake\Http\BaseApplication;
 
 class PluginTask implements TaskInterface {
+
+	/**
+	 * We need to use this until PHPStorm fixed the issue around concrete classes here
+	 */
+	const INTERFACE_APPLICATION = PluginApplicationInterface::class;
 
 	const CLASS_APPLICATION = BaseApplication::class;
 
@@ -12,7 +18,7 @@ class PluginTask implements TaskInterface {
 	 * @var array
 	 */
 	protected $aliases = [
-		'\\' . self::CLASS_APPLICATION . '::addPlugin(0)',
+		'\\' . self::INTERFACE_APPLICATION . '::addPlugin(0)',
 	];
 
 	/**
@@ -23,7 +29,7 @@ class PluginTask implements TaskInterface {
 
 		$plugins = $this->collectPlugins();
 		foreach ($plugins as $name) {
-			$map[$name] = '\\' . self::CLASS_APPLICATION . '::class';
+			$map[$name] = '\\' . static::CLASS_APPLICATION . '::class';
 		}
 
 		$result = [];

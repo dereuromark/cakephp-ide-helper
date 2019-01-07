@@ -2,7 +2,6 @@
 
 namespace IdeHelper\Test\TestCase\Generator\Task;
 
-use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use IdeHelper\Generator\PhpstormGenerator;
 use IdeHelper\Generator\TaskCollection;
@@ -36,11 +35,7 @@ class PhpstormGeneratorTest extends TestCase {
 	public function testCollect() {
 		$result = $this->generator->generate();
 
-		if (version_compare(Configure::version(), '3.6.0', '<')) {
-			$file = Plugin::path('IdeHelper') . 'tests' . DS . 'test_files' . DS . 'meta' . DS . 'phpstorm' . DS . '.meta_legacy.php';
-		} else {
-			$file = Plugin::path('IdeHelper') . 'tests' . DS . 'test_files' . DS . 'meta' . DS . 'phpstorm' . DS . '.meta.php';
-		}
+		$file = Plugin::path('IdeHelper') . 'tests' . DS . 'test_files' . DS . 'meta' . DS . 'phpstorm' . DS . '.meta.php';
 		$expected = file_get_contents($file);
 
 		$this->assertTextEquals($expected, $result);

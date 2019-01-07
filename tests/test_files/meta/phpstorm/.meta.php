@@ -237,4 +237,14 @@ namespace PHPSTORM_META {
 		])
 	);
 
+	override(
+		\Cake\Core\PluginApplicationInterface::addPlugin(0),
+		map([
+			'WyriHaximus/TwigView' => \Cake\Http\BaseApplication::class,
+			'Bake' => \Cake\Http\BaseApplication::class,
+			'Shim' => \Cake\Http\BaseApplication::class,
+			'Tools' => \Cake\Http\BaseApplication::class,
+		])
+	);
+
 }
