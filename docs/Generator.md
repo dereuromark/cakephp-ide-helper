@@ -17,6 +17,15 @@ Any file inside this directory will be parsed and used. Prefixing with a `.` dot
 
 ### Available tasks
 
+#### Plugins
+In your `Application.php` you can, after composer requiring (and refreshing meta file), auto-complete the available plugins for your `addPlugin()` calls:
+```php
+	public function bootstrap() {
+		...
+		$this->addPlugin('TypeHere');
+	}
+```
+
 #### Models
 ```php
 /** @var \App\Model\Table\UsersTable $users */
