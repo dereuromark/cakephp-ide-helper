@@ -25,6 +25,7 @@ In your `Application.php` you can, after composer requiring (and refreshing meta
 		$this->addPlugin('TypeHere');
 	}
 ```
+This is especially useful for more complex and possibly vendor-prefix names (e.g. `'WyriHaximus/TwigView'`, note the forward slash).
 
 #### Models
 ```php
