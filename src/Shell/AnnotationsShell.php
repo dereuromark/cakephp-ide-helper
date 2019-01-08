@@ -128,6 +128,10 @@ class AnnotationsShell extends Shell {
 		if (!$this->param('plugin') && !$this->param('filter')) {
 			$types[] = 'view';
 		}
+		if (!$this->param('remove')) {
+			$types[] = 'classes';
+			$types[] = 'callbacks';
+		}
 
 		if (!$this->param('interactive')) {
 			$this->interactive = false;
@@ -555,10 +559,10 @@ class AnnotationsShell extends Shell {
 				'help' => 'Annotate primary model as well as used models in shells.',
 				'parser' => $subcommandParser
 			])->addSubcommand('classes', [
-				'help' => 'Annotate classes using class annotation tasks. This task is not part of "all"',
+				'help' => 'Annotate classes using class annotation tasks. This task is not part of "all" when "-r" is used.',
 				'parser' => $parserWithoutRemove
 			])->addSubcommand('callbacks', [
-				'help' => 'Annotate callback methods using callback annotation tasks. This task is not part of "all"',
+				'help' => 'Annotate callback methods using callback annotation tasks. This task is not part of "all" when "-r" is used.',
 				'parser' => $parserWithoutRemove
 			]);
 	}
