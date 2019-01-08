@@ -443,6 +443,9 @@ abstract class AbstractAnnotator {
 			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === '@property' && $this->propertyInUse($tokens, $closeTagIndex, $content)) {
 				$annotation->setInUse();
 			}
+			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === '@method' && $this->methodInUse($tokens, $closeTagIndex, $content)) {
+				$annotation->setInUse();
+			}
 
 			$annotations[] = $annotation;
 		}
@@ -514,6 +517,55 @@ abstract class AbstractAnnotator {
 			}
 			$i++;
 			if ($tokens[$i]['code'] !== T_OBJECT_OPERATOR) {
+				$i++;
+				continue;
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks the property token chain for existence.
+	 *
+	 * T_VARIABLE ..., content=`$this`
+	 * T_OBJECT_OPERATOR ..., content=`->`
+	 * T_STRING ..., content=`method`
+	 * T_OPEN_PARENTHESIS ..., content=`(`
+	 *
+	 * @param array $tokens
+	 * @param int $closeTagIndex
+	 * @param string $method
+	 *
+	 * @return bool
+	 */
+	protected function methodInUse(array $tokens, $closeTagIndex, $method) {
+		if (!preg_match('#^(\w+)\(#', $method, $matches)) {
+			return false;
+		}
+		$method = $matches[1];
+
+		$i = $closeTagIndex + 1;
+		while (isset($tokens[$i])) {
+			if ($tokens[$i]['code'] !== T_VARIABLE || $tokens[$i]['content'] !== '$this') {
+				$i++;
+				continue;
+			}
+			$i++;
+			if ($tokens[$i]['code'] !== T_OBJECT_OPERATOR) {
+				$i++;
+				continue;
+			}
+			$i++;
+			$token = $tokens[$i];
+			if ($token['code'] !== T_STRING || $token['content'] !== $method) {
+				$i++;
+				continue;
+			}
+			$i++;
+			if ($tokens[$i]['code'] !== T_OPEN_PARENTHESIS) {
 				$i++;
 				continue;
 			}
