@@ -123,7 +123,6 @@ class AnnotationsShell extends Shell {
 			'shells',
 			'components',
 			'helpers',
-			'classes',
 			'templates',
 		];
 		if (!$this->param('plugin') && !$this->param('filter')) {
@@ -515,8 +514,8 @@ class AnnotationsShell extends Shell {
 			]
 		];
 
-		$callbacksParser = $subcommandParser;
-		unset($callbacksParser['options']['remove']);
+		$parserWithoutRemove = $subcommandParser;
+		unset($parserWithoutRemove['options']['remove']);
 
 		$allParser = $subcommandParser;
 		$allParser['options']['interactive'] = [
@@ -524,7 +523,7 @@ class AnnotationsShell extends Shell {
 			'help' => 'Interactive mode (prompt before each type).',
 			'boolean' => true,
 		];
-		$allParser['options']['ci'] = [
+		$allParser['options']['ci'] = $parserWithoutRemove['options']['ci'] = [
 			'help' => 'Enable CI mode (requires dry-run). This will return an error code ' . static::CODE_CHANGES . ' if changes are necessary.',
 			'boolean' => true,
 		];
@@ -556,11 +555,11 @@ class AnnotationsShell extends Shell {
 				'help' => 'Annotate primary model as well as used models in shells.',
 				'parser' => $subcommandParser
 			])->addSubcommand('classes', [
-				'help' => 'Annotate classes using class annotation tasks.',
-				'parser' => $subcommandParser
+				'help' => 'Annotate classes using class annotation tasks. This task is not part of "all"',
+				'parser' => $parserWithoutRemove
 			])->addSubcommand('callbacks', [
 				'help' => 'Annotate callback methods using callback annotation tasks. This task is not part of "all"',
-				'parser' => $callbacksParser
+				'parser' => $parserWithoutRemove
 			]);
 	}
 
