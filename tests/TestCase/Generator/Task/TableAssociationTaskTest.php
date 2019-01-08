@@ -36,6 +36,7 @@ class TableAssociationTaskTest extends TestCase {
 			'Exceptions' => '\Cake\ORM\Association\BelongsTo::class',
 			'Foo' => '\Cake\ORM\Association\BelongsTo::class',
 			'SkipMe' => '\Cake\ORM\Association\BelongsTo::class',
+			'SkipSome' => '\Cake\ORM\Association\BelongsTo::class',
 			'WheelsExtra' => '\Cake\ORM\Association\BelongsTo::class',
 			'Wheels' => '\Cake\ORM\Association\BelongsTo::class',
 			'Awesome.Houses' => '\Cake\ORM\Association\BelongsTo::class',
