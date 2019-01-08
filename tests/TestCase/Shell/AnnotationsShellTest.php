@@ -155,7 +155,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testAllCiMode() {
-		$result = $this->Shell->runCommand(['all', '-d', '-v', '--ci', '-p', 'Shim']);
+		$result = $this->Shell->runCommand(['all', '-d', '-v', '--ci', '-p', 'Awesome']);
 
 		$this->assertSame(AnnotationsShell::CODE_SUCCESS, $result);
 	}
