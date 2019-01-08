@@ -3,7 +3,6 @@
 namespace IdeHelper\Test\TestCase\Shell;
 
 use Cake\Console\ConsoleIo;
-use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Shell\AnnotationsShell;
 use Tools\TestSuite\ConsoleOutput;
 use Tools\TestSuite\TestCase;
@@ -155,7 +154,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testAllCiMode() {
-		$result = $this->Shell->runCommand(['all', '-d', '-r', '--ci']);
+		$result = $this->Shell->runCommand(['all', '-d', '-v', '--ci', '-p', 'Awesome']);
 
 		$this->assertSame(AnnotationsShell::CODE_SUCCESS, $result);
 	}
@@ -164,9 +163,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testAllCiModeChanges() {
-		AbstractAnnotator::$output = true;
-
-		$result = $this->Shell->runCommand(['all', '-d', '-r', '--ci']);
+		$result = $this->Shell->runCommand(['all', '-d', '-v', '--ci']);
 
 		$this->assertSame(AnnotationsShell::CODE_CHANGES, $result);
 	}

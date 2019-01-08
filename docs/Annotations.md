@@ -531,6 +531,7 @@ class MyAnnotator extends AbstractAnnotator {
 	 * @return bool
 	 */
 	public function annotate($path) {
+		...
 	}
 }
 ```

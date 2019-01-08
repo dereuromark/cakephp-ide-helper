@@ -123,17 +123,21 @@ class AnnotationsShell extends Shell {
 			'shells',
 			'components',
 			'helpers',
-			'classes',
 			'templates',
 		];
 		if (!$this->param('plugin') && !$this->param('filter')) {
 			$types[] = 'view';
+		}
+		if (!$this->param('remove')) {
+			$types[] = 'classes';
+			$types[] = 'callbacks';
 		}
 
 		if (!$this->param('interactive')) {
 			$this->interactive = false;
 		}
 
+		$changes = false;
 		foreach ($types as $key => $type) {
 			if ($key !== 0) {
 				$this->out();
@@ -143,6 +147,10 @@ class AnnotationsShell extends Shell {
 				$this->out('[' . $typeName . ']');
 			}
 			$in = $this->in($typeName . '?', ['y', 'n', 'a'], 'y');
+			if (!$this->interactive && $in === null) {
+				$in = 'y';
+			}
+
 			if ($in === 'a') {
 				$this->abort('Aborted');
 			}
@@ -151,10 +159,14 @@ class AnnotationsShell extends Shell {
 			}
 
 			$this->$type();
+
+			if (AbstractAnnotator::$output !== false) {
+				$changes = true;
+			}
 		}
 
-		if ($this->param('ci')) {
-			return AbstractAnnotator::$output === false ? static::CODE_SUCCESS : static::CODE_CHANGES;
+		if ($this->param('ci') && $changes) {
+			return static::CODE_CHANGES;
 		}
 
 		return static::CODE_SUCCESS;
@@ -515,8 +527,8 @@ class AnnotationsShell extends Shell {
 			]
 		];
 
-		$callbacksParser = $subcommandParser;
-		unset($callbacksParser['options']['remove']);
+		$parserWithoutRemove = $subcommandParser;
+		unset($parserWithoutRemove['options']['remove']);
 
 		$allParser = $subcommandParser;
 		$allParser['options']['interactive'] = [
@@ -556,11 +568,11 @@ class AnnotationsShell extends Shell {
 				'help' => 'Annotate primary model as well as used models in shells.',
 				'parser' => $subcommandParser
 			])->addSubcommand('classes', [
-				'help' => 'Annotate classes using class annotation tasks.',
-				'parser' => $subcommandParser
+				'help' => 'Annotate classes using class annotation tasks. This task is not part of "all" when "-r" is used.',
+				'parser' => $parserWithoutRemove
 			])->addSubcommand('callbacks', [
-				'help' => 'Annotate callback methods using callback annotation tasks. This task is not part of "all"',
-				'parser' => $callbacksParser
+				'help' => 'Annotate callback methods using callback annotation tasks. This task is not part of "all" when "-r" is used.',
+				'parser' => $parserWithoutRemove
 			]);
 	}
 
