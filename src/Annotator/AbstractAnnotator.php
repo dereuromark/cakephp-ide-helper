@@ -492,6 +492,7 @@ abstract class AbstractAnnotator {
 	 * @return bool
 	 */
 	protected function propertyInUse(array $tokens, $closeTagIndex, $variable) {
+		/** @var string $property */
 		$property = substr($variable, 1);
 
 		$i = $closeTagIndex + 1;
@@ -506,7 +507,8 @@ abstract class AbstractAnnotator {
 				continue;
 			}
 			$i++;
-			if ($tokens[$i]['code'] !== T_STRING || $tokens[$i]['content'] !== $property) {
+			$token = $tokens[$i];
+			if ($token['code'] !== T_STRING || $token['content'] !== $property) {
 				$i++;
 				continue;
 			}
