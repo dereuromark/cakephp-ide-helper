@@ -37,6 +37,11 @@ class ModelAnnotatorTest extends TestCase {
 	protected $err;
 
 	/**
+	 * @var \IdeHelper\Console\Io
+	 */
+	protected $io;
+
+	/**
 	 * @return void
 	 */
 	public function setUp() {
@@ -173,6 +178,29 @@ class ModelAnnotatorTest extends TestCase {
 	public function testAnnotateSkip() {
 		$annotator = $this->_getAnnotatorMock([]);
 
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/SkipSomeTable.php'));
+		$callback = function($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->_displayDiff($expectedContent, $value);
+			}
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->never())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP . 'Model/Table/SkipSomeTable.php';
+		$annotator->annotate($path);
+
+		$output = (string)$this->out->output();
+		$this->assertSame('', $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAnnotateSkipAll() {
+		$annotator = $this->_getAnnotatorMock([]);
+
 		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/SkipMeTable.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
@@ -183,7 +211,7 @@ class ModelAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->never())->method('_storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = APP . 'Model/Table/SkipMeTable.php.php';
+		$path = APP . 'Model/Table/SkipMeTable.php';
 		$annotator->annotate($path);
 
 		$output = (string)$this->out->output();
@@ -211,7 +239,8 @@ class ModelAnnotatorTest extends TestCase {
 	protected function _getAnnotatorMock(array $params) {
 		$params += [
 			AbstractAnnotator::CONFIG_REMOVE => true,
-			AbstractAnnotator::CONFIG_DRY_RUN => true
+			AbstractAnnotator::CONFIG_DRY_RUN => true,
+			AbstractAnnotator::CONFIG_VERBOSE => true,
 		];
 		return $this->getMockBuilder(ModelAnnotator::class)->setMethods(['_storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
 	}

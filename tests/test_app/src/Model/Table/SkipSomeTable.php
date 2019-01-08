@@ -5,8 +5,9 @@ use Cake\ORM\Table;
 
 /**
  * @property \App\Model\Table\CarsTable|\Cake\ORM\Association\BelongsTo $Cars
+ * @property \App\Model\Table\CarsTable|\Cake\ORM\Association\BelongsTo $CarsAwesome
  */
-class WheelsExtraTable extends Table {
+class SkipSomeTable extends Table {
 
 	/**
 	 * @param array $config
@@ -15,8 +16,14 @@ class WheelsExtraTable extends Table {
 	public function initialize(array $config) {
 		parent::initialize($config);
 
-		$this->setTable('wheels');
 		$this->belongsTo('Cars');
+	}
+
+	/**
+	 * @return void
+	 */
+	public function foo() {
+		$this->CarsAwesome->doSthAwesome();
 	}
 
 }

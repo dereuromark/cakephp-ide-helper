@@ -15,7 +15,6 @@ class SkipMeTable extends Table {
 	public function initialize(array $config) {
 		parent::initialize($config);
 
-		$this->table('wheels');
 		$this->belongsTo('Cars');
 	}
 

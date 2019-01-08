@@ -15,7 +15,7 @@ class WheelsExtraTable extends Table {
 	public function initialize(array $config) {
 		parent::initialize($config);
 
-		$this->table('wheels');
+		$this->setTable('wheels');
 		$this->belongsTo('Cars');
 	}
 

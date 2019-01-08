@@ -437,7 +437,10 @@ abstract class AbstractAnnotator {
 			$tag = $tokens[$i]['content'];
 			$content = trim($appendix);
 			$annotation = AnnotationFactory::createOrFail($tag, $type, $content, $classNameIndex);
-			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === '@var' && $this->inUse($tokens, $closeTagIndex, $content)) {
+			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === '@var' && $this->varInUse($tokens, $closeTagIndex, $content)) {
+				$annotation->setInUse();
+			}
+			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === '@property' && $this->propertyInUse($tokens, $closeTagIndex, $content)) {
 				$annotation->setInUse();
 			}
 
@@ -448,13 +451,17 @@ abstract class AbstractAnnotator {
 	}
 
 	/**
+	 * Checks the var token for existence.
+	 *
+	 * T_VARIABLE ..., content=`$variable`
+	 *
 	 * @param array $tokens
 	 * @param int $closeTagIndex
 	 * @param string $variable
 	 *
 	 * @return bool
 	 */
-	protected function inUse(array $tokens, $closeTagIndex, $variable) {
+	protected function varInUse(array $tokens, $closeTagIndex, $variable) {
 		if ($variable === '$this') {
 			return false;
 		}
@@ -465,6 +472,51 @@ abstract class AbstractAnnotator {
 				return true;
 			}
 			$i++;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks the property token chain for existence.
+	 *
+	 * T_VARIABLE ..., content=`$this`
+	 * T_OBJECT_OPERATOR ..., content=`->`
+	 * T_STRING ..., content=`PropertyName`
+	 * T_OBJECT_OPERATOR ..., content=`->`
+	 *
+	 * @param array $tokens
+	 * @param int $closeTagIndex
+	 * @param string $variable
+	 *
+	 * @return bool
+	 */
+	protected function propertyInUse(array $tokens, $closeTagIndex, $variable) {
+		$property = substr($variable, 1);
+
+		$i = $closeTagIndex + 1;
+		while (isset($tokens[$i])) {
+			if ($tokens[$i]['code'] !== T_VARIABLE || $tokens[$i]['content'] !== '$this') {
+				$i++;
+				continue;
+			}
+			$i++;
+			if ($tokens[$i]['code'] !== T_OBJECT_OPERATOR) {
+				$i++;
+				continue;
+			}
+			$i++;
+			if ($tokens[$i]['code'] !== T_STRING || $tokens[$i]['content'] !== $property) {
+				$i++;
+				continue;
+			}
+			$i++;
+			if ($tokens[$i]['code'] !== T_OBJECT_OPERATOR) {
+				$i++;
+				continue;
+			}
+
+			return true;
 		}
 
 		return false;
@@ -554,7 +606,7 @@ abstract class AbstractAnnotator {
 			if ($tokens[$i]['code'] !== T_DOC_COMMENT_TAG) {
 				continue;
 			}
-			if ($tokens[$i]['content'] === '@inheritdoc') {
+			if (mb_strtolower($tokens[$i]['content']) === '@inheritdoc') {
 				return true;
 			}
 		}
