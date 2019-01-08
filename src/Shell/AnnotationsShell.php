@@ -137,6 +137,7 @@ class AnnotationsShell extends Shell {
 			$this->interactive = false;
 		}
 
+		$changes = false;
 		foreach ($types as $key => $type) {
 			if ($key !== 0) {
 				$this->out();
@@ -154,10 +155,14 @@ class AnnotationsShell extends Shell {
 			}
 
 			$this->$type();
+
+			if (AbstractAnnotator::$output !== false) {
+				$changes = true;
+			}
 		}
 
-		if ($this->param('ci')) {
-			return AbstractAnnotator::$output === false ? static::CODE_SUCCESS : static::CODE_CHANGES;
+		if ($this->param('ci') && $changes) {
+			return static::CODE_CHANGES;
 		}
 
 		return static::CODE_SUCCESS;
@@ -527,7 +532,7 @@ class AnnotationsShell extends Shell {
 			'help' => 'Interactive mode (prompt before each type).',
 			'boolean' => true,
 		];
-		$allParser['options']['ci'] = $parserWithoutRemove['options']['ci'] = [
+		$allParser['options']['ci'] = [
 			'help' => 'Enable CI mode (requires dry-run). This will return an error code ' . static::CODE_CHANGES . ' if changes are necessary.',
 			'boolean' => true,
 		];
