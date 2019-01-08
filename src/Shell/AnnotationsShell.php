@@ -147,6 +147,10 @@ class AnnotationsShell extends Shell {
 				$this->out('[' . $typeName . ']');
 			}
 			$in = $this->in($typeName . '?', ['y', 'n', 'a'], 'y');
+			if (!$this->interactive && $in === null) {
+				$in = 'y';
+			}
+
 			if ($in === 'a') {
 				$this->abort('Aborted');
 			}
