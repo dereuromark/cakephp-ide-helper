@@ -7,6 +7,7 @@ use Cake\View\View;
 use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\View\Helper\DocBlockHelper;
+use PHP_CodeSniffer\Files\File;
 use RuntimeException;
 
 class EntityAnnotator extends AbstractAnnotator {
@@ -55,6 +56,7 @@ class EntityAnnotator extends AbstractAnnotator {
 
 		$propertyHintMap = $helper->buildEntityPropertyHintTypeMap($schema);
 		$propertyHintMap = $this->buildExtendedEntityPropertyHintTypeMap($schema, $helper) + $propertyHintMap;
+		$propertyHintMap += $this->buildVirtualPropertyHintTypeMap($content);
 
 		$propertyHintMap = array_filter($propertyHintMap);
 
@@ -161,7 +163,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @see \Cake\Database\Type
 	 *
 	 * @param string $type The column type.
-	 * @return null|string The DocBlock type, or `null` for unsupported column types.
+	 * @return string|null The DocBlock type, or `null` for unsupported column types.
 	 */
 	protected function columnTypeToHintType($type) {
 		if (static::$typeMap === null) {
@@ -173,6 +175,63 @@ class EntityAnnotator extends AbstractAnnotator {
 		}
 
 		return null;
+	}
+
+	/**
+	 * @param string $content
+	 * @return array
+	 */
+	protected function buildVirtualPropertyHintTypeMap($content) {
+		if (!preg_match('#\bfunction \_get[A-Z][a-zA-Z0-9]+\(\)#', $content)) {
+			return [];
+		}
+
+		$file = $this->_getFile('', $content);
+
+		$classIndex = $file->findNext(T_CLASS, 0);
+
+		$properties = [];
+
+		$tokens = $file->getTokens();
+
+		$startIndex = $classIndex;
+		while (true) {
+			$functionIndex = $file->findNext(T_FUNCTION, $startIndex + 1);
+			if ($functionIndex === null) {
+				break;
+			}
+
+			$methodNameIndex = $file->findNext(T_STRING, $functionIndex + 1);
+			if ($methodNameIndex === null) {
+				break;
+			}
+
+			$token = $tokens[$methodNameIndex];
+			$methodName = $token['content'];
+
+			if (!preg_match('#^\_get([A-Z][a-zA-Z0-9]+)$#', $methodName, $matches)) {
+				break;
+			}
+
+			$property = Inflector::underscore($matches[1]);
+
+			$properties[$property] = $this->returnType($file, $tokens, $functionIndex);
+			$startIndex = $methodNameIndex + 1;
+		}
+
+		return $properties;
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param array $tokens
+	 * @param int $functionIndex
+	 * @return string
+	 */
+	protected function returnType(File $file, array $tokens, $functionIndex) {
+		//TODO read doc block and/or method typehint
+
+		return 'mixed';
 	}
 
 }
