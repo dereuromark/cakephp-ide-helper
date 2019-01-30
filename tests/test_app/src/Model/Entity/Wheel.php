@@ -20,7 +20,7 @@ class Wheel extends Entity {
 	}
 
 	/**
-	 * @return string|null
+	 * Missing return type means mixed as result
 	 */
 	public function _getVirtualTwo() {
 		return 'Virtual Two';

@@ -9,7 +9,7 @@ use Cake\ORM\Entity;
  * @property string $content
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime|null $modified
- * @property mixed $virtual_one
+ * @property string|null $virtual_one
  * @property mixed $virtual_two
  * @property \App\Model\Entity\Wheel[] $wheels
  */
@@ -30,7 +30,7 @@ class Wheel extends Entity {
 	}
 
 	/**
-	 * @return string|null
+	 * Missing return type means mixed as result
 	 */
 	public function _getVirtualTwo() {
 		return 'Virtual Two';

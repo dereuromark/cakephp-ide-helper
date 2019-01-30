@@ -190,33 +190,38 @@ class EntityAnnotator extends AbstractAnnotator {
 
 		$classIndex = $file->findNext(T_CLASS, 0);
 
-		$properties = [];
-
 		$tokens = $file->getTokens();
+		if (empty($tokens[$classIndex]['scope_closer'])) {
+			return [];
+		}
 
+		$classEndIndex = $tokens[$classIndex]['scope_closer'];
+
+		$properties = [];
 		$startIndex = $classIndex;
-		while (true) {
+		while ($startIndex < $classEndIndex) {
 			$functionIndex = $file->findNext(T_FUNCTION, $startIndex + 1);
-			if ($functionIndex === null) {
+			if ($functionIndex === false) {
 				break;
 			}
 
 			$methodNameIndex = $file->findNext(T_STRING, $functionIndex + 1);
-			if ($methodNameIndex === null) {
+			if ($methodNameIndex === false) {
 				break;
 			}
 
 			$token = $tokens[$methodNameIndex];
 			$methodName = $token['content'];
 
+			$startIndex = $methodNameIndex + 1;
+
 			if (!preg_match('#^\_get([A-Z][a-zA-Z0-9]+)$#', $methodName, $matches)) {
-				break;
+				continue;
 			}
 
 			$property = Inflector::underscore($matches[1]);
 
 			$properties[$property] = $this->returnType($file, $tokens, $functionIndex);
-			$startIndex = $methodNameIndex + 1;
 		}
 
 		return $properties;
