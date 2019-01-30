@@ -15,14 +15,12 @@ class Wheel extends Entity {
 	/**
 	 * @return string|null
 	 */
-	public function _getVirtualOne() {
+	protected function _getVirtualOne() {
 		return 'Virtual One';
 	}
 
-	/**
-	 * Missing return type means mixed as result
-	 */
-	public function _getVirtualTwo() {
+	protected function _getVirtualTwo() {
+		// Missing return type and docblock means mixed as result
 		return 'Virtual Two';
 	}
 
