@@ -237,7 +237,85 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @return string
 	 */
 	protected function returnType(File $file, array $tokens, $functionIndex) {
-		//TODO read doc block and/or method typehint
+		$firstTokenInLineIndex = $functionIndex;
+
+		$line = $tokens[$functionIndex]['line'];
+
+		while ($tokens[$firstTokenInLineIndex - 1]['line'] === $line) {
+			$firstTokenInLineIndex--;
+		}
+
+		$docBlockCloseTagIndex = $this->_findDocBlockCloseTagIndex($file, $firstTokenInLineIndex);
+		if (!$docBlockCloseTagIndex || empty($tokens[$docBlockCloseTagIndex]['comment_opener'])) {
+			return $this->typeHint($file, $tokens, $functionIndex);
+		}
+
+		$docBlockOpenTagIndex = $tokens[$docBlockCloseTagIndex]['comment_opener'];
+
+		return $this->extractReturnType($tokens, $docBlockOpenTagIndex, $docBlockCloseTagIndex);
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param array $tokens
+	 * @param int $functionIndex
+	 *
+	 * @return string
+	 */
+	protected function typeHint(File $file, array $tokens, $functionIndex) {
+		$parenthesisCloseTagIndex = $tokens[$functionIndex]['parenthesis_closer'];
+		$scopeOpenTagIndex = $tokens[$functionIndex]['scope_opener'];
+
+		$typehintIndex = $file->findNext(T_STRING, $parenthesisCloseTagIndex + 1, $scopeOpenTagIndex);
+		if ($typehintIndex === false) {
+			return 'mixed';
+		}
+
+		$returnType = $tokens[$typehintIndex]['content'];
+
+		$nullableIndex = $file->findNext(T_NULLABLE, $parenthesisCloseTagIndex + 1, $typehintIndex);
+
+		if ($nullableIndex) {
+			$returnType .= '|null';
+		}
+
+		return $returnType;
+	}
+
+	/**
+	 * @param array $tokens
+	 * @param int $docBlockOpenTagIndex
+	 * @param int $docBlockCloseTagIndex
+	 *
+	 * @return string
+	 */
+	protected function extractReturnType(array $tokens, $docBlockOpenTagIndex, $docBlockCloseTagIndex) {
+		for ($i = $docBlockOpenTagIndex + 1; $i < $docBlockCloseTagIndex; $i++) {
+
+			if ($tokens[$i]['type'] !== 'T_DOC_COMMENT_TAG') {
+				continue;
+			}
+			if ($tokens[$i]['content'] !== '@return') {
+				continue;
+			}
+
+			$classNameIndex = $i + 2;
+
+			if ($tokens[$classNameIndex]['type'] !== 'T_DOC_COMMENT_STRING') {
+				continue;
+			}
+
+			$content = $tokens[$classNameIndex]['content'];
+
+			//$appendix = '';
+			$spaceIndex = strpos($content, ' ');
+			if ($spaceIndex) {
+				//$appendix = substr($content, $spaceIndex);
+				$content = substr($content, 0, $spaceIndex);
+			}
+
+			return $content;
+		}
 
 		return 'mixed';
 	}
