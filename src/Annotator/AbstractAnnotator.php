@@ -206,9 +206,7 @@ abstract class AbstractAnnotator {
 
 		$classIndex = $file->findNext(T_CLASS, 0);
 
-		$prevCode = $file->findPrevious(Tokens::$emptyTokens, $classIndex - 1, null, true);
-
-		$closeTagIndex = $file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $classIndex - 1, $prevCode);
+		$closeTagIndex = $this->_findDocBlockCloseTagIndex($file, $classIndex);
 		$this->_resetCounter();
 		if ($closeTagIndex && $this->shouldSkip($file, $closeTagIndex)) {
 			return false;
@@ -230,6 +228,21 @@ abstract class AbstractAnnotator {
 		$this->_report();
 
 		return true;
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param int $index First functional code after docblock
+	 *
+	 * @return int|false
+	 */
+	protected function _findDocBlockCloseTagIndex(File $file, $index) {
+		$prevCode = $file->findPrevious(Tokens::$emptyTokens, $index - 1, null, true);
+		if (!$prevCode) {
+			return false;
+		}
+
+		return $file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $index - 1, $prevCode);
 	}
 
 	/**

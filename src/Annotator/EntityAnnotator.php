@@ -7,6 +7,7 @@ use Cake\View\View;
 use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\View\Helper\DocBlockHelper;
+use PHP_CodeSniffer\Files\File;
 use RuntimeException;
 
 class EntityAnnotator extends AbstractAnnotator {
@@ -55,6 +56,7 @@ class EntityAnnotator extends AbstractAnnotator {
 
 		$propertyHintMap = $helper->buildEntityPropertyHintTypeMap($schema);
 		$propertyHintMap = $this->buildExtendedEntityPropertyHintTypeMap($schema, $helper) + $propertyHintMap;
+		$propertyHintMap += $this->buildVirtualPropertyHintTypeMap($content);
 
 		$propertyHintMap = array_filter($propertyHintMap);
 
@@ -161,7 +163,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @see \Cake\Database\Type
 	 *
 	 * @param string $type The column type.
-	 * @return null|string The DocBlock type, or `null` for unsupported column types.
+	 * @return string|null The DocBlock type, or `null` for unsupported column types.
 	 */
 	protected function columnTypeToHintType($type) {
 		if (static::$typeMap === null) {
@@ -173,6 +175,149 @@ class EntityAnnotator extends AbstractAnnotator {
 		}
 
 		return null;
+	}
+
+	/**
+	 * @param string $content
+	 * @return array
+	 */
+	protected function buildVirtualPropertyHintTypeMap($content) {
+		if (!preg_match('#\bfunction \_get[A-Z][a-zA-Z0-9]+\(\)#', $content)) {
+			return [];
+		}
+
+		$file = $this->_getFile('', $content);
+
+		$classIndex = $file->findNext(T_CLASS, 0);
+		if ($classIndex === false) {
+			return [];
+		}
+
+		$tokens = $file->getTokens();
+		if (empty($tokens[$classIndex]['scope_closer'])) {
+			return [];
+		}
+
+		$classEndIndex = $tokens[$classIndex]['scope_closer'];
+
+		$properties = [];
+		$startIndex = $classIndex;
+		while ($startIndex < $classEndIndex) {
+			$functionIndex = $file->findNext(T_FUNCTION, $startIndex + 1);
+			if ($functionIndex === false) {
+				break;
+			}
+
+			$methodNameIndex = $file->findNext(T_STRING, $functionIndex + 1);
+			if ($methodNameIndex === false) {
+				break;
+			}
+
+			$token = $tokens[$methodNameIndex];
+			$methodName = $token['content'];
+
+			$startIndex = $methodNameIndex + 1;
+
+			if (!preg_match('#^\_get([A-Z][a-zA-Z0-9]+)$#', $methodName, $matches)) {
+				continue;
+			}
+
+			$property = Inflector::underscore($matches[1]);
+
+			$properties[$property] = $this->returnType($file, $tokens, $functionIndex);
+		}
+
+		return $properties;
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param array $tokens
+	 * @param int $functionIndex
+	 * @return string
+	 */
+	protected function returnType(File $file, array $tokens, $functionIndex) {
+		$firstTokenInLineIndex = $functionIndex;
+
+		$line = $tokens[$functionIndex]['line'];
+
+		while ($tokens[$firstTokenInLineIndex - 1]['line'] === $line) {
+			$firstTokenInLineIndex--;
+		}
+
+		$docBlockCloseTagIndex = $this->_findDocBlockCloseTagIndex($file, $firstTokenInLineIndex);
+		if (!$docBlockCloseTagIndex || empty($tokens[$docBlockCloseTagIndex]['comment_opener'])) {
+			return $this->typeHint($file, $tokens, $functionIndex);
+		}
+
+		$docBlockOpenTagIndex = $tokens[$docBlockCloseTagIndex]['comment_opener'];
+
+		return $this->extractReturnType($tokens, $docBlockOpenTagIndex, $docBlockCloseTagIndex);
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param array $tokens
+	 * @param int $functionIndex
+	 *
+	 * @return string
+	 */
+	protected function typeHint(File $file, array $tokens, $functionIndex) {
+		$parenthesisCloseTagIndex = $tokens[$functionIndex]['parenthesis_closer'];
+		$scopeOpenTagIndex = $tokens[$functionIndex]['scope_opener'];
+
+		$typehintIndex = $file->findNext(T_STRING, $parenthesisCloseTagIndex + 1, $scopeOpenTagIndex);
+		if ($typehintIndex === false) {
+			return 'mixed';
+		}
+
+		$returnType = $tokens[$typehintIndex]['content'];
+
+		$nullableIndex = $file->findNext(T_NULLABLE, $parenthesisCloseTagIndex + 1, $typehintIndex);
+
+		if ($nullableIndex) {
+			$returnType .= '|null';
+		}
+
+		return $returnType;
+	}
+
+	/**
+	 * @param array $tokens
+	 * @param int $docBlockOpenTagIndex
+	 * @param int $docBlockCloseTagIndex
+	 *
+	 * @return string
+	 */
+	protected function extractReturnType(array $tokens, $docBlockOpenTagIndex, $docBlockCloseTagIndex) {
+		for ($i = $docBlockOpenTagIndex + 1; $i < $docBlockCloseTagIndex; $i++) {
+
+			if ($tokens[$i]['type'] !== 'T_DOC_COMMENT_TAG') {
+				continue;
+			}
+			if ($tokens[$i]['content'] !== '@return') {
+				continue;
+			}
+
+			$classNameIndex = $i + 2;
+
+			if ($tokens[$classNameIndex]['type'] !== 'T_DOC_COMMENT_STRING') {
+				continue;
+			}
+
+			$content = $tokens[$classNameIndex]['content'];
+
+			//$appendix = '';
+			$spaceIndex = strpos($content, ' ');
+			if ($spaceIndex) {
+				//$appendix = substr($content, $spaceIndex);
+				$content = substr($content, 0, $spaceIndex);
+			}
+
+			return $content;
+		}
+
+		return 'mixed';
 	}
 
 }

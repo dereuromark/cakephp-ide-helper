@@ -83,7 +83,7 @@ A LocationsTable class would then get the following doc block annotations added 
 ```
 
 ### Entities
-Entities should annotate their fields and relations.
+Entities should annotate their properties and relations.
 
 A Location entity could look like this afterwards:
 ```php
@@ -95,6 +95,7 @@ A Location entity could look like this afterwards:
  * @property string $details
  * @property \Cake\I18n\Time $created
  * @property \Cake\I18n\Time $modified
+ * @property string|null $virtual_property
  *
  * @property \App\Model\Entity\Image[] $images
  * @property \App\Model\Entity\User $user
@@ -125,6 +126,10 @@ Using Configure key `'IdeHelper.nullableMap'` you can set a custom array of type
  		],
 	],
 ```
+
+Note: For virtual properties it looks up the `_get...()` (e.g. `_getVirtualProperty()`) methods responsible for those.
+It first checks the documented type in the doc block's `@return`, otherwise (given PHP 7.0+) tries to read it from the
+return type hint (e.g. `: ?string`). Only if that is also not present it will use the fallback type `mixed`.
 
 ## Shells
 Shells and Tasks should annotate their primary model as well as all manually loaded models.
