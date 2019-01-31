@@ -189,6 +189,9 @@ class EntityAnnotator extends AbstractAnnotator {
 		$file = $this->_getFile('', $content);
 
 		$classIndex = $file->findNext(T_CLASS, 0);
+		if ($classIndex === false) {
+			return [];
+		}
 
 		$tokens = $file->getTokens();
 		if (empty($tokens[$classIndex]['scope_closer'])) {
