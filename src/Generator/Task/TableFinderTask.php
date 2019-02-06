@@ -9,6 +9,7 @@ use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Exception;
 use ReflectionClass;
+use Throwable;
 
 class TableFinderTask extends ModelTask {
 
@@ -76,6 +77,7 @@ class TableFinderTask extends ModelTask {
 				$customFinders = array_merge($customFinders, array_keys($finderMap));
 
 			} catch (Exception $exception) {
+			} catch (Throwable $exception) {
 			}
 
 			$allFinders = array_merge($allFinders, $customFinders);
