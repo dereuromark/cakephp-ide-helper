@@ -7,8 +7,8 @@ use Cake\ORM\Association;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
-use Throwable;
 use ReflectionClass;
+use Throwable;
 
 class TableFinderTask extends ModelTask {
 
