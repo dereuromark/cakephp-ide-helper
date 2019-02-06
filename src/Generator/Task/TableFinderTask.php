@@ -7,6 +7,7 @@ use Cake\ORM\Association;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
+use Exception;
 use ReflectionClass;
 use Throwable;
 
@@ -75,6 +76,7 @@ class TableFinderTask extends ModelTask {
 				$finderMap = $this->invokeProperty($behaviors, '_finderMap');
 				$customFinders = array_merge($customFinders, array_keys($finderMap));
 
+			} catch (Exception $exception) {
 			} catch (Throwable $exception) {
 			}
 
