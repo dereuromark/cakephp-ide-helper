@@ -200,7 +200,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			$association = $tableAssociations->get($key);
 			$type = get_class($association);
 
-			$name = $association->getAlias();
+			list(, $name) = pluginSplit($association->getAlias());
 			$table = $association->getClassName() ?: $association->getAlias();
 			$className = App::className($table, 'Model/Table', 'Table') ?: static::CLASS_TABLE;
 
@@ -217,13 +217,13 @@ class ModelAnnotator extends AbstractAnnotator {
 			}
 
 			$className = App::className($through, 'Model/Table', 'Table') ?: static::CLASS_TABLE;
-
+			list(, $throughName) = pluginSplit($through);
 			$type = HasMany::class;
-			if (isset($associations[$type][$through])) {
+			if (isset($associations[$type][$throughName])) {
 				continue;
 			}
 
-			$associations[$type][$through] = $className;
+			$associations[$type][$throughName] = $className;
 		}
 
 		return $associations;

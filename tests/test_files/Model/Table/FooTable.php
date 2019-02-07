@@ -26,6 +26,10 @@ class FooTable extends Table {
 	public function initialize(array $config) {
 		parent::initialize($config);
 
+		$this->belongsTo('BarBars');
+		$this->belongsTo('Houses', [
+			'className' => 'Awesome.Houses'
+		]);
 		$this->addBehavior('Tools.Confirmable');
 		$this->addBehavior('Timestamp');
 		$this->addBehavior('MyNamespace/MyPlugin.My');

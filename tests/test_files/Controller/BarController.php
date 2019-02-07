@@ -6,7 +6,7 @@ namespace App\Controller;
  * @property \App\Model\Table\BarBarsTable $BarBars
  * @property \Shim\Controller\Component\SessionComponent $Session
  *
- * @method \Cake\ORM\Entity[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \App\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class BarController extends AppController {
 
