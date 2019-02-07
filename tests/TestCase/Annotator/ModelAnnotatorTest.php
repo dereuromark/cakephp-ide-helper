@@ -24,6 +24,7 @@ class ModelAnnotatorTest extends TestCase {
 	public $fixtures = [
 		'plugin.ide_helper.foo',
 		'plugin.ide_helper.wheels',
+		'plugin.ide_helper.bar_bars',
 	];
 
 	/**
@@ -106,7 +107,7 @@ class ModelAnnotatorTest extends TestCase {
 	public function testAnnotate() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/FooTable.php'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/BarBarsTable.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -116,12 +117,12 @@ class ModelAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = APP . 'Model/Table/FooTable.php';
+		$path = APP . 'Model/Table/BarBarsTable.php';
 		$annotator->annotate($path);
 
 		$output = (string)$this->out->output();
 
-		$this->assertTextContains('  -> 11 annotations added', $output);
+		$this->assertTextContains('  -> 14 annotations added', $output);
 	}
 
 	/**
