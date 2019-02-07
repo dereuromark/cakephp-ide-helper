@@ -35,4 +35,5 @@ class BarBarsTable extends Table {
 		$this->addBehavior('Timestamp');
 		$this->addBehavior('MyNamespace/MyPlugin.My');
 	}
+
 }
