@@ -57,15 +57,11 @@ class EntityAnnotator extends AbstractAnnotator {
 		$propertyHintMap = $helper->buildEntityPropertyHintTypeMap($schema);
 		$propertyHintMap = $this->buildExtendedEntityPropertyHintTypeMap($schema, $helper) + $propertyHintMap;
 		$propertyHintMap += $this->buildVirtualPropertyHintTypeMap($content);
+		$propertyHintMap += $helper->buildEntityAssociationHintTypeMap($schema);
 
 		$propertyHintMap = array_filter($propertyHintMap);
 
 		$annotations = $helper->propertyHints($propertyHintMap);
-		$associationHintMap = $helper->buildEntityAssociationHintTypeMap($schema);
-
-		if ($associationHintMap) {
-			$annotations = array_merge($annotations, $helper->propertyHints($associationHintMap));
-		}
 
 		foreach ($annotations as $key => $annotation) {
 			$annotationObject = AnnotationFactory::createFromString($annotation);
