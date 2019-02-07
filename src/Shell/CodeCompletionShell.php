@@ -40,7 +40,7 @@ class CodeCompletionShell extends Shell {
 			'options' => [
 				'dry-run' => [
 					'short' => 'd',
-					'help' => 'Dry run the task. This will not actually generate any files.',
+					'help' => 'Dry run the generation. This will not actually generate any files.',
 					'boolean' => true,
 				],
 			]

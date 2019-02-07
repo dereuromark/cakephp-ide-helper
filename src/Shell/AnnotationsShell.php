@@ -508,7 +508,7 @@ class AnnotationsShell extends Shell {
 			'options' => [
 				'dry-run' => [
 					'short' => 'd',
-					'help' => 'Dry run the task. Don\'t modify any files.',
+					'help' => 'Dry run the task(s). Don\'t modify any files.',
 					'boolean' => true,
 				],
 				'plugin' => [

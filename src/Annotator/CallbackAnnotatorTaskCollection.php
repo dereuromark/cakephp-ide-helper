@@ -8,14 +8,14 @@ use IdeHelper\Console\Io;
 class CallbackAnnotatorTaskCollection {
 
 	/**
-	 * @var array
+	 * @var string[]
 	 */
 	protected $defaultTasks = [
 		TableCallbackAnnotatorTask::class => TableCallbackAnnotatorTask::class,
 	];
 
 	/**
-	 * @var array
+	 * @var string[]
 	 */
 	protected $tasks;
 

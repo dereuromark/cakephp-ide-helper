@@ -9,12 +9,10 @@ use Cake\Core\InstanceConfigTrait;
 use Cake\View\View;
 use IdeHelper\Annotation\AbstractAnnotation;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotator\Traits\FileTrait;
 use IdeHelper\Console\Io;
 use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Files\File;
-use PHP_CodeSniffer\Fixer;
-use PHP_CodeSniffer\Ruleset;
-use PHP_CodeSniffer\Runner;
 use PHP_CodeSniffer\Util\Tokens;
 use ReflectionClass;
 use RuntimeException;
@@ -33,6 +31,7 @@ if (!class_exists(Config::class) && file_exists($manualAutoload)) {
 
 abstract class AbstractAnnotator {
 
+	use FileTrait;
 	use InstanceConfigTrait;
 
 	const CONFIG_DRY_RUN = 'dry-run';
@@ -84,34 +83,6 @@ abstract class AbstractAnnotator {
 	 * @return bool
 	 */
 	abstract public function annotate($path);
-
-	/**
-	 * @param string $file
-	 * @param string|null $content
-	 *
-	 * @return \PHP_CodeSniffer\Files\File
-	 */
-	protected function _getFile($file, $content = null) {
-		$_SERVER['argv'] = [];
-
-		$phpcs = new Runner();
-
-		if (!defined('PHP_CODESNIFFER_CBF')) {
-			define('PHP_CODESNIFFER_CBF', false);
-		}
-		// Explictly specifying standard prevents it from searching for phpcs.xml type files.
-		$config = new Config(['--standard=PSR2']);
-		$phpcs->config = $config;
-		$phpcs->init();
-
-		$ruleset = new Ruleset($config);
-
-		$fileObject = new File($file, $ruleset, $config);
-		$fileObject->setContent($content !== null ? $content : file_get_contents($file));
-		$fileObject->parse();
-
-		return $fileObject;
-	}
 
 	/**
 	 * @param string $oldContent
@@ -170,19 +141,6 @@ abstract class AbstractAnnotator {
 			return;
 		}
 		file_put_contents($path, $contents);
-	}
-
-	/**
-	 * @param \PHP_CodeSniffer\Files\File $file
-	 *
-	 * @return \PHP_CodeSniffer\Fixer
-	 */
-	protected function _getFixer($file) {
-		$fixer = new Fixer();
-
-		$fixer->startFile($file);
-
-		return $fixer;
 	}
 
 	/**

@@ -9,7 +9,7 @@ use InvalidArgumentException;
 class TaskCollection {
 
 	/**
-	 * @var array
+	 * @var string[]
 	 */
 	protected $defaultTasks = [
 		BehaviorTask::class => BehaviorTask::class,
