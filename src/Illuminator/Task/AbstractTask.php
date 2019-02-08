@@ -54,7 +54,7 @@ abstract class AbstractTask {
 	 * @param string $path
 	 * @return bool
 	 */
-	abstract public function isApplicable($path);
+	abstract public function shouldRun($path);
 
 	/**
 	 * @param string $content

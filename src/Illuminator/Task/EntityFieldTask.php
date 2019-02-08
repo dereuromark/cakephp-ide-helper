@@ -47,7 +47,7 @@ class EntityFieldTask extends AbstractTask {
 	 * @param string $path
 	 * @return bool
 	 */
-	public function isApplicable($path) {
+	public function shouldRun($path) {
 		return (bool)preg_match('#\\/Model\\/Entity/.+\\.php$#', $path);
 	}
 
@@ -84,7 +84,7 @@ class EntityFieldTask extends AbstractTask {
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $classIndex
-	 * @return string[]
+	 * @return array
 	 */
 	protected function getFields(File $file, $classIndex) {
 		$tokens = $file->getTokens();
@@ -111,6 +111,8 @@ class EntityFieldTask extends AbstractTask {
 			$field = mb_substr($pieces[1], 1);
 			$fields[$field] = [
 				'name' => $field,
+				//constant
+				//index
 			];
 		}
 
@@ -177,9 +179,13 @@ class EntityFieldTask extends AbstractTask {
 	}
 
 	/**
+	 * @param int $startIndex
+	 * @param int $endIndex
 	 * @return array
 	 */
-	protected function getFieldConstants() {
+	protected function getFieldConstants($startIndex, $endIndex) {
+		//TODO
+
 		return [];
 	}
 

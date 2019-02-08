@@ -19,7 +19,7 @@ class Illuminator {
 
 	/**
 	 * @param string $path
-	 * @return string
+	 * @return int
 	 */
 	public function illuminate($path) {
 		$files = $this->getFiles($path);

@@ -43,13 +43,13 @@ class EntityFieldTaskTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testIsApplicable() {
+	public function testShouldRun() {
 		$task = $this->_getTask();
 
-		$result = $task->isApplicable('src/Model/Entity/Wheel.php');
+		$result = $task->shouldRun('src/Model/Entity/Wheel.php');
 		$this->assertTrue($result);
 
-		$result = $task->isApplicable('src/Model/Table/Wheels.php');
+		$result = $task->shouldRun('src/Model/Table/Wheels.php');
 		$this->assertFalse($result);
 	}
 
