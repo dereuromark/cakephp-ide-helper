@@ -47,6 +47,8 @@ class IlluminatorShell extends Shell {
 	 * @return \Cake\Console\ConsoleOptionParser
 	 */
 	public function getOptionParser() {
+		$tasks = $this->getTaskList();
+
 		$subcommandParser = [
 			'options' => [
 				'dry-run' => [
@@ -56,7 +58,7 @@ class IlluminatorShell extends Shell {
 				],
 				'task' => [
 					'short' => 't',
-					'help' => 'Run specific task(s). Can be comma separated list.',
+					'help' => 'Run specific task(s). Can be comma separated list. Available: ' . implode(', ', $tasks),
 					'default' => null,
 				],
 			],
@@ -93,6 +95,17 @@ class IlluminatorShell extends Shell {
 	 */
 	protected function _io() {
 		return new Io($this->getIo());
+	}
+
+	/**
+	 * @return string[]
+	 * @throws \RuntimeException
+	 * @throws \InvalidArgumentException
+	 */
+	protected function getTaskList() {
+		$taskCollection = new TaskCollection($this->_io(), $this->params);
+
+		return $taskCollection->taskNames();
 	}
 
 }

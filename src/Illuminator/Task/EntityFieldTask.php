@@ -28,22 +28,6 @@ class EntityFieldTask extends AbstractTask {
 	protected $_visibility;
 
 	/**
-	 * @return bool
-	 */
-	protected function visibility() {
-		if ($this->_visibility !== null) {
-			return $this->_visibility;
-		}
-
-		$visConfig = $this->getConfig('visibility');
-		if ($visConfig === null) {
-			$visConfig = version_compare(PHP_VERSION, '7.1') >= 0;
-		}
-
-		return $this->_visibility = $visConfig;
-	}
-
-	/**
 	 * @param string $path
 	 * @return bool
 	 */
@@ -187,6 +171,22 @@ class EntityFieldTask extends AbstractTask {
 		//TODO
 
 		return [];
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function visibility() {
+		if ($this->_visibility !== null) {
+			return $this->_visibility;
+		}
+
+		$visConfig = $this->getConfig('visibility');
+		if ($visConfig === null) {
+			$visConfig = version_compare(PHP_VERSION, '7.1') >= 0;
+		}
+
+		return $this->_visibility = $visConfig;
 	}
 
 }

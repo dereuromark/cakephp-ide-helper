@@ -42,7 +42,6 @@ class TaskCollection {
 	 * @param array $config
 	 * @param string[] $tasks
 	 * @throws \InvalidArgumentException
-	 * @throws \RuntimeException
 	 */
 	public function __construct(Io $io, array $config, array $tasks = []) {
 		$this->_io = $io;
@@ -50,15 +49,7 @@ class TaskCollection {
 
 		$defaultTasks = (array)Configure::read('IdeHelper.illuminatorTasks') + $this->defaultTasks;
 
-		$keys = array_keys($defaultTasks);
-		$keyMap = array_combine($keys, $keys);
-		foreach ($keyMap as $k => $v) {
-			preg_match('#\bTask\\\\([A-Za-z0-9]+)Task$#', $v, $matches);
-			if (!$matches) {
-				throw new RuntimeException('Invalid task name: ' . $v);
-			}
-			$keyMap[$k] = $matches[1];
-		}
+		$keyMap = $this->taskNames($defaultTasks);
 		$filterMap = array_diff($tasks, $keyMap);
 		if ($filterMap) {
 			throw new InvalidArgumentException('Tasks do not exist: ' . implode(', ', $filterMap) . '.');
@@ -84,7 +75,7 @@ class TaskCollection {
 	 * @return $this
 	 * @throws \InvalidArgumentException
 	 */
-	public function add($task) {
+	protected function add($task) {
 		if (is_string($task)) {
 			$task = new $task($this->_config);
 		}
@@ -106,6 +97,29 @@ class TaskCollection {
 	 */
 	public function tasks() {
 		return $this->tasks;
+	}
+
+	/**
+	 * @param array $tasks
+	 * @return string[]
+	 * @throws \RuntimeException
+	 */
+	public function taskNames($tasks = []) {
+		if (!$tasks) {
+			$tasks = $this->tasks;
+		}
+
+		$keys = array_keys($tasks);
+		$keyMap = array_combine($keys, $keys);
+		foreach ($keyMap as $k => $v) {
+			preg_match('#\bTask\\\\([A-Za-z0-9]+)Task$#', $v, $matches);
+			if (!$matches) {
+				throw new RuntimeException('Invalid task name: ' . $v);
+			}
+			$keyMap[$k] = $matches[1];
+		}
+
+		return $keyMap;
 	}
 
 	/**
@@ -193,7 +207,6 @@ class TaskCollection {
 	 * @return void
 	 */
 	protected function _storeFile($path, $contents, $dryRun) {
-		//static::$output = true;
 		if ($dryRun) {
 			return;
 		}

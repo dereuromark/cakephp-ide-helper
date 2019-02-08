@@ -43,7 +43,7 @@ class TaskCollection {
 	 * @return $this
 	 * @throws \InvalidArgumentException
 	 */
-	public function add($task) {
+	protected function add($task) {
 		if (is_string($task)) {
 			$task = new $task();
 		}

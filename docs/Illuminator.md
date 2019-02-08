@@ -52,12 +52,22 @@ use IdeHelper\Illuminator\Task\TaskInterface;
 class MyTask implements TaskInterface {
 
 	/**
-	 * @return array
+	 * @param string $path
+	 * @return bool
 	 */
-	public function collect() {
+	public function shouldRun($path) {
 		...
 	}
-	
+
+	/**
+	 * @param string $content
+	 * @param string $path
+	 * @return string
+	 */
+	public function run($content, $path) {
+		...
+	}
+
 }
 ```
 
@@ -69,7 +79,7 @@ Then add it to the config:
 	],
 ],
 ```
-The key `'MyTask'` can be any string.
+The key `'MyTask'` can be any string but it must be unique across all existing tasks.
 
 #### Replacing native tasks
 Using associative arrays you can even exchange any native task with your own implementation:
