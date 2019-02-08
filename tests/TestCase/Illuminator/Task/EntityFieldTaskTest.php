@@ -66,6 +66,7 @@ class EntityFieldTaskTest extends TestCase {
 
 		$this->assertTextContains('const FIELD_ID = \'id\';', $result);
 
+		$result = str_replace('    ', "\t", $result);
 		$expected = file_get_contents(TEST_FILES . 'Model/Entity/Constants/Wheel.php');
 		$this->assertTextEquals($expected, $result);
 	}

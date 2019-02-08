@@ -17,8 +17,6 @@ class IlluminatorShell extends Shell {
 	const CODE_CHANGES = 2;
 
 	/**
-	 * Generates CodeCompletation.php files.
-	 *
 	 * @param string|null $path
 	 * @return int
 	 */
