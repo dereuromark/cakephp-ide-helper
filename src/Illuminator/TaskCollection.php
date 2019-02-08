@@ -119,7 +119,7 @@ class TaskCollection {
 		$content = $result = null;
 
 		foreach ($this->tasks as $task) {
-			if (!$task->isApplicable($path)) {
+			if (!$task->shouldRun($path)) {
 				continue;
 			}
 
