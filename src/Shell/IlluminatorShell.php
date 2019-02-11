@@ -2,6 +2,7 @@
 namespace IdeHelper\Shell;
 
 use Cake\Console\Shell;
+use Cake\Core\Plugin;
 use IdeHelper\Console\Io;
 use IdeHelper\Illuminator\Illuminator;
 use IdeHelper\Illuminator\TaskCollection;
@@ -19,10 +20,20 @@ class IlluminatorShell extends Shell {
 	/**
 	 * @param string|null $path
 	 * @return int
+	 * @throws \InvalidArgumentException
 	 */
 	public function illuminate($path = null) {
 		if (!$path) {
 			$path = 'src/';
+		}
+
+		$root = ROOT . DS;
+		if ($this->param('plugin')) {
+			$root = Plugin::path($this->param('plugin'));
+		}
+		$path = $root . $path;
+		if (!is_dir($path)) {
+			throw new \InvalidArgumentException('Path does not exist: ' . $path);
 		}
 
 		$illuminator = $this->getIlluminator();
@@ -49,6 +60,11 @@ class IlluminatorShell extends Shell {
 
 		$subcommandParser = [
 			'options' => [
+				'plugin' => [
+					'short' => 'p',
+					'help' => 'The plugin to run. Defaults to the application otherwise.',
+					'default' => null,
+				],
 				'dry-run' => [
 					'short' => 'd',
 					'help' => 'Dry run the task(s). This will output an error code ' . static::CODE_CHANGES . ' if file needs changing. Can be used for CI checking.',

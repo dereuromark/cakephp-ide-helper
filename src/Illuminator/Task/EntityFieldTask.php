@@ -58,11 +58,11 @@ class EntityFieldTask extends AbstractTask {
 		} else {
 			$index = $file->findNext(T_WHITESPACE, $tokens[$classIndex]['scope_opener'] + 1, $tokens[$classIndex]['scope_closer'], true);
 			if ($index === false) {
-				return $content;
+				$index = $tokens[$classIndex]['scope_closer'];
 			}
 		}
 
-		return $this->addClassConstants($file, $fields, $index) ?: $content;
+		return $this->addClassConstants($file, $fields, $index, 0) ?: $content;
 	}
 
 	/**
@@ -122,9 +122,10 @@ class EntityFieldTask extends AbstractTask {
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param array $fields
 	 * @param int $index
+	 * @param int $level
 	 * @return string|null
 	 */
-	protected function addClassConstants(File $file, array $fields, $index) {
+	protected function addClassConstants(File $file, array $fields, $index, $level = 1) {
 		if (!$fields) {
 			return null;
 		}
@@ -136,6 +137,9 @@ class EntityFieldTask extends AbstractTask {
 		while ($tokens[$firstOfLineIndex - 1]['line'] === $tokens[$index]['line']) {
 			$firstOfLineIndex--;
 			$whitespace .= $tokens[$firstOfLineIndex]['content'];
+		}
+		if ($level < 1) {
+			$whitespace = str_repeat(' ', 4);
 		}
 
 		$beginIndex = $firstOfLineIndex - 1;
