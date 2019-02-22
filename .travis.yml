@@ -25,6 +25,9 @@ matrix:
     - php: 7.0
       env: CODECOVERAGE=1 DEFAULT=0
 
+before_install:
+  - phpenv config-rm xdebug.ini
+
 before_script:
   - if [[ $DB == 'mysql' ]]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi
 
@@ -44,6 +47,10 @@ script:
   - if [[ $CODECOVERAGE == 1 ]]; then vendor/bin/phpunit --coverage-clover=clover.xml || true; fi
   - if [[ $CODECOVERAGE == 1 ]]; then wget -O codecov.sh https://codecov.io/bash; fi
   - if [[ $CODECOVERAGE == 1 ]]; then bash codecov.sh; fi
+
+cache:
+    directories:
+        - $HOME/.composer/cache
 
 notifications:
   email: false
