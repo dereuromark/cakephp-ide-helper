@@ -15,6 +15,8 @@ use Cake\ORM\Entity;
  */
 class Wheel extends Entity {
 
+	const OTHER_NAME = 'unrelated';
+
 	const FIELD_ID = 'id';
 	const FIELD_NAME = 'name';
 	const FIELD_CONTENT = 'content';

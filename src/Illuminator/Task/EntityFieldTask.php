@@ -99,7 +99,7 @@ class EntityFieldTask extends AbstractTask {
 			$field = mb_substr($pieces[1], 1);
 			$fields[$field] = [
 				'name' => $field,
-				'constant' => 'FIELD_' . mb_strtoupper($field),
+				'constant' => static::PREFIX . mb_strtoupper($field),
 				'index' => $i,
 			];
 		}
@@ -205,6 +205,10 @@ class EntityFieldTask extends AbstractTask {
 
 			$pos = strpos($constant, '_');
 			$prefix = substr($constant, 0, $pos);
+			if ($prefix . '_' !== static::PREFIX) {
+				continue;
+			}
+
 			$field = substr($constant, $pos + 1);
 			$field = strtolower($field);
 
