@@ -24,7 +24,7 @@ class TaskCollectionTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testCollect() {
+	public function testTasks() {
 		$result = $this->taskCollection->tasks();
 
 		$this->assertNotEmpty($result);

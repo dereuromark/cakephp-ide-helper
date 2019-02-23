@@ -8,14 +8,14 @@ use IdeHelper\Console\Io;
 class ClassAnnotatorTaskCollection {
 
 	/**
-	 * @var array
+	 * @var string[]
 	 */
 	protected $defaultTasks = [
 		ModelAwareClassAnnotatorTask::class => ModelAwareClassAnnotatorTask::class,
 	];
 
 	/**
-	 * @var array
+	 * @var string[]
 	 */
 	protected $tasks;
 

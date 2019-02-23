@@ -33,6 +33,13 @@ would always just return the abstract or parent class.
 
 * [Generator shell](Generator.md)
 
+### PHP File Illuminator
+The Illuminator can modify your PHP files based on Illuminator rulesets.
+You can use the pre-set tasks, or create your own to enhance your PHP files and classes.
+
+* [Illuminator shell](Illuminator.md)
+
+
 ## Usage
 Quick-Guide, see the above links for details.
 
@@ -71,3 +78,18 @@ Generate your app `.phpstorm.meta.php` meta file:
 ```
 bin/cake phpstorm generate
 ```
+
+### Using the illuminator shell
+Improve your PHP files:
+```
+bin/cake illuminator illuminate <path>
+```
+
+Use `-v` for verbose and detailed output:
+```
+bin/cake illuminator illuminate <path> -v
+```
+
+Use `-t` (`--task`) to only run specific task(s), can be a comma separated list.
+
+You can add `-d` (`--dry-run`) to simulate the output without actually modifying the files.
