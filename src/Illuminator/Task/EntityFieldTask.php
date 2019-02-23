@@ -97,6 +97,10 @@ class EntityFieldTask extends AbstractTask {
 				continue;
 			}
 			$field = mb_substr($pieces[1], 1);
+			if (strpos($field, ' ') === 0) {
+				continue;
+			}
+
 			$fields[$field] = [
 				'name' => $field,
 				'constant' => static::PREFIX . mb_strtoupper($field),

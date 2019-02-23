@@ -15,7 +15,7 @@ If that doesnt match, it will be skipped.
 Your entities expose their fields either via get()/set() or as class properties.
 Especially when using them through methods, you will have no typehinting/autocomplete on those magic strings.
 In these cases, having class constants is the solution. 
-This task will add those based on the defined property annotations in the doc block as well as the declared virtual properties:
+This task will add those based on the defined property annotations in the doc block:
 ```php
 /**
  * @property int $id
@@ -99,7 +99,7 @@ Using associative arrays you can even exchange any native task with your own imp
 ```php
 'IdeHelper' => [
 	'IlluminatorTasks' => [
-		\IdeHelper\Illuminator\Task\ModelTask::class => \App\Illuminator\Task\MyEnhancedModelTask::class,
+		\IdeHelper\Illuminator\Task\FooBarTask::class => \App\Illuminator\Task\MyEnhancedFooBarTask::class,
 	],
 ],
 ```
@@ -108,7 +108,7 @@ Setting the value to `null` completely disables a native task.
 
 
 ### Important constraint
-This tool is based on the results of the Annotator. So make sure you run that first, e.g.
+Some tasks may be based on the results of the Annotator. So make sure you run that first, e.g.
 
 ```
 bin/cake annotations all && bin/cake illuminator illuminate <path>
