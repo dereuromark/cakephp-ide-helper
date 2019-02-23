@@ -54,6 +54,8 @@ That also means refactoring on those is much easier this way (via IDE usually a 
 
 Note: For PHP 7.1+ it will also add the visibility flag `public` if you don't configure it otherwise.
 
+This task will not clean out removed or renamed fields. 
+You should quickly check for usage of this constant if unused it can be safely removed.
 
 ### Adding your own tasks
 Just create your own Task class:

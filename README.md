@@ -41,6 +41,9 @@ Supports annotations for:
 Supports code completion help for:
 - Behaviors (property access on the BehaviorRegistry)
 
+Supports better IDE usage with Illuminator tasks to enhance existing code
+- EntityFieldTask adds all entity fields as class constants for easier usage in IDEs
+
 ### IDE support
 This plugin is supposed to work with ANY IDE that supports annotations and code completion.
 IDEs tested so far for 100% compatibility:
