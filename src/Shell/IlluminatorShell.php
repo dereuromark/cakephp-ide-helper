@@ -6,6 +6,7 @@ use Cake\Core\Plugin;
 use IdeHelper\Console\Io;
 use IdeHelper\Illuminator\Illuminator;
 use IdeHelper\Illuminator\TaskCollection;
+use InvalidArgumentException;
 
 /**
  * Shell for modifying your PHP files based on Illuminator rulesets.
@@ -33,7 +34,7 @@ class IlluminatorShell extends Shell {
 		}
 		$path = $root . $path;
 		if (!is_dir($path)) {
-			throw new \InvalidArgumentException('Path does not exist: ' . $path);
+			throw new InvalidArgumentException('Path does not exist: ' . $path);
 		}
 
 		$illuminator = $this->getIlluminator();

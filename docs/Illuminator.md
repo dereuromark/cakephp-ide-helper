@@ -3,6 +3,9 @@
 The Illuminator can modify your PHP files based on Illuminator rulesets.
 You can use the pre-set tasks, or create your own to enhance your PHP files and classes.
 
+Note: Instead of meta modifications (doc blocks, annotations) like the Annotator, this Illuminator actually modifies existing code.
+Make sure to backup/commit your changes before running it.
+
 Each task has its own scope defined, based on path or filename.
 If that doesnt match, it will be skipped.
 
@@ -11,13 +14,14 @@ If that doesnt match, it will be skipped.
 #### EntityField
 Your entities expose their fields either via get()/set() or as class properties.
 Especially when using them through methods, you will have no typehinting/autocomplete on those magic strings.
-In these cases, having class constants is the solution. This task will add those based on the defined property annotations in the doc block:
+In these cases, having class constants is the solution. 
+This task will add those based on the defined property annotations in the doc block as well as the declared virtual properties:
 ```php
 /**
  * @property int $id
  * @property string $brand_name
  * @property \Cake\I18n\FrozenTime $created
- * @property \Cake\I18n\FrozenTime|null $modified
+ * @property \Cake\I18n\FrozenTime|null $retired
  * @property \App\Model\Entity\Wheel[] $wheels
  */
 class Car extends Entity {
@@ -30,12 +34,21 @@ class Car extends Entity {
 ```
 This is especially useful then for e.g.
 ```php
-//old
+// old
 $carEntity->setDirty('wheels');
 
-//new
+// new
 $carEntity->setDirty($carEntity::FIELD_WHEELS);
 ```
+or
+```php
+// old
+$query->orderDesc('publish_date');
+
+// new
+$query->orderDesc(Post::FIELD_PUBLISH_DATE);
+```
+
 This allows for less typing as autocomplete finds it immediately - and for usage display (IDE => rightclick => get usage).
 That also means refactoring on those is much easier this way (via IDE usually a clean one-modification-refactor across the whole project).
 

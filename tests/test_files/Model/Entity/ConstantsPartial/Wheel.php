@@ -15,6 +15,13 @@ use Cake\ORM\Entity;
  */
 class Wheel extends Entity {
 
+	const FIELD_ID = 'id';
+	const FIELD_NAME = 'name';
+	const FIELD_CONTENT = 'content';
+	const FIELD_CREATED = 'created';
+	const FIELD_VIRTUAL_TWO = 'virtual_two';
+	const FIELD_WHEELS = 'wheels';
+
 	/**
 	 * @var array
 	 */
@@ -42,14 +49,5 @@ class Wheel extends Entity {
 	protected function _getWheels($wheels = []) {
 		return $wheels;
 	}
-
-	const FIELD_ID = 'id';
-	const FIELD_NAME = 'name';
-	const FIELD_CONTENT = 'content';
-	const FIELD_CREATED = 'created';
-	const FIELD_MODIFIED = 'modified';
-	const FIELD_VIRTUAL_ONE = 'virtual_one';
-	const FIELD_VIRTUAL_TWO = 'virtual_two';
-	const FIELD_WHEELS = 'wheels';
 
 }

@@ -52,17 +52,21 @@ class EntityFieldTask extends AbstractTask {
 
 		$fields = $this->getFields($file, $classIndex);
 
-		$existingConstants = $this->getFieldConstants($tokens[$classIndex]['scope_opener'], $tokens[$classIndex]['scope_closer']);
+		$existingConstants = $this->getFieldConstants($tokens, $tokens[$classIndex]['scope_opener'], $tokens[$classIndex]['scope_closer']);
 		if ($existingConstants) {
-			$index = null; //TODO
+			$fields = array_diff_key($fields, $existingConstants);
+			$existingConstant = array_pop($existingConstants);
+			$index = $existingConstant['index'];
+			$addToExisting = true;
 		} else {
-			$index = $file->findNext(T_WHITESPACE, $tokens[$classIndex]['scope_opener'] + 1, $tokens[$classIndex]['scope_closer'], true);
+			$index = $file->findPrevious(T_WHITESPACE, $tokens[$classIndex]['scope_closer'] + -1, $tokens[$classIndex]['scope_opener'], true);
 			if ($index === false) {
-				$index = $tokens[$classIndex]['scope_closer'];
+				$index = $tokens[$classIndex]['scope_opener'];
 			}
+			$addToExisting = false;
 		}
 
-		return $this->addClassConstants($file, $fields, $index, 0) ?: $content;
+		return $this->addClassConstants($file, $fields, $index, $addToExisting, 0) ?: $content;
 	}
 
 	/**
@@ -95,8 +99,8 @@ class EntityFieldTask extends AbstractTask {
 			$field = mb_substr($pieces[1], 1);
 			$fields[$field] = [
 				'name' => $field,
-				//constant
-				//index
+				'constant' => 'FIELD_' . mb_strtoupper($field),
+				'index' => $i,
 			];
 		}
 
@@ -121,28 +125,38 @@ class EntityFieldTask extends AbstractTask {
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param array $fields
-	 * @param int $index
+	 * @param int $index Index of first token of previous line
+	 * @param bool $addToExisting
 	 * @param int $level
 	 * @return string|null
 	 */
-	protected function addClassConstants(File $file, array $fields, $index, $level = 1) {
+	protected function addClassConstants(File $file, array $fields, $index, $addToExisting, $level = 1) {
 		if (!$fields) {
 			return null;
 		}
 
 		$tokens = $file->getTokens();
 
+		$line = $tokens[$index]['line'];
+
+		$i = $index;
+		while ($tokens[$i + 1]['line'] === $line) {
+			$i++;
+		}
+
+		$lastTokenOfLastLine = $i;
+
 		$whitespace = '';
-		$firstOfLineIndex = $index;
-		while ($tokens[$firstOfLineIndex - 1]['line'] === $tokens[$index]['line']) {
-			$firstOfLineIndex--;
-			$whitespace .= $tokens[$firstOfLineIndex]['content'];
+		$firstOfLine = $index;
+		while ($tokens[$firstOfLine - 1]['line'] === $tokens[$index]['line']) {
+			$firstOfLine--;
+			$whitespace .= $tokens[$firstOfLine]['content'];
 		}
 		if ($level < 1) {
 			$whitespace = str_repeat(' ', 4);
 		}
 
-		$beginIndex = $firstOfLineIndex - 1;
+		$beginIndex = $lastTokenOfLastLine;
 		$visibility = '';
 		if ($this->visibility()) {
 			$visibility = 'public ';
@@ -152,14 +166,14 @@ class EntityFieldTask extends AbstractTask {
 
 		$fixer->beginChangeset();
 
-		foreach ($fields as $field) {
-			$constant = 'FIELD_' . mb_strtoupper($field['name']);
-
-			$fixer->addContent($beginIndex, $whitespace . $visibility . 'const ' . $constant . ' = \'' . $field['name'] . '\';');
+		if (!$addToExisting) {
 			$fixer->addNewline($beginIndex);
 		}
 
-		$fixer->addNewline($beginIndex);
+		foreach ($fields as $field) {
+			$fixer->addContent($beginIndex, $whitespace . $visibility . 'const ' . $field['constant'] . ' = \'' . $field['name'] . '\';');
+			$fixer->addNewline($beginIndex);
+		}
 
 		$fixer->endChangeset();
 
@@ -167,14 +181,42 @@ class EntityFieldTask extends AbstractTask {
 	}
 
 	/**
+	 * @param array $tokens
 	 * @param int $startIndex
 	 * @param int $endIndex
 	 * @return array
 	 */
-	protected function getFieldConstants($startIndex, $endIndex) {
-		//TODO
+	protected function getFieldConstants(array $tokens, $startIndex, $endIndex) {
+		$constants = [];
 
-		return [];
+		for ($i = $startIndex + 1; $i < $endIndex; $i++) {
+			if ($tokens[$i]['code'] !== T_CONST) {
+				continue;
+			}
+			$index = $i + 1;
+			if ($tokens[$index]['code'] === T_WHITESPACE) {
+				$index++;
+			}
+			if ($tokens[$index]['code'] !== T_STRING) {
+				continue;
+			}
+
+			$constant = $tokens[$index]['content'];
+
+			$pos = strpos($constant, '_');
+			$prefix = substr($constant, 0, $pos);
+			$field = substr($constant, $pos + 1);
+			$field = strtolower($field);
+
+			$constants[$field] = [
+				'index' => $i,
+				'prefix' => $prefix,
+				'name' => $field,
+				'constant' => $constant,
+			];
+		}
+
+		return $constants;
 	}
 
 	/**

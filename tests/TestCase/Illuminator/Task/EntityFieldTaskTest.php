@@ -74,6 +74,38 @@ class EntityFieldTaskTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testIlluminateExisting() {
+		$task = $this->_getTask([
+			'visibility' => false,
+		]);
+
+		$path = TEST_FILES . 'Model/Entity/Constants/Wheel.php';
+		$result = $task->run(file_get_contents($path), $path);
+
+		$result = str_replace('    ', "\t", $result);
+		$expected = file_get_contents(TEST_FILES . 'Model/Entity/Constants/Wheel.php');
+		$this->assertTextEquals($expected, $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testIlluminateExistingPartial() {
+		$task = $this->_getTask([
+			'visibility' => false,
+		]);
+
+		$path = TEST_FILES . 'Model/Entity/ConstantsPartial/Wheel.php';
+		$result = $task->run(file_get_contents($path), $path);
+
+		$result = str_replace('    ', "\t", $result);
+		$expected = file_get_contents(TEST_FILES . 'Model/Entity/ConstantsPartialResult/Wheel.php');
+		$this->assertTextEquals($expected, $result);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testIlluminateVisibility() {
 		$task = $this->_getTask([
 			'visibility' => true,
