@@ -2,6 +2,7 @@
 
 namespace IdeHelper\Illuminator\Task;
 
+use Cake\Utility\Inflector;
 use IdeHelper\Annotator\Traits\FileTrait;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Util\Tokens;
@@ -97,7 +98,11 @@ class EntityFieldTask extends AbstractTask {
 				continue;
 			}
 			$field = mb_substr($pieces[1], 1);
-			if (strpos($field, ' ') === 0) {
+			if (strpos($field, ' ') === 0 || strpos($field, '_') === 0) {
+				continue;
+			}
+			// We also skip camelCase as those are not the convention
+			if (Inflector::underscore($field) !== $field) {
 				continue;
 			}
 

@@ -19,13 +19,19 @@ class Illuminator {
 
 	/**
 	 * @param string $path
+	 * @param string|null $filter
 	 * @return int
 	 */
-	public function illuminate($path) {
+	public function illuminate($path, $filter) {
 		$files = $this->getFiles($path);
 
 		$count = 0;
 		foreach ($files as $file) {
+			$name = pathinfo($file, PATHINFO_FILENAME);
+			if ($this->shouldSkip($name, $filter)) {
+				continue;
+			}
+
 			if (!$this->taskCollection->run($file)) {
 				continue;
 			}
@@ -34,6 +40,20 @@ class Illuminator {
 		}
 
 		return $count;
+	}
+
+	/**
+	 * @param string $fileName
+	 * @param string|null $filter
+	 *
+	 * @return bool
+	 */
+	protected function shouldSkip($fileName, $filter) {
+		if (!$filter) {
+			return false;
+		}
+
+		return !(bool)preg_match('/' . preg_quote($filter, '/') . '/i', $fileName);
 	}
 
 	/**

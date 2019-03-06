@@ -55,14 +55,14 @@ class IlluminatorTest extends TestCase {
 	 */
 	public function testIlluminate() {
 		$path = TEST_FILES;
-		$count = $this->illuminator->illuminate($path);
+		$count = $this->illuminator->illuminate($path, null);
 
 		$this->assertSame(5, $count);
 
 		$out = $this->out->output();
 
-		$visbility = version_compare(PHP_VERSION, '7.1') >= 0 ? 'public ' : '';
-		$this->assertTextContains($visbility . 'const FIELD_ID = \'id\';', $out);
+		$visibility = version_compare(PHP_VERSION, '7.1') >= 0 ? 'public ' : '';
+		$this->assertTextContains($visibility . 'const FIELD_ID = \'id\';', $out);
 	}
 
 }

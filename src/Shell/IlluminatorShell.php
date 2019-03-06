@@ -38,7 +38,7 @@ class IlluminatorShell extends Shell {
 		}
 
 		$illuminator = $this->getIlluminator();
-		$filesChanged = $illuminator->illuminate($path);
+		$filesChanged = $illuminator->illuminate($path, $this->param('filter'));
 		if (!$filesChanged) {
 			return static::CODE_SUCCESS;
 		}
@@ -74,6 +74,11 @@ class IlluminatorShell extends Shell {
 				'task' => [
 					'short' => 't',
 					'help' => 'Run specific task(s). Can be comma separated list. Available: ' . implode(', ', $tasks),
+					'default' => null,
+				],
+				'filter' => [
+					'short' => 'f',
+					'help' => 'Filter by search string in file name.',
 					'default' => null,
 				],
 			],
