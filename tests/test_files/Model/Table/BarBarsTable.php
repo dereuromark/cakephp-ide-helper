@@ -12,7 +12,7 @@ use Cake\ORM\Table;
  * @method \App\Model\Entity\BarBar newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\BarBar[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\BarBar|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\BarBar|bool saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\BarBar saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\BarBar patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\BarBar[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\BarBar findOrCreate($search, callable $callback = null, $options = [])
