@@ -7,6 +7,7 @@ use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotator\Traits\HelperTrait;
+use IdeHelper\Utility\AppPath;
 
 class ViewAnnotator extends AbstractAnnotator {
 
@@ -130,7 +131,7 @@ class ViewAnnotator extends AbstractAnnotator {
 	 * @return array
 	 */
 	protected function _addAppHelpers($helperArray) {
-		$paths = App::path('View/Helper');
+		$paths = AppPath::get('View/Helper');
 		foreach ($paths as $path) {
 			$folderContent = (new Folder($path))->read(Folder::SORT_NAME, true);
 			if (empty($folderContent[1])) {
@@ -160,7 +161,7 @@ class ViewAnnotator extends AbstractAnnotator {
 	 */
 	protected function _getFolders() {
 		$plugin = null;
-		$folders = App::path('Template', $plugin);
+		$folders = AppPath::get('Template', $plugin);
 		$plugins = Configure::read('IdeHelper.includedPlugins');
 		if ($plugins === true) {
 			$plugins = Plugin::loaded();
@@ -168,7 +169,7 @@ class ViewAnnotator extends AbstractAnnotator {
 			$plugins = (array)$plugins;
 		}
 		foreach ($plugins as $plugin) {
-			$folders = array_merge($folders, App::path('Template', $plugin));
+			$folders = array_merge($folders, AppPath::get('Template', $plugin));
 		}
 
 		return $folders;

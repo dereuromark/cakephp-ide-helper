@@ -4,7 +4,6 @@ namespace IdeHelper\Shell;
 use Cake\Console\Shell;
 use Cake\Core\App;
 use Cake\Core\Configure;
-use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use Cake\Utility\Inflector;
 use IdeHelper\Annotator\AbstractAnnotator;
@@ -18,6 +17,8 @@ use IdeHelper\Annotator\ShellAnnotator;
 use IdeHelper\Annotator\TemplateAnnotator;
 use IdeHelper\Annotator\ViewAnnotator;
 use IdeHelper\Console\Io;
+use IdeHelper\Utility\AppPath;
+use IdeHelper\Utility\PluginPath;
 
 /**
  * Shell for improving IDE support.
@@ -63,7 +64,7 @@ class AnnotationsShell extends Shell {
 	public function callbacks() {
 		$plugin = $this->param('plugin') ?: null;
 
-		$path = $plugin ? Plugin::path($plugin) : ROOT . DS;
+		$path = $plugin ? PluginPath::get($plugin) : ROOT . DS;
 
 		$path .= 'src' . DS;
 
@@ -179,7 +180,7 @@ class AnnotationsShell extends Shell {
 	 */
 	public function models() {
 		$plugin = $this->param('plugin') ?: null;
-		$folders = App::path('Model/Table', $plugin);
+		$folders = AppPath::get('Model/Table', $plugin);
 
 		foreach ($folders as $folder) {
 			$this->_models($folder);
@@ -215,7 +216,7 @@ class AnnotationsShell extends Shell {
 	public function classes() {
 		$plugin = $this->param('plugin') ?: null;
 
-		$path = $plugin ? Plugin::path($plugin) : ROOT . DS;
+		$path = $plugin ? PluginPath::get($plugin) : ROOT . DS;
 
 		$path .= 'src' . DS;
 
@@ -270,7 +271,7 @@ class AnnotationsShell extends Shell {
 	 */
 	public function controllers() {
 		$plugin = $this->param('plugin') ?: null;
-		$folders = App::path('Controller', $plugin);
+		$folders = AppPath::get('Controller', $plugin);
 
 		foreach ($folders as $folder) {
 			$this->_controllers($folder);
@@ -314,7 +315,7 @@ class AnnotationsShell extends Shell {
 	 */
 	public function templates() {
 		$plugin = $this->param('plugin') ?: null;
-		$folders = App::path('Template', $plugin);
+		$folders = AppPath::get('Template', $plugin);
 
 		foreach ($folders as $folder) {
 			$this->_templates($folder);
@@ -371,7 +372,7 @@ class AnnotationsShell extends Shell {
 	 */
 	public function helpers() {
 		$plugin = $this->param('plugin') ?: null;
-		$folders = App::path('View/Helper', $plugin);
+		$folders = AppPath::get('View/Helper', $plugin);
 
 		foreach ($folders as $folder) {
 			$this->_helpers($folder);
@@ -407,7 +408,7 @@ class AnnotationsShell extends Shell {
 	 */
 	public function components() {
 		$plugin = $this->param('plugin') ?: null;
-		$folders = App::path('Controller/Component', $plugin);
+		$folders = AppPath::get('Controller/Component', $plugin);
 
 		foreach ($folders as $folder) {
 			$this->_components($folder);
@@ -443,7 +444,7 @@ class AnnotationsShell extends Shell {
 	 */
 	public function shells() {
 		$plugin = $this->param('plugin') ?: null;
-		$folders = App::path('Shell', $plugin);
+		$folders = AppPath::get('Shell', $plugin);
 
 		foreach ($folders as $folder) {
 			$this->_shells($folder);

@@ -4,6 +4,7 @@ namespace IdeHelper\Generator\Task;
 use Cake\Core\App;
 use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
+use IdeHelper\Utility\AppPath;
 
 class HelperTask implements TaskInterface {
 
@@ -39,14 +40,14 @@ class HelperTask implements TaskInterface {
 	protected function collectHelpers() {
 		$helpers = [];
 
-		$folders = array_merge(App::core('View/Helper'), App::path('View/Helper'));
+		$folders = array_merge(App::core('View/Helper'), AppPath::get('View/Helper'));
 		foreach ($folders as $folder) {
 			$helpers = $this->addHelpers($helpers, $folder);
 		}
 
 		$plugins = Plugin::loaded();
 		foreach ($plugins as $plugin) {
-			$folders = App::path('View/Helper', $plugin);
+			$folders = AppPath::get('View/Helper', $plugin);
 			foreach ($folders as $folder) {
 				$helpers = $this->addHelpers($helpers, $folder, $plugin);
 			}
