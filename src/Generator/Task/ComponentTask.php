@@ -4,6 +4,7 @@ namespace IdeHelper\Generator\Task;
 use Cake\Core\App;
 use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
+use IdeHelper\Utility\AppPath;
 
 class ComponentTask implements TaskInterface {
 
@@ -39,14 +40,14 @@ class ComponentTask implements TaskInterface {
 	protected function collectComponents() {
 		$components = [];
 
-		$folders = array_merge(App::core('Controller/Component'), App::path('Controller/Component'));
+		$folders = array_merge(App::core('Controller/Component'), AppPath::get('Controller/Component'));
 		foreach ($folders as $folder) {
 			$components = $this->addComponents($components, $folder);
 		}
 
 		$plugins = Plugin::loaded();
 		foreach ($plugins as $plugin) {
-			$folders = App::path('Controller/Component', $plugin);
+			$folders = AppPath::get('Controller/Component', $plugin);
 			foreach ($folders as $folder) {
 				$components = $this->addComponents($components, $folder, $plugin);
 			}

@@ -5,6 +5,7 @@ use Cake\Core\App;
 use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use Cake\ORM\Table;
+use IdeHelper\Utility\AppPath;
 
 class BehaviorTask implements TaskInterface {
 
@@ -42,14 +43,14 @@ class BehaviorTask implements TaskInterface {
 	protected function collectBehaviors() {
 		$behaviors = [];
 
-		$folders = array_merge(App::core('ORM/Behavior'), App::path('Model/Behavior'));
+		$folders = array_merge(App::core('ORM/Behavior'), AppPath::get('Model/Behavior'));
 		foreach ($folders as $folder) {
 			$behaviors = $this->addBehaviors($behaviors, $folder);
 		}
 
 		$plugins = Plugin::loaded();
 		foreach ($plugins as $plugin) {
-			$folders = App::path('Model/Behavior', $plugin);
+			$folders = AppPath::get('Model/Behavior', $plugin);
 			foreach ($folders as $folder) {
 				$behaviors = $this->addBehaviors($behaviors, $folder, $plugin);
 			}

@@ -2,10 +2,10 @@
 namespace IdeHelper\Shell;
 
 use Cake\Console\Shell;
-use Cake\Core\Plugin;
 use IdeHelper\Console\Io;
 use IdeHelper\Illuminator\Illuminator;
 use IdeHelper\Illuminator\TaskCollection;
+use IdeHelper\Utility\PluginPath;
 use InvalidArgumentException;
 
 /**
@@ -30,7 +30,7 @@ class IlluminatorShell extends Shell {
 
 		$root = ROOT . DS;
 		if ($this->param('plugin')) {
-			$root = Plugin::path($this->param('plugin'));
+			$root = PluginPath::get($this->param('plugin'));
 		}
 		$path = $root . $path;
 		if (!is_dir($path)) {

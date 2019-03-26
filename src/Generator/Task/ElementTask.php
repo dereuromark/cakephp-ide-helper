@@ -1,9 +1,9 @@
 <?php
 namespace IdeHelper\Generator\Task;
 
-use Cake\Core\App;
 use Cake\Core\Plugin;
 use Cake\View\View;
+use IdeHelper\Utility\AppPath;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RecursiveRegexIterator;
@@ -34,14 +34,14 @@ class ElementTask extends ModelTask {
 	 * @return array
 	 */
 	protected function collectElements() {
-		$paths = App::path('Template');
+		$paths = AppPath::get('Template');
 
 		$result = [];
 		$result = $this->addElements($result, $paths);
 
 		$plugins = Plugin::loaded();
 		foreach ($plugins as $plugin) {
-			$paths = App::path('Template', $plugin);
+			$paths = AppPath::get('Template', $plugin);
 			$result = $this->addElements($result, $paths, $plugin);
 		}
 

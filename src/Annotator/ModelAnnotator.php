@@ -11,6 +11,7 @@ use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Utility\AppPath;
 use RuntimeException;
 use Throwable;
 
@@ -146,7 +147,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	 */
 	protected function _entity($entityName, TableSchema $schema, AssociationCollection $associations) {
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
-		$entityPaths = App::path('Model/Entity', $plugin);
+		$entityPaths = AppPath::get('Model/Entity', $plugin);
 		$entityPath = null;
 		while ($entityPaths) {
 			$pathTmp = array_shift($entityPaths);
