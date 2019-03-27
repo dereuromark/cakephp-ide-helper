@@ -48,7 +48,11 @@ class PluginTask implements TaskInterface {
 	protected function collectPlugins() {
 		$plugins = Configure::read('plugins');
 
-		return array_keys($plugins);
+		$names = array_keys($plugins);
+
+		sort($names);
+
+		return $names;
 	}
 
 }

@@ -41,6 +41,8 @@ class DatabaseTypeTask implements TaskInterface {
 			$types[$key] = get_class($type);
 		}
 
+		ksort($types);
+
 		return $types;
 	}
 

@@ -45,6 +45,8 @@ class ElementTask extends ModelTask {
 			$result = $this->addElements($result, $paths, $plugin);
 		}
 
+		sort($result);
+
 		return $result;
 	}
 

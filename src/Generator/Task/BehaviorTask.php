@@ -56,17 +56,19 @@ class BehaviorTask implements TaskInterface {
 			}
 		}
 
+		ksort($behaviors);
+
 		return $behaviors;
 	}
 
 	/**
-	 * @param array $components
+	 * @param array $behaviors
 	 * @param string $folder
 	 * @param string|null $plugin
 	 *
 	 * @return string[]
 	 */
-	protected function addBehaviors(array $components, $folder, $plugin = null) {
+	protected function addBehaviors(array $behaviors, $folder, $plugin = null) {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);
 
 		// This suffices as the return value is $this (calling Table class) anyway for chaining.
@@ -82,10 +84,10 @@ class BehaviorTask implements TaskInterface {
 				$name = $plugin . '.' . $name;
 			}
 
-			$components[$name] = $className;
+			$behaviors[$name] = $className;
 		}
 
-		return $components;
+		return $behaviors;
 	}
 
 }

@@ -21,19 +21,16 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\Core\PluginApplicationInterface::addPlugin(0),
 		map([
-			'WyriHaximus/TwigView' => \Cake\Http\BaseApplication::class,
+			'Bake' => \Cake\Http\BaseApplication::class,
 			'Shim' => \Cake\Http\BaseApplication::class,
 			'Tools' => \Cake\Http\BaseApplication::class,
-			'Bake' => \Cake\Http\BaseApplication::class,
+			'WyriHaximus/TwigView' => \Cake\Http\BaseApplication::class,
 		])
 	);
 
 	override(
 		\Cake\Database\Type::build(0),
 		map([
-			'tinyinteger' => \Cake\Database\Type\IntegerType::class,
-			'smallinteger' => \Cake\Database\Type\IntegerType::class,
-			'integer' => \Cake\Database\Type\IntegerType::class,
 			'biginteger' => \Cake\Database\Type\IntegerType::class,
 			'binary' => \Cake\Database\Type\BinaryType::class,
 			'binaryuuid' => \Cake\Database\Type\BinaryUuidType::class,
@@ -42,11 +39,14 @@ namespace PHPSTORM_META {
 			'datetime' => \Cake\Database\Type\DateTimeType::class,
 			'decimal' => \Cake\Database\Type\DecimalType::class,
 			'float' => \Cake\Database\Type\FloatType::class,
+			'integer' => \Cake\Database\Type\IntegerType::class,
 			'json' => \Cake\Database\Type\JsonType::class,
+			'smallinteger' => \Cake\Database\Type\IntegerType::class,
 			'string' => \Cake\Database\Type\StringType::class,
 			'text' => \Cake\Database\Type\StringType::class,
 			'time' => \Cake\Database\Type\TimeType::class,
 			'timestamp' => \Cake\Database\Type\DateTimeType::class,
+			'tinyinteger' => \Cake\Database\Type\IntegerType::class,
 			'uuid' => \Cake\Database\Type\UuidType::class,
 		])
 	);
@@ -107,10 +107,10 @@ namespace PHPSTORM_META {
 		\Cake\ORM\Table::addBehavior(0),
 		map([
 			'CounterCache' => \Cake\ORM\Table::class,
+			'Shim.Nullable' => \Cake\ORM\Table::class,
 			'Timestamp' => \Cake\ORM\Table::class,
 			'Translate' => \Cake\ORM\Table::class,
 			'Tree' => \Cake\ORM\Table::class,
-			'Shim.Nullable' => \Cake\ORM\Table::class,
 		])
 	);
 

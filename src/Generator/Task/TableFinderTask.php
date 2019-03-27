@@ -141,6 +141,8 @@ class TableFinderTask extends ModelTask {
 
 		$result[] = lcfirst($matches[1]);
 
+		sort($result);
+
 		return $result;
 	}
 
