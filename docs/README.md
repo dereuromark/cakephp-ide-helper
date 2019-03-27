@@ -50,10 +50,11 @@ bin/cake annotations [type]
 ```
 By default it will print out a diff of the changes incl the amount of modified lines if applicable.
 
-Running it on a loaded plugin:
+Running it on an installed plugin:
 ```
 bin/cake annotations [type] -p FooBar
 ```
+Note: Since 0.13.9 it will be autoloaded if needed (if not manually loaded already).
 
 Use `-v` for verbose and detailed output:
 ```
