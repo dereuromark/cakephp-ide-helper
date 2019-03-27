@@ -92,6 +92,8 @@ class TaskCollection {
 			$map += $task->collect();
 		}
 
+		ksort($map);
+
 		return $map;
 	}
 

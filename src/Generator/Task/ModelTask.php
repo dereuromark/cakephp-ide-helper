@@ -15,7 +15,6 @@ class ModelTask implements TaskInterface {
 		'\Cake\ORM\TableRegistry::get(0)',
 		'\Cake\ORM\Locator\LocatorInterface::get(0)',
 		'\Cake\Datasource\ModelAwareTrait::loadModel(0)',
-		'\ModelAwareTrait::loadModel(0)',
 	];
 
 	/**

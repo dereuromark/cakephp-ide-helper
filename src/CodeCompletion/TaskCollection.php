@@ -81,6 +81,8 @@ class TaskCollection {
 			$map[$task->type()][] = $snippet;
 		}
 
+		ksort($map);
+
 		return $map;
 	}
 
