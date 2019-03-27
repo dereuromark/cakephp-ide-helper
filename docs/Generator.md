@@ -40,6 +40,8 @@ It will automatically detect this static factory call in the map and hint `$user
 
 This task also annotates the dynamic model factory calls (e.g. `$this->getTableLocator()->get('Users')`) or `loadModel()` usage.
 
+![Model Autocomplete](img/model_autocomplete_loadmodel.png)
+
 #### TableAssociations
 The following is now auto-completed, for example:
 ```php
