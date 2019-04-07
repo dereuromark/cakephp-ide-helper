@@ -9,6 +9,7 @@ use Cake\Utility\Inflector;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\CallbackAnnotator;
 use IdeHelper\Annotator\ClassAnnotator;
+use IdeHelper\Annotator\CommandAnnotator;
 use IdeHelper\Annotator\ComponentAnnotator;
 use IdeHelper\Annotator\ControllerAnnotator;
 use IdeHelper\Annotator\HelperAnnotator;
@@ -122,6 +123,7 @@ class AnnotationsShell extends Shell {
 			'models',
 			'controllers',
 			'shells',
+			'commands',
 			'components',
 			'helpers',
 			'templates',
@@ -442,12 +444,44 @@ class AnnotationsShell extends Shell {
 	/**
 	 * @return void
 	 */
+	public function commands() {
+		$plugin = $this->param('plugin') ?: null;
+		$folders = AppPath::get('Command', $plugin);
+
+		foreach ($folders as $folder) {
+			$this->_commands($folder);
+		}
+	}
+
+	/**
+	 * @return void
+	 */
 	public function shells() {
 		$plugin = $this->param('plugin') ?: null;
 		$folders = AppPath::get('Shell', $plugin);
 
 		foreach ($folders as $folder) {
 			$this->_shells($folder);
+		}
+	}
+
+	/**
+	 * @param string $folder
+	 * @return void
+	 */
+	protected function _commands($folder) {
+		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true, true);
+
+		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
+		foreach ($folderContent[1] as $file) {
+			$name = pathinfo($file, PATHINFO_FILENAME);
+			if ($this->_shouldSkip($name)) {
+				continue;
+			}
+
+			$this->out('-> ' . $name, 1, Shell::VERBOSE);
+			$annotator = new CommandAnnotator($this->_io(), $this->params);
+			$annotator->annotate($file);
 		}
 	}
 
@@ -567,8 +601,11 @@ class AnnotationsShell extends Shell {
 			])->addSubcommand('helpers', [
 				'help' => 'Annotate used helpers inside helpers.',
 				'parser' => $subcommandParser
+			])->addSubcommand('commands', [
+				'help' => 'Annotate primary model as well as used models in commands.',
+				'parser' => $subcommandParser
 			])->addSubcommand('shells', [
-				'help' => 'Annotate primary model as well as used models in shells.',
+				'help' => 'Annotate primary model as well as used models in shells. Also annotates tasks.',
 				'parser' => $subcommandParser
 			])->addSubcommand('classes', [
 				'help' => 'Annotate classes using class annotation tasks. This task is not part of "all" when "-r" is used.',

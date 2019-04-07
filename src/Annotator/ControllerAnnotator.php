@@ -53,6 +53,10 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 * @return string|null
 	 */
 	protected function _getPrimaryModelClass($content, $className, $path) {
+		if ($className === 'AppController') {
+			return null;
+		}
+
 		$dynamicallyFoundModelClass = $this->_findModelClass($className, $path);
 		if ($dynamicallyFoundModelClass !== null) {
 			return $dynamicallyFoundModelClass !== false ? $dynamicallyFoundModelClass : null;
@@ -271,6 +275,11 @@ class ControllerAnnotator extends AbstractAnnotator {
 			$pluginModelClass = $this->getConfig(static::CONFIG_PLUGIN) . '.' . $modelClass;
 			if (App::className($pluginModelClass, 'Model/Table', 'Table')) {
 				$modelClass = $pluginModelClass;
+			}
+		} else {
+			$className = App::className($modelClass, 'Model/Table', 'Table');
+			if (!$className) {
+				return null;
 			}
 		}
 

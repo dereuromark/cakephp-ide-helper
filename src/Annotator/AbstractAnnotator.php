@@ -650,7 +650,7 @@ abstract class AbstractAnnotator {
 		foreach ($usedModels as $usedModel) {
 			$className = App::className($usedModel, 'Model/Table', 'Table');
 			if (!$className) {
-				continue;
+				$className = 'Cake\ORM\Table';
 			}
 			list(, $name) = pluginSplit($usedModel);
 
