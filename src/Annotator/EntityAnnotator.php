@@ -39,8 +39,28 @@ class EntityAnnotator extends AbstractAnnotator {
 		}
 
 		$content = file_get_contents($path);
-
 		$helper = new DocBlockHelper(new View());
+		$propertyHintMap = $this->propertyHintMap($content, $helper);
+		$annotations = $helper->propertyHints($propertyHintMap);
+
+		foreach ($annotations as $key => $annotation) {
+			$annotationObject = AnnotationFactory::createFromString($annotation);
+			if (!$annotationObject) {
+				throw new RuntimeException('Cannot factorize annotation `' . $annotation . '`');
+			}
+
+			$annotations[$key] = $annotationObject;
+		}
+
+		return $this->_annotate($path, $content, $annotations);
+	}
+
+	/**
+	 * @param $content
+	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
+	 * @return array
+	 */
+	protected function propertyHintMap($content, DocBlockHelper $helper) {
 		/** @var \Cake\Database\Schema\TableSchema $tableSchema */
 		$tableSchema = $this->getConfig('schema');
 		$columns = $tableSchema->columns();
@@ -59,20 +79,7 @@ class EntityAnnotator extends AbstractAnnotator {
 		$propertyHintMap += $this->buildVirtualPropertyHintTypeMap($content);
 		$propertyHintMap += $helper->buildEntityAssociationHintTypeMap($schema);
 
-		$propertyHintMap = array_filter($propertyHintMap);
-
-		$annotations = $helper->propertyHints($propertyHintMap);
-
-		foreach ($annotations as $key => $annotation) {
-			$annotationObject = AnnotationFactory::createFromString($annotation);
-			if (!$annotationObject) {
-				throw new RuntimeException('Cannot factorize annotation `' . $annotation . '`');
-			}
-
-			$annotations[$key] = $annotationObject;
-		}
-
-		return $this->_annotate($path, $content, $annotations);
+		return array_filter($propertyHintMap);
 	}
 
 	/**
