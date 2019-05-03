@@ -56,7 +56,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param $content
+	 * @param string $content
 	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
 	 * @return array
 	 */
