@@ -41,16 +41,8 @@ class EntityAnnotator extends AbstractAnnotator {
 		$content = file_get_contents($path);
 		$helper = new DocBlockHelper(new View());
 		$propertyHintMap = $this->propertyHintMap($content, $helper);
-		$annotations = $helper->propertyHints($propertyHintMap);
 
-		foreach ($annotations as $key => $annotation) {
-			$annotationObject = AnnotationFactory::createFromString($annotation);
-			if (!$annotationObject) {
-				throw new RuntimeException('Cannot factorize annotation `' . $annotation . '`');
-			}
-
-			$annotations[$key] = $annotationObject;
-		}
+		$annotations = $this->buildAnnotations($propertyHintMap, $helper);
 
 		return $this->_annotate($path, $content, $annotations);
 	}
@@ -58,7 +50,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $content
 	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
-	 * @return array
+	 * @return string[]
 	 */
 	protected function propertyHintMap($content, DocBlockHelper $helper) {
 		/** @var \Cake\Database\Schema\TableSchema $tableSchema */
@@ -310,10 +302,8 @@ class EntityAnnotator extends AbstractAnnotator {
 
 			$content = $tokens[$classNameIndex]['content'];
 
-			//$appendix = '';
 			$spaceIndex = strpos($content, ' ');
 			if ($spaceIndex) {
-				//$appendix = substr($content, $spaceIndex);
 				$content = substr($content, 0, $spaceIndex);
 			}
 
@@ -321,6 +311,28 @@ class EntityAnnotator extends AbstractAnnotator {
 		}
 
 		return 'mixed';
+	}
+
+	/**
+	 * @param string[] $propertyHintMap
+	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
+	 *
+	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 * @throws \RuntimeException
+	 */
+	protected function buildAnnotations(array $propertyHintMap, DocBlockHelper $helper) {
+		$annotations = $helper->propertyHints($propertyHintMap);
+
+		foreach ($annotations as $key => $annotation) {
+			$annotationObject = AnnotationFactory::createFromString($annotation);
+			if (!$annotationObject) {
+				throw new RuntimeException('Cannot factorize annotation `' . $annotation . '`');
+			}
+
+			$annotations[$key] = $annotationObject;
+		}
+
+		return $annotations;
 	}
 
 }

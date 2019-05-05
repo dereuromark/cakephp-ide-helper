@@ -246,6 +246,16 @@ would get the following annotations:
  */
 ```
 
+## Replacing native tasks
+Using associative arrays you can even exchange any native task with your own implementation:
+```php
+'IdeHelper' => [
+	'annotators' => [
+		\IdeHelper\Annotator\EntityAnnotator::class => \App\Annotator\MyEnhancedEntityAnnotator::class,
+	],
+],
+```
+
 ## Classes and ClassAnnotationTasks
 
 In order to run certain "fixers" over all classes, class annotations and their tasks are available.
