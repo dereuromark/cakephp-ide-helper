@@ -100,7 +100,7 @@ class AnnotationsShell extends Shell {
 
 			$this->out('-> ' . $name, 1, Shell::VERBOSE);
 
-			$annotator = new CallbackAnnotator($this->_io(), $this->params);
+			$annotator = $this->getAnnotator(CallbackAnnotator::class);
 			$annotator->annotate($folder . $file);
 		}
 
@@ -206,8 +206,7 @@ class AnnotationsShell extends Shell {
 
 			$this->out('-> ' . $name, 1, Shell::VERBOSE);
 
-			$annotator = new ModelAnnotator($this->_io(), $this->params);
-
+			$annotator = $this->getAnnotator(ModelAnnotator::class);
 			$annotator->annotate($folder . $file);
 		}
 	}
@@ -253,7 +252,7 @@ class AnnotationsShell extends Shell {
 
 			$this->out('-> ' . $name, 1, Shell::VERBOSE);
 
-			$annotator = new ClassAnnotator($this->_io(), $this->params);
+			$annotator = $this->getAnnotator(ClassAnnotator::class);
 			$annotator->annotate($folder . $file);
 		}
 
@@ -297,7 +296,7 @@ class AnnotationsShell extends Shell {
 
 			$this->out('-> ' . $name, 1, Shell::VERBOSE);
 
-			$annotator = new ControllerAnnotator($this->_io(), $this->params);
+			$annotator = $this->getAnnotator(ControllerAnnotator::class);
 			$annotator->annotate($folder . $file);
 		}
 
@@ -349,7 +348,7 @@ class AnnotationsShell extends Shell {
 			}
 
 			$this->out('-> ' . $name, 1, Shell::VERBOSE);
-			$annotator = new TemplateAnnotator($this->_io(), $this->params);
+			$annotator = $this->getAnnotator(TemplateAnnotator::class);
 			$annotator->annotate($file);
 		}
 
@@ -396,7 +395,7 @@ class AnnotationsShell extends Shell {
 			}
 
 			$this->out('-> ' . $name, 1, Shell::VERBOSE);
-			$annotator = new HelperAnnotator($this->_io(), $this->params);
+			$annotator = $this->getAnnotator(HelperAnnotator::class);
 			$annotator->annotate($file);
 		}
 
@@ -432,7 +431,7 @@ class AnnotationsShell extends Shell {
 			}
 
 			$this->out('-> ' . $name, 1, Shell::VERBOSE);
-			$annotator = new ComponentAnnotator($this->_io(), $this->params);
+			$annotator = $this->getAnnotator(ComponentAnnotator::class);
 			$annotator->annotate($file);
 		}
 
@@ -480,7 +479,7 @@ class AnnotationsShell extends Shell {
 			}
 
 			$this->out('-> ' . $name, 1, Shell::VERBOSE);
-			$annotator = new CommandAnnotator($this->_io(), $this->params);
+			$annotator = $this->getAnnotator(CommandAnnotator::class);
 			$annotator->annotate($file);
 		}
 	}
@@ -500,7 +499,7 @@ class AnnotationsShell extends Shell {
 			}
 
 			$this->out('-> ' . $name, 1, Shell::VERBOSE);
-			$annotator = new ShellAnnotator($this->_io(), $this->params);
+			$annotator = $this->getAnnotator(ShellAnnotator::class);
 			$annotator->annotate($file);
 		}
 
@@ -531,7 +530,7 @@ class AnnotationsShell extends Shell {
 		$this->out(str_replace(ROOT, '', $folder));
 		$this->out(' -> ' . pathinfo($file, PATHINFO_BASENAME));
 
-		$annotator = new ViewAnnotator($this->_io(), $this->params);
+		$annotator = $this->getAnnotator(ViewAnnotator::class);
 		$annotator->annotate($file);
 	}
 
@@ -647,6 +646,20 @@ class AnnotationsShell extends Shell {
 		$whitelist = Configure::read('IdeHelper.templateExtensions') ?: static::TEMPLATE_EXTENSIONS;
 
 		return !in_array($extension, $whitelist, true);
+	}
+
+	/**
+	 * @param string $class
+	 *
+	 * @return \IdeHelper\Annotator\AbstractAnnotator
+	 */
+	protected function getAnnotator($class) {
+		$tasks = (array)Configure::read('IdeHelper.annotators');
+		if (isset($tasks[$class])) {
+			$class = $tasks[$class];
+		}
+
+		return $this->$class($this->_io(), $this->params);
 	}
 
 }
