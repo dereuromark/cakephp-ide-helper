@@ -355,7 +355,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param array $annotations
+	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
 	 * @param int $docBlockCloseIndex
 	 *
 	 * @return bool

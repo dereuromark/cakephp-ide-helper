@@ -10,3 +10,4 @@ parameters:
         - tests/shim.php
     ignoreErrors:
         - '#Call to an undefined method Cake\\ORM\\Association::getAlias\(\)#'
+        - '#Parameter \#1 $association of method .+ModelAnnotator::throughAlias\(\) expects .+BelongsToMany, .+Association|null given.#'

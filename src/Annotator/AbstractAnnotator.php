@@ -151,7 +151,7 @@ abstract class AbstractAnnotator {
 	/**
 	 * @param string $path
 	 * @param string $content
-	 * @param array $annotations
+	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
 	 *
 	 * @return bool
 	 */

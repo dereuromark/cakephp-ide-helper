@@ -659,7 +659,7 @@ class AnnotationsShell extends Shell {
 			$class = $tasks[$class];
 		}
 
-		return $this->$class($this->_io(), $this->params);
+		return new $class($this->_io(), $this->params);
 	}
 
 }

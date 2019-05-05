@@ -2,6 +2,7 @@
 namespace IdeHelper\Annotator;
 
 use Cake\Core\App;
+use Cake\Core\Configure;
 use Cake\Database\Schema\TableSchema;
 use Cake\ORM\AssociationCollection;
 use Cake\ORM\Association\BelongsToMany;
@@ -73,7 +74,7 @@ class ModelAnnotator extends AbstractAnnotator {
 		$entityName = substr($entityClassName, strrpos($entityClassName, '\\') + 1);
 
 		$resTable = $this->_table($path, $entityName, $associations, $behaviors);
-		$resEntity = $this->_entity($entityName, $schema, $tableAssociations);
+		$resEntity = $this->_entity($entityClassName, $entityName, $schema, $tableAssociations);
 
 		return $resTable || $resEntity;
 	}
@@ -139,13 +140,14 @@ class ModelAnnotator extends AbstractAnnotator {
 	}
 
 	/**
+	 * @param string $entityClass
 	 * @param string $entityName
 	 * @param \Cake\Database\Schema\TableSchema $schema
 	 * @param \Cake\ORM\AssociationCollection $associations
 	 *
 	 * @return bool|null
 	 */
-	protected function _entity($entityName, TableSchema $schema, AssociationCollection $associations) {
+	protected function _entity($entityClass, $entityName, TableSchema $schema, AssociationCollection $associations) {
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
 		$entityPaths = AppPath::get('Model/Entity', $plugin);
 		$entityPath = null;
@@ -164,7 +166,7 @@ class ModelAnnotator extends AbstractAnnotator {
 		$file = pathinfo($entityPath, PATHINFO_BASENAME);
 		$this->_io->verbose('   ' . $file);
 
-		$annotator = new EntityAnnotator($this->_io, ['schema' => $schema, 'associations' => $associations] + $this->getConfig());
+		$annotator = $this->getEntityAnnotator($entityClass, $schema, $associations);
 		$annotator->annotate($entityPath);
 
 		return true;
@@ -336,6 +338,22 @@ class ModelAnnotator extends AbstractAnnotator {
 		}
 
 		return str_replace('\\', '/', $matches[1]);
+	}
+
+	/**
+	 * @param string $entityClass
+	 * @param \Cake\Database\Schema\TableSchema $schema
+	 * @param \Cake\ORM\AssociationCollection $associations
+	 * @return \IdeHelper\Annotator\AbstractAnnotator
+	 */
+	protected function getEntityAnnotator($entityClass, TableSchema $schema, AssociationCollection $associations) {
+		$class = EntityAnnotator::class;
+		$tasks = (array)Configure::read('IdeHelper.annotators');
+		if (isset($tasks[$class])) {
+			$class = $tasks[$class];
+		}
+
+		return new $class($this->_io, ['class' => $entityClass, 'schema' => $schema, 'associations' => $associations] + $this->getConfig());
 	}
 
 }
