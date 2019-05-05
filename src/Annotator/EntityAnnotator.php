@@ -50,7 +50,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $content
 	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
-	 * @return array
+	 * @return string[]
 	 */
 	protected function propertyHintMap($content, DocBlockHelper $helper) {
 		/** @var \Cake\Database\Schema\TableSchema $tableSchema */
@@ -314,7 +314,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param array $propertyHintMap
+	 * @param string[] $propertyHintMap
 	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
 	 *
 	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
