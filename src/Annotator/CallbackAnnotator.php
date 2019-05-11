@@ -5,12 +5,14 @@ class CallbackAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $path Path to file.
-	 * @return void
+	 * @return bool
 	 */
 	public function annotate($path) {
 		$content = file_get_contents($path);
 
 		$this->_invokeTasks($path, $content);
+
+		return true;
 	}
 
 	/**

@@ -6,7 +6,7 @@ use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\MethodAnnotation;
 use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
-use Tools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 
 class AnnotationFactoryTest extends TestCase {
 

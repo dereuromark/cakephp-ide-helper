@@ -62,11 +62,11 @@ class ControllerAnnotator extends AbstractAnnotator {
 			return $dynamicallyFoundModelClass !== false ? $dynamicallyFoundModelClass : null;
 		}
 
-		if (preg_match('/\bpublic \$modelClass = \'([a-z.\/]+)\'/i', $content, $matches)) {
+		if (preg_match('/ \$modelClass = \'([a-z.\/]+)\'/i', $content, $matches)) {
 			return $matches[1];
 		}
 
-		if (preg_match('/\bpublic \$modelClass = false;/i', $content, $matches)) {
+		if (preg_match('/ \$modelClass = false;/i', $content, $matches)) {
 			return null;
 		}
 
@@ -266,7 +266,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 			return null;
 		}
 
-		$modelClass = $controller->modelClass;
+		$modelClass = $this->_invokeProperty($controller, 'modelClass');
 		if (!$modelClass) {
 			return null;
 		}

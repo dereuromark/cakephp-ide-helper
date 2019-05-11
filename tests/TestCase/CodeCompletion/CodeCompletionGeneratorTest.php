@@ -4,7 +4,7 @@ namespace IdeHelper\Test\TestCase\CodeCompletion\Task;
 
 use IdeHelper\CodeCompletion\CodeCompletionGenerator;
 use IdeHelper\CodeCompletion\TaskCollection;
-use Tools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 
 class CodeCompletionGeneratorTest extends TestCase {
 
@@ -16,7 +16,7 @@ class CodeCompletionGeneratorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$taskCollection = new TaskCollection();

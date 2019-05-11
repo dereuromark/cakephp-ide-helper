@@ -13,14 +13,14 @@ class BehaviorTask implements TaskInterface {
 	/**
 	 * @return string
 	 */
-	public function type() {
+	public function type(): string {
 		return static::TYPE_NAMESPACE;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function create() {
+	public function create(): string {
 		$behaviors = $this->collectBehaviors();
 		if (!$behaviors) {
 			return '';

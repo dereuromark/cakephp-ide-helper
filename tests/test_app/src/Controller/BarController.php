@@ -16,17 +16,17 @@ class BarController extends AppController {
 	/**
 	 * @return void
 	 */
-	public function initialize() {
+	public function initialize(): void {
 		parent::initialize();
 
 		$this->loadModel('Wheels');
 	}
 
 	/**
-	 * @return \Cake\Http\Response|void
+	 * @return \Cake\Http\Response|null|void
 	 */
 	public function index() {
-		$query = $this->paginate($this->BarBars);
+		$this->paginate($this->BarBars);
 	}
 
 }

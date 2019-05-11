@@ -5,7 +5,7 @@ namespace IdeHelper\Test\TestCase\Shell;
 use Cake\Console\ConsoleIo;
 use IdeHelper\Shell\CodeCompletionShell;
 use Tools\TestSuite\ConsoleOutput;
-use Tools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 
 class CodeCompletionShellTest extends TestCase {
 
@@ -13,8 +13,8 @@ class CodeCompletionShellTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.ide_helper.cars',
-		'plugin.ide_helper.wheels',
+		'plugin.IdeHelper.Cars',
+		'plugin.IdeHelper.Wheels',
 	];
 
 	/**
@@ -35,7 +35,7 @@ class CodeCompletionShellTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		if (!is_dir(LOGS)) {
@@ -60,7 +60,7 @@ class CodeCompletionShellTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 		unset($this->Shell);
 	}

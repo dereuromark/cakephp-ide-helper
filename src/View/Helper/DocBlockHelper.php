@@ -17,7 +17,7 @@ class DocBlockHelper extends BakeDocBlockHelper {
 	 * @param array $propertySchema The property schema to use for generating the type map.
 	 * @return array The property DocType map.
 	 */
-	public function buildEntityPropertyHintTypeMap(array $propertySchema) {
+	public function buildEntityPropertyHintTypeMap(array $propertySchema): array {
 		$properties = [];
 		foreach ($propertySchema as $property => $info) {
 			if ($info['kind'] === 'column') {
@@ -36,7 +36,7 @@ class DocBlockHelper extends BakeDocBlockHelper {
 	 *
 	 * @return string
 	 */
-	public function columnTypeNullable(array $info, $type) {
+	public function columnTypeNullable(array $info, ?string $type): string {
 		if (!$type || empty($info['null'])) {
 			return $type;
 		}

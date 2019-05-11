@@ -5,7 +5,7 @@ use Cake\ORM\Table;
 
 class BarBarsTable extends Table {
 
-	public function initialize(array $config) {
+	public function initialize(array $config): void {
 		parent::initialize($config);
 
 		$this->belongsTo('Foo');

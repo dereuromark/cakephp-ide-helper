@@ -10,10 +10,8 @@ use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\ModelAnnotator;
 use IdeHelper\Console\Io;
 use Tools\TestSuite\ConsoleOutput;
-use Tools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 
-/**
- */
 class ModelAnnotatorTest extends TestCase {
 
 	use DiffHelperTrait;
@@ -23,7 +21,7 @@ class ModelAnnotatorTest extends TestCase {
 	 */
 	public $fixtures = [
 		'plugin.ide_helper.foo',
-		'plugin.ide_helper.wheels',
+		'plugin.IdeHelper.Wheels',
 		'plugin.ide_helper.bar_bars',
 	];
 
@@ -45,7 +43,7 @@ class ModelAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->out = new ConsoleOutput();

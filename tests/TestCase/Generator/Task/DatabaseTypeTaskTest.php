@@ -5,7 +5,7 @@ namespace IdeHelper\Test\TestCase\Generator\Task;
 use App\Database\Type\UuidType;
 use Cake\Database\Type;
 use IdeHelper\Generator\Task\DatabaseTypeTask;
-use Tools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 
 class DatabaseTypeTaskTest extends TestCase {
 
@@ -17,7 +17,7 @@ class DatabaseTypeTaskTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->task = new DatabaseTypeTask();

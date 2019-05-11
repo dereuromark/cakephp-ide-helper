@@ -4,7 +4,7 @@ namespace IdeHelper\Test\TestCase\Annotation;
 
 use IdeHelper\Annotation\MethodAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
-use Tools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 
 class MethodAnnotationTest extends TestCase {
 

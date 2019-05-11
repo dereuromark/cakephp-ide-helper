@@ -11,11 +11,9 @@ use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\TemplateAnnotator;
 use IdeHelper\Console\Io;
 use Tools\TestSuite\ConsoleOutput;
-use Tools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 use Tools\TestSuite\ToolsTestTrait;
 
-/**
- */
 class TemplateAnnotatorTest extends TestCase {
 
 	use DiffHelperTrait;
@@ -34,7 +32,7 @@ class TemplateAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->out = new ConsoleOutput();
@@ -67,7 +65,7 @@ class TemplateAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		Configure::delete('IdeHelper');
 
 		parent::tearDown();

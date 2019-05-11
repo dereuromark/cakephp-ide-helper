@@ -7,10 +7,8 @@ use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\ViewAnnotator;
 use IdeHelper\Console\Io;
 use Tools\TestSuite\ConsoleOutput;
-use Tools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 
-/**
- */
 class ViewAnnotatorTest extends TestCase {
 
 	use DiffHelperTrait;
@@ -28,7 +26,7 @@ class ViewAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->out = new ConsoleOutput();

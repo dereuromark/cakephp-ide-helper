@@ -3,7 +3,7 @@
 namespace IdeHelper\Test\TestCase\Generator\Task;
 
 use IdeHelper\Generator\Task\BehaviorTask;
-use Tools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 
 class BehaviorTaskTest extends TestCase {
 
@@ -15,7 +15,7 @@ class BehaviorTaskTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->task = new BehaviorTask();

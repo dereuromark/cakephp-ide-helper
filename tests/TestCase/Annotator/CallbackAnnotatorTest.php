@@ -7,7 +7,7 @@ use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\CallbackAnnotator;
 use IdeHelper\Console\Io;
 use Tools\TestSuite\ConsoleOutput;
-use Tools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 
 class CallbackAnnotatorTest extends TestCase {
 
@@ -29,7 +29,7 @@ class CallbackAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->out = new ConsoleOutput();

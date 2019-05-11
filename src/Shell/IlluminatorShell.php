@@ -56,7 +56,7 @@ class IlluminatorShell extends Shell {
 	/**
 	 * @return \Cake\Console\ConsoleOptionParser
 	 */
-	public function getOptionParser() {
+	public function getOptionParser(): \Cake\Console\ConsoleOptionParser {
 		$tasks = $this->getTaskList();
 
 		$subcommandParser = [
@@ -102,7 +102,7 @@ class IlluminatorShell extends Shell {
 	/**
 	 * @return \IdeHelper\Illuminator\Illuminator
 	 */
-	protected function getIlluminator() {
+	protected function getIlluminator(): Illuminator {
 		$tasks = $this->param('task') ? explode(',', $this->param('task')) : [];
 
 		$taskCollection = new TaskCollection($this->_io(), $this->params, $tasks);
@@ -113,7 +113,7 @@ class IlluminatorShell extends Shell {
 	/**
 	 * @return \IdeHelper\Console\Io
 	 */
-	protected function _io() {
+	protected function _io(): Io {
 		return new Io($this->getIo());
 	}
 
@@ -122,7 +122,7 @@ class IlluminatorShell extends Shell {
 	 * @throws \RuntimeException
 	 * @throws \InvalidArgumentException
 	 */
-	protected function getTaskList() {
+	protected function getTaskList(): array {
 		$taskCollection = new TaskCollection($this->_io(), $this->params);
 
 		return $taskCollection->taskNames();

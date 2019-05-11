@@ -7,7 +7,7 @@ use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\ShellAnnotator;
 use IdeHelper\Console\Io;
 use Tools\TestSuite\ConsoleOutput;
-use Tools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 
 class ShellAnnotatorTest extends TestCase {
 
@@ -17,8 +17,8 @@ class ShellAnnotatorTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.ide_helper.cars',
-		'plugin.ide_helper.wheels',
+		'plugin.IdeHelper.Cars',
+		'plugin.IdeHelper.Wheels',
 	];
 
 	/**
@@ -34,7 +34,7 @@ class ShellAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->out = new ConsoleOutput();

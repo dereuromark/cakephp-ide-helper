@@ -9,7 +9,7 @@ class FooTable extends Table {
 	 * @param array $config
 	 * @return void
 	 */
-	public function initialize(array $config) {
+	public function initialize(array $config): void {
 		parent::initialize($config);
 
 		$this->addBehavior('Tools.Confirmable');

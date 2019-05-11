@@ -1,6 +1,7 @@
 <?php
 namespace IdeHelper\Shell;
 
+use Cake\Console\ConsoleOptionParser;
 use Cake\Console\Shell;
 use IdeHelper\CodeCompletion\CodeCompletionGenerator;
 use IdeHelper\CodeCompletion\TaskCollection;
@@ -35,7 +36,7 @@ class CodeCompletionShell extends Shell {
 	/**
 	 * @return \Cake\Console\ConsoleOptionParser
 	 */
-	public function getOptionParser() {
+	public function getOptionParser(): ConsoleOptionParser {
 		$subcommandParser = [
 			'options' => [
 				'dry-run' => [
@@ -57,7 +58,7 @@ class CodeCompletionShell extends Shell {
 	/**
 	 * @return \IdeHelper\CodeCompletion\CodeCompletionGenerator
 	 */
-	protected function getGenerator() {
+	protected function getGenerator(): CodeCompletionGenerator {
 		$taskCollection = new TaskCollection();
 
 		return new CodeCompletionGenerator($taskCollection);

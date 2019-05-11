@@ -1,6 +1,7 @@
 <?php
 namespace IdeHelper\Shell;
 
+use Cake\Console\ConsoleOptionParser;
 use Cake\Console\Shell;
 use Cake\Core\App;
 use Cake\Core\Configure;
@@ -44,7 +45,7 @@ class AnnotationsShell extends Shell {
 	/**
 	 * @return void
 	 */
-	public function startup() {
+	public function startup(): void {
 		parent::startup();
 
 		if ($this->param('ci')) {
@@ -537,7 +538,7 @@ class AnnotationsShell extends Shell {
 	/**
 	 * @return \Cake\Console\ConsoleOptionParser
 	 */
-	public function getOptionParser() {
+	public function getOptionParser(): ConsoleOptionParser {
 		$subcommandParser = [
 			'options' => [
 				'dry-run' => [
@@ -618,7 +619,7 @@ class AnnotationsShell extends Shell {
 	/**
 	 * @return \IdeHelper\Console\Io
 	 */
-	protected function _io() {
+	protected function _io(): Io {
 		return new Io($this->getIo());
 	}
 
@@ -627,7 +628,7 @@ class AnnotationsShell extends Shell {
 	 *
 	 * @return bool
 	 */
-	protected function _shouldSkip($fileName) {
+	protected function _shouldSkip($fileName): bool {
 		$filter = $this->param('filter');
 		if (!$filter) {
 			return false;
@@ -642,7 +643,7 @@ class AnnotationsShell extends Shell {
 	 * @param string $extension
 	 * @return bool
 	 */
-	protected function _shouldSkipExtension($extension) {
+	protected function _shouldSkipExtension($extension): bool {
 		$whitelist = Configure::read('IdeHelper.templateExtensions') ?: static::TEMPLATE_EXTENSIONS;
 
 		return !in_array($extension, $whitelist, true);
@@ -653,7 +654,7 @@ class AnnotationsShell extends Shell {
 	 *
 	 * @return \IdeHelper\Annotator\AbstractAnnotator
 	 */
-	protected function getAnnotator($class) {
+	protected function getAnnotator($class): AbstractAnnotator {
 		$tasks = (array)Configure::read('IdeHelper.annotators');
 		if (isset($tasks[$class])) {
 			$class = $tasks[$class];

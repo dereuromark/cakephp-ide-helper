@@ -95,7 +95,7 @@ class TaskCollection {
 	/**
 	 * @return \IdeHelper\Illuminator\Task\AbstractTask[]
 	 */
-	public function tasks() {
+	public function tasks(): array {
 		return $this->tasks;
 	}
 
@@ -104,7 +104,7 @@ class TaskCollection {
 	 * @return string[]
 	 * @throws \RuntimeException
 	 */
-	public function taskNames($tasks = []) {
+	public function taskNames($tasks = []): array {
 		if (!$tasks) {
 			$tasks = $this->tasks;
 		}
@@ -206,7 +206,7 @@ class TaskCollection {
 	 * @param bool $dryRun
 	 * @return void
 	 */
-	protected function _storeFile($path, $contents, $dryRun) {
+	protected function _storeFile(string $path, string $contents, bool $dryRun): void {
 		if ($dryRun) {
 			return;
 		}

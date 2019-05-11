@@ -6,11 +6,11 @@ interface TaskInterface {
 	/**
 	 * @return string
 	 */
-	public function type();
+	public function type(): string;
 
 	/**
-	 * @return array
+	 * @return string
 	 */
-	public function create();
+	public function create(): string;
 
 }

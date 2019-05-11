@@ -3,7 +3,7 @@
 namespace IdeHelper\Test\TestCase\Generator\Task;
 
 use IdeHelper\Generator\Task\TableAssociationTask;
-use Tools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 
 class TableAssociationTaskTest extends TestCase {
 
@@ -15,7 +15,7 @@ class TableAssociationTaskTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->task = new TableAssociationTask();

@@ -4,7 +4,7 @@ namespace IdeHelper\Test\TestCase\Generator\Task;
 
 use Cake\Core\Configure;
 use IdeHelper\Generator\Task\TableFinderTask;
-use Tools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 use Tools\TestSuite\ToolsTestTrait;
 
 class TableFinderTaskTest extends TestCase {
@@ -19,7 +19,7 @@ class TableFinderTaskTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		Configure::write('IdeHelper.preemptive', true);
@@ -30,7 +30,7 @@ class TableFinderTaskTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		Configure::delete('IdeHelper');
 
 		parent::tearDown();

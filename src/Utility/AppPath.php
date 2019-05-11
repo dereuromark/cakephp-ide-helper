@@ -21,6 +21,8 @@ class AppPath {
 		}
 
 		$pathToPlugin = Plugin::getCollection()->findPath($plugin);
+		//FIXME
+		//Plugin::getCollection()->add($pluginClassName?);
 		Plugin::load($plugin);
 
 		$pathToClass = $pathToPlugin . 'src' . DS . $type . DS;

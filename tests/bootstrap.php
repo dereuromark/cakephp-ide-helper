@@ -2,9 +2,7 @@
 
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
-use Cake\Core\Plugin;
 use Cake\Database\Type;
-use Cake\Routing\DispatcherFactory;
 
 if (!defined('DS')) {
 	define('DS', DIRECTORY_SEPARATOR);
@@ -73,13 +71,13 @@ Type::build('datetime')
 Type::build('timestamp')
 	->useImmutable();
 
-Plugin::load('IdeHelper', ['path' => ROOT . DS, 'autoload' => true]);
-Plugin::load('Shim', ['path' => ROOT . DS . 'vendor/dereuromark/cakephp-shim/', 'autoload' => true]);
-Plugin::load('Awesome', ['path' => TEST_ROOT . 'plugins/Awesome/', 'autoload' => true]);
-Plugin::load('MyBehavior/MyPlugin', ['path' => TEST_ROOT . 'plugins/MyBehavior/MyPlugin/', 'autoload' => true]);
+//Plugin::load('IdeHelper', ['path' => ROOT . DS, 'autoload' => true]);
+//Plugin::load('Shim', ['path' => ROOT . DS . 'vendor/dereuromark/cakephp-shim/', 'autoload' => true]);
+//Plugin::load('Awesome', ['path' => TEST_ROOT . 'plugins/Awesome/', 'autoload' => true]);
+//Plugin::load('MyBehavior/MyPlugin', ['path' => TEST_ROOT . 'plugins/MyBehavior/MyPlugin/', 'autoload' => true]);
 
-DispatcherFactory::add('Routing');
-DispatcherFactory::add('ControllerFactory');
+//DispatcherFactory::add('Routing');
+//DispatcherFactory::add('ControllerFactory');
 
 // Ensure default test connection is defined
 if (!getenv('db_class')) {

@@ -3,7 +3,7 @@
 namespace IdeHelper\Test\TestCase\CodeCompletion;
 
 use IdeHelper\CodeCompletion\TaskCollection;
-use Tools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 
 class TaskCollectionTest extends TestCase {
 
@@ -15,7 +15,7 @@ class TaskCollectionTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->taskCollection = new TaskCollection();

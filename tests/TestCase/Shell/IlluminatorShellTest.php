@@ -5,7 +5,7 @@ namespace IdeHelper\Test\TestCase\Shell;
 use Cake\Console\ConsoleIo;
 use IdeHelper\Shell\IlluminatorShell;
 use Tools\TestSuite\ConsoleOutput;
-use Tools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 
 class IlluminatorShellTest extends TestCase {
 
@@ -13,8 +13,8 @@ class IlluminatorShellTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.ide_helper.cars',
-		'plugin.ide_helper.wheels',
+		'plugin.IdeHelper.Cars',
+		'plugin.IdeHelper.Wheels',
 	];
 
 	/**
@@ -35,7 +35,7 @@ class IlluminatorShellTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->out = new ConsoleOutput();
@@ -51,7 +51,7 @@ class IlluminatorShellTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 		unset($this->Shell);
 	}

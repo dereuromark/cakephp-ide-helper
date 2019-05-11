@@ -3,7 +3,7 @@
 namespace IdeHelper\Test\TestCase\Generator\Task;
 
 use IdeHelper\Generator\Task\HelperTask;
-use Tools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 
 class HelperTaskTest extends TestCase {
 
@@ -15,7 +15,7 @@ class HelperTaskTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->task = new HelperTask();

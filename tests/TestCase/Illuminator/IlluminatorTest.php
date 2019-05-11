@@ -7,7 +7,7 @@ use IdeHelper\Console\Io;
 use IdeHelper\Illuminator\Illuminator;
 use IdeHelper\Illuminator\TaskCollection;
 use Tools\TestSuite\ConsoleOutput;
-use Tools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 
 class IlluminatorTest extends TestCase {
 
@@ -36,7 +36,7 @@ class IlluminatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->out = new ConsoleOutput();

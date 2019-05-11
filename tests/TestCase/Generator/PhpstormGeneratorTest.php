@@ -5,7 +5,7 @@ namespace IdeHelper\Test\TestCase\Generator\Task;
 use Cake\Core\Plugin;
 use IdeHelper\Generator\PhpstormGenerator;
 use IdeHelper\Generator\TaskCollection;
-use Tools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 
 class PhpstormGeneratorTest extends TestCase {
 
@@ -17,7 +17,7 @@ class PhpstormGeneratorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$taskCollection = new TaskCollection();

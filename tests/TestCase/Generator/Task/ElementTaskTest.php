@@ -3,7 +3,7 @@
 namespace IdeHelper\Test\TestCase\Generator\Task;
 
 use IdeHelper\Generator\Task\ElementTask;
-use Tools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 use Tools\TestSuite\ToolsTestTrait;
 
 class ElementTaskTest extends TestCase {
@@ -18,7 +18,7 @@ class ElementTaskTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		//Configure::write('IdeHelper.preemptive', true);
@@ -29,7 +29,7 @@ class ElementTaskTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 	}
 

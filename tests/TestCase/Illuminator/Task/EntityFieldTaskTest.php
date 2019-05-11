@@ -7,7 +7,7 @@ use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Console\Io;
 use IdeHelper\Illuminator\Task\EntityFieldTask;
 use Tools\TestSuite\ConsoleOutput;
-use Tools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 
 class EntityFieldTaskTest extends TestCase {
 
@@ -31,7 +31,7 @@ class EntityFieldTaskTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->out = new ConsoleOutput();

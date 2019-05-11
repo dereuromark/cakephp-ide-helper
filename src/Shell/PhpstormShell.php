@@ -1,6 +1,7 @@
 <?php
 namespace IdeHelper\Shell;
 
+use Cake\Console\ConsoleOptionParser;
 use Cake\Console\Shell;
 use IdeHelper\Generator\PhpstormGenerator;
 use IdeHelper\Generator\TaskCollection;
@@ -49,7 +50,7 @@ class PhpstormShell extends Shell {
 	/**
 	 * @return \Cake\Console\ConsoleOptionParser
 	 */
-	public function getOptionParser() {
+	public function getOptionParser(): ConsoleOptionParser {
 		$subcommandParser = [
 			'options' => [
 				'dry-run' => [
@@ -71,7 +72,7 @@ class PhpstormShell extends Shell {
 	/**
 	 * @return \IdeHelper\Generator\PhpstormGenerator
 	 */
-	protected function getGenerator() {
+	protected function getGenerator(): PhpstormGenerator {
 		$taskCollection = new TaskCollection();
 
 		return new PhpstormGenerator($taskCollection);
@@ -81,7 +82,7 @@ class PhpstormShell extends Shell {
 	 * @return string
 	 * @throws \RuntimeException
 	 */
-	protected function getMetaFilePath() {
+	protected function getMetaFilePath(): string {
 		if (is_file(ROOT . DS . '.phpstorm.meta.php')) {
 			throw new RuntimeException('Please use a directory called `ROOT/.phpstorm.meta.php/` and store your custom files there. Remove any root file you still have.');
 		}
@@ -92,7 +93,7 @@ class PhpstormShell extends Shell {
 	/**
 	 * @return void
 	 */
-	protected function ensureDir() {
+	protected function ensureDir(): void {
 		if (!file_exists(dirname($this->getMetaFilePath()))) {
 			mkdir(dirname($this->getMetaFilePath()), 0775, true);
 		}

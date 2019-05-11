@@ -13,7 +13,7 @@ use IdeHelper\Annotator\EntityAnnotator;
 use IdeHelper\Console\Io;
 use IdeHelper\View\Helper\DocBlockHelper;
 use Tools\TestSuite\ConsoleOutput;
-use Tools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 
 class EntityAnnotatorTest extends TestCase {
 
@@ -44,7 +44,7 @@ class EntityAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		Configure::delete('IdeHelper');

@@ -22,15 +22,14 @@
 		"source": "https://github.com/dereuromark/cakephp-ide-helper/"
 	},
 	"require": {
-		"php": ">=5.6",
-		"cakephp/cakephp": "^3.7",
+		"php": ">=7.2",
+		"cakephp/cakephp": "4.x-dev as 4.0.0",
 		"squizlabs/php_codesniffer": "^3.0",
-		"cakephp/bake": "^1.8.0",
-		"sebastian/diff": "^1.4 || ^2.0 || ^3.0"
+		"cakephp/bake": "4.x-dev as 4.0.0",
+		"sebastian/diff": "^2.0 || ^3.0"
 	},
 	"require-dev": {
-		"dereuromark/cakephp-tools": "^1.3",
-		"dereuromark/cakephp-shim": "^1.5",
+		"dereuromark/cakephp-tools": "4.x-dev as 4.0.0",
 		"fig-r/psr2r-sniffer": "dev-master"
 	},
 	"autoload": {
@@ -48,12 +47,14 @@
 			"MyNamespace\\MyPlugin\\": "tests/test_app/plugins/MyNamespace/MyPlugin/src/"
 		}
 	},
+	"prefer-stable": true,
+	"minimum-stability": "dev",
 	"scripts": {
 		"test": "php phpunit.phar",
-		"test-setup": "[ ! -f phpunit.phar ] && curl -OL https://phar.phpunit.de/phpunit-6.5.13.phar && mv phpunit-6.5.13.phar phpunit.phar || true",
+		"test-setup": "[ ! -f phpunit.phar ] && curl -OL https://phar.phpunit.de/phpunit-8.1.4.phar && mv phpunit-8.1.4.phar phpunit.phar || true",
 		"test-coverage" : "php phpunit.phar --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml",
 		"phpstan": "phpstan analyse -c tests/phpstan.neon -l 5 src/",
-		"phpstan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan:\"^0.10\" && mv composer.backup composer.json",
+		"phpstan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan-shim:^0.11 && mv composer.backup composer.json",
 		"lowest": " validate-prefer-lowest",
 		"lowest-setup": "composer update --prefer-lowest --prefer-stable --prefer-dist --no-interaction && cp composer.json composer.backup && composer require --dev dereuromark/composer-prefer-lowest && mv composer.backup composer.json",
 		"cs-check": "phpcs -p --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --extensions=php src tests config",
