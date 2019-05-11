@@ -46,7 +46,7 @@ namespace App\Controller;
  */
 class ApplesController extends AppController {
 
-	public $modelClass = 'MyApples';
+    public $modelClass = 'MyApples';
 
 }
 ```
@@ -107,24 +107,24 @@ class Location extends Entity {
 Using Configure key `'IdeHelper.typeMap'` you can set a custom array of types to be used for the field mapping here.
 Overwriting the defaults of this plugin is also possible, to skip (reset) just set the value to null:
 ```php
-	'IdeHelper' => [
-		'typeMap' => [
-			'custom' => 'array',
-			'longtext => null,
-			...
- 		],
-	],
+    'IdeHelper' => [
+        'typeMap' => [
+            'custom' => 'array',
+            'longtext => null,
+            ...
+         ],
+    ],
 ```
 
 Using Configure key `'IdeHelper.nullableMap'` you can set a custom array of types and if they can be nullable:
 ```php
-	'IdeHelper' => [
-		'nullableMap' => [
-			'custom' => false,
-			'longtext => true,
-			...
- 		],
-	],
+    'IdeHelper' => [
+        'nullableMap' => [
+            'custom' => false,
+            'longtext => true,
+            ...
+         ],
+    ],
 ```
 
 Note: For virtual properties it looks up the respective `_get...()` methods (e.g. `_getVirtualProperty()` for `$virtual_property`).
@@ -139,17 +139,17 @@ bin/cake annotations shells
 ```
 
 ```php
-	/**
-	 * @var string
-	 */
-	public $modelClass = 'Cars';
+    /**
+     * @var string
+     */
+    public $modelClass = 'Cars';
 
-	/**
-	 * @return void
-	 */
-	public function main() {
-		$this->loadModel('MyPlugin.Wheels');
-	}
+    /**
+     * @return void
+     */
+    public function main() {
+        $this->loadModel('MyPlugin.Wheels');
+    }
 ```
 will result in the following annotation:
 
@@ -197,13 +197,13 @@ bin/cake annotations components
 
 A component containing
 ```php
-	/**
-	 * @var array
-	 */
-	public $helpers = [
-		'RequestHandler',
-		'Flash.Flash',
-	];
+    /**
+     * @var array
+     */
+    public $helpers = [
+        'RequestHandler',
+        'Flash.Flash',
+    ];
 ```
 would get the following annotations:
 ```php
@@ -222,21 +222,21 @@ bin/cake annotations helpers
 
 A helper containing
 ```php
-	/**
-	 * @var array
-	 */
-	public $helpers = [
-		'Form',
-	];
+    /**
+     * @var array
+     */
+    public $helpers = [
+        'Form',
+    ];
 
-	/**
-	 * @param \Cake\View\View $View
-	 * @param array $config
-	 */
-	public function __construct(View $View, array $config = []) {
-		parent::__construct($View, $config);
-		$this->_View->loadHelper('Template');
-	}
+    /**
+     * @param \Cake\View\View $View
+     * @param array $config
+     */
+    public function __construct(View $View, array $config = []) {
+        parent::__construct($View, $config);
+        $this->_View->loadHelper('Template');
+    }
 ```
 would get the following annotations:
 ```php
@@ -250,9 +250,9 @@ would get the following annotations:
 Using associative arrays you can even exchange any native task with your own implementation:
 ```php
 'IdeHelper' => [
-	'annotators' => [
-		\IdeHelper\Annotator\EntityAnnotator::class => \App\Annotator\MyEnhancedEntityAnnotator::class,
-	],
+    'annotators' => [
+        \IdeHelper\Annotator\EntityAnnotator::class => \App\Annotator\MyEnhancedEntityAnnotator::class,
+    ],
 ],
 ```
 
@@ -276,22 +276,22 @@ use IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface;
 
 class MyClassAnnotatorTask extends AbstractClassAnnotatorTask implements ClassAnnotatorTaskInterface {
 
-	/**
-	 * @param string $path
-	 * @param string $content
-	 * @return bool
-	 */
-	public function shouldRun($path, $content) {
-		...
-	}
-	
-	/**
-	 * @param string $path
-	 * @return bool
-	 */
-	public function annotate($path) {
-		...
-	}
+    /**
+     * @param string $path
+     * @param string $content
+     * @return bool
+     */
+    public function shouldRun($path, $content) {
+        ...
+    }
+    
+    /**
+     * @param string $path
+     * @return bool
+     */
+    public function annotate($path) {
+        ...
+    }
 
 }
 ```
@@ -299,9 +299,9 @@ class MyClassAnnotatorTask extends AbstractClassAnnotatorTask implements ClassAn
 Then add it to the config:
 ```php
 'IdeHelper' => [
-	'classAnnotatorTasks' => [
-		'MyClassAnnotatorTask' => \App\Annotator\ClassAnnotatorTask\MyClassAnnotatorTask::class,
-	],
+    'classAnnotatorTasks' => [
+        'MyClassAnnotatorTask' => \App\Annotator\ClassAnnotatorTask\MyClassAnnotatorTask::class,
+    ],
 ],
 ```
 The key `'MyClassAnnotatorTask'` can be any string.
@@ -310,9 +310,9 @@ The key `'MyClassAnnotatorTask'` can be any string.
 Using associative arrays you can even exchange any native task with your own implementation:
 ```php
 'IdeHelper' => [
-	'classAnnotatorTasks' => [
-		\IdeHelper\Annotator\ClassAnnotatorTask\ModelAwareTask::class => \App\Annotator\ClassAnnotatorTask\MyEnhancedModelAwareTask::class,
-	],
+    'classAnnotatorTasks' => [
+        \IdeHelper\Annotator\ClassAnnotatorTask\ModelAwareTask::class => \App\Annotator\ClassAnnotatorTask\MyEnhancedModelAwareTask::class,
+    ],
 ],
 ```
 The native class name is the key then, your replacement the value.
@@ -356,11 +356,11 @@ This is done by default for `/src/Template/Bake/` in your app or your plugin.
 
 If you want to adjust this, set `IdeHelper.skipTemplatePaths` via Configure:
 ```
-	'IdeHelper' => [
-		'skipTemplatePaths' => [
-			...
-		],
-	],
+    'IdeHelper' => [
+        'skipTemplatePaths' => [
+            ...
+        ],
+    ],
 ```
 
 ### Skipping variables
@@ -443,21 +443,21 @@ use IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface;
 
 class MyCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implements CallbackAnnotatorTaskInterface {
 
-	/**
-	 * @param string $path
-	 * @return bool
-	 */
-	public function shouldRun($path) {
-		...
-	}
-	
-	/**
-	 * @param string $path
-	 * @return bool
-	 */
-	public function annotate($path) {
-		...
-	}
+    /**
+     * @param string $path
+     * @return bool
+     */
+    public function shouldRun($path) {
+        ...
+    }
+    
+    /**
+     * @param string $path
+     * @return bool
+     */
+    public function annotate($path) {
+        ...
+    }
 
 }
 ```
@@ -465,9 +465,9 @@ class MyCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implements C
 Then add it to the config:
 ```php
 'IdeHelper' => [
-	'CallbackAnnotatorTasks' => [
-		'MyCallbackAnnotatorTask' => \App\Annotator\CallbackAnnotatorTask\MyCallbackAnnotatorTask::class,
-	],
+    'CallbackAnnotatorTasks' => [
+        'MyCallbackAnnotatorTask' => \App\Annotator\CallbackAnnotatorTask\MyCallbackAnnotatorTask::class,
+    ],
 ],
 ```
 The key `'MyCallbackAnnotatorTask'` can be any string.
@@ -541,13 +541,13 @@ Just extend the shell on application level, add your command and create your own
 ```php
 class MyAnnotator extends AbstractAnnotator {
 
-	/**
-	 * @param string $path
-	 * @return bool
-	 */
-	public function annotate($path) {
-		...
-	}
+    /**
+     * @param string $path
+     * @return bool
+     */
+    public function annotate($path) {
+        ...
+    }
 }
 ```
 Then read a folder, iterate over it and invoke your annotator from the shell command with a specific path.

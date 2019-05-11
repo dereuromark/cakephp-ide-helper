@@ -26,10 +26,10 @@ This task will add those based on the defined property annotations in the doc bl
  */
 class Car extends Entity {
 
-	const FIELD_ID = 'id';
-	const FIELD_BRAND_NAME = 'brand_name';
-	...
-	
+    const FIELD_ID = 'id';
+    const FIELD_BRAND_NAME = 'brand_name';
+    ...
+    
 }
 ```
 This is especially useful then for e.g.
@@ -68,22 +68,22 @@ use IdeHelper\Illuminator\Task\TaskInterface;
 
 class MyTask implements TaskInterface {
 
-	/**
-	 * @param string $path
-	 * @return bool
-	 */
-	public function shouldRun($path) {
-		...
-	}
+    /**
+     * @param string $path
+     * @return bool
+     */
+    public function shouldRun($path) {
+        ...
+    }
 
-	/**
-	 * @param string $content
-	 * @param string $path
-	 * @return string
-	 */
-	public function run($content, $path) {
-		...
-	}
+    /**
+     * @param string $content
+     * @param string $path
+     * @return string
+     */
+    public function run($content, $path) {
+        ...
+    }
 
 }
 ```
@@ -91,9 +91,9 @@ class MyTask implements TaskInterface {
 Then add it to the config:
 ```php
 'IdeHelper' => [
-	'IlluminatorTasks' => [
-		'MyTask' => \App\Illuminator\Task\MyTask::class,
-	],
+    'IlluminatorTasks' => [
+        'MyTask' => \App\Illuminator\Task\MyTask::class,
+    ],
 ],
 ```
 The key `'MyTask'` can be any string but it must be unique across all existing tasks.
@@ -102,9 +102,9 @@ The key `'MyTask'` can be any string but it must be unique across all existing t
 Using associative arrays you can even exchange any native task with your own implementation:
 ```php
 'IdeHelper' => [
-	'IlluminatorTasks' => [
-		\IdeHelper\Illuminator\Task\FooBarTask::class => \App\Illuminator\Task\MyEnhancedFooBarTask::class,
-	],
+    'IlluminatorTasks' => [
+        \IdeHelper\Illuminator\Task\FooBarTask::class => \App\Illuminator\Task\MyEnhancedFooBarTask::class,
+    ],
 ],
 ```
 The native class name is the key then, your replacement the value.

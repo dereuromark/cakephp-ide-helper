@@ -34,31 +34,31 @@ use IdeHelper\CodeCompletion\Task\TaskInterface;
 
 class MyTask implements TaskInterface {
 
-	const TYPE_NAMESPACE = 'Some\Namespace';
+    const TYPE_NAMESPACE = 'Some\Namespace';
 
-	/**
-	 * @return string
-	 */
-	public function type() {
-		return static::TYPE_NAMESPACE;
-	}
+    /**
+     * @return string
+     */
+    public function type() {
+        return static::TYPE_NAMESPACE;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function create() {
-		...
-	}
-	
+    /**
+     * @return string
+     */
+    public function create() {
+        ...
+    }
+    
 }
 ```
 
 Then add it to the config:
 ```php
 'IdeHelper' => [
-	'codeCompletionTasks' => [
-		'MyTask' => \App\CodeCompletion\Task\MyTask::class,
-	],
+    'codeCompletionTasks' => [
+        'MyTask' => \App\CodeCompletion\Task\MyTask::class,
+    ],
 ],
 ```
 The key `'MyTask'` can be any string.
@@ -67,9 +67,9 @@ The key `'MyTask'` can be any string.
 Using associative arrays you can even exchange any native task with your own implementation:
 ```php
 'IdeHelper' => [
-	'codeCompletionTasks' => [
-		\IdeHelper\CodeCompletion\Task\BehaviorTask::class => \App\CodeCompletion\Task\MyEnhancedBehaviorTask::class,
-	],
+    'codeCompletionTasks' => [
+        \IdeHelper\CodeCompletion\Task\BehaviorTask::class => \App\CodeCompletion\Task\MyEnhancedBehaviorTask::class,
+    ],
 ],
 ```
 The native class name is the key then, your replacement the value.
@@ -85,19 +85,19 @@ Then make sure your Task's `create()` method returns something like:
 ```php
 abstract class SomeObject extends SomeObjectInterface {
 
-	/**
-	 * Alpha class.
-	 *
-	 * @var \My\Cool\Alpha
-	 */
-	public $Alpha;
+    /**
+     * Alpha class.
+     *
+     * @var \My\Cool\Alpha
+     */
+    public $Alpha;
 
-	/**
-	 * Beta class.
-	 *
-	 * @var \My\Cool\Beta
-	 */
-	public $Beta;
+    /**
+     * Beta class.
+     *
+     * @var \My\Cool\Beta
+     */
+    public $Beta;
 
 }
 ```
@@ -114,23 +114,23 @@ Then make sure your Task's `create()` method returns something like:
 ```php
 abstract class SomeObject extends SomeObjectInterface {
 
-	/**
-	 * Alpha class.
-	 *
-	 * @var \My\Cool\Alpha
-	 */
-	protected $alpha;
+    /**
+     * Alpha class.
+     *
+     * @var \My\Cool\Alpha
+     */
+    protected $alpha;
 
-	...
+    ...
 
-	/**
-	 * @return \My\Cool\Alpha
-	 */
-	public function search() {
-		return $this->alpha;
-	}
+    /**
+     * @return \My\Cool\Alpha
+     */
+    public function search() {
+        return $this->alpha;
+    }
 
-	...
+    ...
 
 }
 ```

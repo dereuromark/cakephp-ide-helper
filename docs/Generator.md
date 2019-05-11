@@ -20,10 +20,10 @@ Any file inside this directory will be parsed and used. Prefixing with a `.` dot
 #### Plugins
 In your `Application.php` you can, after composer requiring (and refreshing meta file), auto-complete the available plugins for your `addPlugin()` calls:
 ```php
-	public function bootstrap() {
-		...
-		$this->addPlugin('TypeHere');
-	}
+    public function bootstrap() {
+        ...
+        $this->addPlugin('TypeHere');
+    }
 ```
 This is especially useful for more complex and possibly vendor-prefix names (e.g. `'WyriHaximus/TwigView'`, note the forward slash).
 
@@ -101,22 +101,22 @@ use IdeHelper\Generator\Task\TaskInterface;
 
 class MyTask implements TaskInterface {
 
-	/**
-	 * @return array
-	 */
-	public function collect() {
-		...
-	}
-	
+    /**
+     * @return array
+     */
+    public function collect() {
+        ...
+    }
+    
 }
 ```
 
 Then add it to the config:
 ```php
 'IdeHelper' => [
-	'generatorTasks' => [
-		'MyTask' => \App\Generator\Task\MyTask::class,
-	],
+    'generatorTasks' => [
+        'MyTask' => \App\Generator\Task\MyTask::class,
+    ],
 ],
 ```
 The key `'MyTask'` can be any string.
@@ -125,9 +125,9 @@ The key `'MyTask'` can be any string.
 Using associative arrays you can even exchange any native task with your own implementation:
 ```php
 'IdeHelper' => [
-	'generatorTasks' => [
-		\IdeHelper\Generator\Task\ModelTask::class => \App\Generator\Task\MyEnhancedModelTask::class,
-	],
+    'generatorTasks' => [
+        \IdeHelper\Generator\Task\ModelTask::class => \App\Generator\Task\MyEnhancedModelTask::class,
+    ],
 ],
 ```
 The native class name is the key then, your replacement the value.
@@ -142,10 +142,10 @@ $beta = MyFactory::create('beta'); // Returns \My\Cool\Beta class
 Then make sure your Task's `collect()` method returns something like:
 ```php
 [
-	'\Namespace\PackageName\MyFactory::create(0)' => [
-		'alpha' => '\My\Cool\Alpha::class',
-		'beta' => '\My\Cool\Beta::class',
-	]
+    '\Namespace\PackageName\MyFactory::create(0)' => [
+        'alpha' => '\My\Cool\Alpha::class',
+        'beta' => '\My\Cool\Beta::class',
+    ]
 ]
 ```
 
