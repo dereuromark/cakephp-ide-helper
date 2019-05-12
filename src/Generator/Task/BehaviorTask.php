@@ -21,7 +21,7 @@ class BehaviorTask implements TaskInterface {
 	/**
 	 * @return array
 	 */
-	public function collect() {
+	public function collect(): array {
 		$map = [];
 
 		$behaviors = $this->collectBehaviors();

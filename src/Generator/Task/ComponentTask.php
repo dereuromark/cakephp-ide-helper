@@ -18,7 +18,7 @@ class ComponentTask implements TaskInterface {
 	/**
 	 * @return array
 	 */
-	public function collect() {
+	public function collect(): array {
 		$map = [];
 
 		$components = $this->collectComponents();

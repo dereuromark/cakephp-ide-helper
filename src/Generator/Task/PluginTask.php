@@ -24,7 +24,7 @@ class PluginTask implements TaskInterface {
 	/**
 	 * @return array
 	 */
-	public function collect() {
+	public function collect(): array {
 		$map = [];
 
 		$plugins = $this->collectPlugins();

@@ -16,7 +16,7 @@ class ElementTask extends ModelTask {
 	/**
 	 * @return array
 	 */
-	public function collect() {
+	public function collect(): array {
 		$result = [];
 
 		$elements = $this->collectElements();

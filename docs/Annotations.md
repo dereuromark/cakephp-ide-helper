@@ -200,7 +200,7 @@ A component containing
     /**
      * @var array
      */
-    public $helpers = [
+    public $components = [
         'RequestHandler',
         'Flash.Flash',
     ];
@@ -408,12 +408,12 @@ By default it ships with
 Behaviors and generic code use the following signature:
 ```php
 /**
- * @param \Cake\Event\Event $event Event
+ * @param \Cake\Event\EventInterface $event Event
  * @param \Cake\Datasource\EntityInterface $entity Entity
  * @param \ArrayObject $options Options
  * @return void
  */
-public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options)
+public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
 ```
 And as long you only use methods and attributes of the EntityInterface (as contracted here), this is fine.
 
@@ -424,12 +424,12 @@ And that is what this task is doing, declaring the Post entity to be available a
 Inside the concrete PostsTable after running the `callbacks` command:
 ```php
 /**
- * @param \Cake\Event\Event $event Event
+ * @param \Cake\Event\EventInterface $event Event
  * @param \App\Model\Entity\Post $entity Entity
  * @param \ArrayObject $options Options
  * @return void
  */
-public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options)
+public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
 ```
 
 ### Custom Tasks

@@ -5,6 +5,7 @@ namespace IdeHelper\Test\TestCase\Annotation;
 use Cake\TestSuite\TestCase;
 use IdeHelper\Annotation\MethodAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
+use RuntimeException;
 
 class MethodAnnotationTest extends TestCase {
 
@@ -82,7 +83,7 @@ class MethodAnnotationTest extends TestCase {
 
 		$this->assertFalse($annotation->hasIndex());
 
-		$this->expectException(\RuntimeException::class);
+		$this->expectException(RuntimeException::class);
 
 		$annotation->getIndex();
 	}

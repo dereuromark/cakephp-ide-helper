@@ -6,6 +6,6 @@ interface TaskInterface {
 	/**
 	 * @return array
 	 */
-	public function collect();
+	public function collect(): array;
 
 }

@@ -11,7 +11,7 @@ class DatabaseTypeTask implements TaskInterface {
 	/**
 	 * @return array
 	 */
-	public function collect() {
+	public function collect(): array {
 		$result = [];
 
 		$types = $this->getTypes();

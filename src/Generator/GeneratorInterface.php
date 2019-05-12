@@ -6,6 +6,6 @@ interface GeneratorInterface {
 	/**
 	 * @return string
 	 */
-	public function generate();
+	public function generate(): string;
 
 }

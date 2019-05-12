@@ -5,6 +5,7 @@ namespace IdeHelper\Test\TestCase\Annotation;
 use Cake\TestSuite\TestCase;
 use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
+use RuntimeException;
 
 class MixinAnnotationTest extends TestCase {
 
@@ -88,7 +89,7 @@ class MixinAnnotationTest extends TestCase {
 
 		$this->assertFalse($annotation->hasIndex());
 
-		$this->expectException(\RuntimeException::class);
+		$this->expectException(RuntimeException::class);
 
 		$annotation->getIndex();
 	}

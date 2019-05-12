@@ -7,11 +7,11 @@ interface AnnotationInterface {
 	/**
 	 * @return string
 	 */
-	public function getDescription();
+	public function getDescription(): string;
 
 	/**
 	 * @return string
 	 */
-	public function build();
+	public function build(): string;
 
 }

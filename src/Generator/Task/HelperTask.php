@@ -18,7 +18,7 @@ class HelperTask implements TaskInterface {
 	/**
 	 * @return array
 	 */
-	public function collect() {
+	public function collect(): array {
 		$map = [];
 
 		$helpers = $this->collectHelpers();

@@ -46,14 +46,14 @@ class PropertyAnnotation extends AbstractAnnotation {
 	/**
 	 * @return string
 	 */
-	public function getDescription() {
+	public function getDescription(): string {
 		return $this->description;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function build() {
+	public function build(): string {
 		$description = $this->description !== '' ? (' ' . $this->description) : '';
 
 		return $this->type . ' ' . $this->property . $description;

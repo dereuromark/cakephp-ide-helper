@@ -24,7 +24,7 @@ class TableAssociationTask extends ModelTask {
 	/**
 	 * @return array
 	 */
-	public function collect() {
+	public function collect(): array {
 		$models = $this->collectModels();
 
 		$result = [];

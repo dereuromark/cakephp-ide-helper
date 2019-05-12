@@ -104,7 +104,7 @@ class MyTask implements TaskInterface {
     /**
      * @return array
      */
-    public function collect() {
+    public function collect(): array {
         ...
     }
     

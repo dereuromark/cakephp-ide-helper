@@ -3,6 +3,7 @@
 namespace IdeHelper\Test\TestCase\Shell;
 
 use Cake\Console\ConsoleIo;
+use Cake\Console\Exception\StopException;
 use Cake\TestSuite\TestCase;
 use IdeHelper\Console\Io;
 use Tools\TestSuite\ConsoleOutput;
@@ -148,7 +149,7 @@ class IoTest extends TestCase {
 	 * @return void
 	 */
 	public function testAbort() {
-		$this->expectException(\Cake\Console\Exception\StopException::class);
+		$this->expectException(StopException::class);
 
 		$this->io->abort('Foo');
 	}

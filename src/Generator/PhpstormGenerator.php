@@ -18,18 +18,18 @@ class PhpstormGenerator implements GeneratorInterface {
 	/**
 	 * @return string
 	 */
-	public function generate() {
+	public function generate(): string {
 		$map = $this->taskCollection->getMap();
 
 		return $this->build($map);
 	}
 
 	/**
-	 * @param array $map
+	 * @param string[][] $map
 	 *
 	 * @return string
 	 */
-	protected function build(array $map) {
+	protected function build(array $map): string {
 		$overrides = [];
 		foreach ($map as $method => $array) {
 			$mapDefinitions = $this->buildMapDefinitions($array);
@@ -61,11 +61,11 @@ TXT;
 	}
 
 	/**
-	 * @param array $array
+	 * @param string[] $array
 	 *
 	 * @return string
 	 */
-	protected function buildMapDefinitions(array $array) {
+	protected function buildMapDefinitions(array $array): string {
 		$result = [];
 		foreach ($array as $alias => $value) {
 			$result[] = "\t\t\t" . "'" . str_replace("'", "\'", $alias) . "' => " . $value . ',';
