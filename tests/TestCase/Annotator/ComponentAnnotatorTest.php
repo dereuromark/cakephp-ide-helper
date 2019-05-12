@@ -7,9 +7,12 @@ use Cake\TestSuite\TestCase;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\ComponentAnnotator;
 use IdeHelper\Console\Io;
+use Shim\TestSuite\TestTrait;
 use Tools\TestSuite\ConsoleOutput;
 
 class ComponentAnnotatorTest extends TestCase {
+
+	use TestTrait;
 
 	/**
 	 * @var \Tools\TestSuite\ConsoleOutput

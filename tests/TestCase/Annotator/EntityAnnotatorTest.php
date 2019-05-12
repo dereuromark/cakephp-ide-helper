@@ -14,16 +14,18 @@ use IdeHelper\Annotator\EntityAnnotator;
 use IdeHelper\Console\Io;
 use IdeHelper\View\Helper\DocBlockHelper;
 use Tools\TestSuite\ConsoleOutput;
+use Tools\TestSuite\ToolsTestTrait;
 
 class EntityAnnotatorTest extends TestCase {
 
 	use DiffHelperTrait;
+	use ToolsTestTrait;
 
 	/**
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.ide_helper.foo'
+		'plugin.IdeHelper.Foo',
 	];
 
 	/**

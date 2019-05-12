@@ -20,9 +20,9 @@ class ModelAnnotatorTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.ide_helper.foo',
+		'plugin.IdeHelper.Foo',
 		'plugin.IdeHelper.Wheels',
-		'plugin.ide_helper.bar_bars',
+		'plugin.IdeHelper.BarBars',
 	];
 
 	/**

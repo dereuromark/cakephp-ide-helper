@@ -9,15 +9,13 @@ class BarController extends AppController {
 	public $modelClass = 'BarBars';
 
 	/**
-	 * @var array
-	 */
-	public $components = ['Flash', 'Shim.Session'];
-
-	/**
 	 * @return void
 	 */
 	public function initialize(): void {
 		parent::initialize();
+
+		$this->loadComponent('Flash');
+		$this->loadComponent('Shim.Session');
 
 		$this->loadModel('Wheels');
 	}

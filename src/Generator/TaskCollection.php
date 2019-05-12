@@ -79,14 +79,14 @@ class TaskCollection {
 	/**
 	 * @return \IdeHelper\Generator\Task\TaskInterface[]
 	 */
-	public function tasks() {
+	public function tasks(): array {
 		return $this->tasks;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getMap() {
+	public function getMap(): array {
 		$map = [];
 		foreach ($this->tasks as $task) {
 			$map += $task->collect();
