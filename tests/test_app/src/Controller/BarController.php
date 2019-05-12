@@ -15,7 +15,7 @@ class BarController extends AppController {
 		parent::initialize();
 
 		$this->loadComponent('Flash');
-		$this->loadComponent('Shim.Session');
+		$this->loadComponent('Tools.Common');
 
 		$this->loadModel('Wheels');
 	}

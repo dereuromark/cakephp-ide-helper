@@ -6,13 +6,13 @@ use Cake\Controller\Component;
 /**
  * @property \Cake\Controller\Component\FlashComponent $Flash
  * @property \App\Controller\Component\RequestHandlerComponent $RequestHandler
- * @property \Shim\Controller\Component\SessionComponent $Session
+ * @property \Tools\Controller\Component\CommonComponent $Session
  */
 class MyComponent extends Component {
 
 	/**
 	 * @var array
 	 */
-	public $components = ['Flash', 'RequestHandler', 'Shim.Session'];
+	public $components = ['Flash', 'RequestHandler', 'Tools.Common'];
 
 }

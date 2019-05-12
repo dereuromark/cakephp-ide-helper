@@ -81,13 +81,14 @@ class MixinAnnotationTest extends TestCase {
 	}
 
 	/**
-	 * @expectedException \RuntimeException
 	 * @return void
 	 */
 	public function testIndexInvalidCall() {
 		$annotation = new MixinAnnotation('');
 
 		$this->assertFalse($annotation->hasIndex());
+
+		$this->expectException(\RuntimeException::class);
 
 		$annotation->getIndex();
 	}

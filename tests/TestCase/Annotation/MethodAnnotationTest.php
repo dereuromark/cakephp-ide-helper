@@ -75,13 +75,14 @@ class MethodAnnotationTest extends TestCase {
 	}
 
 	/**
-	 * @expectedException \RuntimeException
 	 * @return void
 	 */
 	public function testIndexInvalidCall() {
 		$annotation = new MethodAnnotation('', '');
 
 		$this->assertFalse($annotation->hasIndex());
+
+		$this->expectException(\RuntimeException::class);
 
 		$annotation->getIndex();
 	}

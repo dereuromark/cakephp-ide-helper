@@ -4,7 +4,7 @@ namespace App\Controller;
 /**
  * @property \App\Model\Table\WheelsTable $Wheels
  * @property \App\Model\Table\BarBarsTable $BarBars
- * @property \Shim\Controller\Component\SessionComponent $Session
+ * @property \Tools\Controller\Component\CommonComponent $Common
  *
  * @method \App\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
@@ -22,7 +22,7 @@ class BarController extends AppController {
 		parent::initialize();
 
 		$this->loadComponent('Flash');
-		$this->loadComponent('Shim.Session');
+		$this->loadComponent('Tools.Common');
 
 		$this->loadModel('Wheels');
 	}

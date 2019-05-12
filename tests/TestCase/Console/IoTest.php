@@ -145,10 +145,11 @@ class IoTest extends TestCase {
 	}
 
 	/**
-	 * @expectedException \Cake\Console\Exception\StopException
 	 * @return void
 	 */
 	public function testAbort() {
+		$this->expectException(\Cake\Console\Exception\StopException::class);
+
 		$this->io->abort('Foo');
 	}
 

@@ -8,6 +8,6 @@ class MyComponent extends Component {
 	/**
 	 * @var array
 	 */
-	public $components = ['Flash', 'RequestHandler', 'Shim.Session'];
+	public $components = ['Flash', 'RequestHandler', 'Tools.Common'];
 
 }
