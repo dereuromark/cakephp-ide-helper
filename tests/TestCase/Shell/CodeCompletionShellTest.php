@@ -3,9 +3,9 @@
 namespace IdeHelper\Test\TestCase\Shell;
 
 use Cake\Console\ConsoleIo;
+use Cake\TestSuite\TestCase;
 use IdeHelper\Shell\CodeCompletionShell;
 use Tools\TestSuite\ConsoleOutput;
-use Cake\TestSuite\TestCase;
 
 class CodeCompletionShellTest extends TestCase {
 

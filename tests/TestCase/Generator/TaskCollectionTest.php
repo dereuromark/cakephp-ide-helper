@@ -2,8 +2,8 @@
 
 namespace IdeHelper\Test\TestCase\Generator;
 
-use IdeHelper\Generator\TaskCollection;
 use Cake\TestSuite\TestCase;
+use IdeHelper\Generator\TaskCollection;
 
 class TaskCollectionTest extends TestCase {
 

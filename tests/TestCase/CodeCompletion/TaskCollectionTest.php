@@ -2,8 +2,8 @@
 
 namespace IdeHelper\Test\TestCase\CodeCompletion;
 
-use IdeHelper\CodeCompletion\TaskCollection;
 use Cake\TestSuite\TestCase;
+use IdeHelper\CodeCompletion\TaskCollection;
 
 class TaskCollectionTest extends TestCase {
 

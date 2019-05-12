@@ -3,11 +3,11 @@
 namespace IdeHelper\Test\TestCase\Annotator;
 
 use Cake\Console\ConsoleIo;
+use Cake\TestSuite\TestCase;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\ShellAnnotator;
 use IdeHelper\Console\Io;
 use Tools\TestSuite\ConsoleOutput;
-use Cake\TestSuite\TestCase;
 
 class ShellAnnotatorTest extends TestCase {
 

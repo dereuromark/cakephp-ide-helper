@@ -3,9 +3,9 @@
 namespace IdeHelper\Test\TestCase\Generator\Task;
 
 use Cake\Core\Plugin;
+use Cake\TestSuite\TestCase;
 use IdeHelper\Generator\PhpstormGenerator;
 use IdeHelper\Generator\TaskCollection;
-use Cake\TestSuite\TestCase;
 
 class PhpstormGeneratorTest extends TestCase {
 

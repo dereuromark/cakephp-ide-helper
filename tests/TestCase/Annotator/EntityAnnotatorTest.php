@@ -7,13 +7,13 @@ use Cake\Console\ConsoleIo;
 use Cake\Core\Configure;
 use Cake\Database\Schema\TableSchema;
 use Cake\ORM\TableRegistry;
+use Cake\TestSuite\TestCase;
 use Cake\View\View;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\EntityAnnotator;
 use IdeHelper\Console\Io;
 use IdeHelper\View\Helper\DocBlockHelper;
 use Tools\TestSuite\ConsoleOutput;
-use Cake\TestSuite\TestCase;
 
 class EntityAnnotatorTest extends TestCase {
 

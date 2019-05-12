@@ -3,9 +3,9 @@
 namespace IdeHelper\Test\TestCase\Shell;
 
 use Cake\Console\ConsoleIo;
+use Cake\TestSuite\TestCase;
 use IdeHelper\Shell\AnnotationsShell;
 use Tools\TestSuite\ConsoleOutput;
-use Cake\TestSuite\TestCase;
 
 class AnnotationsShellTest extends TestCase {
 

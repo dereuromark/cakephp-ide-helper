@@ -3,11 +3,11 @@
 namespace IdeHelper\Test\TestCase\Annotator;
 
 use Cake\Console\ConsoleIo;
+use Cake\TestSuite\TestCase;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Console\Io;
 use IdeHelper\Illuminator\Task\EntityFieldTask;
 use Tools\TestSuite\ConsoleOutput;
-use Cake\TestSuite\TestCase;
 
 class EntityFieldTaskTest extends TestCase {
 

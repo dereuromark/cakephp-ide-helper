@@ -2,9 +2,9 @@
 
 namespace IdeHelper\Test\TestCase\CodeCompletion\Task;
 
+use Cake\TestSuite\TestCase;
 use IdeHelper\CodeCompletion\CodeCompletionGenerator;
 use IdeHelper\CodeCompletion\TaskCollection;
-use Cake\TestSuite\TestCase;
 
 class CodeCompletionGeneratorTest extends TestCase {
 

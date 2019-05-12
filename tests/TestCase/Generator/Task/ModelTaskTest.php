@@ -2,8 +2,8 @@
 
 namespace IdeHelper\Test\TestCase\Generator\Task;
 
-use IdeHelper\Generator\Task\ModelTask;
 use Cake\TestSuite\TestCase;
+use IdeHelper\Generator\Task\ModelTask;
 
 class ModelTaskTest extends TestCase {
 

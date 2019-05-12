@@ -2,8 +2,8 @@
 
 namespace IdeHelper\Test\TestCase\Generator\Task;
 
-use IdeHelper\Generator\Task\ElementTask;
 use Cake\TestSuite\TestCase;
+use IdeHelper\Generator\Task\ElementTask;
 use Tools\TestSuite\ToolsTestTrait;
 
 class ElementTaskTest extends TestCase {

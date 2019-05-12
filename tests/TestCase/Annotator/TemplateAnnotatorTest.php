@@ -7,11 +7,11 @@ use Cake\Console\ConsoleIo;
 use Cake\Core\Configure;
 use Cake\Database\Schema\TableSchema;
 use Cake\ORM\TableRegistry;
+use Cake\TestSuite\TestCase;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\TemplateAnnotator;
 use IdeHelper\Console\Io;
 use Tools\TestSuite\ConsoleOutput;
-use Cake\TestSuite\TestCase;
 use Tools\TestSuite\ToolsTestTrait;
 
 class TemplateAnnotatorTest extends TestCase {

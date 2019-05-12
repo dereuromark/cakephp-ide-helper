@@ -2,9 +2,9 @@
 
 namespace IdeHelper\Test\TestCase\Annotation;
 
+use Cake\TestSuite\TestCase;
 use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
-use Cake\TestSuite\TestCase;
 
 class MixinAnnotationTest extends TestCase {
 

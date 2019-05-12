@@ -16,8 +16,7 @@ class Plugin extends CorePlugin {
 	 * @throws \Cake\Core\Exception\MissingPluginException if the folder for the plugin to be loaded is not found
 	 * @return void
 	 */
-	public static function load(string $plugin, array $config = []): void
-	{
+	public static function load(string $plugin, array $config = []): void {
 		$config += [
 			'autoload' => false,
 			'bootstrap' => false,
@@ -72,8 +71,7 @@ class Plugin extends CorePlugin {
 	 * @return mixed
 	 * @see \Cake\Core\Plugin::load() for examples of bootstrap configuration
 	 */
-	public static function bootstrap(string $name)
-	{
+	public static function bootstrap(string $name) {
 		$plugin = static::getCollection()->get($name);
 		if (!$plugin->isEnabled('bootstrap')) {
 			return false;
@@ -95,8 +93,7 @@ class Plugin extends CorePlugin {
 	 * @param bool $ignoreMissing Whether to ignore include error for missing files
 	 * @return mixed
 	 */
-	protected static function _includeFile(string $file, bool $ignoreMissing = false)
-	{
+	protected static function _includeFile(string $file, bool $ignoreMissing = false) {
 		if ($ignoreMissing && !is_file($file)) {
 			return false;
 		}

@@ -2,11 +2,11 @@
 
 namespace IdeHelper\Test\TestCase\Annotation;
 
+use Cake\TestSuite\TestCase;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\MethodAnnotation;
 use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
-use Cake\TestSuite\TestCase;
 
 class AnnotationFactoryTest extends TestCase {
 

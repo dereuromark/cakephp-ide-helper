@@ -6,11 +6,11 @@ use App\Model\Table\FooTable;
 use Cake\Console\ConsoleIo;
 use Cake\Database\Schema\TableSchema;
 use Cake\ORM\TableRegistry;
+use Cake\TestSuite\TestCase;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\ModelAnnotator;
 use IdeHelper\Console\Io;
 use Tools\TestSuite\ConsoleOutput;
-use Cake\TestSuite\TestCase;
 
 class ModelAnnotatorTest extends TestCase {
 

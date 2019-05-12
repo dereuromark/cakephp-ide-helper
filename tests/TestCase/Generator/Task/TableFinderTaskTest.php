@@ -3,8 +3,8 @@
 namespace IdeHelper\Test\TestCase\Generator\Task;
 
 use Cake\Core\Configure;
-use IdeHelper\Generator\Task\TableFinderTask;
 use Cake\TestSuite\TestCase;
+use IdeHelper\Generator\Task\TableFinderTask;
 use Tools\TestSuite\ToolsTestTrait;
 
 class TableFinderTaskTest extends TestCase {

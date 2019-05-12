@@ -2,8 +2,8 @@
 
 namespace IdeHelper\Test\TestCase\CodeCompletion\Task;
 
-use IdeHelper\CodeCompletion\Task\BehaviorTask;
 use Cake\TestSuite\TestCase;
+use IdeHelper\CodeCompletion\Task\BehaviorTask;
 
 class BehaviorTaskTest extends TestCase {
 

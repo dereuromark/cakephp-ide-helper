@@ -4,8 +4,8 @@ namespace IdeHelper\Test\TestCase\Generator\Task;
 
 use App\Database\Type\UuidType;
 use Cake\Database\Type;
-use IdeHelper\Generator\Task\DatabaseTypeTask;
 use Cake\TestSuite\TestCase;
+use IdeHelper\Generator\Task\DatabaseTypeTask;
 
 class DatabaseTypeTaskTest extends TestCase {
 
