@@ -15,6 +15,8 @@ class AppController extends Controller {
 	public function initialize(): void {
 		parent::initialize();
 
+		$this->loadComponent('Flash');
+		$this->loadComponent('RequestHandler');
 		$this->loadComponent('Tools.Common');
 	}
 
