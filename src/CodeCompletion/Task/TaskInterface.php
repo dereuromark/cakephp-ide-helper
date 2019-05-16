@@ -9,7 +9,7 @@ interface TaskInterface {
 	public function type();
 
 	/**
-	 * @return array
+	 * @return string
 	 */
 	public function create();
 
