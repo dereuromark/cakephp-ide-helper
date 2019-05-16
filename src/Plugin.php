@@ -26,8 +26,7 @@ class Plugin extends BasePlugin {
 	 * @param \Cake\Console\CommandCollection $commands The CommandCollection to add commands into.
 	 * @return \Cake\Console\CommandCollection The updated collection.
 	 */
-	public function console(CommandCollection $commands): CommandCollection
-	{
+	public function console(CommandCollection $commands): CommandCollection {
 		// Add entry command to handle entry point and backwards compat.
 		$commands->add('annotate', AnnotationsShell::class);
 		$commands->add('code_completion', CodeCompletionShell::class);
@@ -36,4 +35,5 @@ class Plugin extends BasePlugin {
 
 		return $commands;
 	}
+
 }

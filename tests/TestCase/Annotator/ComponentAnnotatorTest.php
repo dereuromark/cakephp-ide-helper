@@ -12,8 +12,8 @@ use Tools\TestSuite\ConsoleOutput;
 
 class ComponentAnnotatorTest extends TestCase {
 
-	use TestTrait;
 	use DiffHelperTrait;
+	use TestTrait;
 
 	/**
 	 * @var \Tools\TestSuite\ConsoleOutput
