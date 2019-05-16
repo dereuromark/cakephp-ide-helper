@@ -13,6 +13,7 @@ use Tools\TestSuite\ConsoleOutput;
 class ComponentAnnotatorTest extends TestCase {
 
 	use TestTrait;
+	use DiffHelperTrait;
 
 	/**
 	 * @var \Tools\TestSuite\ConsoleOutput
@@ -46,8 +47,7 @@ class ComponentAnnotatorTest extends TestCase {
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
-				$this->debug($expectedContent);
-				$this->debug($value);
+				$this->_displayDiff($expectedContent, $value);
 			}
 			return $value === $expectedContent;
 		};
@@ -71,8 +71,7 @@ class ComponentAnnotatorTest extends TestCase {
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
-				$this->debug($expectedContent);
-				$this->debug($value);
+				$this->_displayDiff($expectedContent, $value);
 			}
 			return $value === $expectedContent;
 		};

@@ -15,7 +15,7 @@ class BarController extends AppController {
 		parent::initialize();
 
 		$this->loadComponent('Flash');
-		$this->loadComponent('Tools.Common');
+		$this->loadComponent('Tools.Mobile');
 
 		$this->loadModel('Wheels');
 	}
