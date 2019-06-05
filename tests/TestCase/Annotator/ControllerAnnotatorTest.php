@@ -169,8 +169,7 @@ class ControllerAnnotatorTest extends TestCase {
 		$annotator->annotate($path);
 
 		$output = (string)$this->out->output();
-
-		$this->assertTextNotContains('   -> 1 annotation added.', $output);
+		$this->assertTextNotContains('annotation added.', $output);
 	}
 
 }
