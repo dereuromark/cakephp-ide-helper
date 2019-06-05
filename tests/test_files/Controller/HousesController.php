@@ -1,11 +1,10 @@
 <?php
 namespace Controllers\Controller;
 
-use \Cake\Controller\Controller;
+use Cake\Controller\Controller;
 
 /**
  * @property \Controllers\Model\Table\HousesTable $Houses
  */
-class HousesController extends Controller
-{
+class HousesController extends Controller {
 }

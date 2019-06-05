@@ -130,8 +130,7 @@ class ControllerAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testAnnotateWithPluginController()
-	{
+	public function testAnnotateWithPluginController() {
 		$annotator = $this->_getAnnotatorMock([]);
 
 		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Controller/HousesController.php'));
@@ -159,8 +158,7 @@ class ControllerAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testAnnotateWithPluginControllerNoModel()
-	{
+	public function testAnnotateWithPluginControllerNoModel() {
 		$annotator = $this->_getAnnotatorMock([]);
 
 		$annotator->expects($this->never())
@@ -174,4 +172,5 @@ class ControllerAnnotatorTest extends TestCase {
 
 		$this->assertTextNotContains('   -> 1 annotation added.', $output);
 	}
+
 }
