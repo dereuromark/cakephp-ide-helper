@@ -271,13 +271,11 @@ class ControllerAnnotator extends AbstractAnnotator {
 			return null;
 		}
 
-		if ($this->getConfig(static::CONFIG_PLUGIN)) {
-			$pluginModelClass = $this->getConfig(static::CONFIG_PLUGIN) . '.' . $modelClass;
-			$className = App::className($pluginModelClass, 'Model/Table', 'Table');
-		} else {
-			$className = App::className($modelClass, 'Model/Table', 'Table');
+		if ($this->getConfig(static::CONFIG_PLUGIN) && strpos($modelClass, '.') === false) {
+			$modelClass = $this->getConfig(static::CONFIG_PLUGIN) . '.' . $modelClass;
 		}
 
+		$className = App::className($modelClass, 'Model/Table', 'Table');
 		if (!$className) {
 			return null;
 		}
