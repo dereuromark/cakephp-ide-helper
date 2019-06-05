@@ -41,6 +41,7 @@ class TableAssociationTaskTest extends TestCase {
 			'Wheels' => '\Cake\ORM\Association\BelongsTo::class',
 			'Awesome.Houses' => '\Cake\ORM\Association\BelongsTo::class',
 			'Awesome.Windows' => '\Cake\ORM\Association\BelongsTo::class',
+			'Controllers.Houses' => '\Cake\ORM\Association\BelongsTo::class',
 		];
 		$map = array_shift($result);
 		$this->assertSame($expectedMap, $map);
