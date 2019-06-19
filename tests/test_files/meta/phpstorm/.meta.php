@@ -242,6 +242,7 @@ namespace PHPSTORM_META {
 			'Shim.Configure' => \Shim\View\Helper\ConfigureHelper::class,
 			'Shim.Cookie' => \Shim\View\Helper\CookieHelper::class,
 			'Shim.Session' => \Shim\View\Helper\SessionHelper::class,
+			'Shim.Url' => \Shim\View\Helper\UrlHelper::class,
 		])
 	);
 
