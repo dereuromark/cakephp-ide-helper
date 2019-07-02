@@ -62,6 +62,7 @@ namespace PHPSTORM_META {
 			'Wheels' => \App\Model\Table\WheelsTable::class,
 			'Awesome.Houses' => \Awesome\Model\Table\HousesTable::class,
 			'Awesome.Windows' => \Awesome\Model\Table\WindowsTable::class,
+			'Controllers.Houses' => \Controllers\Model\Table\HousesTable::class,
 		])
 	);
 
@@ -97,6 +98,7 @@ namespace PHPSTORM_META {
 			'Wheels' => \App\Model\Table\WheelsTable::class,
 			'Awesome.Houses' => \Awesome\Model\Table\HousesTable::class,
 			'Awesome.Windows' => \Awesome\Model\Table\WindowsTable::class,
+			'Controllers.Houses' => \Controllers\Model\Table\HousesTable::class,
 		])
 	);
 
@@ -125,6 +127,7 @@ namespace PHPSTORM_META {
 			'Wheels' => \Cake\ORM\Association\BelongsToMany::class,
 			'Awesome.Houses' => \Cake\ORM\Association\BelongsToMany::class,
 			'Awesome.Windows' => \Cake\ORM\Association\BelongsToMany::class,
+			'Controllers.Houses' => \Cake\ORM\Association\BelongsToMany::class,
 		])
 	);
 
@@ -142,6 +145,7 @@ namespace PHPSTORM_META {
 			'Wheels' => \Cake\ORM\Association\BelongsTo::class,
 			'Awesome.Houses' => \Cake\ORM\Association\BelongsTo::class,
 			'Awesome.Windows' => \Cake\ORM\Association\BelongsTo::class,
+			'Controllers.Houses' => \Cake\ORM\Association\BelongsTo::class,
 		])
 	);
 
@@ -168,6 +172,7 @@ namespace PHPSTORM_META {
 			'Wheels' => \Cake\ORM\Association\HasMany::class,
 			'Awesome.Houses' => \Cake\ORM\Association\HasMany::class,
 			'Awesome.Windows' => \Cake\ORM\Association\HasMany::class,
+			'Controllers.Houses' => \Cake\ORM\Association\HasMany::class,
 		])
 	);
 
@@ -185,6 +190,7 @@ namespace PHPSTORM_META {
 			'Wheels' => \Cake\ORM\Association\HasOne::class,
 			'Awesome.Houses' => \Cake\ORM\Association\HasOne::class,
 			'Awesome.Windows' => \Cake\ORM\Association\HasOne::class,
+			'Controllers.Houses' => \Cake\ORM\Association\HasOne::class,
 		])
 	);
 
@@ -202,6 +208,7 @@ namespace PHPSTORM_META {
 			'Wheels' => \App\Model\Table\WheelsTable::class,
 			'Awesome.Houses' => \Awesome\Model\Table\HousesTable::class,
 			'Awesome.Windows' => \Awesome\Model\Table\WindowsTable::class,
+			'Controllers.Houses' => \Controllers\Model\Table\HousesTable::class,
 		])
 	);
 

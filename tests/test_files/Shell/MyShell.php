@@ -6,7 +6,7 @@ use Cake\Console\Shell;
 /**
  * @property \App\Model\Table\WheelsTable $Wheels
  * @property \App\Model\Table\CarsTable $Cars
- * @property \Cake\Shell\Task\AssetsTask $Assets
+ * @property \Cake\Shell\Task\CommandTask $Command
  */
 class MyShell extends Shell {
 
@@ -19,7 +19,7 @@ class MyShell extends Shell {
 	 * @var array
 	 */
 	public $tasks = [
-		'Assets',
+		'Command',
 	];
 
 	/**

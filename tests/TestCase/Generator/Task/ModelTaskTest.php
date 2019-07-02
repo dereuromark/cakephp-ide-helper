@@ -40,7 +40,8 @@ class ModelTaskTest extends TestCase {
 			'WheelsExtra' => '\App\Model\Table\WheelsExtraTable::class',
 			'Wheels' => '\App\Model\Table\WheelsTable::class',
 			'Awesome.Houses' => '\Awesome\Model\Table\HousesTable::class',
-			'Awesome.Windows' => '\Awesome\Model\Table\WindowsTable::class'
+			'Awesome.Windows' => '\Awesome\Model\Table\WindowsTable::class',
+			'Controllers.Houses' => '\Controllers\Model\Table\HousesTable::class',
 		];
 		$map = array_shift($result);
 		$this->assertSame($expectedMap, $map);

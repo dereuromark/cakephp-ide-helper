@@ -14,7 +14,7 @@ class MyShell extends Shell {
 	 * @var array
 	 */
 	public $tasks = [
-		'Assets',
+		'Command',
 	];
 
 	/**

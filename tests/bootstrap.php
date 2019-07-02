@@ -76,6 +76,7 @@ Type::build('timestamp')
 Plugin::load('IdeHelper', ['path' => ROOT . DS, 'autoload' => true]);
 Plugin::load('Shim', ['path' => ROOT . DS . 'vendor/dereuromark/cakephp-shim/', 'autoload' => true]);
 Plugin::load('Awesome', ['path' => TEST_ROOT . 'plugins/Awesome/', 'autoload' => true]);
+Plugin::load('Controllers', ['path' => TEST_ROOT . 'plugins/Controllers/', 'autoload' => true]);
 Plugin::load('MyBehavior/MyPlugin', ['path' => TEST_ROOT . 'plugins/MyBehavior/MyPlugin/', 'autoload' => true]);
 
 if (getenv('db_dsn')) {
