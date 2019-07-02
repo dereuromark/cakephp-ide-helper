@@ -53,7 +53,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @return string[]
 	 */
 	protected function propertyHintMap($content, DocBlockHelper $helper) {
-		/** @var \Cake\Database\Schema\TableSchema $tableSchema */
+		/** @var \Cake\Database\Schema\TableSchemaInterface $tableSchema */
 		$tableSchema = $this->getConfig('schema');
 		$columns = $tableSchema->columns();
 

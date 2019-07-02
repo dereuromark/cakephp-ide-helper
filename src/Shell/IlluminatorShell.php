@@ -1,6 +1,7 @@
 <?php
 namespace IdeHelper\Shell;
 
+use Cake\Console\ConsoleOptionParser;
 use Cake\Console\Shell;
 use IdeHelper\Console\Io;
 use IdeHelper\Illuminator\Illuminator;
@@ -56,7 +57,7 @@ class IlluminatorShell extends Shell {
 	/**
 	 * @return \Cake\Console\ConsoleOptionParser
 	 */
-	public function getOptionParser(): \Cake\Console\ConsoleOptionParser {
+	public function getOptionParser(): ConsoleOptionParser {
 		$tasks = $this->getTaskList();
 
 		$subcommandParser = [

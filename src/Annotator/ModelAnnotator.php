@@ -3,7 +3,7 @@ namespace IdeHelper\Annotator;
 
 use Cake\Core\App;
 use Cake\Core\Configure;
-use Cake\Database\Schema\TableSchema;
+use Cake\Database\Schema\TableSchemaInterface;
 use Cake\ORM\AssociationCollection;
 use Cake\ORM\Association\BelongsToMany;
 use Cake\ORM\Association\HasMany;
@@ -142,12 +142,12 @@ class ModelAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $entityClass
 	 * @param string $entityName
-	 * @param \Cake\Database\Schema\TableSchema $schema
+	 * @param \Cake\Database\Schema\TableSchemaInterface $schema
 	 * @param \Cake\ORM\AssociationCollection $associations
 	 *
 	 * @return bool|null
 	 */
-	protected function _entity($entityClass, $entityName, TableSchema $schema, AssociationCollection $associations) {
+	protected function _entity($entityClass, $entityName, TableSchemaInterface $schema, AssociationCollection $associations) {
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
 		$entityPaths = AppPath::get('Model/Entity', $plugin);
 		$entityPath = null;
@@ -342,11 +342,11 @@ class ModelAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $entityClass
-	 * @param \Cake\Database\Schema\TableSchema $schema
+	 * @param \Cake\Database\Schema\TableSchemaInterface $schema
 	 * @param \Cake\ORM\AssociationCollection $associations
 	 * @return \IdeHelper\Annotator\AbstractAnnotator
 	 */
-	protected function getEntityAnnotator($entityClass, TableSchema $schema, AssociationCollection $associations) {
+	protected function getEntityAnnotator($entityClass, TableSchemaInterface $schema, AssociationCollection $associations) {
 		$class = EntityAnnotator::class;
 		$tasks = (array)Configure::read('IdeHelper.annotators');
 		if (isset($tasks[$class])) {
