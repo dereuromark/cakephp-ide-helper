@@ -23,7 +23,7 @@ class CallbackAnnotatorTaskCollection {
 	 * @param array $tasks
 	 */
 	public function __construct(array $tasks = []) {
-		$defaultTasks = (array)Configure::read('IdeHelper.callbackAnnotatorTasks') + $this->defaultTasks;
+		$defaultTasks = $this->defaultTasks();
 		$tasks += $defaultTasks;
 
 		foreach ($tasks as $task) {
@@ -33,6 +33,22 @@ class CallbackAnnotatorTaskCollection {
 
 			$this->tasks = $tasks;
 		}
+	}
+
+	/**
+	 * @return string[]
+	 */
+	protected function defaultTasks() {
+		$tasks = (array)Configure::read('IdeHelper.callbackAnnotatorTasks') + $this->defaultTasks;
+
+		foreach ($tasks as $k => $v) {
+			if (is_numeric($k)) {
+				$tasks[$v] = $v;
+				unset($tasks[$k]);
+			}
+		}
+
+		return $tasks;
 	}
 
 	/**

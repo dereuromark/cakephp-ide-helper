@@ -40,7 +40,7 @@ class TaskCollection {
 	 * @param array $tasks
 	 */
 	public function __construct(array $tasks = []) {
-		$defaultTasks = (array)Configure::read('IdeHelper.generatorTasks') + $this->defaultTasks;
+		$defaultTasks = $this->defaultTasks();
 		$tasks += $defaultTasks;
 
 		foreach ($tasks as $task) {
@@ -50,6 +50,22 @@ class TaskCollection {
 
 			$this->add($task);
 		}
+	}
+
+	/**
+	 * @return string[]
+	 */
+	protected function defaultTasks() {
+		$tasks = (array)Configure::read('IdeHelper.generatorTasks') + $this->defaultTasks;
+
+		foreach ($tasks as $k => $v) {
+			if (is_numeric($k)) {
+				$tasks[$v] = $v;
+				unset($tasks[$k]);
+			}
+		}
+
+		return $tasks;
 	}
 
 	/**

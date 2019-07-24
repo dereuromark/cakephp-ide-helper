@@ -47,7 +47,7 @@ class TaskCollection {
 		$this->_io = $io;
 		$this->_config = $config;
 
-		$defaultTasks = (array)Configure::read('IdeHelper.illuminatorTasks') + $this->defaultTasks;
+		$defaultTasks = $this->defaultTasks();
 
 		$keyMap = $this->taskNames($defaultTasks);
 		$filterMap = array_diff($tasks, $keyMap);
@@ -66,6 +66,22 @@ class TaskCollection {
 
 			$this->add($task);
 		}
+	}
+
+	/**
+	 * @return string[]
+	 */
+	protected function defaultTasks() {
+		$tasks = (array)Configure::read('IdeHelper.illuminatorTasks') + $this->defaultTasks;
+
+		foreach ($tasks as $k => $v) {
+			if (is_numeric($k)) {
+				$tasks[$v] = $v;
+				unset($tasks[$k]);
+			}
+		}
+
+		return $tasks;
 	}
 
 	/**

@@ -233,6 +233,8 @@ class EntityFieldTask extends AbstractTask {
 	}
 
 	/**
+	 * If visibility "public" should be used, for PHP 7.1+ only.
+	 *
 	 * @return bool
 	 */
 	protected function visibility() {
