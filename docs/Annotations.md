@@ -76,8 +76,8 @@ A LocationsTable class would then get the following doc block annotations added 
  * @method \App\Model\Entity\Location[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Location findOrCreate($search, callable $callback = null, $options = [])
  *
- * @property \App\Model\Table\ImagesTable|\Cake\ORM\Association\HasMany $Images
- * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\ImagesTable&\Cake\ORM\Association\HasMany $Images
+ * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
 ```
@@ -160,7 +160,7 @@ will result in the following annotation:
  */
 ```
 
-They also should annotate any Tasks they use. 
+They also should annotate any Tasks they use.
 
 ## View
 The AppView class should annotate the helpers of the plugins and the app.
@@ -181,7 +181,7 @@ the following would be annotated (if `My` and `Shim.Configure` helpers were load
  * @property \Shim\View\Helper\ConfigureHelper $Configure
  */
 class AppView extends View {
-} 
+}
 ```
 
 ### Include plugins
@@ -276,22 +276,22 @@ use IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface;
 
 class MyClassAnnotatorTask extends AbstractClassAnnotatorTask implements ClassAnnotatorTaskInterface {
 
-    /**
-     * @param string $path
-     * @param string $content
-     * @return bool
-     */
-    public function shouldRun($path, $content) {
-        ...
-    }
-    
-    /**
-     * @param string $path
-     * @return bool
-     */
-    public function annotate($path) {
-        ...
-    }
+	/**
+	 * @param string $path
+	 * @param string $content
+	 * @return bool
+	 */
+	public function shouldRun($path, $content) {
+		...
+	}
+
+	/**
+	 * @param string $path
+	 * @return bool
+	 */
+	public function annotate($path) {
+		...
+	}
 
 }
 ```
@@ -351,7 +351,7 @@ To adjust the template extensions being processed set `IdeHelper.templateExtensi
 By default, all files of type `'ctp', 'php'` will be checked.
 
 ### Skipping folders
-Certain template folders, like for Bake template generation, should be skipped. 
+Certain template folders, like for Bake template generation, should be skipped.
 This is done by default for `/src/Template/Bake/` in your app or your plugin.
 
 If you want to adjust this, set `IdeHelper.skipTemplatePaths` via Configure:
@@ -443,21 +443,21 @@ use IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface;
 
 class MyCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implements CallbackAnnotatorTaskInterface {
 
-    /**
-     * @param string $path
-     * @return bool
-     */
-    public function shouldRun($path) {
-        ...
-    }
-    
-    /**
-     * @param string $path
-     * @return bool
-     */
-    public function annotate($path) {
-        ...
-    }
+	/**
+	 * @param string $path
+	 * @return bool
+	 */
+	public function shouldRun($path) {
+		...
+	}
+
+	/**
+	 * @param string $path
+	 * @return bool
+	 */
+	public function annotate($path) {
+		...
+	}
 
 }
 ```
@@ -517,7 +517,7 @@ class CustomImagesTable extends ImagesTable ...
 ```
 
 ## Continuous integration support
-The tool can also be run like the coding standards check in your CI. 
+The tool can also be run like the coding standards check in your CI.
 This way no annotation can be forgotten, when making PRs for your project.
 
 For this, use the `--ci` option along with `-d` (dry run):

@@ -4,9 +4,9 @@ namespace App\Model\Table;
 use Cake\ORM\Table;
 
 /**
- * @property \App\Model\Table\FooTable|\Cake\ORM\Association\BelongsTo $Foo
- * @property \Awesome\Model\Table\HousesTable|\Cake\ORM\Association\BelongsToMany $Houses
- * @property \Awesome\Model\Table\WindowsTable|\Cake\ORM\Association\HasMany $Windows
+ * @property \App\Model\Table\FooTable&\Cake\ORM\Association\BelongsTo $Foo
+ * @property \Awesome\Model\Table\HousesTable&\Cake\ORM\Association\BelongsToMany $Houses
+ * @property \Awesome\Model\Table\WindowsTable&\Cake\ORM\Association\HasMany $Windows
  *
  * @method \App\Model\Entity\BarBar get($primaryKey, $options = [])
  * @method \App\Model\Entity\BarBar newEntity($data = null, array $options = [])
