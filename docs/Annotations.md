@@ -161,7 +161,7 @@ will result in the following annotation:
  */
 ```
 
-They also should annotate any Tasks they use.
+They also should annotate any Tasks they use. 
 
 ## View
 The AppView class should annotate the helpers of the plugins and the app.
@@ -277,22 +277,22 @@ use IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface;
 
 class MyClassAnnotatorTask extends AbstractClassAnnotatorTask implements ClassAnnotatorTaskInterface {
 
-	/**
-	 * @param string $path
-	 * @param string $content
-	 * @return bool
-	 */
-	public function shouldRun($path, $content) {
-		...
-	}
-
-	/**
-	 * @param string $path
-	 * @return bool
-	 */
-	public function annotate($path) {
-		...
-	}
+    /**
+     * @param string $path
+     * @param string $content
+     * @return bool
+     */
+    public function shouldRun($path, $content) {
+        ...
+    }
+    
+    /**
+     * @param string $path
+     * @return bool
+     */
+    public function annotate($path) {
+        ...
+    }
 
 }
 ```
@@ -352,7 +352,7 @@ To adjust the template extensions being processed set `IdeHelper.templateExtensi
 By default, all files of type `'ctp', 'php'` will be checked.
 
 ### Skipping folders
-Certain template folders, like for Bake template generation, should be skipped.
+Certain template folders, like for Bake template generation, should be skipped. 
 This is done by default for `/src/Template/Bake/` in your app or your plugin.
 
 If you want to adjust this, set `IdeHelper.skipTemplatePaths` via Configure:
@@ -444,21 +444,21 @@ use IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface;
 
 class MyCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implements CallbackAnnotatorTaskInterface {
 
-	/**
-	 * @param string $path
-	 * @return bool
-	 */
-	public function shouldRun($path) {
-		...
-	}
-
-	/**
-	 * @param string $path
-	 * @return bool
-	 */
-	public function annotate($path) {
-		...
-	}
+    /**
+     * @param string $path
+     * @return bool
+     */
+    public function shouldRun($path) {
+        ...
+    }
+    
+    /**
+     * @param string $path
+     * @return bool
+     */
+    public function annotate($path) {
+        ...
+    }
 
 }
 ```
@@ -518,7 +518,7 @@ class CustomImagesTable extends ImagesTable ...
 ```
 
 ## Continuous integration support
-The tool can also be run like the coding standards check in your CI.
+The tool can also be run like the coding standards check in your CI. 
 This way no annotation can be forgotten, when making PRs for your project.
 
 For this, use the `--ci` option along with `-d` (dry run):
