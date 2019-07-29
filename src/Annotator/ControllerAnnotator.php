@@ -5,6 +5,8 @@ use Cake\Core\App;
 use Cake\ORM\TableRegistry;
 use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\MethodAnnotation;
+use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\ComponentTrait;
 use Throwable;
 
@@ -121,7 +123,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$annotations[] = AnnotationFactory::createOrFail('@property', '\\' . $className, '$' . $component);
+			$annotations[] = AnnotationFactory::createOrFail(PropertyAnnotation::TAG, '\\' . $className, '$' . $component);
 		}
 
 		return $annotations;
@@ -173,7 +175,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 		$type = implode('|', $entityTypehints);
 
-		$annotations = [AnnotationFactory::createOrFail('@method', $type, 'paginate($object = null, array $settings = [])')];
+		$annotations = [AnnotationFactory::createOrFail(MethodAnnotation::TAG, $type, 'paginate($object = null, array $settings = [])')];
 
 		return $annotations;
 	}

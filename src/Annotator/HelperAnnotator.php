@@ -5,6 +5,7 @@ use Cake\Core\App;
 use Cake\View\View;
 use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\HelperTrait;
 
 class HelperAnnotator extends AbstractAnnotator {
@@ -67,7 +68,7 @@ class HelperAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$helperAnnotations[] = AnnotationFactory::createOrFail('@property', '\\' . $className, '$' . $helper);
+			$helperAnnotations[] = AnnotationFactory::createOrFail(PropertyAnnotation::TAG, '\\' . $className, '$' . $helper);
 		}
 
 		return $helperAnnotations;

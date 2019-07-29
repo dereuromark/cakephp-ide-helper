@@ -6,6 +6,7 @@ use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\HelperTrait;
 use IdeHelper\Utility\AppPath;
 
@@ -28,7 +29,7 @@ class ViewAnnotator extends AbstractAnnotator {
 		$helpers = $this->_getHelpers();
 		$annotations = [];
 		foreach ($helpers as $alias => $className) {
-			$annotations[] = AnnotationFactory::createOrFail('@property', '\\' . $className, '$' . $alias);
+			$annotations[] = AnnotationFactory::createOrFail(PropertyAnnotation::TAG, '\\' . $className, '$' . $alias);
 		}
 
 		return $this->_annotate($path, $content, $annotations);

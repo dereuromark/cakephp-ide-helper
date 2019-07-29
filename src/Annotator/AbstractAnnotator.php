@@ -9,6 +9,7 @@ use Cake\Core\InstanceConfigTrait;
 use Cake\View\View;
 use IdeHelper\Annotation\AbstractAnnotation;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\FileTrait;
 use IdeHelper\Console\Io;
 use PHP_CodeSniffer\Config;
@@ -657,7 +658,7 @@ abstract class AbstractAnnotator {
 			}
 			list(, $name) = pluginSplit($usedModel);
 
-			$annotations[] = AnnotationFactory::createOrFail('@property', '\\' . $className, '$' . $name);
+			$annotations[] = AnnotationFactory::createOrFail(PropertyAnnotation::TAG, '\\' . $className, '$' . $name);
 		}
 
 		return $annotations;

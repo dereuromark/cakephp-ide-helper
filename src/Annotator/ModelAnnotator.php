@@ -12,6 +12,7 @@ use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Utility\AppPath;
 use RuntimeException;
 use Throwable;
@@ -133,7 +134,7 @@ class ModelAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$annotations[] = AnnotationFactory::createOrFail('@mixin', "\\{$className}");
+			$annotations[] = AnnotationFactory::createOrFail(MixinAnnotation::TAG, "\\{$className}");
 		}
 
 		return $this->_annotate($path, $content, $annotations);

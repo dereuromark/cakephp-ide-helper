@@ -4,6 +4,7 @@ namespace IdeHelper\Annotator;
 use Cake\Core\App;
 use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\PropertyAnnotation;
 use ReflectionClass;
 
 class ShellAnnotator extends AbstractAnnotator {
@@ -30,7 +31,7 @@ class ShellAnnotator extends AbstractAnnotator {
 
 		$usedTasks = $this->_getUsedTasks($className);
 		foreach ($usedTasks as $alias => $usedTask) {
-			$annotations[] = AnnotationFactory::createOrFail('@property', '\\' . $usedTask['fullClass'], '$' . $alias);
+			$annotations[] = AnnotationFactory::createOrFail(PropertyAnnotation::TAG, '\\' . $usedTask['fullClass'], '$' . $alias);
 		}
 
 		return $this->_annotate($path, $content, $annotations);
