@@ -56,12 +56,13 @@ See [Wiki](https://github.com/dereuromark/cakephp-ide-helper/wiki) for details a
 
 ### Plugins with meta file generator tasks
 The following plugins use this plugin to improve IDE compatibility around factory and magic string usage:
-- **[Queue](https://github.com/dereuromark/cakephp-queue)** for `QueuedJobsTable::createJob()` usage.
-- **[Service](https://github.com/burzum/cakephp-service-layer)** for `loadService()` usage.
+- [Queue](https://github.com/dereuromark/cakephp-queue) for `QueuedJobsTable::createJob()` usage.
+- [Service](https://github.com/burzum/cakephp-service-layer) for `loadService()` usage.
 - ... (add yours here)
 
 ### Plugins with illuminator tasks
-- **[StateMachine](https://github.com/spryker/cakephp-statemachine)** for syncing states from XML into PHP.
+- [StateMachine](https://github.com/spryker/cakephp-statemachine) for syncing states from XML into PHP.
+- ... (add yours here)
 
 ### Install, Setup, Usage
 See the **[Docs](https://github.com/dereuromark/cakephp-ide-helper/tree/master/docs)** for details.
