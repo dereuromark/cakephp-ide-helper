@@ -38,7 +38,7 @@ class CallbackAnnotatorTaskCollection {
 	/**
 	 * @return string[]
 	 */
-	protected function defaultTasks() {
+	public function defaultTasks() {
 		$tasks = (array)Configure::read('IdeHelper.callbackAnnotatorTasks') + $this->defaultTasks;
 
 		foreach ($tasks as $k => $v) {

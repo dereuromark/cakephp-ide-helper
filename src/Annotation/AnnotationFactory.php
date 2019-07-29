@@ -30,6 +30,8 @@ class AnnotationFactory {
 				return new MixinAnnotation($type, $index);
 			case ParamAnnotation::TAG:
 				return new ParamAnnotation($type, $content, $index);
+			case UsesAnnotation::TAG:
+				return new UsesAnnotation($type, $index);
 		}
 
 		return null;
@@ -46,7 +48,7 @@ class AnnotationFactory {
 			return static::create('@mixin', $matches[1]);
 		}
 
-		preg_match('/^(\@property|\@method|\@var|\@param) ([^ ]+) (.+)$/', $annotation, $matches);
+		preg_match('/^(\@property|\@method|\@var|\@param|\@uses) ([^ ]+) (.+)$/', $annotation, $matches);
 		if (!$matches) {
 			return null;
 		}
