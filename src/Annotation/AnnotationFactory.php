@@ -45,10 +45,14 @@ class AnnotationFactory {
 	public static function createFromString($annotation) {
 		preg_match('/^\@mixin (.+)\s*(.+)?$/', $annotation, $matches);
 		if ($matches) {
-			return static::create('@mixin', $matches[1]);
+			return static::create(MixinAnnotation::TAG, $matches[1]);
+		}
+		preg_match('/^\@uses (.+)\s*(.+)?$/', $annotation, $matches);
+		if ($matches) {
+			return static::create(UsesAnnotation::TAG, $matches[1]);
 		}
 
-		preg_match('/^(\@property|\@method|\@var|\@param|\@uses) ([^ ]+) (.+)$/', $annotation, $matches);
+		preg_match('/^(\@property|\@method|\@var|\@param) ([^ ]+) (.+)$/', $annotation, $matches);
 		if (!$matches) {
 			return null;
 		}

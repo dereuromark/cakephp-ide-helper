@@ -80,6 +80,11 @@ class AnnotationFactoryTest extends TestCase {
 		$annotation = AnnotationFactory::createFromString('@mixin \\Foo\\Model\\Entity\\Bar !');
 		$this->assertInstanceOf(MixinAnnotation::class, $annotation);
 		$this->assertSame('!', $annotation->getDescription());
+
+		/** @var \IdeHelper\Annotation\UsesAnnotation $annotation */
+		$annotation = AnnotationFactory::createFromString('@uses \\Foo\\Model\\Entity\\Bar');
+		$this->assertInstanceOf(UsesAnnotation::class, $annotation);
+		$this->assertSame('', $annotation->getDescription());
 	}
 
 }

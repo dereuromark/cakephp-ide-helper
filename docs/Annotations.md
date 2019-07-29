@@ -266,6 +266,15 @@ Out of the box the following tasks are run:
 
 Any `use ModelAwareTrait` usage together with `$this->loadModel(...)` calls will add the required annotation on top of the class.
 
+### Test
+
+Any test class of specific types can be annotated with the corresponding class it tests.
+This is mainly useful for the following types, as they are invoked indirectly via Integration test harness:
+- Controller
+- Command
+
+Here the `@uses` statements added help to quick-jump to the class if needed.
+
 ### Custom Tasks
 
 Just create your own Task class:

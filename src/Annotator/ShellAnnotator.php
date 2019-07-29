@@ -6,6 +6,7 @@ use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\PropertyAnnotation;
 use ReflectionClass;
+use Throwable;
 
 class ShellAnnotator extends AbstractAnnotator {
 
@@ -100,7 +101,7 @@ class ShellAnnotator extends AbstractAnnotator {
 				$this->_io->warn('   Skipping shell task annotations: ' . $e->getMessage());
 			}
 			return [];
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping shell task annotations: ' . $e->getMessage());
 			}
