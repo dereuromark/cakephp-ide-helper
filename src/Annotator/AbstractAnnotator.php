@@ -162,9 +162,12 @@ abstract class AbstractAnnotator {
 
 		$file = $this->_getFile($path);
 
-		$classIndex = $file->findNext(T_CLASS, 0);
+		$classOrTraitIndex = $file->findNext([T_CLASS, T_TRAIT], 0);
+		if (!$classOrTraitIndex) {
+			return false;
+		}
 
-		$closeTagIndex = $this->_findDocBlockCloseTagIndex($file, $classIndex);
+		$closeTagIndex = $this->_findDocBlockCloseTagIndex($file, $classOrTraitIndex);
 		$this->_resetCounter();
 		if ($closeTagIndex && $this->shouldSkip($file, $closeTagIndex)) {
 			return false;
@@ -172,7 +175,7 @@ abstract class AbstractAnnotator {
 		if ($closeTagIndex && !$this->isInlineDocBlock($file, $closeTagIndex)) {
 			$newContent = $this->_appendToExistingDocBlock($file, $closeTagIndex, $annotations);
 		} else {
-			$newContent = $this->_addNewDocBlock($file, $classIndex, $annotations);
+			$newContent = $this->_addNewDocBlock($file, $classOrTraitIndex, $annotations);
 		}
 
 		if ($newContent === $content) {
