@@ -85,6 +85,35 @@ TXT;
 	}
 
 	/**
+	 * @return void
+	 */
+	public function testAnnotateExisting() {
+		$content = <<<TXT
+<?php
+namespace App\Test\TestCase\Controller;
+
+use Cake\TestSuite\IntegrationTestCase;
+
+/**
+ * @uses \App\Controller\BarController
+ */
+class BarControllerTest extends IntegrationTestCase {}
+TXT;
+		$task = $this->getTask($content);
+		$path = '/tests/TestCase/Controller/BarControllerTest.php';
+
+		$result = $task->annotate($path);
+		$this->assertFalse($result);
+
+		$content = $task->getContent();
+		$count = substr_count($content, '@uses');
+		$this->assertSame(1, $count);
+
+		$output = (string)$this->out->output();
+		$this->assertSame('', $output);
+	}
+
+	/**
 	 * @param string $content
 	 * @param array $params
 	 *

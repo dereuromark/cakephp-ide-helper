@@ -46,7 +46,7 @@ abstract class AbstractAnnotator {
 	const COUNT_ADDED = 'added';
 	const COUNT_SKIPPED = 'skipped';
 
-	const TYPES = ['@property', '@var', '@method', '@mixin'];
+	const TYPES = ['@property', '@var', '@method', '@mixin', '@uses'];
 
 	/**
 	 * @var bool
