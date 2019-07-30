@@ -7,6 +7,7 @@ use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\HelperTrait;
+use Throwable;
 
 class HelperAnnotator extends AbstractAnnotator {
 
@@ -36,7 +37,7 @@ class HelperAnnotator extends AbstractAnnotator {
 				$this->_io->warn('   Skipping helper annotations: ' . $e->getMessage());
 			}
 			return false;
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping helper annotations: ' . $e->getMessage());
 			}

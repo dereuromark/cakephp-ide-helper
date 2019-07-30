@@ -6,6 +6,7 @@ use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\MethodAnnotation;
 use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
+use IdeHelper\Annotation\UsesAnnotation;
 use Tools\TestSuite\TestCase;
 
 class AnnotationFactoryTest extends TestCase {
@@ -25,6 +26,9 @@ class AnnotationFactoryTest extends TestCase {
 
 		$annotation = AnnotationFactory::create('@mixin', '\\Foo\\Model\\Entity\\Bar');
 		$this->assertInstanceOf(MixinAnnotation::class, $annotation);
+
+		$annotation = AnnotationFactory::create('@uses', '\\Foo\\Model\\Entity\\Bar');
+		$this->assertInstanceOf(UsesAnnotation::class, $annotation);
 
 		$annotation = AnnotationFactory::create('@foooo', '\\Foo', '$foo');
 		$this->assertNull($annotation);
@@ -76,6 +80,11 @@ class AnnotationFactoryTest extends TestCase {
 		$annotation = AnnotationFactory::createFromString('@mixin \\Foo\\Model\\Entity\\Bar !');
 		$this->assertInstanceOf(MixinAnnotation::class, $annotation);
 		$this->assertSame('!', $annotation->getDescription());
+
+		/** @var \IdeHelper\Annotation\UsesAnnotation $annotation */
+		$annotation = AnnotationFactory::createFromString('@uses \\Foo\\Model\\Entity\\Bar');
+		$this->assertInstanceOf(UsesAnnotation::class, $annotation);
+		$this->assertSame('', $annotation->getDescription());
 	}
 
 }

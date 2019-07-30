@@ -9,6 +9,8 @@ use Cake\Utility\Inflector;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\CallbackAnnotator;
 use IdeHelper\Annotator\ClassAnnotator;
+use IdeHelper\Annotator\ClassAnnotatorTaskCollection;
+use IdeHelper\Annotator\ClassAnnotatorTask\TestClassAnnotatorTask;
 use IdeHelper\Annotator\CommandAnnotator;
 use IdeHelper\Annotator\ComponentAnnotator;
 use IdeHelper\Annotator\ControllerAnnotator;
@@ -218,13 +220,28 @@ class AnnotationsShell extends Shell {
 		$plugin = $this->param('plugin') ?: null;
 
 		$path = $plugin ? PluginPath::get($plugin) : ROOT . DS;
-
 		$path .= 'src' . DS;
 
 		$folder = new Folder($path);
-
 		$folders = $folder->subdirectories();
+		foreach ($folders as $folder) {
+			$this->_classes($folder . DS);
+		}
 
+		$collection = new ClassAnnotatorTaskCollection();
+		$tasks = $collection->defaultTasks();
+		if (!in_array(TestClassAnnotatorTask::class, $tasks, true)) {
+			return;
+		}
+
+		$path = $plugin ? PluginPath::get($plugin) : ROOT . DS;
+		$path .= 'tests' . DS . 'TestCase' . DS;
+		if (!is_dir($path)) {
+			return;
+		}
+
+		$folder = new Folder($path);
+		$folders = $folder->subdirectories();
 		foreach ($folders as $folder) {
 			$this->_classes($folder . DS);
 		}

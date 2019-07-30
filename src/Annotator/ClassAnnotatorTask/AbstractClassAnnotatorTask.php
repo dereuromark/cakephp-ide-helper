@@ -24,6 +24,15 @@ abstract class AbstractClassAnnotatorTask extends AbstractAnnotator {
 	}
 
 	/**
+	 * For testing only
+	 *
+	 * @return string
+	 */
+	public function getContent() {
+		return $this->content;
+	}
+
+	/**
 	 * @param string $path
 	 * @param string $content
 	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
@@ -59,6 +68,8 @@ abstract class AbstractClassAnnotatorTask extends AbstractAnnotator {
 			$this->_reportSkipped();
 			return false;
 		}
+
+		$this->content = $newContent;
 
 		$this->_displayDiff($content, $newContent);
 		$this->_storeFile($path, $newContent);
