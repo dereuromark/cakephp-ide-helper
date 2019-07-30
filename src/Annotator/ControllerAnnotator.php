@@ -83,7 +83,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $content
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function _getUsedModels($content) {
 		preg_match_all('/\$this-\>loadModel\(\'([a-z.]+)\'/i', $content, $matches);
@@ -132,7 +132,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $controllerName
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function _getUsedComponents($controllerName) {
 		$plugin = $controllerName !== 'AppController' ? $this->getConfig(static::CONFIG_PLUGIN) : null;
@@ -184,7 +184,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 * @param string $content
 	 * @param string $primaryModelClass
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function _extractPaginateEntityTypehints($content, $primaryModelClass) {
 		$models = [];

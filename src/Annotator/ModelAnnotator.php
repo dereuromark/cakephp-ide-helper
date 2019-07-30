@@ -84,7 +84,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param string $path
 	 * @param string $entityName
 	 * @param array $associations
-	 * @param array $behaviors
+	 * @param string[] $behaviors
 	 *
 	 * @return bool
 	 * @throws \RuntimeException
@@ -92,10 +92,21 @@ class ModelAnnotator extends AbstractAnnotator {
 	protected function _table($path, $entityName, array $associations, array $behaviors) {
 		$content = file_get_contents($path);
 
-		$entity = $entityName;
-
 		$behaviors += $this->_parseLoadedBehaviors($content);
+		$annotations = $this->_buildAnnotations($associations, $entityName, $behaviors);
 
+		return $this->_annotate($path, $content, $annotations);
+	}
+
+	/**
+	 * @param array $associations
+	 * @param string $entity
+	 * @param string[] $behaviors
+	 *
+	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 * @throws \RuntimeException
+	 */
+	protected function _buildAnnotations(array $associations, $entity, array $behaviors) {
 		$namespace = $this->getConfig(static::CONFIG_NAMESPACE);
 		$annotations = [];
 		foreach ($associations as $type => $assocs) {
@@ -137,7 +148,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			$annotations[] = AnnotationFactory::createOrFail(MixinAnnotation::TAG, "\\{$className}");
 		}
 
-		return $this->_annotate($path, $content, $annotations);
+		return $annotations;
 	}
 
 	/**
@@ -175,7 +186,7 @@ class ModelAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $content
-	 * @return array
+	 * @return string[]
 	 */
 	protected function _parseLoadedBehaviors($content) {
 		preg_match_all('/\$this-\>addBehavior\(\'([a-z.\/]+)\'/i', $content, $matches);
@@ -202,6 +213,9 @@ class ModelAnnotator extends AbstractAnnotator {
 		$associations = [];
 		foreach ($tableAssociations->keys() as $key) {
 			$association = $tableAssociations->get($key);
+			if (!$association) {
+				continue;
+			}
 			$type = get_class($association);
 
 			list(, $name) = pluginSplit($association->getAlias());
@@ -272,7 +286,7 @@ class ModelAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param \Cake\ORM\Table $table
-	 * @return array
+	 * @return string[]
 	 */
 	protected function _getBehaviors($table) {
 		$object = $table->behaviors();
@@ -299,8 +313,7 @@ class ModelAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param array $map
-	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function _extractBehaviors(array $map) {
 		$result = [];

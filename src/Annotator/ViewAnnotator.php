@@ -15,7 +15,7 @@ class ViewAnnotator extends AbstractAnnotator {
 	use HelperTrait;
 
 	/**
-	 * @var array
+	 * @var string[]
 	 */
 	protected $helpers = [];
 
@@ -27,16 +27,13 @@ class ViewAnnotator extends AbstractAnnotator {
 		$content = file_get_contents($path);
 
 		$helpers = $this->_getHelpers();
-		$annotations = [];
-		foreach ($helpers as $alias => $className) {
-			$annotations[] = AnnotationFactory::createOrFail(PropertyAnnotation::TAG, '\\' . $className, '$' . $alias);
-		}
+		$annotations = $this->_buildAnnotations($helpers);
 
 		return $this->_annotate($path, $content, $annotations);
 	}
 
 	/**
-	 * @return array
+	 * @return string[]
 	 */
 	protected function _getHelpers() {
 		$helperArray = $this->_parseViewClass();
@@ -89,7 +86,7 @@ class ViewAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $content
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function _parseHelpersInContent($content) {
 		preg_match_all('/\$this-\>([A-Z][A-Za-z]+)-\>/', $content, $matches);
@@ -103,7 +100,7 @@ class ViewAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @return array
+	 * @return string[]
 	 */
 	protected function _parseViewClass() {
 		$helpers = [];
@@ -127,9 +124,9 @@ class ViewAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param array $helperArray
+	 * @param string[] $helperArray
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function _addAppHelpers($helperArray) {
 		$paths = AppPath::get('View/Helper');
@@ -158,7 +155,21 @@ class ViewAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @return array
+	 * @param string[] $helpers
+	 *
+	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 */
+	protected function _buildAnnotations(array $helpers) {
+		$annotations = [];
+		foreach ($helpers as $alias => $className) {
+			$annotations[] = AnnotationFactory::createOrFail(PropertyAnnotation::TAG, '\\' . $className, '$' . $alias);
+		}
+
+		return $annotations;
+	}
+
+	/**
+	 * @return string[]
 	 */
 	protected function _getFolders() {
 		$plugin = null;

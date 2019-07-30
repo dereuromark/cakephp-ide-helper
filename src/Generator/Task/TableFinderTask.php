@@ -111,7 +111,7 @@ class TableFinderTask extends ModelTask {
 	/**
 	 * @param string $className
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function getFinderMethods($className) {
 		$result = [];
@@ -125,10 +125,10 @@ class TableFinderTask extends ModelTask {
 	}
 
 	/**
-	 * @param array $result
+	 * @param string[] $result
 	 * @param string $method
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function addMethod(array $result, $method) {
 		// We must exclude all find...By... patterns as possible false positives for now (refs https://github.com/cakephp/cakephp/issues/11240)

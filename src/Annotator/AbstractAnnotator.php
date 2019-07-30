@@ -644,7 +644,7 @@ abstract class AbstractAnnotator {
 	}
 
 	/**
-	 * @param array $usedModels
+	 * @param string[] $usedModels
 	 * @param string $content
 	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */

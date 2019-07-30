@@ -20,19 +20,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	public function annotate($path) {
 		$content = file_get_contents($path);
 
-		$annotations = [];
-		$needsAnnotation = $this->_needsViewAnnotation($content);
-		if ($needsAnnotation) {
-			$annotations[] = $this->_getViewAnnotation();
-		}
-
-		$entityAnnotations = $this->_getEntityAnnotations($content);
-		foreach ($entityAnnotations as $entityAnnotation) {
-			if (!$entityAnnotation) {
-				continue;
-			}
-			$annotations[] = $entityAnnotation;
-		}
+		$annotations = $this->_buildAnnotations($content);
 
 		return $this->_annotate($path, $content, $annotations);
 	}
@@ -313,7 +301,8 @@ class TemplateAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$result[$matches[1][$key]] = AnnotationFactory::createOrFail(VariableAnnotation::TAG, '\\' . $className . '[]|\Cake\Collection\CollectionInterface', '$' . $matches[1][$key]);
+			$resultKey = $matches[1][$key];
+			$result[$resultKey] = AnnotationFactory::createOrFail(VariableAnnotation::TAG, '\\' . $className . '[]|\Cake\Collection\CollectionInterface', '$' . $matches[1][$key]);
 			// We do not need the singular then
 			$result[$entity] = null;
 		}
@@ -372,6 +361,31 @@ class TemplateAnnotator extends AbstractAnnotator {
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param string $content
+	 *
+	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 */
+	protected function _buildAnnotations($content) {
+		$annotations = [];
+
+		$needsAnnotation = $this->_needsViewAnnotation($content);
+		if ($needsAnnotation) {
+			$annotations[] = $this->_getViewAnnotation();
+		}
+
+		$entityAnnotations = $this->_getEntityAnnotations($content);
+		/** @var \IdeHelper\Annotation\AbstractAnnotation|null $entityAnnotation */
+		foreach ($entityAnnotations as $entityAnnotation) {
+			if (!$entityAnnotation) {
+				continue;
+			}
+			$annotations[] = $entityAnnotation;
+		}
+
+		return $annotations;
 	}
 
 }

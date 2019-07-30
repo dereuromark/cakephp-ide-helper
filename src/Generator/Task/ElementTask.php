@@ -31,7 +31,7 @@ class ElementTask extends ModelTask {
 	}
 
 	/**
-	 * @return array
+	 * @return string[]
 	 */
 	protected function collectElements() {
 		$paths = AppPath::get('Template');
@@ -51,11 +51,11 @@ class ElementTask extends ModelTask {
 	}
 
 	/**
-	 * @param array $result
-	 * @param array $paths
+	 * @param string[] $result
+	 * @param string[] $paths
 	 * @param string|null $plugin
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function addElements(array $result, array $paths, $plugin = null) {
 		foreach ($paths as $path) {
