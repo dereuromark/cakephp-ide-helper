@@ -63,14 +63,7 @@ class TestClassAnnotatorTaskTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotate() {
-		$content = <<<TXT
-<?php
-namespace App\Test\TestCase\Controller;
-
-use Cake\TestSuite\IntegrationTestCase;
-
-class BarControllerTest extends IntegrationTestCase {}
-TXT;
+		$content = file_get_contents(TEST_FILES . 'tests' . DS . 'BarControllerTest.new.php');
 		$task = $this->getTask($content);
 		$path = '/tests/TestCase/Controller/BarControllerTest.php';
 
@@ -88,17 +81,7 @@ TXT;
 	 * @return void
 	 */
 	public function testAnnotateExisting() {
-		$content = <<<TXT
-<?php
-namespace App\Test\TestCase\Controller;
-
-use Cake\TestSuite\IntegrationTestCase;
-
-/**
- * @uses \App\Controller\BarController
- */
-class BarControllerTest extends IntegrationTestCase {}
-TXT;
+		$content = file_get_contents(TEST_FILES . 'tests' . DS . 'BarControllerTest.existing.php');
 		$task = $this->getTask($content);
 		$path = '/tests/TestCase/Controller/BarControllerTest.php';
 
