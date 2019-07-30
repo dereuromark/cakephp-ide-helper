@@ -2,6 +2,7 @@
 namespace IdeHelper\Annotator;
 
 use Cake\Core\Configure;
+use Cake\ORM\Association;
 use Cake\Utility\Inflector;
 use Cake\View\View;
 use Exception;
@@ -109,7 +110,8 @@ class EntityAnnotator extends AbstractAnnotator {
 				$schema[$association->getProperty()] = [
 					'kind' => 'association',
 					'association' => $association,
-					'type' => $entityClass
+					'type' => $entityClass,
+					'null' => $this->nullable($association, $schema),
 				];
 			} catch (Exception $exception) {
 				continue;
@@ -117,6 +119,37 @@ class EntityAnnotator extends AbstractAnnotator {
 		}
 
 		return $schema;
+	}
+
+	/**
+	 * @param \Cake\ORM\Association $association
+	 * @param array $schema
+	 * @return bool
+	 */
+	protected function nullable(Association $association, array $schema) {
+		if ($association->type() === Association::ONE_TO_ONE) {
+			$targetSchema = $association->getTarget()->getSchema();
+
+			$field = $association->getForeignKey();
+			$column = $targetSchema->getColumn($field);
+
+			if (!$column || !isset($column['null'])) {
+				return false;
+			}
+
+			return $column['null'];
+		}
+
+		if ($association->type() === Association::MANY_TO_ONE) {
+			$field = $association->getForeignKey();
+			if (!isset($schema[$field]['null'])) {
+				return false;
+			}
+
+			return $schema[$field]['null'];
+		}
+
+		return false;
 	}
 
 	/**

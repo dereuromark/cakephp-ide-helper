@@ -84,7 +84,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param string $path
 	 * @param string $entityName
 	 * @param array $associations
-	 * @param array $behaviors
+	 * @param string[] $behaviors
 	 *
 	 * @return bool
 	 * @throws \RuntimeException
@@ -175,7 +175,7 @@ class ModelAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $content
-	 * @return array
+	 * @return string[]
 	 */
 	protected function _parseLoadedBehaviors($content) {
 		preg_match_all('/\$this-\>addBehavior\(\'([a-z.\/]+)\'/i', $content, $matches);
@@ -202,6 +202,9 @@ class ModelAnnotator extends AbstractAnnotator {
 		$associations = [];
 		foreach ($tableAssociations->keys() as $key) {
 			$association = $tableAssociations->get($key);
+			if (!$association) {
+				continue;
+			}
 			$type = get_class($association);
 
 			list(, $name) = pluginSplit($association->getAlias());
@@ -272,7 +275,7 @@ class ModelAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param \Cake\ORM\Table $table
-	 * @return array
+	 * @return string[]
 	 */
 	protected function _getBehaviors($table) {
 		$object = $table->behaviors();
@@ -299,8 +302,7 @@ class ModelAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param array $map
-	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function _extractBehaviors(array $map) {
 		$result = [];
