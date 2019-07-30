@@ -166,7 +166,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @param array $propertySchema
 	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function buildExtendedEntityPropertyHintTypeMap(array $propertySchema, DocBlockHelper $helper) {
 		$propertyHintMap = [];
@@ -207,7 +207,7 @@ class EntityAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $content
-	 * @return array
+	 * @return string[]
 	 */
 	protected function buildVirtualPropertyHintTypeMap($content) {
 		if (!preg_match('#\bfunction \_get[A-Z][a-zA-Z0-9]+\(\)#', $content)) {

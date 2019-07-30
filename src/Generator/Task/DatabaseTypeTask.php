@@ -26,7 +26,7 @@ class DatabaseTypeTask implements TaskInterface {
 	}
 
 	/**
-	 * @return array
+	 * @return string[]
 	 */
 	protected function getTypes() {
 		$types = [];

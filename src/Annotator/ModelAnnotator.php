@@ -92,10 +92,21 @@ class ModelAnnotator extends AbstractAnnotator {
 	protected function _table($path, $entityName, array $associations, array $behaviors) {
 		$content = file_get_contents($path);
 
-		$entity = $entityName;
-
 		$behaviors += $this->_parseLoadedBehaviors($content);
+		$annotations = $this->_buildAnnotations($associations, $entityName, $behaviors);
 
+		return $this->_annotate($path, $content, $annotations);
+	}
+
+	/**
+	 * @param array $associations
+	 * @param string $entity
+	 * @param string[] $behaviors
+	 *
+	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 * @throws \RuntimeException
+	 */
+	protected function _buildAnnotations(array $associations, $entity, array $behaviors) {
 		$namespace = $this->getConfig(static::CONFIG_NAMESPACE);
 		$annotations = [];
 		foreach ($associations as $type => $assocs) {
@@ -137,7 +148,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			$annotations[] = AnnotationFactory::createOrFail(MixinAnnotation::TAG, "\\{$className}");
 		}
 
-		return $this->_annotate($path, $content, $annotations);
+		return $annotations;
 	}
 
 	/**

@@ -30,15 +30,26 @@ class ComponentAnnotator extends AbstractAnnotator {
 			return false;
 		}
 
-		$annotations = [];
 		$content = file_get_contents($path);
+		$annotations = $this->_buildAnnotations($className);
+
+		return $this->_annotate($path, $content, $annotations);
+	}
+
+	/**
+	 * @param string $className
+	 *
+	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 */
+	protected function _buildAnnotations($className) {
+		$annotations = [];
 
 		$componentAnnotations = $this->_getComponentAnnotations($className);
 		foreach ($componentAnnotations as $componentAnnotation) {
 			$annotations[] = $componentAnnotation;
 		}
 
-		return $this->_annotate($path, $content, $annotations);
+		return $annotations;
 	}
 
 	/**

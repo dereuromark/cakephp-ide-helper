@@ -44,7 +44,7 @@ class CommandAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $content
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function _getUsedModels($content) {
 		preg_match_all('/\$this-\>loadModel\(\'([a-z.\/]+)\'/i', $content, $matches);
