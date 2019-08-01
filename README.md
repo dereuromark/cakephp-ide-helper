@@ -50,6 +50,7 @@ IDEs tested so far for 100% compatibility:
 - **[PHPStorm](https://github.com/dereuromark/cakephp-ide-helper/wiki/PHPStorm)** (incl. meta file generator)
 - IntelliJ
 - Atom
+- **[VS Code](https://github.com/dereuromark/cakephp-ide-helper/wiki/Visual-Studio-Code)**
 - ... [Report or PR your IDE of choice here to confirm its full compatibility]
 
 See [Wiki](https://github.com/dereuromark/cakephp-ide-helper/wiki) for details and tips/settings.
