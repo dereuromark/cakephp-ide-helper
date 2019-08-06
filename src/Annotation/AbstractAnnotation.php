@@ -29,7 +29,7 @@ abstract class AbstractAnnotation implements AnnotationInterface, ReplacableAnno
 	 * @param string $type
 	 * @param int|null $index
 	 */
-	public function __construct($type, $index = null) {
+	public function __construct(string $type, ?int $index = null) {
 		$this->type = $type;
 		$this->index = $index;
 	}
@@ -37,21 +37,21 @@ abstract class AbstractAnnotation implements AnnotationInterface, ReplacableAnno
 	/**
 	 * @return string
 	 */
-	public function __toString() {
+	public function __toString(): string {
 		return static::TAG . ' ' . $this->build();
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getType() {
+	public function getType(): string {
 		return $this->type;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function hasIndex() {
+	public function hasIndex(): bool {
 		return $this->index !== null;
 	}
 
@@ -59,7 +59,7 @@ abstract class AbstractAnnotation implements AnnotationInterface, ReplacableAnno
 	 * @return int|null
 	 * @throws \RuntimeException
 	 */
-	public function getIndex() {
+	public function getIndex(): ?int {
 		if ($this->index === null) {
 			throw new RuntimeException('You cannot get an non-defined index. You can check with hasIndex() before calling this method.');
 		}
@@ -72,14 +72,14 @@ abstract class AbstractAnnotation implements AnnotationInterface, ReplacableAnno
 	 *
 	 * @return void
 	 */
-	public function setInUse($inUse = true) {
+	public function setInUse(bool $inUse = true): void {
 		$this->isInUse = $inUse;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function isInUse() {
+	public function isInUse(): bool {
 		return $this->isInUse;
 	}
 

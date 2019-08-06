@@ -20,7 +20,7 @@ class CodeCompletionGenerator {
 	/**
 	 * @return string[]
 	 */
-	public function generate() {
+	public function generate(): array {
 		$map = $this->taskCollection->getMap();
 
 		foreach ($map as $namespace => $array) {
@@ -45,11 +45,11 @@ TXT;
 	}
 
 	/**
-	 * @param array $array
+	 * @param string[] $array
 	 *
 	 * @return string
 	 */
-	protected function buildContent(array $array) {
+	protected function buildContent(array $array): string {
 		return implode('', $array);
 	}
 
@@ -58,14 +58,14 @@ TXT;
 	 *
 	 * @return string
 	 */
-	protected function type($namespace) {
+	protected function type(string $namespace): string {
 		return preg_replace('/[^\da-z]/i', '', $namespace);
 	}
 
 	/**
 	 * @return string
 	 */
-	protected function path() {
+	protected function path(): string {
 		$path = Configure::read('IdeHelper.codeCompletionPath') ?: TMP;
 		if (!is_dir($path)) {
 			mkdir($path, 0775, true);

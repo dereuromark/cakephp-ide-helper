@@ -9,6 +9,9 @@ use Cake\Core\InstanceConfigTrait;
 use Cake\View\View;
 use IdeHelper\Annotation\AbstractAnnotation;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\MethodAnnotation;
+use IdeHelper\Annotation\PropertyAnnotation;
+use IdeHelper\Annotation\VariableAnnotation;
 use IdeHelper\Annotator\Traits\FileTrait;
 use IdeHelper\Console\Io;
 use PHP_CodeSniffer\Config;
@@ -45,7 +48,7 @@ abstract class AbstractAnnotator {
 	const COUNT_ADDED = 'added';
 	const COUNT_SKIPPED = 'skipped';
 
-	const TYPES = ['@property', '@var', '@method', '@mixin'];
+	const TYPES = ['@property', '@var', '@method', '@mixin', '@uses'];
 
 	/**
 	 * @var bool
@@ -82,14 +85,14 @@ abstract class AbstractAnnotator {
 	 * @param string $path Path to file.
 	 * @return bool
 	 */
-	abstract public function annotate($path);
+	abstract public function annotate(string $path): bool;
 
 	/**
 	 * @param string $oldContent
 	 * @param string $newContent
 	 * @return void
 	 */
-	protected function _displayDiff($oldContent, $newContent) {
+	protected function displayDiff(string $oldContent, string $newContent): void {
 		$differ = new Differ(null);
 		$array = $differ->diffToArray($oldContent, $newContent);
 
@@ -134,7 +137,7 @@ abstract class AbstractAnnotator {
 	 * @param string $contents
 	 * @return void
 	 */
-	protected function _storeFile($path, $contents) {
+	protected function storeFile(string $path, string $contents): void {
 		static::$output = true;
 
 		if ($this->getConfig(static::CONFIG_DRY_RUN)) {
@@ -155,35 +158,38 @@ abstract class AbstractAnnotator {
 	 *
 	 * @return bool
 	 */
-	protected function _annotate($path, $content, array $annotations) {
+	protected function annotateContent(string $path, string $content, array $annotations): bool {
 		if (!count($annotations)) {
 			return false;
 		}
 
-		$file = $this->_getFile($path);
+		$file = $this->getFile($path);
 
-		$classIndex = $file->findNext(T_CLASS, 0);
+		$classOrTraitIndex = $file->findNext([T_CLASS, T_TRAIT], 0);
+		if (!$classOrTraitIndex) {
+			return false;
+		}
 
-		$closeTagIndex = $this->_findDocBlockCloseTagIndex($file, $classIndex);
-		$this->_resetCounter();
+		$closeTagIndex = $this->findDocBlockCloseTagIndex($file, $classOrTraitIndex);
+		$this->resetCounter();
 		if ($closeTagIndex && $this->shouldSkip($file, $closeTagIndex)) {
 			return false;
 		}
 		if ($closeTagIndex && !$this->isInlineDocBlock($file, $closeTagIndex)) {
-			$newContent = $this->_appendToExistingDocBlock($file, $closeTagIndex, $annotations);
+			$newContent = $this->appendToExistingDocBlock($file, $closeTagIndex, $annotations);
 		} else {
-			$newContent = $this->_addNewDocBlock($file, $classIndex, $annotations);
+			$newContent = $this->addNewDocBlock($file, $classOrTraitIndex, $annotations);
 		}
 
 		if ($newContent === $content) {
-			$this->_reportSkipped();
+			$this->reportSkipped();
 			return false;
 		}
 
-		$this->_displayDiff($content, $newContent);
-		$this->_storeFile($path, $newContent);
+		$this->displayDiff($content, $newContent);
+		$this->storeFile($path, $newContent);
 
-		$this->_report();
+		$this->report();
 
 		return true;
 	}
@@ -192,15 +198,15 @@ abstract class AbstractAnnotator {
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $index First functional code after docblock
 	 *
-	 * @return int|false
+	 * @return int|null
 	 */
-	protected function _findDocBlockCloseTagIndex(File $file, $index) {
+	protected function findDocBlockCloseTagIndex(File $file, int $index): ?int {
 		$prevCode = $file->findPrevious(Tokens::$emptyTokens, $index - 1, null, true);
 		if (!$prevCode) {
-			return false;
+			return null;
 		}
 
-		return $file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $index - 1, $prevCode);
+		return $file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $index - 1, $prevCode) ?: null;
 	}
 
 	/**
@@ -212,8 +218,8 @@ abstract class AbstractAnnotator {
 	 *
 	 * @return string
 	 */
-	protected function _appendToExistingDocBlock(File $file, $docBlockCloseIndex, array &$annotations) {
-		$existingAnnotations = $this->_parseExistingAnnotations($file, $docBlockCloseIndex);
+	protected function appendToExistingDocBlock(File $file, int $docBlockCloseIndex, array &$annotations): string {
+		$existingAnnotations = $this->parseExistingAnnotations($file, $docBlockCloseIndex);
 
 		$replacingAnnotations = [];
 		$addingAnnotations = [];
@@ -221,18 +227,18 @@ abstract class AbstractAnnotator {
 			if (!is_object($annotation)) {
 				throw new RuntimeException('Must be object: ' . print_r($annotation, true));
 			}
-			if ($this->_exists($annotation, $existingAnnotations)) {
+			if ($this->exists($annotation, $existingAnnotations)) {
 				unset($annotations[$key]);
 				continue;
 			}
 
-			if (!$this->_allowsReplacing($annotation, $existingAnnotations)) {
+			if (!$this->allowsReplacing($annotation, $existingAnnotations)) {
 				unset($annotations[$key]);
 				$this->_counter[static::COUNT_SKIPPED]++;
 				continue;
 			}
 
-			$toBeReplaced = $this->_needsReplacing($annotation, $existingAnnotations);
+			$toBeReplaced = $this->needsReplacing($annotation, $existingAnnotations);
 			if (!$toBeReplaced) {
 				$addingAnnotations[] = $annotation;
 				continue;
@@ -247,9 +253,9 @@ abstract class AbstractAnnotator {
 			$lastTagIndexOfPreviousLine--;
 		}
 
-		$needsNewline = $this->_needsNewLineInDocBlock($file, $lastTagIndexOfPreviousLine);
+		$needsNewline = $this->needsNewLineInDocBlock($file, $lastTagIndexOfPreviousLine);
 
-		$fixer = $this->_getFixer($file);
+		$fixer = $this->getFixer($file);
 
 		$fixer->beginChangeset();
 
@@ -294,9 +300,7 @@ abstract class AbstractAnnotator {
 
 		$fixer->endChangeset();
 
-		$contents = $fixer->getContents();
-
-		return $contents;
+		return $fixer->getContents();
 	}
 
 	/**
@@ -305,7 +309,7 @@ abstract class AbstractAnnotator {
 	 *
 	 * @return int
 	 */
-	protected function getLastWhitespaceOfPreviousLine(array $tokens, $index) {
+	protected function getLastWhitespaceOfPreviousLine(array $tokens, int $index): int {
 		$currentLine = $tokens[$index]['line'];
 		$index--;
 		while ($tokens[$index]['line'] === $currentLine) {
@@ -320,7 +324,7 @@ abstract class AbstractAnnotator {
 	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $existingAnnotations
 	 * @return bool
 	 */
-	protected function _exists(AbstractAnnotation $annotation, array &$existingAnnotations) {
+	protected function exists(AbstractAnnotation $annotation, array &$existingAnnotations): bool {
 		foreach ($existingAnnotations as $key => $existingAnnotation) {
 			if ($existingAnnotation->build() === $annotation->build()) {
 				unset ($existingAnnotations[$key]);
@@ -337,7 +341,7 @@ abstract class AbstractAnnotator {
 	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $existingAnnotations
 	 * @return \IdeHelper\Annotation\AbstractAnnotation|null
 	 */
-	protected function _needsReplacing(AbstractAnnotation $annotation, array &$existingAnnotations) {
+	protected function needsReplacing(AbstractAnnotation $annotation, array &$existingAnnotations) {
 		foreach ($existingAnnotations as $key => $existingAnnotation) {
 			if ($existingAnnotation->matches($annotation)) {
 				$newAnnotation = clone $existingAnnotation;
@@ -357,7 +361,7 @@ abstract class AbstractAnnotator {
 	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $existingAnnotations
 	 * @return bool
 	 */
-	protected function _allowsReplacing(AbstractAnnotation $annotation, array &$existingAnnotations) {
+	protected function allowsReplacing(AbstractAnnotation $annotation, array &$existingAnnotations): bool {
 		foreach ($existingAnnotations as $key => $existingAnnotation) {
 			if ($existingAnnotation->matches($annotation) && $existingAnnotation->getDescription() !== '') {
 				unset ($existingAnnotations[$key]);
@@ -372,11 +376,11 @@ abstract class AbstractAnnotator {
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $closeTagIndex
-	 * @param array $types
+	 * @param string[] $types
 	 *
 	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
-	protected function _parseExistingAnnotations(File $file, $closeTagIndex, $types = self::TYPES) {
+	protected function parseExistingAnnotations(File $file, int $closeTagIndex, array $types = self::TYPES): array {
 		$tokens = $file->getTokens();
 
 		$startTagIndex = $tokens[$closeTagIndex]['comment_opener'];
@@ -386,7 +390,7 @@ abstract class AbstractAnnotator {
 			if ($tokens[$i]['type'] !== 'T_DOC_COMMENT_TAG') {
 				continue;
 			}
-			if (!in_array($tokens[$i]['content'], $types)) {
+			if (!in_array($tokens[$i]['content'], $types, true)) {
 				continue;
 			}
 
@@ -408,13 +412,13 @@ abstract class AbstractAnnotator {
 			$tag = $tokens[$i]['content'];
 			$content = trim($appendix);
 			$annotation = AnnotationFactory::createOrFail($tag, $type, $content, $classNameIndex);
-			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === '@var' && $this->varInUse($tokens, $closeTagIndex, $content)) {
+			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === VariableAnnotation::TAG && $this->varInUse($tokens, $closeTagIndex, $content)) {
 				$annotation->setInUse();
 			}
-			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === '@property' && $this->propertyInUse($tokens, $closeTagIndex, $content)) {
+			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === PropertyAnnotation::TAG && $this->propertyInUse($tokens, $closeTagIndex, $content)) {
 				$annotation->setInUse();
 			}
-			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === '@method' && $this->methodInUse($tokens, $closeTagIndex, $content)) {
+			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === MethodAnnotation::TAG && $this->methodInUse($tokens, $closeTagIndex, $content)) {
 				$annotation->setInUse();
 			}
 
@@ -435,7 +439,7 @@ abstract class AbstractAnnotator {
 	 *
 	 * @return bool
 	 */
-	protected function varInUse(array $tokens, $closeTagIndex, $variable) {
+	protected function varInUse(array $tokens, int $closeTagIndex, string $variable): bool {
 		if ($variable === '$this') {
 			return false;
 		}
@@ -465,7 +469,7 @@ abstract class AbstractAnnotator {
 	 *
 	 * @return bool
 	 */
-	protected function propertyInUse(array $tokens, $closeTagIndex, $variable) {
+	protected function propertyInUse(array $tokens, int $closeTagIndex, string $variable): bool {
 		/** @var string $property */
 		$property = substr($variable, 1);
 
@@ -512,7 +516,7 @@ abstract class AbstractAnnotator {
 	 *
 	 * @return bool
 	 */
-	protected function methodInUse(array $tokens, $closeTagIndex, $method) {
+	protected function methodInUse(array $tokens, int $closeTagIndex, string $method): bool {
 		if (!preg_match('#^(\w+)\(#', $method, $matches)) {
 			return false;
 		}
@@ -553,7 +557,7 @@ abstract class AbstractAnnotator {
 	 *
 	 * @return bool
 	 */
-	protected function _needsNewLineInDocBlock(File $file, $lastTagIndexOfPreviousLine) {
+	protected function needsNewLineInDocBlock(File $file, int $lastTagIndexOfPreviousLine): bool {
 		$tokens = $file->getTokens();
 
 		$line = $tokens[$lastTagIndexOfPreviousLine]['line'];
@@ -576,7 +580,7 @@ abstract class AbstractAnnotator {
 	 *
 	 * @return string
 	 */
-	protected function _addNewDocBlock(File $file, $classIndex, array $annotations) {
+	protected function addNewDocBlock(File $file, int $classIndex, array $annotations): string {
 		$tokens = $file->getTokens();
 
 		foreach ($annotations as $key => $annotation) {
@@ -592,7 +596,7 @@ abstract class AbstractAnnotator {
 			$annotationString = str_replace("\n", PHP_EOL, $annotationString);
 		}
 
-		$fixer = $this->_getFixer($file);
+		$fixer = $this->getFixer($file);
 
 		$docBlock = $annotationString . PHP_EOL;
 		$fixer->replaceToken($classIndex, $docBlock . $tokens[$classIndex]['content']);
@@ -610,7 +614,7 @@ abstract class AbstractAnnotator {
 	 *
 	 * @return bool
 	 */
-	protected function isInlineDocBlock(File $file, $docBlockCloseIndex) {
+	protected function isInlineDocBlock(File $file, int $docBlockCloseIndex): bool {
 		$tokens = $file->getTokens();
 
 		$docBlockOpenIndex = $tokens[$docBlockCloseIndex]['comment_opener'];
@@ -623,7 +627,7 @@ abstract class AbstractAnnotator {
 	 * @param int $docBlockCloseIndex
 	 * @return bool
 	 */
-	protected function shouldSkip(File $file, $docBlockCloseIndex) {
+	protected function shouldSkip(File $file, int $docBlockCloseIndex): bool {
 		$tokens = $file->getTokens();
 		$docBlockOpenIndex = $tokens[$docBlockCloseIndex]['comment_opener'];
 
@@ -640,11 +644,11 @@ abstract class AbstractAnnotator {
 	}
 
 	/**
-	 * @param array $usedModels
+	 * @param string[] $usedModels
 	 * @param string $content
 	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
-	protected function _getModelAnnotations($usedModels, $content) {
+	protected function getModelAnnotations(array $usedModels, string $content): array {
 		$annotations = [];
 
 		foreach ($usedModels as $usedModel) {
@@ -654,7 +658,7 @@ abstract class AbstractAnnotator {
 			}
 			list(, $name) = pluginSplit($usedModel);
 
-			$annotations[] = AnnotationFactory::createOrFail('@property', '\\' . $className, '$' . $name);
+			$annotations[] = AnnotationFactory::createOrFail(PropertyAnnotation::TAG, '\\' . $className, '$' . $name);
 		}
 
 		return $annotations;
@@ -674,7 +678,7 @@ abstract class AbstractAnnotator {
 	 *
 	 * @return mixed Property value.
 	 */
-	protected function _invokeProperty(&$object, $name) {
+	protected function invokeProperty(&$object, string $name) {
 		$reflection = new ReflectionClass(get_class($object));
 		$property = $reflection->getProperty($name);
 		$property->setAccessible(true);
@@ -685,7 +689,7 @@ abstract class AbstractAnnotator {
 	/**
 	 * @return void
 	 */
-	protected function _report() {
+	protected function report(): void {
 		$out = [];
 
 		$added = !empty($this->_counter[static::COUNT_ADDED]) ? $this->_counter[static::COUNT_ADDED] : 0;
@@ -715,7 +719,7 @@ abstract class AbstractAnnotator {
 	/**
 	 * @return void
 	 */
-	protected function _reportSkipped() {
+	protected function reportSkipped(): void {
 		$out = [];
 
 		$skipped = !empty($this->_counter[static::COUNT_SKIPPED]) ? $this->_counter[static::COUNT_SKIPPED] : 0;
@@ -733,7 +737,7 @@ abstract class AbstractAnnotator {
 	/**
 	 * @return void
 	 */
-	protected function _resetCounter() {
+	protected function resetCounter(): void {
 		$this->_counter = [
 			static::COUNT_ADDED => 0,
 			static::COUNT_UPDATED => 0,

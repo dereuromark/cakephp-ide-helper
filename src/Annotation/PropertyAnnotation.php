@@ -39,7 +39,7 @@ class PropertyAnnotation extends AbstractAnnotation {
 	/**
 	 * @return string
 	 */
-	public function getProperty() {
+	public function getProperty(): string {
 		return $this->property;
 	}
 
@@ -64,7 +64,7 @@ class PropertyAnnotation extends AbstractAnnotation {
 	 *
 	 * @return bool
 	 */
-	public function matches(AbstractAnnotation $annotation) {
+	public function matches(AbstractAnnotation $annotation): bool {
 		if (!$annotation instanceof self) {
 			return false;
 		}
@@ -79,7 +79,7 @@ class PropertyAnnotation extends AbstractAnnotation {
 	 * @param \IdeHelper\Annotation\PropertyAnnotation $annotation
 	 * @return void
 	 */
-	public function replaceWith(AbstractAnnotation $annotation) {
+	public function replaceWith(AbstractAnnotation $annotation): void {
 		$this->type = $annotation->getType();
 		$this->property = $annotation->getProperty();
 	}

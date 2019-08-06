@@ -2,6 +2,8 @@
 namespace IdeHelper\Annotator;
 
 use Cake\Core\Configure;
+use Cake\ORM\Association;
+use Cake\ORM\Entity;
 use Cake\Utility\Inflector;
 use Cake\View\View;
 use Exception;
@@ -32,7 +34,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @return bool
 	 * @throws \RuntimeException
 	 */
-	public function annotate($path) {
+	public function annotate(string $path): bool {
 		$name = pathinfo($path, PATHINFO_FILENAME);
 		if ($name === 'Entity') {
 			return false;
@@ -44,7 +46,7 @@ class EntityAnnotator extends AbstractAnnotator {
 
 		$annotations = $this->buildAnnotations($propertyHintMap, $helper);
 
-		return $this->_annotate($path, $content, $annotations);
+		return $this->annotateContent($path, $content, $annotations);
 	}
 
 	/**
@@ -52,7 +54,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
 	 * @return string[]
 	 */
-	protected function propertyHintMap($content, DocBlockHelper $helper) {
+	protected function propertyHintMap(string $content, DocBlockHelper $helper): array {
 		/** @var \Cake\Database\Schema\TableSchemaInterface $tableSchema */
 		$tableSchema = $this->getConfig('schema');
 		$columns = $tableSchema->columns();
@@ -81,7 +83,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 *
 	 * @return array
 	 */
-	protected function hydrateSchemaFromAssoc(array $schema) {
+	protected function hydrateSchemaFromAssoc(array $schema): array {
 		/** @var \Cake\ORM\AssociationCollection|\Cake\ORM\Association[] $associations */
 		$associations = $this->getConfig('associations');
 
@@ -89,7 +91,7 @@ class EntityAnnotator extends AbstractAnnotator {
 			try {
 				$entityClass = '\\' . ltrim($association->getTarget()->getEntityClass(), '\\');
 
-				if ($entityClass === '\Cake\ORM\Entity') {
+				if ($entityClass === '\\' . Entity::class) {
 					$namespace = Configure::read('App.namespace');
 
 					list($plugin) = pluginSplit($association->getTarget()->getRegistryAlias());
@@ -98,18 +100,19 @@ class EntityAnnotator extends AbstractAnnotator {
 					}
 					$namespace = str_replace('/', '\\', trim($namespace, '\\'));
 
-					$entityClass = $this->_entityName($association->getTarget()->getAlias());
+					$entityClass = $this->entityName($association->getTarget()->getAlias());
 					$entityClass = '\\' . $namespace . '\Model\Entity\\' . $entityClass;
 
 					if (!class_exists($entityClass)) {
-						$entityClass = '\Cake\ORM\Entity';
+						$entityClass = '\\' . Entity::class;
 					}
 				}
 
 				$schema[$association->getProperty()] = [
 					'kind' => 'association',
 					'association' => $association,
-					'type' => $entityClass
+					'type' => $entityClass,
+					'null' => $this->nullable($association, $schema),
 				];
 			} catch (Exception $exception) {
 				continue;
@@ -120,12 +123,43 @@ class EntityAnnotator extends AbstractAnnotator {
 	}
 
 	/**
+	 * @param \Cake\ORM\Association $association
+	 * @param array $schema
+	 * @return bool
+	 */
+	protected function nullable(Association $association, array $schema): bool {
+		if ($association->type() === Association::ONE_TO_ONE) {
+			$targetSchema = $association->getTarget()->getSchema();
+
+			$field = $association->getForeignKey();
+			$column = $targetSchema->getColumn($field);
+
+			if (!$column || !isset($column['null'])) {
+				return false;
+			}
+
+			return $column['null'];
+		}
+
+		if ($association->type() === Association::MANY_TO_ONE) {
+			$field = $association->getForeignKey();
+			if (!isset($schema[$field]['null'])) {
+				return false;
+			}
+
+			return $schema[$field]['null'];
+		}
+
+		return false;
+	}
+
+	/**
 	 * Creates the proper entity name (singular) for the specified name
 	 *
 	 * @param string $name Name
 	 * @return string Camelized and plural model name
 	 */
-	protected function _entityName($name) {
+	protected function entityName(string $name): string {
 		return Inflector::singularize(Inflector::camelize($name));
 	}
 
@@ -133,9 +167,9 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @param array $propertySchema
 	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
 	 *
-	 * @return array
+	 * @return string[]
 	 */
-	protected function buildExtendedEntityPropertyHintTypeMap(array $propertySchema, DocBlockHelper $helper) {
+	protected function buildExtendedEntityPropertyHintTypeMap(array $propertySchema, DocBlockHelper $helper): array {
 		$propertyHintMap = [];
 
 		foreach ($propertySchema as $property => $info) {
@@ -160,7 +194,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @param string $type The column type.
 	 * @return string|null The DocBlock type, or `null` for unsupported column types.
 	 */
-	protected function columnTypeToHintType($type) {
+	protected function columnTypeToHintType(string $type): ?string {
 		if (static::$typeMap === null) {
 			static::$typeMap = (array)Configure::read('IdeHelper.typeMap') + static::$typeMapDefaults;
 		}
@@ -174,14 +208,14 @@ class EntityAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $content
-	 * @return array
+	 * @return string[]
 	 */
-	protected function buildVirtualPropertyHintTypeMap($content) {
+	protected function buildVirtualPropertyHintTypeMap(string $content): array {
 		if (!preg_match('#\bfunction \_get[A-Z][a-zA-Z0-9]+\(\)#', $content)) {
 			return [];
 		}
 
-		$file = $this->_getFile('', $content);
+		$file = $this->getFile('', $content);
 
 		$classIndex = $file->findNext(T_CLASS, 0);
 		if ($classIndex === false) {
@@ -231,7 +265,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @param int $functionIndex
 	 * @return string
 	 */
-	protected function returnType(File $file, array $tokens, $functionIndex) {
+	protected function returnType(File $file, array $tokens, int $functionIndex): string {
 		$firstTokenInLineIndex = $functionIndex;
 
 		$line = $tokens[$functionIndex]['line'];
@@ -240,7 +274,7 @@ class EntityAnnotator extends AbstractAnnotator {
 			$firstTokenInLineIndex--;
 		}
 
-		$docBlockCloseTagIndex = $this->_findDocBlockCloseTagIndex($file, $firstTokenInLineIndex);
+		$docBlockCloseTagIndex = $this->findDocBlockCloseTagIndex($file, $firstTokenInLineIndex);
 		if (!$docBlockCloseTagIndex || empty($tokens[$docBlockCloseTagIndex]['comment_opener'])) {
 			return $this->typeHint($file, $tokens, $functionIndex);
 		}
@@ -257,7 +291,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 *
 	 * @return string
 	 */
-	protected function typeHint(File $file, array $tokens, $functionIndex) {
+	protected function typeHint(File $file, array $tokens, int $functionIndex): string {
 		$parenthesisCloseTagIndex = $tokens[$functionIndex]['parenthesis_closer'];
 		$scopeOpenTagIndex = $tokens[$functionIndex]['scope_opener'];
 
@@ -284,7 +318,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 *
 	 * @return string
 	 */
-	protected function extractReturnType(array $tokens, $docBlockOpenTagIndex, $docBlockCloseTagIndex) {
+	protected function extractReturnType(array $tokens, int $docBlockOpenTagIndex, int $docBlockCloseTagIndex): string {
 		for ($i = $docBlockOpenTagIndex + 1; $i < $docBlockCloseTagIndex; $i++) {
 
 			if ($tokens[$i]['type'] !== 'T_DOC_COMMENT_TAG') {
@@ -320,7 +354,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 * @throws \RuntimeException
 	 */
-	protected function buildAnnotations(array $propertyHintMap, DocBlockHelper $helper) {
+	protected function buildAnnotations(array $propertyHintMap, DocBlockHelper $helper): array {
 		$annotations = $helper->propertyHints($propertyHintMap);
 
 		foreach ($annotations as $key => $annotation) {

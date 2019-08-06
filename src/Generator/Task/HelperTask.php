@@ -37,7 +37,7 @@ class HelperTask implements TaskInterface {
 	/**
 	 * @return string[]
 	 */
-	protected function collectHelpers() {
+	protected function collectHelpers(): array {
 		$helpers = [];
 
 		$folders = array_merge(App::core('View/Helper'), AppPath::get('View/Helper'));

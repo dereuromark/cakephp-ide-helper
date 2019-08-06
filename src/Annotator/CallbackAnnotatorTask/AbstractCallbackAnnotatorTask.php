@@ -36,7 +36,7 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 	 *
 	 * @return array
 	 */
-	protected function _getMethods(File $file) {
+	protected function getMethods(File $file) {
 		$methods = [];
 		$currentIndex = 0;
 		while (true) {
@@ -44,7 +44,7 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 			if (!$methodIndex) {
 				break;
 			}
-			$methods[$methodIndex] = $this->_parseMethod($file, $methodIndex);
+			$methods[$methodIndex] = $this->parseMethod($file, $methodIndex);
 
 			$currentIndex = $methodIndex + 1;
 		}
@@ -57,11 +57,11 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 	 * @param int $index
 	 * @return array
 	 */
-	protected function _parseMethod(File $file, $index) {
+	protected function parseMethod(File $file, $index) {
 		$tokens = $file->getTokens();
 		$nameIndex = $file->findNext(Tokens::$emptyTokens, $index + 1, null, true);
 
-		$closeTagIndex = $this->_findCloseTagIndex($file, $index);
+		$closeTagIndex = $this->findCloseTagIndex($file, $index);
 
 		$result = [
 			'name' => $tokens[$nameIndex]['content'],
@@ -78,10 +78,10 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 	 * @param array $methods
 	 * @return bool
 	 */
-	protected function _annotateMethods($path, File $file, array $methods) {
-		$this->_resetCounter();
+	protected function annotateMethods(string $path, File $file, array $methods): bool {
+		$this->resetCounter();
 
-		$fixer = $this->_getFixer($file);
+		$fixer = $this->getFixer($file);
 
 		$fixer->beginChangeset();
 
@@ -99,14 +99,14 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 		$newContent = $fixer->getContents();
 
 		if ($newContent === $this->content) {
-			$this->_reportSkipped();
+			$this->reportSkipped();
 			return false;
 		}
 
-		$this->_displayDiff($this->content, $newContent);
-		$this->_storeFile($path, $newContent);
+		$this->displayDiff($this->content, $newContent);
+		$this->storeFile($path, $newContent);
 
-		$this->_report();
+		$this->report();
 
 		return true;
 	}
@@ -116,7 +116,7 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 	 * @param int $index
 	 * @return int|null
 	 */
-	protected function _findCloseTagIndex(File $file, $index) {
+	protected function findCloseTagIndex(File $file, int $index): ?int {
 		$tokens = $file->getTokens();
 
 		$firstLineIndex = $index;

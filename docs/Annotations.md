@@ -71,13 +71,14 @@ A LocationsTable class would then get the following doc block annotations added 
  * @method \App\Model\Entity\Location get($primaryKey, $options = [])
  * @method \App\Model\Entity\Location newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Location[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Location|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Location|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Location saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Location patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Location[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Location findOrCreate($search, callable $callback = null, $options = [])
  *
- * @property \App\Model\Table\ImagesTable|\Cake\ORM\Association\HasMany $Images
- * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\ImagesTable&\Cake\ORM\Association\HasMany $Images
+ * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
 ```
@@ -181,7 +182,7 @@ the following would be annotated (if `My` and `Shim.Configure` helpers were load
  * @property \Shim\View\Helper\ConfigureHelper $Configure
  */
 class AppView extends View {
-} 
+}
 ```
 
 ### Include plugins
@@ -264,6 +265,15 @@ Out of the box the following tasks are run:
 ### ModelAware
 
 Any `use ModelAwareTrait` usage together with `$this->loadModel(...)` calls will add the required annotation on top of the class.
+
+### Test
+
+Any test class of specific types can be annotated with the corresponding class it tests.
+This is mainly useful for the following types, as they are invoked indirectly via Integration test harness:
+- Controller
+- Command
+
+Here the `@uses` statements added help to quick-jump to the class if needed.
 
 ### Custom Tasks
 

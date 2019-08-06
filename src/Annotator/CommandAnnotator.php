@@ -7,23 +7,23 @@ class CommandAnnotator extends AbstractAnnotator {
 	 * @param string $path Path to file.
 	 * @return bool
 	 */
-	public function annotate($path) {
+	public function annotate(string $path): bool {
 		$className = pathinfo($path, PATHINFO_FILENAME);
 		if ($className === 'Command' || substr($className, -7) !== 'Command') {
 			return false;
 		}
 
 		$content = file_get_contents($path);
-		$primaryModelClass = $this->_getPrimaryModelClass($content);
-		$usedModels = $this->_getUsedModels($content);
+		$primaryModelClass = $this->getPrimaryModelClass($content);
+		$usedModels = $this->getUsedModels($content);
 		if ($primaryModelClass) {
 			$usedModels[] = $primaryModelClass;
 		}
 		$usedModels = array_unique($usedModels);
 
-		$annotations = $this->_getModelAnnotations($usedModels, $content);
+		$annotations = $this->getModelAnnotations($usedModels, $content);
 
-		return $this->_annotate($path, $content, $annotations);
+		return $this->annotateContent($path, $content, $annotations);
 	}
 
 	/**
@@ -31,7 +31,7 @@ class CommandAnnotator extends AbstractAnnotator {
 	 *
 	 * @return string|null
 	 */
-	protected function _getPrimaryModelClass($content) {
+	protected function getPrimaryModelClass(string $content): ?string {
 		if (!preg_match('/\bpublic \$modelClass = \'([a-z.\/]+)\'/i', $content, $matches)) {
 			return null;
 		}
@@ -44,9 +44,9 @@ class CommandAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $content
 	 *
-	 * @return array
+	 * @return string[]
 	 */
-	protected function _getUsedModels($content) {
+	protected function getUsedModels(string $content): array {
 		preg_match_all('/\$this-\>loadModel\(\'([a-z.\/]+)\'/i', $content, $matches);
 		if (empty($matches[1])) {
 			return [];

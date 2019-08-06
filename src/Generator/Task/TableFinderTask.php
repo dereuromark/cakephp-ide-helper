@@ -40,7 +40,7 @@ class TableFinderTask extends ModelTask {
 	/**
 	 * @return array
 	 */
-	protected function collectFinders() {
+	protected function collectFinders(): array {
 		$baseFinders = $this->getFinderMethods(static::CLASS_TABLE);
 		$customFinders = $this->getCustomFinders();
 
@@ -56,9 +56,9 @@ class TableFinderTask extends ModelTask {
 	}
 
 	/**
-	 * @return array
+	 * @return string[]
 	 */
-	protected function getCustomFinders() {
+	protected function getCustomFinders(): array {
 		// Currently this only works with the base Table, not specific Tables, thus the option here
 		if (!Configure::read('IdeHelper.preemptive')) {
 			return [];
@@ -100,7 +100,7 @@ class TableFinderTask extends ModelTask {
 	 *
 	 * @return mixed Property value.
 	 */
-	protected function invokeProperty(&$object, $name) {
+	protected function invokeProperty(&$object, string $name) {
 		$reflection = new ReflectionClass(get_class($object));
 		$property = $reflection->getProperty($name);
 		$property->setAccessible(true);
@@ -111,7 +111,7 @@ class TableFinderTask extends ModelTask {
 	/**
 	 * @param string $className
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function getFinderMethods($className) {
 		$result = [];
@@ -125,10 +125,10 @@ class TableFinderTask extends ModelTask {
 	}
 
 	/**
-	 * @param array $result
+	 * @param string[] $result
 	 * @param string $method
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	protected function addMethod(array $result, $method) {
 		// We must exclude all find...By... patterns as possible false positives for now (refs https://github.com/cakephp/cakephp/issues/11240)

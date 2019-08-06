@@ -26,6 +26,9 @@ return [
 		// For meta file generator
 		'generatorTasks' => [
 		],
+		// For Illuminator tasks
+		'illuminatorTasks' => [
+		],
 		// For code completion file generator
 		'codeCompletionTasks' => [
 		],

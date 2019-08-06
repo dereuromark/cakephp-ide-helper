@@ -37,7 +37,7 @@ class ComponentTask implements TaskInterface {
 	/**
 	 * @return string[]
 	 */
-	protected function collectComponents() {
+	protected function collectComponents(): array {
 		$components = [];
 
 		$folders = array_merge(App::core('Controller/Component'), AppPath::get('Controller/Component'));

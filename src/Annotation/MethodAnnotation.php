@@ -38,7 +38,7 @@ class MethodAnnotation extends AbstractAnnotation {
 	/**
 	 * @return string
 	 */
-	public function getMethod() {
+	public function getMethod(): string {
 		return $this->method;
 	}
 
@@ -63,7 +63,7 @@ class MethodAnnotation extends AbstractAnnotation {
 	 *
 	 * @return bool
 	 */
-	public function matches(AbstractAnnotation $annotation) {
+	public function matches(AbstractAnnotation $annotation): bool {
 		if (!$annotation instanceof self) {
 			return false;
 		}
@@ -79,7 +79,7 @@ class MethodAnnotation extends AbstractAnnotation {
 	 * @param \IdeHelper\Annotation\MethodAnnotation $annotation
 	 * @return void
 	 */
-	public function replaceWith(AbstractAnnotation $annotation) {
+	public function replaceWith(AbstractAnnotation $annotation): void {
 		$this->type = $annotation->getType();
 		$this->method = $annotation->getMethod();
 	}

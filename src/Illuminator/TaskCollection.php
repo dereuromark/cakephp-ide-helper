@@ -47,7 +47,7 @@ class TaskCollection {
 		$this->_io = $io;
 		$this->_config = $config;
 
-		$defaultTasks = (array)Configure::read('IdeHelper.illuminatorTasks') + $this->defaultTasks;
+		$defaultTasks = $this->defaultTasks();
 
 		$keyMap = $this->taskNames($defaultTasks);
 		$filterMap = array_diff($tasks, $keyMap);
@@ -66,6 +66,22 @@ class TaskCollection {
 
 			$this->add($task);
 		}
+	}
+
+	/**
+	 * @return string[]
+	 */
+	protected function defaultTasks(): array {
+		$tasks = (array)Configure::read('IdeHelper.illuminatorTasks') + $this->defaultTasks;
+
+		foreach ($tasks as $k => $v) {
+			if (is_numeric($k)) {
+				$tasks[$v] = $v;
+				unset($tasks[$k]);
+			}
+		}
+
+		return $tasks;
 	}
 
 	/**
@@ -100,7 +116,7 @@ class TaskCollection {
 	}
 
 	/**
-	 * @param array $tasks
+	 * @param string[]|\IdeHelper\Illuminator\Task\AbstractTask[] $tasks
 	 * @return string[]
 	 * @throws \RuntimeException
 	 */
@@ -126,7 +142,7 @@ class TaskCollection {
 	 * @param string $path File path
 	 * @return bool True if file is/was modified; false if nothing changed.
 	 */
-	public function run($path) {
+	public function run(string $path): bool {
 		$file = str_replace(ROOT . DS, DS, $path);
 		$this->_io->verbose('# ' . $file);
 
@@ -149,8 +165,8 @@ class TaskCollection {
 			return false;
 		}
 
-		$this->_displayDiff($content, $result);
-		$this->_storeFile($path, $result, $this->_config[static::CONFIG_DRY_RUN]);
+		$this->displayDiff($content, $result);
+		$this->storeFile($path, $result, $this->_config[static::CONFIG_DRY_RUN]);
 
 		return true;
 	}
@@ -160,7 +176,7 @@ class TaskCollection {
 	 * @param string $newContent
 	 * @return void
 	 */
-	protected function _displayDiff($oldContent, $newContent) {
+	protected function displayDiff(string $oldContent, string $newContent): void {
 		$differ = new Differ(null);
 		$array = $differ->diffToArray($oldContent, $newContent);
 
@@ -206,7 +222,7 @@ class TaskCollection {
 	 * @param bool $dryRun
 	 * @return void
 	 */
-	protected function _storeFile(string $path, string $contents, bool $dryRun): void {
+	protected function storeFile(string $path, string $contents, bool $dryRun): void {
 		if ($dryRun) {
 			return;
 		}

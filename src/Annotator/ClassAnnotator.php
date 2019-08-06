@@ -7,10 +7,10 @@ class ClassAnnotator extends AbstractAnnotator {
 	 * @param string $path Path to file.
 	 * @return bool
 	 */
-	public function annotate($path) {
+	public function annotate(string $path): bool {
 		$content = file_get_contents($path);
 
-		$this->_invokeTasks($path, $content);
+		$this->invokeTasks($path, $content);
 
 		return true;
 	}
@@ -21,7 +21,7 @@ class ClassAnnotator extends AbstractAnnotator {
 	 *
 	 * @return void
 	 */
-	protected function _invokeTasks($path, $content) {
+	protected function invokeTasks($path, $content): void {
 		$tasks = $this->getTasks($content);
 
 		foreach ($tasks as $task) {
@@ -37,7 +37,7 @@ class ClassAnnotator extends AbstractAnnotator {
 	 * @param string $content
 	 * @return \IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface[]
 	 */
-	protected function getTasks($content) {
+	protected function getTasks(string $content): array {
 		$taskCollection = new ClassAnnotatorTaskCollection();
 
 		return $taskCollection->tasks($this->_io, $this->_config, $content);

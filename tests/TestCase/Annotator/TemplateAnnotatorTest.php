@@ -80,19 +80,19 @@ class TemplateAnnotatorTest extends TestCase {
 		$annotator = $this->_getAnnotatorMock([]);
 
 		$content = '';
-		$result = $this->invokeMethod($annotator, '_needsViewAnnotation', [$content]);
+		$result = $this->invokeMethod($annotator, 'needsViewAnnotation', [$content]);
 		$this->assertFalse($result);
 
 		$content = 'Foo Bar';
-		$result = $this->invokeMethod($annotator, '_needsViewAnnotation', [$content]);
+		$result = $this->invokeMethod($annotator, 'needsViewAnnotation', [$content]);
 		$this->assertFalse($result);
 
 		$content = 'Foo <?php echo $this->Foo->bar(); ?>';
-		$result = $this->invokeMethod($annotator, '_needsViewAnnotation', [$content]);
+		$result = $this->invokeMethod($annotator, 'needsViewAnnotation', [$content]);
 		$this->assertTrue($result);
 
 		$content = 'Foo <?= $x; ?>';
-		$result = $this->invokeMethod($annotator, '_needsViewAnnotation', [$content]);
+		$result = $this->invokeMethod($annotator, 'needsViewAnnotation', [$content]);
 		$this->assertTrue($result);
 	}
 
@@ -112,12 +112,12 @@ class TemplateAnnotatorTest extends TestCase {
 			}
 			return $value === $expectedContent;
 		};
-		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'Template/Foos/edit.ctp';
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextContains('   -> 2 annotations added.', $output);
 	}
@@ -138,12 +138,12 @@ class TemplateAnnotatorTest extends TestCase {
 			}
 			return $value === $expectedContent;
 		};
-		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'Template/Foos/loop.ctp';
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextContains('   -> 3 annotations added.', $output);
 	}
@@ -164,12 +164,12 @@ class TemplateAnnotatorTest extends TestCase {
 			}
 			return $value === $expectedContent;
 		};
-		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'Template/Foos/phpline.ctp';
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextContains('   -> 3 annotations added.', $output);
 	}
@@ -190,12 +190,12 @@ class TemplateAnnotatorTest extends TestCase {
 			}
 			return $value === $expectedContent;
 		};
-		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'Template/Foos/existing.ctp';
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextContains('   -> 2 annotations added.', $output);
 	}
@@ -216,12 +216,12 @@ class TemplateAnnotatorTest extends TestCase {
 			}
 			return $value === $expectedContent;
 		};
-		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'Template/Foos/outdated.ctp';
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextContains('   -> 2 annotations updated, 1 annotation removed, 1 annotation skipped.', $output);
 	}
@@ -242,12 +242,12 @@ class TemplateAnnotatorTest extends TestCase {
 			}
 			return $value === $expectedContent;
 		};
-		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'Template/Foos/empty.ctp';
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextContains('   -> 1 annotation added.', $output);
 	}
@@ -264,12 +264,12 @@ class TemplateAnnotatorTest extends TestCase {
 
 		$callback = function($value) {
 		};
-		$annotator->expects($this->never())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+		$annotator->expects($this->never())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'Template/Foos/empty.ctp';
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextEquals('', $output);
 	}
@@ -290,12 +290,12 @@ class TemplateAnnotatorTest extends TestCase {
 			}
 			return $value === $expectedContent;
 		};
-		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'Template/Foos/inline.ctp';
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextContains('   -> 1 annotation added.', $output);
 	}
@@ -309,7 +309,7 @@ class TemplateAnnotatorTest extends TestCase {
 			AbstractAnnotator::CONFIG_REMOVE => true,
 			AbstractAnnotator::CONFIG_DRY_RUN => true
 		];
-		return $this->getMockBuilder(TemplateAnnotator::class)->setMethods(['_storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
+		return $this->getMockBuilder(TemplateAnnotator::class)->setMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
 	}
 
 }

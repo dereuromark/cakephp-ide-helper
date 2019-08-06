@@ -31,9 +31,9 @@ class ElementTask extends ModelTask {
 	}
 
 	/**
-	 * @return array
+	 * @return string[]
 	 */
-	protected function collectElements() {
+	protected function collectElements(): array {
 		$paths = AppPath::get('Template');
 
 		$result = [];
@@ -51,13 +51,13 @@ class ElementTask extends ModelTask {
 	}
 
 	/**
-	 * @param array $result
-	 * @param array $paths
+	 * @param string[] $result
+	 * @param string[] $paths
 	 * @param string|null $plugin
 	 *
-	 * @return array
+	 * @return string[]
 	 */
-	protected function addElements(array $result, array $paths, $plugin = null) {
+	protected function addElements(array $result, array $paths, ?string $plugin = null): array {
 		foreach ($paths as $path) {
 			$path .= 'Element' . DS;
 			if (!is_dir($path)) {

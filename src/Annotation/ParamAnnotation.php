@@ -36,7 +36,7 @@ class ParamAnnotation extends AbstractAnnotation {
 	/**
 	 * @return string
 	 */
-	public function getVariable() {
+	public function getVariable(): string {
 		return $this->variable;
 	}
 
@@ -61,7 +61,7 @@ class ParamAnnotation extends AbstractAnnotation {
 	 *
 	 * @return bool
 	 */
-	public function matches(AbstractAnnotation $annotation) {
+	public function matches(AbstractAnnotation $annotation): bool {
 		if (!$annotation instanceof self) {
 			return false;
 		}
@@ -76,7 +76,7 @@ class ParamAnnotation extends AbstractAnnotation {
 	 * @param \IdeHelper\Annotation\ParamAnnotation $annotation
 	 * @return void
 	 */
-	public function replaceWith(AbstractAnnotation $annotation) {
+	public function replaceWith(AbstractAnnotation $annotation): void {
 		$this->type = $annotation->getType();
 		$this->variable = $annotation->getVariable();
 	}

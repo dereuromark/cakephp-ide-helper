@@ -47,7 +47,7 @@ class AnnotationsShellTest extends TestCase {
 		$io = new ConsoleIo($this->out, $this->err);
 
 		$this->Shell = $this->getMockBuilder(AnnotationsShell::class)
-			->setMethods(['in', '_stop', '_storeFile'])
+			->setMethods(['in', '_stop', 'storeFile'])
 			->setConstructorArgs([$io])
 			->getMock();
 	}
@@ -125,7 +125,7 @@ class AnnotationsShellTest extends TestCase {
 	 */
 	public function testControllers() {
 		$this->Shell->runCommand(['controllers', '-d', '-v', '-r']);
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextContains('BarController', $output);
 		$this->assertTextContains(' annotations added', $output);
@@ -139,7 +139,7 @@ class AnnotationsShellTest extends TestCase {
 		$result = $this->Shell->runCommand(['all', '-d', '-v', '-r']);
 		$this->assertSame(AnnotationsShell::CODE_SUCCESS, $result);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextContains('[Models]', $output);
 		$this->assertTextContains('[Controllers]', $output);

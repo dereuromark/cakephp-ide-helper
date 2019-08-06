@@ -11,7 +11,7 @@ IdeHelper plugin for CakePHP applications.
 
 > Boost your productivity. Avoid mistakes.
 
-**This branch is for CakePHP 4.0+**. See [wiki](https://github.com/dereuromark/cakephp-ide-helper/wiki) for version map.
+This branch is for use with **CakePHP 4.0+**. For details see [version map](https://github.com/dereuromark/cakephp-ide-helper/wiki#cakephp-version-map).
 
 ## Features
 
@@ -50,13 +50,19 @@ IDEs tested so far for 100% compatibility:
 - **[PHPStorm](https://github.com/dereuromark/cakephp-ide-helper/wiki/PHPStorm)** (incl. meta file generator)
 - IntelliJ
 - Atom
+- **[VS Code](https://github.com/dereuromark/cakephp-ide-helper/wiki/Visual-Studio-Code)**
 - ... [Report or PR your IDE of choice here to confirm its full compatibility]
 
 See [Wiki](https://github.com/dereuromark/cakephp-ide-helper/wiki) for details and tips/settings.
 
 ### Plugins with meta file generator tasks
 The following plugins use this plugin to improve IDE compatibility around factory and magic string usage:
-- **[Queue](https://github.com/dereuromark/cakephp-queue)** for `QueuedJobsTable::createJob()` usage.
+- [Queue](https://github.com/dereuromark/cakephp-queue) for `QueuedJobsTable::createJob()` usage.
+- [Service](https://github.com/burzum/cakephp-service-layer) for `loadService()` usage.
+- ... (add yours here)
+
+### Plugins with illuminator tasks
+- [StateMachine](https://github.com/spryker/cakephp-statemachine) for syncing states from XML into PHP.
 - ... (add yours here)
 
 ### Install, Setup, Usage

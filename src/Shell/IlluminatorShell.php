@@ -92,10 +92,12 @@ class IlluminatorShell extends Shell {
 			]
 		];
 
+		$taskList = 'Tasks: ' . implode(', ', $tasks);
+
 		return parent::getOptionParser()
 			->setDescription('Illuminator PHP File Modifier.')
 			->addSubcommand('illuminate', [
-				'help' => 'Run Illuminator tasks over your PHP files.',
+				'help' => 'Run Illuminator tasks over your PHP files.' . PHP_EOL . $taskList,
 				'parser' => $subcommandParser
 			]);
 	}

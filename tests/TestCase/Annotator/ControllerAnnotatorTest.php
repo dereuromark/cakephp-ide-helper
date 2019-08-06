@@ -57,12 +57,12 @@ class ControllerAnnotatorTest extends TestCase {
 			}
 			return $value === $expectedContent;
 		};
-		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'Controller/FooController.php';
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextContains('   -> 1 annotation added.', $output);
 	}
@@ -81,12 +81,12 @@ class ControllerAnnotatorTest extends TestCase {
 			}
 			return $value === $expectedContent;
 		};
-		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'Controller/BarController.php';
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextContains('   -> 4 annotations added.', $output);
 	}
@@ -105,12 +105,12 @@ class ControllerAnnotatorTest extends TestCase {
 			}
 			return $value === $expectedContent;
 		};
-		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'Controller/AppController.php';
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextContains('   -> 1 annotation added, 1 annotation updated.', $output);
 	}
@@ -124,7 +124,7 @@ class ControllerAnnotatorTest extends TestCase {
 			AbstractAnnotator::CONFIG_REMOVE => true,
 			AbstractAnnotator::CONFIG_DRY_RUN => true
 		];
-		return $this->getMockBuilder(ControllerAnnotator::class)->setMethods(['_storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
+		return $this->getMockBuilder(ControllerAnnotator::class)->setMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
 	}
 
 	/**
@@ -143,14 +143,14 @@ class ControllerAnnotatorTest extends TestCase {
 			return $value === $expectedContent;
 		};
 		$annotator->expects($this->once())
-			->method('_storeFile')
+			->method('storeFile')
 			->with($this->anything(), $this->callback($callback));
 
 		$path = TEST_ROOT . '/plugins/Controllers/src/Controller/HousesController.php';
 		$annotator->setConfig(ControllerAnnotator::CONFIG_PLUGIN, 'Controllers');
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextContains('   -> 1 annotation added.', $output);
 	}
@@ -162,13 +162,13 @@ class ControllerAnnotatorTest extends TestCase {
 		$annotator = $this->_getAnnotatorMock([]);
 
 		$annotator->expects($this->never())
-			->method('_storeFile');
+			->method('storeFile');
 
 		$path = TEST_ROOT . '/plugins/Controllers/src/Controller/GenericController.php';
 		$annotator->setConfig(ControllerAnnotator::CONFIG_PLUGIN, 'Awesome');
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 		$this->assertTextNotContains('annotation added.', $output);
 	}
 

@@ -13,20 +13,13 @@ class AppPath {
 	 * @return array
 	 * @throws \Cake\Core\Exception\MissingPluginException
 	 */
-	public static function get($type, $plugin = null) {
+	public static function get(string $type, ?string $plugin = null): array {
 		try {
 			return App::path($type, $plugin);
 		} catch (MissingPluginException $exception) {
 		}
 
-		$pathToPlugin = Plugin::getCollection()->findPath($plugin);
-		//FIXME
-		//Plugin::getCollection()->add($pluginClassName?);
-		Plugin::load($plugin);
-
-		$pathToClass = $pathToPlugin . 'src' . DS . $type . DS;
-
-		return [$pathToClass];
+		return App::path($type, $plugin);
 	}
 
 }

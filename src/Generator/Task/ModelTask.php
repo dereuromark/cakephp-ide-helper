@@ -27,7 +27,7 @@ class ModelTask implements TaskInterface {
 	/**
 	 * @return void
 	 */
-	public static function clearBuffer() {
+	public static function clearBuffer(): void {
 		static::$models = null;
 	}
 
@@ -53,7 +53,7 @@ class ModelTask implements TaskInterface {
 	/**
 	 * @return string[]
 	 */
-	protected function collectModels() {
+	protected function collectModels(): array {
 		if (static::$models !== null) {
 			return static::$models;
 		}

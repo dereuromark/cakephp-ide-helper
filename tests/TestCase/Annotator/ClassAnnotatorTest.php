@@ -56,7 +56,7 @@ class ClassAnnotatorTest extends TestCase {
 		$expectedContent = file_get_contents($testPath);
 		$this->assertTextEquals($expectedContent, $content);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextContains('  -> 1 annotation added.', $output);
 	}

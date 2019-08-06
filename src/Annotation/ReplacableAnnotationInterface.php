@@ -9,13 +9,13 @@ interface ReplacableAnnotationInterface {
 	 *
 	 * @return bool
 	 */
-	public function matches(AbstractAnnotation $annotation);
+	public function matches(AbstractAnnotation $annotation): bool;
 
 	/**
 	 * @param \IdeHelper\Annotation\AbstractAnnotation $annotation
 	 *
 	 * @return void
 	 */
-	public function replaceWith(AbstractAnnotation $annotation);
+	public function replaceWith(AbstractAnnotation $annotation): void;
 
 }

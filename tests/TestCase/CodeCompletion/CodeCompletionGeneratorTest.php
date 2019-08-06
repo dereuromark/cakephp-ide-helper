@@ -51,6 +51,13 @@ exit('Only for code completion - regenerate using `bin/cake code_completion gene
 abstract class BehaviorRegistry extends \Cake\Core\ObjectRegistry {
 
 	/**
+	 * MyNamespace/MyPlugin.My behavior.
+	 *
+	 * @var \MyNamespace\MyPlugin\Model\Behavior\MyBehavior
+	 */
+	public \$My;
+
+	/**
 	 * Shim.Nullable behavior.
 	 *
 	 * @var \Shim\Model\Behavior\NullableBehavior

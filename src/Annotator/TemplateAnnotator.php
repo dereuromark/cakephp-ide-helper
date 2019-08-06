@@ -17,24 +17,12 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 * @param string $path Path to file.
 	 * @return bool
 	 */
-	public function annotate($path) {
+	public function annotate(string $path): bool {
 		$content = file_get_contents($path);
 
-		$annotations = [];
-		$needsAnnotation = $this->_needsViewAnnotation($content);
-		if ($needsAnnotation) {
-			$annotations[] = $this->_getViewAnnotation();
-		}
+		$annotations = $this->buildAnnotations($content);
 
-		$entityAnnotations = $this->_getEntityAnnotations($content);
-		foreach ($entityAnnotations as $entityAnnotation) {
-			if (!$entityAnnotation) {
-				continue;
-			}
-			$annotations[] = $entityAnnotation;
-		}
-
-		return $this->_annotate($path, $content, $annotations);
+		return $this->annotateContent($path, $content, $annotations);
 	}
 
 	/**
@@ -44,37 +32,37 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 *
 	 * @return bool
 	 */
-	protected function _annotate($path, $content, array $annotations) {
+	protected function annotateContent(string $path, string $content, array $annotations): bool {
 		if (!count($annotations)) {
 			return false;
 		}
 
-		$file = $this->_getFile($path, $content);
+		$file = $this->getFile($path, $content);
 
 		$phpOpenTagIndex = $file->findNext(T_OPEN_TAG, 0);
 		if ($phpOpenTagIndex === false) {
 			$phpOpenTagIndex = null;
 		}
 
-		$needsPhpTag = $phpOpenTagIndex === null || $this->_needsPhpTag($file, $phpOpenTagIndex);
+		$needsPhpTag = $phpOpenTagIndex === null || $this->needsPhpTag($file, $phpOpenTagIndex);
 		$docBlockCloseTagIndex = null;
 		if ($needsPhpTag) {
 			$phpOpenTagIndex = null;
 		} else {
-			$docBlockCloseTagIndex = $this->_findExistingDocBlock($file, $phpOpenTagIndex);
+			$docBlockCloseTagIndex = $this->findExistingDocBlock($file, $phpOpenTagIndex);
 		}
 
-		$this->_resetCounter();
+		$this->resetCounter();
 		if ($docBlockCloseTagIndex && !$this->isInlineDocBlock($file, $docBlockCloseTagIndex)) {
-			$newContent = $this->_appendToExistingDocBlock($file, $docBlockCloseTagIndex, $annotations);
+			$newContent = $this->appendToExistingDocBlock($file, $docBlockCloseTagIndex, $annotations);
 		} else {
-			$newContent = $this->_addNewTemplateDocBlock($file, $annotations, $phpOpenTagIndex, $docBlockCloseTagIndex);
+			$newContent = $this->addNewTemplateDocBlock($file, $annotations, $phpOpenTagIndex, $docBlockCloseTagIndex);
 		}
 
-		$this->_displayDiff($content, $newContent);
-		$this->_storeFile($path, $newContent);
+		$this->displayDiff($content, $newContent);
+		$this->storeFile($path, $newContent);
 
-		$this->_report();
+		$this->report();
 
 		return true;
 	}
@@ -84,7 +72,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 * @param int $phpOpenTagIndex
 	 * @return int|null
 	 */
-	protected function _findExistingDocBlock(File $file, $phpOpenTagIndex) {
+	protected function findExistingDocBlock(File $file, int $phpOpenTagIndex): ?int {
 		$tokens = $file->getTokens();
 
 		$nextIndex = $file->findNext(T_WHITESPACE, $phpOpenTagIndex + 1, null, true);
@@ -95,7 +83,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 		$commentCloseIndex = $tokens[$nextIndex]['comment_closer'];
 
 		// Assume the first doc block is the license file doc block
-		while ($index = $this->_findExistingDocBlock($file, $commentCloseIndex)) {
+		while ($index = $this->findExistingDocBlock($file, $commentCloseIndex)) {
 			$commentCloseIndex = $index;
 		}
 
@@ -112,7 +100,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 *
 	 * @return string
 	 */
-	protected function _addNewTemplateDocBlock(File $file, array $annotations, $phpOpenTagIndex, $docBlockCloseIndex) {
+	protected function addNewTemplateDocBlock(File $file, array $annotations, ?int $phpOpenTagIndex, ?int $docBlockCloseIndex): string {
 		$helper = new DocBlockHelper(new View());
 
 		$annotationStrings = [];
@@ -139,7 +127,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 			return $docBlock;
 		}
 
-		$fixer = $this->_getFixer($file);
+		$fixer = $this->getFixer($file);
 		if ($phpOpenTagIndex === null) {
 			$fixer->addContentBefore(0, $docBlock);
 		} else {
@@ -148,7 +136,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		$this->_counter[static::COUNT_ADDED] = count($annotations);
 
-		if ($docBlockCloseIndex && $this->_isInlineDocBlockRedundant($file, $annotations, $docBlockCloseIndex)) {
+		if ($docBlockCloseIndex && $this->isInlineDocBlockRedundant($file, $annotations, $docBlockCloseIndex)) {
 			$tokens = $file->getTokens();
 			$docBlockOpenIndex = $tokens[$docBlockCloseIndex]['comment_opener'];
 			for ($i = $docBlockCloseIndex + 1; $i >= $docBlockOpenIndex; $i--) {
@@ -158,9 +146,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 			$this->_counter[static::COUNT_ADDED]--;
 		}
 
-		$newContent = $fixer->getContents();
-
-		return $newContent;
+		return $fixer->getContents();
 	}
 
 	/**
@@ -168,12 +154,12 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 * @param int $phpOpenTagIndex
 	 * @return bool
 	 */
-	protected function _needsPhpTag(File $file, $phpOpenTagIndex) {
+	protected function needsPhpTag(File $file, int $phpOpenTagIndex): bool {
 		$needsPhpTag = true;
 
 		$tokens = $file->getTokens();
 
-		if ($phpOpenTagIndex === 0 || $phpOpenTagIndex > 0 && $this->_isFirstContent($tokens, $phpOpenTagIndex)) {
+		if ($phpOpenTagIndex === 0 || ($phpOpenTagIndex > 0 && $this->isFirstContent($tokens, $phpOpenTagIndex))) {
 			$needsPhpTag = false;
 		}
 		if ($needsPhpTag) {
@@ -193,7 +179,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 *
 	 * @return bool
 	 */
-	protected function _needsViewAnnotation($content) {
+	protected function needsViewAnnotation(string $content): bool {
 		if (Configure::read('IdeHelper.preemptive')) {
 			return true;
  		}
@@ -212,7 +198,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	/**
 	 * @return \IdeHelper\Annotation\VariableAnnotation
 	 */
-	protected function _getViewAnnotation() {
+	protected function getViewAnnotation() {
 		$className = Configure::read('IdeHelper.viewClass') ?: 'App\View\AppView';
 		if (!class_exists($className)) {
 			$className = 'Cake\View\View';
@@ -230,7 +216,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 *
 	 * @return bool
 	 */
-	protected function _isFirstContent(array $tokens, $phpOpenTagIndex) {
+	protected function isFirstContent(array $tokens, int $phpOpenTagIndex): bool {
 		for ($i = $phpOpenTagIndex - 1; $i >= 0; $i--) {
 			if ($tokens[$i]['type'] !== T_INLINE_HTML) {
 				return false;
@@ -248,10 +234,10 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 *
 	 * @return array
 	 */
-	protected function _getEntityAnnotations($content) {
-		$loopEntityAnnotations = $this->_parseLoopEntities($content);
-		$formEntityAnnotations = $this->_parseFormEntities($content);
-		$entityAnnotations = $this->_parseEntities($content);
+	protected function getEntityAnnotations(string $content): array {
+		$loopEntityAnnotations = $this->parseLoopEntities($content);
+		$formEntityAnnotations = $this->parseFormEntities($content);
+		$entityAnnotations = $this->parseEntities($content);
 
 		$entityAnnotations = $loopEntityAnnotations + $formEntityAnnotations + $entityAnnotations;
 
@@ -263,7 +249,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 *
 	 * @return array
 	 */
-	protected function _parseFormEntities($content) {
+	protected function parseFormEntities(string $content): array {
 		preg_match_all('/\$this-\>Form->create\(\$(\w+)\W/i', $content, $matches);
 		if (empty($matches[1])) {
 			return [];
@@ -293,7 +279,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 *
 	 * @return array
 	 */
-	protected function _parseLoopEntities($content) {
+	protected function parseLoopEntities(string $content): array {
 		preg_match_all('/\bforeach \(\$([a-z]+) as \$([a-z]+)\)/i', $content, $matches);
 		if (empty($matches[2])) {
 			return [];
@@ -313,7 +299,8 @@ class TemplateAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$result[$matches[1][$key]] = AnnotationFactory::createOrFail(VariableAnnotation::TAG, '\\' . $className . '[]|\Cake\Collection\CollectionInterface', '$' . $matches[1][$key]);
+			$resultKey = $matches[1][$key];
+			$result[$resultKey] = AnnotationFactory::createOrFail(VariableAnnotation::TAG, '\\' . $className . '[]|\Cake\Collection\CollectionInterface', '$' . $matches[1][$key]);
 			// We do not need the singular then
 			$result[$entity] = null;
 		}
@@ -326,7 +313,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 *
 	 * @return array
 	 */
-	protected function _parseEntities($content) {
+	protected function parseEntities(string $content): array {
 		preg_match_all('/\$([a-z]+)-\>[a-z]+/i', $content, $matches);
 		if (empty($matches[1])) {
 			return [];
@@ -360,8 +347,8 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 *
 	 * @return bool
 	 */
-	protected function _isInlineDocBlockRedundant(File $file, array $annotations, $docBlockCloseIndex) {
-		$existingAnnotations = $this->_parseExistingAnnotations($file, $docBlockCloseIndex);
+	protected function isInlineDocBlockRedundant(File $file, array $annotations, int $docBlockCloseIndex): bool {
+		$existingAnnotations = $this->parseExistingAnnotations($file, $docBlockCloseIndex);
 
 		foreach ($existingAnnotations as $existingAnnotation) {
 			foreach ($annotations as $annotation) {
@@ -372,6 +359,31 @@ class TemplateAnnotator extends AbstractAnnotator {
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param string $content
+	 *
+	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 */
+	protected function buildAnnotations(string $content): array {
+		$annotations = [];
+
+		$needsAnnotation = $this->needsViewAnnotation($content);
+		if ($needsAnnotation) {
+			$annotations[] = $this->getViewAnnotation();
+		}
+
+		$entityAnnotations = $this->getEntityAnnotations($content);
+		/** @var \IdeHelper\Annotation\AbstractAnnotation|null $entityAnnotation */
+		foreach ($entityAnnotations as $entityAnnotation) {
+			if (!$entityAnnotation) {
+				continue;
+			}
+			$annotations[] = $entityAnnotation;
+		}
+
+		return $annotations;
 	}
 
 }

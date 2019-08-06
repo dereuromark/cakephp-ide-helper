@@ -49,12 +49,12 @@ class HelperAnnotatorTest extends TestCase {
 			}
 			return $value === $expectedContent;
 		};
-		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'View/Helper/MyHelper.php';
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextContains('   -> 3 annotations added', $output);
 	}
@@ -68,7 +68,7 @@ class HelperAnnotatorTest extends TestCase {
 			AbstractAnnotator::CONFIG_REMOVE => true,
 			AbstractAnnotator::CONFIG_DRY_RUN => true
 		];
-		return $this->getMockBuilder(HelperAnnotator::class)->setMethods(['_storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
+		return $this->getMockBuilder(HelperAnnotator::class)->setMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
 	}
 
 }

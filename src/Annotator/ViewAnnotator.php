@@ -6,6 +6,7 @@ use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\HelperTrait;
 use IdeHelper\Utility\AppPath;
 
@@ -14,7 +15,7 @@ class ViewAnnotator extends AbstractAnnotator {
 	use HelperTrait;
 
 	/**
-	 * @var array
+	 * @var string[]
 	 */
 	protected $helpers = [];
 
@@ -22,31 +23,28 @@ class ViewAnnotator extends AbstractAnnotator {
 	 * @param string $path Path to file.
 	 * @return bool
 	 */
-	public function annotate($path) {
+	public function annotate(string $path): bool {
 		$content = file_get_contents($path);
 
-		$helpers = $this->_getHelpers();
-		$annotations = [];
-		foreach ($helpers as $alias => $className) {
-			$annotations[] = AnnotationFactory::createOrFail('@property', '\\' . $className, '$' . $alias);
-		}
+		$helpers = $this->getHelpers();
+		$annotations = $this->buildAnnotations($helpers);
 
-		return $this->_annotate($path, $content, $annotations);
+		return $this->annotateContent($path, $content, $annotations);
 	}
 
 	/**
-	 * @return array
+	 * @return string[]
 	 */
-	protected function _getHelpers() {
-		$helperArray = $this->_parseViewClass();
+	protected function getHelpers(): array {
+		$helperArray = $this->parseViewClass();
 
-		$helperArray = $this->_addAppHelpers($helperArray);
+		$helperArray = $this->addAppHelpers($helperArray);
 
-		$folders = $this->_getFolders();
+		$folders = $this->getFolders();
 
 		$this->helpers = [];
 		foreach ($folders as $folder) {
-			$this->_checkTemplates($folder);
+			$this->checkTemplates($folder);
 		}
 
 		$helpers = array_unique($this->helpers);
@@ -56,7 +54,7 @@ class ViewAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$className = $this->_findClassName($helper);
+			$className = $this->findClassName($helper);
 			if (!$className || strpos($className, 'Cake\\') === 0) {
 				continue;
 			}
@@ -71,26 +69,26 @@ class ViewAnnotator extends AbstractAnnotator {
 	 * @param string $folder
 	 * @return void
 	 */
-	protected function _checkTemplates($folder) {
+	protected function checkTemplates($folder) {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, false, true);
 
 		foreach ($folderContent[1] as $file) {
 			$content = file_get_contents($file);
-			$helpers = $this->_parseHelpersInContent($content);
+			$helpers = $this->parseHelpersInContent($content);
 			$this->helpers = array_merge($this->helpers, $helpers);
 		}
 
 		foreach ($folderContent[0] as $subFolder) {
-			$this->_checkTemplates($subFolder);
+			$this->checkTemplates($subFolder);
 		}
 	}
 
 	/**
 	 * @param string $content
 	 *
-	 * @return array
+	 * @return string[]
 	 */
-	protected function _parseHelpersInContent($content) {
+	protected function parseHelpersInContent(string $content): array {
 		preg_match_all('/\$this-\>([A-Z][A-Za-z]+)-\>/', $content, $matches);
 		if (empty($matches[1])) {
 			return [];
@@ -102,9 +100,9 @@ class ViewAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @return array
+	 * @return string[]
 	 */
-	protected function _parseViewClass() {
+	protected function parseViewClass(): array {
 		$helpers = [];
 
 		$className = App::className('App', 'Controller', 'Controller');
@@ -126,11 +124,11 @@ class ViewAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param array $helperArray
+	 * @param string[] $helperArray
 	 *
-	 * @return array
+	 * @return string[]
 	 */
-	protected function _addAppHelpers($helperArray) {
+	protected function addAppHelpers(array $helperArray): array {
 		$paths = AppPath::get('View/Helper');
 		foreach ($paths as $path) {
 			$folderContent = (new Folder($path))->read(Folder::SORT_NAME, true);
@@ -157,9 +155,23 @@ class ViewAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @return array
+	 * @param string[] $helpers
+	 *
+	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
-	protected function _getFolders() {
+	protected function buildAnnotations(array $helpers): array {
+		$annotations = [];
+		foreach ($helpers as $alias => $className) {
+			$annotations[] = AnnotationFactory::createOrFail(PropertyAnnotation::TAG, '\\' . $className, '$' . $alias);
+		}
+
+		return $annotations;
+	}
+
+	/**
+	 * @return string[]
+	 */
+	protected function getFolders(): array {
 		$plugin = null;
 		$folders = AppPath::get('Template', $plugin);
 		$plugins = Configure::read('IdeHelper.includedPlugins');

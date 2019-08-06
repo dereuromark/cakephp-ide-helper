@@ -47,7 +47,7 @@ class MixinAnnotation extends AbstractAnnotation {
 	 *
 	 * @return bool
 	 */
-	public function matches(AbstractAnnotation $annotation) {
+	public function matches(AbstractAnnotation $annotation): bool {
 		if (!$annotation instanceof self) {
 			return false;
 		}
@@ -62,7 +62,7 @@ class MixinAnnotation extends AbstractAnnotation {
 	 * @param \IdeHelper\Annotation\AbstractAnnotation|\IdeHelper\Annotation\MixinAnnotation $annotation
 	 * @return void
 	 */
-	public function replaceWith(AbstractAnnotation $annotation) {
+	public function replaceWith(AbstractAnnotation $annotation): void {
 		$this->type = $annotation->getType();
 	}
 

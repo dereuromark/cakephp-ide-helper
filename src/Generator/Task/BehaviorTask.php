@@ -40,7 +40,7 @@ class BehaviorTask implements TaskInterface {
 	/**
 	 * @return string[]
 	 */
-	protected function collectBehaviors() {
+	protected function collectBehaviors(): array {
 		$behaviors = [];
 
 		$folders = array_merge(App::core('ORM/Behavior'), AppPath::get('Model/Behavior'));
@@ -68,7 +68,7 @@ class BehaviorTask implements TaskInterface {
 	 *
 	 * @return string[]
 	 */
-	protected function addBehaviors(array $behaviors, $folder, $plugin = null) {
+	protected function addBehaviors(array $behaviors, string $folder, ?string $plugin = null): array {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);
 
 		// This suffices as the return value is $this (calling Table class) anyway for chaining.

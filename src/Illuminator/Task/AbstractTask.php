@@ -54,13 +54,13 @@ abstract class AbstractTask {
 	 * @param string $path
 	 * @return bool
 	 */
-	abstract public function shouldRun($path);
+	abstract public function shouldRun(string $path): bool;
 
 	/**
 	 * @param string $content
 	 * @param string $path
 	 * @return string
 	 */
-	abstract public function run($content, $path);
+	abstract public function run(string $content, string $path): string;
 
 }

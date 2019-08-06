@@ -12,6 +12,7 @@ use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Utility\AppPath;
 use RuntimeException;
 use Throwable;
@@ -29,7 +30,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param string $path Path to file.
 	 * @return bool
 	 */
-	public function annotate($path) {
+	public function annotate(string $path): bool {
 		$className = pathinfo($path, PATHINFO_FILENAME);
 		if ($className === 'Table' || substr($className, -5) !== 'Table') {
 			return false;
@@ -41,7 +42,7 @@ class ModelAnnotator extends AbstractAnnotator {
 		try {
 			$table = TableRegistry::get($plugin ? ($plugin . '.' . $modelName) : $modelName);
 			$schema = $table->getSchema();
-			$behaviors = $this->_getBehaviors($table);
+			$behaviors = $this->getBehaviors($table);
 		} catch (Exception $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping table and entity: ' . $e->getMessage());
@@ -54,10 +55,9 @@ class ModelAnnotator extends AbstractAnnotator {
 			return false;
 		}
 
-		$tableAssociations = [];
+		$tableAssociations = $table->associations();
 		try {
-			$tableAssociations = $table->associations();
-			$associations = $this->_getAssociations($tableAssociations);
+			$associations = $this->getAssociations($tableAssociations);
 		} catch (Exception $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping associations: ' . $e->getMessage());
@@ -73,8 +73,8 @@ class ModelAnnotator extends AbstractAnnotator {
 		$entityClassName = $table->getEntityClass();
 		$entityName = substr($entityClassName, strrpos($entityClassName, '\\') + 1);
 
-		$resTable = $this->_table($path, $entityName, $associations, $behaviors);
-		$resEntity = $this->_entity($entityClassName, $entityName, $schema, $tableAssociations);
+		$resTable = $this->table($path, $entityName, $associations, $behaviors);
+		$resEntity = $this->entity($entityClassName, $entityName, $schema, $tableAssociations);
 
 		return $resTable || $resEntity;
 	}
@@ -83,23 +83,34 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param string $path
 	 * @param string $entityName
 	 * @param array $associations
-	 * @param array $behaviors
+	 * @param string[] $behaviors
 	 *
 	 * @return bool
 	 * @throws \RuntimeException
 	 */
-	protected function _table($path, $entityName, array $associations, array $behaviors) {
+	protected function table(string $path, string $entityName, array $associations, array $behaviors): bool {
 		$content = file_get_contents($path);
 
-		$entity = $entityName;
+		$behaviors += $this->parseLoadedBehaviors($content);
+		$annotations = $this->buildAnnotations($associations, $entityName, $behaviors);
 
-		$behaviors += $this->_parseLoadedBehaviors($content);
+		return $this->annotateContent($path, $content, $annotations);
+	}
 
+	/**
+	 * @param array $associations
+	 * @param string $entity
+	 * @param string[] $behaviors
+	 *
+	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 * @throws \RuntimeException
+	 */
+	protected function buildAnnotations(array $associations, string $entity, array $behaviors): array {
 		$namespace = $this->getConfig(static::CONFIG_NAMESPACE);
 		$annotations = [];
 		foreach ($associations as $type => $assocs) {
 			foreach ($assocs as $name => $className) {
-				$annotations[] = "@property \\{$className}|\\{$type} \${$name}";
+				$annotations[] = "@property \\{$className}&\\{$type} \${$name}";
 			}
 		}
 
@@ -108,20 +119,22 @@ class ModelAnnotator extends AbstractAnnotator {
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} get(\$primaryKey, \$options = [])";
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} newEntity(\$data = null, array \$options = [])";
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[] newEntities(array \$data, array \$options = [])";
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}|bool save(\\Cake\\Datasource\\EntityInterface \$entity, \$options = [])";
+			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}|false save(\\Cake\\Datasource\\EntityInterface \$entity, \$options = [])";
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} saveOrFail(\\Cake\\Datasource\\EntityInterface \$entity, \$options = [])";
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} patchEntity(\\Cake\\Datasource\\EntityInterface \$entity, array \$data, array \$options = [])";
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[] patchEntities(\$entities, array \$data, array \$options = [])";
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} findOrCreate(\$search, callable \$callback = null, \$options = [])";
 		}
+
 		// Make replacable via parsed object
-		foreach ($annotations as $key => $annotation) {
+		$result = [];
+		foreach ($annotations as $annotation) {
 			$annotationObject = AnnotationFactory::createFromString($annotation);
 			if (!$annotationObject) {
 				throw new RuntimeException('Cannot factorize annotation ' . $annotation);
 			}
 
-			$annotations[$key] = $annotationObject;
+			$result[] = $annotationObject;
 		}
 
 		foreach ($behaviors as $behavior) {
@@ -133,10 +146,10 @@ class ModelAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$annotations[] = AnnotationFactory::createOrFail('@mixin', "\\{$className}");
+			$result[] = AnnotationFactory::createOrFail(MixinAnnotation::TAG, "\\{$className}");
 		}
 
-		return $this->_annotate($path, $content, $annotations);
+		return $result;
 	}
 
 	/**
@@ -145,9 +158,9 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param \Cake\Database\Schema\TableSchemaInterface $schema
 	 * @param \Cake\ORM\AssociationCollection $associations
 	 *
-	 * @return bool|null
+	 * @return bool
 	 */
-	protected function _entity($entityClass, $entityName, TableSchemaInterface $schema, AssociationCollection $associations) {
+	protected function entity(string $entityClass, string $entityName, TableSchemaInterface $schema, AssociationCollection $associations): bool {
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
 		$entityPaths = AppPath::get('Model/Entity', $plugin);
 		$entityPath = null;
@@ -160,7 +173,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			}
 		}
 		if (!$entityPath) {
-			return null;
+			return false;
 		}
 
 		$file = pathinfo($entityPath, PATHINFO_BASENAME);
@@ -174,9 +187,9 @@ class ModelAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $content
-	 * @return array
+	 * @return string[]
 	 */
-	protected function _parseLoadedBehaviors($content) {
+	protected function parseLoadedBehaviors(string $content): array {
 		preg_match_all('/\$this-\>addBehavior\(\'([a-z.\/]+)\'/i', $content, $matches);
 		if (empty($matches[1])) {
 			return [];
@@ -197,10 +210,13 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param \Cake\ORM\AssociationCollection $tableAssociations
 	 * @return array
 	 */
-	protected function _getAssociations(AssociationCollection $tableAssociations) {
+	protected function getAssociations(AssociationCollection $tableAssociations): array {
 		$associations = [];
 		foreach ($tableAssociations->keys() as $key) {
 			$association = $tableAssociations->get($key);
+			if (!$association) {
+				continue;
+			}
 			$type = get_class($association);
 
 			list(, $name) = pluginSplit($association->getAlias());
@@ -236,7 +252,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param \Cake\ORM\Association\BelongsToMany $association
 	 * @return string
 	 */
-	protected function throughAlias(BelongsToMany $association) {
+	protected function throughAlias(BelongsToMany $association): string {
 		$through = $association->getThrough();
 		if ($through) {
 			if (is_object($through)) {
@@ -246,7 +262,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			return $through;
 		}
 
-		$tableName = $this->_junctionTableName($association);
+		$tableName = $this->junctionTableName($association);
 		$through = Inflector::camelize($tableName);
 
 		return $through;
@@ -258,7 +274,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param \Cake\ORM\Association\BelongsToMany $association
 	 * @return string
 	 */
-	protected function _junctionTableName(BelongsToMany $association) {
+	protected function junctionTableName(BelongsToMany $association): string {
 		$tablesNames = array_map('Cake\Utility\Inflector::underscore', [
 			$association->getSource()->getTable(),
 			$association->getTarget()->getTable()
@@ -271,13 +287,13 @@ class ModelAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param \Cake\ORM\Table $table
-	 * @return array
+	 * @return string[]
 	 */
-	protected function _getBehaviors($table) {
+	protected function getBehaviors($table): array {
 		$object = $table->behaviors();
-		$map = $this->_invokeProperty($object, '_loaded');
+		$map = $this->invokeProperty($object, '_loaded');
 
-		$behaviors = $this->_extractBehaviors($map);
+		$behaviors = $this->extractBehaviors($map);
 
 		$parentClass = get_parent_class($table);
 		if (isset($this->_cache[$parentClass])) {
@@ -287,8 +303,8 @@ class ModelAnnotator extends AbstractAnnotator {
 			$parent = new $parentClass();
 
 			$object = $parent->behaviors();
-			$map = $this->_invokeProperty($object, '_loaded');
-			$this->_cache[$parentClass] = $parentBehaviors = $this->_extractBehaviors($map);
+			$map = $this->invokeProperty($object, '_loaded');
+			$this->_cache[$parentClass] = $parentBehaviors = $this->extractBehaviors($map);
 		}
 
 		$result = array_diff_key($behaviors, $parentBehaviors);
@@ -298,14 +314,13 @@ class ModelAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param array $map
-	 *
-	 * @return array
+	 * @return string[]
 	 */
-	protected function _extractBehaviors(array $map) {
+	protected function extractBehaviors(array $map) {
 		$result = [];
 		foreach ($map as $name => $behavior) {
 			$behaviorClassName = get_class($behavior);
-			$pluginName = $this->_resolvePluginName($behaviorClassName, $name);
+			$pluginName = $this->resolvePluginName($behaviorClassName, $name);
 			if ($pluginName === null) {
 				continue;
 			}
@@ -324,7 +339,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	 *
 	 * @return string|null
 	 */
-	protected function _resolvePluginName($className, $name) {
+	protected function resolvePluginName(string $className, string $name): ?string {
 		if (strpos($className, 'Cake\\ORM') === 0) {
 			return '';
 		}
@@ -346,7 +361,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param \Cake\ORM\AssociationCollection $associations
 	 * @return \IdeHelper\Annotator\AbstractAnnotator
 	 */
-	protected function getEntityAnnotator($entityClass, TableSchemaInterface $schema, AssociationCollection $associations) {
+	protected function getEntityAnnotator(string $entityClass, TableSchemaInterface $schema, AssociationCollection $associations): AbstractAnnotator {
 		$class = EntityAnnotator::class;
 		$tasks = (array)Configure::read('IdeHelper.annotators');
 		if (isset($tasks[$class])) {

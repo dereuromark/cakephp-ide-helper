@@ -106,6 +106,7 @@ namespace PHPSTORM_META {
 		\Cake\ORM\Table::addBehavior(0),
 		map([
 			'CounterCache' => \Cake\ORM\Table::class,
+			'MyNamespace/MyPlugin.My' => \Cake\ORM\Table::class,
 			'Shim.Nullable' => \Cake\ORM\Table::class,
 			'Timestamp' => \Cake\ORM\Table::class,
 			'Translate' => \Cake\ORM\Table::class,

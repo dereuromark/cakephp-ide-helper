@@ -14,7 +14,7 @@ trait HelperTrait {
 	 *
 	 * @return string|null
 	 */
-	protected function _findClassName($helper) {
+	protected function findClassName(string $helper): ?string {
 		$className = App::className($helper, 'View/Helper', 'Helper');
 		if ($className) {
 			return $className;

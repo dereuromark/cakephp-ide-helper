@@ -113,12 +113,12 @@ class ModelAnnotatorTest extends TestCase {
 			}
 			return $value === $expectedContent;
 		};
-		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'Model/Table/BarBarsTable.php';
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextContains('  -> 14 annotations added', $output);
 	}
@@ -137,12 +137,12 @@ class ModelAnnotatorTest extends TestCase {
 			}
 			return $value === $expectedContent;
 		};
-		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'Model/Table/WheelsTable.php';
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextContains('  -> 8 annotations added, 1 annotation updated', $output);
 	}
@@ -161,12 +161,12 @@ class ModelAnnotatorTest extends TestCase {
 			}
 			return $value === $expectedContent;
 		};
-		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'Model/Table/WheelsExtraTable.php';
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextContains('  -> 1 annotation updated', $output);
 	}
@@ -185,12 +185,12 @@ class ModelAnnotatorTest extends TestCase {
 			}
 			return $value === $expectedContent;
 		};
-		$annotator->expects($this->never())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+		$annotator->expects($this->never())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'Model/Table/SkipSomeTable.php';
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 		$this->assertSame('', $output);
 	}
 
@@ -208,12 +208,12 @@ class ModelAnnotatorTest extends TestCase {
 			}
 			return $value === $expectedContent;
 		};
-		$annotator->expects($this->never())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+		$annotator->expects($this->never())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'Model/Table/SkipMeTable.php';
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 		$this->assertSame('', $output);
 	}
 
@@ -226,7 +226,7 @@ class ModelAnnotatorTest extends TestCase {
 		$path = APP . 'Model/Table/ExceptionsTable.php';
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextNotContains('annotations added', $output);
 	}
@@ -241,7 +241,7 @@ class ModelAnnotatorTest extends TestCase {
 			AbstractAnnotator::CONFIG_DRY_RUN => true,
 			AbstractAnnotator::CONFIG_VERBOSE => true,
 		];
-		return $this->getMockBuilder(ModelAnnotator::class)->setMethods(['_storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
+		return $this->getMockBuilder(ModelAnnotator::class)->setMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
 	}
 
 }

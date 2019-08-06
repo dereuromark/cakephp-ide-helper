@@ -3,6 +3,7 @@
 namespace IdeHelper\Utility;
 
 use Cake\Core\Exception\MissingPluginException;
+use Cake\Core\Plugin;
 
 class PluginPath {
 
@@ -11,18 +12,13 @@ class PluginPath {
 	 * @return string
 	 * @throws \Cake\Core\Exception\MissingPluginException
 	 */
-	public static function get($plugin) {
+	public static function get(string $plugin): string {
 		try {
 			return Plugin::path($plugin);
 		} catch (MissingPluginException $exception) {
 		}
 
-		$pathToPlugin = Plugin::getCollection()->findPath($plugin);
-		//FIXME
-		//Plugin::getCollection()->add($pluginClassName?);
-		Plugin::load($plugin);
-
-		return $pathToPlugin;
+		return Plugin::path($plugin);
 	}
 
 }

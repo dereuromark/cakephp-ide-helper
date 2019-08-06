@@ -16,7 +16,7 @@ trait FileTrait {
 	 *
 	 * @return \PHP_CodeSniffer\Files\File
 	 */
-	protected function _getFile($file, $content = null) {
+	protected function getFile(string $file, ?string $content = null): File {
 		$_SERVER['argv'] = [];
 
 		$phpcs = new Runner();
@@ -43,7 +43,7 @@ trait FileTrait {
 	 *
 	 * @return \PHP_CodeSniffer\Fixer
 	 */
-	protected function _getFixer($file) {
+	protected function getFixer(File $file): Fixer {
 		$fixer = new Fixer();
 
 		$fixer->startFile($file);

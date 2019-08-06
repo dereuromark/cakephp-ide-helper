@@ -43,7 +43,7 @@ TXT;
 	/**
 	 * @return string[]
 	 */
-	protected function collectBehaviors() {
+	protected function collectBehaviors(): array {
 		$behaviors = [];
 
 		$folders = array_merge(App::core('ORM/Behavior'), AppPath::get('Model/Behavior'));
@@ -69,7 +69,7 @@ TXT;
 	 *
 	 * @return string[]
 	 */
-	protected function addBehaviors(array $components, $folder, $plugin = null) {
+	protected function addBehaviors(array $components, string $folder, ?string $plugin = null): array {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);
 
 		foreach ($folderContent[1] as $file) {
@@ -93,7 +93,12 @@ TXT;
 		return $components;
 	}
 
-	protected function build($behaviors) {
+	/**
+	 * @param string[] $behaviors
+	 *
+	 * @return string
+	 */
+	protected function build(array $behaviors): string {
 		$result = [];
 
 		foreach ($behaviors as $behavior => $className) {

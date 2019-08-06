@@ -3,6 +3,7 @@ namespace IdeHelper\Annotator;
 
 use Cake\Core\Configure;
 use IdeHelper\Annotator\ClassAnnotatorTask\ModelAwareClassAnnotatorTask;
+use IdeHelper\Annotator\ClassAnnotatorTask\TestClassAnnotatorTask;
 use IdeHelper\Console\Io;
 
 class ClassAnnotatorTaskCollection {
@@ -12,6 +13,7 @@ class ClassAnnotatorTaskCollection {
 	 */
 	protected $defaultTasks = [
 		ModelAwareClassAnnotatorTask::class => ModelAwareClassAnnotatorTask::class,
+		TestClassAnnotatorTask::class => TestClassAnnotatorTask::class,
 	];
 
 	/**
@@ -23,7 +25,7 @@ class ClassAnnotatorTaskCollection {
 	 * @param array $tasks
 	 */
 	public function __construct(array $tasks = []) {
-		$defaultTasks = (array)Configure::read('IdeHelper.classAnnotatorTasks') + $this->defaultTasks;
+		$defaultTasks = $this->defaultTasks();
 		$tasks += $defaultTasks;
 
 		foreach ($tasks as $task) {
@@ -33,6 +35,22 @@ class ClassAnnotatorTaskCollection {
 
 			$this->tasks = $tasks;
 		}
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function defaultTasks(): array {
+		$tasks = (array)Configure::read('IdeHelper.classAnnotatorTasks') + $this->defaultTasks;
+
+		foreach ($tasks as $k => $v) {
+			if (is_numeric($k)) {
+				$tasks[$v] = $v;
+				unset($tasks[$k]);
+			}
+		}
+
+		return $tasks;
 	}
 
 	/**

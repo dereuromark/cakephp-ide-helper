@@ -2,6 +2,7 @@
 
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
+use Cake\Core\PluginCollection;
 use Cake\Database\Type;
 use IdeHelper\Utility\Plugin;
 
@@ -72,12 +73,12 @@ Type::build('datetime')
 Type::build('timestamp')
 	->useImmutable();
 
-//(new PluginCollection)->add(new \IdeHelper\Plugin());
-Plugin::load('IdeHelper', ['path' => ROOT . DS, 'autoload' => true]);
-Plugin::load('Shim', ['path' => ROOT . DS . 'vendor/dereuromark/cakephp-shim/', 'autoload' => true]);
-Plugin::load('Awesome', ['path' => TEST_ROOT . 'plugins/Awesome/', 'autoload' => true]);
-Plugin::load('Controllers', ['path' => TEST_ROOT . 'plugins/Controllers/', 'autoload' => true]);
-Plugin::load('MyBehavior/MyPlugin', ['path' => TEST_ROOT . 'plugins/MyBehavior/MyPlugin/', 'autoload' => true]);
+Plugin::getCollection()->add(new \IdeHelper\Plugin());
+Plugin::getCollection()->add(new \Shim\Plugin());
+Plugin::getCollection()->add(new \Awesome\Plugin());
+Plugin::getCollection()->add(new \Controllers\Plugin());
+Plugin::getCollection()->add(new \Awesome\Plugin());
+Plugin::getCollection()->add(new \MyNamespace\MyPlugin\Plugin());
 
 if (getenv('db_dsn')) {
 	Cake\Datasource\ConnectionManager::setConfig('test', [

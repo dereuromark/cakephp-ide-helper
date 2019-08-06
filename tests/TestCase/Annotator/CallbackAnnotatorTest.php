@@ -56,7 +56,7 @@ class CallbackAnnotatorTest extends TestCase {
 		$expectedContent = file_get_contents($testPath);
 		$this->assertTextEquals($expectedContent, $content);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextContains('  -> 2 annotations updated.', $output);
 	}

@@ -30,13 +30,13 @@ class TableCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implement
 	/**
 	 * @var string|null
 	 */
-	protected $entityClassName = null;
+	protected $entityClassName;
 
 	/**
 	 * @param string $path
 	 * @return bool
 	 */
-	public function shouldRun($path) {
+	public function shouldRun(string $path): bool {
 		$className = pathinfo($path, PATHINFO_FILENAME);
 		if ($className === 'Table' || substr($className, -5) !== 'Table') {
 			return false;
@@ -62,7 +62,7 @@ class TableCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implement
 		$entityClassName = $table->getEntityClass();
 		$this->entityClassName = $entityClassName;
 
-		if (!preg_match('#\bfunction (' . $this->_generatePattern() . ')\b#', $this->content)) {
+		if (!preg_match('#\bfunction (' . $this->generatePattern() . ')\b#', $this->content)) {
 			return false;
 		}
 
@@ -73,10 +73,10 @@ class TableCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implement
 	 * @param string $path
 	 * @return bool
 	 */
-	public function annotate($path) {
-		$file = $this->_getFile($path, $this->content);
+	public function annotate(string $path): bool {
+		$file = $this->getFile($path, $this->content);
 
-		$methods = $this->_getMethods($file);
+		$methods = $this->getMethods($file);
 
 		foreach ($methods as $index => $method) {
 			if (!in_array($method['name'], $this->callbacks, true)) {
@@ -84,7 +84,7 @@ class TableCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implement
 				continue;
 			}
 
-			if (!$this->_needsUpdate($file, $index, $method)) {
+			if (!$this->needsUpdate($file, $index, $method)) {
 				unset($methods[$index]);
 				continue;
 			}
@@ -92,7 +92,7 @@ class TableCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implement
 			$methods[$index] = $method;
 		}
 
-		return $this->_annotateMethods($path, $file, $methods);
+		return $this->annotateMethods($path, $file, $methods);
 	}
 
 	/**
@@ -101,12 +101,12 @@ class TableCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implement
 	 * @param array $method
 	 * @return bool
 	 */
-	protected function _needsUpdate(File $file, $index, array &$method) {
+	protected function needsUpdate(File $file, int $index, array &$method): bool {
 		if (empty($method['docBlockStart']) || empty($method['docBlockEnd'])) {
 			return false;
 		}
 
-		$annotations = $this->_parseExistingAnnotations($file, $method['docBlockEnd'], ['@param']);
+		$annotations = $this->parseExistingAnnotations($file, $method['docBlockEnd'], ['@param']);
 
 		if (empty($annotations[1])) {
 			return false;
@@ -132,7 +132,7 @@ class TableCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implement
 	/**
 	 * @return string
 	 */
-	protected function _generatePattern() {
+	protected function generatePattern(): string {
 		$pattern = [];
 		foreach ($this->callbacks as $key => $v) {
 			$pattern[] = preg_quote($key . '(');

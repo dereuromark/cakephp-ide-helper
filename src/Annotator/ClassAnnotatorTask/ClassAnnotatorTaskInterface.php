@@ -10,12 +10,12 @@ interface ClassAnnotatorTaskInterface {
 	 * @param string $content
 	 * @return bool
 	 */
-	public function shouldRun($path, $content);
+	public function shouldRun(string $path, string $content): bool;
 
 	/**
 	 * @param string $path Path to file.
-	 * @return void
+	 * @return bool
 	 */
-	public function annotate($path);
+	public function annotate(string $path): bool;
 
 }

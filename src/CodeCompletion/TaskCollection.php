@@ -63,14 +63,14 @@ class TaskCollection {
 	/**
 	 * @return \IdeHelper\CodeCompletion\Task\TaskInterface[]
 	 */
-	public function tasks() {
+	public function tasks(): array {
 		return $this->tasks;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getMap() {
+	public function getMap(): array {
 		$map = [];
 		foreach ($this->tasks as $class => $task) {
 			$snippet = $task->create();

@@ -4,7 +4,9 @@ namespace IdeHelper\Annotator;
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
 use Cake\Core\App;
+use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\ComponentTrait;
 
 class ComponentAnnotator extends AbstractAnnotator {
@@ -15,7 +17,7 @@ class ComponentAnnotator extends AbstractAnnotator {
 	 * @param string $path Path to file.
 	 * @return bool
 	 */
-	public function annotate($path) {
+	public function annotate(string $path): bool {
 		$name = pathinfo($path, PATHINFO_FILENAME);
 		if (substr($name, -9) !== 'Component') {
 			return false;
@@ -28,33 +30,44 @@ class ComponentAnnotator extends AbstractAnnotator {
 			return false;
 		}
 
-		$annotations = [];
 		$content = file_get_contents($path);
+		$annotations = $this->buildAnnotations($className);
 
-		$componentAnnotations = $this->_getComponentAnnotations($className);
+		return $this->annotateContent($path, $content, $annotations);
+	}
+
+	/**
+	 * @param string $className
+	 *
+	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 */
+	protected function buildAnnotations(string $className): array {
+		$annotations = [];
+
+		$componentAnnotations = $this->getComponentAnnotations($className);
 		foreach ($componentAnnotations as $componentAnnotation) {
 			$annotations[] = $componentAnnotation;
 		}
 
-		return $this->_annotate($path, $content, $annotations);
+		return $annotations;
 	}
 
 	/**
 	 * @param string $className
 	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
-	protected function _getComponentAnnotations($className) {
+	protected function getComponentAnnotations(string $className) {
 		$controller = new Controller();
 		try {
 			$object = new $className(new ComponentRegistry($controller));
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping component annotations: ' . $e->getMessage());
 			}
 			return [];
 		}
 
-		$map = $this->_invokeProperty($object, '_componentMap');
+		$map = $this->invokeProperty($object, '_componentMap');
 
 		if (empty($map)) {
 			return [];
@@ -62,12 +75,12 @@ class ComponentAnnotator extends AbstractAnnotator {
 
 		$annotations = [];
 		foreach ($map as $name => $config) {
-			$className = $this->_findClassName($config['class']);
+			$className = $this->findClassName($config['class']);
 			if (!$className) {
 				continue;
 			}
 
-			$annotations[] = AnnotationFactory::createOrFail('@property', '\\' . $className, '$' . $name);
+			$annotations[] = AnnotationFactory::createOrFail(PropertyAnnotation::TAG, '\\' . $className, '$' . $name);
 		}
 
 		return $annotations;

@@ -24,43 +24,57 @@ abstract class AbstractClassAnnotatorTask extends AbstractAnnotator {
 	}
 
 	/**
+	 * For testing only
+	 *
+	 * @return string
+	 */
+	public function getContent(): string {
+		return $this->content;
+	}
+
+	/**
 	 * @param string $path
 	 * @param string $content
 	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
 	 *
 	 * @return bool
 	 */
-	protected function _annotate($path, $content, array $annotations) {
+	protected function annotateContent(string $path, string $content, array $annotations): bool {
 		if (!count($annotations)) {
 			return false;
 		}
 
-		$file = $this->_getFile($path, $content);
+		$file = $this->getFile($path, $content);
 
-		$classIndex = $file->findNext(T_CLASS, 0);
+		$classOrTraitIndex = $file->findNext([T_CLASS, T_TRAIT], 0);
+		if (!$classOrTraitIndex) {
+			return false;
+		}
 
-		$prevCode = $file->findPrevious(Tokens::$emptyTokens, $classIndex - 1, null, true);
+		$prevCode = $file->findPrevious(Tokens::$emptyTokens, $classOrTraitIndex - 1, null, true);
 
-		$closeTagIndex = $file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $classIndex - 1, $prevCode);
-		$this->_resetCounter();
+		$closeTagIndex = $file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $classOrTraitIndex - 1, $prevCode);
+		$this->resetCounter();
 		if ($closeTagIndex && $this->shouldSkip($file, $closeTagIndex)) {
 			return false;
 		}
 		if ($closeTagIndex && !$this->isInlineDocBlock($file, $closeTagIndex)) {
-			$newContent = $this->_appendToExistingDocBlock($file, $closeTagIndex, $annotations);
+			$newContent = $this->appendToExistingDocBlock($file, $closeTagIndex, $annotations);
 		} else {
-			$newContent = $this->_addNewDocBlock($file, $classIndex, $annotations);
+			$newContent = $this->addNewDocBlock($file, $classOrTraitIndex, $annotations);
 		}
 
 		if ($newContent === $content) {
-			$this->_reportSkipped();
+			$this->reportSkipped();
 			return false;
 		}
 
-		$this->_displayDiff($content, $newContent);
-		$this->_storeFile($path, $newContent);
+		$this->content = $newContent;
 
-		$this->_report();
+		$this->displayDiff($content, $newContent);
+		$this->storeFile($path, $newContent);
+
+		$this->report();
 
 		return true;
 	}

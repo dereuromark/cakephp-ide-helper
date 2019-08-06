@@ -32,7 +32,7 @@ class EntityFieldTask extends AbstractTask {
 	 * @param string $path
 	 * @return bool
 	 */
-	public function shouldRun($path) {
+	public function shouldRun(string $path): bool {
 		return (bool)preg_match('#\\/Model\\/Entity/.+\\.php$#', $path);
 	}
 
@@ -41,8 +41,8 @@ class EntityFieldTask extends AbstractTask {
 	 * @param string $path Path to file.
 	 * @return string
 	 */
-	public function run($content, $path) {
-		$file = $this->_getFile('', $content);
+	public function run(string $content, string $path): string {
+		$file = $this->getFile('', $content);
 
 		$classIndex = $file->findNext(T_CLASS, 0);
 		if (!$classIndex) {
@@ -75,10 +75,10 @@ class EntityFieldTask extends AbstractTask {
 	 * @param int $classIndex
 	 * @return array
 	 */
-	protected function getFields(File $file, $classIndex) {
+	protected function getFields(File $file, int $classIndex): array {
 		$tokens = $file->getTokens();
 
-		$docBlockCloseTagIndex = $this->_findDocBlockCloseTagIndex($file, $classIndex);
+		$docBlockCloseTagIndex = $this->findDocBlockCloseTagIndex($file, $classIndex);
 		if (!$docBlockCloseTagIndex || empty($tokens[$docBlockCloseTagIndex]['comment_opener'])) {
 			return [];
 		}
@@ -120,15 +120,15 @@ class EntityFieldTask extends AbstractTask {
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $index First functional code after docblock
 	 *
-	 * @return int|false
+	 * @return int|null
 	 */
-	protected function _findDocBlockCloseTagIndex(File $file, $index) {
+	protected function findDocBlockCloseTagIndex(File $file, int $index): ?int {
 		$prevCode = $file->findPrevious(Tokens::$emptyTokens, $index - 1, null, true);
 		if (!$prevCode) {
-			return false;
+			return null;
 		}
 
-		return $file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $index - 1, $prevCode);
+		return $file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $index - 1, $prevCode) ?: null;
 	}
 
 	/**
@@ -171,7 +171,7 @@ class EntityFieldTask extends AbstractTask {
 			$visibility = 'public ';
 		}
 
-		$fixer = $this->_getFixer($file);
+		$fixer = $this->getFixer($file);
 
 		$fixer->beginChangeset();
 
@@ -233,9 +233,11 @@ class EntityFieldTask extends AbstractTask {
 	}
 
 	/**
+	 * If visibility "public" should be used, for PHP 7.1+ only.
+	 *
 	 * @return bool
 	 */
-	protected function visibility() {
+	protected function visibility(): bool {
 		if ($this->_visibility !== null) {
 			return $this->_visibility;
 		}

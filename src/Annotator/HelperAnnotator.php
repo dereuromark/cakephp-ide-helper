@@ -5,7 +5,9 @@ use Cake\Core\App;
 use Cake\View\View;
 use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\HelperTrait;
+use Throwable;
 
 class HelperAnnotator extends AbstractAnnotator {
 
@@ -15,7 +17,7 @@ class HelperAnnotator extends AbstractAnnotator {
 	 * @param string $path Path to file.
 	 * @return bool
 	 */
-	public function annotate($path) {
+	public function annotate(string $path): bool {
 		$name = pathinfo($path, PATHINFO_FILENAME);
 		if (substr($name, -6) !== 'Helper') {
 			return false;
@@ -35,39 +37,39 @@ class HelperAnnotator extends AbstractAnnotator {
 				$this->_io->warn('   Skipping helper annotations: ' . $e->getMessage());
 			}
 			return false;
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping helper annotations: ' . $e->getMessage());
 			}
 			return false;
 		}
 
-		$helperMap = $this->_invokeProperty($helper, '_helperMap');
+		$helperMap = $this->invokeProperty($helper, '_helperMap');
 
 		$content = file_get_contents($path);
 
-		$annotations = $this->_getHelperAnnotations($helperMap);
+		$annotations = $this->getHelperAnnotations($helperMap);
 
-		return $this->_annotate($path, $content, $annotations);
+		return $this->annotateContent($path, $content, $annotations);
 	}
 
 	/**
 	 * @param array $helperMap
 	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
-	protected function _getHelperAnnotations($helperMap) {
+	protected function getHelperAnnotations(array $helperMap): array {
 		if (empty($helperMap)) {
 			return [];
 		}
 
 		$helperAnnotations = [];
 		foreach ($helperMap as $helper => $config) {
-			$className = $this->_findClassName($config['class']);
+			$className = $this->findClassName($config['class']);
 			if (!$className) {
 				continue;
 			}
 
-			$helperAnnotations[] = AnnotationFactory::createOrFail('@property', '\\' . $className, '$' . $helper);
+			$helperAnnotations[] = AnnotationFactory::createOrFail(PropertyAnnotation::TAG, '\\' . $className, '$' . $helper);
 		}
 
 		return $helperAnnotations;
