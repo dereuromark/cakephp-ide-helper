@@ -2,7 +2,6 @@
 
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
-use Cake\Core\PluginCollection;
 use Cake\Database\Type;
 use IdeHelper\Utility\Plugin;
 
