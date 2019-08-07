@@ -29,7 +29,7 @@
 		"sebastian/diff": "^3.0"
 	},
 	"require-dev": {
-		"dereuromark/cakephp-tools": "4.x-dev as 4.0.0",
+		"dereuromark/cakephp-tools": "dev-cake4 as 4.0.0",
 		"fig-r/psr2r-sniffer": "dev-master"
 	},
 	"autoload": {
