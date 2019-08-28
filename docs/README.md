@@ -94,3 +94,19 @@ bin/cake illuminator illuminate <path> -v
 Use `-t` (`--task`) to only run specific task(s), can be a comma separated list.
 
 You can add `-d` (`--dry-run`) to simulate the output without actually modifying the files.
+
+
+## Tips
+
+Group them for your project as composer.json script commands:
+```
+"scripts": {
+    ...
+    "setup": "bin/cake code_completion generate && bin/cake phpstorm generate",
+    "annotations": "bin/cake annotations all && bin/cake annotations all -p Sandbox && ...",
+```
+
+This way you only need to remember these high level ones:
+- `composer setup` (also possible as Git hook after checkout/pull)
+- `composer annotations` (include all your /plugins, the non-vendor ones)
+
