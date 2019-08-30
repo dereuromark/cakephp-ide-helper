@@ -167,16 +167,18 @@ abstract class AbstractAnnotator {
 		if (!$classOrTraitIndex) {
 			return false;
 		}
+		$beginningOfLineIndex = $this->_beginningOfLine($file, $classOrTraitIndex);
 
-		$closeTagIndex = $this->_findDocBlockCloseTagIndex($file, $classOrTraitIndex);
+		$closeTagIndex = $this->_findDocBlockCloseTagIndex($file, $beginningOfLineIndex);
 		$this->_resetCounter();
 		if ($closeTagIndex && $this->shouldSkip($file, $closeTagIndex)) {
 			return false;
 		}
+
 		if ($closeTagIndex && !$this->isInlineDocBlock($file, $closeTagIndex)) {
 			$newContent = $this->_appendToExistingDocBlock($file, $closeTagIndex, $annotations);
 		} else {
-			$newContent = $this->_addNewDocBlock($file, $classOrTraitIndex, $annotations);
+			$newContent = $this->_addNewDocBlock($file, $beginningOfLineIndex, $annotations);
 		}
 
 		if ($newContent === $content) {
@@ -575,12 +577,12 @@ abstract class AbstractAnnotator {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param int $classIndex
+	 * @param int $index
 	 * @param \IdeHelper\Annotation\AbstractAnnotation[]|string[] $annotations
 	 *
 	 * @return string
 	 */
-	protected function _addNewDocBlock(File $file, $classIndex, array $annotations) {
+	protected function _addNewDocBlock(File $file, $index, array $annotations) {
 		$tokens = $file->getTokens();
 
 		foreach ($annotations as $key => $annotation) {
@@ -599,7 +601,7 @@ abstract class AbstractAnnotator {
 		$fixer = $this->_getFixer($file);
 
 		$docBlock = $annotationString . PHP_EOL;
-		$fixer->replaceToken($classIndex, $docBlock . $tokens[$classIndex]['content']);
+		$fixer->replaceToken($index, $docBlock . $tokens[$index]['content']);
 
 		$contents = $fixer->getContents();
 
@@ -744,6 +746,24 @@ abstract class AbstractAnnotator {
 			static::COUNT_REMOVED => 0,
 			static::COUNT_SKIPPED => 0,
 		];
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param int $classOrTraitIndex
+	 *
+	 * @return int
+	 */
+	protected function _beginningOfLine(File $file, $classOrTraitIndex) {
+		$tokens = $file->getTokens();
+
+		$line = $tokens[$classOrTraitIndex]['line'];
+		$beginningOfLineIndex = $classOrTraitIndex;
+		while ($tokens[$beginningOfLineIndex - 1]['line'] === $line) {
+			$beginningOfLineIndex--;
+		}
+
+		return $beginningOfLineIndex;
 	}
 
 }
