@@ -128,9 +128,11 @@ Using Configure key `'IdeHelper.nullableMap'` you can set a custom array of type
     ],
 ```
 
-Note: For virtual properties it looks up the respective `_get...()` methods (e.g. `_getVirtualProperty()` for `$virtual_property`).
+For virtual properties it looks up the respective `_get...()` methods (e.g. `_getVirtualProperty()` for `$virtual_property`).
 It first checks the documented type in the doc block's `@return`, otherwise (given PHP 7.0+) tries to read it from the
 return type hint (e.g. `: ?string`). Only if that is also not present it will use the fallback type `mixed`.
+
+Note: You can also use `@property-read` tag here if it is a pure virtual field getter.
 
 ## Shells
 Shells and Tasks should annotate their primary model as well as all manually loaded models.
