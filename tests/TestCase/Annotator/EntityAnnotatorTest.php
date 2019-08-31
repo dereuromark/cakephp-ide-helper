@@ -242,6 +242,36 @@ class EntityAnnotatorTest extends TestCase {
 
 		$output = (string)$this->out->output();
 
+		$this->assertTextContains('   -> 7 annotations added', $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAnnotateWithVirtualPropertiesReadOnly() {
+		/** @var \App\Model\Table\FooTable $Table */
+		$Table = TableRegistry::get('Foo');
+		$Table->hasMany('Wheels');
+
+		$schema = $Table->getSchema();
+		$associations = $Table->associations();
+		$annotator = $this->_getAnnotatorMock(['schema' => $schema, 'associations' => $associations]);
+
+		$expectedContent = str_replace(["\r\n", "\r"], "\n", file_get_contents(TEST_FILES . 'Model/Entity/Virtual.php'));
+		$callback = function ($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->_displayDiff($expectedContent, $value);
+			}
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP . 'Model/Entity/Virtual.php';
+		$annotator->annotate($path);
+
+		$output = (string)$this->out->output();
+
 		$this->assertTextContains('   -> 8 annotations added', $output);
 	}
 

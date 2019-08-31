@@ -210,7 +210,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @return string[]
 	 */
 	protected function buildVirtualPropertyHintTypeMap($content) {
-		if (!preg_match('#\bfunction \_get[A-Z][a-zA-Z0-9]+\(\)#', $content)) {
+		if (!preg_match('#\bfunction _get[A-Z][a-zA-Z0-9]+\(\)#', $content)) {
 			return [];
 		}
 
@@ -246,7 +246,7 @@ class EntityAnnotator extends AbstractAnnotator {
 
 			$startIndex = $methodNameIndex + 1;
 
-			if (!preg_match('#^\_get([A-Z][a-zA-Z0-9]+)$#', $methodName, $matches)) {
+			if (!preg_match('#^_get([A-Z][a-zA-Z0-9]+)$#', $methodName, $matches)) {
 				continue;
 			}
 

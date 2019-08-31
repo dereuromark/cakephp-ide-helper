@@ -40,7 +40,7 @@ class ModelAwareClassAnnotatorTask extends AbstractClassAnnotatorTask implements
 	 * @return string[]
 	 */
 	protected function _getUsedModels($content) {
-		preg_match_all('/\$this-\>loadModel\(\'([a-z.]+)\'/i', $content, $matches);
+		preg_match_all('/\$this->loadModel\(\'([a-z.]+)\'/i', $content, $matches);
 		if (empty($matches[1])) {
 			return [];
 		}
