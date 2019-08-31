@@ -252,7 +252,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 * @return array
 	 */
 	protected function _parseFormEntities($content) {
-		preg_match_all('/\$this-\>Form->create\(\$(\w+)\W/i', $content, $matches);
+		preg_match_all('/\$this->Form->create\(\$(\w+)\W/i', $content, $matches);
 		if (empty($matches[1])) {
 			return [];
 		}
@@ -316,7 +316,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 * @return array
 	 */
 	protected function _parseEntities($content) {
-		preg_match_all('/\$([a-z]+)-\>[a-z]+/i', $content, $matches);
+		preg_match_all('/\$([a-z]+)->[a-z]+/i', $content, $matches);
 		if (empty($matches[1])) {
 			return [];
 		}

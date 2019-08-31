@@ -33,7 +33,7 @@ class EntityFieldTask extends AbstractTask {
 	 * @return bool
 	 */
 	public function shouldRun($path) {
-		return (bool)preg_match('#\\/Model\\/Entity/.+\\.php$#', $path);
+		return (bool)preg_match('#/Model/Entity/.+\\.php$#', $path);
 	}
 
 	/**

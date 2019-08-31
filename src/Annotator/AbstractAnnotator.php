@@ -9,7 +9,12 @@ use Cake\Core\InstanceConfigTrait;
 use Cake\View\View;
 use IdeHelper\Annotation\AbstractAnnotation;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\MethodAnnotation;
+use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
+use IdeHelper\Annotation\PropertyReadAnnotation;
+use IdeHelper\Annotation\UsesAnnotation;
+use IdeHelper\Annotation\VariableAnnotation;
 use IdeHelper\Annotator\Traits\FileTrait;
 use IdeHelper\Console\Io;
 use PHP_CodeSniffer\Config;
@@ -46,7 +51,14 @@ abstract class AbstractAnnotator {
 	const COUNT_ADDED = 'added';
 	const COUNT_SKIPPED = 'skipped';
 
-	const TYPES = ['@property', '@var', '@method', '@mixin', '@uses'];
+	const TYPES = [
+		PropertyAnnotation::TAG,
+		PropertyReadAnnotation::TAG,
+		VariableAnnotation::TAG,
+		MethodAnnotation::TAG,
+		MixinAnnotation::TAG,
+		UsesAnnotation::TAG,
+	];
 
 	/**
 	 * @var bool
@@ -333,6 +345,14 @@ abstract class AbstractAnnotator {
 
 				return true;
 			}
+
+			if ($annotation instanceof PropertyAnnotation && $existingAnnotation instanceof PropertyAnnotation) {
+				if ($annotation->getProperty() === $existingAnnotation->getProperty() && $annotation->getType() === $existingAnnotation->getType()) {
+					unset ($existingAnnotations[$key]);
+
+					return true;
+				}
+			}
 		}
 
 		return false;
@@ -414,13 +434,16 @@ abstract class AbstractAnnotator {
 			$tag = $tokens[$i]['content'];
 			$content = trim($appendix);
 			$annotation = AnnotationFactory::createOrFail($tag, $type, $content, $classNameIndex);
-			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === '@var' && $this->varInUse($tokens, $closeTagIndex, $content)) {
+			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === VariableAnnotation::TAG && $this->varInUse($tokens, $closeTagIndex, $content)) {
 				$annotation->setInUse();
 			}
-			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === '@property' && $this->propertyInUse($tokens, $closeTagIndex, $content)) {
+			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === PropertyAnnotation::TAG && $this->propertyInUse($tokens, $closeTagIndex, $content)) {
 				$annotation->setInUse();
 			}
-			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === '@method' && $this->methodInUse($tokens, $closeTagIndex, $content)) {
+			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === PropertyReadAnnotation::TAG && $this->propertyInUse($tokens, $closeTagIndex, $content)) {
+				$annotation->setInUse();
+			}
+			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === MethodAnnotation::TAG && $this->methodInUse($tokens, $closeTagIndex, $content)) {
 				$annotation->setInUse();
 			}
 

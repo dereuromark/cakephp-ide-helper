@@ -86,7 +86,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 * @return string[]
 	 */
 	protected function _getUsedModels($content) {
-		preg_match_all('/\$this-\>loadModel\(\'([a-z.]+)\'/i', $content, $matches);
+		preg_match_all('/\$this->loadModel\(\'([a-z.]+)\'/i', $content, $matches);
 		if (empty($matches[1])) {
 			return [];
 		}
@@ -189,12 +189,12 @@ class ControllerAnnotator extends AbstractAnnotator {
 	protected function _extractPaginateEntityTypehints($content, $primaryModelClass) {
 		$models = [];
 
-		preg_match_all('/\$this-\>paginate\(\)/i', $content, $matches);
+		preg_match_all('/\$this->paginate\(\)/i', $content, $matches);
 		if (!empty($matches[0])) {
 			$models[] = $primaryModelClass;
 		}
 
-		preg_match_all('/\$this-\>paginate\(\$this-\>([a-z]+)\)/i', $content, $matches);
+		preg_match_all('/\$this->paginate\(\$this->([a-z]+)\)/i', $content, $matches);
 		if (!empty($matches[1])) {
 			$models = array_merge($models, $matches[1]);
 		}
