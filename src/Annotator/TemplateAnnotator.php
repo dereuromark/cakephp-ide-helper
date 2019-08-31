@@ -186,11 +186,11 @@ class TemplateAnnotator extends AbstractAnnotator {
 			return true;
  		}
 
-		if (preg_match('/\$this-\>/', $content)) {
+		if (preg_match('/\$this->/', $content)) {
 			return true;
  		}
 
-		if (preg_match('/\<\?/', $content)) {
+		if (preg_match('/<\?/', $content)) {
 			return true;
 		}
 

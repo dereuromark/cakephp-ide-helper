@@ -1,4 +1,5 @@
 /phpunit.phar
+.phpunit.result.cache
 /vendor/
 /tmp/
 /composer.lock
