@@ -1,0 +1,135 @@
+<?php
+// T_OPEN_TAG (0) code=379, line=1, column=1, length=5, level=0, content=`<?php\n`
+	if ($obj) {
+// T_WHITESPACE (1) code=382, line=2, column=1, orig_content=	, length=4, level=0, content=`    `
+// T_IF (2) code=327, line=2, column=5, length=2, parenthesis_opener=4, parenthesis_closer=6, parenthesis_owner=2, scope_condition=2, scope_opener=8, scope_closer=21, level=0, content=`if`
+// T_WHITESPACE (3) code=382, line=2, column=7, length=1, level=0, content=` `
+// T_OPEN_PARENTHESIS (4) code=PHPCS_T_OPEN_PARENTHESIS, line=2, column=8, length=1, parenthesis_opener=4, parenthesis_owner=2, parenthesis_closer=6, level=0, content=`(`
+// T_VARIABLE (5) code=320, line=2, column=9, length=4, nested_parenthesis={"4":6}, level=0, content=`$obj`
+// T_CLOSE_PARENTHESIS (6) code=PHPCS_T_CLOSE_PARENTHESIS, line=2, column=13, length=1, parenthesis_owner=2, parenthesis_opener=4, parenthesis_closer=6, level=0, content=`)`
+// T_WHITESPACE (7) code=382, line=2, column=14, length=1, level=0, content=` `
+// T_OPEN_CURLY_BRACKET (8) code=PHPCS_T_OPEN_CURLY_BRACKET, line=2, column=15, length=1, bracket_opener=8, bracket_closer=21, scope_condition=2, scope_opener=8, scope_closer=21, level=0, content=`{`
+// T_WHITESPACE (9) code=382, line=2, column=16, length=0, level=1, conditions={"2":327}, content=`\n`
+		echo $obj->foo();
+// T_WHITESPACE (10) code=382, line=3, column=1, orig_content=		, length=8, level=1, conditions={"2":327}, content=`        `
+// T_ECHO (11) code=328, line=3, column=9, length=4, level=1, conditions={"2":327}, content=`echo`
+// T_WHITESPACE (12) code=382, line=3, column=13, length=1, level=1, conditions={"2":327}, content=` `
+// T_VARIABLE (13) code=320, line=3, column=14, length=4, level=1, conditions={"2":327}, content=`$obj`
+// T_OBJECT_OPERATOR (14) code=366, line=3, column=18, length=2, level=1, conditions={"2":327}, content=`->`
+// T_STRING (15) code=319, line=3, column=20, length=3, level=1, conditions={"2":327}, content=`foo`
+// T_OPEN_PARENTHESIS (16) code=PHPCS_T_OPEN_PARENTHESIS, line=3, column=23, length=1, parenthesis_opener=16, parenthesis_closer=17, level=1, conditions={"2":327}, content=`(`
+// T_CLOSE_PARENTHESIS (17) code=PHPCS_T_CLOSE_PARENTHESIS, line=3, column=24, length=1, parenthesis_opener=16, parenthesis_closer=17, level=1, conditions={"2":327}, content=`)`
+// T_SEMICOLON (18) code=PHPCS_T_SEMICOLON, line=3, column=25, length=1, level=1, conditions={"2":327}, content=`;`
+// T_WHITESPACE (19) code=382, line=3, column=26, length=0, level=1, conditions={"2":327}, content=`\n`
+	}
+// T_WHITESPACE (20) code=382, line=4, column=1, orig_content=	, length=4, level=1, conditions={"2":327}, content=`    `
+// T_CLOSE_CURLY_BRACKET (21) code=PHPCS_T_CLOSE_CURLY_BRACKET, line=4, column=5, length=1, bracket_opener=8, bracket_closer=21, scope_condition=2, scope_opener=8, scope_closer=21, level=0, content=`}`
+// T_WHITESPACE (22) code=382, line=4, column=6, length=0, level=0, content=`\n`
+?>
+// T_CLOSE_TAG (23) code=381, line=5, column=1, length=2, level=0, content=`?>\n`
+<div>
+// T_INLINE_HTML (24) code=321, line=6, column=1, length=5, level=0, content=`<div>\n`
+	<?php foreach ($cars as $car) {
+// T_INLINE_HTML (25) code=321, line=7, column=1, orig_content=	, length=4, level=0, content=`    `
+// T_OPEN_TAG (26) code=379, line=7, column=5, length=6, level=0, content=`<?php `
+// T_FOREACH (27) code=334, line=7, column=11, length=7, parenthesis_opener=29, parenthesis_closer=35, parenthesis_owner=27, scope_condition=27, scope_opener=37, scope_closer=53, level=0, content=`foreach`
+// T_WHITESPACE (28) code=382, line=7, column=18, length=1, level=0, content=` `
+// T_OPEN_PARENTHESIS (29) code=PHPCS_T_OPEN_PARENTHESIS, line=7, column=19, length=1, parenthesis_opener=29, parenthesis_owner=27, parenthesis_closer=35, level=0, content=`(`
+// T_VARIABLE (30) code=320, line=7, column=20, length=5, nested_parenthesis={"29":35}, level=0, content=`$cars`
+// T_WHITESPACE (31) code=382, line=7, column=25, length=1, nested_parenthesis={"29":35}, level=0, content=` `
+// T_AS (32) code=338, line=7, column=26, length=2, nested_parenthesis={"29":35}, level=0, content=`as`
+// T_WHITESPACE (33) code=382, line=7, column=28, length=1, nested_parenthesis={"29":35}, level=0, content=` `
+// T_VARIABLE (34) code=320, line=7, column=29, length=4, nested_parenthesis={"29":35}, level=0, content=`$car`
+// T_CLOSE_PARENTHESIS (35) code=PHPCS_T_CLOSE_PARENTHESIS, line=7, column=33, length=1, parenthesis_owner=27, parenthesis_opener=29, parenthesis_closer=35, level=0, content=`)`
+// T_WHITESPACE (36) code=382, line=7, column=34, length=1, level=0, content=` `
+// T_OPEN_CURLY_BRACKET (37) code=PHPCS_T_OPEN_CURLY_BRACKET, line=7, column=35, length=1, bracket_opener=37, bracket_closer=53, scope_condition=27, scope_opener=37, scope_closer=53, level=0, content=`{`
+// T_WHITESPACE (38) code=382, line=7, column=36, length=0, level=1, conditions={"27":334}, content=`\n`
+		echo $this->Helper->out($car);
+// T_WHITESPACE (39) code=382, line=8, column=1, orig_content=		, length=8, level=1, conditions={"27":334}, content=`        `
+// T_ECHO (40) code=328, line=8, column=9, length=4, level=1, conditions={"27":334}, content=`echo`
+// T_WHITESPACE (41) code=382, line=8, column=13, length=1, level=1, conditions={"27":334}, content=` `
+// T_VARIABLE (42) code=320, line=8, column=14, length=5, level=1, conditions={"27":334}, content=`$this`
+// T_OBJECT_OPERATOR (43) code=366, line=8, column=19, length=2, level=1, conditions={"27":334}, content=`->`
+// T_STRING (44) code=319, line=8, column=21, length=6, level=1, conditions={"27":334}, content=`Helper`
+// T_OBJECT_OPERATOR (45) code=366, line=8, column=27, length=2, level=1, conditions={"27":334}, content=`->`
+// T_STRING (46) code=319, line=8, column=29, length=3, level=1, conditions={"27":334}, content=`out`
+// T_OPEN_PARENTHESIS (47) code=PHPCS_T_OPEN_PARENTHESIS, line=8, column=32, length=1, parenthesis_opener=47, parenthesis_closer=49, level=1, conditions={"27":334}, content=`(`
+// T_VARIABLE (48) code=320, line=8, column=33, length=4, nested_parenthesis={"47":49}, level=1, conditions={"27":334}, content=`$car`
+// T_CLOSE_PARENTHESIS (49) code=PHPCS_T_CLOSE_PARENTHESIS, line=8, column=37, length=1, parenthesis_opener=47, parenthesis_closer=49, level=1, conditions={"27":334}, content=`)`
+// T_SEMICOLON (50) code=PHPCS_T_SEMICOLON, line=8, column=38, length=1, level=1, conditions={"27":334}, content=`;`
+// T_WHITESPACE (51) code=382, line=8, column=39, length=0, level=1, conditions={"27":334}, content=`\n`
+	} ?>
+// T_WHITESPACE (52) code=382, line=9, column=1, orig_content=	, length=4, level=1, conditions={"27":334}, content=`    `
+// T_CLOSE_CURLY_BRACKET (53) code=PHPCS_T_CLOSE_CURLY_BRACKET, line=9, column=5, length=1, bracket_opener=37, bracket_closer=53, scope_condition=27, scope_opener=37, scope_closer=53, level=0, content=`}`
+// T_WHITESPACE (54) code=382, line=9, column=6, length=1, level=0, content=` `
+// T_CLOSE_TAG (55) code=381, line=9, column=7, length=2, level=0, content=`?>\n`
+	<?php echo h($wheel->id); ?>
+// T_INLINE_HTML (56) code=321, line=10, column=1, orig_content=	, length=4, level=0, content=`    `
+// T_OPEN_TAG (57) code=379, line=10, column=5, length=6, level=0, content=`<?php `
+// T_ECHO (58) code=328, line=10, column=11, length=4, level=0, content=`echo`
+// T_WHITESPACE (59) code=382, line=10, column=15, length=1, level=0, content=` `
+// T_STRING (60) code=319, line=10, column=16, length=1, level=0, content=`h`
+// T_OPEN_PARENTHESIS (61) code=PHPCS_T_OPEN_PARENTHESIS, line=10, column=17, length=1, parenthesis_opener=61, parenthesis_closer=65, level=0, content=`(`
+// T_VARIABLE (62) code=320, line=10, column=18, length=6, nested_parenthesis={"61":65}, level=0, content=`$wheel`
+// T_OBJECT_OPERATOR (63) code=366, line=10, column=24, length=2, nested_parenthesis={"61":65}, level=0, content=`->`
+// T_STRING (64) code=319, line=10, column=26, length=2, nested_parenthesis={"61":65}, level=0, content=`id`
+// T_CLOSE_PARENTHESIS (65) code=PHPCS_T_CLOSE_PARENTHESIS, line=10, column=28, length=1, parenthesis_opener=61, parenthesis_closer=65, level=0, content=`)`
+// T_SEMICOLON (66) code=PHPCS_T_SEMICOLON, line=10, column=29, length=1, level=0, content=`;`
+// T_WHITESPACE (67) code=382, line=10, column=30, length=1, level=0, content=` `
+// T_CLOSE_TAG (68) code=381, line=10, column=31, length=2, level=0, content=`?>\n`
+	<p>
+// T_INLINE_HTML (69) code=321, line=11, column=1, orig_content=	<p>
+, length=7, level=0, content=`    <p>\n`
+		<?= $date->format(); ?>
+// T_INLINE_HTML (70) code=321, line=12, column=1, orig_content=		, length=8, level=0, content=`        `
+// T_OPEN_TAG_WITH_ECHO (71) code=380, line=12, column=9, length=3, level=0, content=`<?=`
+// T_WHITESPACE (72) code=382, line=12, column=12, length=1, level=0, content=` `
+// T_VARIABLE (73) code=320, line=12, column=13, length=5, level=0, content=`$date`
+// T_OBJECT_OPERATOR (74) code=366, line=12, column=18, length=2, level=0, content=`->`
+// T_STRING (75) code=319, line=12, column=20, length=6, level=0, content=`format`
+// T_OPEN_PARENTHESIS (76) code=PHPCS_T_OPEN_PARENTHESIS, line=12, column=26, length=1, parenthesis_opener=76, parenthesis_closer=77, level=0, content=`(`
+// T_CLOSE_PARENTHESIS (77) code=PHPCS_T_CLOSE_PARENTHESIS, line=12, column=27, length=1, parenthesis_opener=76, parenthesis_closer=77, level=0, content=`)`
+// T_SEMICOLON (78) code=PHPCS_T_SEMICOLON, line=12, column=28, length=1, level=0, content=`;`
+// T_WHITESPACE (79) code=382, line=12, column=29, length=1, level=0, content=` `
+// T_CLOSE_TAG (80) code=381, line=12, column=30, length=2, level=0, content=`?>\n`
+	</p>
+// T_INLINE_HTML (81) code=321, line=13, column=1, orig_content=	</p>
+, length=8, level=0, content=`    </p>\n`
+	<?php foreach ($cars->engines as $i => $engine) {
+// T_INLINE_HTML (82) code=321, line=14, column=1, orig_content=	, length=4, level=0, content=`    `
+// T_OPEN_TAG (83) code=379, line=14, column=5, length=6, level=0, content=`<?php `
+// T_FOREACH (84) code=334, line=14, column=11, length=7, parenthesis_opener=86, parenthesis_closer=98, parenthesis_owner=84, scope_condition=84, scope_opener=100, scope_closer=112, level=0, content=`foreach`
+// T_WHITESPACE (85) code=382, line=14, column=18, length=1, level=0, content=` `
+// T_OPEN_PARENTHESIS (86) code=PHPCS_T_OPEN_PARENTHESIS, line=14, column=19, length=1, parenthesis_opener=86, parenthesis_owner=84, parenthesis_closer=98, level=0, content=`(`
+// T_VARIABLE (87) code=320, line=14, column=20, length=5, nested_parenthesis={"86":98}, level=0, content=`$cars`
+// T_OBJECT_OPERATOR (88) code=366, line=14, column=25, length=2, nested_parenthesis={"86":98}, level=0, content=`->`
+// T_STRING (89) code=319, line=14, column=27, length=7, nested_parenthesis={"86":98}, level=0, content=`engines`
+// T_WHITESPACE (90) code=382, line=14, column=34, length=1, nested_parenthesis={"86":98}, level=0, content=` `
+// T_AS (91) code=338, line=14, column=35, length=2, nested_parenthesis={"86":98}, level=0, content=`as`
+// T_WHITESPACE (92) code=382, line=14, column=37, length=1, nested_parenthesis={"86":98}, level=0, content=` `
+// T_VARIABLE (93) code=320, line=14, column=38, length=2, nested_parenthesis={"86":98}, level=0, content=`$i`
+// T_WHITESPACE (94) code=382, line=14, column=40, length=1, nested_parenthesis={"86":98}, level=0, content=` `
+// T_DOUBLE_ARROW (95) code=268, line=14, column=41, length=2, nested_parenthesis={"86":98}, level=0, content=`=>`
+// T_WHITESPACE (96) code=382, line=14, column=43, length=1, nested_parenthesis={"86":98}, level=0, content=` `
+// T_VARIABLE (97) code=320, line=14, column=44, length=7, nested_parenthesis={"86":98}, level=0, content=`$engine`
+// T_CLOSE_PARENTHESIS (98) code=PHPCS_T_CLOSE_PARENTHESIS, line=14, column=51, length=1, parenthesis_owner=84, parenthesis_opener=86, parenthesis_closer=98, level=0, content=`)`
+// T_WHITESPACE (99) code=382, line=14, column=52, length=1, level=0, content=` `
+// T_OPEN_CURLY_BRACKET (100) code=PHPCS_T_OPEN_CURLY_BRACKET, line=14, column=53, length=1, bracket_opener=100, bracket_closer=112, scope_condition=84, scope_opener=100, scope_closer=112, level=0, content=`{`
+// T_WHITESPACE (101) code=382, line=14, column=54, length=0, level=1, conditions={"84":334}, content=`\n`
+		echo h($engine);
+// T_WHITESPACE (102) code=382, line=15, column=1, orig_content=		, length=8, level=1, conditions={"84":334}, content=`        `
+// T_ECHO (103) code=328, line=15, column=9, length=4, level=1, conditions={"84":334}, content=`echo`
+// T_WHITESPACE (104) code=382, line=15, column=13, length=1, level=1, conditions={"84":334}, content=` `
+// T_STRING (105) code=319, line=15, column=14, length=1, level=1, conditions={"84":334}, content=`h`
+// T_OPEN_PARENTHESIS (106) code=PHPCS_T_OPEN_PARENTHESIS, line=15, column=15, length=1, parenthesis_opener=106, parenthesis_closer=108, level=1, conditions={"84":334}, content=`(`
+// T_VARIABLE (107) code=320, line=15, column=16, length=7, nested_parenthesis={"106":108}, level=1, conditions={"84":334}, content=`$engine`
+// T_CLOSE_PARENTHESIS (108) code=PHPCS_T_CLOSE_PARENTHESIS, line=15, column=23, length=1, parenthesis_opener=106, parenthesis_closer=108, level=1, conditions={"84":334}, content=`)`
+// T_SEMICOLON (109) code=PHPCS_T_SEMICOLON, line=15, column=24, length=1, level=1, conditions={"84":334}, content=`;`
+// T_WHITESPACE (110) code=382, line=15, column=25, length=0, level=1, conditions={"84":334}, content=`\n`
+	} ?>
+// T_WHITESPACE (111) code=382, line=16, column=1, orig_content=	, length=4, level=1, conditions={"84":334}, content=`    `
+// T_CLOSE_CURLY_BRACKET (112) code=PHPCS_T_CLOSE_CURLY_BRACKET, line=16, column=5, length=1, bracket_opener=100, bracket_closer=112, scope_condition=84, scope_opener=100, scope_closer=112, level=0, content=`}`
+// T_WHITESPACE (113) code=382, line=16, column=6, length=1, level=0, content=` `
+// T_CLOSE_TAG (114) code=381, line=16, column=7, length=2, level=0, content=`?>\n`
+</div>
+// T_INLINE_HTML (115) code=321, line=17, column=1, length=6, level=0, content=`</div>\n`
