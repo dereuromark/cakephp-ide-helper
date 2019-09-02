@@ -46,22 +46,18 @@ class VariableExtractorTest extends TestCase {
 				'excludeReason' => null,
 			],
 			'car' => [
-				'type' => null,
+				'type' => 'object',
 				'excludeReason' => 'Declared in loop',
 			],
-			'finalCar' => [
-				'type' => 'string',
-				'excludeReason' => 'Assignment',
+			'allCars' => [
+				'type' => 'object',
+				'excludeReason' => null,
 			],
 			'wheel' => [
 				'type' => 'object',
 				'excludeReason' => null,
 			],
 			'date' => [
-				'type' => 'object',
-				'excludeReason' => null,
-			],
-			'cars' => [
 				'type' => 'object',
 				'excludeReason' => null,
 			],

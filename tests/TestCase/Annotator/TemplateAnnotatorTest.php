@@ -76,6 +76,28 @@ class TemplateAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testGetVariableAnnotations() {
+		Configure::write('IdeHelper.autoCollect', function(array $variable) {
+			if ($variable['name'] === 'date') {
+				return 'Cake\I18n\FrozenTime';
+			}
+
+			return 'mixed';
+		});
+
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$variable = [
+			'name' => 'date',
+			'type' => 'object',
+		];
+		$result = $this->invokeMethod($annotator, '_getVariableAnnotation', [$variable]);
+		$this->assertSame('@var Cake\I18n\FrozenTime $date', (string)$result);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testNeedsViewAnnotation() {
 		Configure::write('IdeHelper.preemptive', false);
 
@@ -277,7 +299,7 @@ class TemplateAnnotatorTest extends TestCase {
 
 		$output = (string)$this->out->output();
 
-		$this->assertTextContains('   -> 5 annotations added.', $output);
+		$this->assertTextContains('   -> 6 annotations added.', $output);
 	}
 
 	/**

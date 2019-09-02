@@ -398,6 +398,16 @@ The IdeHelper can by default auto collect template variables and add them to the
 Set `'IdeHelper.autoCollect'` to false to disable this. 
 It defaults to `'mixed'` where the type cannot be guessed/detected.
 
+If you need more control over it, you can configure a callable to detect/guess:
+```php
+'IdeHelper.autoCollect', function(array $variable) {
+    if ($variable['name'] === 'date') {
+        return 'Cake\I18n\FrozenTime';
+    }
+    return null;
+});
+```
+
 Tip: In order for the best experience of auto-collecting make sure to have unique variables inside the template(s).
 If you pass down a `$user` variable from the controller, make sure you are not overwriting them in some local scope.
 ```php
@@ -407,6 +417,9 @@ foreach ($role->users as $user) {}
 // Use a better name instead to keep $user annotation
 foreach ($role->users as $rolUser) {}
 ```
+
+You can use `'IdeHelper.autoCollectBlacklist'` config to exclude certain variables.
+The array accepts both strings or regexp patterns like `'/^\_.+$/i'` for underscore prefixed variables).
 
 ### Preemptive annotating
 Using Configure key `'IdeHelper.preemptive'` set to `true` you can be a bit more preemptive in annotations.

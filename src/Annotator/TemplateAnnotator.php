@@ -245,6 +245,12 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		$entityAnnotations = $loopEntityAnnotations + $formEntityAnnotations + $entityAnnotations;
 
+		foreach ($entityAnnotations as $name => $entityAnnotation) {
+			if (!empty($variables[$name]) && $variables[$name]['excludeReason']) {
+				unset($entityAnnotations[$name]);
+			}
+		}
+
 		return $entityAnnotations;
 	}
 
@@ -421,7 +427,23 @@ class TemplateAnnotator extends AbstractAnnotator {
 		/** @var \IdeHelper\Annotator\Template\VariableExtractor $extractor */
 		$extractor = new $class();
 
-		return $extractor->extract($file);
+		$variables = $extractor->extract($file);
+		/** @var string[] $blacklist */
+		$blacklist = (array)Configure::read('IdeHelper.autoCollectBlacklist');
+		foreach ($blacklist as $value) {
+			if (strpos($value, '/') === false) {
+				unset($variables[$value]);
+				continue;
+			}
+
+			foreach ($variables as $name => $variable) {
+				if (preg_match($value, $name)) {
+					unset($variables[$name]);
+				}
+			}
+		}
+
+		return $variables;
 	}
 
 	/**
@@ -430,16 +452,23 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 * @return \IdeHelper\Annotation\AbstractAnnotation
 	 */
 	protected function _getVariableAnnotation(array $variable) {
+		$defaultType = Configure::read('IdeHelper.autoCollect');
 		$type = $variable['type'];
 		if ($type === null) {
-			$type = Configure::read('IdeHelper.autoCollect');
+			$type = $defaultType;
+		}
+
+		if (is_callable($defaultType)) {
+			$guessedType = $defaultType($variable);
+			if ($guessedType) {
+				$type = $guessedType;
+			}
 		}
 		if (!$type || $type === true) {
 			$type = 'mixed';
 		}
 
-		/** @var \IdeHelper\Annotation\VariableAnnotation $annotation
-		 */
+		/** @var \IdeHelper\Annotation\VariableAnnotation $annotation */
 		$annotation = AnnotationFactory::createOrFail(VariableAnnotation::TAG, $type, '$' . $variable['name']);
 		$annotation->setGuessed(true);
 

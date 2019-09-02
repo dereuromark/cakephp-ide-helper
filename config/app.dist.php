@@ -13,8 +13,11 @@ return [
 		'templateExtensions' => [
 			'ctp', 'php',
 		],
-		// Set to false to disable, set to empty string for no type added if type cannot be detected
-		'autoCollect' => 'mixed',
+		// Set to false to disable, defaults to mixed if enabled, you can also pass callable for logic
+		'autoCollect' => true,
+		// Can be strings or `/regex/` (e.g. `'/^\_.+$/i'` for underscore prefixed variables)
+		'autoCollectBlacklist' => [
+		],
 		// Custom Entity field type mapping
 		'typeMap' => [
 		],
