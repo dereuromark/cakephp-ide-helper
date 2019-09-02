@@ -27,6 +27,12 @@ class CallbacksTable extends Table {
 	public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
 	}
 
+	/**
+	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Datasource\EntityInterface $entity
+	 * @param \ArrayObject $options
+	 * @return void
+	 */
 	public function beforeDelete(Event $event, EntityInterface $entity, ArrayObject $options) {
 	}
 
