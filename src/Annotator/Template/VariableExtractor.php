@@ -41,6 +41,11 @@ class VariableExtractor {
 		return $result;
 	}
 
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 *
+	 * @return array
+	 */
 	protected function collect(File $file) {
 		$tokens = $file->getTokens();
 
@@ -142,7 +147,7 @@ class VariableExtractor {
 		$tokens = $file->getTokens();
 
 		$prevIndex = $file->findPrevious(Tokens::$emptyTokens, $result['index'] - 1, $result['index'] - 3, true, null, true);
-		if ($prevIndex && in_array($tokens[$prevIndex]['code'], [T_AS], true)) {
+		if ($prevIndex && $tokens[$prevIndex]['code'] === T_AS) {
 			return true;
 		}
 
