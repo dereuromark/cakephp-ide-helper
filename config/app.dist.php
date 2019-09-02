@@ -13,6 +13,8 @@ return [
 		'templateExtensions' => [
 			'ctp', 'php',
 		],
+		// Set to false to disable, set to empty string for no type added if type cannot be detected
+		'autoCollect' => 'mixed',
 		// Custom Entity field type mapping
 		'typeMap' => [
 		],

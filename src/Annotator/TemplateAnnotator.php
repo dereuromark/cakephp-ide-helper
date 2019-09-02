@@ -8,6 +8,7 @@ use Cake\Utility\Inflector;
 use Cake\View\View;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\VariableAnnotation;
+use IdeHelper\Annotator\Template\VariableExtractor;
 use PHP_CodeSniffer\Files\File;
 use RuntimeException;
 
@@ -20,7 +21,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	public function annotate($path) {
 		$content = file_get_contents($path);
 
-		$annotations = $this->_buildAnnotations($content);
+		$annotations = $this->_buildAnnotations($path, $content);
 
 		return $this->_annotate($path, $content, $annotations);
 	}
@@ -233,10 +234,11 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $content
+	 * @param array $variables
 	 *
 	 * @return array
 	 */
-	protected function _getEntityAnnotations($content) {
+	protected function _getEntityAnnotations($content, array $variables) {
 		$loopEntityAnnotations = $this->_parseLoopEntities($content);
 		$formEntityAnnotations = $this->_parseFormEntities($content);
 		$entityAnnotations = $this->_parseEntities($content);
@@ -364,11 +366,12 @@ class TemplateAnnotator extends AbstractAnnotator {
 	}
 
 	/**
+	 * @param string $path
 	 * @param string $content
 	 *
 	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
-	protected function _buildAnnotations($content) {
+	protected function _buildAnnotations($path, $content) {
 		$annotations = [];
 
 		$needsAnnotation = $this->_needsViewAnnotation($content);
@@ -376,7 +379,9 @@ class TemplateAnnotator extends AbstractAnnotator {
 			$annotations[] = $this->_getViewAnnotation();
 		}
 
-		$entityAnnotations = $this->_getEntityAnnotations($content);
+		$variables = $this->_getTemplateVariables($path, $content);
+
+		$entityAnnotations = $this->_getEntityAnnotations($content, $variables);
 		/** @var \IdeHelper\Annotation\AbstractAnnotation|null $entityAnnotation */
 		foreach ($entityAnnotations as $entityAnnotation) {
 			if (!$entityAnnotation) {
@@ -386,6 +391,26 @@ class TemplateAnnotator extends AbstractAnnotator {
 		}
 
 		return $annotations;
+	}
+
+	/**
+	 * Gets all template variables and a bit about their scope/context
+	 * - type (if detected, e.g. string, object)
+	 * - excludeReason (if detected as excludable, e.g. inside local assignment/loop)
+	 *
+	 * @param string $path
+	 * @param string $content
+	 *
+	 * @return array
+	 */
+	protected function _getTemplateVariables($path, $content) {
+		$file = $this->_getFile($path, $content);
+
+		$class = Configure::read('IdeHelper.variableExtractor') ?: VariableExtractor::class;
+		/** @var \IdeHelper\Annotator\Template\VariableExtractor $extractor */
+		$extractor = new $class();
+
+		return $extractor->extract($file);
 	}
 
 }

@@ -5,7 +5,8 @@
 ?>
 <div>
 	<?php foreach ($cars as $car) {
-		echo $this->Helper->out($car);
+		$finalCar = $this->Helper->out($car);
+		echo $finalCar;
 	} ?>
 	<?php echo h($wheel->id); ?>
 	<p>

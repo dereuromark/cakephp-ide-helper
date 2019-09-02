@@ -354,6 +354,7 @@ would then get the following added on top:
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Email $email
  * @var \App\Model\Entity\Group[] $groups
+ * @var \App\Model\Entity\User $user
  */
 ?>
 ```
@@ -387,6 +388,12 @@ If those would be replaced wrongly, you can easily mark them to be ignored by ad
 ?>
 ```
 The `!` would prevent the entity annotation to be replaced.
+
+### Auto collecting variables
+The IdeHelper can by default auto collect template variables and add them to the list above.
+Set `'IdeHelper.autoCollect'` to false to disable this. 
+It defaults to `'mixed'` where the type cannot be guessed/detected.
+You can also set it to an empty string here if you want to rather add a type manually yourself afterwards.
 
 ### Preemptive annotating
 Using Configure key `'IdeHelper.preemptive'` set to `true` you can be a bit more preemptive in annotations.
