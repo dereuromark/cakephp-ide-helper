@@ -1,4 +1,11 @@
 <?php
+/**
+ * @var \App\View\AppView $this
+ * @var object $date
+ * @var object $obj
+ * @var \App\Model\Entity\Car[]|\Cake\Collection\CollectionInterface $cars
+ * @var \App\Model\Entity\Wheel $wheel
+ */
 	if ($obj) {
 		echo $obj->foo();
 	}

@@ -105,6 +105,11 @@ class VariableExtractor {
 
 		$prevIndex = $file->findPrevious(Tokens::$emptyTokens, $result['index'] - 1, $result['index'] - 3, true, null, true);
 		if ($prevIndex && in_array($tokens[$prevIndex]['code'], [T_ECHO, T_OPEN_TAG_WITH_ECHO], true)) {
+			$nextIndex = $file->findNext(Tokens::$emptyTokens, $result['index'] + 1, $result['index'] + 3, true, null, true);
+			if ($nextIndex && in_array($tokens[$nextIndex]['code'], Tokens::$comparisonTokens + [T_INLINE_THEN => T_INLINE_THEN], true)) {
+				return null;
+			}
+
 			return 'string';
 		}
 
@@ -141,8 +146,7 @@ class VariableExtractor {
 			return true;
 		}
 
-		$nextIndex = $file->findNext(Tokens::$emptyTokens, $result['index'] + 1, $result['index'] + 3, true, null, true);
-		if ($nextIndex && $tokens[$nextIndex]['code'] === T_DOUBLE_ARROW) {
+		if ($prevIndex && $tokens[$prevIndex]['code'] === T_DOUBLE_ARROW && $this->isInLoop($file, $result, $prevIndex)) {
 			return true;
 		}
 
@@ -152,10 +156,30 @@ class VariableExtractor {
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param array $result
+	 * @param int $assignmentIndex
+	 *
 	 * @return bool
 	 */
-	protected function isAssignment(File $file, array $result)
-	{
+	protected function isInLoop(File $file, array $result, $assignmentIndex) {
+		if (empty($result['context']['nested_parenthesis'])) {
+			return false;
+		}
+
+		$startIndex = null;
+		foreach ($result['context']['nested_parenthesis'] as $key => $unused) {
+			$startIndex = $key;
+			break;
+		}
+
+		return (bool)$file->findPrevious(T_FOREACH, $startIndex - 1, $startIndex - 3);
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param array $result
+	 * @return bool
+	 */
+	protected function isAssignment(File $file, array $result) {
 		$tokens = $file->getTokens();
 
 		$nextIndex = $file->findNext(Tokens::$emptyTokens, $result['index'] + 1, $result['index'] + 3, true, null, true);

@@ -353,6 +353,15 @@ abstract class AbstractAnnotator {
 					return true;
 				}
 			}
+
+			// Lets skip on existing ones that are only guessed.
+			if ($annotation instanceof VariableAnnotation && $existingAnnotation instanceof VariableAnnotation) {
+				if ($annotation->getVariable() === $existingAnnotation->getVariable() && $annotation->getGuessed()) {
+					unset ($existingAnnotations[$key]);
+
+					return true;
+				}
+			}
 		}
 
 		return false;

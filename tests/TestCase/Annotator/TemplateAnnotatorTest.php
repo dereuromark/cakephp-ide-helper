@@ -255,6 +255,32 @@ class TemplateAnnotatorTest extends TestCase {
 	}
 
 	/**
+	 * Tests with template variables.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateVars() {
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/vars.ctp'));
+		$callback = function($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->_displayDiff($expectedContent, $value);
+			}
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP . 'Template/Foos/vars.ctp';
+		$annotator->annotate($path);
+
+		$output = (string)$this->out->output();
+
+		$this->assertTextContains('   -> 5 annotations added.', $output);
+	}
+
+	/**
 	 * Tests with empty template
 	 *
 	 * @return void

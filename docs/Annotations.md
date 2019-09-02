@@ -363,6 +363,10 @@ would then get the following added on top:
 To adjust the template extensions being processed set `IdeHelper.templateExtensions` via Configure.
 By default, all files of type `'ctp', 'php'` will be checked.
 
+Note: All template annotating is around PHP templates. Twig templates are not working with this.
+Usually Twig templates have their own tooling - but will have some serious drawbacks on what this plugin provides:
+Auto-complete/Type-hinting as well as IDE introspection of variable types.
+
 ### Skipping folders
 Certain template folders, like for Bake template generation, should be skipped. 
 This is done by default for `/src/Template/Bake/` in your app or your plugin.
@@ -393,7 +397,16 @@ The `!` would prevent the entity annotation to be replaced.
 The IdeHelper can by default auto collect template variables and add them to the list above.
 Set `'IdeHelper.autoCollect'` to false to disable this. 
 It defaults to `'mixed'` where the type cannot be guessed/detected.
-You can also set it to an empty string here if you want to rather add a type manually yourself afterwards.
+
+Tip: In order for the best experience of auto-collecting make sure to have unique variables inside the template(s).
+If you pass down a `$user` variable from the controller, make sure you are not overwriting them in some local scope.
+```php
+// This will skip the other $user annotation
+foreach ($role->users as $user) {}
+
+// Use a better name instead to keep $user annotation
+foreach ($role->users as $rolUser) {}
+```
 
 ### Preemptive annotating
 Using Configure key `'IdeHelper.preemptive'` set to `true` you can be a bit more preemptive in annotations.

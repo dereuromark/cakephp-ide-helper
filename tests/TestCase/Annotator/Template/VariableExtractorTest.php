@@ -70,9 +70,8 @@ class VariableExtractorTest extends TestCase {
 				'excludeReason' => 'Declared in loop',
 			],
 			'engine' => [
-				'name' => 'engine',
 				'type' => null,
-				'excludeReason' => null,
+				'excludeReason' => 'Declared in loop',
 			],
 		];
 		foreach ($expected as $name => $data) {
