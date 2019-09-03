@@ -215,9 +215,9 @@ class VariableExtractor {
 			return true;
 		}
 
-		if ($tokens[$nextIndex]['code'] === T_CLOSE_SHORT_ARRAY) {
-			$nextIndex = $file->findNext(Tokens::$emptyTokens, $nextIndex + 1, $nextIndex + 3, true, null, true);
-			if ($nextIndex && $tokens[$nextIndex]['code'] === T_EQUAL) {
+		if ($nextIndex && $tokens[$nextIndex]['code'] === T_CLOSE_SHORT_ARRAY) {
+			$equalIndex = $file->findNext(Tokens::$emptyTokens, $nextIndex + 1, $nextIndex + 3, true, null, true);
+			if ($equalIndex && $tokens[$equalIndex]['code'] === T_EQUAL) {
 				return true;
 			}
 		}
