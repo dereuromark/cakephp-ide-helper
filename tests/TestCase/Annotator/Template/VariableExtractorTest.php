@@ -77,4 +77,37 @@ class VariableExtractorTest extends TestCase {
 		}
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testExtractExceptions() {
+		$content = <<<CODE
+<?php
+foreach (\$exceptions as \$exception) {}
+
+try {
+} catch (Exception \$e) {
+}
+CODE;
+
+		$file = $this->_getFile('', $content);
+
+		$result = $this->variableExtractor->extract($file);
+
+		$expected = [
+			'exceptions' => [
+				'excludeReason' => null,
+			],
+			'exception' => [
+				'excludeReason' => 'Declared in loop',
+			],
+			'e' => [
+				'excludeReason' => 'Try catch',
+			],
+		];
+		foreach ($expected as $name => $data) {
+			$this->assertSame($data['excludeReason'], $result[$name]['excludeReason'], print_r($result[$name], true));
+		}
+	}
+
 }

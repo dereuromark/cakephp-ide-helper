@@ -130,6 +130,9 @@ class VariableExtractor {
 		if ($this->isLoopVar($file, $result)) {
 			return 'Declared in loop';
 		}
+		if ($this->isTryCatchVar($file, $result)) {
+			return 'Try catch';
+		}
 
 		if ($this->isAssignment($file, $result)) {
 			return 'Assignment';
@@ -177,6 +180,25 @@ class VariableExtractor {
 		}
 
 		return (bool)$file->findPrevious(T_FOREACH, $startIndex - 1, $startIndex - 3);
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param array $result
+	 * @return bool
+	 */
+	protected function isTryCatchVar(File $file, array $result) {
+		if (empty($result['context']['nested_parenthesis'])) {
+			return false;
+		}
+
+		$startIndex = null;
+		foreach ($result['context']['nested_parenthesis'] as $key => $unused) {
+			$startIndex = $key;
+			break;
+		}
+
+		return (bool)$file->findPrevious(T_CATCH, $startIndex - 1, $startIndex - 3);
 	}
 
 	/**
