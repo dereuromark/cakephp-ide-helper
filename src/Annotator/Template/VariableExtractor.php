@@ -214,6 +214,34 @@ class VariableExtractor {
 			return true;
 		}
 
+		if ($tokens[$nextIndex]['code'] === T_CLOSE_SHORT_ARRAY) {
+			$nextIndex = $file->findNext(Tokens::$emptyTokens, $nextIndex + 1, $nextIndex + 3, true, null, true);
+			if ($nextIndex && $tokens[$nextIndex]['code'] === T_EQUAL) {
+				return true;
+			}
+		}
+
+		$prevIndex = $file->findPrevious(Tokens::$emptyTokens, $result['index'] - 1, $result['index'] - 3, true, null, true);
+
+		for ($i = $prevIndex; $i > 0; $i--) {
+			$testIndex = $file->findPrevious(Tokens::$emptyTokens, $i, $i - 2, true, null, true);
+			if (!$testIndex) {
+				break;
+			}
+			if ($tokens[$testIndex]['code'] !== T_COMMA && $tokens[$testIndex]['code'] !== T_VARIABLE) {
+				$prevIndex = $testIndex;
+				break;
+			}
+		}
+
+		if ($prevIndex && $tokens[$prevIndex]['code'] === T_OPEN_SHORT_ARRAY) {
+			$closerIndex = $tokens[$prevIndex]['bracket_closer'];
+			$nextIndex = $file->findNext(Tokens::$emptyTokens, $closerIndex + 1, $closerIndex + 3, true, null, true);
+			if ($nextIndex && $tokens[$nextIndex]['code'] === T_EQUAL) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 

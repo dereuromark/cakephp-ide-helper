@@ -110,4 +110,50 @@ CODE;
 		}
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testExtractAssignment() {
+		$content = <<<CODE
+<?php
+if (strpos(\$module, '.')) {
+    [\$prefix, \$moduleName, \$suffix] = explode('.', \$module);
+}
+//list(\$x, \$y) = [\$z, \$z]; // We dont support the old syntax yet/anymore
+CODE;
+
+		$file = $this->_getFile('', $content);
+
+		$result = $this->variableExtractor->extract($file);
+
+		$expected = [
+			'module' => [
+				'excludeReason' => null,
+			],
+			'moduleName' => [
+				'excludeReason' => 'Assignment',
+			],
+			'prefix' => [
+				'excludeReason' => 'Assignment',
+			],
+			'suffix' => [
+				'excludeReason' => 'Assignment',
+			],
+			/*
+			'x' => [
+				'excludeReason' => 'Assignment',
+			],
+			'y' => [
+				'excludeReason' => 'Assignment',
+			],
+			'z' => [
+				'excludeReason' => null,
+			],
+			*/
+		];
+		foreach ($expected as $name => $data) {
+			$this->assertSame($data['excludeReason'], $result[$name]['excludeReason'], print_r($result[$name], true));
+		}
+	}
+
 }
