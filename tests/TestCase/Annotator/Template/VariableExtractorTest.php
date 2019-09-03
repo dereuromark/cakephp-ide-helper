@@ -156,4 +156,38 @@ CODE;
 		}
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testExtractTypeStringAndArray() {
+		$content = <<<CODE
+<?php
+echo \$x['foo'];
+echo \$string;
+echo \$y . 'z' . \$z;
+CODE;
+
+		$file = $this->_getFile('', $content);
+
+		$result = $this->variableExtractor->extract($file);
+
+		$expected = [
+			'string' => [
+				'type' => 'string',
+			],
+			'x' => [
+				'type' => 'array',
+			],
+			'y' => [
+				'type' => 'string',
+			],
+			'z' => [
+				'type' => 'string',
+			],
+		];
+		foreach ($expected as $name => $data) {
+			$this->assertSame($data['type'], $result[$name]['type'], print_r($result[$name], true));
+		}
+	}
+
 }

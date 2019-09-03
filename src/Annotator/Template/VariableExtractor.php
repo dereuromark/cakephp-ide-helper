@@ -108,14 +108,15 @@ class VariableExtractor {
 			return 'object';
 		}
 
-		$prevIndex = $file->findPrevious(Tokens::$emptyTokens, $result['index'] - 1, $result['index'] - 3, true, null, true);
-		if ($prevIndex && in_array($tokens[$prevIndex]['code'], [T_ECHO, T_OPEN_TAG_WITH_ECHO], true)) {
-			$nextIndex = $file->findNext(Tokens::$emptyTokens, $result['index'] + 1, $result['index'] + 3, true, null, true);
-			if ($nextIndex && in_array($tokens[$nextIndex]['code'], Tokens::$comparisonTokens + [T_INLINE_THEN => T_INLINE_THEN], true)) {
-				return null;
-			}
+		if ($nextIndex && $tokens[$nextIndex]['code'] === T_OPEN_SQUARE_BRACKET) {
+			return 'array';
+		}
 
-			return 'string';
+		$prevIndex = $file->findPrevious(Tokens::$emptyTokens, $result['index'] - 1, $result['index'] - 3, true, null, true);
+		if ($prevIndex && in_array($tokens[$prevIndex]['code'], [T_ECHO, T_OPEN_TAG_WITH_ECHO, T_STRING_CONCAT], true)) {
+			if ($nextIndex && in_array($tokens[$nextIndex]['code'], [T_SEMICOLON, T_STRING_CONCAT], true)) {
+				return 'string';
+			}
 		}
 
 		return null;
