@@ -165,6 +165,8 @@ CODE;
 echo \$x['foo'];
 echo \$string;
 echo \$y . 'z' . \$z;
+?>
+<?= \$str ?>
 CODE;
 
 		$file = $this->_getFile('', $content);
@@ -182,6 +184,9 @@ CODE;
 				'type' => 'string',
 			],
 			'z' => [
+				'type' => 'string',
+			],
+			'str' => [
 				'type' => 'string',
 			],
 		];

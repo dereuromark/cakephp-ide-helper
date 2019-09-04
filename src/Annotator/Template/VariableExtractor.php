@@ -114,7 +114,7 @@ class VariableExtractor {
 
 		$prevIndex = $file->findPrevious(Tokens::$emptyTokens, $result['index'] - 1, $result['index'] - 3, true, null, true);
 		if ($prevIndex && in_array($tokens[$prevIndex]['code'], [T_ECHO, T_OPEN_TAG_WITH_ECHO, T_STRING_CONCAT], true)) {
-			if ($nextIndex && in_array($tokens[$nextIndex]['code'], [T_SEMICOLON, T_STRING_CONCAT], true)) {
+			if ($nextIndex && in_array($tokens[$nextIndex]['code'], [T_SEMICOLON, T_STRING_CONCAT, T_CLOSE_TAG], true)) {
 				return 'string';
 			}
 		}
