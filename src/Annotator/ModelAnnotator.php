@@ -313,7 +313,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param array $map
+	 * @param string[] $map
 	 * @return string[]
 	 */
 	protected function extractBehaviors(array $map) {

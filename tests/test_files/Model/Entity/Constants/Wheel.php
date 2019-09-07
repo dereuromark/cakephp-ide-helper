@@ -10,7 +10,6 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime|null $modified
  * @property string|null $virtual_one
- * @property mixed $virtual_two
  * @property \App\Model\Entity\Wheel[] $wheels
  */
 class Wheel extends Entity {
@@ -29,27 +28,12 @@ class Wheel extends Entity {
 		return 'Virtual One';
 	}
 
-	protected function _getVirtualTwo() {
-		// Missing return type and docblock means mixed as result
-		return 'Virtual Two';
-	}
-
-	/**
-	 * @param \App\Model\Entity\Wheel[] $wheels
-	 *
-	 * @return \App\Model\Entity\Wheel[]
-	 */
-	protected function _getWheels($wheels = []) {
-		return $wheels;
-	}
-
 	const FIELD_ID = 'id';
 	const FIELD_NAME = 'name';
 	const FIELD_CONTENT = 'content';
 	const FIELD_CREATED = 'created';
 	const FIELD_MODIFIED = 'modified';
 	const FIELD_VIRTUAL_ONE = 'virtual_one';
-	const FIELD_VIRTUAL_TWO = 'virtual_two';
 	const FIELD_WHEELS = 'wheels';
 
 }

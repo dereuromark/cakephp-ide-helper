@@ -11,5 +11,5 @@
 	<?php echo $car->id; ?>
 	<?php foreach ($wheels as $wheel); ?>
 
-	<?php echo $bool; ?>
+	<?php echo $bool ? 'yes' : 'no'; ?>
 </div>

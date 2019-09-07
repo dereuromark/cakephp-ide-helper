@@ -19,18 +19,4 @@ class Wheel extends Entity {
 		return 'Virtual One';
 	}
 
-	protected function _getVirtualTwo() {
-		// Missing return type and docblock means mixed as result
-		return 'Virtual Two';
-	}
-
-	/**
-	 * @param \App\Model\Entity\Wheel[] $wheels
-	 *
-	 * @return \App\Model\Entity\Wheel[]
-	 */
-	protected function _getWheels($wheels = []) {
-		return $wheels;
-	}
-
 }

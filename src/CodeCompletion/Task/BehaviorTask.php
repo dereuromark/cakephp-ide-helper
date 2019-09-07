@@ -63,13 +63,13 @@ TXT;
 	}
 
 	/**
-	 * @param array $components
+	 * @param string[] $behaviors
 	 * @param string $folder
 	 * @param string|null $plugin
 	 *
 	 * @return string[]
 	 */
-	protected function addBehaviors(array $components, string $folder, ?string $plugin = null): array {
+	protected function addBehaviors(array $behaviors, string $folder, ?string $plugin = null): array {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);
 
 		foreach ($folderContent[1] as $file) {
@@ -87,10 +87,10 @@ TXT;
 				continue;
 			}
 
-			$components[$name] = $className;
+			$behaviors[$name] = $className;
 		}
 
-		return $components;
+		return $behaviors;
 	}
 
 	/**

@@ -22,6 +22,8 @@ class AnnotationFactory {
 		switch ($tag) {
 			case PropertyAnnotation::TAG:
 				return new PropertyAnnotation($type, $content, $index);
+			case PropertyReadAnnotation::TAG:
+				return new PropertyReadAnnotation($type, $content, $index);
 			case MethodAnnotation::TAG:
 				return new MethodAnnotation($type, $content, $index);
 			case VariableAnnotation::TAG:
@@ -43,16 +45,16 @@ class AnnotationFactory {
 	 * @return \IdeHelper\Annotation\AbstractAnnotation|null
 	 */
 	public static function createFromString($annotation) {
-		preg_match('/^\@mixin (.+)\s*(.+)?$/', $annotation, $matches);
+		preg_match('/^@mixin (.+)\s*(.+)?$/', $annotation, $matches);
 		if ($matches) {
 			return static::create(MixinAnnotation::TAG, $matches[1]);
 		}
-		preg_match('/^\@uses (.+)\s*(.+)?$/', $annotation, $matches);
+		preg_match('/^@uses (.+)\s*(.+)?$/', $annotation, $matches);
 		if ($matches) {
 			return static::create(UsesAnnotation::TAG, $matches[1]);
 		}
 
-		preg_match('/^(\@property|\@method|\@var|\@param) ([^ ]+) (.+)$/', $annotation, $matches);
+		preg_match('/^(@property|@property-read|@method|@var|@param) ([^ ]+) (.+)$/', $annotation, $matches);
 		if (!$matches) {
 			return null;
 		}

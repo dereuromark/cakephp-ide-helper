@@ -119,12 +119,12 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 	protected function findCloseTagIndex(File $file, int $index): ?int {
 		$tokens = $file->getTokens();
 
-		$firstLineIndex = $index;
-		while ($tokens[$firstLineIndex - 1]['line'] === $tokens[$index]['line']) {
-			$firstLineIndex--;
+		$beginningOfLineIndex = $index;
+		while ($tokens[$beginningOfLineIndex - 1]['line'] === $tokens[$index]['line']) {
+			$beginningOfLineIndex--;
 		}
 
-		$prevCodeIndex = $file->findPrevious(Tokens::$emptyTokens, $firstLineIndex - 1, null, true);
+		$prevCodeIndex = $file->findPrevious(Tokens::$emptyTokens, $beginningOfLineIndex - 1, null, true);
 		$closeTagIndex = $file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $index - 1, $prevCodeIndex ?: null);
 
 		return $closeTagIndex ?: null;

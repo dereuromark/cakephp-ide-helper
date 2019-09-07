@@ -88,8 +88,8 @@ class ViewAnnotator extends AbstractAnnotator {
 	 *
 	 * @return string[]
 	 */
-	protected function parseHelpersInContent(string $content): array {
-		preg_match_all('/\$this-\>([A-Z][A-Za-z]+)-\>/', $content, $matches);
+	protected function parseHelpersInContent(string $content) {
+		preg_match_all('/\$this->([A-Z][A-Za-z]+)->/', $content, $matches);
 		if (empty($matches[1])) {
 			return [];
 		}

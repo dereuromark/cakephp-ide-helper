@@ -17,6 +17,11 @@ class VariableAnnotation extends AbstractAnnotation {
 	protected $description;
 
 	/**
+	 * @var bool
+	 */
+	protected $guessed = false;
+
+	/**
 	 * @param string $type
 	 * @param string $variable
 	 * @param int|null $index
@@ -44,6 +49,24 @@ class VariableAnnotation extends AbstractAnnotation {
 	 */
 	public function getDescription(): string {
 		return $this->description;
+	}
+
+	/**
+	 * @param bool $value
+	 *
+	 * @return $this
+	 */
+	public function setGuessed($value) {
+		$this->guessed = $value;
+
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getGuessed() {
+		return $this->guessed;
 	}
 
 	/**

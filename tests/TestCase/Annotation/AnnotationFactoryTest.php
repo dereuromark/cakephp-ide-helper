@@ -7,6 +7,7 @@ use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\MethodAnnotation;
 use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
+use IdeHelper\Annotation\PropertyReadAnnotation;
 use IdeHelper\Annotation\UsesAnnotation;
 
 class AnnotationFactoryTest extends TestCase {
@@ -23,6 +24,9 @@ class AnnotationFactoryTest extends TestCase {
 
 		$annotation = AnnotationFactory::create('@property', '\\Foo\\Model\\Entity\\Bar', 'baz', 1);
 		$this->assertInstanceOf(PropertyAnnotation::class, $annotation);
+
+		$annotation = AnnotationFactory::create('@property-read', '\\Foo\\Model\\Entity\\Bar', 'baz', 1);
+		$this->assertInstanceOf(PropertyReadAnnotation::class, $annotation);
 
 		$annotation = AnnotationFactory::create('@mixin', '\\Foo\\Model\\Entity\\Bar');
 		$this->assertInstanceOf(MixinAnnotation::class, $annotation);
@@ -60,6 +64,11 @@ class AnnotationFactoryTest extends TestCase {
 
 		$annotation = AnnotationFactory::createFromString('@property\\Foo\\Model\\Entity\\Bar$baz');
 		$this->assertNull($annotation);
+
+		/** @var \IdeHelper\Annotation\PropertyReadAnnotation $annotation */
+		$annotation = AnnotationFactory::createFromString('@property-read \\Foo\\Model\\Entity\\Bar baz');
+		$this->assertInstanceOf(PropertyReadAnnotation::class, $annotation);
+		$this->assertSame('$baz', $annotation->getProperty());
 
 		/** @var \IdeHelper\Annotation\MethodAnnotation $annotation */
 		$annotation = AnnotationFactory::createFromString('@method \\Foo\\Model\\Entity\\Bar complex($x, $y = [], $z = null)');

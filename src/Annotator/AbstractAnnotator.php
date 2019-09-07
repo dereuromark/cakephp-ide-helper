@@ -10,7 +10,10 @@ use Cake\View\View;
 use IdeHelper\Annotation\AbstractAnnotation;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\MethodAnnotation;
+use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
+use IdeHelper\Annotation\PropertyReadAnnotation;
+use IdeHelper\Annotation\UsesAnnotation;
 use IdeHelper\Annotation\VariableAnnotation;
 use IdeHelper\Annotator\Traits\FileTrait;
 use IdeHelper\Console\Io;
@@ -48,7 +51,14 @@ abstract class AbstractAnnotator {
 	const COUNT_ADDED = 'added';
 	const COUNT_SKIPPED = 'skipped';
 
-	const TYPES = ['@property', '@var', '@method', '@mixin', '@uses'];
+	const TYPES = [
+		PropertyAnnotation::TAG,
+		PropertyReadAnnotation::TAG,
+		VariableAnnotation::TAG,
+		MethodAnnotation::TAG,
+		MixinAnnotation::TAG,
+		UsesAnnotation::TAG,
+	];
 
 	/**
 	 * @var bool
@@ -169,16 +179,18 @@ abstract class AbstractAnnotator {
 		if (!$classOrTraitIndex) {
 			return false;
 		}
+		$beginningOfLineIndex = $this->beginningOfLine($file, $classOrTraitIndex);
 
-		$closeTagIndex = $this->findDocBlockCloseTagIndex($file, $classOrTraitIndex);
+		$closeTagIndex = $this->findDocBlockCloseTagIndex($file, $beginningOfLineIndex);
 		$this->resetCounter();
 		if ($closeTagIndex && $this->shouldSkip($file, $closeTagIndex)) {
 			return false;
 		}
+
 		if ($closeTagIndex && !$this->isInlineDocBlock($file, $closeTagIndex)) {
 			$newContent = $this->appendToExistingDocBlock($file, $closeTagIndex, $annotations);
 		} else {
-			$newContent = $this->addNewDocBlock($file, $classOrTraitIndex, $annotations);
+			$newContent = $this->addNewDocBlock($file, $beginningOfLineIndex, $annotations);
 		}
 
 		if ($newContent === $content) {
@@ -331,6 +343,23 @@ abstract class AbstractAnnotator {
 
 				return true;
 			}
+
+			if ($annotation instanceof PropertyAnnotation && $existingAnnotation instanceof PropertyAnnotation) {
+				if ($annotation->getProperty() === $existingAnnotation->getProperty() && $annotation->getType() === $existingAnnotation->getType()) {
+					unset ($existingAnnotations[$key]);
+
+					return true;
+				}
+			}
+
+			// Lets skip on existing ones that are only guessed.
+			if ($annotation instanceof VariableAnnotation && $existingAnnotation instanceof VariableAnnotation) {
+				if ($annotation->getVariable() === $existingAnnotation->getVariable() && $annotation->getGuessed()) {
+					unset ($existingAnnotations[$key]);
+
+					return true;
+				}
+			}
 		}
 
 		return false;
@@ -416,6 +445,9 @@ abstract class AbstractAnnotator {
 				$annotation->setInUse();
 			}
 			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === PropertyAnnotation::TAG && $this->propertyInUse($tokens, $closeTagIndex, $content)) {
+				$annotation->setInUse();
+			}
+			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === PropertyReadAnnotation::TAG && $this->propertyInUse($tokens, $closeTagIndex, $content)) {
 				$annotation->setInUse();
 			}
 			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === MethodAnnotation::TAG && $this->methodInUse($tokens, $closeTagIndex, $content)) {
@@ -575,12 +607,12 @@ abstract class AbstractAnnotator {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param int $classIndex
+	 * @param int $index
 	 * @param \IdeHelper\Annotation\AbstractAnnotation[]|string[] $annotations
 	 *
 	 * @return string
 	 */
-	protected function addNewDocBlock(File $file, int $classIndex, array $annotations): string {
+	protected function addNewDocBlock(File $file, int $index, array $annotations) {
 		$tokens = $file->getTokens();
 
 		foreach ($annotations as $key => $annotation) {
@@ -599,7 +631,7 @@ abstract class AbstractAnnotator {
 		$fixer = $this->getFixer($file);
 
 		$docBlock = $annotationString . PHP_EOL;
-		$fixer->replaceToken($classIndex, $docBlock . $tokens[$classIndex]['content']);
+		$fixer->replaceToken($index, $docBlock . $tokens[$index]['content']);
 
 		$contents = $fixer->getContents();
 
@@ -744,6 +776,24 @@ abstract class AbstractAnnotator {
 			static::COUNT_REMOVED => 0,
 			static::COUNT_SKIPPED => 0,
 		];
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param int $classOrTraitIndex
+	 *
+	 * @return int
+	 */
+	protected function beginningOfLine(File $file, $classOrTraitIndex) {
+		$tokens = $file->getTokens();
+
+		$line = $tokens[$classOrTraitIndex]['line'];
+		$beginningOfLineIndex = $classOrTraitIndex;
+		while ($tokens[$beginningOfLineIndex - 1]['line'] === $line) {
+			$beginningOfLineIndex--;
+		}
+
+		return $beginningOfLineIndex;
 	}
 
 }

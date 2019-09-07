@@ -23,6 +23,10 @@ use Cake\ORM\Table;
  */
 class BarBarsTable extends Table {
 
+	/**
+	 * @param array $config
+	 * @return void
+	 */
 	public function initialize(array $config): void {
 		parent::initialize($config);
 

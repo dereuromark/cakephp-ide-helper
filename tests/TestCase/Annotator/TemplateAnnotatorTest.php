@@ -74,6 +74,28 @@ class TemplateAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testGetVariableAnnotations() {
+		Configure::write('IdeHelper.autoCollect', function(array $variable) {
+			if ($variable['name'] === 'date') {
+				return 'Cake\I18n\FrozenTime';
+			}
+
+			return 'mixed';
+		});
+
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$variable = [
+			'name' => 'date',
+			'type' => 'object',
+		];
+		$result = $this->invokeMethod($annotator, 'getVariableAnnotation', [$variable]);
+		$this->assertSame('@var Cake\I18n\FrozenTime $date', (string)$result);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testNeedsViewAnnotation() {
 		Configure::write('IdeHelper.preemptive', false);
 
@@ -250,6 +272,32 @@ class TemplateAnnotatorTest extends TestCase {
 		$output = $this->out->output();
 
 		$this->assertTextContains('   -> 1 annotation added.', $output);
+	}
+
+	/**
+	 * Tests with template variables.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateVars() {
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/vars.ctp'));
+		$callback = function($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->_displayDiff($expectedContent, $value);
+			}
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP . 'Template/Foos/vars.ctp';
+		$annotator->annotate($path);
+
+		$output = (string)$this->out->output();
+
+		$this->assertTextContains('   -> 6 annotations added.', $output);
 	}
 
 	/**

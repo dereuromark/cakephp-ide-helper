@@ -57,7 +57,7 @@ class ComponentTask implements TaskInterface {
 	}
 
 	/**
-	 * @param array $components
+	 * @param string[] $components
 	 * @param string $folder
 	 * @param string|null $plugin
 	 *
