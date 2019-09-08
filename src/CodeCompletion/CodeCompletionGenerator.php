@@ -30,8 +30,9 @@ class CodeCompletionGenerator {
 <?php
 namespace $namespace;
 
-exit('Only for code completion - regenerate using `bin/cake code_completion generate`.');
-
+/**
+ * Only for code completion - regenerate using `bin/cake code_completion generate`.
+ */
 $content
 TXT;
 

@@ -46,8 +46,9 @@ class CodeCompletionGeneratorTest extends TestCase {
 <?php
 namespace Cake\ORM;
 
-exit('Only for code completion - regenerate using `bin/cake code_completion generate`.');
-
+/**
+ * Only for code completion - regenerate using `bin/cake code_completion generate`.
+ */
 abstract class BehaviorRegistry extends \Cake\Core\ObjectRegistry {
 
 	/**
