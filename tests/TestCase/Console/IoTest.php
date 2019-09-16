@@ -7,8 +7,6 @@ use IdeHelper\Console\Io;
 use Tools\TestSuite\ConsoleOutput;
 use Tools\TestSuite\TestCase;
 
-/**
- */
 class IoTest extends TestCase {
 
 	/**

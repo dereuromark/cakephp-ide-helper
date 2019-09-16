@@ -14,8 +14,6 @@ use Tools\TestSuite\ConsoleOutput;
 use Tools\TestSuite\TestCase;
 use Tools\TestSuite\ToolsTestTrait;
 
-/**
- */
 class TemplateAnnotatorTest extends TestCase {
 
 	use DiffHelperTrait;

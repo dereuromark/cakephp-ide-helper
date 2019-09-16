@@ -12,8 +12,6 @@ use IdeHelper\Console\Io;
 use Tools\TestSuite\ConsoleOutput;
 use Tools\TestSuite\TestCase;
 
-/**
- */
 class ModelAnnotatorTest extends TestCase {
 
 	use DiffHelperTrait;

@@ -9,8 +9,6 @@ use IdeHelper\Console\Io;
 use Tools\TestSuite\ConsoleOutput;
 use Tools\TestSuite\TestCase;
 
-/**
- */
 class ViewAnnotatorTest extends TestCase {
 
 	use DiffHelperTrait;
