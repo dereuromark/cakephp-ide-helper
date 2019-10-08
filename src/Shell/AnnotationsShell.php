@@ -148,7 +148,7 @@ class AnnotationsShell extends Shell {
 		$changes = false;
 		foreach ($types as $key => $type) {
 			if ($key !== 0) {
-				$this->nl();
+				$this->out('');
 			}
 			$typeName = Inflector::humanize($type);
 			if (!$this->param('interactive')) {
