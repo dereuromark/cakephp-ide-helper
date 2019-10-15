@@ -14,9 +14,9 @@ use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Utility\AppPath;
+use ReflectionClass;
 use RuntimeException;
 use Throwable;
-use ReflectionClass;
 
 class ModelAnnotator extends AbstractAnnotator {
 
