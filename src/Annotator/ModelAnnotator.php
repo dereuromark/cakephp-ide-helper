@@ -299,16 +299,17 @@ class ModelAnnotator extends AbstractAnnotator {
 		if (isset($this->_cache[$parentClass])) {
 			$parentBehaviors = $this->_cache[$parentClass];
 		} else {
-			try {
-				/** @var \Cake\ORM\Table $parent */
-				$parent = new $parentClass();
-
-				$object = $parent->behaviors();
-				$map = $this->_invokeProperty($object, '_loaded');
-				$this->_cache[$parentClass] = $parentBehaviors = $this->_extractBehaviors($map);
-			} catch (Exception $e) {
-			} catch (Throwable $e) {
+			$parentReflection = new \ReflectionClass($parentClass);
+			if (!$parentReflection->isInstantiable()) {
+				return $behaviors;
 			}
+
+			/** @var \Cake\ORM\Table $parent */
+			$parent = new $parentClass();
+
+			$object = $parent->behaviors();
+			$map = $this->_invokeProperty($object, '_loaded');
+			$this->_cache[$parentClass] = $parentBehaviors = $this->_extractBehaviors($map);
 		}
 
 		$result = array_diff_key($behaviors, $parentBehaviors);
