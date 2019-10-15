@@ -247,8 +247,7 @@ class ModelAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testAnnotateProtectedParent()
-	{
+	public function testAnnotateProtectedParent() {
 		$annotator = $this->_getAnnotatorMock([]);
 
 		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/BarBarsAbstractTable.php'));
@@ -271,4 +270,5 @@ class ModelAnnotatorTest extends TestCase {
 
 		$this->assertTextContains('  -> 14 annotations added', $output);
 	}
+
 }

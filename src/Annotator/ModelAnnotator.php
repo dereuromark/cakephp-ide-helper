@@ -16,6 +16,7 @@ use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Utility\AppPath;
 use RuntimeException;
 use Throwable;
+use ReflectionClass;
 
 class ModelAnnotator extends AbstractAnnotator {
 
@@ -39,8 +40,20 @@ class ModelAnnotator extends AbstractAnnotator {
 		$modelName = substr($className, 0, -5);
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
 
+		$tableName = $plugin ? ($plugin . '.' . $modelName) : $modelName;
+		$tableClass = App::className($tableName, 'Model/Table', 'Table');
+
+		$tableReflection = new ReflectionClass($tableClass);
+		if (!$tableReflection->isInstantiable()) {
+			if ($this->getConfig(static::CONFIG_VERBOSE)) {
+				$this->_io->warn('   Skipping table and entity: Not instantiable');
+			}
+
+			return false;
+		}
+
 		try {
-			$table = TableRegistry::get($plugin ? ($plugin . '.' . $modelName) : $modelName);
+			$table = TableRegistry::get($tableName);
 			$schema = $table->getSchema();
 			$behaviors = $this->_getBehaviors($table);
 		} catch (Exception $e) {
@@ -295,11 +308,10 @@ class ModelAnnotator extends AbstractAnnotator {
 		$behaviors = $this->_extractBehaviors($map);
 
 		$parentClass = get_parent_class($table);
-		$parentBehaviors = [];
 		if (isset($this->_cache[$parentClass])) {
 			$parentBehaviors = $this->_cache[$parentClass];
 		} else {
-			$parentReflection = new \ReflectionClass($parentClass);
+			$parentReflection = new ReflectionClass($parentClass);
 			if (!$parentReflection->isInstantiable()) {
 				return $behaviors;
 			}
