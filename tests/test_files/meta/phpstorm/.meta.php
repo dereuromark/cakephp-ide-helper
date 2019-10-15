@@ -54,6 +54,8 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\Datasource\ModelAwareTrait::loadModel(0),
 		map([
+			'Abstract' => \App\Model\Table\AbstractTable::class,
+			'BarBarsAbstract' => \App\Model\Table\BarBarsAbstractTable::class,
 			'BarBars' => \App\Model\Table\BarBarsTable::class,
 			'Callbacks' => \App\Model\Table\CallbacksTable::class,
 			'Cars' => \App\Model\Table\CarsTable::class,
@@ -90,6 +92,8 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\ORM\Locator\LocatorInterface::get(0),
 		map([
+			'Abstract' => \App\Model\Table\AbstractTable::class,
+			'BarBarsAbstract' => \App\Model\Table\BarBarsAbstractTable::class,
 			'BarBars' => \App\Model\Table\BarBarsTable::class,
 			'Callbacks' => \App\Model\Table\CallbacksTable::class,
 			'Cars' => \App\Model\Table\CarsTable::class,
@@ -119,6 +123,8 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\ORM\Table::belongToMany(0),
 		map([
+			'Abstract' => \Cake\ORM\Association\BelongsToMany::class,
+			'BarBarsAbstract' => \Cake\ORM\Association\BelongsToMany::class,
 			'BarBars' => \Cake\ORM\Association\BelongsToMany::class,
 			'Callbacks' => \Cake\ORM\Association\BelongsToMany::class,
 			'Cars' => \Cake\ORM\Association\BelongsToMany::class,
@@ -137,6 +143,8 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\ORM\Table::belongsTo(0),
 		map([
+			'Abstract' => \Cake\ORM\Association\BelongsTo::class,
+			'BarBarsAbstract' => \Cake\ORM\Association\BelongsTo::class,
 			'BarBars' => \Cake\ORM\Association\BelongsTo::class,
 			'Callbacks' => \Cake\ORM\Association\BelongsTo::class,
 			'Cars' => \Cake\ORM\Association\BelongsTo::class,
@@ -164,6 +172,8 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\ORM\Table::hasMany(0),
 		map([
+			'Abstract' => \Cake\ORM\Association\HasMany::class,
+			'BarBarsAbstract' => \Cake\ORM\Association\HasMany::class,
 			'BarBars' => \Cake\ORM\Association\HasMany::class,
 			'Callbacks' => \Cake\ORM\Association\HasMany::class,
 			'Cars' => \Cake\ORM\Association\HasMany::class,
@@ -182,6 +192,8 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\ORM\Table::hasOne(0),
 		map([
+			'Abstract' => \Cake\ORM\Association\HasOne::class,
+			'BarBarsAbstract' => \Cake\ORM\Association\HasOne::class,
 			'BarBars' => \Cake\ORM\Association\HasOne::class,
 			'Callbacks' => \Cake\ORM\Association\HasOne::class,
 			'Cars' => \Cake\ORM\Association\HasOne::class,
@@ -200,6 +212,8 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\ORM\TableRegistry::get(0),
 		map([
+			'Abstract' => \App\Model\Table\AbstractTable::class,
+			'BarBarsAbstract' => \App\Model\Table\BarBarsAbstractTable::class,
 			'BarBars' => \App\Model\Table\BarBarsTable::class,
 			'Callbacks' => \App\Model\Table\CallbacksTable::class,
 			'Cars' => \App\Model\Table\CarsTable::class,
