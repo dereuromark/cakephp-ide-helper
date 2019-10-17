@@ -2,6 +2,7 @@
 
 namespace IdeHelper\Test\TestCase\Generator\Task;
 
+use App\Model\Table\CustomFinderTable;
 use Cake\Core\Configure;
 use IdeHelper\Generator\Task\TableFinderTask;
 use Tools\TestSuite\TestCase;
@@ -47,6 +48,7 @@ class TableFinderTaskTest extends TestCase {
 		$expectedMap = [
 			'all' => '\Cake\ORM\Query::class',
 			'list' => '\Cake\ORM\Query::class',
+			'somethingCustom' => '\Cake\ORM\Query::class',
 			'threaded' => '\Cake\ORM\Query::class',
 		];
 		$map = array_shift($result);
@@ -58,9 +60,12 @@ class TableFinderTaskTest extends TestCase {
 	 */
 	public function testAddMethod() {
 		$result = [];
+
+		$class = CustomFinderTable::class;
 		$method = 'findSomethingCustom';
 
-		$result = $this->invokeMethod($this->task, 'addMethod', [$result, $method]);
+		/** @uses \IdeHelper\Generator\Task\TableFinderTask::addMethod() */
+		$result = $this->invokeMethod($this->task, 'addMethod', [$result, $method, $class]);
 		$this->assertSame(['somethingCustom'], $result);
 	}
 
@@ -70,12 +75,16 @@ class TableFinderTaskTest extends TestCase {
 	public function testAddMethodInvalid() {
 		$result = [];
 
+		$class = CustomFinderTable::class;
+
 		$method = 'findBySomethingCustom';
-		$result = $this->invokeMethod($this->task, 'addMethod', [$result, $method]);
+		/** @uses \IdeHelper\Generator\Task\TableFinderTask::addMethod() */
+		$result = $this->invokeMethod($this->task, 'addMethod', [$result, $method, $class]);
 		$this->assertSame([], $result);
 
 		$method = 'findSomethingCustomBySomethingElse';
-		$result = $this->invokeMethod($this->task, 'addMethod', [$result, $method]);
+		/** @uses \IdeHelper\Generator\Task\TableFinderTask::addMethod() */
+		$result = $this->invokeMethod($this->task, 'addMethod', [$result, $method, $class]);
 		$this->assertSame([], $result);
 	}
 

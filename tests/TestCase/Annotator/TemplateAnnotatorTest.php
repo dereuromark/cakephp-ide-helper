@@ -89,6 +89,7 @@ class TemplateAnnotatorTest extends TestCase {
 			'name' => 'date',
 			'type' => 'object',
 		];
+		/** @uses \IdeHelper\Annotator\TemplateAnnotator::_getVariableAnnotation() */
 		$result = $this->invokeMethod($annotator, '_getVariableAnnotation', [$variable]);
 		$this->assertSame('@var Cake\I18n\FrozenTime $date', (string)$result);
 	}
@@ -102,18 +103,22 @@ class TemplateAnnotatorTest extends TestCase {
 		$annotator = $this->_getAnnotatorMock([]);
 
 		$content = '';
+		/** @uses \IdeHelper\Annotator\TemplateAnnotator::_needsViewAnnotation() */
 		$result = $this->invokeMethod($annotator, '_needsViewAnnotation', [$content]);
 		$this->assertFalse($result);
 
 		$content = 'Foo Bar';
+		/** @uses \IdeHelper\Annotator\TemplateAnnotator::_needsViewAnnotation() */
 		$result = $this->invokeMethod($annotator, '_needsViewAnnotation', [$content]);
 		$this->assertFalse($result);
 
 		$content = 'Foo <?php echo $this->Foo->bar(); ?>';
+		/** @uses \IdeHelper\Annotator\TemplateAnnotator::_needsViewAnnotation() */
 		$result = $this->invokeMethod($annotator, '_needsViewAnnotation', [$content]);
 		$this->assertTrue($result);
 
 		$content = 'Foo <?= $x; ?>';
+		/** @uses \IdeHelper\Annotator\TemplateAnnotator::_needsViewAnnotation() */
 		$result = $this->invokeMethod($annotator, '_needsViewAnnotation', [$content]);
 		$this->assertTrue($result);
 	}
