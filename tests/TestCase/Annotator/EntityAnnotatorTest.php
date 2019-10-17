@@ -148,6 +148,7 @@ class EntityAnnotatorTest extends TestCase {
 		];
 		$helper = new DocBlockHelper(new View());
 
+		/** @uses \IdeHelper\Annotator\EntityAnnotator::buildExtendedEntityPropertyHintTypeMap() */
 		$result = $this->invokeMethod($annotator, 'buildExtendedEntityPropertyHintTypeMap', [$propertySchema, $helper]);
 		$expected = [
 			'custom' => 'array',

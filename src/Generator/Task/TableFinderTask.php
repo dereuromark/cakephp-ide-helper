@@ -10,6 +10,8 @@ use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Exception;
 use ReflectionClass;
+use ReflectionException;
+use ReflectionMethod;
 use Throwable;
 
 class TableFinderTask extends ModelTask {
@@ -47,6 +49,8 @@ class TableFinderTask extends ModelTask {
 
 		$allFinders = array_merge($baseFinders, $customFinders);
 		$allFinders = array_unique($allFinders);
+
+		sort($allFinders);
 
 		$finders = [];
 		$finders[static::CLASS_TABLE] = $allFinders;
@@ -124,8 +128,10 @@ class TableFinderTask extends ModelTask {
 
 		$methods = get_class_methods($className);
 		foreach ($methods as $method) {
-			$result = $this->addMethod($result, $method);
+			$result = $this->addMethod($result, $method, $className);
 		}
+
+		ksort($result);
 
 		return $result;
 	}
@@ -133,10 +139,11 @@ class TableFinderTask extends ModelTask {
 	/**
 	 * @param string[] $result
 	 * @param string $method
+	 * @param string $className
 	 *
 	 * @return string[]
 	 */
-	protected function addMethod(array $result, $method) {
+	protected function addMethod(array $result, $method, $className) {
 		// We must exclude all find...By... patterns as possible false positives for now (refs https://github.com/cakephp/cakephp/issues/11240)
 		if ($method === 'findOrCreate' || preg_match('/^find.*By[A-Z][a-zA-Z]+/', $method)) {
 			return $result;
@@ -145,9 +152,35 @@ class TableFinderTask extends ModelTask {
 			return $result;
 		}
 
-		$result[] = lcfirst($matches[1]);
+		try {
+			$methodReflection = new ReflectionMethod($className, $method);
+		} catch (ReflectionException $e) {
+			return $result;
+		}
 
-		sort($result);
+		$parameters = $methodReflection->getParameters();
+		if (count($parameters) < 1) {
+			return $result;
+		}
+
+		$name = lcfirst($matches[1]);
+
+		$parameter = $parameters[0];
+		// For PHP5.6 we need to skip this enhanced detection
+		if (!method_exists($parameter, 'getType')) {
+			if (strpos((string)$parameter, 'Parameter #0 [ <required> Cake\ORM\Query $') !== false) {
+				$result[] = $name;
+			}
+
+			return $result;
+		}
+
+		$parameterType = $parameter->getType();
+		if (!$parameterType || $parameterType->getName() !== Query::class) {
+			return $result;
+		}
+
+		$result[] = $name;
 
 		return $result;
 	}
