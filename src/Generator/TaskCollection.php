@@ -9,6 +9,7 @@ use IdeHelper\Generator\Task\ElementTask;
 use IdeHelper\Generator\Task\HelperTask;
 use IdeHelper\Generator\Task\ModelTask;
 use IdeHelper\Generator\Task\PluginTask;
+use IdeHelper\Generator\Task\RoutePathTask;
 use IdeHelper\Generator\Task\TableAssociationTask;
 use IdeHelper\Generator\Task\TableFinderTask;
 use IdeHelper\Generator\Task\TaskInterface;
@@ -29,6 +30,7 @@ class TaskCollection {
 		DatabaseTypeTask::class => DatabaseTypeTask::class,
 		ElementTask::class => ElementTask::class,
 		PluginTask::class => PluginTask::class,
+		RoutePathTask::class => RoutePathTask::class,
 	];
 
 	/**
