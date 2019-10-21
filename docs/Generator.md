@@ -59,6 +59,7 @@ $this->Posts->find('threaded')
 
 Note: Using Configure key `'IdeHelper.preemptive'` set to `true` you can be a bit more verbose and include all possible custom finders, including those from behaviors.
 
+![Model Autocomplete finder](img/model_autocomplete_finder.png)
 
 #### Behaviors
 The following is now auto-completed, for example:

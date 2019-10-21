@@ -30,9 +30,12 @@ class ModelTaskTest extends TestCase {
 		$this->assertCount(3, $result);
 
 		$expectedMap = [
+			'Abstract' => '\App\Model\Table\AbstractTable::class',
+			'BarBarsAbstract' => '\App\Model\Table\BarBarsAbstractTable::class',
 			'BarBars' => '\App\Model\Table\BarBarsTable::class',
 			'Callbacks' => '\App\Model\Table\CallbacksTable::class',
 			'Cars' => '\App\Model\Table\CarsTable::class',
+			'CustomFinder' => '\App\Model\Table\CustomFinderTable::class',
 			'Exceptions' => '\App\Model\Table\ExceptionsTable::class',
 			'Foo' => '\App\Model\Table\FooTable::class',
 			'SkipMe' => '\App\Model\Table\SkipMeTable::class',

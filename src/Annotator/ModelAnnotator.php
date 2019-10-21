@@ -14,6 +14,7 @@ use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Utility\AppPath;
+use ReflectionClass;
 use RuntimeException;
 use Throwable;
 
@@ -39,8 +40,20 @@ class ModelAnnotator extends AbstractAnnotator {
 		$modelName = substr($className, 0, -5);
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
 
+		$tableName = $plugin ? ($plugin . '.' . $modelName) : $modelName;
+		$tableClass = App::className($tableName, 'Model/Table', 'Table');
+
+		$tableReflection = new ReflectionClass($tableClass);
+		if (!$tableReflection->isInstantiable()) {
+			if ($this->getConfig(static::CONFIG_VERBOSE)) {
+				$this->_io->warn('   Skipping table and entity: Not instantiable');
+			}
+
+			return false;
+		}
+
 		try {
-			$table = TableRegistry::get($plugin ? ($plugin . '.' . $modelName) : $modelName);
+			$table = TableRegistry::get($tableName);
 			$schema = $table->getSchema();
 			$behaviors = $this->getBehaviors($table);
 		} catch (Exception $e) {
@@ -299,6 +312,11 @@ class ModelAnnotator extends AbstractAnnotator {
 		if (isset($this->_cache[$parentClass])) {
 			$parentBehaviors = $this->_cache[$parentClass];
 		} else {
+			$parentReflection = new ReflectionClass($parentClass);
+			if (!$parentReflection->isInstantiable()) {
+				return $behaviors;
+			}
+
 			/** @var \Cake\ORM\Table $parent */
 			$parent = new $parentClass();
 
