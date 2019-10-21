@@ -20,7 +20,7 @@ class CallbackAnnotatorTaskCollection {
 	protected $tasks;
 
 	/**
-	 * @param array $tasks
+	 * @param string[] $tasks
 	 */
 	public function __construct(array $tasks = []) {
 		$defaultTasks = $this->defaultTasks();

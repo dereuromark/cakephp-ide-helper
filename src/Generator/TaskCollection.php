@@ -37,7 +37,7 @@ class TaskCollection {
 	protected $tasks;
 
 	/**
-	 * @param array $tasks
+	 * @param (string|\IdeHelper\Generator\Task\TaskInterface)[] $tasks
 	 */
 	public function __construct(array $tasks = []) {
 		$defaultTasks = $this->defaultTasks();
