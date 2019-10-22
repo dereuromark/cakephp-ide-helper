@@ -16,12 +16,12 @@ class OverrideTest extends TestCase {
 			'Tree' => '\\' . Table::class,
 			'CounterCache' => '\\' . Table::class,
 		];
-		$override = new Override(Table::class . '::addBehavior(0)', $map);
+		$override = new Override('\\' . Table::class . '::addBehavior(0)', $map);
 
 		$result = (string)$override;
 		$expected = <<<TXT
 	override(
-		Cake\ORM\Table::addBehavior(0),
+		\\Cake\ORM\Table::addBehavior(0),
 		map([
 			'Tree' => \Cake\ORM\Table,
 			'CounterCache' => \Cake\ORM\Table,

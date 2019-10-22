@@ -103,7 +103,7 @@ use IdeHelper\Generator\Task\TaskInterface;
 class MyTask implements TaskInterface {
 
     /**
-     * @return array
+     * @return \IdeHelper\Generator\Directive\BaseDirective[]
      */
     public function collect() {
         ...
@@ -134,6 +134,57 @@ Using associative arrays you can even exchange any native task with your own imp
 The native class name is the key then, your replacement the value.
 Setting the value to `null` completely disables a native task.
 
+#### Available directives
+
+##### Override
+By default, most directives used here are "override". Those are also the ones already supported the longest.
+For specific string method argument it returns a specific object. That covers a lot of CakePHP's internal magic.
+```php
+$method = '\Namespace\PackageName\MyFactory::create(0)';
+$map = [
+    'alpha' => '\My\Cool\Alpha::class',
+    'beta' => '\My\Cool\Beta::class',
+];
+$directive = new Override($method, $map);
+```
+
+##### ExpectedArguments
+With this you can set default values to chose from for method arguments.
+Specify the parameter count as 0-based value. 
+```php
+$method = '\Namespace\PackageName\MyFactory::create()';
+$position = 0; 
+$list = [
+    'alpha',
+    'beta',
+];
+$directive = new ExpectedArguments($method, $position, $list);
+```
+
+##### ExpectedReturnValues
+You can also just expected return types for a method.
+```php
+$method = '\Namespace\PackageName\MyFactory::create()';
+$list = [
+    '\My\Cool\Alpha::class',
+    '\My\Cool\Beta::class',
+];
+$directive = new ExpectedReturnValues($method, $list);
+```
+
+##### RegisterArgumentsSet
+If you are reusing the same lists for both arguments and return values, you can also
+make a set and reuse that in the above directives.
+```php
+$set = 'mySet';
+$list = [
+    '\My\Cool\Class::SUCCESS',
+    '\My\Cool\Class::ERROR',
+];
+$directive = new RegisterArgumentsSet($set, $list);
+```
+Now you can use it as list value `argumentsSet("mySet")` inside the others.
+
 #### Example
 So let's imagine you have the following methods you want to annotate:
 ```php
@@ -143,10 +194,11 @@ $beta = MyFactory::create('beta'); // Returns \My\Cool\Beta class
 Then make sure your Task's `collect()` method returns something like:
 ```php
 [
-    '\Namespace\PackageName\MyFactory::create(0)' => [
+    new Override('\Namespace\PackageName\MyFactory::create(0)', [
         'alpha' => '\My\Cool\Alpha::class',
         'beta' => '\My\Cool\Beta::class',
-    ]
+    ]),
+    ...
 ]
 ```
 

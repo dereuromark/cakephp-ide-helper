@@ -13,7 +13,7 @@ namespace IdeHelper\Generator\Directive;
  *     \MyClass::REQUIRED
  * );
  *
- * Then it can be used in other places as
+ * Then it can be used in other places as argumentsSet("mySet").
  */
 class RegisterArgumentsSet extends BaseDirective {
 
@@ -30,6 +30,15 @@ class RegisterArgumentsSet extends BaseDirective {
 	protected $map;
 
 	/**
+	 * @param string $set
+	 * @param array $list
+	 */
+	public function __construct($set, array $list) {
+		$this->set = $set;
+		$this->map = $list;
+	}
+
+	/**
 	 * Key for sorting inside collection.
 	 *
 	 * @return string
@@ -39,10 +48,30 @@ class RegisterArgumentsSet extends BaseDirective {
 	}
 
 	/**
+	 * @return array
+	 */
+	public function toArray() {
+		return [
+			'set' => $this->set,
+			'list' => $this->map,
+		];
+	}
+
+	/**
 	 * @return string
 	 */
 	public function __toString() {
-		return 'TODO';
+		$set = "'" . $this->set . "'";
+		$list = $this->buildList($this->map);
+
+		$result = <<<TXT
+	registerArgumentsSet(
+		$set,
+$list
+	);
+TXT;
+
+		return $result;
 	}
 
 }

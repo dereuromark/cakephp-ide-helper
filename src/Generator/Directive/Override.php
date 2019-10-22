@@ -68,23 +68,12 @@ TXT;
 	}
 
 	/**
-	 * @param array $array
-	 * @param int $indentation
+	 * Key for sorting inside collection.
 	 *
 	 * @return string
 	 */
-	protected function buildMapDefinitions(array $array, $indentation = 3) {
-		$result = [];
-		foreach ($array as $alias => $value) {
-			if (is_array($value) && isset($value['escapeKey']) && $value['escapeKey'] === false) {
-				$key = $alias;
-			} else {
-				$key = "'" . str_replace("'", "\'", $alias) . "'";
-			}
-			$result[] = str_repeat("\t", $indentation) . $key . ' => ' . $value . ',';
-		}
-
-		return implode(PHP_EOL, $result);
+	public function key() {
+		return $this->method . '@' . static::NAME;
 	}
 
 }

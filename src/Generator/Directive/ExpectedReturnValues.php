@@ -9,9 +9,15 @@ namespace IdeHelper\Generator\Directive;
  *
  * expectedReturnValues(
  *     \MyClass::addArgument(),
- *     1,
- *     \MyClass::OPTIONAL,
- *     \MyClass::REQUIRED
+ *     \MyClass::SUCCESS,
+ *     \MyClass::ERROR
+ * );
+ *
+ * or
+ *
+ * expectedReturnValues(
+ *     \MyClass::getFlags(),
+ *     argumentsSet("myFileObjectFlags")
  * );
  */
 class ExpectedReturnValues extends BaseDirective {
@@ -29,10 +35,48 @@ class ExpectedReturnValues extends BaseDirective {
 	protected $map;
 
 	/**
+	 * @param string $method
+	 * @param array $list
+	 */
+	public function __construct($method, array $list) {
+		$this->method = $method;
+		$this->map = $list;
+	}
+
+	/**
+	 * Key for sorting inside collection.
+	 *
+	 * @return string
+	 */
+	public function key() {
+		return $this->method . '@' . static::NAME;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function toArray() {
+		return [
+			'method' => $this->method,
+			'list' => $this->map,
+		];
+	}
+
+	/**
 	 * @return string
 	 */
 	public function __toString() {
-		return 'TODO';
+		$method = $this->method;
+		$list = $this->buildList($this->map);
+
+		$result = <<<TXT
+	expectedReturnValues(
+		$method,
+$list
+	);
+TXT;
+
+		return $result;
 	}
 
 }
