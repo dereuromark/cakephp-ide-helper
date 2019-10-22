@@ -6,13 +6,14 @@ use Cake\ORM\Association\BelongsToMany;
 use Cake\ORM\Association\HasMany;
 use Cake\ORM\Association\HasOne;
 use Cake\ORM\Table;
+use IdeHelper\Generator\Directive\Override;
 
 class TableAssociationTask extends ModelTask {
 
 	const CLASS_TABLE = Table::class;
 
 	/**
-	 * @var array
+	 * @var string[]
 	 */
 	protected $aliases = [
 		'\\' . self::CLASS_TABLE . '::belongsTo(0)' => BelongsTo::class,
@@ -22,7 +23,7 @@ class TableAssociationTask extends ModelTask {
 	];
 
 	/**
-	 * @return array
+	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
 	 */
 	public function collect() {
 		$models = $this->collectModels();
@@ -33,7 +34,9 @@ class TableAssociationTask extends ModelTask {
 			foreach ($models as $model => $modelClassName) {
 				$map[$model] = '\\' . $className . '::class';
 			}
-			$result[$alias] = $map;
+
+			$directive = new Override($alias, $map);
+			$result[$directive->key()] = $directive;
 		}
 
 		return $result;

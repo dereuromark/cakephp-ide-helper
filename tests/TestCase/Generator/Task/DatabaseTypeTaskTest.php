@@ -33,11 +33,17 @@ class DatabaseTypeTaskTest extends TestCase {
 
 		$this->assertCount(1, $result);
 
+		/** @var \IdeHelper\Generator\Directive\Override $directive */
+		$directive = array_shift($result);
+		$this->assertSame('\Cake\Database\Type::build(0)', $directive->toArray()['method']);
+
+		$map = $directive->toArray()['map'];
+
 		$expected = '\Cake\Database\Type\BinaryType::class';
-		$this->assertSame($expected, $result['\Cake\Database\Type::build(0)']['binary']);
+		$this->assertSame($expected, $map['binary']);
 
 		$expected = '\App\Database\Type\UuidType::class';
-		$this->assertSame($expected, $result['\Cake\Database\Type::build(0)']['uuid']);
+		$this->assertSame($expected, $map['uuid']);
 	}
 
 }

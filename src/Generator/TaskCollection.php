@@ -100,7 +100,7 @@ class TaskCollection {
 	}
 
 	/**
-	 * @return array
+	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
 	 */
 	public function getMap() {
 		$map = [];

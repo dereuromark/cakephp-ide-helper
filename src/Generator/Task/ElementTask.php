@@ -3,6 +3,7 @@ namespace IdeHelper\Generator\Task;
 
 use Cake\Core\Plugin;
 use Cake\View\View;
+use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\AppPath;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -14,7 +15,7 @@ class ElementTask extends ModelTask {
 	const CLASS_VIEW = View::class;
 
 	/**
-	 * @return array
+	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
 	 */
 	public function collect() {
 		$result = [];
@@ -25,7 +26,9 @@ class ElementTask extends ModelTask {
 			$map[$element] = '\\' . static::CLASS_VIEW . '::class';
 		}
 
-		$result['\\' . static::CLASS_VIEW . '::element(0)'] = $map;
+		$method = '\\' . static::CLASS_VIEW . '::element(0)';
+		$directive = new Override($method, $map);
+		$result[$directive->key()] = $directive;
 
 		return $result;
 	}

@@ -29,14 +29,20 @@ class ComponentTaskTest extends TestCase {
 
 		$this->assertCount(1, $result);
 
+		/** @var \IdeHelper\Generator\Directive\Override $directive */
+		$directive = array_shift($result);
+		$this->assertSame('\Cake\Controller\Controller::loadComponent(0)', $directive->toArray()['method']);
+
+		$map = $directive->toArray()['map'];
+
 		$expected = '\Cake\Controller\Component\AuthComponent::class';
-		$this->assertSame($expected, $result['\Cake\Controller\Controller::loadComponent(0)']['Auth']);
+		$this->assertSame($expected, $map['Auth']);
 
 		$expected = '\App\Controller\Component\RequestHandlerComponent::class';
-		$this->assertSame($expected, $result['\Cake\Controller\Controller::loadComponent(0)']['RequestHandler']);
+		$this->assertSame($expected, $map['RequestHandler']);
 
 		$expected = '\Shim\Controller\Component\SessionComponent::class';
-		$this->assertSame($expected, $result['\Cake\Controller\Controller::loadComponent(0)']['Shim.Session']);
+		$this->assertSame($expected, $map['Shim.Session']);
 	}
 
 }

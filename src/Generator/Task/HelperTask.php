@@ -4,19 +4,20 @@ namespace IdeHelper\Generator\Task;
 use Cake\Core\App;
 use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
+use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\AppPath;
 
 class HelperTask implements TaskInterface {
 
 	/**
-	 * @var array
+	 * @var string[]
 	 */
 	protected $aliases = [
 		'\Cake\View\View::loadHelper(0)',
 	];
 
 	/**
-	 * @return array
+	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
 	 */
 	public function collect() {
 		$map = [];
@@ -28,7 +29,8 @@ class HelperTask implements TaskInterface {
 
 		$result = [];
 		foreach ($this->aliases as $alias) {
-			$result[$alias] = $map;
+			$directive = new Override($alias, $map);
+			$result[$directive->key()] = $directive;
 		}
 
 		return $result;

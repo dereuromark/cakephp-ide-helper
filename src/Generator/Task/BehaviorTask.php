@@ -5,6 +5,7 @@ use Cake\Core\App;
 use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use Cake\ORM\Table;
+use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\AppPath;
 
 class BehaviorTask implements TaskInterface {
@@ -12,14 +13,14 @@ class BehaviorTask implements TaskInterface {
 	const CLASS_TABLE = Table::class;
 
 	/**
-	 * @var array
+	 * @var string[]
 	 */
 	protected $aliases = [
 		'\\' . self::CLASS_TABLE . '::addBehavior(0)',
 	];
 
 	/**
-	 * @return array
+	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
 	 */
 	public function collect() {
 		$map = [];
@@ -31,7 +32,8 @@ class BehaviorTask implements TaskInterface {
 
 		$result = [];
 		foreach ($this->aliases as $alias) {
-			$result[$alias] = $map;
+			$directive = new Override($alias, $map);
+			$result[$directive->key()] = $directive;
 		}
 
 		return $result;

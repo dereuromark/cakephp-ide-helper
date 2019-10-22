@@ -29,6 +29,12 @@ class TableAssociationTaskTest extends TestCase {
 
 		$this->assertCount(4, $result);
 
+		/** @var \IdeHelper\Generator\Directive\Override $directive */
+		$directive = array_shift($result);
+		$this->assertSame('\Cake\ORM\Table::belongsTo(0)', $directive->toArray()['method']);
+
+		$map = $directive->toArray()['map'];
+
 		$expectedMap = [
 			'Abstract' => '\Cake\ORM\Association\BelongsTo::class',
 			'BarBarsAbstract' => '\Cake\ORM\Association\BelongsTo::class',
@@ -46,7 +52,6 @@ class TableAssociationTaskTest extends TestCase {
 			'Awesome.Windows' => '\Cake\ORM\Association\BelongsTo::class',
 			'Controllers.Houses' => '\Cake\ORM\Association\BelongsTo::class',
 		];
-		$map = array_shift($result);
 		$this->assertSame($expectedMap, $map);
 	}
 

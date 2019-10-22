@@ -29,11 +29,17 @@ class HelperTaskTest extends TestCase {
 
 		$this->assertCount(1, $result);
 
+		/** @var \IdeHelper\Generator\Directive\Override $directive */
+		$directive = array_shift($result);
+		$this->assertSame('\Cake\View\View::loadHelper(0)', $directive->toArray()['method']);
+
+		$map = $directive->toArray()['map'];
+
 		$expected = '\Cake\View\Helper\FormHelper::class';
-		$this->assertSame($expected, $result['\Cake\View\View::loadHelper(0)']['Form']);
+		$this->assertSame($expected, $map['Form']);
 
 		$expected = '\Shim\View\Helper\ConfigureHelper::class';
-		$this->assertSame($expected, $result['\Cake\View\View::loadHelper(0)']['Shim.Configure']);
+		$this->assertSame($expected, $map['Shim.Configure']);
 	}
 
 }
