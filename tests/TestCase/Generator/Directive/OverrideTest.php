@@ -11,14 +11,14 @@ class OverrideTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testCollect() {
+	public function testObject() {
 		$map = [
 			'Tree' => '\\' . Table::class,
 			'CounterCache' => '\\' . Table::class,
 		];
-		$override = new Override('\\' . Table::class . '::addBehavior(0)', $map);
+		$directive = new Override('\\' . Table::class . '::addBehavior(0)', $map);
 
-		$result = (string)$override;
+		$result = $directive->build();
 		$expected = <<<TXT
 	override(
 		\\Cake\ORM\Table::addBehavior(0),

@@ -75,7 +75,7 @@ class ExpectedArguments extends BaseDirective {
 	/**
 	 * @return string
 	 */
-	public function __toString() {
+	public function build() {
 		$method = $this->method;
 		$position = $this->position;
 		$list = $this->buildList($this->map);

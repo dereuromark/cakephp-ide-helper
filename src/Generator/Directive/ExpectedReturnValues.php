@@ -65,7 +65,7 @@ class ExpectedReturnValues extends BaseDirective {
 	/**
 	 * @return string
 	 */
-	public function __toString() {
+	public function build() {
 		$method = $this->method;
 		$list = $this->buildList($this->map);
 

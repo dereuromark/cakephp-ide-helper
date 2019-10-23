@@ -11,14 +11,14 @@ class ExpectedArgumentsTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testCollect() {
+	public function testObject() {
 		$map = [
 			'\\Foo\\Bar',
 			'"string"',
 		];
-		$override = new ExpectedArguments('\\' . Table::class . '::addBehavior()', 0, $map);
+		$directive = new ExpectedArguments('\\' . Table::class . '::addBehavior()', 0, $map);
 
-		$result = (string)$override;
+		$result = $directive->build();
 		$expected = <<<TXT
 	expectedArguments(
 		\\Cake\ORM\Table::addBehavior(),

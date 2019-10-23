@@ -19,7 +19,7 @@ abstract class BaseDirective {
 	 *
 	 * @return string
 	 */
-	abstract public function __toString();
+	abstract public function build();
 
 	/**
 	 * @param array $array
@@ -49,7 +49,7 @@ abstract class BaseDirective {
 	 *
 	 * @return string
 	 */
-	protected function buildMapDefinitions(array $array, $indentation = 3) {
+	protected function buildKeyValueMap(array $array, $indentation = 3) {
 		$result = [];
 		foreach ($array as $alias => $value) {
 			if (is_array($value) && isset($value['escapeKey']) && $value['escapeKey'] === false) {

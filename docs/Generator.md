@@ -184,6 +184,7 @@ $list = [
 $directive = new RegisterArgumentsSet($set, $list);
 ```
 Now you can use it as list value `argumentsSet("mySet")` inside the others.
+For this just pass the `$directive` object itself to the list, which then contains only this one element.
 
 #### Example
 So let's imagine you have the following methods you want to annotate:
@@ -193,13 +194,29 @@ $beta = MyFactory::create('beta'); // Returns \My\Cool\Beta class
 ```
 Then make sure your Task's `collect()` method returns something like:
 ```php
-[
-    new Override('\Namespace\PackageName\MyFactory::create(0)', [
-        'alpha' => '\My\Cool\Alpha::class',
-        'beta' => '\My\Cool\Beta::class',
-    ]),
+$override = new Override('\Namespace\PackageName\MyFactory::create(0)', [
+    'alpha' => '\My\Cool\Alpha::class',
+    'beta' => '\My\Cool\Beta::class',
+]);
+
+$list = [
+    '\My\Cool\Class::SUCCESS',
+    '\My\Cool\Class::ERROR',
+];
+$argumentsSet = new RegisterArgumentsSet('mySet', $list);
+
+$method = '\Namespace\PackageName\MyFactory::create()';
+$list = [
+    $argumentsSet,
+];
+$expectedReturnValues = new ExpectedReturnValues($method, $list);
+
+return [
+    $override->key() => $override,
+    $argumentsSet->key() => $argumentsSet,
+    $expectedReturnValues->key() => $expectedReturnValues,
     ...
-]
+];
 ```
 
 For more examples and details see their [documentation](https://confluence.jetbrains.com/display/PhpStorm/PhpStorm+Advanced+Metadata).

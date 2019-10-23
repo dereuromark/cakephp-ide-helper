@@ -60,7 +60,7 @@ class RegisterArgumentsSet extends BaseDirective {
 	/**
 	 * @return string
 	 */
-	public function __toString() {
+	public function build() {
 		$set = "'" . $this->set . "'";
 		$list = $this->buildList($this->map);
 
@@ -72,6 +72,13 @@ $list
 TXT;
 
 		return $result;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function __toString() {
+		return 'argumentsSet("' . $this->set . '")';
 	}
 
 }

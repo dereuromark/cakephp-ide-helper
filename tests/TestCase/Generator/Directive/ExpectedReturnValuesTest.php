@@ -11,14 +11,14 @@ class ExpectedReturnValuesTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testCollect() {
+	public function testObject() {
 		$map = [
 			'\\Foo\\Bar',
 			'"string"',
 		];
-		$override = new ExpectedReturnValues('\\' . Table::class . '::addBehavior()', $map);
+		$directive = new ExpectedReturnValues('\\' . Table::class . '::addBehavior()', $map);
 
-		$result = (string)$override;
+		$result = $directive->build();
 		$expected = <<<TXT
 	expectedReturnValues(
 		\\Cake\ORM\Table::addBehavior(),

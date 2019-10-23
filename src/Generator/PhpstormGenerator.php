@@ -32,7 +32,7 @@ class PhpstormGenerator implements GeneratorInterface {
 	protected function build(array $map) {
 		$overrides = [];
 		foreach ($map as $directive) {
-			$overrides[] = (string)$directive;
+			$overrides[] = $directive->build();
 		}
 		$overrides = implode(PHP_EOL . PHP_EOL, $overrides);
 

@@ -49,11 +49,20 @@ class Override extends BaseDirective {
 	}
 
 	/**
+	 * Key for sorting inside collection.
+	 *
 	 * @return string
 	 */
-	public function __toString() {
+	public function key() {
+		return $this->method . '@' . static::NAME;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function build() {
 		$method = $this->method;
-		$mapDefinitions = $this->buildMapDefinitions($this->map);
+		$mapDefinitions = $this->buildKeyValueMap($this->map);
 
 		$result = <<<TXT
 	override(
@@ -65,15 +74,6 @@ $mapDefinitions
 TXT;
 
 		return $result;
-	}
-
-	/**
-	 * Key for sorting inside collection.
-	 *
-	 * @return string
-	 */
-	public function key() {
-		return $this->method . '@' . static::NAME;
 	}
 
 }
