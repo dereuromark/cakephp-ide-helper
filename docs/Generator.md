@@ -93,6 +93,14 @@ Tired of typing the full template name in `$this->element('...')` calls?
 
 With this generator PHPStorm can auto-complete this, including all elements for plugins.
 
+#### Validation
+
+##### Validator::requirePresence()
+![Validation Autocomplete Validator::requirePresence()](img/validation_autocomplete_validator_require_presence.png)
+
+Now not just bool true/false, but also the possible "magic strings" are typehinted and usable as single click/enter.
+
+
 ### Adding your own tasks
 Just create your own Task class:
 ```php
