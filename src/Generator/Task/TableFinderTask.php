@@ -9,6 +9,7 @@ use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Exception;
+use IdeHelper\Generator\Directive\Override;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
@@ -22,7 +23,7 @@ class TableFinderTask extends ModelTask {
 	const CLASS_QUERY = Query::class;
 
 	/**
-	 * @return array
+	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
 	 */
 	public function collect() {
 		$result = [];
@@ -34,7 +35,9 @@ class TableFinderTask extends ModelTask {
 				$map[$method] = '\\' . static::CLASS_QUERY . '::class';
 			}
 
-			$result['\\' . $className . '::find(0)'] = $map;
+			$method = '\\' . $className . '::find(0)';
+			$directive = new Override($method, $map);
+			$result[$directive->key()] = $directive;
 		}
 
 		return $result;

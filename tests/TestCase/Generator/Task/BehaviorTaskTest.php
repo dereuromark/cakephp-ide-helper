@@ -29,11 +29,17 @@ class BehaviorTaskTest extends TestCase {
 
 		$this->assertCount(1, $result);
 
-		$expected = '\Cake\ORM\Table::class';
-		$this->assertSame($expected, $result['\Cake\ORM\Table::addBehavior(0)']['Timestamp']);
+		/** @var \IdeHelper\Generator\Directive\Override $directive */
+		$directive = array_shift($result);
+		$this->assertSame('\Cake\ORM\Table::addBehavior(0)', $directive->toArray()['method']);
+
+		$map = $directive->toArray()['map'];
 
 		$expected = '\Cake\ORM\Table::class';
-		$this->assertSame($expected, $result['\Cake\ORM\Table::addBehavior(0)']['Shim.Nullable']);
+		$this->assertSame($expected, $map['Timestamp']);
+
+		$expected = '\Cake\ORM\Table::class';
+		$this->assertSame($expected, $map['Shim.Nullable']);
 	}
 
 }

@@ -29,6 +29,12 @@ class ModelTaskTest extends TestCase {
 
 		$this->assertCount(3, $result);
 
+		/** @var \IdeHelper\Generator\Directive\Override $directive */
+		$directive = array_shift($result);
+		$this->assertSame('\Cake\ORM\TableRegistry::get(0)', $directive->toArray()['method']);
+
+		$map = $directive->toArray()['map'];
+
 		$expectedMap = [
 			'Abstract' => '\App\Model\Table\AbstractTable::class',
 			'BarBarsAbstract' => '\App\Model\Table\BarBarsAbstractTable::class',
@@ -46,7 +52,6 @@ class ModelTaskTest extends TestCase {
 			'Awesome.Windows' => '\Awesome\Model\Table\WindowsTable::class',
 			'Controllers.Houses' => '\Controllers\Model\Table\HousesTable::class',
 		];
-		$map = array_shift($result);
 		$this->assertSame($expectedMap, $map);
 	}
 

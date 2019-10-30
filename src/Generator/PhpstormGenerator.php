@@ -25,24 +25,14 @@ class PhpstormGenerator implements GeneratorInterface {
 	}
 
 	/**
-	 * @param array $map
+	 * @param \IdeHelper\Generator\Directive\BaseDirective[] $map
 	 *
 	 * @return string
 	 */
 	protected function build(array $map) {
 		$overrides = [];
-		foreach ($map as $method => $array) {
-			$mapDefinitions = $this->buildMapDefinitions($array);
-
-			$overrides[] = <<<TXT
-	override(
-		$method,
-		map([
-$mapDefinitions
-		])
-	);
-TXT;
-
+		foreach ($map as $directive) {
+			$overrides[] = $directive->build();
 		}
 		$overrides = implode(PHP_EOL . PHP_EOL, $overrides);
 
