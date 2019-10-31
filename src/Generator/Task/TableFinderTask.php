@@ -23,6 +23,11 @@ class TableFinderTask extends ModelTask {
 	const CLASS_QUERY = Query::class;
 
 	/**
+	 * @var string[]
+	 */
+	protected $cache = [];
+
+	/**
 	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
 	 */
 	public function collect() {
@@ -93,12 +98,19 @@ class TableFinderTask extends ModelTask {
 			}
 
 			try {
-				$modelObject = TableRegistry::get($model);
+				$modelObject = TableRegistry::getTableLocator()->get($model);
 				$behaviors = $modelObject->behaviors();
 
 				/** @var \Cake\ORM\Behavior[] $iterator */
 				$iterator = $behaviors->getIterator();
 				foreach ($iterator as $behavior) {
+					$behaviorClass = get_class($behavior);
+					if (in_array($behaviorClass, $this->cache, true)) {
+						continue;
+					}
+
+					$this->cache[] = $behaviorClass;
+
 					if ($behavior->implementedFinders()) {
 						$customFinders = array_merge($customFinders, array_keys($behavior->implementedFinders()));
 					}

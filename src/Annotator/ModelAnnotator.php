@@ -53,7 +53,7 @@ class ModelAnnotator extends AbstractAnnotator {
 		}
 
 		try {
-			$table = TableRegistry::get($tableName);
+			$table = TableRegistry::getTableLocator()->get($tableName);
 			$schema = $table->getSchema();
 			$behaviors = $this->_getBehaviors($table);
 		} catch (Exception $e) {
