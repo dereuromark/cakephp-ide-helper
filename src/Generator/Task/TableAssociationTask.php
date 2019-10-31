@@ -35,6 +35,8 @@ class TableAssociationTask extends ModelTask {
 				$map[$model] = '\\' . $className . '::class';
 			}
 
+			ksort($map);
+
 			$directive = new Override($alias, $map);
 			$result[$directive->key()] = $directive;
 		}

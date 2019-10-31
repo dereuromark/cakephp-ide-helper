@@ -33,6 +33,8 @@ class PluginTask implements TaskInterface {
 			$map[$name] = '\\' . static::CLASS_APPLICATION . '::class';
 		}
 
+		ksort($map);
+
 		$result = [];
 		foreach ($this->aliases as $alias) {
 			$directive = new Override($alias, $map);

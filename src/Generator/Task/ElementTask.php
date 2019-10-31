@@ -26,6 +26,8 @@ class ElementTask extends ModelTask {
 			$map[$element] = '\\' . static::CLASS_VIEW . '::class';
 		}
 
+		ksort($map);
+
 		$method = '\\' . static::CLASS_VIEW . '::element(0)';
 		$directive = new Override($method, $map);
 		$result[$directive->key()] = $directive;

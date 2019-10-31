@@ -30,6 +30,8 @@ class BehaviorTask implements TaskInterface {
 			$map[$name] = '\\' . $className . '::class';
 		}
 
+		ksort($map);
+
 		$result = [];
 		foreach ($this->aliases as $alias) {
 			$directive = new Override($alias, $map);

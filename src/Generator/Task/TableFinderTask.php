@@ -40,6 +40,8 @@ class TableFinderTask extends ModelTask {
 				$map[$method] = '\\' . static::CLASS_QUERY . '::class';
 			}
 
+			ksort($map);
+
 			$method = '\\' . $className . '::find(0)';
 			$directive = new Override($method, $map);
 			$result[$directive->key()] = $directive;

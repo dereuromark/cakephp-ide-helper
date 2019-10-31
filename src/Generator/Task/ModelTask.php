@@ -43,6 +43,8 @@ class ModelTask implements TaskInterface {
 			$map[$model] = '\\' . $className . '::class';
 		}
 
+		ksort($map);
+
 		$result = [];
 		foreach ($this->aliases as $alias) {
 			$directive = new Override($alias, $map);

@@ -21,6 +21,8 @@ class DatabaseTypeTask implements TaskInterface {
 			$map[$type] = '\\' . $className . '::class';
 		}
 
+		ksort($map);
+
 		$method = '\\' . static::CLASS_TYPE . '::build(0)';
 		$directive = new Override($method, $map);
 		$result[$directive->key()] = $directive;
