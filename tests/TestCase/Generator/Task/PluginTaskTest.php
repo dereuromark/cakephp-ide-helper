@@ -29,14 +29,18 @@ class PluginTaskTest extends TestCase {
 
 		$this->assertCount(1, $result);
 
-		$expectedMap = [
+		/** @var \IdeHelper\Generator\Directive\Override $directive */
+		$directive = array_shift($result);
+		$this->assertSame('\Cake\Core\PluginApplicationInterface::addPlugin(0)', $directive->toArray()['method']);
+
+		$map = $directive->toArray()['map'];
+		$expected = [
 			'Bake' => '\Cake\Http\BaseApplication::class',
 			'Shim' => '\Cake\Http\BaseApplication::class',
 			'Tools' => '\Cake\Http\BaseApplication::class',
 			'WyriHaximus/TwigView' => '\Cake\Http\BaseApplication::class',
 		];
-		$map = array_shift($result);
-		$this->assertSame($expectedMap, $map);
+		$this->assertSame($expected, $map);
 	}
 
 }

@@ -3,13 +3,14 @@ namespace IdeHelper\Generator\Task;
 
 use Cake\Database\Type;
 use Exception;
+use IdeHelper\Generator\Directive\Override;
 
 class DatabaseTypeTask implements TaskInterface {
 
 	const CLASS_TYPE = Type::class;
 
 	/**
-	 * @return array
+	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
 	 */
 	public function collect(): array {
 		$result = [];
@@ -20,7 +21,11 @@ class DatabaseTypeTask implements TaskInterface {
 			$map[$type] = '\\' . $className . '::class';
 		}
 
-		$result['\\' . static::CLASS_TYPE . '::build(0)'] = $map;
+		ksort($map);
+
+		$method = '\\' . static::CLASS_TYPE . '::build(0)';
+		$directive = new Override($method, $map);
+		$result[$directive->key()] = $directive;
 
 		return $result;
 	}

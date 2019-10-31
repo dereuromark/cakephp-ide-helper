@@ -16,6 +16,8 @@ class WheelsTable extends Table {
 		parent::initialize($config);
 
 		$this->belongsTo('Cars');
+
+		$this->addBehavior('Tree');
 	}
 
 }

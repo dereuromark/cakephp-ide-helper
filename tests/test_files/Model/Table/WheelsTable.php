@@ -13,6 +13,7 @@ use Cake\ORM\Table;
  * @method \App\Model\Entity\Wheel patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Wheel[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Wheel findOrCreate($search, callable $callback = null, $options = [])
+ * @mixin \Cake\ORM\Behavior\TreeBehavior
  */
 class WheelsTable extends Table {
 
@@ -24,6 +25,8 @@ class WheelsTable extends Table {
 		parent::initialize($config);
 
 		$this->belongsTo('Cars');
+
+		$this->addBehavior('Tree');
 	}
 
 }

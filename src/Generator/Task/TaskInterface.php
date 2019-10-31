@@ -4,7 +4,7 @@ namespace IdeHelper\Generator\Task;
 interface TaskInterface {
 
 	/**
-	 * @return array
+	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
 	 */
 	public function collect(): array;
 

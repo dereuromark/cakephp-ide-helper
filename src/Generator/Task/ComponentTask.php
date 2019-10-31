@@ -4,19 +4,20 @@ namespace IdeHelper\Generator\Task;
 use Cake\Core\App;
 use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
+use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\AppPath;
 
 class ComponentTask implements TaskInterface {
 
 	/**
-	 * @var array
+	 * @var string[]
 	 */
 	protected $aliases = [
 		'\Cake\Controller\Controller::loadComponent(0)',
 	];
 
 	/**
-	 * @return array
+	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
 	 */
 	public function collect(): array {
 		$map = [];
@@ -26,9 +27,12 @@ class ComponentTask implements TaskInterface {
 			$map[$name] = '\\' . $className . '::class';
 		}
 
+		ksort($map);
+
 		$result = [];
 		foreach ($this->aliases as $alias) {
-			$result[$alias] = $map;
+			$directive = new Override($alias, $map);
+			$result[$directive->key()] = $directive;
 		}
 
 		return $result;
@@ -76,7 +80,13 @@ class ComponentTask implements TaskInterface {
 				$name = $plugin . '.' . $name;
 			}
 
-			$className = App::className($name, 'Controller/Component', 'Component');
+			try {
+				$className = App::className($name, 'Controller/Component', 'Component');
+			} catch (\Exception $e) {
+				continue;
+			} catch (\Throwable $e) {
+				continue;
+			}
 			if (!$className) {
 				continue;
 			}

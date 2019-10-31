@@ -12,6 +12,7 @@ use IdeHelper\Generator\Task\PluginTask;
 use IdeHelper\Generator\Task\TableAssociationTask;
 use IdeHelper\Generator\Task\TableFinderTask;
 use IdeHelper\Generator\Task\TaskInterface;
+use IdeHelper\Generator\Task\ValidationTask;
 use InvalidArgumentException;
 
 class TaskCollection {
@@ -29,6 +30,7 @@ class TaskCollection {
 		DatabaseTypeTask::class => DatabaseTypeTask::class,
 		ElementTask::class => ElementTask::class,
 		PluginTask::class => PluginTask::class,
+		ValidationTask::class => ValidationTask::class,
 	];
 
 	/**
@@ -100,7 +102,7 @@ class TaskCollection {
 	}
 
 	/**
-	 * @return array
+	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
 	 */
 	public function getMap(): array {
 		$map = [];

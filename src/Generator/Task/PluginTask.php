@@ -4,6 +4,7 @@ namespace IdeHelper\Generator\Task;
 use Cake\Core\Configure;
 use Cake\Core\PluginApplicationInterface;
 use Cake\Http\BaseApplication;
+use IdeHelper\Generator\Directive\Override;
 
 class PluginTask implements TaskInterface {
 
@@ -15,7 +16,7 @@ class PluginTask implements TaskInterface {
 	const CLASS_APPLICATION = BaseApplication::class;
 
 	/**
-	 * @var array
+	 * @var string[]
 	 */
 	protected $aliases = [
 		'\\' . self::INTERFACE_APPLICATION . '::addPlugin(0)',
@@ -32,9 +33,12 @@ class PluginTask implements TaskInterface {
 			$map[$name] = '\\' . static::CLASS_APPLICATION . '::class';
 		}
 
+		ksort($map);
+
 		$result = [];
 		foreach ($this->aliases as $alias) {
-			$result[$alias] = $map;
+			$directive = new Override($alias, $map);
+			$result[$directive->key()] = $directive;
 		}
 
 		return $result;
