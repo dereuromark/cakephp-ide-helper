@@ -13,6 +13,7 @@ use IdeHelper\Generator\Task\RoutePathTask;
 use IdeHelper\Generator\Task\TableAssociationTask;
 use IdeHelper\Generator\Task\TableFinderTask;
 use IdeHelper\Generator\Task\TaskInterface;
+use IdeHelper\Generator\Task\ValidationTask;
 use InvalidArgumentException;
 
 class TaskCollection {
@@ -30,6 +31,7 @@ class TaskCollection {
 		DatabaseTypeTask::class => DatabaseTypeTask::class,
 		ElementTask::class => ElementTask::class,
 		PluginTask::class => PluginTask::class,
+		ValidationTask::class => ValidationTask::class,
 		RoutePathTask::class => RoutePathTask::class,
 	];
 
@@ -39,7 +41,7 @@ class TaskCollection {
 	protected $tasks;
 
 	/**
-	 * @param array $tasks
+	 * @param (string|\IdeHelper\Generator\Task\TaskInterface)[] $tasks
 	 */
 	public function __construct(array $tasks = []) {
 		$defaultTasks = $this->defaultTasks();
@@ -102,7 +104,7 @@ class TaskCollection {
 	}
 
 	/**
-	 * @return array
+	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
 	 */
 	public function getMap(): array {
 		$map = [];

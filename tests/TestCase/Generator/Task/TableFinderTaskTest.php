@@ -45,13 +45,21 @@ class TableFinderTaskTest extends TestCase {
 
 		$this->assertCount(3, $result);
 
+		/** @var \IdeHelper\Generator\Directive\Override $directive */
+		$directive = array_shift($result);
+		$this->assertSame('\Cake\ORM\Table::find(0)', $directive->toArray()['method']);
+
+		$map = $directive->toArray()['map'];
+
 		$expectedMap = [
 			'all' => '\Cake\ORM\Query::class',
+			'children' => '\Cake\ORM\Query::class',
 			'list' => '\Cake\ORM\Query::class',
+			'path' => '\Cake\ORM\Query::class',
 			'somethingCustom' => '\Cake\ORM\Query::class',
 			'threaded' => '\Cake\ORM\Query::class',
+			'treeList' => '\Cake\ORM\Query::class',
 		];
-		$map = array_shift($result);
 		$this->assertSame($expectedMap, $map);
 	}
 

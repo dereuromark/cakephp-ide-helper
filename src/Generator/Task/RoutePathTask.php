@@ -6,20 +6,23 @@ use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use Cake\Routing\Router;
+use IdeHelper\Generator\Directive\ExpectedArguments;
 
 class RoutePathTask implements TaskInterface {
 
 	const CLASS_ROUTER = Router::class;
 
 	/**
-	 * @return array
+	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
 	 */
 	public function collect(): array {
 		$result = [];
 
-		$map = $this->collectPaths();
+		$list = $this->collectPaths();
 
-		$result['\\' . static::CLASS_ROUTER . '::pathUrl(0)'] = $map;
+		$method = '\\' . static::CLASS_ROUTER . '::pathUrl()';
+		$directive = new ExpectedArguments($method, 0, $list);
+		$result[$directive->key()] = $directive;
 
 		return $result;
 	}
@@ -43,11 +46,15 @@ class RoutePathTask implements TaskInterface {
 			$controllers += $this->_controllers($path, $plugin);
 		}
 
+		ksort($controllers);
+
 		return $controllers;
 	}
 
 	/**
 	 * @param string $folder
+	 * @param string|null $plugin
+	 * @param string|null $prefix
 	 * @return string[]
 	 */
 	protected function _controllers(string $folder, ?string $plugin = null, ?string $prefix = null): array {
@@ -71,7 +78,7 @@ class RoutePathTask implements TaskInterface {
 				$routePath = $plugin . '.' . $routePath;
 			}
 
-			$controllers[$routePath] = 'string';
+			$controllers[$routePath] = "'" . $routePath . "'";
 		}
 
 		foreach ($folderContent[0] as $subFolder) {

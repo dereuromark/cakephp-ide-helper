@@ -21,8 +21,6 @@ class ElementTaskTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		//Configure::write('IdeHelper.preemptive', true);
-
 		$this->task = new ElementTask();
 	}
 
@@ -39,12 +37,18 @@ class ElementTaskTest extends TestCase {
 	public function testCollect() {
 		$result = $this->task->collect();
 
+		$this->assertCount(1, $result);
+
+		/** @var \IdeHelper\Generator\Directive\Override $directive */
+		$directive = array_shift($result);
+		$this->assertSame('\Cake\View\View::element(0)', $directive->toArray()['method']);
+
 		$expectedMap = [
+			'Tools.pagination' => '\Cake\View\View::class',
 			'deeply/nested' => '\Cake\View\View::class',
 			'example' => '\Cake\View\View::class'
 		];
-		$map = array_shift($result);
-		$this->assertSame($expectedMap, $map);
+		$this->assertSame($expectedMap, $directive->toArray()['map']);
 	}
 
 }

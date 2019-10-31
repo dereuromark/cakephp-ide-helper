@@ -231,7 +231,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 		}
 
 		try {
-			$table = TableRegistry::get($modelName);
+			$table = TableRegistry::getTableLocator()->get($modelName);
 			$entityClassName = $table->getEntityClass();
 		} catch (Exception $exception) {
 			return Entity::class;

@@ -21,7 +21,7 @@ class TaskCollection {
 	protected $tasks;
 
 	/**
-	 * @param array $tasks
+	 * @param (string|\IdeHelper\Generator\Task\TaskInterface)[] $tasks
 	 */
 	public function __construct(array $tasks = []) {
 		$defaultTasks = (array)Configure::read('IdeHelper.codeCompletionTasks') + $this->defaultTasks;

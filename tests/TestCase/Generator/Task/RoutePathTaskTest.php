@@ -29,7 +29,20 @@ class RoutePathTaskTest extends TestCase {
 
 		$this->assertCount(1, $result);
 
-		$this->assertSame('string', $result['\Cake\Routing\Router::pathUrl(0)']['Bar::action']);
+		/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */
+		$directive = array_shift($result);
+		$this->assertSame('\Cake\Routing\Router::pathUrl()', $directive->toArray()['method']);
+
+		$map = $directive->toArray()['list'];
+		$expected = [
+			'Bar::action' => "'Bar::action'",
+			'Controllers.Generic::action' => "'Controllers.Generic::action'",
+			'Controllers.Houses::action' => "'Controllers.Houses::action'",
+			'Foo::action' => "'Foo::action'",
+			'Tools.ShuntRequest::action' => "'Tools.ShuntRequest::action'",
+		];
+
+		$this->assertSame($expected, $map);
 	}
 
 }
