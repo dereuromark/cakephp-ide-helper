@@ -81,7 +81,9 @@ class TableFinderTask extends ModelTask {
 			try {
 				$tableClass = App::className($model, 'Model/Table', 'Table');
 			} catch (Exception $e) {
+				continue;
 			} catch (Throwable $e) {
+				continue;
 			}
 
 			$tableReflection = new ReflectionClass($tableClass);
