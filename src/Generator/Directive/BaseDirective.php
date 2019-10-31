@@ -4,6 +4,7 @@ namespace IdeHelper\Generator\Directive;
 
 /**
  * @see https://blog.jetbrains.com/phpstorm/2019/02/new-phpstorm-meta-php-features/
+ * @method array toArray()
  */
 abstract class BaseDirective {
 
