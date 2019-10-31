@@ -258,6 +258,16 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
+		\Cake\Routing\Router::pathUrl(),
+		0,
+		'Bar::action',
+		'Controllers.Generic::action',
+		'Controllers.Houses::action',
+		'Foo::action',
+		'Tools.ShuntRequest::action'
+	);
+
+	expectedArguments(
 		\Cake\Validation\Validator::requirePresence(),
 		1,
 		'create',
