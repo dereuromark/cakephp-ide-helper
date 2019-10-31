@@ -100,7 +100,13 @@ class ModelTask implements TaskInterface {
 				$model = $plugin . '.' . $model;
 			}
 
-			$className = App::className($model, 'Model/Table', 'Table');
+			try {
+				$className = App::className($model, 'Model/Table', 'Table');
+			} catch (\Exception $e) {
+				continue;
+			} catch (\Throwable $e) {
+				continue;
+			}
 			if (!$className) {
 				continue;
 			}

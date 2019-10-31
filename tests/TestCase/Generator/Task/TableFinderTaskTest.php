@@ -53,9 +53,12 @@ class TableFinderTaskTest extends TestCase {
 
 		$expectedMap = [
 			'all' => '\Cake\ORM\Query::class',
+			'children' => '\Cake\ORM\Query::class',
 			'list' => '\Cake\ORM\Query::class',
+			'path' => '\Cake\ORM\Query::class',
 			'somethingCustom' => '\Cake\ORM\Query::class',
 			'threaded' => '\Cake\ORM\Query::class',
+			'treeList' => '\Cake\ORM\Query::class',
 		];
 		$this->assertSame($expectedMap, $map);
 	}

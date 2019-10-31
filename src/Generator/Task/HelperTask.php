@@ -78,7 +78,13 @@ class HelperTask implements TaskInterface {
 				$name = $plugin . '.' . $name;
 			}
 
-			$className = App::className($name, 'View/Helper', 'Helper');
+			try {
+				$className = App::className($name, 'View/Helper', 'Helper');
+			} catch (\Exception $e) {
+				continue;
+			} catch (\Throwable $e) {
+				continue;
+			}
 			if (!$className) {
 				continue;
 			}

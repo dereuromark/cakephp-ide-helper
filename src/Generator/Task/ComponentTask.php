@@ -78,7 +78,13 @@ class ComponentTask implements TaskInterface {
 				$name = $plugin . '.' . $name;
 			}
 
-			$className = App::className($name, 'Controller/Component', 'Component');
+			try {
+				$className = App::className($name, 'Controller/Component', 'Component');
+			} catch (\Exception $e) {
+				continue;
+			} catch (\Throwable $e) {
+				continue;
+			}
 			if (!$className) {
 				continue;
 			}

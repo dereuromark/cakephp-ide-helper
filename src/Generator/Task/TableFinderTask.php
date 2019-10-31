@@ -19,7 +19,7 @@ class TableFinderTask extends ModelTask {
 
 	const INTERFACE_QUERY = QueryInterface::class;
 	const CLASS_TABLE = Table::class;
-	const CLASS_ASSOCITATION = Association::class;
+	const CLASS_ASSOCIATION = Association::class;
 	const CLASS_QUERY = Query::class;
 
 	/**
@@ -57,7 +57,7 @@ class TableFinderTask extends ModelTask {
 
 		$finders = [];
 		$finders[static::CLASS_TABLE] = $allFinders;
-		$finders[static::CLASS_ASSOCITATION] = $allFinders;
+		$finders[static::CLASS_ASSOCIATION] = $allFinders;
 		$finders[static::INTERFACE_QUERY] = $allFinders;
 
 		return $finders;
@@ -77,18 +77,30 @@ class TableFinderTask extends ModelTask {
 		$allFinders = [];
 		foreach ($models as $model => $className) {
 			$customFinders = $this->getFinderMethods($className);
-			$tableClass = App::className($model, 'Model/Table', 'Table');
+
+			try {
+				$tableClass = App::className($model, 'Model/Table', 'Table');
+			} catch (Exception $e) {
+			} catch (Throwable $e) {
+			}
 
 			$tableReflection = new ReflectionClass($tableClass);
 			if (!$tableReflection->isInstantiable()) {
+				$allFinders = array_merge($allFinders, $customFinders);
 				continue;
 			}
 
 			try {
 				$modelObject = TableRegistry::get($model);
 				$behaviors = $modelObject->behaviors();
-				$finderMap = $this->invokeProperty($behaviors, '_finderMap');
-				$customFinders = array_merge($customFinders, array_keys($finderMap));
+
+				/** @var \Cake\ORM\Behavior[] $iterator */
+				$iterator = $behaviors->getIterator();
+				foreach ($iterator as $behavior) {
+					if ($behavior->implementedFinders()) {
+						$customFinders = array_merge($customFinders, array_keys($behavior->implementedFinders()));
+					}
+				}
 			} catch (Exception $exception) {
 			} catch (Throwable $exception) {
 			}
