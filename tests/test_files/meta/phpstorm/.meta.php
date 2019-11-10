@@ -36,6 +36,7 @@ namespace PHPSTORM_META {
 			'binary' => \Cake\Database\Type\BinaryType::class,
 			'binaryuuid' => \Cake\Database\Type\BinaryUuidType::class,
 			'boolean' => \Cake\Database\Type\BoolType::class,
+			'char' => \Cake\Database\Type\StringType::class,
 			'date' => \Cake\Database\Type\DateType::class,
 			'datetime' => \Cake\Database\Type\DateTimeType::class,
 			'decimal' => \Cake\Database\Type\DecimalType::class,
@@ -255,6 +256,16 @@ namespace PHPSTORM_META {
 			'Wheels' => \App\Model\Table\WheelsTable::class,
 			'WheelsExtra' => \App\Model\Table\WheelsExtraTable::class,
 		])
+	);
+
+	expectedArguments(
+		\Cake\Routing\Router::pathUrl(),
+		0,
+		'Bar::action',
+		'Controllers.Generic::action',
+		'Controllers.Houses::action',
+		'Foo::action',
+		'Tools.ShuntRequest::action'
 	);
 
 	expectedArguments(
