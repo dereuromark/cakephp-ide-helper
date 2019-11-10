@@ -36,6 +36,7 @@ namespace PHPSTORM_META {
 			'binary' => \Cake\Database\Type\BinaryType::class,
 			'binaryuuid' => \Cake\Database\Type\BinaryUuidType::class,
 			'boolean' => \Cake\Database\Type\BoolType::class,
+			'char' => \Cake\Database\Type\StringType::class,
 			'date' => \Cake\Database\Type\DateType::class,
 			'datetime' => \Cake\Database\Type\DateTimeType::class,
 			'decimal' => \Cake\Database\Type\DecimalType::class,
