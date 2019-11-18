@@ -39,6 +39,7 @@ namespace PHPSTORM_META {
 			'char' => \Cake\Database\Type\StringType::class,
 			'date' => \Cake\Database\Type\DateType::class,
 			'datetime' => \Cake\Database\Type\DateTimeType::class,
+			'datetimefractional' => \Cake\Database\Type\DateTimeFractionalType::class,
 			'decimal' => \Cake\Database\Type\DecimalType::class,
 			'float' => \Cake\Database\Type\FloatType::class,
 			'integer' => \Cake\Database\Type\IntegerType::class,
@@ -48,6 +49,7 @@ namespace PHPSTORM_META {
 			'text' => \Cake\Database\Type\StringType::class,
 			'time' => \Cake\Database\Type\TimeType::class,
 			'timestamp' => \Cake\Database\Type\DateTimeType::class,
+			'timestampfractional' => \Cake\Database\Type\DateTimeFractionalType::class,
 			'tinyinteger' => \Cake\Database\Type\IntegerType::class,
 			'uuid' => \Cake\Database\Type\UuidType::class,
 		])
