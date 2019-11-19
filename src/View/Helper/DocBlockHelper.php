@@ -34,11 +34,16 @@ class DocBlockHelper extends BakeDocBlockHelper {
 	/**
 	 * @param array $info
 	 * @param string|null $type
+	 * @param string|null $default
 	 *
 	 * @return string
 	 */
-	public function columnTypeNullable(array $info, ?string $type): string {
-		if (!$type || empty($info['null'])) {
+	public function columnTypeNullable(array $info, ?string $type, ?string $default = null): string {
+		if (!$type) {
+			$type = $default ?: 'mixed';
+		}
+
+		if ($type === 'mixed' || empty($info['null'])) {
 			return $type;
 		}
 
