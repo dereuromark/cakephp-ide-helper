@@ -44,14 +44,14 @@ class CodeCompletionShell extends Shell {
 					'help' => 'Dry run the generation. This will not actually generate any files.',
 					'boolean' => true,
 				],
-			]
+			],
 		];
 
 		return parent::getOptionParser()
 			->setDescription('CodeCompletion File Generator for generating better IDE auto-complete/hinting.')
 			->addSubcommand('generate', [
 				'help' => 'Generates `/tmp/CodeCompletion{type}.php` files.',
-				'parser' => $subcommandParser
+				'parser' => $subcommandParser,
 			]);
 	}
 

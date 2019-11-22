@@ -123,7 +123,7 @@ class TableCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implement
 		$currentAnnotation->replaceWith($expectedAnnotation);
 
 		$method['annotations'] = [
-			$currentAnnotation
+			$currentAnnotation,
 		];
 
 		return true;

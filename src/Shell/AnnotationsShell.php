@@ -578,7 +578,7 @@ class AnnotationsShell extends Shell {
 					'help' => 'Filter by search string in file name. For templates also in path.',
 					'default' => null,
 				],
-			]
+			],
 		];
 
 		$parserWithoutRemove = $subcommandParser;
@@ -599,37 +599,37 @@ class AnnotationsShell extends Shell {
 			->setDescription('Annotation Shell for generating better IDE auto-complete/hinting.')
 			->addSubcommand('all', [
 				'help' => 'Annotate all supported classes.',
-				'parser' => $allParser
+				'parser' => $allParser,
 			])->addSubcommand('models', [
 				'help' => 'Annotate fields and relations in table and entity class.',
-				'parser' => $subcommandParser
+				'parser' => $subcommandParser,
 			])->addSubcommand('controllers', [
 				'help' => 'Annotate primary model as well as used models in controller class.',
-				'parser' => $subcommandParser
+				'parser' => $subcommandParser,
 			])->addSubcommand('templates', [
 				'help' => 'Annotate helpers in view templates and elements.',
-				'parser' => $subcommandParser
+				'parser' => $subcommandParser,
 			])->addSubcommand('view', [
 				'help' => 'Annotate used helpers in AppView.',
-				'parser' => $subcommandParser
+				'parser' => $subcommandParser,
 			])->addSubcommand('components', [
 				'help' => 'Annotate used components inside components.',
-				'parser' => $subcommandParser
+				'parser' => $subcommandParser,
 			])->addSubcommand('helpers', [
 				'help' => 'Annotate used helpers inside helpers.',
-				'parser' => $subcommandParser
+				'parser' => $subcommandParser,
 			])->addSubcommand('commands', [
 				'help' => 'Annotate primary model as well as used models in commands.',
-				'parser' => $subcommandParser
+				'parser' => $subcommandParser,
 			])->addSubcommand('shells', [
 				'help' => 'Annotate primary model as well as used models in shells. Also annotates tasks.',
-				'parser' => $subcommandParser
+				'parser' => $subcommandParser,
 			])->addSubcommand('classes', [
 				'help' => 'Annotate classes using class annotation tasks. This task is not part of "all" when "-r" is used.',
-				'parser' => $parserWithoutRemove
+				'parser' => $parserWithoutRemove,
 			])->addSubcommand('callbacks', [
 				'help' => 'Annotate callback methods using callback annotation tasks. This task is not part of "all" when "-r" is used.',
-				'parser' => $parserWithoutRemove
+				'parser' => $parserWithoutRemove,
 			]);
 	}
 

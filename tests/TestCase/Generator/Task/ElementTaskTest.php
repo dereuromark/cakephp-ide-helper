@@ -46,7 +46,7 @@ class ElementTaskTest extends TestCase {
 		$expectedMap = [
 			'Tools.pagination' => '\Cake\View\View::class',
 			'deeply/nested' => '\Cake\View\View::class',
-			'example' => '\Cake\View\View::class'
+			'example' => '\Cake\View\View::class',
 		];
 		$this->assertSame($expectedMap, $directive->toArray()['map']);
 	}

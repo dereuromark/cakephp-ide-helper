@@ -58,14 +58,14 @@ class PhpstormShell extends Shell {
 					'help' => 'Dry run the generation. This will output an error code ' . static::CODE_CHANGES . ' if file needs changing. Can be used for CI checking.',
 					'boolean' => true,
 				],
-			]
+			],
 		];
 
 		return parent::getOptionParser()
 			->setDescription('Meta File Generator for generating better IDE auto-complete/hinting in PHPStorm.')
 			->addSubcommand('generate', [
 				'help' => 'Generate `/.phpstorm.meta.php/.ide-helper.meta.php` meta file.',
-				'parser' => $subcommandParser
+				'parser' => $subcommandParser,
 			]);
 	}
 

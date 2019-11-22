@@ -67,7 +67,7 @@ class EntityAnnotatorTest extends TestCase {
 				'comment' => '',
 				'autoIncrement' => true,
 				'baseType' => null,
-				'precision' => null
+				'precision' => null,
 			],
 			'name' => [
 				'type' => 'string',
@@ -77,7 +77,7 @@ class EntityAnnotatorTest extends TestCase {
 				'comment' => '',
 				'baseType' => null,
 				'precision' => null,
-				'fixed' => null
+				'fixed' => null,
 			],
 			'content' => [
 				'type' => 'string',
@@ -87,7 +87,7 @@ class EntityAnnotatorTest extends TestCase {
 				'comment' => '',
 				'baseType' => null,
 				'precision' => null,
-				'fixed' => null
+				'fixed' => null,
 			],
 			'created' => [
 				'type' => 'datetime',
@@ -96,7 +96,7 @@ class EntityAnnotatorTest extends TestCase {
 				'default' => null,
 				'comment' => '',
 				'baseType' => null,
-				'precision' => null
+				'precision' => null,
 			],
 			'modified' => [
 				'type' => 'datetime',
@@ -105,7 +105,7 @@ class EntityAnnotatorTest extends TestCase {
 				'default' => null,
 				'comment' => '',
 				'baseType' => null,
-				'precision' => null
+				'precision' => null,
 			],
 		];
 		$schema = new TableSchema('Foo', $columns);
@@ -317,7 +317,7 @@ class EntityAnnotatorTest extends TestCase {
 	protected function _getAnnotatorMock(array $params) {
 		$params += [
 			AbstractAnnotator::CONFIG_REMOVE => true,
-			AbstractAnnotator::CONFIG_DRY_RUN => true
+			AbstractAnnotator::CONFIG_DRY_RUN => true,
 		];
 		return $this->getMockBuilder(EntityAnnotator::class)->setMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
 	}

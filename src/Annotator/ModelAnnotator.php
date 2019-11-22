@@ -290,7 +290,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	protected function junctionTableName(BelongsToMany $association): string {
 		$tablesNames = array_map('Cake\Utility\Inflector::underscore', [
 			$association->getSource()->getTable(),
-			$association->getTarget()->getTable()
+			$association->getTarget()->getTable(),
 		]);
 
 		sort($tablesNames);

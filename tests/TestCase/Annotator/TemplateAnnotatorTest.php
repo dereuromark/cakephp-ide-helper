@@ -51,7 +51,7 @@ class TemplateAnnotatorTest extends TestCase {
 				'comment' => '',
 				'autoIncrement' => true,
 				'baseType' => null,
-				'precision' => null
+				'precision' => null,
 			],
 		];
 		$schema = new TableSchema('Foo', $columns);
@@ -360,7 +360,7 @@ class TemplateAnnotatorTest extends TestCase {
 	protected function _getAnnotatorMock(array $params) {
 		$params += [
 			AbstractAnnotator::CONFIG_REMOVE => true,
-			AbstractAnnotator::CONFIG_DRY_RUN => true
+			AbstractAnnotator::CONFIG_DRY_RUN => true,
 		];
 		return $this->getMockBuilder(TemplateAnnotator::class)->setMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
 	}
