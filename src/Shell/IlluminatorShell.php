@@ -88,7 +88,7 @@ class IlluminatorShell extends Shell {
 					'help' => 'Path in your project or plugin. Defaults to src/',
 					'required' => false,
 				],
-			]
+			],
 		];
 
 		$taskList = 'Tasks: ' . implode(', ', $tasks);
@@ -97,7 +97,7 @@ class IlluminatorShell extends Shell {
 			->setDescription('Illuminator PHP File Modifier.')
 			->addSubcommand('illuminate', [
 				'help' => 'Run Illuminator tasks over your PHP files.' . PHP_EOL . $taskList,
-				'parser' => $subcommandParser
+				'parser' => $subcommandParser,
 			]);
 	}
 

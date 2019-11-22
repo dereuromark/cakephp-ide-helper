@@ -62,7 +62,7 @@ class ModelAnnotatorTest extends TestCase {
 				'comment' => '',
 				'autoIncrement' => true,
 				'baseType' => null,
-				'precision' => null
+				'precision' => null,
 			],
 			'name' => [
 				'type' => 'string',
@@ -72,7 +72,7 @@ class ModelAnnotatorTest extends TestCase {
 				'comment' => '',
 				'baseType' => null,
 				'precision' => null,
-				'fixed' => null
+				'fixed' => null,
 			],
 			'content' => [
 				'type' => 'string',
@@ -82,7 +82,7 @@ class ModelAnnotatorTest extends TestCase {
 				'comment' => '',
 				'baseType' => null,
 				'precision' => null,
-				'fixed' => null
+				'fixed' => null,
 			],
 			'created' => [
 				'type' => 'datetime',
@@ -91,7 +91,7 @@ class ModelAnnotatorTest extends TestCase {
 				'default' => null,
 				'comment' => '',
 				'baseType' => null,
-				'precision' => null
+				'precision' => null,
 			],
 		];
 		$schema = new TableSchema('Foo', $columns);

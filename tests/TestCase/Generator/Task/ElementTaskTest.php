@@ -45,7 +45,7 @@ class ElementTaskTest extends TestCase {
 
 		$expectedMap = [
 			'deeply/nested' => '\Cake\View\View::class',
-			'example' => '\Cake\View\View::class'
+			'example' => '\Cake\View\View::class',
 		];
 		$this->assertSame($expectedMap, $directive->toArray()['map']);
 	}

@@ -31,7 +31,7 @@ class TestClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 		$defaultTypes = (array)Configure::read('IdeHelper.testClassPatterns');
 		$types = $defaultTypes + [
 			'Controller' => '#\bclass .+ControllerTest extends\b#',
-			'Command' => '#\bclass .+CommandTest extends\b#'
+			'Command' => '#\bclass .+CommandTest extends\b#',
 		];
 		$typeList = implode('|', array_keys($types));
 
