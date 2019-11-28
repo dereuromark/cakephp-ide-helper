@@ -15,11 +15,11 @@ class AppPath {
 	 */
 	public static function get(string $type, ?string $plugin = null): array {
 		try {
-			return App::path($type, $plugin);
+			return App::classPath($type, $plugin);
 		} catch (MissingPluginException $exception) {
 		}
 
-		return App::path($type, $plugin);
+		return App::classPath($type, $plugin);
 	}
 
 }

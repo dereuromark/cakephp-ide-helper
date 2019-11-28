@@ -7,6 +7,7 @@ use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use Cake\Routing\Router;
 use IdeHelper\Generator\Directive\ExpectedArguments;
+use IdeHelper\Utility\AppPath;
 
 class RoutePathTask implements TaskInterface {
 
@@ -34,7 +35,7 @@ class RoutePathTask implements TaskInterface {
 
 		$plugins = Plugin::loaded();
 
-		$paths = App::path('Controller');
+		$paths = AppPath::get('Controller');
 
 		$controllers = [];
 		foreach ($paths as $path) {
