@@ -1,4 +1,5 @@
 <?php
+
 namespace IdeHelper\View\Helper;
 
 use Bake\View\Helper\DocBlockHelper as BakeDocBlockHelper;

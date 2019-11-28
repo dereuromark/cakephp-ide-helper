@@ -1,4 +1,5 @@
 <?php
+
 namespace IdeHelper\Annotator\ClassAnnotatorTask;
 
 use IdeHelper\Annotator\AbstractAnnotator;

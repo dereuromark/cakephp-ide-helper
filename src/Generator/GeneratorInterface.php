@@ -1,4 +1,5 @@
 <?php
+
 namespace IdeHelper\Generator;
 
 interface GeneratorInterface {

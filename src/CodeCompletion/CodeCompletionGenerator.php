@@ -1,4 +1,5 @@
 <?php
+
 namespace IdeHelper\CodeCompletion;
 
 use Cake\Core\Configure;

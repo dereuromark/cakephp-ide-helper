@@ -1,4 +1,5 @@
 <?php
+
 namespace IdeHelper\CodeCompletion\Task;
 
 interface TaskInterface {

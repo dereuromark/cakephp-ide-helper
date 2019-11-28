@@ -1,4 +1,5 @@
 <?php
+
 namespace IdeHelper\Annotator\Traits;
 
 use Cake\Core\App;
