@@ -1,4 +1,5 @@
 <?php
+
 namespace IdeHelper\Shell;
 
 use Cake\Console\Shell;

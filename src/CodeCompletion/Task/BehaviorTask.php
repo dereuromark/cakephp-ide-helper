@@ -1,4 +1,5 @@
 <?php
+
 namespace IdeHelper\CodeCompletion\Task;
 
 use Cake\Core\App;

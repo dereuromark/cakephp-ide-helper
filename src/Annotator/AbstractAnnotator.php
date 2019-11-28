@@ -1,4 +1,5 @@
 <?php
+
 namespace IdeHelper\Annotator;
 
 use Bake\View\Helper\DocBlockHelper;

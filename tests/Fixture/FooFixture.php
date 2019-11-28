@@ -1,4 +1,5 @@
 <?php
+
 namespace IdeHelper\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;

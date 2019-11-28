@@ -1,4 +1,5 @@
 <?php
+
 namespace IdeHelper\Console;
 
 use Cake\Console\ConsoleIo;

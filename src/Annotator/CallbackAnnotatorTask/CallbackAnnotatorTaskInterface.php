@@ -1,4 +1,5 @@
 <?php
+
 namespace IdeHelper\Annotator\CallbackAnnotatorTask;
 
 interface CallbackAnnotatorTaskInterface {

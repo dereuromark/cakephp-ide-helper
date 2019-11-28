@@ -1,4 +1,5 @@
 <?php
+
 namespace IdeHelper\Generator;
 
 class PhpstormGenerator implements GeneratorInterface {
