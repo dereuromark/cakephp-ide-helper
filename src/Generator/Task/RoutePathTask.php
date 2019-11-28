@@ -1,7 +1,7 @@
 <?php
+
 namespace IdeHelper\Generator\Task;
 
-use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;

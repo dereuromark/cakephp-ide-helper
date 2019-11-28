@@ -1,4 +1,5 @@
 <?php
+
 namespace IdeHelper;
 
 use Cake\Console\CommandCollection;
