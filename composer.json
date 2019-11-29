@@ -31,7 +31,7 @@
 	"require-dev": {
 		"dereuromark/cakephp-tools": "^1.9.0",
 		"dereuromark/cakephp-shim": "^1.8.3",
-		"squizlabs/php_codesniffer": "^3.4.2",
+		"squizlabs/php_codesniffer": "^3.5.2",
 		"fig-r/psr2r-sniffer": "dev-master",
 		"phpunit/phpunit": "^5.7.14|^6.0"
 	},
