@@ -6,8 +6,8 @@ services:
             - phpstan.broker.propertiesClassReflectionExtension
 parameters:
     autoload_files:
-        - tests/bootstrap.php
-        - tests/shim.php
+        - bootstrap.php
+        - shim.php
     ignoreErrors:
         - '#Call to an undefined method Cake\\ORM\\Association::getAlias\(\)#'
         - '#Parameter \#1 \$object of function get_class expects object, string given#'
