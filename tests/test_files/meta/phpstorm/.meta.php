@@ -50,6 +50,7 @@ namespace PHPSTORM_META {
 			'time' => \Cake\Database\Type\TimeType::class,
 			'timestamp' => \Cake\Database\Type\DateTimeType::class,
 			'timestampfractional' => \Cake\Database\Type\DateTimeFractionalType::class,
+			'timestamptimezone' => \Cake\Database\Type\DateTimeTimezoneType::class,
 			'tinyinteger' => \Cake\Database\Type\IntegerType::class,
 			'uuid' => \Cake\Database\Type\UuidType::class,
 		])
