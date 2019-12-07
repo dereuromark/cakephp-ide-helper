@@ -207,6 +207,7 @@ class TableFinderTask extends ModelTask {
 			return $result;
 		}
 
+		/** @var \ReflectionNamedType|null $parameterType */
 		$parameterType = $parameter->getType();
 		if (!$parameterType || $parameterType->getName() !== Query::class) {
 			return $result;
