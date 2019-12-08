@@ -34,14 +34,14 @@ use IdeHelper\Utility\PluginPath;
 class AnnotationsShell extends Shell {
 
 	const CODE_CHANGES = 2;
-	const TEMPLATE_EXTENSIONS = ['ctp', 'php'];
+	const TEMPLATE_EXTENSIONS = ['php'];
 
 	/**
 	 * @var array
 	 */
 	protected $_config = [
 		'skipTemplatePaths' => [
-			'/src/Template/Bake/',
+			'/templates/Bake/',
 		],
 	];
 
@@ -335,7 +335,7 @@ class AnnotationsShell extends Shell {
 	 */
 	public function templates() {
 		$plugin = $this->param('plugin') ?: null;
-		$folders = AppPath::get('Template', $plugin);
+		$folders = App::path('templates', $plugin);
 
 		foreach ($folders as $folder) {
 			$this->_templates($folder);
@@ -358,7 +358,7 @@ class AnnotationsShell extends Shell {
 
 			$name = pathinfo($file, PATHINFO_FILENAME);
 			$dir = $name;
-			$templatePathPos = strpos($folder, 'src' . DS . 'Template' . DS);
+			$templatePathPos = strpos($folder, DS . 'templates' . DS);
 			if ($templatePathPos) {
 				$dir = substr($folder, $templatePathPos + 13) . DS . $name;
 			}

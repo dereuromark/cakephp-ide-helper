@@ -131,7 +131,7 @@ class TemplateAnnotatorTest extends TestCase {
 	public function testAnnotate() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/edit.ctp'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/edit.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -141,7 +141,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = APP . 'Template/Foos/edit.ctp';
+		$path = TEST_ROOT . 'templates/Foos/edit.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -157,7 +157,7 @@ class TemplateAnnotatorTest extends TestCase {
 	public function testAnnotateLoop() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/loop.ctp'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/loop.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -167,7 +167,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = APP . 'Template/Foos/loop.ctp';
+		$path = TEST_ROOT . 'templates/Foos/loop.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -183,7 +183,7 @@ class TemplateAnnotatorTest extends TestCase {
 	public function testAnnotatePhpLine() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/phpline.ctp'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/phpline.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -193,7 +193,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = APP . 'Template/Foos/phpline.ctp';
+		$path = TEST_ROOT . 'templates/Foos/phpline.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -209,7 +209,7 @@ class TemplateAnnotatorTest extends TestCase {
 	public function testAnnotateExisting() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/existing.ctp'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/existing.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -219,7 +219,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = APP . 'Template/Foos/existing.ctp';
+		$path = TEST_ROOT . 'templates/Foos/existing.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -235,7 +235,7 @@ class TemplateAnnotatorTest extends TestCase {
 	public function testAnnotateExistingOutdated() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/outdated.ctp'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/outdated.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -245,7 +245,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = APP . 'Template/Foos/outdated.ctp';
+		$path = TEST_ROOT . 'templates/Foos/outdated.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -261,7 +261,7 @@ class TemplateAnnotatorTest extends TestCase {
 	public function testAnnotateEmptyPreemptive() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/empty.ctp'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/empty.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -271,7 +271,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = APP . 'Template/Foos/empty.ctp';
+		$path = TEST_ROOT . 'templates/Foos/empty.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -287,7 +287,7 @@ class TemplateAnnotatorTest extends TestCase {
 	public function testAnnotateVars() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/vars.ctp'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/vars.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -297,7 +297,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = APP . 'Template/Foos/vars.ctp';
+		$path = TEST_ROOT . 'templates/Foos/vars.php';
 		$annotator->annotate($path);
 
 		$output = (string)$this->out->output();
@@ -319,7 +319,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->never())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = APP . 'Template/Foos/empty.ctp';
+		$path = TEST_ROOT . 'templates/Foos/empty.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -335,7 +335,7 @@ class TemplateAnnotatorTest extends TestCase {
 	public function testAnnotateInline() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/inline.ctp'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/inline.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -345,7 +345,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = APP . 'Template/Foos/inline.ctp';
+		$path = TEST_ROOT . 'templates/Foos/inline.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
