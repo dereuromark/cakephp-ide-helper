@@ -34,7 +34,7 @@ class VariableExtractorTest extends TestCase {
 	 * @return void
 	 */
 	public function testExtract() {
-		$path = TEST_ROOT . 'src' . DS . 'Template' . DS . 'Foos' . DS . 'vars.ctp';
+		$path = TEST_ROOT . 'templates' . DS . 'Foos' . DS . 'vars.php';
 
 		$file = $this->getFile($path);
 

@@ -131,7 +131,7 @@ class TemplateAnnotatorTest extends TestCase {
 	public function testAnnotate() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/edit.php'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'templates/edit.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -157,7 +157,7 @@ class TemplateAnnotatorTest extends TestCase {
 	public function testAnnotateLoop() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/loop.php'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'templates/loop.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -183,7 +183,7 @@ class TemplateAnnotatorTest extends TestCase {
 	public function testAnnotatePhpLine() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/phpline.php'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'templates/phpline.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -209,7 +209,7 @@ class TemplateAnnotatorTest extends TestCase {
 	public function testAnnotateExisting() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/existing.php'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'templates/existing.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -235,7 +235,7 @@ class TemplateAnnotatorTest extends TestCase {
 	public function testAnnotateExistingOutdated() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/outdated.php'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'templates/outdated.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -261,7 +261,7 @@ class TemplateAnnotatorTest extends TestCase {
 	public function testAnnotateEmptyPreemptive() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/empty.php'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'templates/empty.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -287,7 +287,7 @@ class TemplateAnnotatorTest extends TestCase {
 	public function testAnnotateVars() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/vars.php'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'templates/vars.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -335,7 +335,7 @@ class TemplateAnnotatorTest extends TestCase {
 	public function testAnnotateInline() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Template/inline.php'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'templates/inline.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {

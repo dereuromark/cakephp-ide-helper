@@ -174,7 +174,7 @@ class ViewAnnotator extends AbstractAnnotator {
 	 */
 	protected function getFolders(): array {
 		$plugin = null;
-		$folders = AppPath::get('Template', $plugin);
+		$folders = App::path('templates', $plugin);
 		$plugins = Configure::read('IdeHelper.includedPlugins');
 		if ($plugins === true) {
 			$plugins = Plugin::loaded();
@@ -182,7 +182,7 @@ class ViewAnnotator extends AbstractAnnotator {
 			$plugins = (array)$plugins;
 		}
 		foreach ($plugins as $plugin) {
-			$folders = array_merge($folders, AppPath::get('Template', $plugin));
+			$folders = array_merge($folders, App::path('templates', $plugin));
 		}
 
 		return $folders;

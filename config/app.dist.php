@@ -8,10 +8,10 @@ return [
 		],
 		// Template paths to skip
 		'skipTemplatePaths' => [
-			'/src/Template/Bake/',
+			'/templates/Bake/',
 		],
 		'templateExtensions' => [
-			'ctp', 'php',
+			'php',
 		],
 		// Set to false to disable, defaults to mixed if enabled, you can also pass callable for logic
 		'autoCollect' => true,

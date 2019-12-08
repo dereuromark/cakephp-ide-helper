@@ -31,7 +31,7 @@ Supports annotations for:
 - Models (Tables and Entities)
 - Controllers (including prefixes like `Admin`)
 - View (AppView)
-- Templates (`.ctp` files including elements)
+- Templates (`.php` PHP template files including elements)
 - Shells (and Tasks)
 - Components
 - Helpers

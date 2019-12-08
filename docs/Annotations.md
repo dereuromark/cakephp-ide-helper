@@ -163,7 +163,7 @@ will result in the following annotation:
  */
 ```
 
-They also should annotate any Tasks they use. 
+They also should annotate any Tasks they use.
 
 ## View
 The AppView class should annotate the helpers of the plugins and the app.
@@ -296,7 +296,7 @@ class MyClassAnnotatorTask extends AbstractClassAnnotatorTask implements ClassAn
     public function shouldRun($path, $content) {
         ...
     }
-    
+
     /**
      * @param string $path
      * @return bool
@@ -368,8 +368,8 @@ Usually Twig templates have their own tooling - but will have some serious drawb
 Auto-complete/Type-hinting as well as IDE introspection of variable types.
 
 ### Skipping folders
-Certain template folders, like for Bake template generation, should be skipped. 
-This is done by default for `/src/Template/Bake/` in your app or your plugin.
+Certain template folders, like for Bake template generation, should be skipped.
+This is done by default for `/templates/Bake/` in your app or your plugin.
 
 If you want to adjust this, set `IdeHelper.skipTemplatePaths` via Configure:
 ```
@@ -395,7 +395,7 @@ The `!` would prevent the entity annotation to be replaced.
 
 ### Auto collecting variables
 The IdeHelper can by default auto collect template variables and add them to the list above.
-Set `'IdeHelper.autoCollect'` to false to disable this. 
+Set `'IdeHelper.autoCollect'` to false to disable this.
 It defaults to `'mixed'` where the type cannot be guessed/detected.
 
 If you need more control over it, you can configure a callable to detect/guess:
@@ -495,7 +495,7 @@ class MyCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implements C
     public function shouldRun($path) {
         ...
     }
-    
+
     /**
      * @param string $path
      * @return bool
@@ -525,7 +525,7 @@ If you want to check if it would be modifying any files, you can run it with `-d
 
 It will output a nice little diff for each modification:
 ```
-Template/Tickets
+templates/Tickets
 -> view
    | +<?php
    | +/**
@@ -562,7 +562,7 @@ class CustomImagesTable extends ImagesTable ...
 ```
 
 ## Continuous integration support
-The tool can also be run like the coding standards check in your CI. 
+The tool can also be run like the coding standards check in your CI.
 This way no annotation can be forgotten, when making PRs for your project.
 
 For this, use the `--ci` option along with `-d` (dry run):
