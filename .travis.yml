@@ -28,7 +28,7 @@ matrix:
       env: CODECOVERAGE=1 DEFAULT=0
 
 before_install:
-  - if [[ ${TRAVIS_PHP_VERSION} != "7.4" ]]; then phpenv config-rm xdebug.ini ; fi
+  - phpenv config-rm xdebug.ini
 
 before_script:
   - if [[ $DB == 'mysql' ]]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi
