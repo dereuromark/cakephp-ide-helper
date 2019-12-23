@@ -2,7 +2,6 @@ language: php
 
 php:
   - 7.2
-  - 7.3
   - 7.4
 
 env:
@@ -25,14 +24,14 @@ matrix:
     - php: 7.2
       env: PREFER_LOWEST=1
 
-    - php: 7.2
+    - php: 7.3
       env: CHECKS=1 DEFAULT=0
 
-    - php: 7.2
+    - php: 7.3
       env: CODECOVERAGE=1 DEFAULT=0 DB=mysql db_dsn='mysql://root@127.0.0.1/cakephp_test'
 
 before_install:
-  - if [[ ${TRAVIS_PHP_VERSION} != "7.4" ]]; then phpenv config-rm xdebug.ini ; fi
+  - phpenv config-rm xdebug.ini
 
 before_script:
   - if [[ $DB == 'mysql' ]]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi
