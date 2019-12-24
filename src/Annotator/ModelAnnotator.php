@@ -308,7 +308,12 @@ class ModelAnnotator extends AbstractAnnotator {
 
 		$behaviors = $this->_extractBehaviors($map);
 
+		/** @var string|false $parentClass */
 		$parentClass = get_parent_class($table);
+		if (!$parentClass) {
+			return [];
+		}
+
 		if (isset($this->_cache[$parentClass])) {
 			$parentBehaviors = $this->_cache[$parentClass];
 		} else {
