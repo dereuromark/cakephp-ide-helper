@@ -47,9 +47,9 @@ class ModelTaskTest extends TestCase {
 			'CustomFinder' => '\App\Model\Table\CustomFinderTable::class',
 			'Exceptions' => '\App\Model\Table\ExceptionsTable::class',
 			'Foo' => '\App\Model\Table\FooTable::class',
+			'MyNamespace/MyPlugin.My' => '\MyNamespace\MyPlugin\Model\Table\MyTable::class',
 			'SkipMe' => '\App\Model\Table\SkipMeTable::class',
 			'SkipSome' => '\App\Model\Table\SkipSomeTable::class',
-			'Tools.Tokens' => '\Tools\Model\Table\TokensTable::class',
 			'Wheels' => '\App\Model\Table\WheelsTable::class',
 			'WheelsExtra' => '\App\Model\Table\WheelsExtraTable::class',
 		];

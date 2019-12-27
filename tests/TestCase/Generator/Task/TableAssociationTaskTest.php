@@ -47,9 +47,9 @@ class TableAssociationTaskTest extends TestCase {
 			'CustomFinder' => '\Cake\ORM\Association\BelongsTo::class',
 			'Exceptions' => '\Cake\ORM\Association\BelongsTo::class',
 			'Foo' => '\Cake\ORM\Association\BelongsTo::class',
+			'MyNamespace/MyPlugin.My' => '\Cake\ORM\Association\BelongsTo::class',
 			'SkipMe' => '\Cake\ORM\Association\BelongsTo::class',
 			'SkipSome' => '\Cake\ORM\Association\BelongsTo::class',
-			'Tools.Tokens' => '\Cake\ORM\Association\BelongsTo::class',
 			'Wheels' => '\Cake\ORM\Association\BelongsTo::class',
 			'WheelsExtra' => '\Cake\ORM\Association\BelongsTo::class',
 		];

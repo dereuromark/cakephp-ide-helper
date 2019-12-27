@@ -39,7 +39,6 @@ class RoutePathTaskTest extends TestCase {
 			'Controllers.Generic::action' => "'Controllers.Generic::action'",
 			'Controllers.Houses::action' => "'Controllers.Houses::action'",
 			'Foo::action' => "'Foo::action'",
-			'Tools.ShuntRequest::action' => "'Tools.ShuntRequest::action'",
 		];
 
 		$this->assertSame($expected, $map);

@@ -13,9 +13,6 @@ namespace PHPSTORM_META {
 			'Paginator' => \Cake\Controller\Component\PaginatorComponent::class,
 			'RequestHandler' => \App\Controller\Component\RequestHandlerComponent::class,
 			'Security' => \Cake\Controller\Component\SecurityComponent::class,
-			'Tools.Common' => \Tools\Controller\Component\CommonComponent::class,
-			'Tools.Mobile' => \Tools\Controller\Component\MobileComponent::class,
-			'Tools.Url' => \Tools\Controller\Component\UrlComponent::class,
 		])
 	);
 
@@ -70,9 +67,9 @@ namespace PHPSTORM_META {
 			'CustomFinder' => \App\Model\Table\CustomFinderTable::class,
 			'Exceptions' => \App\Model\Table\ExceptionsTable::class,
 			'Foo' => \App\Model\Table\FooTable::class,
+			'MyNamespace/MyPlugin.My' => \MyNamespace\MyPlugin\Model\Table\MyTable::class,
 			'SkipMe' => \App\Model\Table\SkipMeTable::class,
 			'SkipSome' => \App\Model\Table\SkipSomeTable::class,
-			'Tools.Tokens' => \Tools\Model\Table\TokensTable::class,
 			'Wheels' => \App\Model\Table\WheelsTable::class,
 			'WheelsExtra' => \App\Model\Table\WheelsExtraTable::class,
 		])
@@ -110,9 +107,9 @@ namespace PHPSTORM_META {
 			'CustomFinder' => \App\Model\Table\CustomFinderTable::class,
 			'Exceptions' => \App\Model\Table\ExceptionsTable::class,
 			'Foo' => \App\Model\Table\FooTable::class,
+			'MyNamespace/MyPlugin.My' => \MyNamespace\MyPlugin\Model\Table\MyTable::class,
 			'SkipMe' => \App\Model\Table\SkipMeTable::class,
 			'SkipSome' => \App\Model\Table\SkipSomeTable::class,
-			'Tools.Tokens' => \Tools\Model\Table\TokensTable::class,
 			'Wheels' => \App\Model\Table\WheelsTable::class,
 			'WheelsExtra' => \App\Model\Table\WheelsExtraTable::class,
 		])
@@ -125,18 +122,6 @@ namespace PHPSTORM_META {
 			'MyNamespace/MyPlugin.My' => \Cake\ORM\Table::class,
 			'Shim.Nullable' => \Cake\ORM\Table::class,
 			'Timestamp' => \Cake\ORM\Table::class,
-			'Tools.AfterSave' => \Cake\ORM\Table::class,
-			'Tools.Bitmasked' => \Cake\ORM\Table::class,
-			'Tools.Confirmable' => \Cake\ORM\Table::class,
-			'Tools.Jsonable' => \Cake\ORM\Table::class,
-			'Tools.Neighbor' => \Cake\ORM\Table::class,
-			'Tools.Passwordable' => \Cake\ORM\Table::class,
-			'Tools.Reset' => \Cake\ORM\Table::class,
-			'Tools.Slugged' => \Cake\ORM\Table::class,
-			'Tools.String' => \Cake\ORM\Table::class,
-			'Tools.Toggle' => \Cake\ORM\Table::class,
-			'Tools.TypeMap' => \Cake\ORM\Table::class,
-			'Tools.Typographic' => \Cake\ORM\Table::class,
 			'Translate' => \Cake\ORM\Table::class,
 			'Tree' => \Cake\ORM\Table::class,
 		])
@@ -156,9 +141,9 @@ namespace PHPSTORM_META {
 			'CustomFinder' => \Cake\ORM\Association\BelongsToMany::class,
 			'Exceptions' => \Cake\ORM\Association\BelongsToMany::class,
 			'Foo' => \Cake\ORM\Association\BelongsToMany::class,
+			'MyNamespace/MyPlugin.My' => \Cake\ORM\Association\BelongsToMany::class,
 			'SkipMe' => \Cake\ORM\Association\BelongsToMany::class,
 			'SkipSome' => \Cake\ORM\Association\BelongsToMany::class,
-			'Tools.Tokens' => \Cake\ORM\Association\BelongsToMany::class,
 			'Wheels' => \Cake\ORM\Association\BelongsToMany::class,
 			'WheelsExtra' => \Cake\ORM\Association\BelongsToMany::class,
 		])
@@ -178,9 +163,9 @@ namespace PHPSTORM_META {
 			'CustomFinder' => \Cake\ORM\Association\BelongsTo::class,
 			'Exceptions' => \Cake\ORM\Association\BelongsTo::class,
 			'Foo' => \Cake\ORM\Association\BelongsTo::class,
+			'MyNamespace/MyPlugin.My' => \Cake\ORM\Association\BelongsTo::class,
 			'SkipMe' => \Cake\ORM\Association\BelongsTo::class,
 			'SkipSome' => \Cake\ORM\Association\BelongsTo::class,
-			'Tools.Tokens' => \Cake\ORM\Association\BelongsTo::class,
 			'Wheels' => \Cake\ORM\Association\BelongsTo::class,
 			'WheelsExtra' => \Cake\ORM\Association\BelongsTo::class,
 		])
@@ -209,9 +194,9 @@ namespace PHPSTORM_META {
 			'CustomFinder' => \Cake\ORM\Association\HasMany::class,
 			'Exceptions' => \Cake\ORM\Association\HasMany::class,
 			'Foo' => \Cake\ORM\Association\HasMany::class,
+			'MyNamespace/MyPlugin.My' => \Cake\ORM\Association\HasMany::class,
 			'SkipMe' => \Cake\ORM\Association\HasMany::class,
 			'SkipSome' => \Cake\ORM\Association\HasMany::class,
-			'Tools.Tokens' => \Cake\ORM\Association\HasMany::class,
 			'Wheels' => \Cake\ORM\Association\HasMany::class,
 			'WheelsExtra' => \Cake\ORM\Association\HasMany::class,
 		])
@@ -231,9 +216,9 @@ namespace PHPSTORM_META {
 			'CustomFinder' => \Cake\ORM\Association\HasOne::class,
 			'Exceptions' => \Cake\ORM\Association\HasOne::class,
 			'Foo' => \Cake\ORM\Association\HasOne::class,
+			'MyNamespace/MyPlugin.My' => \Cake\ORM\Association\HasOne::class,
 			'SkipMe' => \Cake\ORM\Association\HasOne::class,
 			'SkipSome' => \Cake\ORM\Association\HasOne::class,
-			'Tools.Tokens' => \Cake\ORM\Association\HasOne::class,
 			'Wheels' => \Cake\ORM\Association\HasOne::class,
 			'WheelsExtra' => \Cake\ORM\Association\HasOne::class,
 		])
@@ -253,9 +238,9 @@ namespace PHPSTORM_META {
 			'CustomFinder' => \App\Model\Table\CustomFinderTable::class,
 			'Exceptions' => \App\Model\Table\ExceptionsTable::class,
 			'Foo' => \App\Model\Table\FooTable::class,
+			'MyNamespace/MyPlugin.My' => \MyNamespace\MyPlugin\Model\Table\MyTable::class,
 			'SkipMe' => \App\Model\Table\SkipMeTable::class,
 			'SkipSome' => \App\Model\Table\SkipSomeTable::class,
-			'Tools.Tokens' => \Tools\Model\Table\TokensTable::class,
 			'Wheels' => \App\Model\Table\WheelsTable::class,
 			'WheelsExtra' => \App\Model\Table\WheelsExtraTable::class,
 		])
@@ -267,8 +252,7 @@ namespace PHPSTORM_META {
 		'Bar::action',
 		'Controllers.Generic::action',
 		'Controllers.Houses::action',
-		'Foo::action',
-		'Tools.ShuntRequest::action'
+		'Foo::action'
 	);
 
 	expectedArguments(
@@ -281,7 +265,7 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\View\View::element(0),
 		map([
-			'Tools.pagination' => \Cake\View\View::class,
+			'Awesome.pagination' => \Cake\View\View::class,
 			'deeply/nested' => \Cake\View\View::class,
 			'example' => \Cake\View\View::class,
 		])
@@ -304,21 +288,6 @@ namespace PHPSTORM_META {
 			'Shim.Session' => \Shim\View\Helper\SessionHelper::class,
 			'Text' => \Cake\View\Helper\TextHelper::class,
 			'Time' => \Cake\View\Helper\TimeHelper::class,
-			'Tools.Common' => \Tools\View\Helper\CommonHelper::class,
-			'Tools.Form' => \Tools\View\Helper\FormHelper::class,
-			'Tools.Format' => \Tools\View\Helper\FormatHelper::class,
-			'Tools.Gravatar' => \Tools\View\Helper\GravatarHelper::class,
-			'Tools.Html' => \Tools\View\Helper\HtmlHelper::class,
-			'Tools.Number' => \Tools\View\Helper\NumberHelper::class,
-			'Tools.Obfuscate' => \Tools\View\Helper\ObfuscateHelper::class,
-			'Tools.Progress' => \Tools\View\Helper\ProgressHelper::class,
-			'Tools.QrCode' => \Tools\View\Helper\QrCodeHelper::class,
-			'Tools.Text' => \Tools\View\Helper\TextHelper::class,
-			'Tools.Time' => \Tools\View\Helper\TimeHelper::class,
-			'Tools.Timeline' => \Tools\View\Helper\TimelineHelper::class,
-			'Tools.Tree' => \Tools\View\Helper\TreeHelper::class,
-			'Tools.Typography' => \Tools\View\Helper\TypographyHelper::class,
-			'Tools.Url' => \Tools\View\Helper\UrlHelper::class,
 			'Url' => \Cake\View\Helper\UrlHelper::class,
 		])
 	);

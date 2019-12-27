@@ -74,7 +74,6 @@ Type::build('timestamp')
 
 Plugin::getCollection()->add(new \IdeHelper\Plugin());
 Plugin::getCollection()->add(new \Shim\Plugin());
-Plugin::getCollection()->add(new \Tools\Plugin());
 Plugin::getCollection()->add(new \Awesome\Plugin());
 Plugin::getCollection()->add(new \Controllers\Plugin());
 Plugin::getCollection()->add(new \Awesome\Plugin());

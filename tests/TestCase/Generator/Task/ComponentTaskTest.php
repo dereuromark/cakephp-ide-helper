@@ -40,9 +40,6 @@ class ComponentTaskTest extends TestCase {
 
 		$expected = '\App\Controller\Component\RequestHandlerComponent::class';
 		$this->assertSame($expected, $map['RequestHandler']);
-
-		$expected = '\Tools\Controller\Component\CommonComponent::class';
-		$this->assertSame($expected, $map['Tools.Common']);
 	}
 
 }
