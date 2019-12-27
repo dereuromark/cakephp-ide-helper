@@ -17,7 +17,6 @@ use Cake\ORM\Table;
  * @method \App\Model\Entity\BarBar[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\BarBar findOrCreate($search, callable $callback = null, $options = [])
  *
- * @mixin \Tools\Model\Behavior\ConfirmableBehavior
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @mixin \MyNamespace\MyPlugin\Model\Behavior\MyBehavior
  */
@@ -35,7 +34,6 @@ class BarBarsTable extends Table {
 			'className' => 'Awesome.Houses',
 			'through' => 'Awesome.Windows',
 		]);
-		$this->addBehavior('Tools.Confirmable');
 		$this->addBehavior('Timestamp');
 		$this->addBehavior('MyNamespace/MyPlugin.My');
 	}

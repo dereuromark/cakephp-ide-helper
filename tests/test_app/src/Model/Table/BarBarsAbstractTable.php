@@ -16,7 +16,6 @@ class BarBarsAbstractTable extends AbstractTable {
 			'className' => 'Awesome.Houses',
 			'through' => 'Awesome.Windows',
 		]);
-		$this->addBehavior('Tools.Confirmable');
 		$this->addBehavior('MyNamespace/MyPlugin.My');
 	}
 

@@ -300,7 +300,7 @@ class TemplateAnnotatorTest extends TestCase {
 		$path = TEST_ROOT . 'templates/Foos/vars.php';
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextContains('   -> 6 annotations added.', $output);
 	}

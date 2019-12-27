@@ -61,6 +61,11 @@ class TemplateAnnotator extends AbstractAnnotator {
 			$newContent = $this->addNewTemplateDocBlock($file, $annotations, $phpOpenTagIndex, $docBlockCloseTagIndex);
 		}
 
+		if ($newContent === $content) {
+			$this->reportSkipped();
+			return false;
+		}
+
 		$this->displayDiff($content, $newContent);
 		$this->storeFile($path, $newContent);
 

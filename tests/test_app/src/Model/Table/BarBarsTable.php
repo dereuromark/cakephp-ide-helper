@@ -17,7 +17,6 @@ class BarBarsTable extends Table {
 			'className' => 'Awesome.Houses',
 			'through' => 'Awesome.Windows',
 		]);
-		$this->addBehavior('Tools.Confirmable');
 		$this->addBehavior('Timestamp');
 		$this->addBehavior('MyNamespace/MyPlugin.My');
 	}

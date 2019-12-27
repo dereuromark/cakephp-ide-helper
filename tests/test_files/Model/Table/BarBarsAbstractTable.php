@@ -16,7 +16,6 @@ namespace App\Model\Table;
  * @method \App\Model\Entity\BarBarsAbstract findOrCreate($search, callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @mixin \Tools\Model\Behavior\ConfirmableBehavior
  * @mixin \MyNamespace\MyPlugin\Model\Behavior\MyBehavior
  */
 class BarBarsAbstractTable extends AbstractTable {
@@ -34,7 +33,6 @@ class BarBarsAbstractTable extends AbstractTable {
 			'className' => 'Awesome.Houses',
 			'through' => 'Awesome.Windows',
 		]);
-		$this->addBehavior('Tools.Confirmable');
 		$this->addBehavior('MyNamespace/MyPlugin.My');
 	}
 

@@ -273,7 +273,7 @@ class EntityAnnotatorTest extends TestCase {
 		$path = APP . 'Model/Entity/Virtual.php';
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
+		$output = $this->out->output();
 
 		$this->assertTextContains('   -> 8 annotations added', $output);
 	}

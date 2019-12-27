@@ -3,6 +3,9 @@ namespace Awesome\Model\Table;
 
 use Cake\ORM\Table;
 
+/**
+ * @property \Awesome\Model\Table\WindowsTable&\Cake\ORM\Association\HasMany $Windows
+ */
 class HousesTable extends Table {
 
 	/**

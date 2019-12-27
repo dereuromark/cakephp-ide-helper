@@ -120,7 +120,7 @@ class ModelAnnotatorTest extends TestCase {
 
 		$output = $this->out->output();
 
-		$this->assertTextContains('  -> 14 annotations added', $output);
+		$this->assertTextContains('  -> 13 annotations added', $output);
 	}
 
 	/**
@@ -227,7 +227,6 @@ class ModelAnnotatorTest extends TestCase {
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
-
 		$this->assertTextNotContains('annotations added', $output);
 	}
 
@@ -266,9 +265,8 @@ class ModelAnnotatorTest extends TestCase {
 		$path = APP . 'Model/Table/BarBarsAbstractTable.php';
 		$annotator->annotate($path);
 
-		$output = (string)$this->out->output();
-
-		$this->assertTextContains('  -> 14 annotations added', $output);
+		$output = $this->out->output();
+		$this->assertTextContains('  -> 13 annotations added', $output);
 	}
 
 }

@@ -12,7 +12,6 @@ class FooTable extends Table {
 	public function initialize(array $config): void {
 		parent::initialize($config);
 
-		$this->addBehavior('Tools.Confirmable');
 		$this->addBehavior('Timestamp');
 		$this->addBehavior('MyNamespace/MyPlugin.My');
 	}
