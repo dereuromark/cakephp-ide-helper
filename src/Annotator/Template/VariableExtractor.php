@@ -199,6 +199,10 @@ class VariableExtractor {
 			break;
 		}
 
+		if ($startIndex === null || $startIndex <= 1) {
+			return false;
+		}
+
 		return (bool)$file->findPrevious(T_CATCH, $startIndex - 1, $startIndex - 3);
 	}
 
