@@ -3,7 +3,9 @@
 namespace IdeHelper\Annotator;
 
 use Cake\Core\App;
+use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
+use Cake\Utility\Inflector;
 use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\MethodAnnotation;
@@ -56,7 +58,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 * @return string|null
 	 */
 	protected function _getPrimaryModelClass($content, $className, $path) {
-		if ($className === 'AppController') {
+		if ($className === 'AppController' || preg_match('#[a-z0-9]AppController$#', $className)) {
 			return null;
 		}
 
@@ -73,9 +75,15 @@ class ControllerAnnotator extends AbstractAnnotator {
 			return null;
 		}
 
+		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
 		$modelName = substr($className, 0, -10);
-		if ($modelName && $this->getConfig(static::CONFIG_PLUGIN)) {
-			$modelName = $this->getConfig(static::CONFIG_PLUGIN) . '.' . $modelName;
+		$modelClassName = ($plugin ?: Configure::read('App.namespace', 'App')) . '\\Model\\Table\\' . $modelName . 'Table';
+		if (!class_exists($modelClassName)) {
+			return null;
+		}
+
+		if ($modelName && $plugin) {
+			$modelName = $plugin . '.' . $modelName;
 		}
 
 		return $modelName ?: null;
@@ -233,6 +241,16 @@ class ControllerAnnotator extends AbstractAnnotator {
 			$table = TableRegistry::getTableLocator()->get($modelName);
 			$entityClassName = $table->getEntityClass();
 		} catch (Exception $exception) {
+			$plugin = null;
+			if (strpos($modelName, '.') !== false) {
+				[$plugin, $modelName] = explode('.', $modelName, 2);
+			}
+			$entity = Inflector::singularize($modelName);
+			$fullClassName = ($plugin ?: Configure::read('App.namespace', 'App')) . '\\Model\\Entity\\' . $entity;
+			if (class_exists($fullClassName)) {
+				return '\\' . $fullClassName;
+			}
+
 			return '\Cake\ORM\Entity';
 		}
 
