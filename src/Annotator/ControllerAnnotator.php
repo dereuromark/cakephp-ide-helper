@@ -243,7 +243,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 		} catch (Exception $exception) {
 			$plugin = null;
 			if (strpos($modelName, '.') !== false) {
-				[$plugin, $modelName] = explode('.', $modelName, 2);
+				list($plugin, $modelName) = explode('.', $modelName, 2);
 			}
 			$entity = Inflector::singularize($modelName);
 			$fullClassName = ($plugin ?: Configure::read('App.namespace', 'App')) . '\\Model\\Entity\\' . $entity;
