@@ -515,17 +515,25 @@ abstract class AbstractAnnotator {
 				continue;
 			}
 			$i++;
+			if (!isset($tokens[$i])) {
+				break;
+			}
 			if ($tokens[$i]['code'] !== T_OBJECT_OPERATOR) {
 				$i++;
 				continue;
 			}
 			$i++;
-			$token = $tokens[$i];
-			if ($token['code'] !== T_STRING || $token['content'] !== $property) {
+			if (!isset($tokens[$i])) {
+				break;
+			}
+			if ($tokens[$i]['code'] !== T_STRING || $tokens[$i]['content'] !== $property) {
 				$i++;
 				continue;
 			}
 			$i++;
+			if (!isset($tokens[$i])) {
+				break;
+			}
 			if ($tokens[$i]['code'] !== T_OBJECT_OPERATOR) {
 				$i++;
 				continue;
@@ -564,17 +572,25 @@ abstract class AbstractAnnotator {
 				continue;
 			}
 			$i++;
+			if (!isset($tokens[$i])) {
+				break;
+			}
 			if ($tokens[$i]['code'] !== T_OBJECT_OPERATOR) {
 				$i++;
 				continue;
 			}
 			$i++;
-			$token = $tokens[$i];
-			if ($token['code'] !== T_STRING || $token['content'] !== $method) {
+			if (!isset($tokens[$i])) {
+				break;
+			}
+			if ($tokens[$i]['code'] !== T_STRING || $tokens[$i]['content'] !== $method) {
 				$i++;
 				continue;
 			}
 			$i++;
+			if (!isset($tokens[$i])) {
+				break;
+			}
 			if ($tokens[$i]['code'] !== T_OPEN_PARENTHESIS) {
 				$i++;
 				continue;
