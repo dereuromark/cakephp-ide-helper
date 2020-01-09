@@ -129,16 +129,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 */
 	protected function nullable(Association $association, array $schema) {
 		if ($association->type() === Association::ONE_TO_ONE) {
-			$targetSchema = $association->getTarget()->getSchema();
-
-			$field = $association->getForeignKey();
-			$column = $targetSchema->getColumn($field);
-
-			if (!$column || !isset($column['null'])) {
-				return false;
-			}
-
-			return $column['null'];
+			return true;
 		}
 
 		if ($association->type() === Association::MANY_TO_ONE) {
