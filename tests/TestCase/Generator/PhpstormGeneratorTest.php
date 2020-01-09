@@ -27,6 +27,8 @@ class PhpstormGeneratorTest extends TestCase {
 		if (file_exists($file)) {
 			unlink($file);
 		}
+
+		Plugin::getCollection()->remove('Relations');
 	}
 
 	/**

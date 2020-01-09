@@ -15,6 +15,7 @@ define('APP_DIR', 'src');
 // Point app constants to the test app.
 define('TEST_ROOT', ROOT . DS . 'tests' . DS . 'test_app' . DS);
 define('APP', TEST_ROOT . APP_DIR . DS);
+define('PLUGINS', TEST_ROOT . 'plugins' . DS);
 define('TEST_FILES', ROOT . DS . 'tests' . DS . 'test_files' . DS);
 
 define('TMP', ROOT . DS . 'tmp' . DS);
@@ -72,12 +73,12 @@ Type::build('datetime')
 Type::build('timestamp')
 	->useImmutable();
 
-Plugin::getCollection()->add(new \IdeHelper\Plugin());
-Plugin::getCollection()->add(new \Shim\Plugin());
-Plugin::getCollection()->add(new \Awesome\Plugin());
-Plugin::getCollection()->add(new \Controllers\Plugin());
-Plugin::getCollection()->add(new \Awesome\Plugin());
-Plugin::getCollection()->add(new \MyNamespace\MyPlugin\Plugin());
+Plugin::getCollection()->add(new IdeHelper\Plugin());
+Plugin::getCollection()->add(new Shim\Plugin());
+Plugin::getCollection()->add(new Awesome\Plugin());
+Plugin::getCollection()->add(new Controllers\Plugin());
+Plugin::getCollection()->add(new Relations\Plugin());
+Plugin::getCollection()->add(new MyNamespace\MyPlugin\Plugin());
 
 if (getenv('db_dsn')) {
 	Cake\Datasource\ConnectionManager::setConfig('test', [
