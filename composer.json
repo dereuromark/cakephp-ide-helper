@@ -23,9 +23,9 @@
 	},
 	"require": {
 		"php": ">=7.2",
-		"cakephp/cakephp": "^4.0",
-		"cakephp/bake": "^2.0",
-		"sebastian/diff": "^3.0",
+		"cakephp/cakephp": "^4.0.0",
+		"cakephp/bake": "^2.0.3",
+		"sebastian/diff": "^3.0.0",
 		"squizlabs/php_codesniffer": "^3.5.2"
 	},
 	"require-dev": {
@@ -50,7 +50,7 @@
 		}
 	},
 	"prefer-stable": true,
-	"minimum-stability": "dev",
+	"minimum-stability": "beta",
 	"scripts": {
 		"test": "php phpunit.phar",
 		"test-setup": "[ ! -f phpunit.phar ] && curl -OL https://phar.phpunit.de/phpunit-8.1.4.phar && mv phpunit-8.1.4.phar phpunit.phar || true",
