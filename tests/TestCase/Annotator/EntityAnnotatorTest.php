@@ -309,6 +309,93 @@ class EntityAnnotatorTest extends TestCase {
 	}
 
 	/**
+	 * @return void
+	 */
+	public function testAnnotateHasOne() {
+		/** @var \Relations\Model\Table\UsersTable $Table */
+		$Table = TableRegistry::get('Relations.Users');
+
+		$schema = $Table->getSchema();
+		$associations = $Table->associations();
+		$annotator = $this->_getAnnotatorMock(['schema' => $schema, 'associations' => $associations]);
+
+		$expectedContent = str_replace(["\r\n", "\r"], "\n", file_get_contents(TEST_FILES . 'Model/Entity/Relations/User.php'));
+		$callback = function ($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->_displayDiff($expectedContent, $value);
+			}
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = PLUGINS . 'Relations/src/Model/Entity/User.php';
+		$annotator->annotate($path);
+
+		$output = (string)$this->out->output();
+
+		$this->assertTextContains('   -> 4 annotations added', $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAnnotateBelongsToRequired() {
+		/** @var \Relations\Model\Table\UsersTable $Table */
+		$Table = TableRegistry::get('Relations.Foos');
+
+		$schema = $Table->getSchema();
+		$associations = $Table->associations();
+		$annotator = $this->_getAnnotatorMock(['schema' => $schema, 'associations' => $associations]);
+
+		$expectedContent = str_replace(["\r\n", "\r"], "\n", file_get_contents(TEST_FILES . 'Model/Entity/Relations/Foo.php'));
+		$callback = function ($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->_displayDiff($expectedContent, $value);
+			}
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = PLUGINS . 'Relations/src/Model/Entity/Foo.php';
+		$annotator->annotate($path);
+
+		$output = (string)$this->out->output();
+
+		$this->assertTextContains('   -> 4 annotations added', $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAnnotateBelongsToNullable() {
+		/** @var \Relations\Model\Table\BarsTable $Table */
+		$Table = TableRegistry::get('Relations.Bars');
+
+		$schema = $Table->getSchema();
+		$associations = $Table->associations();
+		$annotator = $this->_getAnnotatorMock(['schema' => $schema, 'associations' => $associations]);
+
+		$expectedContent = str_replace(["\r\n", "\r"], "\n", file_get_contents(TEST_FILES . 'Model/Entity/Relations/Bar.php'));
+		$callback = function ($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->_displayDiff($expectedContent, $value);
+			}
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('_storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = PLUGINS . 'Relations/src/Model/Entity/Bar.php';
+		$annotator->annotate($path);
+
+		$output = (string)$this->out->output();
+
+		$this->assertTextContains('   -> 4 annotations added', $output);
+	}
+
+	/**
 	 * @param array $params
 	 * @return \IdeHelper\Annotator\EntityAnnotator|\PHPUnit\Framework\MockObject\MockObject
 	 */

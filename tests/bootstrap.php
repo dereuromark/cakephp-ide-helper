@@ -16,6 +16,7 @@ define('APP_DIR', 'src');
 // Point app constants to the test app.
 define('TEST_ROOT', ROOT . DS . 'tests' . DS . 'test_app' . DS);
 define('APP', TEST_ROOT . APP_DIR . DS);
+define('PLUGINS', TEST_ROOT . 'plugins' . DS);
 define('TEST_FILES', ROOT . DS . 'tests' . DS . 'test_files' . DS);
 
 define('TMP', ROOT . DS . 'tmp' . DS);
@@ -77,7 +78,8 @@ Plugin::load('IdeHelper', ['path' => ROOT . DS, 'autoload' => true]);
 Plugin::load('Shim', ['path' => ROOT . DS . 'vendor/dereuromark/cakephp-shim/', 'autoload' => true]);
 Plugin::load('Awesome', ['path' => TEST_ROOT . 'plugins/Awesome/', 'autoload' => true]);
 Plugin::load('Controllers', ['path' => TEST_ROOT . 'plugins/Controllers/', 'autoload' => true]);
-Plugin::load('MyBehavior/MyPlugin', ['path' => TEST_ROOT . 'plugins/MyBehavior/MyPlugin/', 'autoload' => true]);
+Plugin::load('Relations', ['path' => TEST_ROOT . 'plugins/Relations/', 'autoload' => true]);
+Plugin::load('MyNamespace/MyPlugin', ['path' => TEST_ROOT . 'plugins/MyNamespace/MyPlugin/', 'autoload' => true]);
 
 DispatcherFactory::add('Routing');
 DispatcherFactory::add('ControllerFactory');
