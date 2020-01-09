@@ -30,6 +30,8 @@ class PhpstormGeneratorTest extends TestCase {
 		if (file_exists($file)) {
 			unlink($file);
 		}
+
+		Plugin::unload('Relations');
 	}
 
 	/**
