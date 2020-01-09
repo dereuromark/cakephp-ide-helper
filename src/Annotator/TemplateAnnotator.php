@@ -3,13 +3,13 @@
 namespace IdeHelper\Annotator;
 
 use Bake\View\Helper\DocBlockHelper;
-use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Utility\Inflector;
 use Cake\View\View;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\VariableAnnotation;
 use IdeHelper\Annotator\Template\VariableExtractor;
+use IdeHelper\Utility\App;
 use PHP_CodeSniffer\Files\File;
 use RuntimeException;
 

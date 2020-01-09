@@ -2,13 +2,13 @@
 
 namespace IdeHelper\Annotator;
 
-use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\HelperTrait;
+use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
 
 class ViewAnnotator extends AbstractAnnotator {

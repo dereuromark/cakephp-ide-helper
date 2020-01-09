@@ -4,11 +4,10 @@ namespace IdeHelper\Annotator;
 
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
-use Cake\Core\App;
-use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\ComponentTrait;
+use IdeHelper\Utility\App;
 
 class ComponentAnnotator extends AbstractAnnotator {
 
@@ -61,7 +60,7 @@ class ComponentAnnotator extends AbstractAnnotator {
 		$controller = new Controller();
 		try {
 			$object = new $className(new ComponentRegistry($controller));
-		} catch (Exception $e) {
+		} catch (\Throwable $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping component annotations: ' . $e->getMessage());
 			}

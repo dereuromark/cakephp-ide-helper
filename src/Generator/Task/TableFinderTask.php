@@ -2,15 +2,14 @@
 
 namespace IdeHelper\Generator\Task;
 
-use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Datasource\QueryInterface;
 use Cake\ORM\Association;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
-use Exception;
 use IdeHelper\Generator\Directive\Override;
+use IdeHelper\Utility\App;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
@@ -86,13 +85,7 @@ class TableFinderTask extends ModelTask {
 		foreach ($models as $model => $className) {
 			$customFinders = $this->getFinderMethods($className);
 
-			try {
-				$tableClass = App::className($model, 'Model/Table', 'Table');
-			} catch (Exception $e) {
-				continue;
-			} catch (Throwable $e) {
-				continue;
-			}
+			$tableClass = App::className($model, 'Model/Table', 'Table');
 
 			$tableReflection = new ReflectionClass($tableClass);
 			if (!$tableReflection->isInstantiable()) {
@@ -118,7 +111,6 @@ class TableFinderTask extends ModelTask {
 						$customFinders = array_merge($customFinders, array_keys($behavior->implementedFinders()));
 					}
 				}
-			} catch (Exception $exception) {
 			} catch (Throwable $exception) {
 			}
 

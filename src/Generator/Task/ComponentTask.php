@@ -2,10 +2,10 @@
 
 namespace IdeHelper\Generator\Task;
 
-use Cake\Core\App;
 use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use IdeHelper\Generator\Directive\Override;
+use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
 
 class ComponentTask implements TaskInterface {
@@ -81,13 +81,7 @@ class ComponentTask implements TaskInterface {
 				$name = $plugin . '.' . $name;
 			}
 
-			try {
-				$className = App::className($name, 'Controller/Component', 'Component');
-			} catch (\Exception $e) {
-				continue;
-			} catch (\Throwable $e) {
-				continue;
-			}
+			$className = App::className($name, 'Controller/Component', 'Component');
 			if (!$className) {
 				continue;
 			}

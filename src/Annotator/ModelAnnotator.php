@@ -2,7 +2,6 @@
 
 namespace IdeHelper\Annotator;
 
-use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Database\Schema\TableSchemaInterface;
 use Cake\ORM\AssociationCollection;
@@ -11,9 +10,9 @@ use Cake\ORM\Association\HasMany;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
-use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\MixinAnnotation;
+use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
 use ReflectionClass;
 use RuntimeException;
@@ -42,7 +41,15 @@ class ModelAnnotator extends AbstractAnnotator {
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
 
 		$tableName = $plugin ? ($plugin . '.' . $modelName) : $modelName;
-		$tableClass = App::className($tableName, 'Model/Table', 'Table');
+		try {
+			$tableClass = App::classNameOrFail($tableName, 'Model/Table', 'Table');
+		} catch (Throwable $e) {
+			if ($this->getConfig(static::CONFIG_VERBOSE)) {
+				$this->_io->warn('   Skipping table and entity: ' . $e->getMessage());
+			}
+
+			return false;
+		}
 
 		$tableReflection = new ReflectionClass($tableClass);
 		if (!$tableReflection->isInstantiable()) {
@@ -57,11 +64,6 @@ class ModelAnnotator extends AbstractAnnotator {
 			$table = TableRegistry::getTableLocator()->get($tableName);
 			$schema = $table->getSchema();
 			$behaviors = $this->getBehaviors($table);
-		} catch (Exception $e) {
-			if ($this->getConfig(static::CONFIG_VERBOSE)) {
-				$this->_io->warn('   Skipping table and entity: ' . $e->getMessage());
-			}
-			return false;
 		} catch (Throwable $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping table and entity: ' . $e->getMessage());
@@ -72,11 +74,6 @@ class ModelAnnotator extends AbstractAnnotator {
 		$tableAssociations = $table->associations();
 		try {
 			$associations = $this->getAssociations($tableAssociations);
-		} catch (Exception $e) {
-			if ($this->getConfig(static::CONFIG_VERBOSE)) {
-				$this->_io->warn('   Skipping associations: ' . $e->getMessage());
-			}
-			$associations = [];
 		} catch (Throwable $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping associations: ' . $e->getMessage());
@@ -213,7 +210,7 @@ class ModelAnnotator extends AbstractAnnotator {
 
 		$result = [];
 		foreach ($behaviors as $behavior) {
-			list (, $behaviorName) = pluginSplit($behavior);
+			[, $behaviorName] = pluginSplit($behavior);
 			$result[$behaviorName] = $behavior;
 		}
 
@@ -233,7 +230,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			}
 			$type = get_class($association);
 
-			list(, $name) = pluginSplit($association->getAlias());
+			[, $name] = pluginSplit($association->getAlias());
 			$table = $association->getClassName() ?: $association->getAlias();
 			$className = App::className($table, 'Model/Table', 'Table') ?: static::CLASS_TABLE;
 
@@ -250,7 +247,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			}
 
 			$className = App::className($through, 'Model/Table', 'Table') ?: static::CLASS_TABLE;
-			list(, $throughName) = pluginSplit($through);
+			[, $throughName] = pluginSplit($through);
 			$type = HasMany::class;
 			if (isset($associations[$type][$throughName])) {
 				continue;

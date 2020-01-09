@@ -2,18 +2,11 @@
 
 namespace IdeHelper\Test\TestCase\Annotator;
 
+use Cake\Core\Plugin;
 use Cake\TestSuite\TestCase;
-use IdeHelper\Utility\Plugin;
 use IdeHelper\Utility\PluginPath;
 
 class PluginPathTest extends TestCase {
-
-	/**
-	 * @return void
-	 */
-	public function setUp(): void {
-		parent::setUp();
-	}
 
 	/**
 	 * @return void

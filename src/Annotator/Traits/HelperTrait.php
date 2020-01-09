@@ -2,8 +2,8 @@
 
 namespace IdeHelper\Annotator\Traits;
 
-use Cake\Core\App;
 use Cake\Core\Plugin;
+use IdeHelper\Utility\App;
 
 /**
  * Handles component related things

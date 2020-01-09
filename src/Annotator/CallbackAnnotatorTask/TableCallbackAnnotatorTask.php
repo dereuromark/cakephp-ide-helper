@@ -3,7 +3,6 @@
 namespace IdeHelper\Annotator\CallbackAnnotatorTask;
 
 use Cake\ORM\TableRegistry;
-use Exception;
 use IdeHelper\Annotation\ParamAnnotation;
 use PHP_CodeSniffer\Files\File;
 use Throwable;
@@ -47,11 +46,6 @@ class TableCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implement
 
 		try {
 			$table = TableRegistry::getTableLocator()->get($plugin ? ($plugin . '.' . $modelName) : $modelName);
-		} catch (Exception $e) {
-			if ($this->getConfig(static::CONFIG_VERBOSE)) {
-				$this->_io->warn('   Skipping table: ' . $e->getMessage());
-			}
-			return false;
 		} catch (Throwable $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping table: ' . $e->getMessage());

@@ -7,11 +7,11 @@ use Cake\ORM\Association;
 use Cake\ORM\Entity;
 use Cake\Utility\Inflector;
 use Cake\View\View;
-use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\View\Helper\DocBlockHelper;
 use PHP_CodeSniffer\Files\File;
 use RuntimeException;
+use Throwable;
 
 class EntityAnnotator extends AbstractAnnotator {
 
@@ -95,7 +95,7 @@ class EntityAnnotator extends AbstractAnnotator {
 				if ($entityClass === '\\' . Entity::class) {
 					$namespace = Configure::read('App.namespace');
 
-					list($plugin) = pluginSplit($association->getTarget()->getRegistryAlias());
+					[$plugin] = pluginSplit($association->getTarget()->getRegistryAlias());
 					if ($plugin !== null) {
 						$namespace = $plugin;
 					}
@@ -115,7 +115,7 @@ class EntityAnnotator extends AbstractAnnotator {
 					'type' => $entityClass,
 					'null' => $this->nullable($association, $schema),
 				];
-			} catch (Exception $exception) {
+			} catch (Throwable $exception) {
 				continue;
 			}
 		}

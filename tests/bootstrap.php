@@ -2,8 +2,8 @@
 
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
+use Cake\Core\Plugin;
 use Cake\Database\Type;
-use IdeHelper\Utility\Plugin;
 
 if (!defined('DS')) {
 	define('DS', DIRECTORY_SEPARATOR);

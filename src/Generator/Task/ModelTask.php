@@ -2,10 +2,10 @@
 
 namespace IdeHelper\Generator\Task;
 
-use Cake\Core\App;
 use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use IdeHelper\Generator\Directive\Override;
+use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
 
 class ModelTask implements TaskInterface {
@@ -103,13 +103,7 @@ class ModelTask implements TaskInterface {
 				$model = $plugin . '.' . $model;
 			}
 
-			try {
-				$className = App::className($model, 'Model/Table', 'Table');
-			} catch (\Exception $e) {
-				continue;
-			} catch (\Throwable $e) {
-				continue;
-			}
+			$className = App::className($model, 'Model/Table', 'Table');
 			if (!$className) {
 				continue;
 			}

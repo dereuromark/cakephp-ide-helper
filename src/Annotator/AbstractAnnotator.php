@@ -4,7 +4,6 @@ namespace IdeHelper\Annotator;
 
 use Bake\View\Helper\DocBlockHelper;
 use Cake\Console\Shell;
-use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
 use Cake\View\View;
@@ -18,6 +17,7 @@ use IdeHelper\Annotation\UsesAnnotation;
 use IdeHelper\Annotation\VariableAnnotation;
 use IdeHelper\Annotator\Traits\FileTrait;
 use IdeHelper\Console\Io;
+use IdeHelper\Utility\App;
 use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Util\Tokens;

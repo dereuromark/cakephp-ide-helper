@@ -2,17 +2,16 @@
 
 namespace IdeHelper\Annotator;
 
-use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Datasource\ResultSetInterface;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
-use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\MethodAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\ComponentTrait;
+use IdeHelper\Utility\App;
 use Throwable;
 
 class ControllerAnnotator extends AbstractAnnotator {
@@ -114,10 +113,6 @@ class ControllerAnnotator extends AbstractAnnotator {
 	protected function getComponentAnnotations(string $controllerName): array {
 		try {
 			$map = $this->getUsedComponents($controllerName);
-		} catch (Exception $e) {
-			if ($this->getConfig(static::CONFIG_VERBOSE)) {
-				$this->_io->warn('   Skipping component annotations: ' . $e->getMessage());
-			}
 		} catch (Throwable $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping component annotations: ' . $e->getMessage());
@@ -242,7 +237,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 		try {
 			$table = TableRegistry::getTableLocator()->get($modelName);
 			$entityClassName = $table->getEntityClass();
-		} catch (Exception $exception) {
+		} catch (Throwable $exception) {
 			$plugin = null;
 			if (strpos($modelName, '.') !== false) {
 				[$plugin, $modelName] = explode('.', $modelName, 2);
@@ -281,9 +276,6 @@ class ControllerAnnotator extends AbstractAnnotator {
 		try {
 			/** @var \Cake\Controller\Controller $controller */
 			$controller = new $fullClassName();
-		} catch (Exception $e) {
-			$this->_io->warn('   Could not look up model class for ' . $fullClassName . ': ' . $e->getMessage());
-			return null;
 		} catch (Throwable $e) {
 			$this->_io->warn('   Could not look up model class for ' . $fullClassName . ': ' . $e->getMessage());
 			return null;
