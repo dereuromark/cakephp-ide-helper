@@ -51,18 +51,4 @@ TXT;
 		return $template;
 	}
 
-	/**
-	 * @param string[] $array
-	 *
-	 * @return string
-	 */
-	protected function buildMapDefinitions(array $array): string {
-		$result = [];
-		foreach ($array as $alias => $value) {
-			$result[] = "\t\t\t" . "'" . str_replace("'", "\'", $alias) . "' => " . $value . ',';
-		}
-
-		return implode(PHP_EOL, $result);
-	}
-
 }
