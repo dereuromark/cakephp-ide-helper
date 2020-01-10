@@ -68,11 +68,11 @@ class ControllerAnnotator extends AbstractAnnotator {
 			return $dynamicallyFoundModelClass !== '' ? $dynamicallyFoundModelClass : null;
 		}
 
-		if (preg_match('/ \$modelClass = \'([a-z.\/]+)\'/i', $content, $matches)) {
+		if (preg_match('/\bprotected \$modelClass = \'([a-z.\/]+)\'/i', $content, $matches)) {
 			return $matches[1];
 		}
 
-		if (preg_match('/ \$modelClass = false;/i', $content, $matches)) {
+		if (preg_match('/\bprotected \$modelClass = \'\';/i', $content, $matches)) {
 			return null;
 		}
 

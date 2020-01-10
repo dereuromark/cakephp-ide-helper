@@ -158,6 +158,34 @@ class ControllerAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testAnnotateWithPluginControllerExplicit() {
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Controller/WindowsController.php'));
+		$callback = function ($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->_displayDiff($expectedContent, $value);
+			}
+
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())
+			->method('storeFile')
+			->with($this->anything(), $this->callback($callback));
+
+		$path = TEST_ROOT . '/plugins/Controllers/src/Controller/WindowsController.php';
+		$annotator->setConfig(ControllerAnnotator::CONFIG_PLUGIN, 'Controllers');
+		$annotator->annotate($path);
+
+		$output = $this->out->output();
+
+		$this->assertTextContains('   -> 1 annotation added.', $output);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testAnnotateWithPluginControllerNoModel() {
 		$annotator = $this->_getAnnotatorMock([]);
 

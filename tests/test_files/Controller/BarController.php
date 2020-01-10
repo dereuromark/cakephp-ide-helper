@@ -13,7 +13,7 @@ class BarController extends AppController {
 	/**
 	 * @var string
 	 */
-	public $modelClass = 'BarBars';
+	protected $modelClass = 'BarBars';
 
 	/**
 	 * @return void

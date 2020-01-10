@@ -38,6 +38,7 @@ class RoutePathTaskTest extends TestCase {
 			'Bar::action' => "'Bar::action'",
 			'Controllers.Generic::action' => "'Controllers.Generic::action'",
 			'Controllers.Houses::action' => "'Controllers.Houses::action'",
+			'Controllers.Windows::action' => "'Controllers.Windows::action'",
 			'Foo::action' => "'Foo::action'",
 		];
 

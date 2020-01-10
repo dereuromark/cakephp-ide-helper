@@ -252,6 +252,7 @@ namespace PHPSTORM_META {
 		'Bar::action',
 		'Controllers.Generic::action',
 		'Controllers.Houses::action',
+		'Controllers.Windows::action',
 		'Foo::action'
 	);
 

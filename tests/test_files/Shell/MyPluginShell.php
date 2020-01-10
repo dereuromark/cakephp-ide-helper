@@ -12,7 +12,7 @@ class MyPluginShell extends Shell {
 	/**
 	 * @var string
 	 */
-	public $modelClass = 'Awesome.Houses';
+	protected $modelClass = 'Awesome.Houses';
 
 	/**
 	 * @return void

@@ -12,7 +12,7 @@ class MyCommand extends Command {
 	/**
 	 * @var string
 	 */
-	public $modelClass = 'Cars';
+	protected $modelClass = 'Cars';
 
 	/**
 	 * @return void

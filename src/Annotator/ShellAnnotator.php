@@ -45,7 +45,7 @@ class ShellAnnotator extends AbstractAnnotator {
 	 * @return string|null
 	 */
 	protected function getPrimaryModelClass(string $content): ?string {
-		if (!preg_match('/\bpublic \$modelClass = \'([a-z.\/]+)\'/i', $content, $matches)) {
+		if (!preg_match('/\bprotected \$modelClass = \'([a-z.\/]+)\'/i', $content, $matches)) {
 			return null;
 		}
 

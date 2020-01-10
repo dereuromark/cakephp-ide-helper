@@ -13,7 +13,7 @@ class MyShell extends Shell {
 	/**
 	 * @var string
 	 */
-	public $modelClass = 'Cars';
+	protected $modelClass = 'Cars';
 
 	/**
 	 * @var array

@@ -3,11 +3,11 @@ namespace Controllers\Controller;
 
 use Cake\Controller\Controller;
 
-class GenericController extends Controller {
+class WindowsController extends Controller {
 
 	/**
 	 * @var string
 	 */
-	protected $modelClass = '';
+	protected $modelClass = 'Awesome.Windows';
 
 }
