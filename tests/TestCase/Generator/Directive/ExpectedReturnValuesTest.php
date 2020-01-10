@@ -27,6 +27,7 @@ class ExpectedReturnValuesTest extends TestCase {
 	);
 TXT;
 		$this->assertSame($expected, $result);
+		$this->assertSame('\\' . Table::class . '::addBehavior()@expectedReturnValues', $directive->key());
 	}
 
 }

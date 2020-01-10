@@ -28,6 +28,7 @@ class ExpectedArgumentsTest extends TestCase {
 	);
 TXT;
 		$this->assertSame($expected, $result);
+		$this->assertSame('\\' . Table::class . '::addBehavior()@0@expectedArguments', $directive->key());
 	}
 
 }

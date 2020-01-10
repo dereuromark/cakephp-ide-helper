@@ -28,6 +28,7 @@ class RegisterArgumentsSetTest extends TestCase {
 	);
 TXT;
 		$this->assertSame($expected, $result);
+		$this->assertSame('foo@registerArgumentsSet', $directive->key());
 	}
 
 	/**

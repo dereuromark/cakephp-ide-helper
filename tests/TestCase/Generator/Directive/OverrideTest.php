@@ -29,6 +29,7 @@ class OverrideTest extends TestCase {
 	);
 TXT;
 		$this->assertSame($expected, $result);
+		$this->assertSame('\\' . Table::class . '::addBehavior(0)@override', $directive->key());
 	}
 
 }
