@@ -97,7 +97,6 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param string[] $behaviors
 	 *
 	 * @return bool
-	 * @throws \RuntimeException
 	 */
 	protected function table(string $path, string $entityName, array $associations, array $behaviors): bool {
 		$content = file_get_contents($path);
@@ -113,8 +112,9 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param string $entity
 	 * @param string[] $behaviors
 	 *
-	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 * @throws \RuntimeException
+	 *
+	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
 	protected function buildAnnotations(array $associations, string $entity, array $behaviors): array {
 		$namespace = $this->getConfig(static::CONFIG_NAMESPACE);
@@ -125,25 +125,26 @@ class ModelAnnotator extends AbstractAnnotator {
 			}
 		}
 
-		if (class_exists("{$namespace}\\Model\\Entity\\{$entity}")) {
+		$fullClassName = "{$namespace}\\Model\\Entity\\{$entity}";
+		if (class_exists($fullClassName)) {
 			// Copied from Bake plugin's DocBlockHelper
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} newEmptyEntity()";
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} newEntity(array \$data, array \$options = [])";
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[] newEntities(array \$data, array \$options = [])";
+			$annotations[] = "@method \\{$fullClassName} newEmptyEntity()";
+			$annotations[] = "@method \\{$fullClassName} newEntity(array \$data, array \$options = [])";
+			$annotations[] = "@method \\{$fullClassName}[] newEntities(array \$data, array \$options = [])";
 
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} get(\$primaryKey, \$options = [])";
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} findOrCreate(\$search, ?callable \$callback = null, \$options = [])";
+			$annotations[] = "@method \\{$fullClassName} get(\$primaryKey, \$options = [])";
+			$annotations[] = "@method \\{$fullClassName} findOrCreate(\$search, ?callable \$callback = null, \$options = [])";
 
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} patchEntity(\\Cake\\Datasource\\EntityInterface \$entity, array \$data, array \$options = [])";
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[] patchEntities(iterable \$entities, array \$data, array \$options = [])";
+			$annotations[] = "@method \\{$fullClassName} patchEntity(\\Cake\\Datasource\\EntityInterface \$entity, array \$data, array \$options = [])";
+			$annotations[] = "@method \\{$fullClassName}[] patchEntities(iterable \$entities, array \$data, array \$options = [])";
 
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}|false save(\\Cake\\Datasource\\EntityInterface \$entity, \$options = [])";
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} saveOrFail(\\Cake\\Datasource\\EntityInterface \$entity, \$options = [])";
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable \$entities, \$options = [])";
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable \$entities, \$options = [])";
+			$annotations[] = "@method \\{$fullClassName}|false save(\\Cake\\Datasource\\EntityInterface \$entity, \$options = [])";
+			$annotations[] = "@method \\{$fullClassName} saveOrFail(\\Cake\\Datasource\\EntityInterface \$entity, \$options = [])";
+			$annotations[] = "@method \\{$fullClassName}[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable \$entities, \$options = [])";
+			$annotations[] = "@method \\{$fullClassName}[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable \$entities, \$options = [])";
 
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable \$entities, \$options = [])";
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable \$entities, \$options = [])";
+			$annotations[] = "@method \\{$fullClassName}[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable \$entities, \$options = [])";
+			$annotations[] = "@method \\{$fullClassName}[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable \$entities, \$options = [])";
 		}
 
 		// Make replaceable via parsed object
