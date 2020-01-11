@@ -88,7 +88,7 @@ class ModelAnnotator extends AbstractAnnotator {
 		$entityClassName = $table->getEntityClass();
 		$entityName = substr($entityClassName, strrpos($entityClassName, '\\') + 1);
 
-		$resTable = $this->_table($path, $entityName, $associations, $behaviors);
+		$resTable = $this->_table($path, $entityName, $associations, $behaviors, $table);
 		$resEntity = $this->_entity($entityClassName, $entityName, $schema, $tableAssociations);
 
 		return $resTable || $resEntity;
@@ -99,15 +99,15 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param string $entityName
 	 * @param array $associations
 	 * @param string[] $behaviors
+	 * @param \Cake\ORM\Table $table
 	 *
 	 * @return bool
-	 * @throws \RuntimeException
 	 */
-	protected function _table($path, $entityName, array $associations, array $behaviors) {
+	protected function _table($path, $entityName, array $associations, array $behaviors, Table $table) {
 		$content = file_get_contents($path);
 
 		$behaviors += $this->_parseLoadedBehaviors($content);
-		$annotations = $this->_buildAnnotations($associations, $entityName, $behaviors);
+		$annotations = $this->_buildAnnotations($associations, $entityName, $behaviors, $table);
 
 		return $this->_annotate($path, $content, $annotations);
 	}
@@ -116,11 +116,11 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param array $associations
 	 * @param string $entity
 	 * @param string[] $behaviors
+	 * @param \Cake\ORM\Table $table
 	 *
 	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
-	 * @throws \RuntimeException
 	 */
-	protected function _buildAnnotations(array $associations, $entity, array $behaviors) {
+	protected function _buildAnnotations(array $associations, $entity, array $behaviors, Table $table) {
 		$namespace = $this->getConfig(static::CONFIG_NAMESPACE);
 		$annotations = [];
 		foreach ($associations as $type => $assocs) {
@@ -129,17 +129,35 @@ class ModelAnnotator extends AbstractAnnotator {
 			}
 		}
 
-		if (class_exists("{$namespace}\\Model\\Entity\\{$entity}")) {
+		$fullClassName = "{$namespace}\\Model\\Entity\\{$entity}";
+		if (class_exists($fullClassName)) {
+			if ($table instanceof \Shim\Model\Table\Table) {
+				$annotations[] = "@method \\{$fullClassName} newEmptyEntity()";
+			}
+
 			// Copied from Bake plugin's DocBlockHelper
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} get(\$primaryKey, \$options = [])";
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} newEntity(\$data = null, array \$options = [])";
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[] newEntities(array \$data, array \$options = [])";
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}|false save(\\Cake\\Datasource\\EntityInterface \$entity, \$options = [])";
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} saveOrFail(\\Cake\\Datasource\\EntityInterface \$entity, \$options = [])";
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} patchEntity(\\Cake\\Datasource\\EntityInterface \$entity, array \$data, array \$options = [])";
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[] patchEntities(\$entities, array \$data, array \$options = [])";
-			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} findOrCreate(\$search, callable \$callback = null, \$options = [])";
+			$annotations[] = "@method \\{$fullClassName} newEntity(\$data = null, array \$options = [])";
+			$annotations[] = "@method \\{$fullClassName}[] newEntities(array \$data, array \$options = [])";
+
+			$annotations[] = "@method \\{$fullClassName} get(\$primaryKey, \$options = [])";
+			$annotations[] = "@method \\{$fullClassName} findOrCreate(\$search, callable \$callback = null, \$options = [])";
+
+			$annotations[] = "@method \\{$fullClassName} patchEntity(\\Cake\\Datasource\\EntityInterface \$entity, array \$data, array \$options = [])";
+			$annotations[] = "@method \\{$fullClassName}[] patchEntities(\$entities, array \$data, array \$options = [])";
+
+			$annotations[] = "@method \\{$fullClassName}|false save(\\Cake\\Datasource\\EntityInterface \$entity, \$options = [])";
+			$annotations[] = "@method \\{$fullClassName} saveOrFail(\\Cake\\Datasource\\EntityInterface \$entity, \$options = [])";
+
+			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[]|\Cake\Datasource\ResultSetInterface|false saveMany(\$entities, \$options = [])";
 		}
+
+		if (version_compare(Configure::version(), '3.9.0') >= 0) {
+			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(\$entities, \$options = [])";
+
+			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[]|\Cake\Datasource\ResultSetInterface|false deleteMany(\$entities, \$options = [])";
+			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(\$entities, \$options = [])";
+		}
+
 		// Make replacable via parsed object
 		foreach ($annotations as $key => $annotation) {
 			$annotationObject = AnnotationFactory::createFromString($annotation);
