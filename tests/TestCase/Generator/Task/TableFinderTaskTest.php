@@ -6,11 +6,11 @@ use App\Model\Table\CustomFinderTable;
 use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
 use IdeHelper\Generator\Task\TableFinderTask;
-use Tools\TestSuite\ToolsTestTrait;
+use Shim\TestSuite\TestTrait;
 
 class TableFinderTaskTest extends TestCase {
 
-	use ToolsTestTrait;
+	use TestTrait;
 
 	/**
 	 * @var \IdeHelper\Generator\Task\TableFinderTask

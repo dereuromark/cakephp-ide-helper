@@ -5,7 +5,7 @@ namespace IdeHelper\Test\TestCase\Annotator\Template;
 use IdeHelper\Annotator\Template\VariableExtractor;
 use IdeHelper\Annotator\Traits\FileTrait;
 use PHP_CodeSniffer\Config;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 
 $composerVendorDir = ROOT . DS . 'vendor';
 $codesnifferDir = 'squizlabs' . DS . 'php_codesniffer';

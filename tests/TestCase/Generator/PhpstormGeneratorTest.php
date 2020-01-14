@@ -5,7 +5,7 @@ namespace IdeHelper\Test\TestCase\Generator\Task;
 use Cake\Core\Plugin;
 use IdeHelper\Generator\PhpstormGenerator;
 use IdeHelper\Generator\TaskCollection;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 
 class PhpstormGeneratorTest extends TestCase {
 

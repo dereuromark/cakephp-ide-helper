@@ -3,7 +3,7 @@
 namespace IdeHelper\Test\TestCase\Generator\Task;
 
 use IdeHelper\Generator\Task\ValidationTask;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 
 class ValidationTaskTest extends TestCase {
 

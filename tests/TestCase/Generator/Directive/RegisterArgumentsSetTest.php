@@ -5,7 +5,7 @@ namespace IdeHelper\Test\TestCase\Generator\Directive;
 use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Generator\Directive\ExpectedReturnValues;
 use IdeHelper\Generator\Directive\RegisterArgumentsSet;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 
 class RegisterArgumentsSetTest extends TestCase {
 

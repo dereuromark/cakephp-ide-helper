@@ -286,7 +286,6 @@ namespace PHPSTORM_META {
 			'Shim.Configure' => \Shim\View\Helper\ConfigureHelper::class,
 			'Shim.Cookie' => \Shim\View\Helper\CookieHelper::class,
 			'Shim.Form' => \Shim\View\Helper\FormHelper::class,
-			'Shim.Session' => \Shim\View\Helper\SessionHelper::class,
 			'Text' => \Cake\View\Helper\TextHelper::class,
 			'Time' => \Cake\View\Helper\TimeHelper::class,
 			'Url' => \Cake\View\Helper\UrlHelper::class,

@@ -4,11 +4,11 @@ namespace IdeHelper\Test\TestCase\Generator\Task;
 
 use Cake\TestSuite\TestCase;
 use IdeHelper\Generator\Task\ElementTask;
-use Tools\TestSuite\ToolsTestTrait;
+use Shim\TestSuite\TestTrait;
 
 class ElementTaskTest extends TestCase {
 
-	use ToolsTestTrait;
+	use TestTrait;
 
 	/**
 	 * @var \IdeHelper\Generator\Task\ElementTask

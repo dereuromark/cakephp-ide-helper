@@ -4,7 +4,7 @@ namespace IdeHelper\Test\TestCase\Generator\Directive;
 
 use Cake\ORM\Table;
 use IdeHelper\Generator\Directive\ExpectedReturnValues;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 
 class ExpectedReturnValuesTest extends TestCase {
 

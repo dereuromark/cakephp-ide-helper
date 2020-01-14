@@ -13,13 +13,13 @@ use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\EntityAnnotator;
 use IdeHelper\Console\Io;
 use IdeHelper\View\Helper\DocBlockHelper;
-use Tools\TestSuite\ConsoleOutput;
-use Tools\TestSuite\ToolsTestTrait;
+use Shim\TestSuite\ConsoleOutput;
+use Shim\TestSuite\TestTrait;
 
 class EntityAnnotatorTest extends TestCase {
 
 	use DiffHelperTrait;
-	use ToolsTestTrait;
+	use TestTrait;
 
 	/**
 	 * @var array
@@ -29,12 +29,12 @@ class EntityAnnotatorTest extends TestCase {
 	];
 
 	/**
-	 * @var \Tools\TestSuite\ConsoleOutput
+	 * @var \Shim\TestSuite\ConsoleOutput
 	 */
 	protected $out;
 
 	/**
-	 * @var \Tools\TestSuite\ConsoleOutput
+	 * @var \Shim\TestSuite\ConsoleOutput
 	 */
 	protected $err;
 

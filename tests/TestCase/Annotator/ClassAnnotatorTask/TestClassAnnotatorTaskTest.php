@@ -6,18 +6,18 @@ use Cake\Console\ConsoleIo;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\ClassAnnotatorTask\TestClassAnnotatorTask;
 use IdeHelper\Console\Io;
-use Tools\TestSuite\ConsoleOutput;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\ConsoleOutput;
+use Shim\TestSuite\TestCase;
 
 class TestClassAnnotatorTaskTest extends TestCase {
 
 	/**
-	 * @var \Tools\TestSuite\ConsoleOutput
+	 * @var \Shim\TestSuite\ConsoleOutput
 	 */
 	protected $out;
 
 	/**
-	 * @var \Tools\TestSuite\ConsoleOutput
+	 * @var \Shim\TestSuite\ConsoleOutput
 	 */
 	protected $err;
 

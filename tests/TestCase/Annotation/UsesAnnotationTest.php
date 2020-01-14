@@ -5,7 +5,7 @@ namespace IdeHelper\Test\TestCase\Annotation;
 use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotation\UsesAnnotation;
 use RuntimeException;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 
 class UsesAnnotationTest extends TestCase {
 
