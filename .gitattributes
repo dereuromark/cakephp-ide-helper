@@ -1,6 +1,6 @@
 # Define the line ending behavior of the different file extensions
 # Set default behavior, in case users don't have core.autocrlf set.
-* text=auto eol=lf
+* text text=auto eol=lf
 
 *.jpg binary
 *.png binary
