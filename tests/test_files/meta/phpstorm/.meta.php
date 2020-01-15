@@ -9,6 +9,7 @@ namespace PHPSTORM_META {
 			'Flash' => \Cake\Controller\Component\FlashComponent::class,
 			'FormProtection' => \Cake\Controller\Component\FormProtectionComponent::class,
 			'My' => \App\Controller\Component\MyComponent::class,
+			'MyNamespace/MyPlugin.My' => \MyNamespace\MyPlugin\Controller\Component\MyComponent::class,
 			'MyOther' => \App\Controller\Component\MyOtherComponent::class,
 			'Paginator' => \Cake\Controller\Component\PaginatorComponent::class,
 			'RequestHandler' => \App\Controller\Component\RequestHandlerComponent::class,
@@ -21,7 +22,6 @@ namespace PHPSTORM_META {
 		map([
 			'Bake' => \Cake\Http\BaseApplication::class,
 			'Shim' => \Cake\Http\BaseApplication::class,
-			'Tools' => \Cake\Http\BaseApplication::class,
 			'WyriHaximus/TwigView' => \Cake\Http\BaseApplication::class,
 		])
 	);

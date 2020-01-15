@@ -2,7 +2,7 @@
 
 ![Model Typehinting](img/model_typehinting.png)
 
-![Model Autocomplete](img/model_autocomplete.png) 
+![Model Autocomplete](img/model_autocomplete.png)
 
 ## Phpstorm
 This command will generate your `.ide-helper.meta.php` in your app's `ROOT/.phpstorm.meta.php/` directory:
@@ -54,7 +54,7 @@ $this->belongsToMany('Tags.Tags');
 #### TableFinders
 The `'threaded'` string is now auto-completed, for example:
 ```php
-$this->Posts->find('threaded')
+$this->Posts->find('threaded');
 ```
 
 Note: Using Configure key `'IdeHelper.preemptive'` set to `true` you can be a bit more verbose and include all possible custom finders, including those from behaviors.
@@ -64,19 +64,19 @@ Note: Using Configure key `'IdeHelper.preemptive'` set to `true` you can be a bi
 #### Behaviors
 The following is now auto-completed, for example:
 ```php
-$this->addBehavior('Tools.Slugged')
+$this->addBehavior('Tools.Slugged');
 ```
 
 #### Components
 The following is now auto-completed, for example:
 ```php
-$this->loadComponent('Security')
+$this->loadComponent('Security');
 ```
 
 #### Helpers
 The following is now auto-completed, for example:
 ```php
-$this->loadHelper('Tools.Tree')
+$this->loadHelper('Tools.Tree');
 ```
 
 #### Types
@@ -116,7 +116,7 @@ class MyTask implements TaskInterface {
     public function collect(): array {
         ...
     }
-    
+
 }
 ```
 
@@ -158,10 +158,10 @@ $directive = new Override($method, $map);
 
 ##### ExpectedArguments
 With this you can set default values to chose from for method arguments.
-Specify the parameter count as 0-based value. 
+Specify the parameter count as 0-based value.
 ```php
 $method = '\Namespace\PackageName\MyFactory::create()';
-$position = 0; 
+$position = 0;
 $list = [
     'alpha',
     'beta',

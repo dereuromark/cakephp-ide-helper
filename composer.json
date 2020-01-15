@@ -29,7 +29,6 @@
 		"squizlabs/php_codesniffer": "^3.5.2"
 	},
 	"require-dev": {
-		"dereuromark/cakephp-tools": "dev-cake4 as 4.0.0",
 		"dereuromark/cakephp-shim": "dev-cake4 as 2.0.0",
 		"fig-r/psr2r-sniffer": "dev-master"
 	},

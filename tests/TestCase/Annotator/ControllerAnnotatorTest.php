@@ -112,7 +112,7 @@ class ControllerAnnotatorTest extends TestCase {
 
 		$output = $this->out->output();
 
-		$this->assertTextContains('   -> 1 annotation added, 1 annotation updated.', $output);
+		$this->assertTextContains('   -> 1 annotation added.', $output);
 	}
 
 	/**

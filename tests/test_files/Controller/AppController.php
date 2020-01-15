@@ -4,7 +4,7 @@ namespace App\Controller;
 use Cake\Controller\Controller;
 
 /**
- * @property \Tools\Controller\Component\CommonComponent $Common
+ * @property \App\Controller\Component\MyOtherComponent $MyOther
  * @property \App\Controller\Component\RequestHandlerComponent $RequestHandler
  */
 class AppController extends Controller {
@@ -17,7 +17,7 @@ class AppController extends Controller {
 
 		$this->loadComponent('Flash');
 		$this->loadComponent('RequestHandler');
-		$this->loadComponent('Tools.Common');
+		$this->loadComponent('MyOther');
 	}
 
 }

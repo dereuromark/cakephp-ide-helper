@@ -4,7 +4,7 @@ namespace App\Controller;
 /**
  * @property \App\Model\Table\WheelsTable $Wheels
  * @property \App\Model\Table\BarBarsTable $BarBars
- * @property \Tools\Controller\Component\MobileComponent $Mobile
+ * @property \MyNamespace\MyPlugin\Controller\Component\MyComponent $My
  *
  * @method \App\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
@@ -22,7 +22,7 @@ class BarController extends AppController {
 		parent::initialize();
 
 		$this->loadComponent('Flash');
-		$this->loadComponent('Tools.Mobile');
+		$this->loadComponent('MyNamespace/MyPlugin.My');
 
 		$this->loadModel('Wheels');
 	}

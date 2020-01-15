@@ -6,13 +6,13 @@ use Cake\Controller\Component;
 /**
  * @property \Cake\Controller\Component\FlashComponent $Flash
  * @property \App\Controller\Component\RequestHandlerComponent $RequestHandler
- * @property \Tools\Controller\Component\CommonComponent $Common
+ * @property \MyNamespace\MyPlugin\Controller\Component\MyComponent $My
  */
 class MyComponent extends Component {
 
 	/**
 	 * @var array
 	 */
-	public $components = ['Flash', 'RequestHandler', 'Tools.Common'];
+	public $components = ['Flash', 'RequestHandler', 'MyNamespace/MyPlugin.My'];
 
 }
