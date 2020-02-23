@@ -58,6 +58,10 @@ class ComponentAnnotator extends AbstractAnnotator {
 	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
 	protected function _getComponentAnnotations($className) {
+		if ($this->_isAbstract($className)) {
+			return [];
+		}
+
 		$controller = new Controller();
 		try {
 			$object = new $className(new ComponentRegistry($controller));
