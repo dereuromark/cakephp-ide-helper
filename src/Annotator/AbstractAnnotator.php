@@ -815,4 +815,14 @@ abstract class AbstractAnnotator {
 		return $beginningOfLineIndex;
 	}
 
+	/**
+	 * @param string $className
+	 *
+	 * @return bool
+	 */
+	protected function _isAbstract($className) {
+		$reflection = new ReflectionClass($className);
+		return $reflection->isAbstract();
+	}
+
 }
