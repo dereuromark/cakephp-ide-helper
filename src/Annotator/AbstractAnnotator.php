@@ -817,11 +817,12 @@ abstract class AbstractAnnotator {
 
 	/**
 	 * @param string $className
-	 * @return bool
 	 *
+	 * @return bool
 	 */
 	protected function _isAbstract($className) {
 		$reflection = new ReflectionClass($className);
 		return $reflection->isAbstract();
 	}
+
 }
