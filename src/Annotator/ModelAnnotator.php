@@ -51,6 +51,14 @@ class ModelAnnotator extends AbstractAnnotator {
 			return false;
 		}
 
+		if ($this->_isAbstract($tableClass)) {
+			if ($this->getConfig(static::CONFIG_VERBOSE)) {
+				$this->_io->warn('   Skipping table and entity: Abstract class');
+			}
+
+			return false;
+		}
+
 		$tableReflection = new ReflectionClass($tableClass);
 		if (!$tableReflection->isInstantiable()) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
