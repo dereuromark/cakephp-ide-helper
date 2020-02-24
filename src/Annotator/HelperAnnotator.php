@@ -32,7 +32,7 @@ class HelperAnnotator extends AbstractAnnotator {
 		}
 
 		if ($this->_isAbstract($className)) {
-			return [];
+			return false;
 		}
 
 		try {
