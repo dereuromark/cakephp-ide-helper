@@ -6,7 +6,6 @@ use Cake\Core\App;
 use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\PropertyAnnotation;
-use ReflectionClass;
 use Throwable;
 
 class ShellAnnotator extends AbstractAnnotator {
@@ -88,8 +87,7 @@ class ShellAnnotator extends AbstractAnnotator {
 			throw new Exception($name);
 		}
 
-		$reflection = new ReflectionClass($className);
-		if ($reflection->isAbstract()) {
+		if ($this->_isAbstract($className)) {
 			return [];
 		}
 

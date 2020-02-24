@@ -150,6 +150,10 @@ class ControllerAnnotator extends AbstractAnnotator {
 			return [];
 		}
 
+		if ($this->_isAbstract($className)) {
+			return [];
+		}
+
 		/** @var \App\Controller\AppController $controller */
 		$controller = new $className();
 

@@ -107,6 +107,10 @@ class ViewAnnotator extends AbstractAnnotator {
 		$helpers = [];
 
 		$className = App::className('App', 'Controller', 'Controller');
+		if ($this->_isAbstract($className)) {
+			return [];
+		}
+
 		/** @var \App\Controller\AppController $Controller */
 		$Controller = new $className();
 		/** @var \App\View\AppView $View */
