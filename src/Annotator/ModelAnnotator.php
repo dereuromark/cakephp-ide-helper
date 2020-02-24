@@ -44,6 +44,14 @@ class ModelAnnotator extends AbstractAnnotator {
 		$tableName = $plugin ? ($plugin . '.' . $modelName) : $modelName;
 		$tableClass = App::className($tableName, 'Model/Table', 'Table');
 
+		if ($this->_isAbstract($tableClass)) {
+			if ($this->getConfig(static::CONFIG_VERBOSE)) {
+				$this->_io->warn('   Skipping table and entity: Abstract class');
+			}
+
+			return false;
+		}
+
 		$tableReflection = new ReflectionClass($tableClass);
 		if (!$tableReflection->isInstantiable()) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {

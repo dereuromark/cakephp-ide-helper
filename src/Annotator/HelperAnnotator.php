@@ -31,6 +31,10 @@ class HelperAnnotator extends AbstractAnnotator {
 			return false;
 		}
 
+		if ($this->_isAbstract($className)) {
+			return [];
+		}
+
 		try {
 			$helper = new $className(new View());
 		} catch (Exception $e) {
