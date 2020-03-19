@@ -1,11 +1,11 @@
 <?php
-namespace App\Custom;
+namespace TestApp\Custom;
 
 use Cake\Datasource\ModelAwareTrait;
 
 /**
- * @property \App\Model\Table\BarBarsTable $BarBars
- * @property \App\Model\Table\FooTable $Foo
+ * @property \TestApp\Model\Table\BarBarsTable $BarBars
+ * @property \TestApp\Model\Table\FooTable $Foo
  */
 class CustomClass {
 

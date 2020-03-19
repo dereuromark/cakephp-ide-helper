@@ -113,7 +113,7 @@ class ViewAnnotator extends AbstractAnnotator {
 
 		/** @var \App\Controller\AppController $Controller */
 		$Controller = new $className();
-		/** @var \App\View\AppView $View */
+		/** @var \Cake\View\View $View */
 		$View = $Controller->createView();
 
 		foreach ($View->helpers() as $alias => $helper) {

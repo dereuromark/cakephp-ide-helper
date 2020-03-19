@@ -2,9 +2,9 @@
 
 namespace IdeHelper\Test\TestCase\Generator\Task;
 
-use App\Database\Type\UuidType;
 use Cake\Database\Type;
 use IdeHelper\Generator\Task\DatabaseTypeTask;
+use TestApp\Database\Type\UuidType;
 use Tools\TestSuite\TestCase;
 
 class DatabaseTypeTaskTest extends TestCase {
@@ -42,7 +42,7 @@ class DatabaseTypeTaskTest extends TestCase {
 		$expected = '\Cake\Database\Type\BinaryType::class';
 		$this->assertSame($expected, $map['binary']);
 
-		$expected = '\App\Database\Type\UuidType::class';
+		$expected = '\TestApp\Database\Type\UuidType::class';
 		$this->assertSame($expected, $map['uuid']);
 	}
 

@@ -1,5 +1,5 @@
 <?php
-namespace App\View\Helper;
+namespace TestApp\View\Helper;
 
 use Cake\View\Helper\HtmlHelper as CoreHtmlHelper;
 

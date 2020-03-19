@@ -1,5 +1,5 @@
 <?php
-namespace App\View;
+namespace TestApp\View;
 
 use Cake\View\View;
 

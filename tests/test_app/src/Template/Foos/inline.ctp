@@ -1,5 +1,5 @@
 <?php
-/** @var \App\Model\Entity\Wheel $wheel */
+/** @var \TestApp\Model\Entity\Wheel $wheel */
 ?>
 <div>
 	<?php echo h($wheel->id); ?>

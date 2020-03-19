@@ -1,8 +1,8 @@
 <?php
-namespace App\Controller;
+namespace TestApp\Controller;
 
 /**
- * @property \App\Model\Table\FooTable $Foo
+ * @property \TestApp\Model\Table\FooTable $Foo
  */
 class FooController extends AppController {
 }

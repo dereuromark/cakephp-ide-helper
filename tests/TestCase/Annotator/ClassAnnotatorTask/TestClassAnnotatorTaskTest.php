@@ -44,15 +44,15 @@ class TestClassAnnotatorTaskTest extends TestCase {
 	public function testShouldRun() {
 		$task = $this->getTask('');
 
-		$content = 'namespace App\Test\TestCase\Controller\FooControllerTest.php' . PHP_EOL . 'class FooControllerTest extends ControllerIntegrationTestCase';
+		$content = 'namespace TestApp\Test\TestCase\Controller\FooControllerTest.php' . PHP_EOL . 'class FooControllerTest extends ControllerIntegrationTestCase';
 		$result = $task->shouldRun('/tests/TestCase/Foo.php', $content);
 		$this->assertTrue($result);
 
-		$content = 'namespace App\Test\TestCase\Command\FooCommandTest.php' . PHP_EOL . 'class FooCommandTest extends ConsoleIntegrationTestCase';
+		$content = 'namespace TestApp\Test\TestCase\Command\FooCommandTest.php' . PHP_EOL . 'class FooCommandTest extends ConsoleIntegrationTestCase';
 		$result = $task->shouldRun('/tests/TestCase/Foo.php', $content);
 		$this->assertTrue($result);
 
-		$result = $task->shouldRun('/tests/TestCase/Foo.php', 'namespace App\Foo\Foo.php');
+		$result = $task->shouldRun('/tests/TestCase/Foo.php', 'namespace TestApp\Foo\Foo.php');
 		$this->assertFalse($result);
 
 		$result = $task->shouldRun('/tests/Foo.php', $content);
@@ -71,7 +71,7 @@ class TestClassAnnotatorTaskTest extends TestCase {
 		$this->assertTrue($result);
 
 		$content = $task->getContent();
-		$this->assertTextContains('* @uses \App\Controller\BarController', $content);
+		$this->assertTextContains('* @uses \TestApp\Controller\BarController', $content);
 
 		$output = (string)$this->out->output();
 		$this->assertTextContains('  -> 1 annotation added.', $output);

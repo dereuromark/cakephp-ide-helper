@@ -1,11 +1,11 @@
 <?php
 /**
- * @var \App\View\AppView $this
+ * @var \TestApp\View\AppView $this
  * @var object $allCars
  * @var object $date
  * @var object $obj
- * @var \App\Model\Entity\Foo[]|\Cake\Collection\CollectionInterface $foos
- * @var \App\Model\Entity\Wheel $wheel
+ * @var \TestApp\Model\Entity\Foo[]|\Cake\Collection\CollectionInterface $foos
+ * @var \TestApp\Model\Entity\Wheel $wheel
  */
 	if ($obj) {
 		echo $obj->foo();

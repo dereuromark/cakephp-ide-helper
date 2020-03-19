@@ -36,7 +36,8 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 require CORE_PATH . 'config/bootstrap.php';
 
 Configure::write('App', [
-	'namespace' => 'App',
+	'namespace' => 'TestApp',
+	'encoding' => 'utf-8',
 	'paths' => [
 		'templates' => [APP . 'Template' . DS],
 	],
@@ -73,6 +74,8 @@ Type::build('datetime')
 	->useImmutable();
 Type::build('timestamp')
 	->useImmutable();
+
+class_alias(Cake\Controller\Controller::class, 'App\Controller\AppController');
 
 Plugin::load('IdeHelper', ['path' => ROOT . DS, 'autoload' => true]);
 Plugin::load('Shim', ['path' => ROOT . DS . 'vendor/dereuromark/cakephp-shim/', 'autoload' => true]);

@@ -1,5 +1,5 @@
 <?php
-namespace App\Model\Entity;
+namespace TestApp\Model\Entity;
 
 use Cake\ORM\Entity;
 
@@ -11,7 +11,7 @@ use Cake\ORM\Entity;
  * @property string $content
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime|null $modified
- * @property \App\Model\Entity\Wheel[] $wheels
+ * @property \TestApp\Model\Entity\Wheel[] $wheels
  */
 class Car extends Entity {
 }
