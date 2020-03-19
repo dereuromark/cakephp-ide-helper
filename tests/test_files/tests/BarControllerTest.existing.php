@@ -1,10 +1,10 @@
 <?php
-namespace App\Test\TestCase\Controller;
+namespace TestApp\Test\TestCase\Controller;
 
 use Cake\TestSuite\IntegrationTestCase;
 
 /**
- * @uses \App\Controller\BarController
+ * @uses \TestApp\Controller\BarController
  */
 class BarControllerTest extends IntegrationTestCase {
 }

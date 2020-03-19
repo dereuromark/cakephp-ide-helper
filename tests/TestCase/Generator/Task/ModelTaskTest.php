@@ -36,21 +36,21 @@ class ModelTaskTest extends TestCase {
 		$map = $directive->toArray()['map'];
 
 		$expectedMap = [
-			'Abstract' => '\App\Model\Table\AbstractTable::class',
+			'Abstract' => '\TestApp\Model\Table\AbstractTable::class',
 			'Awesome.Houses' => '\Awesome\Model\Table\HousesTable::class',
 			'Awesome.Windows' => '\Awesome\Model\Table\WindowsTable::class',
-			'BarBars' => '\App\Model\Table\BarBarsTable::class',
-			'BarBarsAbstract' => '\App\Model\Table\BarBarsAbstractTable::class',
-			'Callbacks' => '\App\Model\Table\CallbacksTable::class',
-			'Cars' => '\App\Model\Table\CarsTable::class',
+			'BarBars' => '\TestApp\Model\Table\BarBarsTable::class',
+			'BarBarsAbstract' => '\TestApp\Model\Table\BarBarsAbstractTable::class',
+			'Callbacks' => '\TestApp\Model\Table\CallbacksTable::class',
+			'Cars' => '\TestApp\Model\Table\CarsTable::class',
 			'Controllers.Houses' => '\Controllers\Model\Table\HousesTable::class',
-			'CustomFinder' => '\App\Model\Table\CustomFinderTable::class',
-			'Exceptions' => '\App\Model\Table\ExceptionsTable::class',
-			'Foo' => '\App\Model\Table\FooTable::class',
-			'SkipMe' => '\App\Model\Table\SkipMeTable::class',
-			'SkipSome' => '\App\Model\Table\SkipSomeTable::class',
-			'Wheels' => '\App\Model\Table\WheelsTable::class',
-			'WheelsExtra' => '\App\Model\Table\WheelsExtraTable::class',
+			'CustomFinder' => '\TestApp\Model\Table\CustomFinderTable::class',
+			'Exceptions' => '\TestApp\Model\Table\ExceptionsTable::class',
+			'Foo' => '\TestApp\Model\Table\FooTable::class',
+			'SkipMe' => '\TestApp\Model\Table\SkipMeTable::class',
+			'SkipSome' => '\TestApp\Model\Table\SkipSomeTable::class',
+			'Wheels' => '\TestApp\Model\Table\WheelsTable::class',
+			'WheelsExtra' => '\TestApp\Model\Table\WheelsExtraTable::class',
 		];
 		$this->assertSame($expectedMap, $map);
 	}

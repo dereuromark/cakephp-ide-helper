@@ -1,5 +1,5 @@
 <?php
-namespace App\Model\Entity;
+namespace TestApp\Model\Entity;
 
 use Cake\ORM\Entity;
 
@@ -35,9 +35,9 @@ class Virtual extends Entity {
 	}
 
 	/**
-	 * @param \App\Model\Entity\Wheel[] $wheels
+	 * @param \TestApp\Model\Entity\Wheel[] $wheels
 	 *
-	 * @return \App\Model\Entity\Wheel[]
+	 * @return \TestApp\Model\Entity\Wheel[]
 	 */
 	protected function _getWheels($wheels = []) {
 		return $wheels;

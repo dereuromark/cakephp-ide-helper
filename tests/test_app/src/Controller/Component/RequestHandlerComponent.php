@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller\Component;
+namespace TestApp\Controller\Component;
 
 use Cake\Controller\Component\RequestHandlerComponent as CoreRequestHandlerComponent;
 

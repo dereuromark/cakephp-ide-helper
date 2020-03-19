@@ -1,5 +1,5 @@
 <?php
-namespace App\Model\Entity;
+namespace TestApp\Model\Entity;
 
 use Cake\ORM\Entity;
 
@@ -10,7 +10,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime|null $modified
  * @property string|null $virtual_one
- * @property \App\Model\Entity\Wheel[] $wheels
+ * @property \TestApp\Model\Entity\Wheel[] $wheels
  */
 class Wheel extends Entity {
 

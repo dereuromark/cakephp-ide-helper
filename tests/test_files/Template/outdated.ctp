@@ -1,8 +1,8 @@
 <?php
 /**
- * @var \App\View\AppView $this
+ * @var \TestApp\View\AppView $this
  * @var \Cake\ORM\Entity $car !
- * @var \App\Model\Entity\Wheel[]|\Cake\Collection\CollectionInterface $wheels
+ * @var \TestApp\Model\Entity\Wheel[]|\Cake\Collection\CollectionInterface $wheels
  * @var bool $bool
  */
 ?>

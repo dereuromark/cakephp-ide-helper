@@ -38,7 +38,7 @@ class ComponentTaskTest extends TestCase {
 		$expected = '\Cake\Controller\Component\AuthComponent::class';
 		$this->assertSame($expected, $map['Auth']);
 
-		$expected = '\App\Controller\Component\RequestHandlerComponent::class';
+		$expected = '\TestApp\Controller\Component\RequestHandlerComponent::class';
 		$this->assertSame($expected, $map['RequestHandler']);
 
 		$expected = '\Shim\Controller\Component\SessionComponent::class';

@@ -2,13 +2,13 @@
 
 namespace IdeHelper\Test\TestCase\Annotator;
 
-use App\Model\Table\FooTable;
 use Cake\Console\ConsoleIo;
 use Cake\Database\Schema\TableSchema;
 use Cake\ORM\TableRegistry;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\ModelAnnotator;
 use IdeHelper\Console\Io;
+use TestApp\Model\Table\FooTable;
 use Tools\TestSuite\ConsoleOutput;
 use Tools\TestSuite\TestCase;
 

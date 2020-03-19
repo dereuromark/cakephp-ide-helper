@@ -1,7 +1,7 @@
 <?php
 /**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Foo $foo
+ * @var \TestApp\View\AppView $this
+ * @var \TestApp\Model\Entity\Foo $foo
  */
 ?>
 <div>

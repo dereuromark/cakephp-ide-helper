@@ -2,7 +2,6 @@
 
 namespace IdeHelper\Test\TestCase\Annotator;
 
-use App\Model\Table\FooTable;
 use Cake\Console\ConsoleIo;
 use Cake\Core\Configure;
 use Cake\Database\Schema\TableSchema;
@@ -12,6 +11,7 @@ use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\EntityAnnotator;
 use IdeHelper\Console\Io;
 use IdeHelper\View\Helper\DocBlockHelper;
+use TestApp\Model\Table\FooTable;
 use Tools\TestSuite\ConsoleOutput;
 use Tools\TestSuite\TestCase;
 
@@ -161,7 +161,7 @@ class EntityAnnotatorTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotate() {
-		/** @var \App\Model\Table\FooTable $Table */
+		/** @var \TestApp\Model\Table\FooTable $Table */
 		$Table = TableRegistry::get('Foo');
 
 		$schema = $Table->getSchema();
@@ -190,7 +190,7 @@ class EntityAnnotatorTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotateWithExistingDocBlock() {
-		/** @var \App\Model\Table\FooTable $Table */
+		/** @var \TestApp\Model\Table\FooTable $Table */
 		$Table = TableRegistry::get('Foo');
 		$Table->hasMany('Wheels');
 
@@ -220,7 +220,7 @@ class EntityAnnotatorTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotateWithVirtualProperties() {
-		/** @var \App\Model\Table\FooTable $Table */
+		/** @var \TestApp\Model\Table\FooTable $Table */
 		$Table = TableRegistry::get('Foo');
 		$Table->hasMany('Wheels');
 
@@ -250,7 +250,7 @@ class EntityAnnotatorTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotateWithVirtualPropertiesReadOnly() {
-		/** @var \App\Model\Table\FooTable $Table */
+		/** @var \TestApp\Model\Table\FooTable $Table */
 		$Table = TableRegistry::get('Foo');
 		$Table->hasMany('Wheels');
 
@@ -282,7 +282,7 @@ class EntityAnnotatorTest extends TestCase {
 	public function testAnnotateWithVirtualPropertiesAndReturnTypes() {
 		$this->skipIf(version_compare(PHP_VERSION, '7.1') < 0, 'Only possible in PHP 7.1+ (without nullable in 7.0).');
 
-		/** @var \App\Model\Table\FooTable $Table */
+		/** @var \TestApp\Model\Table\FooTable $Table */
 		$Table = TableRegistry::get('Foo');
 		$Table->hasMany('Wheels');
 

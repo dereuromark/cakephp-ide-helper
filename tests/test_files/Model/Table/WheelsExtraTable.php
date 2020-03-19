@@ -1,10 +1,10 @@
 <?php
-namespace App\Model\Table;
+namespace TestApp\Model\Table;
 
 use Cake\ORM\Table;
 
 /**
- * @property \App\Model\Table\CarsTable&\Cake\ORM\Association\BelongsTo $Cars
+ * @property \TestApp\Model\Table\CarsTable&\Cake\ORM\Association\BelongsTo $Cars
  */
 class WheelsExtraTable extends Table {
 
