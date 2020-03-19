@@ -1,7 +1,7 @@
 <?php
 /**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Wheel $wheel
+ * @var \TestApp\View\AppView $this
+ * @var \TestApp\Model\Entity\Wheel $wheel
  */
 ?>
 <div>

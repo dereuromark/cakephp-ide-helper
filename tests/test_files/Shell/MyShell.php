@@ -1,11 +1,11 @@
 <?php
-namespace App\Shell;
+namespace TestApp\Shell;
 
 use Cake\Console\Shell;
 
 /**
- * @property \App\Model\Table\WheelsTable $Wheels
- * @property \App\Model\Table\CarsTable $Cars
+ * @property \TestApp\Model\Table\WheelsTable $Wheels
+ * @property \TestApp\Model\Table\CarsTable $Cars
  * @property \Cake\Shell\Task\CommandTask $Command
  */
 class MyShell extends Shell {

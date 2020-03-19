@@ -2,7 +2,7 @@
 
 namespace IdeHelper\Test\TestCase\Annotator;
 
-use App\Model\Table\FooTable;
+use TestApp\Model\Table\FooTable;
 use Cake\Console\ConsoleIo;
 use Cake\Database\Schema\TableSchema;
 use Cake\ORM\TableRegistry;

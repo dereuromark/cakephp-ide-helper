@@ -1,11 +1,11 @@
 <?php
-namespace App\Model\Table;
+namespace TestApp\Model\Table;
 
 use Cake\ORM\Table;
 
 /**
- * @property \App\Model\Table\CarsTable|\Cake\ORM\Association\BelongsTo $Cars
- * @property \App\Model\Table\CarsTable|\Cake\ORM\Association\BelongsTo $CarsAwesome
+ * @property \TestApp\Model\Table\CarsTable|\Cake\ORM\Association\BelongsTo $Cars
+ * @property \TestApp\Model\Table\CarsTable|\Cake\ORM\Association\BelongsTo $CarsAwesome
  */
 class SkipSomeTable extends Table {
 

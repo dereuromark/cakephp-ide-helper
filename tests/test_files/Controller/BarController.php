@@ -1,12 +1,12 @@
 <?php
-namespace App\Controller;
+namespace TestApp\Controller;
 
 /**
- * @property \App\Model\Table\WheelsTable $Wheels
- * @property \App\Model\Table\BarBarsTable $BarBars
+ * @property \TestApp\Model\Table\WheelsTable $Wheels
+ * @property \TestApp\Model\Table\BarBarsTable $BarBars
  * @property \MyNamespace\MyPlugin\Controller\Component\MyComponent $My
  *
- * @method \App\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class BarController extends AppController {
 

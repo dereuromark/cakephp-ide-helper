@@ -2,7 +2,7 @@
 use Something;
 ?>
 <div>
-	<?php foreach ($cars as $car); ?>
+	<?php foreach ($cars as $car) {} ?>
 	<?php echo h($wheel->id); ?>
 
 	<?php foreach ($wheel->foos as $foos): ?>

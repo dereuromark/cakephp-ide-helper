@@ -1,10 +1,10 @@
 <?php
-namespace App\Custom\Nested;
+namespace TestApp\Custom\Nested;
 
 use Cake\Datasource\ModelAwareTrait;
 
 /**
- * @property \App\Model\Table\FooTable $Foo
+ * @property \TestApp\Model\Table\FooTable $Foo
  */
 class NestedClass {
 

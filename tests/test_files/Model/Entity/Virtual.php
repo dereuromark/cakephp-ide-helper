@@ -1,5 +1,5 @@
 <?php
-namespace App\Model\Entity;
+namespace TestApp\Model\Entity;
 
 use Cake\ORM\Entity;
 
@@ -12,7 +12,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime|null $modified
  * @property string|null $virtual_one
  * @property mixed $virtual_two
- * @property \App\Model\Entity\Wheel[] $wheels
+ * @property \TestApp\Model\Entity\Wheel[] $wheels
  */
 class Virtual extends Entity {
 
@@ -43,9 +43,9 @@ class Virtual extends Entity {
 	}
 
 	/**
-	 * @param \App\Model\Entity\Wheel[] $wheels
+	 * @param \TestApp\Model\Entity\Wheel[] $wheels
 	 *
-	 * @return \App\Model\Entity\Wheel[]
+	 * @return \TestApp\Model\Entity\Wheel[]
 	 */
 	protected function _getWheels($wheels = []) {
 		return $wheels;

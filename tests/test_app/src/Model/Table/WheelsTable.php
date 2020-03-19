@@ -1,10 +1,10 @@
 <?php
-namespace App\Model\Table;
+namespace TestApp\Model\Table;
 
 use Cake\ORM\Table;
 
 /**
- * @method \App\Model\Entity\Wheeeeeeeel newEntity($data = null, array $options = [])
+ * @method \TestApp\Model\Entity\Wheeeeeeeel newEntity($data = null, array $options = [])
  */
 class WheelsTable extends Table {
 

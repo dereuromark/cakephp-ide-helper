@@ -2,7 +2,7 @@
 
 namespace IdeHelper\Test\TestCase\Generator\Task;
 
-use App\Model\Table\CustomFinderTable;
+use TestApp\Model\Table\CustomFinderTable;
 use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
 use IdeHelper\Generator\Task\TableFinderTask;

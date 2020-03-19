@@ -1,5 +1,5 @@
 <?php
-namespace App\Model\Table;
+namespace TestApp\Model\Table;
 
 class BarBarsAbstractTable extends AbstractTable {
 

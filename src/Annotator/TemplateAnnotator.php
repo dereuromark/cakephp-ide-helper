@@ -206,7 +206,10 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 * @return \IdeHelper\Annotation\VariableAnnotation
 	 */
 	protected function getViewAnnotation() {
-		$className = Configure::read('IdeHelper.viewClass') ?: 'App\View\AppView';
+		$className = Configure::read('IdeHelper.viewClass');
+		if (!$className) {
+			$className = (Configure::read('App.namespace') ?: 'App') . '\View\AppView';
+		}
 		if (!class_exists($className)) {
 			$className = 'Cake\View\View';
 		}
