@@ -1,5 +1,5 @@
 <?php
-namespace App\Custom\Nested;
+namespace TestApp\Custom\Nested;
 
 use Cake\Datasource\ModelAwareTrait;
 

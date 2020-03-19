@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller;
+namespace TestApp\Controller;
 
 class FooController extends AppController {
 }

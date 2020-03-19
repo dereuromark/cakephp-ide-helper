@@ -1,5 +1,5 @@
 <?php
-namespace App\Model\Table;
+namespace TestApp\Model\Table;
 
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
@@ -11,7 +11,7 @@ class CallbacksTable extends Table {
 
 	/**
 	 * @param \Cake\Event\Event $event Event
-	 * @param \App\Model\Entity\Callback $entity Entity
+	 * @param \TestApp\Model\Entity\Callback $entity Entity
 	 * @param \ArrayObject $options Options
 	 * @return void
 	 */
@@ -20,7 +20,7 @@ class CallbacksTable extends Table {
 
 	/**
 	 * @param \Cake\Event\EventInterface $event
-	 * @param \App\Model\Entity\Callback $entity
+	 * @param \TestApp\Model\Entity\Callback $entity
 	 * @param \ArrayObject $options
 	 * @return void
 	 */

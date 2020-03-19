@@ -1,5 +1,5 @@
 <?php
-namespace App\Model\Table;
+namespace TestApp\Model\Table;
 
 use ArrayObject;
 use Cake\Datasource\EntityInterface;

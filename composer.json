@@ -43,7 +43,7 @@
 			"IdeHelper\\Test\\": "tests/",
 			"IdeHelper\\PHPStan\\": "tests/PHPStan/",
 			"Cake\\Test\\": "vendor/cakephp/cakephp/tests/",
-			"App\\": "tests/test_app/src/",
+			"TestApp\\": "tests/test_app/src/",
 			"Awesome\\": "tests/test_app/plugins/Awesome/src/",
 			"Controllers\\": "tests/test_app/plugins/Controllers/src/",
 			"MyNamespace\\MyPlugin\\": "tests/test_app/plugins/MyNamespace/MyPlugin/src/",
@@ -53,7 +53,7 @@
 	"prefer-stable": true,
 	"scripts": {
 		"test": "php phpunit.phar",
-		"test-setup": "[ ! -f phpunit.phar ] && curl -OL https://phar.phpunit.de/phpunit-8.1.4.phar && mv phpunit-8.1.4.phar phpunit.phar || true",
+		"test-setup": "[ ! -f phpunit.phar ] && curl -OL https://phar.phpunit.de/phpunit-8.5.2.phar && mv phpunit-8.5.2.phar phpunit.phar || true",
 		"test-coverage" : "php phpunit.phar --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml",
 		"phpstan": "phpstan analyse -c tests/phpstan.neon -l 6 src/",
 		"phpstan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan:^0.12 && mv composer.backup composer.json",

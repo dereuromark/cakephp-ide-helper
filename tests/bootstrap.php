@@ -35,7 +35,8 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 require CORE_PATH . 'config/bootstrap.php';
 
 Configure::write('App', [
-	'namespace' => 'App',
+	'namespace' => 'TestApp',
+	'encoding' => 'utf-8',
 	'paths' => [
 		'templates' => [TEST_ROOT . 'templates' . DS],
 	],
@@ -72,6 +73,8 @@ Type::build('datetime')
 	->useImmutable();
 Type::build('timestamp')
 	->useImmutable();
+
+class_alias(Cake\Controller\Controller::class, 'App\Controller\AppController');
 
 Plugin::getCollection()->add(new IdeHelper\Plugin());
 Plugin::getCollection()->add(new Shim\Plugin());

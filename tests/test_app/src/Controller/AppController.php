@@ -1,10 +1,10 @@
 <?php
-namespace App\Controller;
+namespace TestApp\Controller;
 
 use Cake\Controller\Controller;
 
 /**
- * @property \App\Controller\Component\MyOtherComponent $MyOther
+ * @property \TestApp\Controller\Component\MyOtherComponent $MyOther
  */
 class AppController extends Controller {
 
