@@ -2,7 +2,6 @@
 
 namespace IdeHelper\Test\TestCase\Annotator;
 
-use TestApp\Model\Table\FooTable;
 use Cake\Console\ConsoleIo;
 use Cake\Core\Configure;
 use Cake\Database\Schema\TableSchema;
@@ -13,6 +12,7 @@ use IdeHelper\Annotator\TemplateAnnotator;
 use IdeHelper\Console\Io;
 use Shim\TestSuite\ConsoleOutput;
 use Shim\TestSuite\TestTrait;
+use TestApp\Model\Table\FooTable;
 
 class TemplateAnnotatorTest extends TestCase {
 

@@ -2,10 +2,10 @@
 
 namespace IdeHelper\Test\TestCase\Generator\Task;
 
-use TestApp\Database\Type\UuidType;
 use Cake\Database\Type;
 use Cake\TestSuite\TestCase;
 use IdeHelper\Generator\Task\DatabaseTypeTask;
+use TestApp\Database\Type\UuidType;
 
 class DatabaseTypeTaskTest extends TestCase {
 

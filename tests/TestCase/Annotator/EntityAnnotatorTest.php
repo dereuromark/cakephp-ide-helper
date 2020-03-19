@@ -2,7 +2,6 @@
 
 namespace IdeHelper\Test\TestCase\Annotator;
 
-use TestApp\Model\Table\FooTable;
 use Cake\Console\ConsoleIo;
 use Cake\Core\Configure;
 use Cake\Database\Schema\TableSchema;
@@ -15,6 +14,7 @@ use IdeHelper\Console\Io;
 use IdeHelper\View\Helper\DocBlockHelper;
 use Shim\TestSuite\ConsoleOutput;
 use Shim\TestSuite\TestTrait;
+use TestApp\Model\Table\FooTable;
 
 class EntityAnnotatorTest extends TestCase {
 
