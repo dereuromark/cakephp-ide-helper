@@ -28,6 +28,7 @@ class EntityAnnotator extends AbstractAnnotator {
 		'longtext' => 'string',
 		'array' => 'array',
 		'json' => 'array',
+		'binaryuuid' => 'string',
 	];
 
 	/**
