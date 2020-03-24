@@ -69,9 +69,9 @@ class RoutePathTask implements TaskInterface {
 			if (!$matches || $matches[1] === 'App') {
 				continue;
 			}
-			$className = $matches[1];
+			$controllerName = $matches[1];
 
-			$routePath = $className . '::action';
+			$routePath = $controllerName . '::action';
 			if ($prefix) {
 				$routePath = $prefix . '/' . $routePath;
 			}
