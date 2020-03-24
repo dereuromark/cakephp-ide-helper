@@ -29,22 +29,22 @@ class ControllerAnnotator extends AbstractAnnotator {
 		}
 
 		$content = file_get_contents($path);
-		$primaryModelClass = $this->getPrimaryModelClass($content, $className, $path);
+		$primaryModelName = $this->getPrimaryModelClass($content, $className, $path);
 
 		$usedModels = $this->getUsedModels($content);
-		if ($primaryModelClass) {
-			$usedModels[] = $primaryModelClass;
+		if ($primaryModelName) {
+			$usedModels[] = $primaryModelName;
 		}
 		$usedModels = array_unique($usedModels);
 
 		$annotations = $this->getModelAnnotations($usedModels, $content);
 
-		$componentAnnotations = $this->getComponentAnnotations($className);
+		$componentAnnotations = $this->getComponentAnnotations($className, $path);
 		foreach ($componentAnnotations as $componentAnnotation) {
 			$annotations[] = $componentAnnotation;
 		}
 
-		$paginationAnnotations = $this->getPaginationAnnotations($content, $primaryModelClass);
+		$paginationAnnotations = $this->getPaginationAnnotations($content, $primaryModelName);
 		foreach ($paginationAnnotations as $paginationAnnotation) {
 			$annotations[] = $paginationAnnotation;
 		}
@@ -107,12 +107,14 @@ class ControllerAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param string $controllerName
+	 * @param string $className
+	 * @param string $path
+	 *
 	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
-	protected function getComponentAnnotations(string $controllerName): array {
+	protected function getComponentAnnotations(string $className, string $path): array {
 		try {
-			$map = $this->getUsedComponents($controllerName);
+			$map = $this->getUsedComponents($className, $path);
 		} catch (Throwable $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping component annotations: ' . $e->getMessage());
@@ -136,34 +138,37 @@ class ControllerAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param string $controllerName
+	 * @param string $className
+	 * @param string $path
 	 *
 	 * @return string[]
 	 */
-	protected function getUsedComponents(string $controllerName): array {
-		$plugin = $controllerName !== 'AppController' ? $this->getConfig(static::CONFIG_PLUGIN) : null;
-		$className = App::className(($plugin ? $plugin . '.' : '') . $controllerName, 'Controller');
-		if (!$className) {
+	protected function getUsedComponents(string $className, string $path): array {
+		$plugin = $className !== 'AppController' ? $this->getConfig(static::CONFIG_PLUGIN) : null;
+		$prefix = $this->getPrefix($className, $path);
+
+		$fullClassName = App::className(($plugin ? $plugin . '.' : '') . $className, 'Controller' . $prefix);
+		if (!$fullClassName) {
 			return [];
 		}
 
-		if ($this->_isAbstract($className)) {
+		if ($this->_isAbstract($fullClassName)) {
 			return [];
 		}
 
 		/** @var \App\Controller\AppController $controller */
-		$controller = new $className();
+		$controller = new $fullClassName();
 
 		$components = [];
 		foreach ($controller->components()->loaded() as $component) {
 			$components[$component] = get_class($controller->components()->get($component));
 		}
 
-		if ($controllerName === 'AppController') {
+		if ($className === 'AppController') {
 			return $components;
 		}
 
-		$appControllerComponents = $this->getUsedComponents('AppController');
+		$appControllerComponents = $this->getUsedComponents('AppController', $path);
 		$components = array_diff_key($components, $appControllerComponents);
 
 		return $components;
@@ -171,12 +176,12 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $content
-	 * @param string|null $primaryModelClass
+	 * @param string|null $primaryModelName
 	 *
 	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
-	protected function getPaginationAnnotations(string $content, ?string $primaryModelClass): array {
-		$entityTypehints = $this->extractPaginateEntityTypehints($content, $primaryModelClass);
+	protected function getPaginationAnnotations(string $content, ?string $primaryModelName): array {
+		$entityTypehints = $this->extractPaginateEntityTypehints($content, $primaryModelName);
 		if (!$entityTypehints) {
 			return [];
 		}
@@ -192,16 +197,16 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $content
-	 * @param string|null $primaryModelClass
+	 * @param string|null $primaryModelName
 	 *
 	 * @return string[]
 	 */
-	protected function extractPaginateEntityTypehints(string $content, ?string $primaryModelClass): array {
+	protected function extractPaginateEntityTypehints(string $content, ?string $primaryModelName): array {
 		$models = [];
 
 		preg_match_all('/\$this->paginate\(\)/i', $content, $matches);
-		if (!empty($matches[0]) && $primaryModelClass) {
-			$models[] = $primaryModelClass;
+		if (!empty($matches[0]) && $primaryModelName) {
+			$models[] = $primaryModelName;
 		}
 
 		preg_match_all('/\$this->paginate\(\$this->([a-z]+)\)/i', $content, $matches);
@@ -215,7 +220,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 		$result = [];
 		foreach ($models as $model) {
-			$entityClassName = $this->getEntity($model, $primaryModelClass);
+			$entityClassName = $this->getEntity($model, $primaryModelName);
 
 			$typehint = '\\' . ltrim($entityClassName, '\\') . '[]';
 			if (in_array($typehint, $result)) {
@@ -229,12 +234,12 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $modelName
-	 * @param string|null $primaryModelClass Can be plugin dot syntaxed
+	 * @param string|null $primaryModelName Can be plugin dot syntaxed
 	 *
 	 * @return string
 	 */
-	protected function getEntity(string $modelName, ?string $primaryModelClass): string {
-		if ($this->getConfig(static::CONFIG_PLUGIN) && $modelName !== $primaryModelClass && !strpos($modelName, '.')) {
+	protected function getEntity(string $modelName, ?string $primaryModelName): string {
+		if ($this->getConfig(static::CONFIG_PLUGIN) && $modelName !== $primaryModelName && !strpos($modelName, '.')) {
 			$modelName = $this->getConfig(static::CONFIG_PLUGIN) . '.' . $modelName;
 		}
 
@@ -266,11 +271,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 */
 	protected function findModelClass(string $className, string $path): ?string {
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN) ? $this->getConfig(static::CONFIG_PLUGIN) . '.' : '';
-		preg_match('#/Controller/(\w+)/' . $className . '\.php#', $path, $matches);
-		$prefix = null;
-		if ($matches) {
-			$prefix = '/' . $matches[1];
-		}
+		$prefix = $this->getPrefix($className, $path);
 
 		$fullClassName = App::className($plugin . $className, 'Controller' . $prefix);
 		if (!$fullClassName) {
@@ -294,12 +295,30 @@ class ControllerAnnotator extends AbstractAnnotator {
 			$modelClass = $this->getConfig(static::CONFIG_PLUGIN) . '.' . $modelClass;
 		}
 
-		$className = App::className($modelClass, 'Model/Table', 'Table');
-		if (!$className) {
+		$fullClassName = App::className($modelClass, 'Model/Table', 'Table');
+		if (!$fullClassName) {
 			return null;
 		}
 
 		return $modelClass;
+	}
+
+	/**
+	 * Namespace prefix for controllers.
+	 *
+	 * @param string $className
+	 * @param string $path
+	 *
+	 * @return string
+	 */
+	protected function getPrefix(string $className, string $path): string {
+		preg_match('#/Controller/(\w+)/' . $className . '\.php#', $path, $matches);
+		$prefix = '';
+		if ($matches) {
+			$prefix = '/' . $matches[1];
+		}
+
+		return $prefix;
 	}
 
 }
