@@ -34,6 +34,10 @@ class PluginTaskTest extends TestCase {
 		$this->assertSame('\Cake\Core\PluginApplicationInterface::addPlugin(0)', $directive->toArray()['method']);
 
 		$map = $directive->toArray()['map'];
+		$map = array_map(function ($className) {
+			return (string)$className;
+		}, $map);
+
 		$expected = [
 			'Bake' => '\Cake\Http\BaseApplication::class',
 			'Shim' => '\Cake\Http\BaseApplication::class',

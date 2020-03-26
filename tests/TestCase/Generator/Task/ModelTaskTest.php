@@ -34,6 +34,9 @@ class ModelTaskTest extends TestCase {
 		$this->assertSame('\Cake\ORM\TableRegistry::get(0)', $directive->toArray()['method']);
 
 		$map = $directive->toArray()['map'];
+		$map = array_map(function ($className) {
+			return (string)$className;
+		}, $map);
 
 		$expectedMap = [
 			'Abstract' => '\TestApp\Model\Table\AbstractTable::class',

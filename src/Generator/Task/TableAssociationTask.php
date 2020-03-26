@@ -8,6 +8,7 @@ use Cake\ORM\Association\HasMany;
 use Cake\ORM\Association\HasOne;
 use Cake\ORM\Table;
 use IdeHelper\Generator\Directive\Override;
+use IdeHelper\ValueObject\ClassName;
 
 class TableAssociationTask extends ModelTask {
 
@@ -33,7 +34,7 @@ class TableAssociationTask extends ModelTask {
 		foreach ($this->aliases as $alias => $className) {
 			$map = [];
 			foreach ($models as $model => $modelClassName) {
-				$map[$model] = '\\' . $className . '::class';
+				$map[$model] = ClassName::create($className);
 			}
 
 			ksort($map);

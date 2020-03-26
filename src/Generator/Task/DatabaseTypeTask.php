@@ -5,6 +5,7 @@ namespace IdeHelper\Generator\Task;
 use Cake\Database\Type;
 use Exception;
 use IdeHelper\Generator\Directive\Override;
+use IdeHelper\ValueObject\ClassName;
 
 class DatabaseTypeTask implements TaskInterface {
 
@@ -19,7 +20,7 @@ class DatabaseTypeTask implements TaskInterface {
 		$types = $this->getTypes();
 		$map = [];
 		foreach ($types as $type => $className) {
-			$map[$type] = '\\' . $className . '::class';
+			$map[$type] = ClassName::create($className);
 		}
 
 		ksort($map);

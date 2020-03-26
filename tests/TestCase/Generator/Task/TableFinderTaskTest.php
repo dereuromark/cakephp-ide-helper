@@ -50,6 +50,9 @@ class TableFinderTaskTest extends TestCase {
 		$this->assertSame('\Cake\ORM\Table::find(0)', $directive->toArray()['method']);
 
 		$map = $directive->toArray()['map'];
+		$map = array_map(function ($className) {
+			return (string)$className;
+		}, $map);
 
 		$expectedMap = [
 			'all' => '\Cake\ORM\Query::class',

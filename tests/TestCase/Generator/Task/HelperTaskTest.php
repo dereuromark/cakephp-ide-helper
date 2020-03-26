@@ -36,10 +36,10 @@ class HelperTaskTest extends TestCase {
 		$map = $directive->toArray()['map'];
 
 		$expected = '\Cake\View\Helper\FormHelper::class';
-		$this->assertSame($expected, $map['Form']);
+		$this->assertSame($expected, (string)$map['Form']);
 
 		$expected = '\Shim\View\Helper\ConfigureHelper::class';
-		$this->assertSame($expected, $map['Shim.Configure']);
+		$this->assertSame($expected, (string)$map['Shim.Configure']);
 	}
 
 }

@@ -11,7 +11,7 @@ class OverrideTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testObject() {
+	public function testBuild() {
 		$map = [
 			'Tree' => '\\' . Table::class,
 			'CounterCache' => '\\' . Table::class,

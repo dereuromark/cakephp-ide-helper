@@ -11,7 +11,7 @@ class ExpectedReturnValuesTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testObject() {
+	public function testBuild() {
 		$map = [
 			'\\Foo\\Bar',
 			'"string"',

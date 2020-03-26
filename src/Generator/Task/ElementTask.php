@@ -6,6 +6,7 @@ use Cake\Core\App;
 use Cake\Core\Plugin;
 use Cake\View\View;
 use IdeHelper\Generator\Directive\Override;
+use IdeHelper\ValueObject\ClassName;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RecursiveRegexIterator;
@@ -24,7 +25,7 @@ class ElementTask extends ModelTask {
 		$elements = $this->collectElements();
 		$map = [];
 		foreach ($elements as $element) {
-			$map[$element] = '\\' . static::CLASS_VIEW . '::class';
+			$map[$element] = ClassName::create(static::CLASS_VIEW);
 		}
 
 		ksort($map);

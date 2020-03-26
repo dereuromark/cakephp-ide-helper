@@ -43,12 +43,17 @@ class ElementTaskTest extends TestCase {
 		$directive = array_shift($result);
 		$this->assertSame('\Cake\View\View::element(0)', $directive->toArray()['method']);
 
+		$map = $directive->toArray()['map'];
+		$map = array_map(function ($className) {
+			return (string)$className;
+		}, $map);
+
 		$expectedMap = [
 			'Awesome.pagination' => '\Cake\View\View::class',
 			'deeply/nested' => '\Cake\View\View::class',
 			'example' => '\Cake\View\View::class',
 		];
-		$this->assertSame($expectedMap, $directive->toArray()['map']);
+		$this->assertSame($expectedMap, $map);
 	}
 
 }

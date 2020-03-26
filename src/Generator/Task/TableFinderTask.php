@@ -10,6 +10,7 @@ use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\App;
+use IdeHelper\ValueObject\ClassName;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
@@ -37,7 +38,7 @@ class TableFinderTask extends ModelTask {
 		foreach ($finders as $className => $methods) {
 			$map = [];
 			foreach ($methods as $method) {
-				$map[$method] = '\\' . static::CLASS_QUERY . '::class';
+				$map[$method] = ClassName::create(static::CLASS_QUERY);
 			}
 
 			ksort($map);

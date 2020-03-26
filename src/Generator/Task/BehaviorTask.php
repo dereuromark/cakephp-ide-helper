@@ -28,7 +28,7 @@ class BehaviorTask implements TaskInterface {
 
 		$behaviors = $this->collectBehaviors();
 		foreach ($behaviors as $name => $className) {
-			$map[$name] = '\\' . $className . '::class';
+			$map[$name] = ClassName::create($className);
 		}
 
 		ksort($map);

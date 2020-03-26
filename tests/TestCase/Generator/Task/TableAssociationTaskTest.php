@@ -34,6 +34,9 @@ class TableAssociationTaskTest extends TestCase {
 		$this->assertSame('\Cake\ORM\Table::belongsTo(0)', $directive->toArray()['method']);
 
 		$map = $directive->toArray()['map'];
+		$map = array_map(function ($className) {
+			return (string)$className;
+		}, $map);
 
 		$expectedMap = [
 			'Abstract' => '\Cake\ORM\Association\BelongsTo::class',

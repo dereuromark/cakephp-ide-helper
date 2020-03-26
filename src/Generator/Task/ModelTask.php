@@ -7,6 +7,7 @@ use Cake\Filesystem\Folder;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
+use IdeHelper\ValueObject\ClassName;
 
 class ModelTask implements TaskInterface {
 
@@ -41,7 +42,7 @@ class ModelTask implements TaskInterface {
 
 		$models = $this->collectModels();
 		foreach ($models as $model => $className) {
-			$map[$model] = '\\' . $className . '::class';
+			$map[$model] = ClassName::create($className);
 		}
 
 		ksort($map);

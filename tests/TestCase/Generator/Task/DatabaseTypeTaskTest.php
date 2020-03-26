@@ -40,10 +40,10 @@ class DatabaseTypeTaskTest extends TestCase {
 		$map = $directive->toArray()['map'];
 
 		$expected = '\Cake\Database\Type\BinaryType::class';
-		$this->assertSame($expected, $map['binary']);
+		$this->assertSame($expected, (string)$map['binary']);
 
 		$expected = '\TestApp\Database\Type\UuidType::class';
-		$this->assertSame($expected, $map['uuid']);
+		$this->assertSame($expected, (string)$map['uuid']);
 	}
 
 }

@@ -36,10 +36,10 @@ class BehaviorTaskTest extends TestCase {
 		$map = $directive->toArray()['map'];
 
 		$expected = '\Cake\ORM\Table::class';
-		$this->assertSame($expected, $map['Timestamp']);
+		$this->assertSame($expected, (string)$map['Timestamp']);
 
 		$expected = '\Cake\ORM\Table::class';
-		$this->assertSame($expected, $map['Shim.Nullable']);
+		$this->assertSame($expected, (string)$map['Shim.Nullable']);
 	}
 
 }

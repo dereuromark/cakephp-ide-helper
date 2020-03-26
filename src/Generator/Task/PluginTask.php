@@ -6,6 +6,7 @@ use Cake\Core\Configure;
 use Cake\Core\PluginApplicationInterface;
 use Cake\Http\BaseApplication;
 use IdeHelper\Generator\Directive\Override;
+use IdeHelper\ValueObject\ClassName;
 
 class PluginTask implements TaskInterface {
 
@@ -31,7 +32,7 @@ class PluginTask implements TaskInterface {
 
 		$plugins = $this->collectPlugins();
 		foreach ($plugins as $name) {
-			$map[$name] = '\\' . static::CLASS_APPLICATION . '::class';
+			$map[$name] = ClassName::create(static::CLASS_APPLICATION);
 		}
 
 		ksort($map);
