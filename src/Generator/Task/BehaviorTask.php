@@ -8,6 +8,7 @@ use Cake\Filesystem\Folder;
 use Cake\ORM\Table;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\AppPath;
+use IdeHelper\ValueObject\ClassName;
 
 class BehaviorTask implements TaskInterface {
 
