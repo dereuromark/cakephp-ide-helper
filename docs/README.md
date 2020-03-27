@@ -103,7 +103,7 @@ Group them for your project as composer.json script commands:
 "scripts": {
     ...
     "setup": "bin/cake code_completion generate && bin/cake phpstorm generate",
-    "annotations": "bin/cake annotations all && bin/cake annotations all -p Sandbox && ...",
+    "annotations": "bin/cake annotate all && bin/cake annotate all -p Sandbox && ...",
 ```
 
 This way you only need to remember these high level ones:
