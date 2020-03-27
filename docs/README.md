@@ -109,3 +109,8 @@ Group them for your project as composer.json script commands:
 This way you only need to remember these high level ones:
 - `composer setup` (also possible as Git hook after checkout/pull)
 - `composer annotations` (include all your /plugins, the non-vendor ones)
+
+
+## Migrating from 3.x?
+
+- `bin/cake annotations` is now `bin/cake annotate`.
