@@ -103,12 +103,12 @@ Group them for your project as composer.json script commands:
 "scripts": {
     ...
     "setup": "bin/cake code_completion generate && bin/cake phpstorm generate",
-    "annotations": "bin/cake annotate all && bin/cake annotate all -p Sandbox && ...",
+    "annotate": "bin/cake annotate all && bin/cake annotate all -p Sandbox && ...",
 ```
 
 This way you only need to remember these high level ones:
 - `composer setup` (also possible as Git hook after checkout/pull)
-- `composer annotations` (include all your /plugins, the non-vendor ones)
+- `composer annotate` (include all your /plugins, the non-vendor ones)
 
 
 ## Migrating from 3.x?
