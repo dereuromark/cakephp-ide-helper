@@ -46,19 +46,19 @@ Quick-Guide, see the above links for details.
 ### Using the annotations shell
 Running it on your app:
 ```
-bin/cake annotations [type]
+bin/cake annotate [type]
 ```
 By default it will print out a diff of the changes incl the amount of modified lines if applicable.
 
 Running it on an installed plugin:
 ```
-bin/cake annotations [type] -p FooBar
+bin/cake annotate [type] -p FooBar
 ```
 Note: It will be autoloaded if needed (if not manually loaded already).
 
 Use `-v` for verbose and detailed output:
 ```
-bin/cake annotations [type] -v
+bin/cake annotate [type] -v
 ```
 
 You can add `-d` (`--dry-run`) to simulate the output without actually modifying the files.
@@ -109,4 +109,3 @@ Group them for your project as composer.json script commands:
 This way you only need to remember these high level ones:
 - `composer setup` (also possible as Git hook after checkout/pull)
 - `composer annotations` (include all your /plugins, the non-vendor ones)
-

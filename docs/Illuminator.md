@@ -14,7 +14,7 @@ If that doesnt match, it will be skipped.
 #### EntityField
 Your entities expose their fields either via get()/set() or as class properties.
 Especially when using them through methods, you will have no typehinting/autocomplete on those magic strings.
-In these cases, having class constants is the solution. 
+In these cases, having class constants is the solution.
 This task will add those based on the defined property annotations in the doc block:
 ```php
 /**
@@ -29,7 +29,7 @@ class Car extends Entity {
     const FIELD_ID = 'id';
     const FIELD_BRAND_NAME = 'brand_name';
     ...
-    
+
 }
 ```
 This is especially useful then for e.g.
@@ -54,10 +54,10 @@ That also means refactoring on those is much easier this way (via IDE usually a 
 
 Note: For PHP 7.1+ it will also add the visibility flag `public` if you don't configure it otherwise.
 
-This task will not clean out removed or renamed fields. 
+This task will not clean out removed or renamed fields.
 You should quickly check for usage of this constant if unused it can be safely removed.
 
-![Fields Autocomplete](img/fields_autocomplete.png) 
+![Fields Autocomplete](img/fields_autocomplete.png)
 
 ### Adding your own tasks
 Just create your own Task class:
@@ -115,7 +115,7 @@ Setting the value to `null` completely disables a native task.
 Some tasks may be based on the results of the Annotator. So make sure you run that first, e.g.
 
 ```
-bin/cake annotations all && bin/cake illuminator illuminate <path>
+bin/cake annotate all && bin/cake illuminator illuminate <path>
 ```
 
 ### CI or pre-commit check

@@ -9,7 +9,7 @@ All controllers should at least annotate their primary model.
 They should also annotate the other loaded models as well as the loaded components.
 
 ```
-bin/cake annotations controllers
+bin/cake annotate controllers
 ```
 
 ### Primary model via convention
@@ -59,7 +59,7 @@ Using Configure key `'IdeHelper.prefixes'` you can configure a prefix whitelist.
 This will ensure the annotations for tables and their entities:
 
 ```
-bin/cake annotations models
+bin/cake annotate models
 ```
 
 ### Tables
@@ -138,7 +138,7 @@ Note: You can also use `@property-read` tag here if it is a pure virtual field g
 Shells and Tasks should annotate their primary model as well as all manually loaded models.
 
 ```
-bin/cake annotations shells
+bin/cake annotate shells
 ```
 
 ```php
@@ -169,7 +169,7 @@ They also should annotate any Tasks they use.
 The AppView class should annotate the helpers of the plugins and the app.
 
 ```
-bin/cake annotations view
+bin/cake annotate view
 ```
 
 With template content like
@@ -195,7 +195,7 @@ Those will then also be parsed and all found helpers added to the AppView annota
 Components should annotate any component they use.
 
 ```
-bin/cake annotations components
+bin/cake annotate components
 ```
 
 A component containing
@@ -220,7 +220,7 @@ would get the following annotations:
 Helpers should annotate any helper they use.
 
 ```
-bin/cake annotations helpers
+bin/cake annotate helpers
 ```
 
 A helper containing
@@ -334,7 +334,7 @@ Setting the value to `null` completely disables a native task.
 ## Templates
 This will ensure annotations for view templates and elements:
 ```
-bin/cake annotations templates
+bin/cake annotate templates
 ```
 Templates should have a `/** @var \App\View\AppView $this */` added on top if they use any helper or access the request object.
 They should also annotate entities they use.
@@ -432,12 +432,12 @@ E.g. `'App\View\MyCustomAppView'` or `MyCustomAppView::class` (incl. use stateme
 
 ## Running all commands
 ```
-bin/cake annotations all
+bin/cake annotate all
 ```
 By default it will be interactive, asking you for each class type if you want to continue.
 You can use `-i` (interactive) to enable interactive mode. It is also recommended to make the output more verbose:
 ```
-bin/cake annotations all -i -v
+bin/cake annotate all -i -v
 ```
 
 Also make sure you committed or backuped all project files.
@@ -567,13 +567,13 @@ This way no annotation can be forgotten, when making PRs for your project.
 
 For this, use the `--ci` option along with `-d` (dry run):
 ```
-bin/cake annotations all -v -d --ci
+bin/cake annotate all -v -d --ci
 ```
 It will return an error code 2 if any modification has to be done.
 
 It is advised to hook it in along with your cs check, e.g. for travis:
 ```
-- if [[ $PHPCS == 1 ]]; then bin/cake annotations all -v -d --ci ; fi
+- if [[ $PHPCS == 1 ]]; then bin/cake annotate all -v -d --ci ; fi
 ```
 Note: This will need some additional setup, like migrations to be run prior to the call.
 The database must exist and replicate the actual DB.
