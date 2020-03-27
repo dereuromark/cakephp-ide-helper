@@ -54,7 +54,7 @@ Running it on an installed plugin:
 ```
 bin/cake annotations [type] -p FooBar
 ```
-Note: Since 0.13.9 it will be autoloaded if needed (if not manually loaded already).
+Note: It will be autoloaded if needed (if not manually loaded already).
 
 Use `-v` for verbose and detailed output:
 ```
