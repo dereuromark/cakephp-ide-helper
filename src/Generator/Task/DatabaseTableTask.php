@@ -3,6 +3,7 @@
 namespace IdeHelper\Generator\Task;
 
 use Bake\Utility\TableScanner;
+use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
 use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Generator\Parser\DatabaseTableParser;
@@ -51,6 +52,15 @@ class DatabaseTableTask implements TaskInterface {
 		foreach ($tables as $key => $table) {
 			if (stripos($table, 'phinxlog') !== false) {
 				unset($tables[$key]);
+			}
+		}
+
+		$blacklist = (array)Configure::read('IdeHelper.skipDatabaseTables');
+		foreach ($tables as $key => $table) {
+			foreach ($blacklist as $regex) {
+				if ((bool)preg_match($regex, $table)) {
+					unset($tables[$key]);
+				}
 			}
 		}
 

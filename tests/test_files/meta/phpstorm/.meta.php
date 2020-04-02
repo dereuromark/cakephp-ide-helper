@@ -316,9 +316,7 @@ namespace PHPSTORM_META {
 	expectedArguments(
 		\Migrations\AbstractMigration::table(0),
 		0,
-		'_foo_',
-		'letters',
-		'numbers'
+		'wheels'
 	);
 
 }

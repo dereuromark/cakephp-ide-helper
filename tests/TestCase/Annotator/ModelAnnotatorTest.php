@@ -19,7 +19,7 @@ class ModelAnnotatorTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	public $fixtures = [
+	protected $fixtures = [
 		'plugin.IdeHelper.Foo',
 		'plugin.IdeHelper.Wheels',
 		'plugin.IdeHelper.BarBars',

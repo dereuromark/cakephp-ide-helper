@@ -31,6 +31,8 @@ return [
 		// For meta file generator
 		'generatorTasks' => [
 		],
+		// For Migrations plugin DatabaseTableTask generator task
+		'skipDatabaseTables' => null,
 		// For Illuminator tasks
 		'illuminatorTasks' => [
 		],
