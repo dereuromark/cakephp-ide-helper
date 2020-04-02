@@ -5,6 +5,7 @@ namespace IdeHelper\Generator;
 use Cake\Core\Configure;
 use IdeHelper\Generator\Task\BehaviorTask;
 use IdeHelper\Generator\Task\ComponentTask;
+use IdeHelper\Generator\Task\DatabaseTableTask;
 use IdeHelper\Generator\Task\DatabaseTypeTask;
 use IdeHelper\Generator\Task\ElementTask;
 use IdeHelper\Generator\Task\HelperTask;
@@ -34,6 +35,7 @@ class TaskCollection {
 		PluginTask::class => PluginTask::class,
 		ValidationTask::class => ValidationTask::class,
 		RoutePathTask::class => RoutePathTask::class,
+		DatabaseTableTask::class => DatabaseTableTask::class,
 	];
 
 	/**

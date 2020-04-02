@@ -313,4 +313,10 @@ namespace PHPSTORM_META {
 		])
 	);
 
+	expectedArguments(
+		\Migrations\AbstractMigration::table(0),
+		0,
+		'wheels'
+	);
+
 }

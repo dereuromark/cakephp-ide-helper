@@ -2,12 +2,21 @@
 
 namespace IdeHelper\Test\TestCase\Generator\Task;
 
+use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use IdeHelper\Generator\PhpstormGenerator;
 use IdeHelper\Generator\TaskCollection;
 use Shim\TestSuite\TestCase;
 
 class PhpstormGeneratorTest extends TestCase {
+
+	/**
+	 * @var string[]
+	 */
+	protected $fixtures = [
+		'plugin.IdeHelper.Cars',
+		'plugin.IdeHelper.Wheels',
+	];
 
 	/**
 	 * @var \IdeHelper\Generator\PhpstormGenerator
@@ -33,6 +42,8 @@ class PhpstormGeneratorTest extends TestCase {
 	 * @return void
 	 */
 	public function testCollect() {
+		Configure::write('IdeHelper.skipDatabaseTables', ['/^(?!wheels)/']);
+
 		$result = $this->generator->generate();
 		if ($this->isDebug()) {
 			file_put_contents(TMP . '.meta.php', $result);
