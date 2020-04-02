@@ -6,7 +6,6 @@ use Bake\Utility\TableScanner;
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
 use IdeHelper\Generator\Directive\ExpectedArguments;
-use IdeHelper\Generator\Parser\DatabaseTableParser;
 
 /**
  * This task is useful when using Migrations plugin and creating Migration files.
