@@ -100,6 +100,8 @@ With this generator PHPStorm can auto-complete this, including all elements for 
 
 Now not just bool true/false, but also the possible "magic strings" are typehinted and usable as single click/enter.
 
+#### Migrations plugin database tables
+When using the Migrations plugin, this task will come in handy to quickly autocomplete existing tables.
 
 ### Adding your own tasks
 Just create your own Task class:
