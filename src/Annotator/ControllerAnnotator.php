@@ -212,6 +212,10 @@ class ControllerAnnotator extends AbstractAnnotator {
 			$models = array_merge($models, $matches[1]);
 		}
 
+		if (!$models && preg_match('/\$this->paginate\(/i', $content)) {
+			$models[] = '\Cake\ORM\Entity';
+		}
+
 		if (!$models) {
 			return [];
 		}
@@ -239,6 +243,10 @@ class ControllerAnnotator extends AbstractAnnotator {
 	protected function getEntity($modelName, $primaryModelClass) {
 		if ($this->getConfig(static::CONFIG_PLUGIN) && $modelName !== $primaryModelClass && !strpos($modelName, '.')) {
 			$modelName = $this->getConfig(static::CONFIG_PLUGIN) . '.' . $modelName;
+		}
+
+		if ($modelName === '\Cake\ORM\Entity') {
+			return $modelName;
 		}
 
 		try {
