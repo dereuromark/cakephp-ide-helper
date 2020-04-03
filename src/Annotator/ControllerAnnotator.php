@@ -218,7 +218,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 			$entityClassName = $this->getEntity($model, $primaryModelClass);
 
 			$typehint = '\\' . ltrim($entityClassName, '\\') . '[]';
-			if (in_array($typehint, $result)) {
+			if (in_array($typehint, $result, true)) {
 				continue;
 			}
 			$result[] = $typehint;
