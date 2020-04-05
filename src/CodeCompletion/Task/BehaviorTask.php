@@ -2,10 +2,10 @@
 
 namespace IdeHelper\CodeCompletion\Task;
 
-use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
+use IdeHelper\Utility\Plugin;
 
 class BehaviorTask implements TaskInterface {
 
@@ -52,7 +52,7 @@ TXT;
 			$behaviors = $this->addBehaviors($behaviors, $folder);
 		}
 
-		$plugins = (array)Plugin::loaded();
+		$plugins = Plugin::all();
 		foreach ($plugins as $plugin) {
 			$folders = AppPath::get('Model/Behavior', $plugin);
 			foreach ($folders as $folder) {

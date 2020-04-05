@@ -2,11 +2,11 @@
 
 namespace IdeHelper\Generator\Task;
 
-use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
+use IdeHelper\Utility\Plugin;
 use IdeHelper\ValueObject\ClassName;
 
 class HelperTask implements TaskInterface {
@@ -51,7 +51,7 @@ class HelperTask implements TaskInterface {
 			$helpers = $this->addHelpers($helpers, $folder);
 		}
 
-		$plugins = Plugin::loaded();
+		$plugins = Plugin::all();
 		foreach ($plugins as $plugin) {
 			$folders = AppPath::get('View/Helper', $plugin);
 			foreach ($folders as $folder) {

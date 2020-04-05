@@ -3,9 +3,9 @@
 namespace IdeHelper\Generator\Task;
 
 use Cake\Core\App;
-use Cake\Core\Plugin;
 use Cake\View\View;
 use IdeHelper\Generator\Directive\Override;
+use IdeHelper\Utility\Plugin;
 use IdeHelper\ValueObject\ClassName;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -46,7 +46,7 @@ class ElementTask extends ModelTask {
 		$result = [];
 		$result = $this->addElements($result, $paths);
 
-		$plugins = Plugin::loaded();
+		$plugins = Plugin::all();
 		foreach ($plugins as $plugin) {
 			$paths = App::path('templates', $plugin);
 			$result = $this->addElements($result, $paths, $plugin);

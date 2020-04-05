@@ -2,8 +2,8 @@
 
 namespace IdeHelper\Annotator\Traits;
 
-use Cake\Core\Plugin;
 use IdeHelper\Utility\App;
+use IdeHelper\Utility\Plugin;
 
 /**
  * Handles component related things
@@ -21,7 +21,7 @@ trait HelperTrait {
 			return $className;
 		}
 
-		$plugins = Plugin::loaded();
+		$plugins = Plugin::all();
 		foreach ($plugins as $plugin) {
 			$className = App::className($plugin . '.' . $helper, 'View/Helper', 'Helper');
 			if ($className) {

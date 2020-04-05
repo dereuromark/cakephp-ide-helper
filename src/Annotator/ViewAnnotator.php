@@ -3,13 +3,13 @@
 namespace IdeHelper\Annotator;
 
 use Cake\Core\Configure;
-use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\HelperTrait;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
+use IdeHelper\Utility\Plugin;
 
 class ViewAnnotator extends AbstractAnnotator {
 
@@ -181,7 +181,7 @@ class ViewAnnotator extends AbstractAnnotator {
 		$folders = App::path('templates', $plugin);
 		$plugins = Configure::read('IdeHelper.includedPlugins');
 		if ($plugins === true) {
-			$plugins = Plugin::loaded();
+			$plugins = Plugin::loaded(); // We cannot use all() here
 		} else {
 			$plugins = (array)$plugins;
 		}

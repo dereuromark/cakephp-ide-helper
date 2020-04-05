@@ -2,11 +2,11 @@
 
 namespace IdeHelper\Generator\Task;
 
-use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
+use IdeHelper\Utility\Plugin;
 use IdeHelper\ValueObject\ClassName;
 
 class ModelTask implements TaskInterface {
@@ -71,7 +71,7 @@ class ModelTask implements TaskInterface {
 			$models = $this->addModels($models, $folder);
 		}
 
-		$plugins = Plugin::loaded();
+		$plugins = Plugin::all();
 		foreach ($plugins as $plugin) {
 			$folders = AppPath::get('Model/Table', $plugin);
 			foreach ($folders as $folder) {

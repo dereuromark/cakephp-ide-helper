@@ -243,6 +243,19 @@ return [
 
 For more examples and details see their [documentation](https://confluence.jetbrains.com/display/PhpStorm/PhpStorm+Advanced+Metadata).
 
+### Include/Exclude Plugins
+Many plugins don't need to be "loaded". Those usually would not be included in the generator tasks,though.
+If you want to add some not loaded plugins into the list of plugins to process, use:
+```php
+'IdeHelper' => [
+    'plugins' => [
+        'MyNotLoadedPlugin',
+        '-BlacklistedLoadedPlugin',
+    ],
+],
+```
+With the `-` prefix, you can even exclude loaded plugins from being processed.
+
 ### CI or pre-commit check
 Using `-d` (dry run) option you will get an error code 2 if the file would need updating.
 This way you can automate the check for CI tooling or commit hooks.

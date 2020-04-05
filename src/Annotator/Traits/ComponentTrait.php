@@ -2,8 +2,8 @@
 
 namespace IdeHelper\Annotator\Traits;
 
-use Cake\Core\Plugin;
 use IdeHelper\Utility\App;
+use IdeHelper\Utility\Plugin;
 
 /**
  * Handles component related things
@@ -16,7 +16,7 @@ trait ComponentTrait {
 	 * @return string|null
 	 */
 	protected function findClassName(string $component): ?string {
-		$plugins = Plugin::loaded();
+		$plugins = Plugin::all();
 		if (class_exists($component)) {
 			return $component;
 		}

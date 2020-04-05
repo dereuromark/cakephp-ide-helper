@@ -3,11 +3,11 @@
 namespace IdeHelper\Generator\Task;
 
 use Cake\Core\App;
-use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use Cake\ORM\Table;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\AppPath;
+use IdeHelper\Utility\Plugin;
 use IdeHelper\ValueObject\ClassName;
 
 class BehaviorTask implements TaskInterface {
@@ -54,7 +54,7 @@ class BehaviorTask implements TaskInterface {
 			$behaviors = $this->addBehaviors($behaviors, $folder);
 		}
 
-		$plugins = Plugin::loaded();
+		$plugins = Plugin::all();
 		foreach ($plugins as $plugin) {
 			$folders = AppPath::get('Model/Behavior', $plugin);
 			foreach ($folders as $folder) {
