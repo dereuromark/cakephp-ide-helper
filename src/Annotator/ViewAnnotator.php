@@ -181,7 +181,7 @@ class ViewAnnotator extends AbstractAnnotator {
 		$folders = App::path('templates', $plugin);
 		$plugins = Configure::read('IdeHelper.includedPlugins');
 		if ($plugins === true) {
-			$plugins = Plugin::all();
+			$plugins = Plugin::loaded(); // We cannot use all() here
 		} else {
 			$plugins = (array)$plugins;
 		}
