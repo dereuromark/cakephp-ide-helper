@@ -3,7 +3,7 @@
 namespace IdeHelper\Utility;
 
 use Cake\Core\Exception\MissingPluginException;
-use Cake\Core\Plugin;
+use IdeHelper\Utility\Plugin;
 
 class PluginPath {
 

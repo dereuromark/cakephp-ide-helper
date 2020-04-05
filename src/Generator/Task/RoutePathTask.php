@@ -3,11 +3,11 @@
 namespace IdeHelper\Generator\Task;
 
 use Cake\Core\Configure;
-use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use Cake\Routing\Router;
 use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Utility\AppPath;
+use IdeHelper\Utility\Plugin;
 
 class RoutePathTask implements TaskInterface {
 

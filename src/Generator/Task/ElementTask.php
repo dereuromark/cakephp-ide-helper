@@ -3,9 +3,9 @@
 namespace IdeHelper\Generator\Task;
 
 use Cake\Core\App;
-use Cake\Core\Plugin;
 use Cake\View\View;
 use IdeHelper\Generator\Directive\Override;
+use IdeHelper\Utility\Plugin;
 use IdeHelper\ValueObject\ClassName;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
