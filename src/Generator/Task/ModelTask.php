@@ -71,7 +71,7 @@ class ModelTask implements TaskInterface {
 			$models = $this->addModels($models, $folder);
 		}
 
-		$plugins = Plugin::loaded();
+		$plugins = Plugin::all();
 		foreach ($plugins as $plugin) {
 			$folders = AppPath::get('Model/Table', $plugin);
 			foreach ($folders as $folder) {

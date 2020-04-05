@@ -51,7 +51,7 @@ class HelperTask implements TaskInterface {
 			$helpers = $this->addHelpers($helpers, $folder);
 		}
 
-		$plugins = Plugin::loaded();
+		$plugins = Plugin::all();
 		foreach ($plugins as $plugin) {
 			$folders = AppPath::get('View/Helper', $plugin);
 			foreach ($folders as $folder) {

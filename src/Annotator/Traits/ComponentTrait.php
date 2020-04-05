@@ -16,7 +16,7 @@ trait ComponentTrait {
 	 * @return string|null
 	 */
 	protected function findClassName(string $component): ?string {
-		$plugins = Plugin::loaded();
+		$plugins = Plugin::all();
 		if (class_exists($component)) {
 			return $component;
 		}

@@ -21,7 +21,7 @@ trait HelperTrait {
 			return $className;
 		}
 
-		$plugins = Plugin::loaded();
+		$plugins = Plugin::all();
 		foreach ($plugins as $plugin) {
 			$className = App::className($plugin . '.' . $helper, 'View/Helper', 'Helper');
 			if ($className) {

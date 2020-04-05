@@ -51,7 +51,7 @@ class ComponentTask implements TaskInterface {
 			$components = $this->addComponents($components, $folder);
 		}
 
-		$plugins = Plugin::loaded();
+		$plugins = Plugin::all();
 		foreach ($plugins as $plugin) {
 			$folders = AppPath::get('Controller/Component', $plugin);
 			foreach ($folders as $folder) {

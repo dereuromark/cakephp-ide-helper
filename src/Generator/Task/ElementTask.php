@@ -46,7 +46,7 @@ class ElementTask extends ModelTask {
 		$result = [];
 		$result = $this->addElements($result, $paths);
 
-		$plugins = Plugin::loaded();
+		$plugins = Plugin::all();
 		foreach ($plugins as $plugin) {
 			$paths = App::path('templates', $plugin);
 			$result = $this->addElements($result, $paths, $plugin);

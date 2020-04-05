@@ -32,7 +32,7 @@ class RoutePathTask implements TaskInterface {
 	 * @return string[]
 	 */
 	protected function collectPaths(): array {
-		$plugins = Plugin::loaded();
+		$plugins = Plugin::all();
 
 		$paths = AppPath::get('Controller');
 
