@@ -390,4 +390,31 @@ namespace PHPSTORM_META {
 		'year'
 	);
 
+	expectedArguments(
+		\Migrations\Table::hasColumn(),
+		0,
+		'content',
+		'created',
+		'id',
+		'name'
+	);
+
+	expectedArguments(
+		\Migrations\Table::removeColumn(),
+		0,
+		'content',
+		'created',
+		'id',
+		'name'
+	);
+
+	expectedArguments(
+		\Migrations\Table::renameColumn(),
+		0,
+		'content',
+		'created',
+		'id',
+		'name'
+	);
+
 }

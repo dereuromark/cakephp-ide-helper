@@ -16,6 +16,9 @@ class DatabaseTableColumnNameTask extends DatabaseTableTask {
 	protected $aliases = [
 		'\Migrations\Table::addColumn()',
 		'\Migrations\Table::changeColumn()',
+		'\Migrations\Table::removeColumn()',
+		'\Migrations\Table::renameColumn()',
+		'\Migrations\Table::hasColumn()',
 	];
 
 	/**
