@@ -8,7 +8,7 @@ use IdeHelper\Generator\Task\DatabaseTableTask;
 class DatabaseTableTaskTest extends TestCase {
 
 	/**
-	 * @var array
+	 * @var string[]
 	 */
 	protected $fixtures = [
 		'plugin.IdeHelper.Cars',

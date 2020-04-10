@@ -21,6 +21,7 @@ namespace PHPSTORM_META {
 		\Cake\Core\PluginApplicationInterface::addPlugin(0),
 		map([
 			'Bake' => \Cake\Http\BaseApplication::class,
+			'Migrations' => \Cake\Http\BaseApplication::class,
 			'Shim' => \Cake\Http\BaseApplication::class,
 			'WyriHaximus/TwigView' => \Cake\Http\BaseApplication::class,
 		])
