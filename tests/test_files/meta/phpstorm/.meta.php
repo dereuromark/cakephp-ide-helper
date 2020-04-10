@@ -319,4 +319,74 @@ namespace PHPSTORM_META {
 		'wheels'
 	);
 
+	expectedArguments(
+		\Migrations\Table::addColumn(),
+		0,
+		'content',
+		'created',
+		'id',
+		'name'
+	);
+
+	expectedArguments(
+		\Migrations\Table::addColumn(),
+		1,
+		'biginteger',
+		'binary',
+		'binaryuuid',
+		'bit',
+		'blob',
+		'boolean',
+		'char',
+		'date',
+		'datetime',
+		'decimal',
+		'double',
+		'float',
+		'integer',
+		'json',
+		'smallinteger',
+		'string',
+		'text',
+		'time',
+		'timestamp',
+		'uuid',
+		'year'
+	);
+
+	expectedArguments(
+		\Migrations\Table::changeColumn(),
+		0,
+		'content',
+		'created',
+		'id',
+		'name'
+	);
+
+	expectedArguments(
+		\Migrations\Table::changeColumn(),
+		1,
+		'biginteger',
+		'binary',
+		'binaryuuid',
+		'bit',
+		'blob',
+		'boolean',
+		'char',
+		'date',
+		'datetime',
+		'decimal',
+		'double',
+		'float',
+		'integer',
+		'json',
+		'smallinteger',
+		'string',
+		'text',
+		'time',
+		'timestamp',
+		'uuid',
+		'year'
+	);
+
 }
