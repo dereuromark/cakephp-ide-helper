@@ -379,6 +379,25 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
+		\Cake\View\ViewBuilder::addHelper(),
+		0,
+		'Breadcrumbs',
+		'Flash',
+		'Form',
+		'Html',
+		'IdeHelper.DocBlock',
+		'My',
+		'Number',
+		'Paginator',
+		'Shim.Configure',
+		'Shim.Cookie',
+		'Shim.Form',
+		'Text',
+		'Time',
+		'Url'
+	);
+
+	expectedArguments(
 		\Cake\View\ViewBuilder::setLayout(),
 		0,
 		'ajax'

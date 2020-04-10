@@ -27,7 +27,7 @@ class HelperTaskTest extends TestCase {
 	public function testCollect() {
 		$result = $this->task->collect();
 
-		$this->assertCount(1, $result);
+		$this->assertCount(2, $result);
 
 		/** @var \IdeHelper\Generator\Directive\Override $directive */
 		$directive = array_shift($result);
@@ -40,6 +40,18 @@ class HelperTaskTest extends TestCase {
 
 		$expected = '\Shim\View\Helper\ConfigureHelper::class';
 		$this->assertSame($expected, (string)$map['Shim.Configure']);
+
+		/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */
+		$directive = array_shift($result);
+		$this->assertSame('\Cake\View\ViewBuilder::addHelper()', $directive->toArray()['method']);
+
+		$list = $directive->toArray()['list'];
+
+		$expected = "'Form'";
+		$this->assertSame($expected, (string)$list['Form']);
+
+		$expected = "'Shim.Configure'";
+		$this->assertSame($expected, (string)$list['Shim.Configure']);
 	}
 
 }
