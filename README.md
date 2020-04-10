@@ -1,6 +1,6 @@
 #  CakePHP IdeHelper Plugin
 
-[![Build Status](https://api.travis-ci.org/dereuromark/cakephp-ide-helper.svg?branch=master)](https://travis-ci.org/dereuromark/cakephp-ide-helper)
+[![Build Status](https://api.travis-ci.com/dereuromark/cakephp-ide-helper.svg?branch=master)](https://travis-ci.org/dereuromark/cakephp-ide-helper)
 [![Coverage Status](https://img.shields.io/codecov/c/github/dereuromark/cakephp-ide-helper/master.svg)](https://codecov.io/github/dereuromark/cakephp-ide-helper?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/dereuromark/cakephp-ide-helper/v/stable.svg)](https://packagist.org/packages/dereuromark/cakephp-ide-helper)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.2-8892BF.svg)](https://php.net/)
