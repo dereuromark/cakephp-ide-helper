@@ -42,7 +42,7 @@ class DatabaseTableTaskTest extends TestCase {
 
 		/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */
 		$directive = array_shift($result);
-		$this->assertSame('\Migrations\AbstractMigration::table(0)', $directive->toArray()['method']);
+		$this->assertSame('\Migrations\AbstractMigration::table()', $directive->toArray()['method']);
 
 		$list = $directive->toArray()['list'];
 

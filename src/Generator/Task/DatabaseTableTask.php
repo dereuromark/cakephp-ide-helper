@@ -16,7 +16,7 @@ class DatabaseTableTask implements TaskInterface {
 	 * @var string[]
 	 */
 	protected $aliases = [
-		'\Migrations\AbstractMigration::table(0)',
+		'\Migrations\AbstractMigration::table()',
 	];
 
 	/**

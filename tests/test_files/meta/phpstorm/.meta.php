@@ -314,7 +314,7 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
-		\Migrations\AbstractMigration::table(0),
+		\Migrations\AbstractMigration::table(),
 		0,
 		'wheels'
 	);
