@@ -21,6 +21,7 @@ namespace PHPSTORM_META {
 		\Cake\Core\PluginApplicationInterface::addPlugin(0),
 		map([
 			'Bake' => \Cake\Http\BaseApplication::class,
+			'Migrations' => \Cake\Http\BaseApplication::class,
 			'Shim' => \Cake\Http\BaseApplication::class,
 			'WyriHaximus/TwigView' => \Cake\Http\BaseApplication::class,
 		])
@@ -317,6 +318,76 @@ namespace PHPSTORM_META {
 		\Migrations\AbstractMigration::table(),
 		0,
 		'wheels'
+	);
+
+	expectedArguments(
+		\Migrations\Table::addColumn(),
+		0,
+		'content',
+		'created',
+		'id',
+		'name'
+	);
+
+	expectedArguments(
+		\Migrations\Table::addColumn(),
+		1,
+		'biginteger',
+		'binary',
+		'binaryuuid',
+		'bit',
+		'blob',
+		'boolean',
+		'char',
+		'date',
+		'datetime',
+		'decimal',
+		'double',
+		'float',
+		'integer',
+		'json',
+		'smallinteger',
+		'string',
+		'text',
+		'time',
+		'timestamp',
+		'uuid',
+		'year'
+	);
+
+	expectedArguments(
+		\Migrations\Table::changeColumn(),
+		0,
+		'content',
+		'created',
+		'id',
+		'name'
+	);
+
+	expectedArguments(
+		\Migrations\Table::changeColumn(),
+		1,
+		'biginteger',
+		'binary',
+		'binaryuuid',
+		'bit',
+		'blob',
+		'boolean',
+		'char',
+		'date',
+		'datetime',
+		'decimal',
+		'double',
+		'float',
+		'integer',
+		'json',
+		'smallinteger',
+		'string',
+		'text',
+		'time',
+		'timestamp',
+		'uuid',
+		'year'
 	);
 
 }
