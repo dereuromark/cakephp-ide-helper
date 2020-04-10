@@ -78,6 +78,12 @@ The following is now auto-completed, for example:
 ```php
 $this->loadHelper('Tools.Tree');
 ```
+And so is the ``addHelper()`` (added in CakePHP 4.1) on the `ViewBuilder`:
+```php
+$this->viewBuilder()
+    ->addHelper('TinyAuth.AuthUser')
+    ->addHelper('Tools.Tree');
+```
 
 #### Types
 In your bootstrap (app, or plugin), you might add additional database Type classes, or you reconfigure existing ones:
