@@ -4,7 +4,7 @@ namespace IdeHelper\Annotation;
 
 class MethodAnnotation extends AbstractAnnotation {
 
-	const TAG = '@method';
+	public const TAG = '@method';
 
 	/**
 	 * @var string

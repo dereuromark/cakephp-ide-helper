@@ -4,6 +4,6 @@ namespace IdeHelper\Annotation;
 
 class PropertyReadAnnotation extends PropertyAnnotation {
 
-	const TAG = '@property-read';
+	public const TAG = '@property-read';
 
 }

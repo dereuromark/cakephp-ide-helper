@@ -20,7 +20,7 @@ use Throwable;
 
 class ModelAnnotator extends AbstractAnnotator {
 
-	const CLASS_TABLE = Table::class;
+	public const CLASS_TABLE = Table::class;
 
 	/**
 	 * @var array

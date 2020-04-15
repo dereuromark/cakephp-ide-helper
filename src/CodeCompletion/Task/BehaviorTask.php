@@ -9,7 +9,7 @@ use IdeHelper\Utility\Plugin;
 
 class BehaviorTask implements TaskInterface {
 
-	const TYPE_NAMESPACE = 'Cake\ORM';
+	public const TYPE_NAMESPACE = 'Cake\ORM';
 
 	/**
 	 * @return string

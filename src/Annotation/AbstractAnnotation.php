@@ -6,7 +6,7 @@ use RuntimeException;
 
 abstract class AbstractAnnotation implements AnnotationInterface, ReplacableAnnotationInterface {
 
-	const TAG = '';
+	public const TAG = '';
 
 	/**
 	 * @var string

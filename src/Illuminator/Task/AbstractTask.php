@@ -26,12 +26,12 @@ abstract class AbstractTask {
 	use FileTrait;
 	use InstanceConfigTrait;
 
-	const CONFIG_DRY_RUN = 'dry-run';
-	const CONFIG_PLUGIN = 'plugin';
-	const CONFIG_NAMESPACE = 'namespace';
-	const CONFIG_VERBOSE = 'verbose';
+	public const CONFIG_DRY_RUN = 'dry-run';
+	public const CONFIG_PLUGIN = 'plugin';
+	public const CONFIG_NAMESPACE = 'namespace';
+	public const CONFIG_VERBOSE = 'verbose';
 
-	const COUNT_ADDED = 'added';
+	public const COUNT_ADDED = 'added';
 
 	/**
 	 * @var array

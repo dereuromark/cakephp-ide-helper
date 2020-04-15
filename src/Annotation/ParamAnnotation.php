@@ -4,7 +4,7 @@ namespace IdeHelper\Annotation;
 
 class ParamAnnotation extends AbstractAnnotation {
 
-	const TAG = '@param';
+	public const TAG = '@param';
 
 	/**
 	 * @var string

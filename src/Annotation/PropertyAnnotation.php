@@ -4,7 +4,7 @@ namespace IdeHelper\Annotation;
 
 class PropertyAnnotation extends AbstractAnnotation {
 
-	const TAG = '@property';
+	public const TAG = '@property';
 
 	/**
 	 * @var string

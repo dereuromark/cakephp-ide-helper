@@ -14,7 +14,7 @@ class EntityFieldTask extends AbstractTask {
 
 	use FileTrait;
 
-	const PREFIX = 'FIELD_';
+	public const PREFIX = 'FIELD_';
 
 	/**
 	 * @var array

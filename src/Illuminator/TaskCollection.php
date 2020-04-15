@@ -13,8 +13,8 @@ use SebastianBergmann\Diff\Differ;
 
 class TaskCollection {
 
-	const CONFIG_DRY_RUN = 'dry-run';
-	const CONFIG_VISIBILITY = 'visibility';
+	public const CONFIG_DRY_RUN = 'dry-run';
+	public const CONFIG_VISIBILITY = 'visibility';
 
 	/**
 	 * @var \IdeHelper\Console\Io

@@ -5,6 +5,8 @@ namespace IdeHelper\Generator\Directive;
 /**
  * Helps to annotate expected method arguments.
  *
+ * The position is 0-based.
+ *
  * ### Example
  *
  * expectedArguments(
@@ -24,7 +26,7 @@ namespace IdeHelper\Generator\Directive;
  */
 class ExpectedArguments extends BaseDirective {
 
-	const NAME = 'expectedArguments';
+	public const NAME = 'expectedArguments';
 
 	/**
 	 * @var string
@@ -43,7 +45,7 @@ class ExpectedArguments extends BaseDirective {
 
 	/**
 	 * @param string $method
-	 * @param int $position
+	 * @param int $position Position, 0-based.
 	 * @param array $list
 	 */
 	public function __construct($method, $position, array $list) {

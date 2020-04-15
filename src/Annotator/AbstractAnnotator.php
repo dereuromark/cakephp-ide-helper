@@ -41,18 +41,18 @@ abstract class AbstractAnnotator {
 	use FileTrait;
 	use InstanceConfigTrait;
 
-	const CONFIG_DRY_RUN = 'dry-run';
-	const CONFIG_PLUGIN = 'plugin';
-	const CONFIG_NAMESPACE = 'namespace';
-	const CONFIG_VERBOSE = 'verbose';
-	const CONFIG_REMOVE = 'remove';
+	public const CONFIG_DRY_RUN = 'dry-run';
+	public const CONFIG_PLUGIN = 'plugin';
+	public const CONFIG_NAMESPACE = 'namespace';
+	public const CONFIG_VERBOSE = 'verbose';
+	public const CONFIG_REMOVE = 'remove';
 
-	const COUNT_REMOVED = 'removed';
-	const COUNT_UPDATED = 'updated';
-	const COUNT_ADDED = 'added';
-	const COUNT_SKIPPED = 'skipped';
+	public const COUNT_REMOVED = 'removed';
+	public const COUNT_UPDATED = 'updated';
+	public const COUNT_ADDED = 'added';
+	public const COUNT_SKIPPED = 'skipped';
 
-	const TYPES = [
+	public const TYPES = [
 		PropertyAnnotation::TAG,
 		PropertyReadAnnotation::TAG,
 		VariableAnnotation::TAG,

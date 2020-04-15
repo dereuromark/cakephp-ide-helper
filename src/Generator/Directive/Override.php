@@ -17,7 +17,7 @@ namespace IdeHelper\Generator\Directive;
  */
 class Override extends BaseDirective {
 
-	const NAME = 'override';
+	public const NAME = 'override';
 
 	/**
 	 * @var string

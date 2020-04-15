@@ -16,7 +16,7 @@ use RuntimeException;
  */
 class PhpstormShell extends Shell {
 
-	const CODE_CHANGES = 2;
+	public const CODE_CHANGES = 2;
 
 	/**
 	 * Generates .phpstorm.meta.php file.

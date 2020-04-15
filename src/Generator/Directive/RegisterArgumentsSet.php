@@ -17,7 +17,7 @@ namespace IdeHelper\Generator\Directive;
  */
 class RegisterArgumentsSet extends BaseDirective {
 
-	const NAME = 'registerArgumentsSet';
+	public const NAME = 'registerArgumentsSet';
 
 	/**
 	 * @var string

@@ -18,7 +18,7 @@ use InvalidArgumentException;
  */
 class IlluminatorShell extends Shell {
 
-	const CODE_CHANGES = 2;
+	public const CODE_CHANGES = 2;
 
 	/**
 	 * @param string|null $path

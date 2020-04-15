@@ -4,7 +4,7 @@ namespace IdeHelper\Annotation;
 
 class VariableAnnotation extends AbstractAnnotation {
 
-	const TAG = '@var';
+	public const TAG = '@var';
 
 	/**
 	 * @var string
