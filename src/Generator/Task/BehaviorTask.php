@@ -5,38 +5,38 @@ namespace IdeHelper\Generator\Task;
 use Cake\Core\App;
 use Cake\Filesystem\Folder;
 use Cake\ORM\Table;
-use IdeHelper\Generator\Directive\Override;
+use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Utility\AppPath;
 use IdeHelper\Utility\Plugin;
-use IdeHelper\ValueObject\ClassName;
+use IdeHelper\ValueObject\StringName;
 
 class BehaviorTask implements TaskInterface {
 
-	const CLASS_TABLE = Table::class;
+	public const CLASS_TABLE = Table::class;
 
 	/**
-	 * @var string[]
+	 * @var int[]
 	 */
 	protected $aliases = [
-		'\\' . self::CLASS_TABLE . '::addBehavior(0)',
+		'\\' . self::CLASS_TABLE . '::addBehavior()' => 0,
 	];
 
 	/**
 	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
 	 */
 	public function collect(): array {
-		$map = [];
+		$list = [];
 
 		$behaviors = $this->collectBehaviors();
 		foreach ($behaviors as $name => $className) {
-			$map[$name] = ClassName::create($className);
+			$list[$name] = StringName::create($name);
 		}
 
-		ksort($map);
+		ksort($list);
 
 		$result = [];
-		foreach ($this->aliases as $alias) {
-			$directive = new Override($alias, $map);
+		foreach ($this->aliases as $alias => $position) {
+			$directive = new ExpectedArguments($alias, $position, $list);
 			$result[$directive->key()] = $directive;
 		}
 

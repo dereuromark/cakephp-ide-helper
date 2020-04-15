@@ -3,6 +3,7 @@
 namespace IdeHelper\Generator\Task;
 
 use Cake\Filesystem\Folder;
+use Cake\View\View;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
@@ -11,11 +12,13 @@ use IdeHelper\ValueObject\ClassName;
 
 class HelperTask implements TaskInterface {
 
+	public const CLASS_VIEW = View::class;
+
 	/**
 	 * @var string[]
 	 */
 	protected $aliases = [
-		'\Cake\View\View::loadHelper(0)',
+		'\\' . self::CLASS_VIEW . '::loadHelper(0)',
 	];
 
 	/**

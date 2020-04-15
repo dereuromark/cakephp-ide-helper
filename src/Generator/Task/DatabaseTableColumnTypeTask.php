@@ -4,6 +4,7 @@ namespace IdeHelper\Generator\Task;
 
 use Cake\Core\Plugin;
 use IdeHelper\Generator\Directive\ExpectedArguments;
+use IdeHelper\ValueObject\StringName;
 use Migrations\Migrations;
 
 /**
@@ -56,7 +57,7 @@ class DatabaseTableColumnTypeTask implements TaskInterface {
 
 		$types = $this->collectTableColumnTypes();
 		foreach ($types as $type) {
-			$list[$type] = "'$type'";
+			$list[$type] = StringName::create($type);
 		}
 
 		ksort($list);

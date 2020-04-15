@@ -13,9 +13,9 @@ class PluginTask implements TaskInterface {
 	/**
 	 * We need to use this until PHPStorm fixed the issue around concrete classes here
 	 */
-	const INTERFACE_APPLICATION = PluginApplicationInterface::class;
+	public const INTERFACE_APPLICATION = PluginApplicationInterface::class;
 
-	const CLASS_APPLICATION = BaseApplication::class;
+	public const CLASS_APPLICATION = BaseApplication::class;
 
 	/**
 	 * @var string[]

@@ -6,6 +6,7 @@ use Bake\Utility\TableScanner;
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
 use IdeHelper\Generator\Directive\ExpectedArguments;
+use IdeHelper\ValueObject\StringName;
 
 /**
  * This task is useful when using Migrations plugin and creating Migration files.
@@ -27,7 +28,7 @@ class DatabaseTableTask implements TaskInterface {
 
 		$tables = $this->collectTables();
 		foreach ($tables as $table) {
-			$list[$table] = "'$table'";
+			$list[$table] = StringName::create($table);
 		}
 
 		ksort($list);

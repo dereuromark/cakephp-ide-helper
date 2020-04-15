@@ -8,10 +8,11 @@ use Cake\Routing\Router;
 use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Utility\AppPath;
 use IdeHelper\Utility\Plugin;
+use IdeHelper\ValueObject\StringName;
 
 class RoutePathTask implements TaskInterface {
 
-	const CLASS_ROUTER = Router::class;
+	public const CLASS_ROUTER = Router::class;
 
 	/**
 	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
@@ -78,7 +79,7 @@ class RoutePathTask implements TaskInterface {
 				$routePath = $plugin . '.' . $routePath;
 			}
 
-			$controllers[$routePath] = "'" . $routePath . "'";
+			$controllers[$routePath] = StringName::create($routePath);
 		}
 
 		foreach ($folderContent[0] as $subFolder) {

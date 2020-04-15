@@ -4,6 +4,7 @@ namespace IdeHelper\Generator\Task;
 
 use Cake\Datasource\ConnectionManager;
 use IdeHelper\Generator\Directive\ExpectedArguments;
+use IdeHelper\ValueObject\StringName;
 
 /**
  * This task is useful when using Migrations plugin and creating Migration files.
@@ -29,7 +30,7 @@ class DatabaseTableColumnNameTask extends DatabaseTableTask {
 
 		$names = $this->collectTableColumnNames();
 		foreach ($names as $type) {
-			$list[$type] = "'$type'";
+			$list[$type] = StringName::create($type);
 		}
 
 		ksort($list);

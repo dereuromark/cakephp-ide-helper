@@ -33,12 +33,16 @@ class ValidationTaskTest extends TestCase {
 		$directive = array_shift($result);
 		$this->assertSame('\Cake\Validation\Validator::requirePresence()', $directive->toArray()['method']);
 
-		$map = $directive->toArray()['list'];
+		$list = $directive->toArray()['list'];
+		$list = array_map(function ($className) {
+			return (string)$className;
+		}, $list);
+
 		$expected = [
 			"'create'",
 			"'update'",
 		];
-		$this->assertSame($expected, $map);
+		$this->assertSame($expected, $list);
 	}
 
 }

@@ -4,9 +4,9 @@ namespace IdeHelper\Generator\Task;
 
 use Cake\Core\App;
 use Cake\View\View;
-use IdeHelper\Generator\Directive\Override;
+use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Utility\Plugin;
-use IdeHelper\ValueObject\ClassName;
+use IdeHelper\ValueObject\StringName;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RecursiveRegexIterator;
@@ -14,7 +14,7 @@ use RegexIterator;
 
 class ElementTask extends ModelTask {
 
-	const CLASS_VIEW = View::class;
+	public const CLASS_VIEW = View::class;
 
 	/**
 	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
@@ -23,15 +23,15 @@ class ElementTask extends ModelTask {
 		$result = [];
 
 		$elements = $this->collectElements();
-		$map = [];
+		$list = [];
 		foreach ($elements as $element) {
-			$map[$element] = ClassName::create(static::CLASS_VIEW);
+			$list[$element] = StringName::create($element);
 		}
 
-		ksort($map);
+		ksort($list);
 
-		$method = '\\' . static::CLASS_VIEW . '::element(0)';
-		$directive = new Override($method, $map);
+		$method = '\\' . static::CLASS_VIEW . '::element()';
+		$directive = new ExpectedArguments($method, 0, $list);
 		$result[$directive->key()] = $directive;
 
 		return $result;

@@ -18,10 +18,10 @@ use Throwable;
 
 class TableFinderTask extends ModelTask {
 
-	const INTERFACE_QUERY = QueryInterface::class;
-	const CLASS_TABLE = Table::class;
-	const CLASS_ASSOCIATION = Association::class;
-	const CLASS_QUERY = Query::class;
+	public const INTERFACE_QUERY = QueryInterface::class;
+	public const CLASS_TABLE = Table::class;
+	public const CLASS_ASSOCIATION = Association::class;
+	public const CLASS_QUERY = Query::class;
 
 	/**
 	 * @var string[]

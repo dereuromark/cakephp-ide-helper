@@ -2,6 +2,7 @@
 
 namespace IdeHelper\Generator\Task;
 
+use Cake\Controller\Controller;
 use Cake\Filesystem\Folder;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\App;
@@ -11,11 +12,13 @@ use IdeHelper\ValueObject\ClassName;
 
 class ComponentTask implements TaskInterface {
 
+	public const CLASS_CONTROLLER = Controller::class;
+
 	/**
 	 * @var string[]
 	 */
 	protected $aliases = [
-		'\Cake\Controller\Controller::loadComponent(0)',
+		'\\' . self::CLASS_CONTROLLER . '::loadComponent(0)',
 	];
 
 	/**

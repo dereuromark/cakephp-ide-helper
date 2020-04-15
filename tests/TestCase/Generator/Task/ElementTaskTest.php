@@ -41,19 +41,19 @@ class ElementTaskTest extends TestCase {
 
 		/** @var \IdeHelper\Generator\Directive\Override $directive */
 		$directive = array_shift($result);
-		$this->assertSame('\Cake\View\View::element(0)', $directive->toArray()['method']);
+		$this->assertSame('\Cake\View\View::element()', $directive->toArray()['method']);
 
-		$map = $directive->toArray()['map'];
-		$map = array_map(function ($className) {
+		$list = $directive->toArray()['list'];
+		$list = array_map(function ($className) {
 			return (string)$className;
-		}, $map);
+		}, $list);
 
 		$expectedMap = [
-			'Awesome.pagination' => '\Cake\View\View::class',
-			'deeply/nested' => '\Cake\View\View::class',
-			'example' => '\Cake\View\View::class',
+			'Awesome.pagination' => '\'Awesome.pagination\'',
+			'deeply/nested' => '\'deeply/nested\'',
+			'example' => '\'example\'',
 		];
-		$this->assertSame($expectedMap, $map);
+		$this->assertSame($expectedMap, $list);
 	}
 
 }

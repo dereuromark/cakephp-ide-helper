@@ -122,16 +122,15 @@ namespace PHPSTORM_META {
 		])
 	);
 
-	override(
-		\Cake\ORM\Table::addBehavior(0),
-		map([
-			'CounterCache' => \Cake\ORM\Table::class,
-			'MyNamespace/MyPlugin.My' => \Cake\ORM\Table::class,
-			'Shim.Nullable' => \Cake\ORM\Table::class,
-			'Timestamp' => \Cake\ORM\Table::class,
-			'Translate' => \Cake\ORM\Table::class,
-			'Tree' => \Cake\ORM\Table::class,
-		])
+	expectedArguments(
+		\Cake\ORM\Table::addBehavior(),
+		0,
+		'CounterCache',
+		'MyNamespace/MyPlugin.My',
+		'Shim.Nullable',
+		'Timestamp',
+		'Translate',
+		'Tree'
 	);
 
 	override(
@@ -285,13 +284,12 @@ namespace PHPSTORM_META {
 		'update'
 	);
 
-	override(
-		\Cake\View\View::element(0),
-		map([
-			'Awesome.pagination' => \Cake\View\View::class,
-			'deeply/nested' => \Cake\View\View::class,
-			'example' => \Cake\View\View::class,
-		])
+	expectedArguments(
+		\Cake\View\View::element(),
+		0,
+		'Awesome.pagination',
+		'deeply/nested',
+		'example'
 	);
 
 	override(

@@ -12,7 +12,7 @@ use IdeHelper\ValueObject\ClassName;
 
 class TableAssociationTask extends ModelTask {
 
-	const CLASS_TABLE = Table::class;
+	public const CLASS_TABLE = Table::class;
 
 	/**
 	 * @var string[]

@@ -4,6 +4,7 @@ namespace IdeHelper\Generator\Task;
 
 use Cake\Validation\Validator;
 use IdeHelper\Generator\Directive\ExpectedArguments;
+use IdeHelper\ValueObject\StringName;
 
 class ValidationTask extends ModelTask {
 
@@ -26,8 +27,8 @@ class ValidationTask extends ModelTask {
 	protected function addValidatorRequirePresence(array $result): array {
 		$method = '\\' . Validator::class . '::requirePresence()';
 		$list = [
-			"'create'",
-			"'update'",
+			StringName::create('create'),
+			StringName::create('update'),
 		];
 		$directive = new ExpectedArguments($method, 1, $list);
 		$result[$directive->key()] = $directive;

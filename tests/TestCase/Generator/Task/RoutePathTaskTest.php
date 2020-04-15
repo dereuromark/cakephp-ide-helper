@@ -34,6 +34,9 @@ class RoutePathTaskTest extends TestCase {
 		$this->assertSame('\Cake\Routing\Router::pathUrl()', $directive->toArray()['method']);
 
 		$list = $directive->toArray()['list'];
+		$list = array_map(function ($className) {
+			return (string)$className;
+		}, $list);
 
 		$expected = [
 			'Bar::action' => "'Bar::action'",

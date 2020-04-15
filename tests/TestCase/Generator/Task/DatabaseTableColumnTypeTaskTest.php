@@ -65,6 +65,10 @@ class DatabaseTableColumnTypeTaskTest extends TestCase {
 		$this->assertSame('\Migrations\Table::changeColumn()', $directive->toArray()['method']);
 
 		$list = $directive->toArray()['list'];
+		$list = array_map(function ($className) {
+			return (string)$className;
+		}, $list);
+
 		foreach ($expectedList as $key => $value) {
 			$this->assertArrayHasKey($key, $list);
 			$this->assertSame($list[$key], $list[$key]);
@@ -95,6 +99,10 @@ class DatabaseTableColumnTypeTaskTest extends TestCase {
 		$this->assertSame('\Migrations\Table::addColumn()', $directive->toArray()['method']);
 
 		$list = $directive->toArray()['list'];
+		$list = array_map(function ($className) {
+			return (string)$className;
+		}, $list);
+
 		$expectedList = [
 			'text' => "'text'",
 			'integer' => "'integer'",

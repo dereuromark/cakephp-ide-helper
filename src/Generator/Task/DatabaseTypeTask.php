@@ -9,7 +9,7 @@ use IdeHelper\ValueObject\ClassName;
 
 class DatabaseTypeTask implements TaskInterface {
 
-	const CLASS_TYPE = Type::class;
+	public const CLASS_TYPE = Type::class;
 
 	/**
 	 * @return \IdeHelper\Generator\Directive\BaseDirective[]

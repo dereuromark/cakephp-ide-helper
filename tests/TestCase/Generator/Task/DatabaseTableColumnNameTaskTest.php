@@ -45,6 +45,9 @@ class DatabaseTableColumnNameTaskTest extends TestCase {
 		$this->assertSame('\Migrations\Table::addColumn()', $directive->toArray()['method']);
 
 		$list = $directive->toArray()['list'];
+		$list = array_map(function ($className) {
+			return (string)$className;
+		}, $list);
 
 		$expectedList = [
 			'content' => "'content'",
@@ -60,6 +63,9 @@ class DatabaseTableColumnNameTaskTest extends TestCase {
 		$this->assertSame('\Migrations\Table::changeColumn()', $directive->toArray()['method']);
 
 		$list = $directive->toArray()['list'];
+		$list = array_map(function ($className) {
+			return (string)$className;
+		}, $list);
 		$this->assertSame($expectedList, $list);
 
 		/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */
@@ -67,6 +73,9 @@ class DatabaseTableColumnNameTaskTest extends TestCase {
 		$this->assertSame('\Migrations\Table::removeColumn()', $directive->toArray()['method']);
 
 		$list = $directive->toArray()['list'];
+		$list = array_map(function ($className) {
+			return (string)$className;
+		}, $list);
 		$this->assertSame($expectedList, $list);
 
 		/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */
@@ -74,6 +83,9 @@ class DatabaseTableColumnNameTaskTest extends TestCase {
 		$this->assertSame('\Migrations\Table::renameColumn()', $directive->toArray()['method']);
 
 		$list = $directive->toArray()['list'];
+		$list = array_map(function ($className) {
+			return (string)$className;
+		}, $list);
 		$this->assertSame($expectedList, $list);
 
 		/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */
@@ -81,6 +93,9 @@ class DatabaseTableColumnNameTaskTest extends TestCase {
 		$this->assertSame('\Migrations\Table::hasColumn()', $directive->toArray()['method']);
 
 		$list = $directive->toArray()['list'];
+		$list = array_map(function ($className) {
+			return (string)$className;
+		}, $list);
 		$this->assertSame($expectedList, $list);
 	}
 
