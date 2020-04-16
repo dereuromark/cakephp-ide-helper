@@ -106,6 +106,10 @@ class TranslationKeyTask implements TaskInterface {
 
 		$localePaths = App::path('locales');
 		foreach ($localePaths as $localePath) {
+			if (!is_dir($localePath)) {
+				continue;
+			}
+
 			$Directory = new RecursiveDirectoryIterator($localePath);
 			$Iterator = new RecursiveIteratorIterator($Directory);
 			$Regex = new RegexIterator($Iterator, '/^.+\.po/i', RecursiveRegexIterator::GET_MATCH);
