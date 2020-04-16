@@ -112,14 +112,3 @@ Cake\Datasource\ConnectionManager::setConfig('test', [
 	'quoteIdentifiers' => true,
 	'cacheMetadata' => true,
 ]);
-
-Cake\Datasource\ConnectionManager::setConfig('test_database_log', [
-	'url' => getenv('db_dsn'),
-	'driver' => getenv('db_class'),
-	'database' => getenv('db_database'),
-	'username' => getenv('db_username'),
-	'password' => getenv('db_password'),
-	'timezone' => 'UTC',
-	'quoteIdentifiers' => true,
-	'cacheMetadata' => true,
-]);
