@@ -1,6 +1,6 @@
 <?php
 
-namespace IdeHelper\Test\test_app\src\Generator\Task;
+namespace TestApp\Generator\Task;
 
 use IdeHelper\Generator\Task\DatabaseTableColumnTypeTask;
 

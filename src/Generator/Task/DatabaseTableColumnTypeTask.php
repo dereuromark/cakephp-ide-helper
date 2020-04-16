@@ -4,6 +4,7 @@ namespace IdeHelper\Generator\Task;
 
 use Cake\Core\Plugin;
 use IdeHelper\Generator\Directive\ExpectedArguments;
+use IdeHelper\Generator\Directive\RegisterArgumentsSet;
 use IdeHelper\ValueObject\StringName;
 use Migrations\Migrations;
 
@@ -11,6 +12,8 @@ use Migrations\Migrations;
  * This task is useful when using Migrations plugin and creating Migration files.
  */
 class DatabaseTableColumnTypeTask implements TaskInterface {
+
+	public const SET_TABLE_TYPES = 'tableTypes';
 
 	/**
 	 * @var string[]
@@ -63,8 +66,11 @@ class DatabaseTableColumnTypeTask implements TaskInterface {
 		ksort($list);
 
 		$result = [];
+		$registerArgumentsSet = new RegisterArgumentsSet(static::SET_TABLE_TYPES, $list);
+		$result[$registerArgumentsSet->key()] = $registerArgumentsSet;
+
 		foreach ($this->aliases as $alias) {
-			$directive = new ExpectedArguments($alias, 1, $list);
+			$directive = new ExpectedArguments($alias, 1, [$registerArgumentsSet]);
 			$result[$directive->key()] = $directive;
 		}
 

@@ -1,12 +1,14 @@
 <?php
 
-namespace IdeHelper\Test\TestCase\Generator\Task;
+namespace IdeHelper\Test\TestCase\Generator;
 
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use IdeHelper\Generator\PhpstormGenerator;
 use IdeHelper\Generator\TaskCollection;
+use IdeHelper\Generator\Task\EnvTask;
 use Shim\TestSuite\TestCase;
+use TestApp\Generator\Task\TestEnvTask;
 
 class PhpstormGeneratorTest extends TestCase {
 
@@ -29,7 +31,9 @@ class PhpstormGeneratorTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$taskCollection = new TaskCollection();
+		$taskCollection = new TaskCollection([
+			EnvTask::class => TestEnvTask::class,
+		]);
 		$this->generator = new PhpstormGenerator($taskCollection);
 
 		$file = TMP . '.meta.php';

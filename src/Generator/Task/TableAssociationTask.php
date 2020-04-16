@@ -8,6 +8,7 @@ use Cake\ORM\Association\HasMany;
 use Cake\ORM\Association\HasOne;
 use Cake\ORM\Table;
 use IdeHelper\Generator\Directive\Override;
+use IdeHelper\Generator\Directive\RegisterArgumentsSet;
 use IdeHelper\ValueObject\ClassName;
 
 class TableAssociationTask extends ModelTask {

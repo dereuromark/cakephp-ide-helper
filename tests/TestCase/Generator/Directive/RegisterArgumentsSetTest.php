@@ -13,11 +13,11 @@ class RegisterArgumentsSetTest extends TestCase {
 	 * @return void
 	 */
 	public function testBuild() {
-		$map = [
+		$list = [
 			'\\Foo\\Bar',
 			'"string"',
 		];
-		$directive = new RegisterArgumentsSet('foo', $map);
+		$directive = new RegisterArgumentsSet('foo', $list);
 
 		$result = $directive->build();
 		$expected = <<<TXT
@@ -35,36 +35,36 @@ TXT;
 	 * @return void
 	 */
 	public function testToString() {
-		$map = [
+		$list = [
 			'\\Foo\\Bar',
 		];
-		$directive = new RegisterArgumentsSet('fooBar', $map);
+		$directive = new RegisterArgumentsSet('fooBar', $list);
 
 		$result = (string)$directive;
-		$this->assertSame('argumentsSet("fooBar")', $result);
+		$this->assertSame('argumentsSet(\'fooBar\')', $result);
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testSetInsideArguments() {
-		$map = [
+		$list = [
 			'\\Foo\\Bar',
 			'"string"',
 		];
-		$argumentsSet = new RegisterArgumentsSet('fooBar', $map);
+		$argumentsSet = new RegisterArgumentsSet('fooBar', $list);
 
-		$map = [
+		$list = [
 			$argumentsSet,
 		];
-		$directive = new ExpectedArguments('\\My\\Class::someMethod()', 1, $map);
+		$directive = new ExpectedArguments('\\My\\Class::someMethod()', 1, $list);
 
 		$result = $directive->build();
 		$expected = <<<TXT
 	expectedArguments(
 		\\My\\Class::someMethod(),
 		1,
-		argumentsSet("fooBar")
+		argumentsSet('fooBar')
 	);
 TXT;
 		$this->assertSame($expected, $result);
@@ -74,22 +74,22 @@ TXT;
 	 * @return void
 	 */
 	public function testArgumentsSetInsideReturnValues() {
-		$map = [
+		$list = [
 			'\\Foo\\Bar',
 			'"string"',
 		];
-		$argumentsSet = new RegisterArgumentsSet('fooBar', $map);
+		$argumentsSet = new RegisterArgumentsSet('fooBar', $list);
 
-		$map = [
+		$list = [
 			$argumentsSet,
 		];
-		$directive = new ExpectedReturnValues('\\My\\Class::someMethod()', $map);
+		$directive = new ExpectedReturnValues('\\My\\Class::someMethod()', $list);
 
 		$result = $directive->build();
 		$expected = <<<TXT
 	expectedReturnValues(
 		\\My\\Class::someMethod(),
-		argumentsSet("fooBar")
+		argumentsSet('fooBar')
 	);
 TXT;
 		$this->assertSame($expected, $result);

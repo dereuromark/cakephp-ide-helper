@@ -321,50 +321,61 @@ namespace PHPSTORM_META {
 	expectedArguments(
 		\Migrations\Table::addColumn(),
 		0,
-		'content',
-		'created',
-		'id',
-		'name'
+		argumentsSet('tableNames')
 	);
 
 	expectedArguments(
 		\Migrations\Table::addColumn(),
 		1,
-		'biginteger',
-		'binary',
-		'binaryuuid',
-		'bit',
-		'blob',
-		'boolean',
-		'char',
-		'date',
-		'datetime',
-		'decimal',
-		'double',
-		'float',
-		'integer',
-		'json',
-		'smallinteger',
-		'string',
-		'text',
-		'time',
-		'timestamp',
-		'uuid',
-		'year'
+		argumentsSet('tableTypes')
 	);
 
 	expectedArguments(
 		\Migrations\Table::changeColumn(),
 		0,
-		'content',
-		'created',
-		'id',
-		'name'
+		argumentsSet('tableNames')
 	);
 
 	expectedArguments(
 		\Migrations\Table::changeColumn(),
 		1,
+		argumentsSet('tableTypes')
+	);
+
+	expectedArguments(
+		\Migrations\Table::hasColumn(),
+		0,
+		argumentsSet('tableNames')
+	);
+
+	expectedArguments(
+		\Migrations\Table::removeColumn(),
+		0,
+		argumentsSet('tableNames')
+	);
+
+	expectedArguments(
+		\Migrations\Table::renameColumn(),
+		0,
+		argumentsSet('tableNames')
+	);
+
+	expectedArguments(
+		\env(),
+		0,
+		'HTTP_HOST'
+	);
+
+	registerArgumentsSet(
+		'tableNames',
+		'content',
+		'created',
+		'id',
+		'name'
+	);
+
+	registerArgumentsSet(
+		'tableTypes',
 		'biginteger',
 		'binary',
 		'binaryuuid',
@@ -386,33 +397,6 @@ namespace PHPSTORM_META {
 		'timestamp',
 		'uuid',
 		'year'
-	);
-
-	expectedArguments(
-		\Migrations\Table::hasColumn(),
-		0,
-		'content',
-		'created',
-		'id',
-		'name'
-	);
-
-	expectedArguments(
-		\Migrations\Table::removeColumn(),
-		0,
-		'content',
-		'created',
-		'id',
-		'name'
-	);
-
-	expectedArguments(
-		\Migrations\Table::renameColumn(),
-		0,
-		'content',
-		'created',
-		'id',
-		'name'
 	);
 
 }
