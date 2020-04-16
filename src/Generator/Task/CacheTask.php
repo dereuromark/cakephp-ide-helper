@@ -14,7 +14,7 @@ class CacheTask implements TaskInterface {
 	public const SET_CACHE_ENGINES = 'cacheEngines';
 
 	/**
-	 * @var string[]
+	 * @var int[]
 	 */
 	protected $aliases = [
 		'\\' . self::CLASS_CACHE . '::clear()' => 0,
