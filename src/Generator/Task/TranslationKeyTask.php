@@ -149,15 +149,20 @@ class TranslationKeyTask implements TaskInterface {
 	 */
 	protected function completeDomains(array $domains): array
 	{
-		$plugins = Plugin::loaded();
+		$plugins = Plugin::all();
 		foreach ($plugins as $plugin) {
 			$pieces = explode('/', $plugin);
 			foreach ($pieces as $key => $piece) {
 				$pieces[$key] = Inflector::underscore($piece);
 			}
 
-			//TODO: maybe remove unprefixed domain found?
 			$domain = implode('/', $pieces);
+
+			// Issue of https://github.com/cakephp/docs/pull/6585 and for 5.0 to be resolved
+			if (count($pieces) > 1) {
+				$lastPiece = array_pop($pieces);
+				unset($domains[$lastPiece]);
+			}
 
 			$domains[$domain] = StringName::create($domain);
 		}

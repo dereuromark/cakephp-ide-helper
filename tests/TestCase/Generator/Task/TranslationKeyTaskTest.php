@@ -73,12 +73,12 @@ class TranslationKeyTaskTest extends TestCase {
 			return (string)$className;
 		}, $list);
 
+		// 'my_plugin' is now superseeded by 'my_namespace/my_plugin'
 		$expected = [
 			'awesome' => '\'awesome\'',
 			'controllers' => '\'controllers\'',
 			'ide_helper' => '\'ide_helper\'',
 			'my_namespace/my_plugin' => '\'my_namespace/my_plugin\'',
-			'my_plugin' => '\'my_plugin\'',
 			'relations' => '\'relations\'',
 			'shim' => '\'shim\'',
 		];
