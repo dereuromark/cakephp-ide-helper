@@ -70,7 +70,6 @@ class LayoutTask extends ModelTask {
 				continue;
 			}
 
-
 			$Directory = new DirectoryIterator($path);
 			$Regex = new RegexIterator($Directory, '/^.+\.php$/i', RecursiveRegexIterator::GET_MATCH);
 

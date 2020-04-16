@@ -93,6 +93,12 @@ Tired of typing the full template name in `$this->element('...')` calls?
 
 With this generator PHPStorm can auto-complete this, including all elements for plugins.
 
+#### Layouts
+`$this->viewBuilder->setLayout(...)` is now auto-completed.
+
+#### Cache
+`Cache::write()`, `Cache::read()` and other methods are now auto-completed for the cache engine(s) available.
+
 #### Validation
 
 ##### Validator::requirePresence()
