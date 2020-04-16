@@ -21,7 +21,7 @@ namespace IdeHelper\Generator\Directive;
  * expectedArguments(
  *     \MyClass::getFlags(),
  *     0,
- *     argumentsSet("myFileObjectFlags")
+ *     argumentsSet('myFileObjectFlags')
  * );
  */
 class ExpectedArguments extends BaseDirective {

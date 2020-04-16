@@ -4,12 +4,15 @@ namespace IdeHelper\Generator\Task;
 
 use Cake\Datasource\ConnectionManager;
 use IdeHelper\Generator\Directive\ExpectedArguments;
+use IdeHelper\Generator\Directive\RegisterArgumentsSet;
 use IdeHelper\ValueObject\StringName;
 
 /**
  * This task is useful when using Migrations plugin and creating Migration files.
  */
 class DatabaseTableColumnNameTask extends DatabaseTableTask {
+
+	public const SET_TABLE_NAMES = 'tableNames';
 
 	/**
 	 * @var string[]
@@ -36,8 +39,11 @@ class DatabaseTableColumnNameTask extends DatabaseTableTask {
 		ksort($list);
 
 		$result = [];
+		$registerArgumentsSet = new RegisterArgumentsSet(static::SET_TABLE_NAMES, $list);
+		$result[$registerArgumentsSet->key()] = $registerArgumentsSet;
+
 		foreach ($this->aliases as $alias) {
-			$directive = new ExpectedArguments($alias, 0, $list);
+			$directive = new ExpectedArguments($alias, 0, [$registerArgumentsSet]);
 			$result[$directive->key()] = $directive;
 		}
 

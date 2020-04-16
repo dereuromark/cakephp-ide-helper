@@ -100,6 +100,12 @@ With this generator PHPStorm can auto-complete this, including all elements for 
 
 Now not just bool true/false, but also the possible "magic strings" are typehinted and usable as single click/enter.
 
+#### ENV keys
+`env()` is now auto-completed for most common and used keys.
+
+#### Translation keys
+Using `__()` and `__d()` can now also be auto-completed based on your project's `.po` files.
+
 #### Migrations plugin database tables
 When using the Migrations plugin, this task will come in handy to quickly autocomplete existing tables,
 their column names and possible column types.
@@ -206,7 +212,7 @@ $list = [
 ];
 $directive = new RegisterArgumentsSet($set, $list);
 ```
-Now you can use it as list value `argumentsSet("mySet")` inside the others.
+Now you can use it as list value `argumentsSet('mySet')` inside the others.
 For this just pass the `$directive` object itself to the list, which then contains only this one element.
 
 #### Example

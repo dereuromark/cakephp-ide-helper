@@ -78,7 +78,7 @@ TXT;
 	 * @return string
 	 */
 	public function __toString() {
-		return 'argumentsSet("' . $this->set . '")';
+		return 'argumentsSet(\'' . $this->set . '\')';
 	}
 
 }
