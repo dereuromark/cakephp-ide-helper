@@ -120,6 +120,12 @@ namespace PHPSTORM_META {
 		])
 	);
 
+	expectedArguments(
+		\Cake\Datasource\ConnectionManager::get(),
+		0,
+		'test'
+	);
+
 	override(
 		\Cake\Datasource\ModelAwareTrait::loadModel(0),
 		map([
@@ -152,6 +158,18 @@ namespace PHPSTORM_META {
 			'list' => \Cake\ORM\Query::class,
 			'threaded' => \Cake\ORM\Query::class,
 		])
+	);
+
+	expectedArguments(
+		\Cake\Http\ServerRequest::getParam(),
+		0,
+		'_ext',
+		'_matchedRoute',
+		'action',
+		'controller',
+		'pass',
+		'plugin',
+		'prefix'
 	);
 
 	override(
@@ -376,6 +394,25 @@ namespace PHPSTORM_META {
 			'Time' => \Cake\View\Helper\TimeHelper::class,
 			'Url' => \Cake\View\Helper\UrlHelper::class,
 		])
+	);
+
+	expectedArguments(
+		\Cake\View\ViewBuilder::addHelper(),
+		0,
+		'Breadcrumbs',
+		'Flash',
+		'Form',
+		'Html',
+		'IdeHelper.DocBlock',
+		'My',
+		'Number',
+		'Paginator',
+		'Shim.Configure',
+		'Shim.Cookie',
+		'Shim.Form',
+		'Text',
+		'Time',
+		'Url'
 	);
 
 	expectedArguments(

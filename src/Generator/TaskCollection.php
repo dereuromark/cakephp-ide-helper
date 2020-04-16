@@ -6,6 +6,7 @@ use Cake\Core\Configure;
 use IdeHelper\Generator\Task\BehaviorTask;
 use IdeHelper\Generator\Task\CacheTask;
 use IdeHelper\Generator\Task\ComponentTask;
+use IdeHelper\Generator\Task\ConnectionTask;
 use IdeHelper\Generator\Task\DatabaseTableColumnNameTask;
 use IdeHelper\Generator\Task\DatabaseTableColumnTypeTask;
 use IdeHelper\Generator\Task\DatabaseTableTask;
@@ -16,6 +17,7 @@ use IdeHelper\Generator\Task\HelperTask;
 use IdeHelper\Generator\Task\LayoutTask;
 use IdeHelper\Generator\Task\ModelTask;
 use IdeHelper\Generator\Task\PluginTask;
+use IdeHelper\Generator\Task\RequestTask;
 use IdeHelper\Generator\Task\RoutePathTask;
 use IdeHelper\Generator\Task\TableAssociationTask;
 use IdeHelper\Generator\Task\TableFinderTask;
@@ -43,7 +45,9 @@ class TaskCollection {
 		ValidationTask::class => ValidationTask::class,
 		RoutePathTask::class => RoutePathTask::class,
 		CacheTask::class => CacheTask::class,
+		RequestTask::class => RequestTask::class,
 		EnvTask::class => EnvTask::class,
+		ConnectionTask::class => ConnectionTask::class,
 		DatabaseTableTask::class => DatabaseTableTask::class,
 		DatabaseTableColumnNameTask::class => DatabaseTableColumnNameTask::class,
 		DatabaseTableColumnTypeTask::class => DatabaseTableColumnTypeTask::class,

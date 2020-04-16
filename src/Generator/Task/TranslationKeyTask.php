@@ -18,17 +18,15 @@ use RegexIterator;
  */
 class TranslationKeyTask implements TaskInterface {
 
-	public const SET_TRANSLATION_KEYS = 'translationKeys';
-
 	/**
 	 * function __(string $singular, ...$args): string
 	 */
-	public const METHOD_DEFAULT = '__()';
+	protected const METHOD_DEFAULT = '__()';
 
 	/**
 	 * function __d(string $domain, string $msg, ...$args): string
 	 */
-	public const METHOD_DOMAIN = '__d()';
+	protected const METHOD_DOMAIN = '__d()';
 
 	/**
 	 * @return \IdeHelper\Generator\Directive\BaseDirective[]

@@ -4,6 +4,8 @@ namespace IdeHelper\Generator\Task;
 
 use Cake\Filesystem\Folder;
 use Cake\View\View;
+use Cake\View\ViewBuilder;
+use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
@@ -13,32 +15,36 @@ use IdeHelper\ValueObject\ClassName;
 class HelperTask implements TaskInterface {
 
 	public const CLASS_VIEW = View::class;
+	public const CLASS_VIEW_BUILDER = ViewBuilder::class;
 
-	/**
-	 * @var string[]
-	 */
-	protected $aliases = [
-		'\\' . self::CLASS_VIEW . '::loadHelper(0)',
-	];
+	protected const METHOD_VIEW = '\\' . self::CLASS_VIEW . '::loadHelper(0)';
+	protected const METHOD_VIEW_BUILDER = '\\' . self::CLASS_VIEW_BUILDER . '::addHelper()';
 
 	/**
 	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
 	 */
 	public function collect(): array {
-		$map = [];
-
 		$helpers = $this->collectHelpers();
+
+		$map = [];
 		foreach ($helpers as $name => $className) {
 			$map[$name] = ClassName::create($className);
 		}
-
 		ksort($map);
 
 		$result = [];
-		foreach ($this->aliases as $alias) {
-			$directive = new Override($alias, $map);
-			$result[$directive->key()] = $directive;
+
+		$directive = new Override(static::METHOD_VIEW, $map);
+		$result[$directive->key()] = $directive;
+
+		$list = [];
+		foreach ($helpers as $name => $className) {
+			$list[$name] = "'$name'";
 		}
+		ksort($list);
+
+		$directive = new ExpectedArguments(static::METHOD_VIEW_BUILDER, 0, $list);
+		$result[$directive->key()] = $directive;
 
 		return $result;
 	}
@@ -66,7 +72,7 @@ class HelperTask implements TaskInterface {
 	}
 
 	/**
-	 * @param array $helpers
+	 * @param string[] $helpers
 	 * @param string $folder
 	 * @param string|null $plugin
 	 *

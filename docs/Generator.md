@@ -78,6 +78,12 @@ The following is now auto-completed, for example:
 ```php
 $this->loadHelper('Tools.Tree');
 ```
+And so is the ``addHelper()`` (added in CakePHP 4.1) on the `ViewBuilder`:
+```php
+$this->viewBuilder()
+    ->addHelper('TinyAuth.AuthUser')
+    ->addHelper('Tools.Tree');
+```
 
 #### Types
 In your bootstrap (app, or plugin), you might add additional database Type classes, or you reconfigure existing ones:
@@ -106,11 +112,17 @@ With this generator PHPStorm can auto-complete this, including all elements for 
 
 Now not just bool true/false, but also the possible "magic strings" are typehinted and usable as single click/enter.
 
+#### Request params
+`$this->request->getParam()` auto-completes for `prefix`, `controller` and other common keys.
+
 #### ENV keys
-`env()` is now auto-completed for most common and used keys.
+`env()` is auto-completed for most common and used keys.
 
 #### Translation keys
-Using `__()` and `__d()` can now also be auto-completed based on your project's `.po` files.
+Using `__()` and `__d()` can be auto-completed based on your project's `.po` files.
+
+#### ConnectionManager
+`ConnectionManager::get()` is auto-completed for the currently configured connection aliases.
 
 #### Migrations plugin database tables
 When using the Migrations plugin, this task will come in handy to quickly autocomplete existing tables,
