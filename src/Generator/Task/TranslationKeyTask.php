@@ -199,6 +199,10 @@ class TranslationKeyTask implements TaskInterface {
 			$domains[$domain] = StringName::create($domain);
 		}
 
+		if (!isset($domains['cake'])) {
+			$domains['cake'] = StringName::create('cake');
+		}
+
 		ksort($domains);
 
 		return $domains;
