@@ -12,6 +12,7 @@ use IdeHelper\Generator\Task\DatabaseTypeTask;
 use IdeHelper\Generator\Task\ElementTask;
 use IdeHelper\Generator\Task\EnvTask;
 use IdeHelper\Generator\Task\HelperTask;
+use IdeHelper\Generator\Task\LayoutTask;
 use IdeHelper\Generator\Task\ModelTask;
 use IdeHelper\Generator\Task\PluginTask;
 use IdeHelper\Generator\Task\RoutePathTask;
@@ -36,6 +37,7 @@ class TaskCollection {
 		TableFinderTask::class => TableFinderTask::class,
 		DatabaseTypeTask::class => DatabaseTypeTask::class,
 		ElementTask::class => ElementTask::class,
+		LayoutTask::class => LayoutTask::class,
 		PluginTask::class => PluginTask::class,
 		ValidationTask::class => ValidationTask::class,
 		RoutePathTask::class => RoutePathTask::class,
