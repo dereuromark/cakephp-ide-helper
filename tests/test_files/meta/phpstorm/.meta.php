@@ -2,6 +2,72 @@
 // @link https://confluence.jetbrains.com/display/PhpStorm/PhpStorm+Advanced+Metadata
 namespace PHPSTORM_META {
 
+	expectedArguments(
+		\Cake\Cache\Cache::add(),
+		2,
+		argumentsSet('cacheEngines')
+	);
+
+	expectedArguments(
+		\Cake\Cache\Cache::clear(),
+		0,
+		argumentsSet('cacheEngines')
+	);
+
+	expectedArguments(
+		\Cake\Cache\Cache::clearGroup(),
+		1,
+		argumentsSet('cacheEngines')
+	);
+
+	expectedArguments(
+		\Cake\Cache\Cache::decrement(),
+		2,
+		argumentsSet('cacheEngines')
+	);
+
+	expectedArguments(
+		\Cake\Cache\Cache::delete(),
+		1,
+		argumentsSet('cacheEngines')
+	);
+
+	expectedArguments(
+		\Cake\Cache\Cache::deleteMany(),
+		1,
+		argumentsSet('cacheEngines')
+	);
+
+	expectedArguments(
+		\Cake\Cache\Cache::increment(),
+		2,
+		argumentsSet('cacheEngines')
+	);
+
+	expectedArguments(
+		\Cake\Cache\Cache::read(),
+		1,
+		argumentsSet('cacheEngines')
+	);
+
+	expectedArguments(
+		\Cake\Cache\Cache::readMany(),
+		1,
+		argumentsSet('cacheEngines')
+	);
+
+	expectedArguments(
+		\Cake\Cache\Cache::remember(),
+		2,
+		argumentsSet('cacheEngines')
+	);
+
+	expectedArguments(
+		\Cake\Cache\Cache::write(),
+		2,
+		argumentsSet('cacheEngines')
+	);
+
 	override(
 		\Cake\Controller\Controller::loadComponent(0),
 		map([
@@ -313,6 +379,12 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
+		\Cake\View\ViewBuilder::setLayout(),
+		0,
+		'ajax'
+	);
+
+	expectedArguments(
 		\Migrations\AbstractMigration::table(),
 		0,
 		'wheels'
@@ -375,6 +447,13 @@ namespace PHPSTORM_META {
 		\env(),
 		0,
 		'HTTP_HOST'
+	);
+
+	registerArgumentsSet(
+		'cacheEngines',
+		'default',
+		'_cake_core_',
+		'_cake_model_'
 	);
 
 	registerArgumentsSet(
