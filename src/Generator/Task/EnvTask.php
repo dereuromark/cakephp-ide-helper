@@ -7,7 +7,7 @@ use IdeHelper\ValueObject\StringName;
 
 class EnvTask extends ModelTask {
 
-	public const METHOD_ENV = 'env()';
+	protected const METHOD_ENV = '\\' . 'env()';
 
 	/**
 	 * Keys from Web based request, will be merged with CLI ones.
@@ -56,7 +56,7 @@ class EnvTask extends ModelTask {
 
 		ksort($keys);
 
-		$method = '\\' . static::METHOD_ENV;
+		$method = static::METHOD_ENV;
 		$directive = new ExpectedArguments($method, 0, $keys);
 		$result[$directive->key()] = $directive;
 

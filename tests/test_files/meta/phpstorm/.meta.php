@@ -120,6 +120,12 @@ namespace PHPSTORM_META {
 		])
 	);
 
+	expectedArguments(
+		\Cake\Datasource\ConnectionManager::get(),
+		0,
+		'test'
+	);
+
 	override(
 		\Cake\Datasource\ModelAwareTrait::loadModel(0),
 		map([
@@ -152,6 +158,18 @@ namespace PHPSTORM_META {
 			'list' => \Cake\ORM\Query::class,
 			'threaded' => \Cake\ORM\Query::class,
 		])
+	);
+
+	expectedArguments(
+		\Cake\Http\ServerRequest::getParam(),
+		0,
+		'_ext',
+		'_matchedRoute',
+		'action',
+		'controller',
+		'pass',
+		'plugin',
+		'prefix'
 	);
 
 	override(

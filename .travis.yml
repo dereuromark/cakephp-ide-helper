@@ -24,7 +24,7 @@ matrix:
     - php: 7.2
       env: PREFER_LOWEST=1
 
-    - php: 7.4
+    - php: 7.3
       env: CHECKS=1 DEFAULT=0
 
     - php: 7.3
