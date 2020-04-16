@@ -21,13 +21,6 @@ class HelperTask implements TaskInterface {
 	protected const METHOD_VIEW_BUILDER = '\\' . self::CLASS_VIEW_BUILDER . '::addHelper()';
 
 	/**
-	 * @var string[]
-	 */
-	protected $aliases = [
-		'\\' . self::CLASS_VIEW . '::loadHelper(0)',
-	];
-
-	/**
 	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
 	 */
 	public function collect(): array {
@@ -79,7 +72,7 @@ class HelperTask implements TaskInterface {
 	}
 
 	/**
-	 * @param array $helpers
+	 * @param string[] $helpers
 	 * @param string $folder
 	 * @param string|null $plugin
 	 *
