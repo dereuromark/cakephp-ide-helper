@@ -5,7 +5,6 @@ namespace IdeHelper\Generator\Task;
 use Cake\I18n\Parser\PoFileParser;
 use Cake\Utility\Inflector;
 use IdeHelper\Generator\Directive\ExpectedArguments;
-use IdeHelper\Generator\Directive\RegisterArgumentsSet;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\Plugin;
 use IdeHelper\ValueObject\StringName;
@@ -143,12 +142,11 @@ class TranslationKeyTask implements TaskInterface {
 	}
 
 	/**
-	 * @param StringName[] $domains
+	 * @param \IdeHelper\ValueObject\StringName[] $domains
 	 *
-	 * @return StringName[]
+	 * @return \IdeHelper\ValueObject\StringName[]
 	 */
-	protected function completeDomains(array $domains): array
-	{
+	protected function completeDomains(array $domains): array {
 		$plugins = Plugin::all();
 		foreach ($plugins as $plugin) {
 			$pieces = explode('/', $plugin);

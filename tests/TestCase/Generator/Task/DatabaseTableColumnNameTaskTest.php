@@ -4,7 +4,6 @@ namespace IdeHelper\Test\TestCase\Generator\Task;
 
 use Cake\TestSuite\TestCase;
 use IdeHelper\Generator\Task\DatabaseTableColumnNameTask;
-use IdeHelper\Generator\Task\DatabaseTableColumnTypeTask;
 
 class DatabaseTableColumnNameTaskTest extends TestCase {
 
