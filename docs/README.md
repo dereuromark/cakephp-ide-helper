@@ -7,12 +7,13 @@ composer require --dev dereuromark/cakephp-ide-helper
 ```
 
 ## Setup
-Enable the plugin in your `config/bootstrap_cli.php` or call
+Enable the plugin in your `Application.php` or call
 ```
-bin/cake plugin load IdeHelper --cli
+bin/cake plugin load IdeHelper
 ```
 
 Note: As require-dev dependency this should only be loaded for local development (include a check or try/catch).
+And ideally also only for CLI mode (`if (PHP_SAPI === 'cli')`).
 
 ## Overview
 
