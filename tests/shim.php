@@ -7,3 +7,7 @@ if (!class_exists(Config::class) && file_exists($manualAutoload)) {
 }
 
 error_reporting(E_ALL & ~E_USER_DEPRECATED);
+
+if (!defined('T_NULLABLE')) {
+	define('T_NULLABLE', 'PHPCS_T_NULLABLE');
+}
