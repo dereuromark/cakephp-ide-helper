@@ -9,7 +9,7 @@ use Cake\Datasource\ConnectionManager;
 use Cake\TestSuite\TestCase;
 use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Generator\Task\DatabaseTableColumnTypeTask;
-use IdeHelper\Test\test_app\src\Generator\Task\TestDatabaseTableColumnTypeTask;
+use TestApp\Generator\Task\TestDatabaseTableColumnTypeTask;
 
 class DatabaseTableColumnTypeTaskTest extends TestCase {
 

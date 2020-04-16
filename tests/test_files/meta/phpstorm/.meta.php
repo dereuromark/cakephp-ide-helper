@@ -361,6 +361,17 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
+		\__d(),
+		0,
+		'awesome',
+		'controllers',
+		'ide_helper',
+		'my_namespace/my_plugin',
+		'relations',
+		'shim'
+	);
+
+	expectedArguments(
 		\env(),
 		0,
 		'HTTP_HOST'
