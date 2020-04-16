@@ -79,9 +79,6 @@ class TranslationKeyTask implements TaskInterface {
 		$translationsKeys = $this->parseTranslations();
 
 		foreach ($translationsKeys as $domain => $array) {
-			$array = array_unique($array);
-			$array = array_unique($array);
-
 			$result = [];
 			foreach ($array as $key) {
 				$key = $this->escapeSlashes($key);
@@ -110,21 +107,55 @@ class TranslationKeyTask implements TaskInterface {
 				continue;
 			}
 
-			$Directory = new RecursiveDirectoryIterator($localePath);
-			$Iterator = new RecursiveIteratorIterator($Directory);
-			$Regex = new RegexIterator($Iterator, '/^.+\.po/i', RecursiveRegexIterator::GET_MATCH);
+			$directoryIterator = new RecursiveDirectoryIterator($localePath);
+			$iterator = new RecursiveIteratorIterator($directoryIterator);
+			$regexIterator = new RegexIterator($iterator, '/^.+\.po/i', RecursiveRegexIterator::GET_MATCH);
 
-			foreach ($Regex as $files) {
+			foreach ($regexIterator as $files) {
 				foreach ($files as $file) {
 					$domain = pathinfo($file, PATHINFO_FILENAME);
 
 					$result = (new PoFileParser())->parse($file);
-					$domainKeys = array_keys($result);
+					$resultKeys = array_keys($result);
+					$domainKeys = [];
+					foreach ($resultKeys as $resultKey) {
+						$domainKeys[$resultKey] = $resultKey;
+					}
 
 					if (!isset($keys[$domain])) {
 						$keys[$domain] = [];
 					}
-					$keys[$domain] = array_merge($keys[$domain], $domainKeys);
+					$keys[$domain] += $domainKeys;
+				}
+			}
+
+			$plugins = Plugin::all();
+			foreach ($plugins as $plugin) {
+				$localePath = Plugin::path($plugin) . 'resources' . DIRECTORY_SEPARATOR . 'locales' . DIRECTORY_SEPARATOR;;
+				if (!is_dir($localePath)) {
+					continue;
+				}
+
+				$directoryIterator = new RecursiveDirectoryIterator($localePath);
+				$iterator = new RecursiveIteratorIterator($directoryIterator);
+				$regexIterator = new RegexIterator($iterator, '/^.+\.po/i', RecursiveRegexIterator::GET_MATCH);
+
+				foreach ($regexIterator as $files) {
+					foreach ($files as $file) {
+						$domain = pathinfo($file, PATHINFO_FILENAME);
+
+						$result = (new PoFileParser())->parse($file);
+						$resultKeys = array_keys($result);
+						$domainKeys = [];
+						foreach ($resultKeys as $resultKey) {
+							$domainKeys[$resultKey] = $resultKey;
+						}
+
+						if (!isset($keys[$domain])) {
+							$keys[$domain] = [];
+						}
+						$keys[$domain] += $domainKeys;
+					}
 				}
 			}
 		}
