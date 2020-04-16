@@ -114,7 +114,24 @@ class DatabaseTableColumnTypeTaskTest extends TestCase {
 		$this->task = new TestDatabaseTableColumnTypeTask();
 		$result = $this->task->collect();
 
-		$this->assertCount(2, $result);
+		$this->assertCount(3, $result);
+
+		/** @var \IdeHelper\Generator\Directive\RegisterArgumentsSet $directive */
+		$directive = array_shift($result);
+		$this->assertSame(DatabaseTableColumnTypeTask::SET_TABLE_TYPES, $directive->toArray()['set']);
+
+		$list = $directive->toArray()['list'];
+		$list = array_map(function ($className) {
+			return (string)$className;
+		}, $list);
+		$expectedList = [
+			'text' => "'text'",
+			'integer' => "'integer'",
+		];
+		foreach ($expectedList as $key => $value) {
+			$this->assertArrayHasKey($key, $list);
+			$this->assertSame($list[$key], $list[$key]);
+		}
 
 		/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */
 		$directive = array_shift($result);
@@ -126,13 +143,13 @@ class DatabaseTableColumnTypeTaskTest extends TestCase {
 		}, $list);
 
 		$expectedList = [
-			'text' => "'text'",
-			'integer' => "'integer'",
+			'argumentsSet(\'tableTypes\')',
 		];
-		foreach ($expectedList as $key => $value) {
-			$this->assertArrayHasKey($key, $list);
-			$this->assertSame($list[$key], $list[$key]);
-		}
+		$this->assertSame($expectedList, $list);
+
+		/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */
+		$directive = array_shift($result);
+		$this->assertSame('\Migrations\Table::changeColumn()', $directive->toArray()['method']);
 
 		Plugin::getCollection()->remove('Migrations');
 		$this->assertFalse(Plugin::isLoaded('Migrations'));
