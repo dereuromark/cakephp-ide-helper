@@ -232,6 +232,17 @@ $map = [
 ];
 $directive = new Override($method, $map);
 ```
+You can also use the `ClassName` VO together with real `::class` usage and imports:
+```php
+use IdeHelper\ValueObject\ClassName;
+use My\Cool\Alpha;
+use My\Cool\Beta;
+
+$map = [
+    'alpha' => ClassName::create(Alpha::class),
+    'beta' => ClassName::create(Beta::class),
+];
+```
 
 ##### ExpectedArguments
 With this you can set default values to chose from for method arguments.
@@ -240,10 +251,20 @@ Specify the parameter count as 0-based value.
 $method = '\Namespace\PackageName\MyFactory::create()';
 $position = 0;
 $list = [
-    'alpha',
-    'beta',
+    '\'alpha\'',
+    '\'beta\'',
 ];
 $directive = new ExpectedArguments($method, $position, $list);
+```
+Note the escaped quotes around literal strings.
+If you want to make it a bit cleaner, use the `StringName` VO, as it auto-quotes on output:
+```php
+use IdeHelper\ValueObject\StringName;
+
+$list = [
+    StringName::create('alpha'),
+    StringName::create('beta'),
+];
 ```
 
 ##### ExpectedReturnValues
