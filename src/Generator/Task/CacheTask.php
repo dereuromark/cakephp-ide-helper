@@ -59,6 +59,8 @@ class CacheTask implements TaskInterface {
 			$result[$cacheEngine] = StringName::create($cacheEngine);
 		}
 
+		ksort($result);
+
 		return $result;
 	}
 

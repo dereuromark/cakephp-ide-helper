@@ -15,6 +15,7 @@ use IdeHelper\Generator\Task\ElementTask;
 use IdeHelper\Generator\Task\EnvTask;
 use IdeHelper\Generator\Task\HelperTask;
 use IdeHelper\Generator\Task\LayoutTask;
+use IdeHelper\Generator\Task\MailerTask;
 use IdeHelper\Generator\Task\ModelTask;
 use IdeHelper\Generator\Task\PluginTask;
 use IdeHelper\Generator\Task\RequestTask;
@@ -36,6 +37,7 @@ class TaskCollection {
 		BehaviorTask::class => BehaviorTask::class,
 		ComponentTask::class => ComponentTask::class,
 		HelperTask::class => HelperTask::class,
+		MailerTask::class => MailerTask::class,
 		TableAssociationTask::class => TableAssociationTask::class,
 		TableFinderTask::class => TableFinderTask::class,
 		DatabaseTypeTask::class => DatabaseTypeTask::class,

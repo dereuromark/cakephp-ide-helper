@@ -4,6 +4,38 @@
 
 ![Model Autocomplete](img/model_autocomplete.png)
 
+PHPStorm TOC
+- [Available tasks](#available-tasks)
+  * [Plugins](#plugins)
+  * [Models](#models)
+  * [TableAssociations](#tableassociations)
+  * [TableFinders](#tablefinders)
+  * [Behaviors](#behaviors)
+  * [Components](#components)
+  * [Helpers](#helpers)
+  * [Mailers](#mailers)
+  * [Types](#types)
+  * [Elements](#elements)
+  * [Layouts](#layouts)
+  * [Cache](#cache)
+  * [Validation](#validation)
+    + [Validator::requirePresence()](#validator--requirepresence--)
+  * [Request params](#request-params)
+  * [ENV keys](#env-keys)
+  * [Translation keys](#translation-keys)
+  * [ConnectionManager](#connectionmanager)
+  * [Migrations plugin database tables](#migrations-plugin-database-tables)
+- [Adding your own tasks](#adding-your-own-tasks)
+  * [Replacing native tasks](#replacing-native-tasks)
+  * [Available directives](#available-directives)
+    + [Override](#override)
+    + [ExpectedArguments](#expectedarguments)
+    + [ExpectedReturnValues](#expectedreturnvalues)
+    + [RegisterArgumentsSet](#registerargumentsset)
+  * [Example](#example)
+- [Include/Exclude Plugins](#include-exclude-plugins)
+- [CI or pre-commit check](#ci-or-pre-commit-check)
+
 ## Phpstorm
 This command will generate your `.ide-helper.meta.php` in your app's `ROOT/.phpstorm.meta.php/` directory:
 ```
@@ -83,6 +115,12 @@ And so is the ``addHelper()`` (added in CakePHP 4.1) on the `ViewBuilder`:
 $this->viewBuilder()
     ->addHelper('TinyAuth.AuthUser')
     ->addHelper('Tools.Tree');
+```
+
+#### Mailers
+The following is now auto-completed and returns the corresponding Mailer class:
+```php
+$userMailer = $this->getMailer('User');
 ```
 
 #### Types

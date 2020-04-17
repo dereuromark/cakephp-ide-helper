@@ -173,6 +173,13 @@ namespace PHPSTORM_META {
 	);
 
 	override(
+		\Cake\Mailer\MailerAwareTrait::getMailer(0),
+		map([
+			'User' => \TestApp\Mailer\UserMailer::class,
+		])
+	);
+
+	override(
 		\Cake\ORM\Association::find(0),
 		map([
 			'all' => \Cake\ORM\Query::class,
@@ -489,9 +496,9 @@ namespace PHPSTORM_META {
 
 	registerArgumentsSet(
 		'cacheEngines',
-		'default',
 		'_cake_core_',
-		'_cake_model_'
+		'_cake_model_',
+		'default'
 	);
 
 	registerArgumentsSet(
