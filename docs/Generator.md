@@ -368,6 +368,8 @@ $directive = new Override('\\' . Table::class . '::returnMy(0)', $map);
 It allows you to control the quoting of both key and value.
 The map key here is only used for sorting then.
 
+Note: This VO can only be used for the `Override` directive which actually makes use of associative keys.
+
 ### Include/Exclude Plugins
 Many plugins don't need to be "loaded". Those usually would not be included in the generator tasks,though.
 If you want to add some not loaded plugins into the list of plugins to process, use:
