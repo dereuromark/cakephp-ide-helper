@@ -103,7 +103,7 @@ TXT;
 		$result = [];
 
 		foreach ($behaviors as $behavior => $className) {
-			list($plugin, $name) = pluginSplit($behavior);
+			[$plugin, $name] = pluginSplit($behavior);
 
 			$template = <<<TXT
 	/**

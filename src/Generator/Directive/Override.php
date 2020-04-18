@@ -11,7 +11,7 @@ namespace IdeHelper\Generator\Directive;
  *     \MyClass::addArgument(0),
  *     map([,
  *         'A' => \MyClass::class,
- *         '' =>  '@|\Iterator',
+ *         '' => '@|\Iterator',
  *     ])
  * );
  */

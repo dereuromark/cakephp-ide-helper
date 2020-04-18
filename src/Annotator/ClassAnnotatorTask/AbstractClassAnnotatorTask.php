@@ -68,6 +68,7 @@ abstract class AbstractClassAnnotatorTask extends AbstractAnnotator {
 
 		if ($newContent === $content) {
 			$this->reportSkipped();
+
 			return false;
 		}
 

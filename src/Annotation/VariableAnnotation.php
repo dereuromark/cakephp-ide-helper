@@ -31,7 +31,7 @@ class VariableAnnotation extends AbstractAnnotation {
 
 		$description = '';
 		if (strpos($variable, ' ') !== false) {
-			list($variable, $description) = explode(' ', $variable, 2);
+			[$variable, $description] = explode(' ', $variable, 2);
 		}
 		$this->variable = $variable;
 		$this->description = $description;

@@ -56,8 +56,8 @@ abstract class AbstractAnnotation implements AnnotationInterface, ReplacableAnno
 	}
 
 	/**
-	 * @return int|null
 	 * @throws \RuntimeException
+	 * @return int|null
 	 */
 	public function getIndex(): ?int {
 		if ($this->index === null) {

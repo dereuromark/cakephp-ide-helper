@@ -89,8 +89,8 @@ class TaskCollection {
 	 * Adds a task to the collection.
 	 *
 	 * @param string|\IdeHelper\Illuminator\Task\AbstractTask $task The task to map.
-	 * @return $this
 	 * @throws \InvalidArgumentException
+	 * @return $this
 	 */
 	protected function add($task) {
 		if (is_string($task)) {
@@ -118,8 +118,8 @@ class TaskCollection {
 
 	/**
 	 * @param string[]|\IdeHelper\Illuminator\Task\AbstractTask[] $tasks
-	 * @return string[]
 	 * @throws \RuntimeException
+	 * @return string[]
 	 */
 	public function taskNames($tasks = []): array {
 		if (!$tasks) {

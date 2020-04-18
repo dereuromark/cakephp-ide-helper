@@ -5,8 +5,8 @@ namespace IdeHelper\Test\TestCase\Generator;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use IdeHelper\Generator\PhpstormGenerator;
-use IdeHelper\Generator\TaskCollection;
 use IdeHelper\Generator\Task\EnvTask;
+use IdeHelper\Generator\TaskCollection;
 use Shim\TestSuite\TestCase;
 use TestApp\Generator\Task\TestEnvTask;
 

@@ -283,6 +283,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 			$controller = new $fullClassName();
 		} catch (Throwable $e) {
 			$this->_io->warn('   Could not look up model class for ' . $fullClassName . ': ' . $e->getMessage());
+
 			return null;
 		}
 

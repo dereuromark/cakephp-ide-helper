@@ -10,8 +10,8 @@ use Cake\Utility\Inflector;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\CallbackAnnotator;
 use IdeHelper\Annotator\ClassAnnotator;
-use IdeHelper\Annotator\ClassAnnotatorTaskCollection;
 use IdeHelper\Annotator\ClassAnnotatorTask\TestClassAnnotatorTask;
+use IdeHelper\Annotator\ClassAnnotatorTaskCollection;
 use IdeHelper\Annotator\CommandAnnotator;
 use IdeHelper\Annotator\ComponentAnnotator;
 use IdeHelper\Annotator\ControllerAnnotator;
@@ -380,6 +380,7 @@ class AnnotationsShell extends Shell {
 				if ($this->param('verbose')) {
 					$this->warn(sprintf('Skipped template folder `%s`', str_replace(ROOT, '', $subFolder)));
 				}
+
 				break 2;
 			}
 
@@ -542,6 +543,7 @@ class AnnotationsShell extends Shell {
 		$file = APP . 'View' . DS . 'AppView.php';
 		if (!$className || !file_exists($file)) {
 			$this->warn('You need to create `AppView.php` first in `src/View/`.');
+
 			return;
 		}
 

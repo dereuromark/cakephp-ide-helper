@@ -32,11 +32,13 @@ class PhpstormShell extends Shell {
 		$currentContent = file_exists($file) ? file_get_contents($file) : null;
 		if ($content === $currentContent) {
 			$this->out('Meta file `/.phpstorm.meta.php/.ide-helper.meta.php` still up to date.');
+
 			return parent::CODE_SUCCESS;
 		}
 
 		if ($this->param('dry-run')) {
 			$this->out('Meta file `/.phpstorm.meta.php/.ide-helper.meta.php` needs updating.');
+
 			return static::CODE_CHANGES;
 		}
 
@@ -80,8 +82,8 @@ class PhpstormShell extends Shell {
 	}
 
 	/**
-	 * @return string
 	 * @throws \RuntimeException
+	 * @return string
 	 */
 	protected function getMetaFilePath(): string {
 		if (is_file(ROOT . DS . '.phpstorm.meta.php')) {

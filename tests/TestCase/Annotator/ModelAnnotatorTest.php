@@ -111,6 +111,7 @@ class ModelAnnotatorTest extends TestCase {
 			if ($value !== $expectedContent) {
 				$this->_displayDiff($expectedContent, $value);
 			}
+
 			return $value === $expectedContent;
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
@@ -135,6 +136,7 @@ class ModelAnnotatorTest extends TestCase {
 			if ($value !== $expectedContent) {
 				$this->_displayDiff($expectedContent, $value);
 			}
+
 			return $value === $expectedContent;
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
@@ -159,6 +161,7 @@ class ModelAnnotatorTest extends TestCase {
 			if ($value !== $expectedContent) {
 				$this->_displayDiff($expectedContent, $value);
 			}
+
 			return $value === $expectedContent;
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
@@ -183,6 +186,7 @@ class ModelAnnotatorTest extends TestCase {
 			if ($value !== $expectedContent) {
 				$this->_displayDiff($expectedContent, $value);
 			}
+
 			return $value === $expectedContent;
 		};
 		$annotator->expects($this->never())->method('storeFile')->with($this->anything(), $this->callback($callback));
@@ -206,6 +210,7 @@ class ModelAnnotatorTest extends TestCase {
 			if ($value !== $expectedContent) {
 				$this->_displayDiff($expectedContent, $value);
 			}
+
 			return $value === $expectedContent;
 		};
 		$annotator->expects($this->never())->method('storeFile')->with($this->anything(), $this->callback($callback));
@@ -240,6 +245,7 @@ class ModelAnnotatorTest extends TestCase {
 			AbstractAnnotator::CONFIG_DRY_RUN => true,
 			AbstractAnnotator::CONFIG_VERBOSE => true,
 		];
+
 		return $this->getMockBuilder(ModelAnnotator::class)->setMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
 	}
 

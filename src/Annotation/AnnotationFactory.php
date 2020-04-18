@@ -58,6 +58,7 @@ class AnnotationFactory {
 		if (!$matches) {
 			return null;
 		}
+
 		return static::create($matches[1], $matches[2], $matches[3]);
 	}
 
@@ -66,8 +67,8 @@ class AnnotationFactory {
 	 * @param string $type
 	 * @param string|null $content
 	 * @param int|null $index
-	 * @return \IdeHelper\Annotation\AbstractAnnotation
 	 * @throws \RuntimeException
+	 * @return \IdeHelper\Annotation\AbstractAnnotation
 	 */
 	public static function createOrFail($tag, $type, $content = null, $index = null) {
 		$annotation = static::create($tag, $type, $content, $index);

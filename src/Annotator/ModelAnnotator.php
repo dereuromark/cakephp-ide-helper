@@ -4,9 +4,9 @@ namespace IdeHelper\Annotator;
 
 use Cake\Core\Configure;
 use Cake\Database\Schema\TableSchemaInterface;
-use Cake\ORM\AssociationCollection;
 use Cake\ORM\Association\BelongsToMany;
 use Cake\ORM\Association\HasMany;
+use Cake\ORM\AssociationCollection;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
@@ -76,6 +76,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping table and entity: ' . $e->getMessage());
 			}
+
 			return false;
 		}
 
@@ -198,6 +199,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			$pathTmp = str_replace('\\', DS, $pathTmp);
 			if (file_exists($pathTmp . $entityName . '.php')) {
 				$entityPath = $pathTmp . $entityName . '.php';
+
 				break;
 			}
 		}

@@ -107,6 +107,7 @@ class TestClassAnnotatorTaskTest extends TestCase {
 			AbstractAnnotator::CONFIG_DRY_RUN => true,
 			AbstractAnnotator::CONFIG_VERBOSE => true,
 		];
+
 		return new TestClassAnnotatorTask($this->io, $params, $content);
 	}
 

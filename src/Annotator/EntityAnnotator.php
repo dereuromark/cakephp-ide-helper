@@ -33,8 +33,8 @@ class EntityAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $path Path to file.
-	 * @return bool
 	 * @throws \RuntimeException
+	 * @return bool
 	 */
 	public function annotate(string $path): bool {
 		$name = pathinfo($path, PATHINFO_FILENAME);
@@ -344,8 +344,8 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @param string[] $propertyHintMap
 	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
 	 *
-	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 * @throws \RuntimeException
+	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
 	protected function buildAnnotations(array $propertyHintMap, DocBlockHelper $helper): array {
 		$annotations = $helper->propertyHints($propertyHintMap);

@@ -63,6 +63,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		if ($newContent === $content) {
 			$this->reportSkipped();
+
 			return false;
 		}
 
@@ -440,6 +441,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 		foreach ($blacklist as $value) {
 			if (strpos($value, '/') === false) {
 				unset($variables[$value]);
+
 				continue;
 			}
 

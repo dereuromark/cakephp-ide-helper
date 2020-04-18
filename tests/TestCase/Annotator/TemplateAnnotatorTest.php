@@ -137,6 +137,7 @@ class TemplateAnnotatorTest extends TestCase {
 			if ($value !== $expectedContent) {
 				$this->_displayDiff($expectedContent, $value);
 			}
+
 			return $value === $expectedContent;
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
@@ -163,6 +164,7 @@ class TemplateAnnotatorTest extends TestCase {
 			if ($value !== $expectedContent) {
 				$this->_displayDiff($expectedContent, $value);
 			}
+
 			return $value === $expectedContent;
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
@@ -189,6 +191,7 @@ class TemplateAnnotatorTest extends TestCase {
 			if ($value !== $expectedContent) {
 				$this->_displayDiff($expectedContent, $value);
 			}
+
 			return $value === $expectedContent;
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
@@ -215,6 +218,7 @@ class TemplateAnnotatorTest extends TestCase {
 			if ($value !== $expectedContent) {
 				$this->_displayDiff($expectedContent, $value);
 			}
+
 			return $value === $expectedContent;
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
@@ -241,6 +245,7 @@ class TemplateAnnotatorTest extends TestCase {
 			if ($value !== $expectedContent) {
 				$this->_displayDiff($expectedContent, $value);
 			}
+
 			return $value === $expectedContent;
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
@@ -267,6 +272,7 @@ class TemplateAnnotatorTest extends TestCase {
 			if ($value !== $expectedContent) {
 				$this->_displayDiff($expectedContent, $value);
 			}
+
 			return $value === $expectedContent;
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
@@ -293,6 +299,7 @@ class TemplateAnnotatorTest extends TestCase {
 			if ($value !== $expectedContent) {
 				$this->_displayDiff($expectedContent, $value);
 			}
+
 			return $value === $expectedContent;
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
@@ -341,6 +348,7 @@ class TemplateAnnotatorTest extends TestCase {
 			if ($value !== $expectedContent) {
 				$this->_displayDiff($expectedContent, $value);
 			}
+
 			return $value === $expectedContent;
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
@@ -362,6 +370,7 @@ class TemplateAnnotatorTest extends TestCase {
 			AbstractAnnotator::CONFIG_REMOVE => true,
 			AbstractAnnotator::CONFIG_DRY_RUN => true,
 		];
+
 		return $this->getMockBuilder(TemplateAnnotator::class)->setMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
 	}
 
