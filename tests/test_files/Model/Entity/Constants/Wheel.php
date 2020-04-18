@@ -9,7 +9,7 @@ use Cake\ORM\Entity;
  * @property string $content
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime|null $modified
- * @property string|null $virtual_one
+ * @property-read string|null $virtual_one
  * @property \TestApp\Model\Entity\Wheel[] $wheels
  */
 class Wheel extends Entity {

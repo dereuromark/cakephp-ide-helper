@@ -8,6 +8,9 @@ use Cake\ORM\Entity;
 use Cake\Utility\Inflector;
 use Cake\View\View;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\PropertyAnnotation;
+use IdeHelper\Annotation\PropertyReadAnnotation;
+use IdeHelper\Utility\App;
 use IdeHelper\View\Helper\DocBlockHelper;
 use PHP_CodeSniffer\Files\File;
 use RuntimeException;
@@ -46,6 +49,9 @@ class EntityAnnotator extends AbstractAnnotator {
 		$helper = new DocBlockHelper(new View());
 		$propertyHintMap = $this->propertyHintMap($content, $helper);
 
+		$virtualFields = $this->virtualFields($name);
+		// For BC reasons we cannot pass it as 3rd param, so we transport it on the helper
+		$helper->virtualFields = $virtualFields;
 		$annotations = $this->buildAnnotations($propertyHintMap, $helper);
 
 		return $this->annotateContent($path, $content, $annotations);
@@ -344,22 +350,57 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @param string[] $propertyHintMap
 	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
 	 *
-	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 * @throws \RuntimeException
+	 *
+	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
 	protected function buildAnnotations(array $propertyHintMap, DocBlockHelper $helper): array {
-		$annotations = $helper->propertyHints($propertyHintMap);
+		/** @var string[] $virtualFields */
+		$virtualFields = $helper->virtualFields;
 
-		foreach ($annotations as $key => $annotation) {
-			$annotationObject = AnnotationFactory::createFromString($annotation);
+		$real = $virtual = [];
+		foreach ($propertyHintMap as $name => $type) {
+			$isVirtual = in_array($name, $virtualFields, true);
+			$tag = $isVirtual ? PropertyReadAnnotation::TAG : PropertyAnnotation::TAG;
+			$annotation = "$tag {$type}\${$name}";
+
+			$annotationObject = AnnotationFactory::create($tag, $type, $name);
 			if (!$annotationObject) {
 				throw new RuntimeException('Cannot factorize annotation `' . $annotation . '`');
 			}
 
-			$annotations[$key] = $annotationObject;
+			if ($isVirtual) {
+				$virtual[$name] = $annotationObject;
+			} else {
+				$real[$name] = $annotationObject;
+			}
 		}
 
-		return $annotations;
+		return $real + $virtual;
+	}
+
+	/**
+	 * Detect actual virtual fields by them being exposed as such.
+	 *
+	 * @param string $name
+	 *
+	 * @return string[]
+	 */
+	protected function virtualFields(string $name): array {
+		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
+		$className = App::className(($plugin ? $plugin . '.' : '') . $name, 'Model/Entity');
+		if (!$className) {
+			return [];
+		}
+
+		try {
+			/** @var \Cake\Datasource\EntityInterface $entity */
+			$entity = new $className();
+		} catch (Throwable $exception) {
+			return [];
+		}
+
+		return $entity->getVirtual();
 	}
 
 }
