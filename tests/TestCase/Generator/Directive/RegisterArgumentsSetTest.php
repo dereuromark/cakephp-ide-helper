@@ -14,7 +14,7 @@ class RegisterArgumentsSetTest extends TestCase {
 	 */
 	public function testBuild() {
 		$list = [
-			'\\Foo\\Bar',
+			'\Foo\Bar::class',
 			'"string"',
 		];
 		$directive = new RegisterArgumentsSet('foo', $list);
@@ -23,7 +23,7 @@ class RegisterArgumentsSetTest extends TestCase {
 		$expected = <<<TXT
 	registerArgumentsSet(
 		'foo',
-		\\Foo\\Bar,
+		\Foo\Bar::class,
 		"string"
 	);
 TXT;
@@ -36,7 +36,7 @@ TXT;
 	 */
 	public function testToString() {
 		$list = [
-			'\\Foo\\Bar',
+			'\Foo\Bar::class',
 		];
 		$directive = new RegisterArgumentsSet('fooBar', $list);
 
@@ -49,7 +49,7 @@ TXT;
 	 */
 	public function testSetInsideArguments() {
 		$list = [
-			'\\Foo\\Bar',
+			'\Foo\Bar::class',
 			'"string"',
 		];
 		$argumentsSet = new RegisterArgumentsSet('fooBar', $list);
@@ -57,12 +57,12 @@ TXT;
 		$list = [
 			$argumentsSet,
 		];
-		$directive = new ExpectedArguments('\\My\\Class::someMethod()', 1, $list);
+		$directive = new ExpectedArguments('\My\Class::someMethod()', 1, $list);
 
 		$result = $directive->build();
 		$expected = <<<TXT
 	expectedArguments(
-		\\My\\Class::someMethod(),
+		\My\Class::someMethod(),
 		1,
 		argumentsSet('fooBar')
 	);
@@ -75,7 +75,7 @@ TXT;
 	 */
 	public function testArgumentsSetInsideReturnValues() {
 		$list = [
-			'\\Foo\\Bar',
+			'\Foo\Bar::class',
 			'"string"',
 		];
 		$argumentsSet = new RegisterArgumentsSet('fooBar', $list);
@@ -83,12 +83,12 @@ TXT;
 		$list = [
 			$argumentsSet,
 		];
-		$directive = new ExpectedReturnValues('\\My\\Class::someMethod()', $list);
+		$directive = new ExpectedReturnValues('\My\Class::someMethod()', $list);
 
 		$result = $directive->build();
 		$expected = <<<TXT
 	expectedReturnValues(
-		\\My\\Class::someMethod(),
+		\My\Class::someMethod(),
 		argumentsSet('fooBar')
 	);
 TXT;

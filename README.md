@@ -29,19 +29,27 @@ Those can then follow the code easier and provide more valuable help.
 
 Supports annotations for:
 - Models (Tables and Entities)
-- Controllers (including prefixes like `Admin`)
-- View (AppView)
+- Controllers (including prefixes like `Admin`) and Components
+- View (AppView) and Helpers
 - Templates (`.php` PHP template files including elements)
-- Shells (and Tasks)
-- Components
-- Helpers
+- Commands, Shells and Tasks
+- ... and more
 
 ![Screenshot](docs/screenshot.jpg)
 
 Supports code completion help for:
 - Behaviors (property access on the BehaviorRegistry)
 
-Supports better IDE usage with Illuminator tasks to enhance existing code
+Supports IDE autocomplete/typehinting of (magic)strings as well as return types/values for:
+- Plugins, Components, Behaviors, Helpers, Mailers
+- Associations, Validation
+- I18n Translation, Cache
+- Elements and layouts
+- Tables and their fields
+- Route paths, Request/ENV, Connection
+- ... and more (using PHPStorm meta file)
+
+Supports better IDE usage with Illuminator tasks to enhance existing code:
 - EntityFieldTask adds all entity fields as class constants for easier usage in IDEs
 
 ### IDE support

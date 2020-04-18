@@ -13,7 +13,7 @@ class ExpectedReturnValuesTest extends TestCase {
 	 */
 	public function testBuild() {
 		$map = [
-			'\\Foo\\Bar',
+			'\Foo\Bar::class',
 			'"string"',
 		];
 		$directive = new ExpectedReturnValues('\\' . Table::class . '::addBehavior()', $map);
@@ -21,8 +21,8 @@ class ExpectedReturnValuesTest extends TestCase {
 		$result = $directive->build();
 		$expected = <<<TXT
 	expectedReturnValues(
-		\\Cake\ORM\Table::addBehavior(),
-		\\Foo\\Bar,
+		\Cake\ORM\Table::addBehavior(),
+		\Foo\Bar::class,
 		"string"
 	);
 TXT;
