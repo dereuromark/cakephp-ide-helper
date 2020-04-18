@@ -2,6 +2,7 @@
 
 namespace IdeHelper\Generator\Directive;
 
+use IdeHelper\ValueObject\KeyValue;
 use IdeHelper\ValueObject\ValueObjectInterface;
 
 /**
@@ -53,9 +54,9 @@ abstract class BaseDirective {
 	protected function buildKeyValueMap(array $array, $indentation = 3): string {
 		$result = [];
 		foreach ($array as $alias => $value) {
-			if (is_array($value) && isset($value['escapeKey']) && $value['escapeKey'] === false) {
-				$key = $alias;
-				$value = $value['value'];
+			if ($value instanceof KeyValue) {
+				$key = $value->key();
+				$value = $value->value();
 			} else {
 				$key = "'" . str_replace("'", "\'", $alias) . "'";
 			}

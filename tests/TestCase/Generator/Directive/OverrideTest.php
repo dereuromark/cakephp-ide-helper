@@ -5,6 +5,7 @@ namespace IdeHelper\Test\TestCase\Generator\Directive;
 use Cake\ORM\Table;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\ValueObject\ClassName;
+use IdeHelper\ValueObject\KeyValue;
 use Shim\TestSuite\TestCase;
 
 class OverrideTest extends TestCase {
@@ -22,7 +23,7 @@ class OverrideTest extends TestCase {
 		$result = $directive->build();
 		$expected = <<<TXT
 	override(
-		\\Cake\ORM\Table::addBehavior(0),
+		\Cake\ORM\Table::addBehavior(0),
 		map([
 			'Tree' => \Cake\ORM\Table::class,
 			'CounterCache' => \Cake\ORM\Table::class,
@@ -36,21 +37,22 @@ TXT;
 	/**
 	 * @return void
 	 */
-	public function testBuildKeyNotEscaped() {
+	public function testBuildLiteralKey() {
+		$key = ClassName::create(Table::class);
+
+		$value = ClassName::create(Table::class);
+		$keyValue = KeyValue::create($key, $value);
 		$map = [
-			'\\' . Table::class . '::class' => [
-				'escapeKey' => false,
-				'value' => '\\' . Table::class,
-			],
+			'\\' . Table::class . '::class' => $keyValue,
 		];
 		$directive = new Override('\\' . Table::class . '::addBehavior(0)', $map);
 
 		$result = $directive->build();
 		$expected = <<<TXT
 	override(
-		\\Cake\ORM\Table::addBehavior(0),
+		\Cake\ORM\Table::addBehavior(0),
 		map([
-			\Cake\ORM\Table::class => \Cake\ORM\Table,
+			\Cake\ORM\Table::class => \Cake\ORM\Table::class,
 		])
 	);
 TXT;
