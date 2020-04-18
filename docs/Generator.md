@@ -284,22 +284,22 @@ make a set and reuse that in the above directives.
 ```php
 $set = 'mySet';
 $list = [
-    '\My\Cool\Class::SUCCESS',
-    '\My\Cool\Class::ERROR',
+    '\My\Cool\Executer::SUCCESS',
+    '\My\Cool\Executer::ERROR',
 ];
 $directive = new RegisterArgumentsSet($set, $list);
 ```
 Now you can use it as list value `argumentsSet('mySet')` inside the others.
 For this just pass the `$directive` object itself to the list, which then contains only this one element.
 
-Note that you can also use `LiteralName` for constants and whatever does
+Note that you can also the `LiteralName` VO for constants and whatever does
 not need to be outputted as string:
 ```php
 use IdeHelper\ValueObject\LiteralName;
 
 $list = [
-    LiteralName::create('\My\Cool\Class::SUCCESS'),
-    LiteralName::create('\My\Cool\Class::ERROR'),
+    LiteralName::create('\My\Cool\Executer::SUCCESS'),
+    LiteralName::create('\My\Cool\Executer::ERROR'),
 ];
 ```
 
@@ -309,7 +309,7 @@ So let's imagine you have the following methods you want to annotate:
 $alpha = MyFactory::create('alpha'); // Returns \My\Cool\Alpha class
 $beta = MyFactory::create('beta'); // Returns \My\Cool\Beta class
 ```
-Then make sure your Task's `collect()` method returns something like:
+Then let's create an `Override`, to get the correct class instance returned:
 ```php
 $method = '\Namespace\PackageName\MyFactory::create(0)';
 $map = [
@@ -338,7 +338,7 @@ $list = [
 ];
 $expectedReturnValues = new ExpectedReturnValues($method, $list);
 ```
-In the end we just return all of them:
+Then make sure your Task's `collect()` method returns all of them:
 ```php
 return [
     $override->key() => $override,
