@@ -351,6 +351,23 @@ As key for the directive values always use their `->key()` string.
 
 For more examples and details see their [documentation](https://confluence.jetbrains.com/display/PhpStorm/PhpStorm+Advanced+Metadata).
 
+#### Literal keys
+If you really need literal string keys (no auto quoting), you can use the `KeyValue` VO:
+```php
+$key = ClassName::create(Bar::class);
+$value = ClassName::create(Bar::class);
+$keyValue = KeyValue::create($key, $value);
+
+// Now use it as as any other value
+$map = [
+    'thisKeyIsOnlyForSortingNow' => $keyValue,
+    ...
+];
+$directive = new Override('\\' . Table::class . '::returnMy(0)', $map);
+```
+It allows you to control the quoting of both key and value.
+The map key here is only used for sorting then.
+
 ### Include/Exclude Plugins
 Many plugins don't need to be "loaded". Those usually would not be included in the generator tasks,though.
 If you want to add some not loaded plugins into the list of plugins to process, use:
