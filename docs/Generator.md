@@ -256,7 +256,7 @@ $list = [
 ];
 $directive = new ExpectedArguments($method, $position, $list);
 ```
-Note the escaped quotes around literal strings.
+Note the escaped quotes around literal string values.
 If you want to make it a bit cleaner, use the `StringName` VO, as it auto-quotes on output:
 ```php
 use IdeHelper\ValueObject\StringName;
@@ -311,10 +311,11 @@ $beta = MyFactory::create('beta'); // Returns \My\Cool\Beta class
 ```
 Then make sure your Task's `collect()` method returns something like:
 ```php
-$override = new Override('\Namespace\PackageName\MyFactory::create(0)', [
+$map = [
     'alpha' => '\My\Cool\Alpha::class',
     'beta' => '\My\Cool\Beta::class',
-]);
+];
+$override = new Override('\Namespace\PackageName\MyFactory::create(0)', $map);
 
 $list = [
     '\My\Cool\Class::SUCCESS',
@@ -335,6 +336,9 @@ return [
     ...
 ];
 ```
+
+Note that map keys are usually always strings and outputted auto-quoted by default.
+So you can treat them always as simple/literal strings.
 
 For more examples and details see their [documentation](https://confluence.jetbrains.com/display/PhpStorm/PhpStorm+Advanced+Metadata).
 
