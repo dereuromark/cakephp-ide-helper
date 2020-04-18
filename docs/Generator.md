@@ -311,24 +311,35 @@ $beta = MyFactory::create('beta'); // Returns \My\Cool\Beta class
 ```
 Then make sure your Task's `collect()` method returns something like:
 ```php
+$method = '\Namespace\PackageName\MyFactory::create(0)';
 $map = [
     'alpha' => '\My\Cool\Alpha::class',
     'beta' => '\My\Cool\Beta::class',
 ];
-$override = new Override('\Namespace\PackageName\MyFactory::create(0)', $map);
+$override = new Override($method, $map);
+```
+Note that map keys are usually always strings and outputted auto-quoted by default.
+So you can treat them always as simple/literal strings.
 
+Now let's imagine you have multiple class methods that can return some constants.
+Here we first create the reusable set:
+```php
 $list = [
-    '\My\Cool\Class::SUCCESS',
-    '\My\Cool\Class::ERROR',
+    '\My\Cool\Executer::SUCCESS',
+    '\My\Cool\Executer::ERROR',
 ];
 $argumentsSet = new RegisterArgumentsSet('mySet', $list);
-
-$method = '\Namespace\PackageName\MyFactory::create()';
+```
+Now we can use it for all methods:
+```php
+$method = '\My\Cool\Executer::execute()';
 $list = [
     $argumentsSet,
 ];
 $expectedReturnValues = new ExpectedReturnValues($method, $list);
-
+```
+In the end we just return all of them:
+```php
 return [
     $override->key() => $override,
     $argumentsSet->key() => $argumentsSet,
@@ -336,9 +347,7 @@ return [
     ...
 ];
 ```
-
-Note that map keys are usually always strings and outputted auto-quoted by default.
-So you can treat them always as simple/literal strings.
+As key for the directive values always use their `->key()` string.
 
 For more examples and details see their [documentation](https://confluence.jetbrains.com/display/PhpStorm/PhpStorm+Advanced+Metadata).
 
