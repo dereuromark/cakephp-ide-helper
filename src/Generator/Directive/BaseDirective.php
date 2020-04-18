@@ -35,10 +35,6 @@ abstract class BaseDirective {
 		foreach ($array as $alias => $value) {
 			if ($value instanceof ValueObjectInterface) {
 				$element = (string)$value;
-			} elseif (is_array($value) && isset($value['escapeKey']) && $value['escapeKey'] === true) {
-				$element = "'" . str_replace("'", "\'", $alias) . "'";
-			} elseif (is_array($value)) {
-				$element = $alias;
 			} else {
 				$element = $value;
 			}
@@ -59,6 +55,7 @@ abstract class BaseDirective {
 		foreach ($array as $alias => $value) {
 			if (is_array($value) && isset($value['escapeKey']) && $value['escapeKey'] === false) {
 				$key = $alias;
+				$value = $value['value'];
 			} else {
 				$key = "'" . str_replace("'", "\'", $alias) . "'";
 			}
