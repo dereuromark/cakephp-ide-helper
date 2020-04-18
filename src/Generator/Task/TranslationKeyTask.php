@@ -141,6 +141,10 @@ class TranslationKeyTask implements TaskInterface {
 
 				foreach ($regexIterator as $files) {
 					foreach ($files as $file) {
+						if (!is_file($file)) {
+							continue;
+						}
+
 						$domain = pathinfo($file, PATHINFO_FILENAME);
 
 						$result = (new PoFileParser())->parse($file);
