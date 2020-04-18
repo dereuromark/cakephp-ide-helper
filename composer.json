@@ -32,7 +32,7 @@
 		"dereuromark/cakephp-tools": "^1.9.0",
 		"dereuromark/cakephp-shim": "^1.8.3",
 		"squizlabs/php_codesniffer": "^3.5.2",
-		"fig-r/psr2r-sniffer": "dev-master",
+		"fig-r/psr2r-sniffer": "^0.6",
 		"phpunit/phpunit": "^5.7.14|^6.0"
 	},
 	"autoload": {
