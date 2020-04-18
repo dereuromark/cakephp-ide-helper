@@ -40,9 +40,9 @@ class PluginTaskTest extends TestCase {
 
 		$expected = [
 			'Bake' => '\Cake\Http\BaseApplication::class',
+			'Cake/TwigView' => '\Cake\Http\BaseApplication::class',
 			'Migrations' => '\Cake\Http\BaseApplication::class',
 			'Shim' => '\Cake\Http\BaseApplication::class',
-			'WyriHaximus/TwigView' => '\Cake\Http\BaseApplication::class',
 		];
 		$this->assertSame($expected, $map);
 	}
