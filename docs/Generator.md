@@ -292,6 +292,17 @@ $directive = new RegisterArgumentsSet($set, $list);
 Now you can use it as list value `argumentsSet('mySet')` inside the others.
 For this just pass the `$directive` object itself to the list, which then contains only this one element.
 
+Note that you can also use `LiteralName` for constants and whatever does
+not need to be outputted as string:
+```php
+use IdeHelper\ValueObject\LiteralName;
+
+$list = [
+    LiteralName::create('\My\Cool\Class::SUCCESS'),
+    LiteralName::create('\My\Cool\Class::ERROR'),
+];
+```
+
 #### Example
 So let's imagine you have the following methods you want to annotate:
 ```php

@@ -2,6 +2,8 @@
 
 namespace IdeHelper\Generator\Directive;
 
+use IdeHelper\ValueObject\ValueObjectInterface;
+
 /**
  * @see https://blog.jetbrains.com/phpstorm/2019/02/new-phpstorm-meta-php-features/
  * @method array toArray()
@@ -28,10 +30,12 @@ abstract class BaseDirective {
 	 *
 	 * @return string
 	 */
-	protected function buildList(array $array, $indentation = 2) {
+	protected function buildList(array $array, $indentation = 2): string {
 		$result = [];
 		foreach ($array as $alias => $value) {
-			if (is_array($value) && isset($value['escapeKey']) && $value['escapeKey'] === true) {
+			if ($value instanceof ValueObjectInterface) {
+				$element = (string)$value;
+			} elseif (is_array($value) && isset($value['escapeKey']) && $value['escapeKey'] === true) {
 				$element = "'" . str_replace("'", "\'", $alias) . "'";
 			} elseif (is_array($value)) {
 				$element = $alias;
@@ -50,7 +54,7 @@ abstract class BaseDirective {
 	 *
 	 * @return string
 	 */
-	protected function buildKeyValueMap(array $array, $indentation = 3) {
+	protected function buildKeyValueMap(array $array, $indentation = 3): string {
 		$result = [];
 		foreach ($array as $alias => $value) {
 			if (is_array($value) && isset($value['escapeKey']) && $value['escapeKey'] === false) {

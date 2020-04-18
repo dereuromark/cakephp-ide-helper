@@ -3,9 +3,9 @@
 namespace IdeHelper\ValueObject;
 
 /**
- * Holds a string with auto added `'` chars - can be auto-casted to string on output.
+ * Holds a string that will be treated literally on output (no extra quoting).
  */
-class StringName implements ValueObjectInterface {
+class LiteralName implements ValueObjectInterface {
 
 	/**
 	 * @var string
@@ -41,7 +41,7 @@ class StringName implements ValueObjectInterface {
 	 * @return string
 	 */
 	public function __toString(): string {
-		return '\'' . $this->value . '\'';
+		return $this->raw();
 	}
 
 }

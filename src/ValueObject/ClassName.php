@@ -5,7 +5,7 @@ namespace IdeHelper\ValueObject;
 /**
  * Holds a FQCN string, which can be auto-casted to string
  */
-class ClassName {
+class ClassName implements ValueObjectInterface {
 
 	/**
 	 * @var string
