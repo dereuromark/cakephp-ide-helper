@@ -10,6 +10,7 @@ use Cake\View\Helper\UrlHelper;
 use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Generator\Directive\RegisterArgumentsSet;
 use IdeHelper\Utility\AppPath;
+use IdeHelper\Utility\ControllerActionParser;
 use IdeHelper\Utility\Plugin;
 use IdeHelper\ValueObject\StringName;
 
@@ -19,6 +20,15 @@ class RoutePathTask implements TaskInterface {
 	public const CLASS_URL_HELPER = UrlHelper::class;
 	public const CLASS_HTML_HELPER = HtmlHelper::class;
 	public const SET_PATHS = 'paths';
+
+	/**
+	 * @var \IdeHelper\Utility\ControllerActionParser
+	 */
+	protected $controllerActionParser;
+
+	public function __construct() {
+		$this->controllerActionParser = new ControllerActionParser();
+	}
 
 	/**
 	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
@@ -51,21 +61,21 @@ class RoutePathTask implements TaskInterface {
 	protected function collectPaths(): array {
 		$plugins = Plugin::all();
 
-		$paths = AppPath::get('Controller');
+		$controllerPaths = AppPath::get('Controller');
 
-		$controllers = [];
-		foreach ($paths as $path) {
-			$controllers += $this->_controllers($path);
+		$paths = [];
+		foreach ($controllerPaths as $controllerPath) {
+			$paths += $this->_paths($controllerPath);
 		}
 
 		foreach ($plugins as $plugin) {
-			$path = Plugin::classPath($plugin) . 'Controller' . DS;
-			$controllers += $this->_controllers($path, $plugin);
+			$pluginControllerPath = Plugin::classPath($plugin) . 'Controller' . DS;
+			$paths += $this->_paths($pluginControllerPath, $plugin);
 		}
 
-		ksort($controllers);
+		ksort($paths);
 
-		return $controllers;
+		return $paths;
 	}
 
 	/**
@@ -74,8 +84,8 @@ class RoutePathTask implements TaskInterface {
 	 * @param string|null $prefix
 	 * @return string[]
 	 */
-	protected function _controllers(string $folder, ?string $plugin = null, ?string $prefix = null): array {
-		$controllers = [];
+	protected function _paths(string $folder, ?string $plugin = null, ?string $prefix = null): array {
+		$paths = [];
 
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);
 
@@ -87,15 +97,18 @@ class RoutePathTask implements TaskInterface {
 			}
 			$controllerName = $matches[1];
 
-			$routePath = $controllerName . '::action';
-			if ($prefix) {
-				$routePath = $prefix . '/' . $routePath;
-			}
-			if ($plugin) {
-				$routePath = $plugin . '.' . $routePath;
-			}
+			$actions = $this->controllerActionParser->parse($folder . $file);
+			foreach ($actions as $action) {
+				$routePath = $controllerName . '::' . $action;
+				if ($prefix) {
+					$routePath = $prefix . '/' . $routePath;
+				}
+				if ($plugin) {
+					$routePath = $plugin . '.' . $routePath;
+				}
 
-			$controllers[$routePath] = StringName::create($routePath);
+				$paths[$routePath] = StringName::create($routePath);
+			}
 		}
 
 		foreach ($folderContent[0] as $subFolder) {
@@ -105,11 +118,11 @@ class RoutePathTask implements TaskInterface {
 				continue;
 			}
 
-			$sub = $this->_controllers($folder . $subFolder . DS, $plugin, $prefix);
-			$controllers += $sub;
+			$sub = $this->_paths($folder . $subFolder . DS, $plugin, $subFolder);
+			$paths += $sub;
 		}
 
-		return $controllers;
+		return $paths;
 	}
 
 }

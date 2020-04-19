@@ -361,11 +361,7 @@ namespace PHPSTORM_META {
 	expectedArguments(
 		\Cake\Routing\Router::pathUrl(),
 		0,
-		'Bar::action',
-		'Controllers.Generic::action',
-		'Controllers.Houses::action',
-		'Controllers.Windows::action',
-		'Foo::action'
+		argumentsSet('paths')
 	);
 
 	expectedArguments(
@@ -373,6 +369,18 @@ namespace PHPSTORM_META {
 		1,
 		'create',
 		'update'
+	);
+
+	expectedArguments(
+		\Cake\View\Helper\HtmlHelper::linkFromPath(),
+		1,
+		argumentsSet('paths')
+	);
+
+	expectedArguments(
+		\Cake\View\Helper\UrlHelper::buildFromPath(),
+		0,
+		argumentsSet('paths')
 	);
 
 	expectedArguments(
@@ -499,6 +507,12 @@ namespace PHPSTORM_META {
 		'_cake_core_',
 		'_cake_model_',
 		'default'
+	);
+
+	registerArgumentsSet(
+		'paths',
+		'Awesome.Admin/AwesomeHouses::openDoor',
+		'Bar::index'
 	);
 
 	registerArgumentsSet(

@@ -27,26 +27,44 @@ class RoutePathTaskTest extends TestCase {
 	public function testCollect() {
 		$result = $this->task->collect();
 
-		$this->assertCount(1, $result);
+		$this->assertCount(4, $result);
+
+		/** @var \IdeHelper\Generator\Directive\RegisterArgumentsSet $directive */
+		$directive = array_shift($result);
+		$this->assertSame(RoutePathTask::SET_PATHS, $directive->toArray()['set']);
+
+		$list = $directive->toArray()['list'];
+		$list = array_map(function ($value) {
+			return (string)$value;
+		}, $list);
+
+		$expected = [
+			'Awesome.Admin/AwesomeHouses::openDoor' => "'Awesome.Admin/AwesomeHouses::openDoor'",
+			'Bar::index' => "'Bar::index'",
+		];
+		$this->assertSame($expected, $list);
 
 		/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */
 		$directive = array_shift($result);
 		$this->assertSame('\Cake\Routing\Router::pathUrl()', $directive->toArray()['method']);
 
 		$list = $directive->toArray()['list'];
-		$list = array_map(function ($className) {
-			return (string)$className;
+		$list = array_map(function ($value) {
+			return (string)$value;
 		}, $list);
 
 		$expected = [
-			'Bar::action' => "'Bar::action'",
-			'Controllers.Generic::action' => "'Controllers.Generic::action'",
-			'Controllers.Houses::action' => "'Controllers.Houses::action'",
-			'Controllers.Windows::action' => "'Controllers.Windows::action'",
-			'Foo::action' => "'Foo::action'",
+			'argumentsSet(\'paths\')',
 		];
-
 		$this->assertSame($expected, $list);
+
+		/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */
+		$directive = array_shift($result);
+		$this->assertSame('\Cake\View\Helper\UrlHelper::buildFromPath()', $directive->toArray()['method']);
+
+		/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */
+		$directive = array_shift($result);
+		$this->assertSame('\Cake\View\Helper\HtmlHelper::linkFromPath()', $directive->toArray()['method']);
 	}
 
 }
