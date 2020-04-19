@@ -78,13 +78,17 @@ class ShellAnnotator extends AbstractAnnotator {
 	 */
 	protected function getUsedTasks(string $name): array {
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
+		$fullName = ($plugin ? $plugin . '.' : '') . $name;
 		if (substr($name, -4) === 'Task') {
-			$className = App::className(($plugin ? $plugin . '.' : '') . $name, 'Shell/Task');
+			$className = App::className($fullName, 'Shell/Task');
 		} else {
-			$className = App::className(($plugin ? $plugin . '.' : '') . $name, 'Shell');
+			$className = App::className($fullName, 'Shell');
 		}
 		if (!$className) {
-			throw new Exception($name);
+			if ($this->getConfig(static::CONFIG_VERBOSE)) {
+				$this->_io->warn('   Skipping shell task annotations: Invalid class name (or content) ' . $fullName);
+			}
+			return [];
 		}
 
 		if ($this->_isAbstract($className)) {
