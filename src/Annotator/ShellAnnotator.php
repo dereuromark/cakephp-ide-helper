@@ -2,7 +2,6 @@
 
 namespace IdeHelper\Annotator;
 
-use Exception;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Utility\App;
