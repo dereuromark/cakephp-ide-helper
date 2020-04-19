@@ -5,7 +5,10 @@ namespace IdeHelper\Generator\Task;
 use Cake\Core\Configure;
 use Cake\Filesystem\Folder;
 use Cake\Routing\Router;
+use Cake\View\Helper\HtmlHelper;
+use Cake\View\Helper\UrlHelper;
 use IdeHelper\Generator\Directive\ExpectedArguments;
+use IdeHelper\Generator\Directive\RegisterArgumentsSet;
 use IdeHelper\Utility\AppPath;
 use IdeHelper\Utility\Plugin;
 use IdeHelper\ValueObject\StringName;
@@ -13,6 +16,9 @@ use IdeHelper\ValueObject\StringName;
 class RoutePathTask implements TaskInterface {
 
 	public const CLASS_ROUTER = Router::class;
+	public const CLASS_URL_HELPER = UrlHelper::class;
+	public const CLASS_HTML_HELPER = HtmlHelper::class;
+	public const SET_PATHS = 'paths';
 
 	/**
 	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
@@ -21,9 +27,19 @@ class RoutePathTask implements TaskInterface {
 		$result = [];
 
 		$list = $this->collectPaths();
+		$registerArgumentsSet = new RegisterArgumentsSet(static::SET_PATHS, $list);
+		$result[$registerArgumentsSet->key()] = $registerArgumentsSet;
 
 		$method = '\\' . static::CLASS_ROUTER . '::pathUrl()';
-		$directive = new ExpectedArguments($method, 0, $list);
+		$directive = new ExpectedArguments($method, 0, [$registerArgumentsSet]);
+		$result[$directive->key()] = $directive;
+
+		$method = '\\' . static::CLASS_URL_HELPER . '::buildFromPath()';
+		$directive = new ExpectedArguments($method, 0, [$registerArgumentsSet]);
+		$result[$directive->key()] = $directive;
+
+		$method = '\\' . static::CLASS_HTML_HELPER . '::linkFromPath()';
+		$directive = new ExpectedArguments($method, 1, [$registerArgumentsSet]);
 		$result[$directive->key()] = $directive;
 
 		return $result;
