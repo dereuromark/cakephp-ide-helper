@@ -111,7 +111,9 @@ class TranslationKeyTask implements TaskInterface {
 
 			foreach ($regexIterator as $files) {
 				foreach ($files as $file) {
-					$domain = pathinfo($file, PATHINFO_FILENAME);
+					if (!file_exists($file)) {
+						continue;
+					}
 
 					$result = (new PoFileParser())->parse($file);
 					$resultKeys = array_keys($result);
@@ -120,6 +122,7 @@ class TranslationKeyTask implements TaskInterface {
 						$domainKeys[$resultKey] = $resultKey;
 					}
 
+					$domain = pathinfo($file, PATHINFO_FILENAME);
 					if (!isset($keys[$domain])) {
 						$keys[$domain] = [];
 					}
@@ -141,7 +144,7 @@ class TranslationKeyTask implements TaskInterface {
 
 				foreach ($regexIterator as $files) {
 					foreach ($files as $file) {
-						if (!is_file($file)) {
+						if (!file_exists($file)) {
 							continue;
 						}
 
