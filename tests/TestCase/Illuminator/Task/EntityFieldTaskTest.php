@@ -1,6 +1,6 @@
 <?php
 
-namespace IdeHelper\Test\TestCase\Annotator;
+namespace IdeHelper\Test\TestCase\Illuminator\Task;
 
 use Cake\Console\ConsoleIo;
 use Cake\TestSuite\TestCase;
@@ -10,8 +10,6 @@ use IdeHelper\Illuminator\Task\EntityFieldTask;
 use Shim\TestSuite\ConsoleOutput;
 
 class EntityFieldTaskTest extends TestCase {
-
-	use DiffHelperTrait;
 
 	/**
 	 * @var \Shim\TestSuite\ConsoleOutput

@@ -3,6 +3,8 @@
 namespace IdeHelper\Illuminator\Task;
 
 use Cake\Utility\Inflector;
+use IdeHelper\Annotation\PropertyAnnotation;
+use IdeHelper\Annotation\PropertyReadAnnotation;
 use IdeHelper\Annotator\Traits\FileTrait;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Util\Tokens;
@@ -89,7 +91,7 @@ class EntityFieldTask extends AbstractTask {
 			if ($tokens[$i]['code'] !== T_DOC_COMMENT_TAG) {
 				continue;
 			}
-			if ($tokens[$i]['content'] !== '@property') {
+			if ($tokens[$i]['content'] !== PropertyAnnotation::TAG && $tokens[$i]['content'] !== PropertyReadAnnotation::TAG) {
 				continue;
 			}
 

@@ -9,8 +9,9 @@ use Cake\ORM\Entity;
  * @property string $content
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime|null $modified
- * @property-read string|null $virtual_one
  * @property \TestApp\Model\Entity\Wheel[] $wheels
+ *
+ * @property-read string|null $virtual_one
  */
 class Wheel extends Entity {
 
@@ -33,7 +34,7 @@ class Wheel extends Entity {
 	const FIELD_CONTENT = 'content';
 	const FIELD_CREATED = 'created';
 	const FIELD_MODIFIED = 'modified';
-	const FIELD_VIRTUAL_ONE = 'virtual_one';
 	const FIELD_WHEELS = 'wheels';
+	const FIELD_VIRTUAL_ONE = 'virtual_one';
 
 }

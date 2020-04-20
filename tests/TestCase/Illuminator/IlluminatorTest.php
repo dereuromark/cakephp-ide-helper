@@ -1,6 +1,6 @@
 <?php
 
-namespace IdeHelper\Test\TestCase\Annotator;
+namespace IdeHelper\Test\TestCase\Illuminator;
 
 use Cake\Console\ConsoleIo;
 use Cake\TestSuite\TestCase;
@@ -10,8 +10,6 @@ use IdeHelper\Illuminator\TaskCollection;
 use Shim\TestSuite\ConsoleOutput;
 
 class IlluminatorTest extends TestCase {
-
-	use DiffHelperTrait;
 
 	/**
 	 * @var \Shim\TestSuite\ConsoleOutput
