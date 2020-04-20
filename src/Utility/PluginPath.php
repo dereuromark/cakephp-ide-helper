@@ -3,14 +3,13 @@
 namespace IdeHelper\Utility;
 
 use Cake\Core\Exception\MissingPluginException;
-use IdeHelper\Utility\Plugin;
 
 class PluginPath {
 
 	/**
 	 * @param string $plugin
-	 * @return string
 	 * @throws \Cake\Core\Exception\MissingPluginException
+	 * @return string
 	 */
 	public static function get(string $plugin): string {
 		try {

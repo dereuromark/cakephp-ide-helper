@@ -101,6 +101,7 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 
 		if ($newContent === $this->content) {
 			$this->reportSkipped();
+
 			return false;
 		}
 

@@ -124,6 +124,7 @@ class EntityFieldTaskTest extends TestCase {
 			AbstractAnnotator::CONFIG_DRY_RUN => true,
 			AbstractAnnotator::CONFIG_VERBOSE => true,
 		];
+
 		return new EntityFieldTask($params);
 	}
 

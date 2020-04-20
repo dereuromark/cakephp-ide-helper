@@ -177,6 +177,7 @@ class VariableExtractor {
 		$startIndex = null;
 		foreach ($result['context']['nested_parenthesis'] as $key => $unused) {
 			$startIndex = $key;
+
 			break;
 		}
 
@@ -196,6 +197,7 @@ class VariableExtractor {
 		$startIndex = null;
 		foreach ($result['context']['nested_parenthesis'] as $key => $unused) {
 			$startIndex = $key;
+
 			break;
 		}
 
@@ -235,6 +237,7 @@ class VariableExtractor {
 			}
 			if ($tokens[$testIndex]['code'] !== T_COMMA && $tokens[$testIndex]['code'] !== T_VARIABLE) {
 				$prevIndex = $testIndex;
+
 				break;
 			}
 		}

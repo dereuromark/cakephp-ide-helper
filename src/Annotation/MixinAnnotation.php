@@ -18,7 +18,7 @@ class MixinAnnotation extends AbstractAnnotation {
 	public function __construct($type, $index = null) {
 		$description = '';
 		if (strpos($type, ' ') !== false) {
-			list($type, $description) = explode(' ', $type, 2);
+			[$type, $description] = explode(' ', $type, 2);
 		}
 
 		parent::__construct($type, $index);

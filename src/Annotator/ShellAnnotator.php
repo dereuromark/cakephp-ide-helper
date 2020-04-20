@@ -87,6 +87,7 @@ class ShellAnnotator extends AbstractAnnotator {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping shell task annotations: Invalid class name (or content) ' . $fullName);
 			}
+
 			return [];
 		}
 
@@ -102,6 +103,7 @@ class ShellAnnotator extends AbstractAnnotator {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping shell task annotations: ' . $e->getMessage());
 			}
+
 			return [];
 		}
 
@@ -114,6 +116,7 @@ class ShellAnnotator extends AbstractAnnotator {
 			if (!$fullClass) {
 				$this->_io->warn('   Skipping invalid task ' . $alias . ': ' . $row['class']);
 				unset($map[$alias]);
+
 				continue;
 			}
 			$map[$alias]['fullClass'] = $fullClass;

@@ -457,7 +457,13 @@ namespace PHPSTORM_META {
 	expectedArguments(
 		\Migrations\AbstractMigration::table(),
 		0,
-		'wheels'
+		argumentsSet('tableNames')
+	);
+
+	expectedArguments(
+		\Migrations\AbstractSeed::table(),
+		0,
+		argumentsSet('tableNames')
 	);
 
 	expectedArguments(
@@ -503,6 +509,12 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
+		\Phinx\Seed\AbstractSeed::table(),
+		0,
+		argumentsSet('tableNames')
+	);
+
+	expectedArguments(
 		\__d(),
 		0,
 		'awesome',
@@ -529,10 +541,7 @@ namespace PHPSTORM_META {
 
 	registerArgumentsSet(
 		'tableNames',
-		'content',
-		'created',
-		'id',
-		'name'
+		'wheels'
 	);
 
 	registerArgumentsSet(

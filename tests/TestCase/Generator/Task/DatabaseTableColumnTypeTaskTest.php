@@ -61,7 +61,7 @@ class DatabaseTableColumnTypeTaskTest extends TestCase {
 		];
 		foreach ($expectedList as $key => $value) {
 			$this->assertArrayHasKey($key, $list);
-			$this->assertSame($list[$key], $list[$key]);
+			$this->assertSame($value, $list[$key]);
 		}
 
 		/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */
@@ -79,7 +79,7 @@ class DatabaseTableColumnTypeTaskTest extends TestCase {
 		];
 		foreach ($expectedList as $key => $value) {
 			$this->assertArrayHasKey($key, $list);
-			$this->assertSame($list[$key], $list[$key]);
+			$this->assertSame($value, $list[$key]);
 		}
 
 		/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */
@@ -130,7 +130,7 @@ class DatabaseTableColumnTypeTaskTest extends TestCase {
 		];
 		foreach ($expectedList as $key => $value) {
 			$this->assertArrayHasKey($key, $list);
-			$this->assertSame($list[$key], $list[$key]);
+			$this->assertSame($value, $list[$key]);
 		}
 
 		/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */

@@ -91,6 +91,7 @@ class TableFinderTask extends ModelTask {
 			$tableReflection = new ReflectionClass($tableClass);
 			if (!$tableReflection->isInstantiable()) {
 				$allFinders = array_merge($allFinders, $customFinders);
+
 				continue;
 			}
 

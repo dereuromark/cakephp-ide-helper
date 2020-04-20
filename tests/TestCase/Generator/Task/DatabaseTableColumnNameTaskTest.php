@@ -35,6 +35,15 @@ class DatabaseTableColumnNameTaskTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function tearDown(): void {
+		parent::tearDown();
+
+		unset($this->task);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testCollect() {
 		$result = $this->task->collect();
 

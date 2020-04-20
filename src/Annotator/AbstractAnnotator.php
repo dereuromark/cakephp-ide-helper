@@ -196,6 +196,7 @@ abstract class AbstractAnnotator {
 
 		if ($newContent === $content) {
 			$this->reportSkipped();
+
 			return false;
 		}
 
@@ -242,18 +243,21 @@ abstract class AbstractAnnotator {
 			}
 			if ($this->exists($annotation, $existingAnnotations)) {
 				unset($annotations[$key]);
+
 				continue;
 			}
 
 			if (!$this->allowsReplacing($annotation, $existingAnnotations)) {
 				unset($annotations[$key]);
 				$this->_counter[static::COUNT_SKIPPED]++;
+
 				continue;
 			}
 
 			$toBeReplaced = $this->needsReplacing($annotation, $existingAnnotations);
 			if (!$toBeReplaced) {
 				$addingAnnotations[] = $annotation;
+
 				continue;
 			}
 
@@ -291,6 +295,7 @@ abstract class AbstractAnnotator {
 			foreach ($existingAnnotations as $key => $existingAnnotation) {
 				if ($existingAnnotation->isInUse()) {
 					unset($existingAnnotations[$key]);
+
 					continue;
 				}
 
@@ -510,6 +515,7 @@ abstract class AbstractAnnotator {
 		while (isset($tokens[$i])) {
 			if ($tokens[$i]['code'] !== T_VARIABLE || $tokens[$i]['content'] !== '$this') {
 				$i++;
+
 				continue;
 			}
 			$i++;
@@ -518,6 +524,7 @@ abstract class AbstractAnnotator {
 			}
 			if ($tokens[$i]['code'] !== T_OBJECT_OPERATOR) {
 				$i++;
+
 				continue;
 			}
 			$i++;
@@ -526,6 +533,7 @@ abstract class AbstractAnnotator {
 			}
 			if ($tokens[$i]['code'] !== T_STRING || $tokens[$i]['content'] !== $property) {
 				$i++;
+
 				continue;
 			}
 			$i++;
@@ -534,6 +542,7 @@ abstract class AbstractAnnotator {
 			}
 			if ($tokens[$i]['code'] !== T_OBJECT_OPERATOR) {
 				$i++;
+
 				continue;
 			}
 
@@ -567,6 +576,7 @@ abstract class AbstractAnnotator {
 		while (isset($tokens[$i])) {
 			if ($tokens[$i]['code'] !== T_VARIABLE || $tokens[$i]['content'] !== '$this') {
 				$i++;
+
 				continue;
 			}
 			$i++;
@@ -575,6 +585,7 @@ abstract class AbstractAnnotator {
 			}
 			if ($tokens[$i]['code'] !== T_OBJECT_OPERATOR) {
 				$i++;
+
 				continue;
 			}
 			$i++;
@@ -583,6 +594,7 @@ abstract class AbstractAnnotator {
 			}
 			if ($tokens[$i]['code'] !== T_STRING || $tokens[$i]['content'] !== $method) {
 				$i++;
+
 				continue;
 			}
 			$i++;
@@ -591,6 +603,7 @@ abstract class AbstractAnnotator {
 			}
 			if ($tokens[$i]['code'] !== T_OPEN_PARENTHESIS) {
 				$i++;
+
 				continue;
 			}
 
@@ -705,7 +718,7 @@ abstract class AbstractAnnotator {
 			if (!$className) {
 				$className = 'Cake\ORM\Table';
 			}
-			list(, $name) = pluginSplit($usedModel);
+			[, $name] = pluginSplit($usedModel);
 
 			$annotations[] = AnnotationFactory::createOrFail(PropertyAnnotation::TAG, '\\' . $className, '$' . $name);
 		}

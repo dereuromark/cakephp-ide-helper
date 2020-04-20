@@ -6,6 +6,7 @@ use Bake\Utility\TableScanner;
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
 use IdeHelper\Generator\Directive\ExpectedArguments;
+use IdeHelper\Generator\Directive\RegisterArgumentsSet;
 use IdeHelper\ValueObject\StringName;
 
 /**
@@ -13,11 +14,20 @@ use IdeHelper\ValueObject\StringName;
  */
 class DatabaseTableTask implements TaskInterface {
 
+	public const SET_TABLE_NAMES = 'tableNames';
+
+	/**
+	 * @var string[]|null
+	 */
+	protected static $tables;
+
 	/**
 	 * @var string[]
 	 */
 	protected $aliases = [
 		'\Migrations\AbstractMigration::table()',
+		'\Migrations\AbstractSeed::table()',
+		'\Phinx\Seed\AbstractSeed::table()',
 	];
 
 	/**
@@ -31,11 +41,14 @@ class DatabaseTableTask implements TaskInterface {
 			$list[$table] = StringName::create($table);
 		}
 
-		ksort($list);
-
 		$result = [];
+
+		ksort($list);
+		$registerArgumentsSet = new RegisterArgumentsSet(static::SET_TABLE_NAMES, $list);
+		$result[$registerArgumentsSet->key()] = $registerArgumentsSet;
+
 		foreach ($this->aliases as $alias) {
-			$directive = new ExpectedArguments($alias, 0, $list);
+			$directive = new ExpectedArguments($alias, 0, [$registerArgumentsSet]);
 			$result[$directive->key()] = $directive;
 		}
 
@@ -46,9 +59,14 @@ class DatabaseTableTask implements TaskInterface {
 	 * @return string[]
 	 */
 	protected function collectTables(): array {
-		$db = $this->getConnection();
+		if (static::$tables !== null) {
+			$tables = static::$tables;
+		} else {
+			$db = $this->getConnection();
+			$tables = (new TableScanner($db))->listAll();
+			static::$tables = $tables;
+		}
 
-		$tables = (new TableScanner($db))->listAll();
 		foreach ($tables as $key => $table) {
 			if (stripos($table, 'phinxlog') !== false) {
 				unset($tables[$key]);

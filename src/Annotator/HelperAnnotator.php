@@ -40,6 +40,7 @@ class HelperAnnotator extends AbstractAnnotator {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping helper annotations: ' . $e->getMessage());
 			}
+
 			return false;
 		}
 

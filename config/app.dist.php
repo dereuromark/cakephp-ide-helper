@@ -1,4 +1,5 @@
 <?php
+
 return [
 	 // Copy the following over to your project one in ROOT/config/
 	'IdeHelper' => [

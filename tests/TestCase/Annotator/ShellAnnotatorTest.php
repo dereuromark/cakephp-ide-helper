@@ -55,6 +55,7 @@ class ShellAnnotatorTest extends TestCase {
 			if ($value !== $expectedContent) {
 				$this->_displayDiff($expectedContent, $value);
 			}
+
 			return $value === $expectedContent;
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
@@ -79,6 +80,7 @@ class ShellAnnotatorTest extends TestCase {
 			if ($value !== $expectedContent) {
 				$this->_displayDiff($expectedContent, $value);
 			}
+
 			return $value === $expectedContent;
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
@@ -100,6 +102,7 @@ class ShellAnnotatorTest extends TestCase {
 			AbstractAnnotator::CONFIG_REMOVE => true,
 			AbstractAnnotator::CONFIG_DRY_RUN => true,
 		];
+
 		return $this->getMockBuilder(ShellAnnotator::class)->setMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
 	}
 

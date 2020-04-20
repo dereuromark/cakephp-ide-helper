@@ -68,6 +68,7 @@ class ComponentAnnotator extends AbstractAnnotator {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping component annotations: ' . $e->getMessage());
 			}
+
 			return [];
 		}
 

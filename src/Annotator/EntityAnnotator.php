@@ -36,8 +36,8 @@ class EntityAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $path Path to file.
-	 * @return bool
 	 * @throws \RuntimeException
+	 * @return bool
 	 */
 	public function annotate(string $path): bool {
 		$name = pathinfo($path, PATHINFO_FILENAME);

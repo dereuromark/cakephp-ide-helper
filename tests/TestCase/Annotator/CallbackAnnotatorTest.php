@@ -69,6 +69,7 @@ class CallbackAnnotatorTest extends TestCase {
 		$params += [
 			AbstractAnnotator::CONFIG_VERBOSE => true,
 		];
+
 		return new CallbackAnnotator($this->io, $params);
 	}
 

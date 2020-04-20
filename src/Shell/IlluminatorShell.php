@@ -22,8 +22,8 @@ class IlluminatorShell extends Shell {
 
 	/**
 	 * @param string|null $path
-	 * @return int
 	 * @throws \InvalidArgumentException
+	 * @return int
 	 */
 	public function illuminate($path = null) {
 		if (!$path) {
@@ -47,6 +47,7 @@ class IlluminatorShell extends Shell {
 
 		if ($this->param('dry-run')) {
 			$this->out($filesChanged . ' files need(s) updating.');
+
 			return static::CODE_CHANGES;
 		}
 
@@ -122,9 +123,9 @@ class IlluminatorShell extends Shell {
 	}
 
 	/**
-	 * @return string[]
 	 * @throws \RuntimeException
 	 * @throws \InvalidArgumentException
+	 * @return string[]
 	 */
 	protected function getTaskList(): array {
 		$taskCollection = new TaskCollection($this->_io(), $this->params);

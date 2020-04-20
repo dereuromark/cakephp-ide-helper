@@ -76,6 +76,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping table and entity: ' . $e->getMessage());
 			}
+
 			return false;
 		}
 
@@ -198,6 +199,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			$pathTmp = str_replace('\\', DS, $pathTmp);
 			if (file_exists($pathTmp . $entityName . '.php')) {
 				$entityPath = $pathTmp . $entityName . '.php';
+
 				break;
 			}
 		}

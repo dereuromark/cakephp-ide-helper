@@ -50,6 +50,7 @@ class TableCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implement
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping table: ' . $e->getMessage());
 			}
+
 			return false;
 		}
 
@@ -75,11 +76,13 @@ class TableCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implement
 		foreach ($methods as $index => $method) {
 			if (!in_array($method['name'], $this->callbacks, true)) {
 				unset($methods[$index]);
+
 				continue;
 			}
 
 			if (!$this->needsUpdate($file, $index, $method)) {
 				unset($methods[$index]);
+
 				continue;
 			}
 

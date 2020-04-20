@@ -97,8 +97,8 @@ class TaskCollection {
 	 * Adds a task to the collection.
 	 *
 	 * @param string|\IdeHelper\Generator\Task\TaskInterface $task The task to map.
-	 * @return $this
 	 * @throws \InvalidArgumentException
+	 * @return $this
 	 */
 	protected function add($task) {
 		if (is_string($task)) {

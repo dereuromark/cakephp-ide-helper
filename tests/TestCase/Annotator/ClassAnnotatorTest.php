@@ -70,6 +70,7 @@ class ClassAnnotatorTest extends TestCase {
 			//AbstractAnnotator::CONFIG_REMOVE => true,
 			AbstractAnnotator::CONFIG_VERBOSE => true,
 		];
+
 		return new ClassAnnotator($this->io, $params);
 	}
 
