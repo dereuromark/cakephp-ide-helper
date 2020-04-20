@@ -35,7 +35,7 @@ class DatabaseTypeTaskTest extends TestCase {
 
 		/** @var \IdeHelper\Generator\Directive\Override $directive */
 		$directive = array_shift($result);
-		$this->assertSame('\Cake\Database\Type::build(0)', $directive->toArray()['method']);
+		$this->assertSame('\Cake\Database\TypeFactory::build(0)', $directive->toArray()['method']);
 
 		$map = $directive->toArray()['map'];
 
@@ -47,7 +47,7 @@ class DatabaseTypeTaskTest extends TestCase {
 
 		/** @var \IdeHelper\Generator\Directive\Override $directive */
 		$directive = array_shift($result);
-		$this->assertSame('\Cake\Database\Type::map()', $directive->toArray()['method']);
+		$this->assertSame('\Cake\Database\TypeFactory::map()', $directive->toArray()['method']);
 
 		$list = $directive->toArray()['list'];
 		$this->assertSame('\'json\'', (string)$list['json']);

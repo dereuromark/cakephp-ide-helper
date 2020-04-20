@@ -94,7 +94,7 @@ namespace PHPSTORM_META {
 	);
 
 	override(
-		\Cake\Database\Type::build(0),
+		\Cake\Database\TypeFactory::build(0),
 		map([
 			'biginteger' => \Cake\Database\Type\IntegerType::class,
 			'binary' => \Cake\Database\Type\BinaryType::class,
@@ -121,7 +121,7 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
-		\Cake\Database\Type::map(),
+		\Cake\Database\TypeFactory::map(),
 		0,
 		'biginteger',
 		'binary',

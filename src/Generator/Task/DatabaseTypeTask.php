@@ -3,15 +3,19 @@
 namespace IdeHelper\Generator\Task;
 
 use Cake\Database\Type;
+use Cake\Database\TypeFactory;
 use Exception;
 use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\ValueObject\ClassName;
 use IdeHelper\ValueObject\StringName;
 
+/**
+ * For Database TypeFactory calls around column types.
+ */
 class DatabaseTypeTask implements TaskInterface {
 
-	public const CLASS_TYPE = Type::class;
+	public const CLASS_TYPE = TypeFactory::class;
 
 	/**
 	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
