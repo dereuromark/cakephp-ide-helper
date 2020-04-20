@@ -121,6 +121,32 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
+		\Cake\Database\Type::map(),
+		0,
+		'biginteger',
+		'binary',
+		'binaryuuid',
+		'boolean',
+		'char',
+		'date',
+		'datetime',
+		'datetimefractional',
+		'decimal',
+		'float',
+		'integer',
+		'json',
+		'smallinteger',
+		'string',
+		'text',
+		'time',
+		'timestamp',
+		'timestampfractional',
+		'timestamptimezone',
+		'tinyinteger',
+		'uuid'
+	);
+
+	expectedArguments(
 		\Cake\Datasource\ConnectionManager::get(),
 		0,
 		'test'

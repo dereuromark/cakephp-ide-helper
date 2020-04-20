@@ -131,6 +131,11 @@ Type::build('datetime')->useLocaleParser()->setLocaleFormat('d.m.Y H:i');
 ```
 The IDE will now recognize the returned type of class and allow auto-complete here, too.
 
+Same for `Type::map()` and type strings like `integer`, `string` etc:
+```php
+Type::map('decimal', ...);
+```
+
 #### Elements
 Are you making heavy use of elements in templates?
 Tired of typing the full template name in `$this->element('...')` calls?

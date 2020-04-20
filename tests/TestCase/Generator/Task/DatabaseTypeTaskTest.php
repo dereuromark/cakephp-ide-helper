@@ -31,7 +31,7 @@ class DatabaseTypeTaskTest extends TestCase {
 
 		$result = $this->task->collect();
 
-		$this->assertCount(1, $result);
+		$this->assertCount(2, $result);
 
 		/** @var \IdeHelper\Generator\Directive\Override $directive */
 		$directive = array_shift($result);
@@ -44,6 +44,13 @@ class DatabaseTypeTaskTest extends TestCase {
 
 		$expected = '\TestApp\Database\Type\UuidType::class';
 		$this->assertSame($expected, (string)$map['uuid']);
+
+		/** @var \IdeHelper\Generator\Directive\Override $directive */
+		$directive = array_shift($result);
+		$this->assertSame('\Cake\Database\Type::map()', $directive->toArray()['method']);
+
+		$list = $directive->toArray()['list'];
+		$this->assertSame('\'json\'', (string)$list['json']);
 	}
 
 }
