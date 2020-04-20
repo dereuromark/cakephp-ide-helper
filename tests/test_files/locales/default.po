@@ -1,0 +1,12 @@
+
+msgid "A \"quoted\" string"
+msgstr "Ein \"quoted\" String"
+
+msgid "A ""escape-quoted"" string"
+msgstr "Ein ""escape-quoted"" String"
+
+msgid "A 'literally quoted' string"
+msgstr "Ein 'wörtlich quoted' String"
+
+msgid "A variable ''{0}'' be replaced."
+msgstr "Eine Variable ''{0}'' ersetzt."

@@ -2,11 +2,11 @@
 
 namespace IdeHelper\Generator\Task;
 
-use Cake\I18n\Parser\PoFileParser;
 use Cake\Utility\Inflector;
 use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\Plugin;
+use IdeHelper\Utility\TranslationParser;
 use IdeHelper\ValueObject\StringName;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -17,6 +17,15 @@ use RegexIterator;
  * @link https://book.cakephp.org/4/en/core-libraries/global-constants-and-functions.html#global-functions
  */
 class TranslationKeyTask implements TaskInterface {
+
+	/**
+	 * @var \IdeHelper\Utility\TranslationParser
+	 */
+	protected $translationParser;
+
+	public function __construct() {
+		$this->translationParser = new TranslationParser();
+	}
 
 	/**
 	 * function __(string $singular, ...$args): string
@@ -79,7 +88,6 @@ class TranslationKeyTask implements TaskInterface {
 		foreach ($translationsKeys as $domain => $array) {
 			$result = [];
 			foreach ($array as $key) {
-				$key = $this->escapeSlashes($key);
 				$result[$key] = StringName::create($key);
 			}
 
@@ -115,12 +123,7 @@ class TranslationKeyTask implements TaskInterface {
 						continue;
 					}
 
-					$result = (new PoFileParser())->parse($file);
-					$resultKeys = array_keys($result);
-					$domainKeys = [];
-					foreach ($resultKeys as $resultKey) {
-						$domainKeys[$resultKey] = $resultKey;
-					}
+					$domainKeys = $this->translationParser->parse($file);
 
 					$domain = pathinfo($file, PATHINFO_FILENAME);
 					if (!isset($keys[$domain])) {
@@ -148,15 +151,9 @@ class TranslationKeyTask implements TaskInterface {
 							continue;
 						}
 
+						$domainKeys = $this->translationParser->parse($file);
+
 						$domain = pathinfo($file, PATHINFO_FILENAME);
-
-						$result = (new PoFileParser())->parse($file);
-						$resultKeys = array_keys($result);
-						$domainKeys = [];
-						foreach ($resultKeys as $resultKey) {
-							$domainKeys[$resultKey] = $resultKey;
-						}
-
 						if (!isset($keys[$domain])) {
 							$keys[$domain] = [];
 						}
@@ -167,19 +164,6 @@ class TranslationKeyTask implements TaskInterface {
 		}
 
 		return $keys;
-	}
-
-	/**
-	 * @param string $key
-	 *
-	 * @return string
-	 */
-	protected function escapeSlashes(string $key): string {
-		if (version_compare(PHP_VERSION, '7.3') >= 0) {
-			return filter_var($key, FILTER_SANITIZE_ADD_SLASHES);
-		}
-
-		return addcslashes($key, '\'');
 	}
 
 	/**

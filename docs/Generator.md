@@ -159,6 +159,15 @@ Now not just bool true/false, but also the possible "magic strings" are typehint
 #### Translation keys
 Using `__()` and `__d()` can be auto-completed based on your project's `.po` files.
 
+Note: PHPStorm is not smart enough yet to auto-adjust any (escaped or not) quotes in your strings.
+So in those cases you must be using `'` as delimiters for your strings, if you want auto-complete:
+```
+<?php echo __('A "quoted" string'); ?>
+<?php echo __('A \'literally quoted\' string'); ?>
+<?php echo __('A variable \'\'{0}\'\' be replaced.', __('will')); ?>
+```
+Any further `'` inside will be escaped for you.
+
 #### ConnectionManager
 `ConnectionManager::get()` is auto-completed for the currently configured connection aliases.
 
