@@ -164,7 +164,7 @@ Now not just bool true/false, but also the possible "magic strings" are typehint
 #### Translation keys
 Using `__()` and `__d()` can be auto-completed based on your project's `.po` files.
 
-Note: PhpStorm is not smart enough yet to auto-adjust any (escaped or not) quotes in your strings.
+Note: PhpStorm is [not smart enough yet](https://youtrack.jetbrains.com/issue/WI-52508) to auto-adjust any (escaped or not) quotes in your strings.
 So in those cases you must be using `'` as delimiters for your strings, if you want auto-complete:
 ```
 <?php echo __('A "quoted" string'); ?>
