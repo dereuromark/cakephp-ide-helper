@@ -47,7 +47,7 @@ Supports IDE autocomplete/typehinting of (magic)strings as well as return types/
 - Elements and layouts
 - Tables and their fields
 - Route paths, Request/ENV, Connection
-- ... and more (using PHPStorm meta file)
+- ... and more (using PhpStorm meta file)
 
 Supports better IDE usage with Illuminator tasks to enhance existing code:
 - EntityFieldTask adds all entity fields as class constants for easier usage in IDEs
@@ -55,7 +55,7 @@ Supports better IDE usage with Illuminator tasks to enhance existing code:
 ### IDE support
 This plugin is supposed to work with ANY IDE that supports annotations and code completion.
 IDEs tested so far for 100% compatibility:
-- **[PHPStorm](https://github.com/dereuromark/cakephp-ide-helper/wiki/PHPStorm)** (incl. meta file generator)
+- **[PhpStorm](https://github.com/dereuromark/cakephp-ide-helper/wiki/PHPStorm)** (incl. meta file generator)
 - IntelliJ
 - Atom
 - **[VS Code](https://github.com/dereuromark/cakephp-ide-helper/wiki/Visual-Studio-Code)**

@@ -9,7 +9,7 @@ use IdeHelper\Generator\TaskCollection;
 use RuntimeException;
 
 /**
- * Shell for generating PHPStorm specific IDE meta file.
+ * Shell for generating PhpStorm specific IDE meta file.
  *
  * @author Mark Scherer
  * @license MIT
@@ -63,7 +63,7 @@ class PhpstormShell extends Shell {
 		];
 
 		return parent::getOptionParser()
-			->setDescription('Meta File Generator for generating better IDE auto-complete/hinting in PHPStorm.')
+			->setDescription('Meta File Generator for generating better IDE auto-complete/hinting in PhpStorm.')
 			->addSubcommand('generate', [
 				'help' => 'Generate `/.phpstorm.meta.php/.ide-helper.meta.php` meta file.',
 				'parser' => $subcommandParser,

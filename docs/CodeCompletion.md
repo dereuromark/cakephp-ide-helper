@@ -1,8 +1,8 @@
 #  Code Completion File Generator
 
-In contrast to the PHPStorm meta file generator this one is supposed to be more generic and IDE agnostic.
+In contrast to the PhpStorm meta file generator this one is supposed to be more generic and IDE agnostic.
 
-![Behavior Code Completion](img/code_completion.png) 
+![Behavior Code Completion](img/code_completion.png)
 
 ## Usage
 This command will generate your CodeCompletion `php` files in your app's `TMP/` directory:
@@ -49,7 +49,7 @@ class MyTask implements TaskInterface {
     public function create() {
         ...
     }
-    
+
 }
 ```
 
@@ -138,4 +138,4 @@ abstract class SomeObject extends SomeObjectInterface {
 ### Custom path for files
 
 Using Configure key `'IdeHelper.codeCompletionPath'` you can use a custom path in your project if needed.
-This way the files can be added to version control. 
+This way the files can be added to version control.

@@ -11,7 +11,7 @@ use IdeHelper\ValueObject\ClassName;
 class PluginTask implements TaskInterface {
 
 	/**
-	 * We need to use this until PHPStorm fixed the issue around concrete classes here
+	 * We need to use this until PhpStorm fixed the issue around concrete classes here
 	 */
 	public const INTERFACE_APPLICATION = PluginApplicationInterface::class;
 
