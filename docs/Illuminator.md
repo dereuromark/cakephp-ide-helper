@@ -26,8 +26,8 @@ This task will add those based on the defined property annotations in the doc bl
  */
 class Car extends Entity {
 
-    const FIELD_ID = 'id';
-    const FIELD_BRAND_NAME = 'brand_name';
+    public const FIELD_ID = 'id';
+    public const FIELD_BRAND_NAME = 'brand_name';
     ...
 
 }
