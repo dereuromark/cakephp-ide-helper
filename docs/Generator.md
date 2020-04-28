@@ -63,7 +63,7 @@ This is especially useful for more complex and possibly vendor-prefix names (e.g
 ```php
 /** @var \App\Model\Table\UsersTable $users */
 $users = TableRegistry::get('Users');
-$users->doSomething($user);
+$users->doSomething();
 ```
 So far `$users` required the annotation above to be typehinted and clickable.
 With the generated meta file this becomes not necessary anymore.
@@ -73,6 +73,17 @@ It will automatically detect this static factory call in the map and hint `$user
 This task also annotates the dynamic model factory calls (e.g. `$this->getTableLocator()->get('Users')`) or `loadModel()` usage.
 
 ![Model Autocomplete loadModel](img/model_autocomplete_loadmodel.png)
+
+If you prefer FQCN as argument, you will still get the benefit here for the return type:
+```php
+use App\Model\Table\UsersTable;
+
+$users = TableRegistry::get(UsersTable::class);
+$users->doSomething();
+```
+It now knows the concrete object of `$users` and can autocomplete the method call right away.
+
+You will not be able to quickly select from a list of input options, however.
 
 #### TableAssociations
 The following is now auto-completed, for example:
