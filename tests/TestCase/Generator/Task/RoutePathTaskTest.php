@@ -27,11 +27,11 @@ class RoutePathTaskTest extends TestCase {
 	public function testCollect() {
 		$result = $this->task->collect();
 
-		$this->assertCount(4, $result);
+		$this->assertCount(5, $result);
 
 		/** @var \IdeHelper\Generator\Directive\RegisterArgumentsSet $directive */
 		$directive = array_shift($result);
-		$this->assertSame(RoutePathTask::SET_PATHS, $directive->toArray()['set']);
+		$this->assertSame(RoutePathTask::SET_ROUTE_PATHS, $directive->toArray()['set']);
 
 		$list = $directive->toArray()['list'];
 		$list = array_map(function ($value) {
@@ -54,7 +54,7 @@ class RoutePathTaskTest extends TestCase {
 		}, $list);
 
 		$expected = [
-			'argumentsSet(\'paths\')',
+			'argumentsSet(\'routePaths\')',
 		];
 		$this->assertSame($expected, $list);
 

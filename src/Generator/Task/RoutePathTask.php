@@ -19,7 +19,7 @@ class RoutePathTask implements TaskInterface {
 	public const CLASS_ROUTER = Router::class;
 	public const CLASS_URL_HELPER = UrlHelper::class;
 	public const CLASS_HTML_HELPER = HtmlHelper::class;
-	public const SET_PATHS = 'paths';
+	public const SET_ROUTE_PATHS = 'routePaths';
 
 	/**
 	 * @var \IdeHelper\Utility\ControllerActionParser
@@ -37,7 +37,7 @@ class RoutePathTask implements TaskInterface {
 		$result = [];
 
 		$list = $this->collectPaths();
-		$registerArgumentsSet = new RegisterArgumentsSet(static::SET_PATHS, $list);
+		$registerArgumentsSet = new RegisterArgumentsSet(static::SET_ROUTE_PATHS, $list);
 		$result[$registerArgumentsSet->key()] = $registerArgumentsSet;
 
 		$method = '\\' . static::CLASS_ROUTER . '::pathUrl()';
@@ -50,6 +50,10 @@ class RoutePathTask implements TaskInterface {
 
 		$method = '\\' . static::CLASS_HTML_HELPER . '::linkFromPath()';
 		$directive = new ExpectedArguments($method, 1, [$registerArgumentsSet]);
+		$result[$directive->key()] = $directive;
+
+		$method = '\\urlArray()';
+		$directive = new ExpectedArguments($method, 0, [$registerArgumentsSet]);
 		$result[$directive->key()] = $directive;
 
 		return $result;

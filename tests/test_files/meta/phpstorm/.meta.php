@@ -387,7 +387,7 @@ namespace PHPSTORM_META {
 	expectedArguments(
 		\Cake\Routing\Router::pathUrl(),
 		0,
-		argumentsSet('paths')
+		argumentsSet('routePaths')
 	);
 
 	expectedArguments(
@@ -400,13 +400,13 @@ namespace PHPSTORM_META {
 	expectedArguments(
 		\Cake\View\Helper\HtmlHelper::linkFromPath(),
 		1,
-		argumentsSet('paths')
+		argumentsSet('routePaths')
 	);
 
 	expectedArguments(
 		\Cake\View\Helper\UrlHelper::buildFromPath(),
 		0,
-		argumentsSet('paths')
+		argumentsSet('routePaths')
 	);
 
 	expectedArguments(
@@ -540,6 +540,12 @@ namespace PHPSTORM_META {
 		'HTTP_HOST'
 	);
 
+	expectedArguments(
+		\urlArray(),
+		0,
+		argumentsSet('routePaths')
+	);
+
 	registerArgumentsSet(
 		'cacheEngines',
 		'_cake_core_',
@@ -548,7 +554,7 @@ namespace PHPSTORM_META {
 	);
 
 	registerArgumentsSet(
-		'paths',
+		'routePaths',
 		'Awesome.Admin/AwesomeHouses::openDoor',
 		'Bar::index'
 	);
