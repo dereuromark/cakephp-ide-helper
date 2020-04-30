@@ -2,6 +2,9 @@
 
 namespace IdeHelper\Generator;
 
+use Cake\Console\ConsoleIo;
+use IdeHelper\Generator\Directive\RegisterArgumentsSet;
+
 class PhpstormGenerator implements GeneratorInterface {
 
 	/**
@@ -10,10 +13,17 @@ class PhpstormGenerator implements GeneratorInterface {
 	protected $taskCollection;
 
 	/**
-	 * @param \IdeHelper\Generator\TaskCollection $taskCollection
+	 * @var \Cake\Console\ConsoleIo|null
 	 */
-	public function __construct(TaskCollection $taskCollection) {
+	protected $consoleIo;
+
+	/**
+	 * @param \IdeHelper\Generator\TaskCollection $taskCollection
+	 * @param \Cake\Console\ConsoleIo|null $consoleIo
+	 */
+	public function __construct(TaskCollection $taskCollection, ?ConsoleIo $consoleIo = null) {
 		$this->taskCollection = $taskCollection;
+		$this->consoleIo = $consoleIo;
 	}
 
 	/**
@@ -21,6 +31,8 @@ class PhpstormGenerator implements GeneratorInterface {
 	 */
 	public function generate(): string {
 		$map = $this->taskCollection->getMap();
+
+		$this->outputSetInfo($map);
 
 		return $this->build($map);
 	}
@@ -49,6 +61,29 @@ $overrides
 TXT;
 
 		return $template;
+	}
+
+	/**
+	 * @param \IdeHelper\Generator\Directive\BaseDirective[] $map
+	 *
+	 * @return void
+	 */
+	protected function outputSetInfo(array $map): void {
+		if (!$this->consoleIo) {
+			return;
+		}
+
+		$sets = [];
+		foreach ($map as $directive) {
+			if ($directive instanceof RegisterArgumentsSet) {
+				$sets[] = $directive->toArray()['set'];
+			}
+		}
+
+		$this->consoleIo->verbose('The following sets are available for re-use:');
+		foreach ($sets as $set) {
+			$this->consoleIo->verbose('- ' . $set);
+		}
 	}
 
 }

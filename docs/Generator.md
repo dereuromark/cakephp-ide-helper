@@ -32,6 +32,7 @@ PhpStorm TOC
     + [ExpectedArguments](#expectedarguments)
     + [ExpectedReturnValues](#expectedreturnvalues)
     + [RegisterArgumentsSet](#registerargumentsset)
+    + [ExitPoint](#exitpoint)
   * [Example](#example)
 - [Include/Exclude Plugins](#include-exclude-plugins)
 - [CI or pre-commit check](#ci-or-pre-commit-check)
@@ -328,6 +329,13 @@ $list = [
 ];
 ```
 
+##### ExitPoint
+This new directive can help to let the IDE know what methods abort the current code flow.
+It will show "Unreachable statement" warning and usually highlight the following code in yellow to inform you.
+```php
+$directive = new ExitPoint('\\My\Class::method()');
+```
+
 #### Example
 So let's imagine you have the following methods you want to annotate:
 ```php
@@ -411,3 +419,15 @@ With the `-` prefix, you can even exclude loaded plugins from being processed.
 ### CI or pre-commit check
 Using `-d` (dry run) option you will get an error code 2 if the file would need updating.
 This way you can automate the check for CI tooling or commit hooks.
+
+### Reusing sets
+You can re-use sets that are present from any of the built-in or your custom tasks.
+
+In verbose mode the console gives you the available sets for re-use:
+```
+bin/cake phpstorm generate -v
+```
+
+You can then just directly make use of them in any matching directive (for such lists):
+- ExpectedArguments
+- ExpectedReturnValues

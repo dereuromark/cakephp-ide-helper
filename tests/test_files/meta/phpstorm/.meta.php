@@ -68,6 +68,8 @@ namespace PHPSTORM_META {
 		argumentsSet('cacheEngines')
 	);
 
+	exitPoint(\Cake\Console\ConsoleIo::abort());
+
 	override(
 		\Cake\Controller\Controller::loadComponent(0),
 		map([

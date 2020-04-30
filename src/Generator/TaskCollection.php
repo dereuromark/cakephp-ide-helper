@@ -7,6 +7,7 @@ use IdeHelper\Generator\Task\BehaviorTask;
 use IdeHelper\Generator\Task\CacheTask;
 use IdeHelper\Generator\Task\ComponentTask;
 use IdeHelper\Generator\Task\ConnectionTask;
+use IdeHelper\Generator\Task\ConsoleTask;
 use IdeHelper\Generator\Task\DatabaseTableColumnNameTask;
 use IdeHelper\Generator\Task\DatabaseTableColumnTypeTask;
 use IdeHelper\Generator\Task\DatabaseTableTask;
@@ -51,6 +52,7 @@ class TaskCollection {
 		CacheTask::class => CacheTask::class,
 		RequestTask::class => RequestTask::class,
 		EnvTask::class => EnvTask::class,
+		ConsoleTask::class => ConsoleTask::class,
 		ConnectionTask::class => ConnectionTask::class,
 		DatabaseTableTask::class => DatabaseTableTask::class,
 		DatabaseTableColumnNameTask::class => DatabaseTableColumnNameTask::class,
