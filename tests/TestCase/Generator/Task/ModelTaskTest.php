@@ -39,7 +39,6 @@ class ModelTaskTest extends TestCase {
 		}, $map);
 
 		$expectedMap = [
-			'Abstract' => '\TestApp\Model\Table\AbstractTable::class',
 			'Awesome.Houses' => '\Awesome\Model\Table\HousesTable::class',
 			'Awesome.Windows' => '\Awesome\Model\Table\WindowsTable::class',
 			'BarBars' => '\TestApp\Model\Table\BarBarsTable::class',

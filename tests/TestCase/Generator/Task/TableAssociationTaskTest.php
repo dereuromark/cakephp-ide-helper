@@ -39,7 +39,6 @@ class TableAssociationTaskTest extends TestCase {
 		}, $map);
 
 		$expectedMap = [
-			'Abstract' => '\Cake\ORM\Association\BelongsTo::class',
 			'Awesome.Houses' => '\Cake\ORM\Association\BelongsTo::class',
 			'Awesome.Windows' => '\Cake\ORM\Association\BelongsTo::class',
 			'BarBars' => '\Cake\ORM\Association\BelongsTo::class',

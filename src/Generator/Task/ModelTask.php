@@ -8,6 +8,7 @@ use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
 use IdeHelper\Utility\Plugin;
 use IdeHelper\ValueObject\ClassName;
+use ReflectionClass;
 
 class ModelTask implements TaskInterface {
 
@@ -106,6 +107,11 @@ class ModelTask implements TaskInterface {
 
 			$className = App::className($model, 'Model/Table', 'Table');
 			if (!$className) {
+				continue;
+			}
+
+			$reflectionClass = new ReflectionClass($className);
+			if (!$reflectionClass->isInstantiable()) {
 				continue;
 			}
 

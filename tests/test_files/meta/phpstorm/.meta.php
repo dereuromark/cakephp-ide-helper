@@ -155,7 +155,6 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\Datasource\ModelAwareTrait::loadModel(0),
 		map([
-			'Abstract' => \TestApp\Model\Table\AbstractTable::class,
 			'Awesome.Houses' => \Awesome\Model\Table\HousesTable::class,
 			'Awesome.Windows' => \Awesome\Model\Table\WindowsTable::class,
 			'BarBars' => \TestApp\Model\Table\BarBarsTable::class,
@@ -217,7 +216,6 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\ORM\Locator\LocatorInterface::get(0),
 		map([
-			'Abstract' => \TestApp\Model\Table\AbstractTable::class,
 			'Awesome.Houses' => \Awesome\Model\Table\HousesTable::class,
 			'Awesome.Windows' => \Awesome\Model\Table\WindowsTable::class,
 			'BarBars' => \TestApp\Model\Table\BarBarsTable::class,
@@ -253,7 +251,6 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\ORM\Table::belongToMany(0),
 		map([
-			'Abstract' => \Cake\ORM\Association\BelongsToMany::class,
 			'Awesome.Houses' => \Cake\ORM\Association\BelongsToMany::class,
 			'Awesome.Windows' => \Cake\ORM\Association\BelongsToMany::class,
 			'BarBars' => \Cake\ORM\Association\BelongsToMany::class,
@@ -278,7 +275,6 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\ORM\Table::belongsTo(0),
 		map([
-			'Abstract' => \Cake\ORM\Association\BelongsTo::class,
 			'Awesome.Houses' => \Cake\ORM\Association\BelongsTo::class,
 			'Awesome.Windows' => \Cake\ORM\Association\BelongsTo::class,
 			'BarBars' => \Cake\ORM\Association\BelongsTo::class,
@@ -312,7 +308,6 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\ORM\Table::hasMany(0),
 		map([
-			'Abstract' => \Cake\ORM\Association\HasMany::class,
 			'Awesome.Houses' => \Cake\ORM\Association\HasMany::class,
 			'Awesome.Windows' => \Cake\ORM\Association\HasMany::class,
 			'BarBars' => \Cake\ORM\Association\HasMany::class,
@@ -337,7 +332,6 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\ORM\Table::hasOne(0),
 		map([
-			'Abstract' => \Cake\ORM\Association\HasOne::class,
 			'Awesome.Houses' => \Cake\ORM\Association\HasOne::class,
 			'Awesome.Windows' => \Cake\ORM\Association\HasOne::class,
 			'BarBars' => \Cake\ORM\Association\HasOne::class,
@@ -362,7 +356,6 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\ORM\TableRegistry::get(0),
 		map([
-			'Abstract' => \TestApp\Model\Table\AbstractTable::class,
 			'Awesome.Houses' => \Awesome\Model\Table\HousesTable::class,
 			'Awesome.Windows' => \Awesome\Model\Table\WindowsTable::class,
 			'BarBars' => \TestApp\Model\Table\BarBarsTable::class,
