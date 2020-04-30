@@ -14,7 +14,6 @@ use SebastianBergmann\Diff\Differ;
 class TaskCollection {
 
 	public const CONFIG_DRY_RUN = 'dry-run';
-	public const CONFIG_VISIBILITY = 'visibility';
 
 	/**
 	 * @var \IdeHelper\Console\Io
@@ -27,6 +26,8 @@ class TaskCollection {
 	protected $_config;
 
 	/**
+	 * @phpstan-var class-string<\IdeHelper\Illuminator\Task\AbstractTask>[]
+	 *
 	 * @var string[]
 	 */
 	protected $defaultTasks = [
@@ -70,6 +71,8 @@ class TaskCollection {
 	}
 
 	/**
+	 * @phpstan-return class-string<\IdeHelper\Illuminator\Task\AbstractTask>[]
+	 *
 	 * @return string[]
 	 */
 	protected function defaultTasks(): array {

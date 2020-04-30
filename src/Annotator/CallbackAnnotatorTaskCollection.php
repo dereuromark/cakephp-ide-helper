@@ -9,6 +9,8 @@ use IdeHelper\Console\Io;
 class CallbackAnnotatorTaskCollection {
 
 	/**
+	 * @phpstan-var class-string<\IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface>[]
+	 *
 	 * @var string[]
 	 */
 	protected $defaultTasks = [
@@ -16,11 +18,15 @@ class CallbackAnnotatorTaskCollection {
 	];
 
 	/**
+	 * @phpstan-var class-string<\IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface>[]
+	 *
 	 * @var string[]
 	 */
 	protected $tasks;
 
 	/**
+	 * @phpstan-param class-string<\IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface>[] $tasks
+	 *
 	 * @param string[] $tasks
 	 */
 	public function __construct(array $tasks = []) {
@@ -37,6 +43,8 @@ class CallbackAnnotatorTaskCollection {
 	}
 
 	/**
+	 * @phpstan-return class-string<\IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface>[]
+	 *
 	 * @return string[]
 	 */
 	public function defaultTasks(): array {

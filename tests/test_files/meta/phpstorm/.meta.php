@@ -391,10 +391,87 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
+		\Cake\Validation\Validator::allowEmptyArray(),
+		2,
+		argumentsSet('validationWhen')
+	);
+
+	expectedArguments(
+		\Cake\Validation\Validator::allowEmptyDate(),
+		2,
+		argumentsSet('validationWhen')
+	);
+
+	expectedArguments(
+		\Cake\Validation\Validator::allowEmptyDateTime(),
+		2,
+		argumentsSet('validationWhen')
+	);
+
+	expectedArguments(
+		\Cake\Validation\Validator::allowEmptyFile(),
+		2,
+		argumentsSet('validationWhen')
+	);
+
+	expectedArguments(
+		\Cake\Validation\Validator::allowEmptyFor(),
+		2,
+		argumentsSet('validationWhen')
+	);
+
+	expectedArguments(
+		\Cake\Validation\Validator::allowEmptyString(),
+		2,
+		argumentsSet('validationWhen')
+	);
+
+	expectedArguments(
+		\Cake\Validation\Validator::allowEmptyTime(),
+		2,
+		argumentsSet('validationWhen')
+	);
+
+	expectedArguments(
+		\Cake\Validation\Validator::notEmptyArray(),
+		2,
+		argumentsSet('validationWhen')
+	);
+
+	expectedArguments(
+		\Cake\Validation\Validator::notEmptyDate(),
+		2,
+		argumentsSet('validationWhen')
+	);
+
+	expectedArguments(
+		\Cake\Validation\Validator::notEmptyDateTime(),
+		2,
+		argumentsSet('validationWhen')
+	);
+
+	expectedArguments(
+		\Cake\Validation\Validator::notEmptyFile(),
+		2,
+		argumentsSet('validationWhen')
+	);
+
+	expectedArguments(
+		\Cake\Validation\Validator::notEmptyString(),
+		2,
+		argumentsSet('validationWhen')
+	);
+
+	expectedArguments(
+		\Cake\Validation\Validator::notEmptyTime(),
+		2,
+		argumentsSet('validationWhen')
+	);
+
+	expectedArguments(
 		\Cake\Validation\Validator::requirePresence(),
 		1,
-		'create',
-		'update'
+		argumentsSet('validationWhen')
 	);
 
 	expectedArguments(
@@ -587,6 +664,12 @@ namespace PHPSTORM_META {
 		'timestamp',
 		'uuid',
 		'year'
+	);
+
+	registerArgumentsSet(
+		'validationWhen',
+		'create',
+		'update'
 	);
 
 }

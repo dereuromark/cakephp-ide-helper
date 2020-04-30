@@ -30,6 +30,8 @@ use InvalidArgumentException;
 class TaskCollection {
 
 	/**
+	 * @phpstan-var class-string<\IdeHelper\Generator\Task\TaskInterface>[]
+	 *
 	 * @var string[]
 	 */
 	protected $defaultTasks = [
@@ -78,6 +80,8 @@ class TaskCollection {
 	}
 
 	/**
+	 * @phpstan-return class-string<\IdeHelper\Generator\Task\TaskInterface>[]
+	 *
 	 * @return string[]
 	 */
 	protected function defaultTasks(): array {

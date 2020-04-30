@@ -4,9 +4,32 @@ namespace IdeHelper\Generator\Task;
 
 use Cake\Validation\Validator;
 use IdeHelper\Generator\Directive\ExpectedArguments;
+use IdeHelper\Generator\Directive\RegisterArgumentsSet;
 use IdeHelper\ValueObject\StringName;
 
 class ValidationTask extends ModelTask {
+
+	public const SET_VALIDATION_WHEN = 'validationWhen';
+
+	/**
+	 * @var int[] array<string, int>
+	 */
+	protected static $methods = [
+		'requirePresence' => 1,
+		'allowEmptyFor' => 2,
+		'allowEmptyString' => 2,
+		'allowEmptyFile' => 2,
+		'allowEmptyArray' => 2,
+		'allowEmptyDate' => 2,
+		'allowEmptyTime' => 2,
+		'allowEmptyDateTime' => 2,
+		'notEmptyString' => 2,
+		'notEmptyFile' => 2,
+		'notEmptyArray' => 2,
+		'notEmptyDate' => 2,
+		'notEmptyTime' => 2,
+		'notEmptyDateTime' => 2,
+	];
 
 	/**
 	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
@@ -14,26 +37,27 @@ class ValidationTask extends ModelTask {
 	public function collect(): array {
 		$result = [];
 
-		$result = $this->addValidatorRequirePresence($result);
+		$list = $this->getValidatorRequirePresence();
+		$registerArgumentsSet = new RegisterArgumentsSet(static::SET_VALIDATION_WHEN, $list);
+		$result[$registerArgumentsSet->key()] = $registerArgumentsSet;
+
+		foreach (static::$methods as $method => $position) {
+			$method = '\\' . Validator::class . '::' . $method . '()';
+			$directive = new ExpectedArguments($method, $position, [$registerArgumentsSet]);
+			$result[$directive->key()] = $directive;
+		}
 
 		return $result;
 	}
 
 	/**
-	 * @param \IdeHelper\Generator\Directive\BaseDirective[] $result
-	 *
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return \IdeHelper\ValueObject\ValueObjectInterface[]
 	 */
-	protected function addValidatorRequirePresence(array $result): array {
-		$method = '\\' . Validator::class . '::requirePresence()';
-		$list = [
+	protected function getValidatorRequirePresence(): array {
+		return [
 			StringName::create('create'),
 			StringName::create('update'),
 		];
-		$directive = new ExpectedArguments($method, 1, $list);
-		$result[$directive->key()] = $directive;
-
-		return $result;
 	}
 
 }

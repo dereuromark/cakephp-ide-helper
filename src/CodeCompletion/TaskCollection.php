@@ -10,6 +10,8 @@ use InvalidArgumentException;
 class TaskCollection {
 
 	/**
+	 * @phpstan-var class-string<\IdeHelper\CodeCompletion\Task\TaskInterface>[]
+	 *
 	 * @var string[]
 	 */
 	protected $defaultTasks = [

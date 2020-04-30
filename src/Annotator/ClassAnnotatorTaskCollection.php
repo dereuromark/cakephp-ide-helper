@@ -10,6 +10,8 @@ use IdeHelper\Console\Io;
 class ClassAnnotatorTaskCollection {
 
 	/**
+	 * @phpstan-var class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>[]
+	 *
 	 * @var string[]
 	 */
 	protected $defaultTasks = [
@@ -18,11 +20,15 @@ class ClassAnnotatorTaskCollection {
 	];
 
 	/**
+	 * @phpstan-var class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>[]
+	 *
 	 * @var string[]
 	 */
 	protected $tasks;
 
 	/**
+	 * @phpstan-param class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>[] $tasks
+	 *
 	 * @param string[] $tasks
 	 */
 	public function __construct(array $tasks = []) {
@@ -39,6 +45,8 @@ class ClassAnnotatorTaskCollection {
 	}
 
 	/**
+	 * @phpstan-return class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>[]
+	 *
 	 * @return string[]
 	 */
 	public function defaultTasks(): array {
