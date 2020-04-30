@@ -19,6 +19,8 @@ namespace IdeHelper\Generator\Directive;
  *     \MyClass::getFlags(),
  *     argumentsSet('myFileObjectFlags')
  * );
+ *
+ * @see https://www.jetbrains.com/help/phpstorm/ide-advanced-metadata.html#expected-return-values
  */
 class ExpectedReturnValues extends BaseDirective {
 

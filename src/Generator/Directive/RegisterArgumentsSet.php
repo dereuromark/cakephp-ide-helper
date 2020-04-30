@@ -14,6 +14,8 @@ namespace IdeHelper\Generator\Directive;
  * );
  *
  * Then it can be used in other places as argumentsSet("mySet").
+ *
+ * @see https://www.jetbrains.com/help/phpstorm/ide-advanced-metadata.html#arguments-set
  */
 class RegisterArgumentsSet extends BaseDirective {
 

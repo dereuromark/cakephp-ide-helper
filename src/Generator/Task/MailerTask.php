@@ -33,8 +33,10 @@ class MailerTask implements TaskInterface {
 		ksort($map);
 
 		$result = [];
-		$directive = new Override(static::$alias, $map);
-		$result[$directive->key()] = $directive;
+		if ($map) {
+			$directive = new Override(static::$alias, $map);
+			$result[$directive->key()] = $directive;
+		}
 
 		return $result;
 	}

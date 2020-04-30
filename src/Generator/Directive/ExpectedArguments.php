@@ -23,6 +23,8 @@ namespace IdeHelper\Generator\Directive;
  *     0,
  *     argumentsSet('myFileObjectFlags')
  * );
+ *
+ * @see https://www.jetbrains.com/help/phpstorm/ide-advanced-metadata.html#expected-arguments
  */
 class ExpectedArguments extends BaseDirective {
 

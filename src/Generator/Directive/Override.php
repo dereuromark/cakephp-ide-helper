@@ -14,6 +14,8 @@ namespace IdeHelper\Generator\Directive;
  *         '' => '@|\Iterator',
  *     ])
  * );
+ *
+ * @see https://www.jetbrains.com/help/phpstorm/ide-advanced-metadata.html#override
  */
 class Override extends BaseDirective {
 

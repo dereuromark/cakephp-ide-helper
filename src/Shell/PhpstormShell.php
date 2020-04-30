@@ -78,7 +78,7 @@ class PhpstormShell extends Shell {
 	protected function getGenerator(): PhpstormGenerator {
 		$taskCollection = new TaskCollection();
 
-		return new PhpstormGenerator($taskCollection);
+		return new PhpstormGenerator($taskCollection, $this->getIo());
 	}
 
 	/**
