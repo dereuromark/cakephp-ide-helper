@@ -333,7 +333,7 @@ $list = [
 This new directive can help to let the IDE know what methods abort the current code flow.
 It will show "Unreachable statement" warning and usually highlight the following code in yellow to inform you.
 ```php
-$directive = new ExitPoint('\\My\Class::method()');
+$directive = new ExitPoint('\My\Class::method()');
 ```
 
 #### Example
