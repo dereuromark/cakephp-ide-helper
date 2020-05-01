@@ -4,7 +4,6 @@ namespace IdeHelper\Utility;
 
 use Cake\Core\App;
 use Cake\Core\Exception\MissingPluginException;
-use Cake\Core\Plugin;
 
 class AppPath {
 

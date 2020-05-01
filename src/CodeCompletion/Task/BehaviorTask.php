@@ -3,9 +3,9 @@
 namespace IdeHelper\CodeCompletion\Task;
 
 use Cake\Core\App;
-use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use IdeHelper\Utility\AppPath;
+use IdeHelper\Utility\Plugin;
 
 class BehaviorTask implements TaskInterface {
 

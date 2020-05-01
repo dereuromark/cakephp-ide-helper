@@ -3,10 +3,10 @@
 namespace IdeHelper\Generator\Task;
 
 use Cake\Core\App;
-use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\AppPath;
+use IdeHelper\Utility\Plugin;
 
 class ModelTask implements TaskInterface {
 

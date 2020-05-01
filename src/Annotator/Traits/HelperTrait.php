@@ -3,7 +3,7 @@
 namespace IdeHelper\Annotator\Traits;
 
 use Cake\Core\App;
-use Cake\Core\Plugin;
+use IdeHelper\Utility\Plugin;
 
 /**
  * Handles component related things
