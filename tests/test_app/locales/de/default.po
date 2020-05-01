@@ -1,0 +1,6 @@
+
+msgid "my foo and bar"
+msgstr "mein foo und bar"
+
+msgid "A {0} placeholder"
+msgstr "Ein {0} Platzhalter"

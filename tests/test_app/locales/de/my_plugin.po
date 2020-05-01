@@ -1,0 +1,3 @@
+
+msgid "A plugin translation"
+msgstr "Eine Plugin Übersetzung"

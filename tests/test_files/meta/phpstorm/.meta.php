@@ -275,4 +275,15 @@ namespace PHPSTORM_META {
 		])
 	);
 
+	expectedArguments(
+		\__d(),
+		0,
+		'awesome',
+		'cake',
+		'controllers',
+		'ide_helper',
+		'my_namespace/my_plugin',
+		'shim'
+	);
+
 }
