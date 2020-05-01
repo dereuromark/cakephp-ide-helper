@@ -1,0 +1,6 @@
+
+msgid "my foo and bar"
+msgstr ""
+
+msgid "Some ' special case"
+msgstr "Ein ' besonderer Fall"
