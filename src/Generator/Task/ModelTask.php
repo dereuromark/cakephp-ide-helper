@@ -7,6 +7,7 @@ use Cake\Filesystem\Folder;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\AppPath;
 use IdeHelper\Utility\Plugin;
+use ReflectionClass;
 
 class ModelTask implements TaskInterface {
 
@@ -111,6 +112,11 @@ class ModelTask implements TaskInterface {
 				continue;
 			}
 			if (!$className) {
+				continue;
+			}
+
+			$reflectionClass = new ReflectionClass($className);
+			if (!$reflectionClass->isInstantiable()) {
 				continue;
 			}
 

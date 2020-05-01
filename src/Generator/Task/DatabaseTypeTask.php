@@ -5,6 +5,7 @@ namespace IdeHelper\Generator\Task;
 use Cake\Database\Type;
 use Exception;
 use IdeHelper\Generator\Directive\Override;
+use Throwable;
 
 class DatabaseTypeTask implements TaskInterface {
 
@@ -40,6 +41,8 @@ class DatabaseTypeTask implements TaskInterface {
 		try {
 			$allTypes = Type::buildAll();
 		} catch (Exception $exception) {
+			return $types;
+		} catch (Throwable $exception) {
 			return $types;
 		}
 

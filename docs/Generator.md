@@ -2,7 +2,7 @@
 
 ![Model Typehinting](img/model_typehinting.png)
 
-![Model Autocomplete](img/model_autocomplete.png) 
+![Model Autocomplete](img/model_autocomplete.png)
 
 ## Phpstorm
 This command will generate your `.ide-helper.meta.php` in your app's `ROOT/.phpstorm.meta.php/` directory:
@@ -116,7 +116,7 @@ class MyTask implements TaskInterface {
     public function collect() {
         ...
     }
-    
+
 }
 ```
 
@@ -158,10 +158,10 @@ $directive = new Override($method, $map);
 
 ##### ExpectedArguments
 With this you can set default values to chose from for method arguments.
-Specify the parameter count as 0-based value. 
+Specify the parameter count as 0-based value.
 ```php
 $method = '\Namespace\PackageName\MyFactory::create()';
-$position = 0; 
+$position = 0;
 $list = [
     'alpha',
     'beta',
@@ -191,7 +191,7 @@ $list = [
 ];
 $directive = new RegisterArgumentsSet($set, $list);
 ```
-Now you can use it as list value `argumentsSet("mySet")` inside the others.
+Now you can use it as list value `argumentsSet('mySet')` inside the others.
 For this just pass the `$directive` object itself to the list, which then contains only this one element.
 
 #### Example

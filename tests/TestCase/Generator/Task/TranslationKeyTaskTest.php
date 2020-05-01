@@ -2,7 +2,6 @@
 
 namespace IdeHelper\Test\TestCase\Generator\Task;
 
-use Cake\Core\Configure;
 use IdeHelper\Generator\Task\TranslationKeyTask;
 use Shim\TestSuite\TestCase;
 
@@ -20,10 +19,6 @@ class TranslationKeyTaskTest extends TestCase {
 		parent::setUp();
 
 		$this->task = new TranslationKeyTask();
-
-		Configure::write('App.paths.locales', [
-			TEST_ROOT . 'locales' . DS,
-		]);
 	}
 
 	/**
@@ -80,6 +75,7 @@ class TranslationKeyTaskTest extends TestCase {
 			'controllers' => '\'controllers\'',
 			'ide_helper' => '\'ide_helper\'',
 			'my_namespace/my_plugin' => '\'my_namespace/my_plugin\'',
+			'relations' => '\'relations\'',
 			'shim' => '\'shim\'',
 		];
 		$this->assertSame($expected, $list);

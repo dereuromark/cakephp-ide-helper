@@ -17,7 +17,7 @@ namespace IdeHelper\Generator\Directive;
  *
  * expectedReturnValues(
  *     \MyClass::getFlags(),
- *     argumentsSet("myFileObjectFlags")
+ *     argumentsSet('myFileObjectFlags')
  * );
  */
 class ExpectedReturnValues extends BaseDirective {
