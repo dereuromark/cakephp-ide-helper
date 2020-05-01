@@ -276,6 +276,14 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
+		\__(),
+		0,
+		'A {0} placeholder',
+		'Some \' special case',
+		'my foo and bar'
+	);
+
+	expectedArguments(
 		\__d(),
 		0,
 		'awesome',
@@ -284,6 +292,12 @@ namespace PHPSTORM_META {
 		'ide_helper',
 		'my_namespace/my_plugin',
 		'shim'
+	);
+
+	expectedArguments(
+		\__d(),
+		1,
+		'A plugin translation'
 	);
 
 }

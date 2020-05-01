@@ -39,6 +39,7 @@ Configure::write('App', [
 	'namespace' => 'TestApp',
 	'encoding' => 'utf-8',
 	'paths' => [
+		'locales' => [TEST_ROOT . 'locales' . DS],
 		'templates' => [APP . 'Template' . DS],
 	],
 ]);
