@@ -40,7 +40,7 @@ TXT;
 		$directive = new RegisterArgumentsSet('fooBar', $map);
 
 		$result = (string)$directive;
-		$this->assertSame('argumentsSet("fooBar")', $result);
+		$this->assertSame('argumentsSet(\'fooBar\')', $result);
 	}
 
 	/**
@@ -63,7 +63,7 @@ TXT;
 	expectedArguments(
 		\\My\\Class::someMethod(),
 		1,
-		argumentsSet("fooBar")
+		argumentsSet('fooBar')
 	);
 TXT;
 		$this->assertSame($expected, $result);
@@ -88,7 +88,7 @@ TXT;
 		$expected = <<<TXT
 	expectedReturnValues(
 		\\My\\Class::someMethod(),
-		argumentsSet("fooBar")
+		argumentsSet('fooBar')
 	);
 TXT;
 		$this->assertSame($expected, $result);

@@ -18,7 +18,6 @@ class PluginPath {
 		}
 
 		$pathToPlugin = Plugin::getCollection()->findPath($plugin);
-		Plugin::load($plugin);
 
 		return $pathToPlugin;
 	}

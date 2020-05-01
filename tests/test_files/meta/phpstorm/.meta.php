@@ -2,6 +2,74 @@
 // @link https://confluence.jetbrains.com/display/PhpStorm/PhpStorm+Advanced+Metadata
 namespace PHPSTORM_META {
 
+	expectedArguments(
+		\Cake\Cache\Cache::add(),
+		2,
+		argumentsSet('cacheEngines')
+	);
+
+	expectedArguments(
+		\Cake\Cache\Cache::clear(),
+		0,
+		argumentsSet('cacheEngines')
+	);
+
+	expectedArguments(
+		\Cake\Cache\Cache::clearGroup(),
+		1,
+		argumentsSet('cacheEngines')
+	);
+
+	expectedArguments(
+		\Cake\Cache\Cache::decrement(),
+		2,
+		argumentsSet('cacheEngines')
+	);
+
+	expectedArguments(
+		\Cake\Cache\Cache::delete(),
+		1,
+		argumentsSet('cacheEngines')
+	);
+
+	expectedArguments(
+		\Cake\Cache\Cache::deleteMany(),
+		1,
+		argumentsSet('cacheEngines')
+	);
+
+	expectedArguments(
+		\Cake\Cache\Cache::increment(),
+		2,
+		argumentsSet('cacheEngines')
+	);
+
+	expectedArguments(
+		\Cake\Cache\Cache::read(),
+		1,
+		argumentsSet('cacheEngines')
+	);
+
+	expectedArguments(
+		\Cake\Cache\Cache::readMany(),
+		1,
+		argumentsSet('cacheEngines')
+	);
+
+	expectedArguments(
+		\Cake\Cache\Cache::remember(),
+		2,
+		argumentsSet('cacheEngines')
+	);
+
+	expectedArguments(
+		\Cake\Cache\Cache::write(),
+		2,
+		argumentsSet('cacheEngines')
+	);
+
+	exitPoint(\Cake\Console\ConsoleIo::abort());
+
 	override(
 		\Cake\Controller\Controller::loadComponent(0),
 		map([
@@ -10,6 +78,7 @@ namespace PHPSTORM_META {
 			'Csrf' => \Cake\Controller\Component\CsrfComponent::class,
 			'Flash' => \Cake\Controller\Component\FlashComponent::class,
 			'My' => \TestApp\Controller\Component\MyComponent::class,
+			'MyNamespace/MyPlugin.My' => \MyNamespace\MyPlugin\Controller\Component\MyComponent::class,
 			'MyOther' => \TestApp\Controller\Component\MyOtherComponent::class,
 			'Paginator' => \Cake\Controller\Component\PaginatorComponent::class,
 			'RequestHandler' => \TestApp\Controller\Component\RequestHandlerComponent::class,
@@ -51,10 +120,16 @@ namespace PHPSTORM_META {
 		])
 	);
 
+	expectedArguments(
+		\Cake\Datasource\ConnectionManager::get(),
+		0,
+		'test',
+		'test_database_log'
+	);
+
 	override(
 		\Cake\Datasource\ModelAwareTrait::loadModel(0),
 		map([
-			'Abstract' => \TestApp\Model\Table\AbstractTable::class,
 			'Awesome.Houses' => \Awesome\Model\Table\HousesTable::class,
 			'Awesome.Windows' => \Awesome\Model\Table\WindowsTable::class,
 			'BarBars' => \TestApp\Model\Table\BarBarsTable::class,
@@ -65,6 +140,10 @@ namespace PHPSTORM_META {
 			'CustomFinder' => \TestApp\Model\Table\CustomFinderTable::class,
 			'Exceptions' => \TestApp\Model\Table\ExceptionsTable::class,
 			'Foo' => \TestApp\Model\Table\FooTable::class,
+			'MyNamespace/MyPlugin.My' => \MyNamespace\MyPlugin\Model\Table\MyTable::class,
+			'Relations.Bars' => \Relations\Model\Table\BarsTable::class,
+			'Relations.Foos' => \Relations\Model\Table\FoosTable::class,
+			'Relations.Users' => \Relations\Model\Table\UsersTable::class,
 			'SkipMe' => \TestApp\Model\Table\SkipMeTable::class,
 			'SkipSome' => \TestApp\Model\Table\SkipSomeTable::class,
 			'Wheels' => \TestApp\Model\Table\WheelsTable::class,
@@ -81,6 +160,25 @@ namespace PHPSTORM_META {
 		])
 	);
 
+	expectedArguments(
+		\Cake\Http\ServerRequest::getParam(),
+		0,
+		'_ext',
+		'_matchedRoute',
+		'action',
+		'controller',
+		'pass',
+		'plugin',
+		'prefix'
+	);
+
+	override(
+		\Cake\Mailer\MailerAwareTrait::getMailer(0),
+		map([
+			'User' => \TestApp\Mailer\UserMailer::class,
+		])
+	);
+
 	override(
 		\Cake\ORM\Association::find(0),
 		map([
@@ -93,7 +191,6 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\ORM\Locator\LocatorInterface::get(0),
 		map([
-			'Abstract' => \TestApp\Model\Table\AbstractTable::class,
 			'Awesome.Houses' => \Awesome\Model\Table\HousesTable::class,
 			'Awesome.Windows' => \Awesome\Model\Table\WindowsTable::class,
 			'BarBars' => \TestApp\Model\Table\BarBarsTable::class,
@@ -104,6 +201,10 @@ namespace PHPSTORM_META {
 			'CustomFinder' => \TestApp\Model\Table\CustomFinderTable::class,
 			'Exceptions' => \TestApp\Model\Table\ExceptionsTable::class,
 			'Foo' => \TestApp\Model\Table\FooTable::class,
+			'MyNamespace/MyPlugin.My' => \MyNamespace\MyPlugin\Model\Table\MyTable::class,
+			'Relations.Bars' => \Relations\Model\Table\BarsTable::class,
+			'Relations.Foos' => \Relations\Model\Table\FoosTable::class,
+			'Relations.Users' => \Relations\Model\Table\UsersTable::class,
 			'SkipMe' => \TestApp\Model\Table\SkipMeTable::class,
 			'SkipSome' => \TestApp\Model\Table\SkipSomeTable::class,
 			'Wheels' => \TestApp\Model\Table\WheelsTable::class,
@@ -126,7 +227,6 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\ORM\Table::belongToMany(0),
 		map([
-			'Abstract' => \Cake\ORM\Association\BelongsToMany::class,
 			'Awesome.Houses' => \Cake\ORM\Association\BelongsToMany::class,
 			'Awesome.Windows' => \Cake\ORM\Association\BelongsToMany::class,
 			'BarBars' => \Cake\ORM\Association\BelongsToMany::class,
@@ -137,6 +237,10 @@ namespace PHPSTORM_META {
 			'CustomFinder' => \Cake\ORM\Association\BelongsToMany::class,
 			'Exceptions' => \Cake\ORM\Association\BelongsToMany::class,
 			'Foo' => \Cake\ORM\Association\BelongsToMany::class,
+			'MyNamespace/MyPlugin.My' => \Cake\ORM\Association\BelongsToMany::class,
+			'Relations.Bars' => \Cake\ORM\Association\BelongsToMany::class,
+			'Relations.Foos' => \Cake\ORM\Association\BelongsToMany::class,
+			'Relations.Users' => \Cake\ORM\Association\BelongsToMany::class,
 			'SkipMe' => \Cake\ORM\Association\BelongsToMany::class,
 			'SkipSome' => \Cake\ORM\Association\BelongsToMany::class,
 			'Wheels' => \Cake\ORM\Association\BelongsToMany::class,
@@ -147,7 +251,6 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\ORM\Table::belongsTo(0),
 		map([
-			'Abstract' => \Cake\ORM\Association\BelongsTo::class,
 			'Awesome.Houses' => \Cake\ORM\Association\BelongsTo::class,
 			'Awesome.Windows' => \Cake\ORM\Association\BelongsTo::class,
 			'BarBars' => \Cake\ORM\Association\BelongsTo::class,
@@ -158,6 +261,10 @@ namespace PHPSTORM_META {
 			'CustomFinder' => \Cake\ORM\Association\BelongsTo::class,
 			'Exceptions' => \Cake\ORM\Association\BelongsTo::class,
 			'Foo' => \Cake\ORM\Association\BelongsTo::class,
+			'MyNamespace/MyPlugin.My' => \Cake\ORM\Association\BelongsTo::class,
+			'Relations.Bars' => \Cake\ORM\Association\BelongsTo::class,
+			'Relations.Foos' => \Cake\ORM\Association\BelongsTo::class,
+			'Relations.Users' => \Cake\ORM\Association\BelongsTo::class,
 			'SkipMe' => \Cake\ORM\Association\BelongsTo::class,
 			'SkipSome' => \Cake\ORM\Association\BelongsTo::class,
 			'Wheels' => \Cake\ORM\Association\BelongsTo::class,
@@ -177,7 +284,6 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\ORM\Table::hasMany(0),
 		map([
-			'Abstract' => \Cake\ORM\Association\HasMany::class,
 			'Awesome.Houses' => \Cake\ORM\Association\HasMany::class,
 			'Awesome.Windows' => \Cake\ORM\Association\HasMany::class,
 			'BarBars' => \Cake\ORM\Association\HasMany::class,
@@ -188,6 +294,10 @@ namespace PHPSTORM_META {
 			'CustomFinder' => \Cake\ORM\Association\HasMany::class,
 			'Exceptions' => \Cake\ORM\Association\HasMany::class,
 			'Foo' => \Cake\ORM\Association\HasMany::class,
+			'MyNamespace/MyPlugin.My' => \Cake\ORM\Association\HasMany::class,
+			'Relations.Bars' => \Cake\ORM\Association\HasMany::class,
+			'Relations.Foos' => \Cake\ORM\Association\HasMany::class,
+			'Relations.Users' => \Cake\ORM\Association\HasMany::class,
 			'SkipMe' => \Cake\ORM\Association\HasMany::class,
 			'SkipSome' => \Cake\ORM\Association\HasMany::class,
 			'Wheels' => \Cake\ORM\Association\HasMany::class,
@@ -198,7 +308,6 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\ORM\Table::hasOne(0),
 		map([
-			'Abstract' => \Cake\ORM\Association\HasOne::class,
 			'Awesome.Houses' => \Cake\ORM\Association\HasOne::class,
 			'Awesome.Windows' => \Cake\ORM\Association\HasOne::class,
 			'BarBars' => \Cake\ORM\Association\HasOne::class,
@@ -209,6 +318,10 @@ namespace PHPSTORM_META {
 			'CustomFinder' => \Cake\ORM\Association\HasOne::class,
 			'Exceptions' => \Cake\ORM\Association\HasOne::class,
 			'Foo' => \Cake\ORM\Association\HasOne::class,
+			'MyNamespace/MyPlugin.My' => \Cake\ORM\Association\HasOne::class,
+			'Relations.Bars' => \Cake\ORM\Association\HasOne::class,
+			'Relations.Foos' => \Cake\ORM\Association\HasOne::class,
+			'Relations.Users' => \Cake\ORM\Association\HasOne::class,
 			'SkipMe' => \Cake\ORM\Association\HasOne::class,
 			'SkipSome' => \Cake\ORM\Association\HasOne::class,
 			'Wheels' => \Cake\ORM\Association\HasOne::class,
@@ -219,7 +332,6 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\ORM\TableRegistry::get(0),
 		map([
-			'Abstract' => \TestApp\Model\Table\AbstractTable::class,
 			'Awesome.Houses' => \Awesome\Model\Table\HousesTable::class,
 			'Awesome.Windows' => \Awesome\Model\Table\WindowsTable::class,
 			'BarBars' => \TestApp\Model\Table\BarBarsTable::class,
@@ -230,6 +342,10 @@ namespace PHPSTORM_META {
 			'CustomFinder' => \TestApp\Model\Table\CustomFinderTable::class,
 			'Exceptions' => \TestApp\Model\Table\ExceptionsTable::class,
 			'Foo' => \TestApp\Model\Table\FooTable::class,
+			'MyNamespace/MyPlugin.My' => \MyNamespace\MyPlugin\Model\Table\MyTable::class,
+			'Relations.Bars' => \Relations\Model\Table\BarsTable::class,
+			'Relations.Foos' => \Relations\Model\Table\FoosTable::class,
+			'Relations.Users' => \Relations\Model\Table\UsersTable::class,
 			'SkipMe' => \TestApp\Model\Table\SkipMeTable::class,
 			'SkipSome' => \TestApp\Model\Table\SkipSomeTable::class,
 			'Wheels' => \TestApp\Model\Table\WheelsTable::class,
@@ -276,6 +392,72 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
+		\Cake\View\ViewBuilder::setLayout(),
+		0,
+		'ajax'
+	);
+
+	expectedArguments(
+		\Migrations\AbstractMigration::table(),
+		0,
+		argumentsSet('tableNames')
+	);
+
+	expectedArguments(
+		\Migrations\AbstractSeed::table(),
+		0,
+		argumentsSet('tableNames')
+	);
+
+	expectedArguments(
+		\Migrations\Table::addColumn(),
+		0,
+		argumentsSet('tableNames')
+	);
+
+	expectedArguments(
+		\Migrations\Table::addColumn(),
+		1,
+		argumentsSet('tableTypes')
+	);
+
+	expectedArguments(
+		\Migrations\Table::changeColumn(),
+		0,
+		argumentsSet('tableNames')
+	);
+
+	expectedArguments(
+		\Migrations\Table::changeColumn(),
+		1,
+		argumentsSet('tableTypes')
+	);
+
+	expectedArguments(
+		\Migrations\Table::hasColumn(),
+		0,
+		argumentsSet('tableNames')
+	);
+
+	expectedArguments(
+		\Migrations\Table::removeColumn(),
+		0,
+		argumentsSet('tableNames')
+	);
+
+	expectedArguments(
+		\Migrations\Table::renameColumn(),
+		0,
+		argumentsSet('tableNames')
+	);
+
+	expectedArguments(
+		\Phinx\Seed\AbstractSeed::table(),
+		0,
+		argumentsSet('tableNames')
+	);
+
+	expectedArguments(
 		\__(),
 		0,
 		'A {0} placeholder',
@@ -291,6 +473,7 @@ namespace PHPSTORM_META {
 		'controllers',
 		'ide_helper',
 		'my_namespace/my_plugin',
+		'relations',
 		'shim'
 	);
 
@@ -298,6 +481,49 @@ namespace PHPSTORM_META {
 		\__d(),
 		1,
 		'A plugin translation'
+	);
+
+	expectedArguments(
+		\env(),
+		0,
+		'HTTP_HOST'
+	);
+
+	registerArgumentsSet(
+		'cacheEngines',
+		'_cake_core_',
+		'_cake_model_',
+		'default'
+	);
+
+	registerArgumentsSet(
+		'tableNames',
+		'wheels'
+	);
+
+	registerArgumentsSet(
+		'tableTypes',
+		'biginteger',
+		'binary',
+		'binaryuuid',
+		'bit',
+		'blob',
+		'boolean',
+		'char',
+		'date',
+		'datetime',
+		'decimal',
+		'double',
+		'float',
+		'integer',
+		'json',
+		'smallinteger',
+		'string',
+		'text',
+		'time',
+		'timestamp',
+		'uuid',
+		'year'
 	);
 
 }

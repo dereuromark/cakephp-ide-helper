@@ -135,7 +135,7 @@ class TranslationKeyTask implements TaskInterface {
 
 			$plugins = Plugin::all();
 			foreach ($plugins as $plugin) {
-				$localePath = Plugin::path($plugin) . 'resources' . DIRECTORY_SEPARATOR . 'locales' . DIRECTORY_SEPARATOR;
+				$localePath = Plugin::path($plugin) . 'src' . DIRECTORY_SEPARATOR . 'Locale' . DIRECTORY_SEPARATOR;
 
 				if (!is_dir($localePath)) {
 					continue;

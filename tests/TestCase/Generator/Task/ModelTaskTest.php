@@ -36,7 +36,6 @@ class ModelTaskTest extends TestCase {
 		$map = $directive->toArray()['map'];
 
 		$expectedMap = [
-			'Abstract' => '\TestApp\Model\Table\AbstractTable::class',
 			'Awesome.Houses' => '\Awesome\Model\Table\HousesTable::class',
 			'Awesome.Windows' => '\Awesome\Model\Table\WindowsTable::class',
 			'BarBars' => '\TestApp\Model\Table\BarBarsTable::class',
@@ -47,6 +46,10 @@ class ModelTaskTest extends TestCase {
 			'CustomFinder' => '\TestApp\Model\Table\CustomFinderTable::class',
 			'Exceptions' => '\TestApp\Model\Table\ExceptionsTable::class',
 			'Foo' => '\TestApp\Model\Table\FooTable::class',
+			'MyNamespace/MyPlugin.My' => '\MyNamespace\MyPlugin\Model\Table\MyTable::class',
+			'Relations.Bars' => '\Relations\Model\Table\BarsTable::class',
+			'Relations.Foos' => '\Relations\Model\Table\FoosTable::class',
+			'Relations.Users' => '\Relations\Model\Table\UsersTable::class',
 			'SkipMe' => '\TestApp\Model\Table\SkipMeTable::class',
 			'SkipSome' => '\TestApp\Model\Table\SkipSomeTable::class',
 			'Wheels' => '\TestApp\Model\Table\WheelsTable::class',
