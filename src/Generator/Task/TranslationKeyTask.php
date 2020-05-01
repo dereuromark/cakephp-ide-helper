@@ -30,12 +30,12 @@ class TranslationKeyTask implements TaskInterface {
 	/**
 	 * function __(string $singular, ...$args): string
 	 */
-	protected const METHOD_DEFAULT = '__()';
+	const METHOD_DEFAULT = '__()';
 
 	/**
 	 * function __d(string $domain, string $msg, ...$args): string
 	 */
-	protected const METHOD_DOMAIN = '__d()';
+	const METHOD_DOMAIN = '__d()';
 
 	/**
 	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
