@@ -1,6 +1,6 @@
 <?php
 
-namespace IdeHelper\Test\TestCase\Annotator;
+namespace IdeHelper\Test\TestCase\Utility;
 
 use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
