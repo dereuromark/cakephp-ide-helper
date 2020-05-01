@@ -28,12 +28,12 @@ class TranslationKeyTask implements TaskInterface {
 	}
 
 	/**
-	 * function __(string $singular, ...$args)
+	 * function __($singular, ...$args)
 	 */
 	const METHOD_DEFAULT = '__()';
 
 	/**
-	 * function __d(string $domain, string $msg, ...$args)
+	 * function __d($domain, $msg, ...$args)
 	 */
 	const METHOD_DOMAIN = '__d()';
 

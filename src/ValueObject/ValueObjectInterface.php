@@ -11,7 +11,7 @@ interface ValueObjectInterface {
 	 *
 	 * @return static
 	 */
-	public static function create(string $value);
+	public static function create($value);
 
 	/**
 	 * Returns raw input.

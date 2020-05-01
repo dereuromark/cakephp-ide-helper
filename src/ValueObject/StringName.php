@@ -15,7 +15,7 @@ class StringName implements ValueObjectInterface {
 	/**
 	 * @param string $value
 	 */
-	private function __construct(string $value) {
+	private function __construct($value) {
 		$this->value = $value;
 	}
 
@@ -26,7 +26,7 @@ class StringName implements ValueObjectInterface {
 	 *
 	 * @return static
 	 */
-	public static function create(string $value) {
+	public static function create($value) {
 		return new static($value);
 	}
 
