@@ -10,7 +10,7 @@ class Plugin extends CorePlugin {
 	/**
 	 * @return string[]
 	 */
-	public static function all(): array {
+	public static function all() {
 		$plugins = static::loaded();
 		$plugins = array_combine($plugins, $plugins);
 

@@ -20,7 +20,7 @@ class TranslationParser {
 	 *
 	 * @return string[]
 	 */
-	public function parse(string $path): array {
+	public function parse(string $path) {
 		$result = $this->poFileParser->parse($path);
 		$resultKeys = array_keys($result);
 
@@ -39,7 +39,7 @@ class TranslationParser {
 	 *
 	 * @return string
 	 */
-	protected function escapeSlashes(string $key): string {
+	protected function escapeSlashes(string $key) {
 		return addcslashes($key, '\'');
 	}
 

@@ -18,13 +18,13 @@ interface ValueObjectInterface {
 	 *
 	 * @return string
 	 */
-	public function raw(): string;
+	public function raw();
 
 	/**
 	 * Returns formatted output.
 	 *
 	 * @return string
 	 */
-	public function __toString(): string;
+	public function __toString();
 
 }

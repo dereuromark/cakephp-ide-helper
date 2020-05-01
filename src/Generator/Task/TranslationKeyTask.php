@@ -28,19 +28,19 @@ class TranslationKeyTask implements TaskInterface {
 	}
 
 	/**
-	 * function __(string $singular, ...$args): string
+	 * function __(string $singular, ...$args)
 	 */
 	const METHOD_DEFAULT = '__()';
 
 	/**
-	 * function __d(string $domain, string $msg, ...$args): string
+	 * function __d(string $domain, string $msg, ...$args)
 	 */
 	const METHOD_DOMAIN = '__d()';
 
 	/**
 	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
 	 */
-	public function collect(): array {
+	public function collect() {
 		$result = [];
 
 		$translationKeys = $this->translationKeys();
@@ -82,7 +82,7 @@ class TranslationKeyTask implements TaskInterface {
 	/**
 	 * @return \IdeHelper\ValueObject\StringName[][]
 	 */
-	protected function translationKeys(): array {
+	protected function translationKeys() {
 		$translationsKeys = $this->parseTranslations();
 
 		foreach ($translationsKeys as $domain => $array) {
@@ -104,7 +104,7 @@ class TranslationKeyTask implements TaskInterface {
 	/**
 	 * @return string[][]
 	 */
-	protected function parseTranslations(): array {
+	protected function parseTranslations() {
 		$keys = [];
 
 		$localePaths = App::path('Locale');
@@ -171,7 +171,7 @@ class TranslationKeyTask implements TaskInterface {
 	 *
 	 * @return \IdeHelper\ValueObject\StringName[]
 	 */
-	protected function completeDomains(array $domains): array {
+	protected function completeDomains(array $domains) {
 		$plugins = Plugin::all();
 		foreach ($plugins as $plugin) {
 			$pieces = explode('/', $plugin);

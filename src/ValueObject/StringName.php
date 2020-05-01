@@ -33,14 +33,14 @@ class StringName implements ValueObjectInterface {
 	/**
 	 * @return string
 	 */
-	public function raw(): string {
+	public function raw() {
 		return $this->value;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function __toString(): string {
+	public function __toString() {
 		return '\'' . $this->value . '\'';
 	}
 
