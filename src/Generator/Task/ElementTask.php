@@ -2,10 +2,10 @@
 
 namespace IdeHelper\Generator\Task;
 
-use Cake\Core\Plugin;
 use Cake\View\View;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\AppPath;
+use IdeHelper\Utility\Plugin;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RecursiveRegexIterator;

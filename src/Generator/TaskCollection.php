@@ -13,6 +13,7 @@ use IdeHelper\Generator\Task\PluginTask;
 use IdeHelper\Generator\Task\TableAssociationTask;
 use IdeHelper\Generator\Task\TableFinderTask;
 use IdeHelper\Generator\Task\TaskInterface;
+use IdeHelper\Generator\Task\TranslationKeyTask;
 use IdeHelper\Generator\Task\ValidationTask;
 use InvalidArgumentException;
 
@@ -32,6 +33,7 @@ class TaskCollection {
 		ElementTask::class => ElementTask::class,
 		PluginTask::class => PluginTask::class,
 		ValidationTask::class => ValidationTask::class,
+		TranslationKeyTask::class => TranslationKeyTask::class,
 	];
 
 	/**
