@@ -10,7 +10,6 @@ parameters:
 		- shim.php
 	checkMissingIterableValueType: false
 	ignoreErrors:
-		- '#Call to an undefined method Cake\\ORM\\Association::getAlias\(\)#'
 		- '#Parameter \#1 \$object of function get_class expects object, string given#'
 		- '#Parameter \#1 \$association of method .+ModelAnnotator::throughAlias\(\) expects .+BelongsToMany, .+Association given.#'
 		- '#Unsafe usage of new static\(\).+#'
