@@ -386,6 +386,14 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
+		\Cake\TestSuite\TestCase::addFixture(),
+		0,
+		'app.Houses',
+		'core.Posts',
+		'plugin.IdeHelper.Cars'
+	);
+
+	expectedArguments(
 		\Cake\Validation\Validator::allowEmptyArray(),
 		2,
 		argumentsSet('validationWhen')

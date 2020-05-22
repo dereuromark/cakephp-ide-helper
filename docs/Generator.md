@@ -24,6 +24,7 @@ PhpStorm TOC
   * [ENV keys](#env-keys)
   * [Translation keys](#translation-keys)
   * [ConnectionManager](#connectionmanager)
+  * [Fixtures](#fixtures)
   * [Migrations plugin database tables](#migrations-plugin-database-tables)
 - [Adding your own tasks](#adding-your-own-tasks)
   * [Replacing native tasks](#replacing-native-tasks)
@@ -187,6 +188,9 @@ Any further `'` inside will be escaped for you.
 
 #### ConnectionManager
 `ConnectionManager::get()` is auto-completed for the currently configured connection aliases.
+
+#### Fixtures
+`TestCase::addFixture()` is auto-completed for the currently available fixtures from app, core and plugins.
 
 #### Migrations plugin database tables
 When using the Migrations plugin, this task will come in handy to quickly autocomplete existing tables,
