@@ -16,6 +16,7 @@ class TestFixtureTask extends FixtureTask {
 			'app.Houses' => $list['app.Houses'],
 			'core.Posts' => $list['core.Posts'],
 			'plugin.IdeHelper.Cars' => $list['plugin.IdeHelper.Cars'],
+			'plugin.MyNamespace/MyPlugin.Sub/My' => $list['plugin.MyNamespace/MyPlugin.Sub/My'],
 		];
 
 		return $list;

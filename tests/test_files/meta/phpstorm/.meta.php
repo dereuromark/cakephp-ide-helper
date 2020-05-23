@@ -390,7 +390,8 @@ namespace PHPSTORM_META {
 		0,
 		'app.Houses',
 		'core.Posts',
-		'plugin.IdeHelper.Cars'
+		'plugin.IdeHelper.Cars',
+		'plugin.MyNamespace/MyPlugin.Sub/My'
 	);
 
 	expectedArguments(

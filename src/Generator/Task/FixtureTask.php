@@ -59,10 +59,11 @@ class FixtureTask implements TaskInterface {
 	/**
 	 * @param string $fixtureFolder
 	 * @param string $domain
+	 * @param string|null $subFolder
 	 *
 	 * @return string[]
 	 */
-	protected function parseFixtures(string $fixtureFolder, string $domain): array {
+	protected function parseFixtures(string $fixtureFolder, string $domain, ?string $subFolder = null): array {
 		if (!is_dir($fixtureFolder)) {
 			return [];
 		}
@@ -75,9 +76,17 @@ class FixtureTask implements TaskInterface {
 			if (substr($file, -11) !== 'Fixture.php') {
 				continue;
 			}
-			$fixture = $domain . '.' . substr($file, 0, -11);
+			$fixture = substr($file, 0, -11);
+			if ($subFolder) {
+				$fixture = str_replace(DS, '/', $subFolder) . '/' . $fixture;
+			}
+			$fixture = $domain . '.' . $fixture;
 
 			$fixtures[$fixture] = $fixture;
+		}
+
+		foreach ($content[0] as $folder) {
+			$fixtures += $this->parseFixtures($fixtureFolder . $folder . DS, $domain, $folder);
 		}
 
 		return $fixtures;

@@ -42,6 +42,7 @@ class FixtureTaskTest extends TestCase {
 			'app.Houses' => '\'app.Houses\'',
 			'core.Posts' => '\'core.Posts\'',
 			'plugin.IdeHelper.Windows' => '\'plugin.IdeHelper.Windows\'',
+			'plugin.MyNamespace/MyPlugin.Sub/My' => '\'plugin.MyNamespace/MyPlugin.Sub/My\'',
 		];
 		foreach ($expected as $key => $value) {
 			$this->assertSame($value, $list[$key]);
