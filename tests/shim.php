@@ -14,5 +14,5 @@ if (!defined('T_NULLABLE')) {
 }
 
 if (!class_exists(\PHPUnit\Framework\TestCase::class)) {
-	require 'shim_phpunit.php';
+	require 'TestCase.php';
 }
