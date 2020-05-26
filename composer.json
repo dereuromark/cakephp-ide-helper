@@ -49,6 +49,7 @@
 			"Awesome\\": "tests/test_app/plugins/Awesome/src/",
 			"Controllers\\": "tests/test_app/plugins/Controllers/src/",
 			"MyNamespace\\MyPlugin\\": "tests/test_app/plugins/MyNamespace/MyPlugin/src/",
+			"MyNamespace\\MyPlugin\\Test\\Fixture\\": "tests/test_app/plugins/MyNamespace/MyPlugin/tests/Fixture/",
 			"Relations\\": "tests/test_app/plugins/Relations/src/"
 		}
 	},

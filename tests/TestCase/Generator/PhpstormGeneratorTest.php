@@ -7,8 +7,10 @@ use Cake\Core\Plugin;
 use IdeHelper\Generator\PhpstormGenerator;
 use IdeHelper\Generator\TaskCollection;
 use IdeHelper\Generator\Task\EnvTask;
+use IdeHelper\Generator\Task\FixtureTask;
 use Shim\TestSuite\TestCase;
 use TestApp\Generator\Task\TestEnvTask;
+use TestApp\Generator\Task\TestFixtureTask;
 
 class PhpstormGeneratorTest extends TestCase {
 
@@ -33,6 +35,7 @@ class PhpstormGeneratorTest extends TestCase {
 
 		$taskCollection = new TaskCollection([
 			EnvTask::class => TestEnvTask::class,
+			FixtureTask::class => TestFixtureTask::class,
 		]);
 		$this->generator = new PhpstormGenerator($taskCollection);
 
