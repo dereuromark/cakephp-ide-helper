@@ -8,14 +8,14 @@ use Cake\ORM\Table;
  * @property \Awesome\Model\Table\HousesTable&\Cake\ORM\Association\BelongsToMany $Houses
  * @property \Awesome\Model\Table\WindowsTable&\Cake\ORM\Association\HasMany $Windows
  *
+ * @method \TestApp\Model\Entity\BarBarsAbstract get($primaryKey, $options = [])
  * @method \TestApp\Model\Entity\BarBarsAbstract newEntity($data = null, array $options = [])
  * @method \TestApp\Model\Entity\BarBarsAbstract[] newEntities(array $data, array $options = [])
- * @method \TestApp\Model\Entity\BarBarsAbstract get($primaryKey, $options = [])
- * @method \TestApp\Model\Entity\BarBarsAbstract findOrCreate($search, callable $callback = null, $options = [])
- * @method \TestApp\Model\Entity\BarBarsAbstract patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \TestApp\Model\Entity\BarBarsAbstract[] patchEntities($entities, array $data, array $options = [])
  * @method \TestApp\Model\Entity\BarBarsAbstract|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \TestApp\Model\Entity\BarBarsAbstract saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \TestApp\Model\Entity\BarBarsAbstract patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \TestApp\Model\Entity\BarBarsAbstract[] patchEntities($entities, array $data, array $options = [])
+ * @method \TestApp\Model\Entity\BarBarsAbstract findOrCreate($search, callable $callback = null, $options = [])
  * @method \TestApp\Model\Entity\BarBarsAbstract[]|\Cake\Datasource\ResultSetInterface|false saveMany($entities, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
