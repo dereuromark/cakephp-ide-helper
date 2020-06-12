@@ -144,18 +144,14 @@ class ModelAnnotator extends AbstractAnnotator {
 			}
 
 			// Copied from Bake plugin's DocBlockHelper
+			$annotations[] = "@method \\{$fullClassName} get(\$primaryKey, \$options = [])";
 			$annotations[] = "@method \\{$fullClassName} newEntity(\$data = null, array \$options = [])";
 			$annotations[] = "@method \\{$fullClassName}[] newEntities(array \$data, array \$options = [])";
-
-			$annotations[] = "@method \\{$fullClassName} get(\$primaryKey, \$options = [])";
-			$annotations[] = "@method \\{$fullClassName} findOrCreate(\$search, callable \$callback = null, \$options = [])";
-
-			$annotations[] = "@method \\{$fullClassName} patchEntity(\\Cake\\Datasource\\EntityInterface \$entity, array \$data, array \$options = [])";
-			$annotations[] = "@method \\{$fullClassName}[] patchEntities(\$entities, array \$data, array \$options = [])";
-
 			$annotations[] = "@method \\{$fullClassName}|false save(\\Cake\\Datasource\\EntityInterface \$entity, \$options = [])";
 			$annotations[] = "@method \\{$fullClassName} saveOrFail(\\Cake\\Datasource\\EntityInterface \$entity, \$options = [])";
-
+			$annotations[] = "@method \\{$fullClassName} patchEntity(\\Cake\\Datasource\\EntityInterface \$entity, array \$data, array \$options = [])";
+			$annotations[] = "@method \\{$fullClassName}[] patchEntities(\$entities, array \$data, array \$options = [])";
+			$annotations[] = "@method \\{$fullClassName} findOrCreate(\$search, callable \$callback = null, \$options = [])";
 			$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity}[]|\Cake\Datasource\ResultSetInterface|false saveMany(\$entities, \$options = [])";
 		}
 
