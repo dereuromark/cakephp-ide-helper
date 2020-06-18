@@ -75,11 +75,6 @@ class TableFinderTask extends ModelTask {
 	 * @return string[]
 	 */
 	protected function getCustomFinders(): array {
-		// Currently this only works with the base Table, not specific Tables, thus the option here
-		if (!Configure::read('IdeHelper.preemptive')) {
-			return [];
-		}
-
 		$models = $this->collectModels();
 
 		$allFinders = [];

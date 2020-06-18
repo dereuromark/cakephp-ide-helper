@@ -182,8 +182,12 @@ namespace PHPSTORM_META {
 		\Cake\Datasource\QueryInterface::find(0),
 		map([
 			'all' => \Cake\ORM\Query::class,
+			'children' => \Cake\ORM\Query::class,
 			'list' => \Cake\ORM\Query::class,
+			'path' => \Cake\ORM\Query::class,
+			'somethingCustom' => \Cake\ORM\Query::class,
 			'threaded' => \Cake\ORM\Query::class,
+			'treeList' => \Cake\ORM\Query::class,
 		])
 	);
 
@@ -210,8 +214,12 @@ namespace PHPSTORM_META {
 		\Cake\ORM\Association::find(0),
 		map([
 			'all' => \Cake\ORM\Query::class,
+			'children' => \Cake\ORM\Query::class,
 			'list' => \Cake\ORM\Query::class,
+			'path' => \Cake\ORM\Query::class,
+			'somethingCustom' => \Cake\ORM\Query::class,
 			'threaded' => \Cake\ORM\Query::class,
+			'treeList' => \Cake\ORM\Query::class,
 		])
 	);
 
@@ -302,8 +310,12 @@ namespace PHPSTORM_META {
 		\Cake\ORM\Table::find(0),
 		map([
 			'all' => \Cake\ORM\Query::class,
+			'children' => \Cake\ORM\Query::class,
 			'list' => \Cake\ORM\Query::class,
+			'path' => \Cake\ORM\Query::class,
+			'somethingCustom' => \Cake\ORM\Query::class,
 			'threaded' => \Cake\ORM\Query::class,
+			'treeList' => \Cake\ORM\Query::class,
 		])
 	);
 
