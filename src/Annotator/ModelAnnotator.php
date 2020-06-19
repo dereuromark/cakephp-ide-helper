@@ -359,6 +359,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	 */
 	protected function extractBehaviors(array $map) {
 		$result = [];
+		/** @var string|object $behavior */
 		foreach ($map as $name => $behavior) {
 			$behaviorClassName = get_class($behavior) ?: '';
 			$pluginName = $this->resolvePluginName($behaviorClassName, $name);
