@@ -2,7 +2,6 @@
 
 namespace IdeHelper\Generator\Task;
 
-use Cake\Core\Configure;
 use Cake\Datasource\QueryInterface;
 use Cake\ORM\Association;
 use Cake\ORM\Query;
