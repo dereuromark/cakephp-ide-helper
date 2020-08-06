@@ -12,6 +12,6 @@ class MyOtherComponent extends Component {
 	/**
 	 * @var array
 	 */
-	protected $components = ['Flash', 'RequestHandler', 'SomeInvalidOneWillBeIgnored', 'Security'];
+	public $components = ['Flash', 'RequestHandler', 'SomeInvalidOneWillBeIgnored', 'Security'];
 
 }
