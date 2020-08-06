@@ -8,6 +8,6 @@ class MyComponent extends Component {
 	/**
 	 * @var array
 	 */
-	public $components = ['Flash', 'RequestHandler', 'MyNamespace/MyPlugin.My'];
+	protected $components = ['Flash', 'RequestHandler', 'MyNamespace/MyPlugin.My'];
 
 }

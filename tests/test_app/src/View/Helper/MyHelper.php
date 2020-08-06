@@ -8,7 +8,7 @@ class MyHelper extends Helper {
 	/**
 	 * @var array
 	 */
-	public $helpers = [
+	protected $helpers = [
 		'Html',
 		'Form',
 		'Shim.Configure',

@@ -46,7 +46,7 @@ namespace App\Controller;
  */
 class ApplesController extends AppController {
 
-    public $modelClass = 'MyApples';
+    protected $modelClass = 'MyApples';
 
 }
 ```
@@ -145,7 +145,7 @@ bin/cake annotate shells
     /**
      * @var string
      */
-    public $modelClass = 'Cars';
+    protected $modelClass = 'Cars';
 
     /**
      * @return void
@@ -203,7 +203,7 @@ A component containing
     /**
      * @var array
      */
-    public $components = [
+    protected $components = [
         'RequestHandler',
         'Flash.Flash',
     ];
@@ -228,7 +228,7 @@ A helper containing
     /**
      * @var array
      */
-    public $helpers = [
+    protected $helpers = [
         'Form',
     ];
 
