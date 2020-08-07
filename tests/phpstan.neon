@@ -5,7 +5,7 @@ services:
 			- phpstan.broker.methodsClassReflectionExtension
 			- phpstan.broker.propertiesClassReflectionExtension
 parameters:
-	autoload_files:
+	bootstrapFiles:
 		- bootstrap.php
 		- shim.php
 	checkMissingIterableValueType: false
