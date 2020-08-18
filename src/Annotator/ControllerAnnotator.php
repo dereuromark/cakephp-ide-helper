@@ -38,7 +38,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 		$annotations = $this->_getModelAnnotations($usedModels, $content);
 
-		$componentAnnotations = $this->_getComponentAnnotations($className);
+		$componentAnnotations = $this->_getComponentAnnotations($className, $path);
 		foreach ($componentAnnotations as $componentAnnotation) {
 			$annotations[] = $componentAnnotation;
 		}
@@ -107,11 +107,12 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $controllerName
+	 * @param string $path
 	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
-	protected function _getComponentAnnotations($controllerName) {
+	protected function _getComponentAnnotations($controllerName, $path) {
 		try {
-			$map = $this->_getUsedComponents($controllerName);
+			$map = $this->_getUsedComponents($controllerName, $path);
 		} catch (Exception $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping component annotations: ' . $e->getMessage());
@@ -140,22 +141,25 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $controllerName
+	 * @param string $path
 	 *
 	 * @return string[]
 	 */
-	protected function _getUsedComponents($controllerName) {
+	protected function _getUsedComponents($controllerName, $path) {
 		$plugin = $controllerName !== 'AppController' ? $this->getConfig(static::CONFIG_PLUGIN) : null;
-		$className = App::className(($plugin ? $plugin . '.' : '') . $controllerName, 'Controller');
-		if (!$className) {
+		$prefix = $this->getPrefix($controllerName, $path);
+
+		$fullClassName = App::className(($plugin ? $plugin . '.' : '') . $controllerName, 'Controller' . $prefix);
+		if (!$fullClassName) {
 			return [];
 		}
 
-		if ($this->_isAbstract($className)) {
+		if ($this->_isAbstract($fullClassName)) {
 			return [];
 		}
 
 		/** @var \App\Controller\AppController $controller */
-		$controller = new $className();
+		$controller = new $fullClassName();
 
 		$components = [];
 		foreach ($controller->components()->loaded() as $component) {
@@ -166,7 +170,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 			return $components;
 		}
 
-		$appControllerComponents = $this->_getUsedComponents('AppController');
+		$appControllerComponents = $this->_getUsedComponents('AppController', $path);
 		$components = array_diff_key($components, $appControllerComponents);
 
 		return $components;
@@ -306,6 +310,24 @@ class ControllerAnnotator extends AbstractAnnotator {
 		}
 
 		return $modelClass;
+	}
+
+	/**
+	 * Namespace prefix for controllers.
+	 *
+	 * @param string $className
+	 * @param string $path
+	 *
+	 * @return string
+	 */
+	protected function getPrefix($className, $path) {
+		preg_match('#/Controller/(\w+)/' . $className . '\.php#', $path, $matches);
+		$prefix = '';
+		if ($matches) {
+			$prefix = '/' . $matches[1];
+		}
+
+		return $prefix;
 	}
 
 }
