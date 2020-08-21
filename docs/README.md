@@ -16,11 +16,23 @@ Note: As require-dev dependency this should only be loaded for local development
 And ideally also only for CLI mode (`if (PHP_SAPI === 'cli')`).
 
 ## Overview
+There are two main tools for keeping your code up to date:
+- Annotator: This tool keeps your docblocks and annotations up to date, it is not supposed to modify actual (functional) code.
+- Illuminator: This tool can modify your code itself, add constants, methods or alike.
 
-### Annotations
-Update baked annotations and provide maximum IDE and static analyzer (e.g. phpstan) support.
+Especially annotations are needed for static analyzers to be able to understand the code.
+The other tools are mainly IDE autocomplete/code-completion specific and usually helpers on top to make your IDE better understand the code.
+
+### PHP File Annotator
+Update baked annotations and provide maximum IDE and static analyzer (e.g. PHPStan) support.
 
 * [Annotations shell](Annotations.md)
+
+### PHP File Illuminator
+The Illuminator can modify your PHP files based on Illuminator rulesets.
+You can use the pre-set tasks, or create your own to enhance your PHP files and classes.
+
+* [Illuminator shell](Illuminator.md)
 
 ### Code completion file
 Create a code completion file for the IDE in order to annotate dynamic "magic" property access and alike.
@@ -33,12 +45,6 @@ Create a meta file for the IDE in order to hint static factory methods and alike
 would always just return the abstract or parent class.
 
 * [Generator shell](Generator.md)
-
-### PHP File Illuminator
-The Illuminator can modify your PHP files based on Illuminator rulesets.
-You can use the pre-set tasks, or create your own to enhance your PHP files and classes.
-
-* [Illuminator shell](Illuminator.md)
 
 
 ## Usage
@@ -105,12 +111,13 @@ Group them for your project as composer.json script commands:
     ...
     "setup": "bin/cake code_completion generate && bin/cake phpstorm generate",
     "annotate": "bin/cake annotate all && bin/cake annotate all -p Sandbox && ...",
+    "illuminate": "bin/cake illuminator illuminate",
 ```
 
 This way you only need to remember these high level ones:
 - `composer setup` (also possible as Git hook after checkout/pull)
 - `composer annotate` (include all your /plugins, the non-vendor ones)
-
+- `composer illuminate` (include all your /plugins, the non-vendor ones)
 
 ## Migrating from 3.x?
 
