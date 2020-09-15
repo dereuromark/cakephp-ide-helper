@@ -11,7 +11,7 @@ use IdeHelper\ValueObject\StringName;
 use RecursiveRegexIterator;
 use RegexIterator;
 
-class LayoutTask extends ModelTask {
+class LayoutTask implements TaskInterface {
 
 	public const CLASS_VIEW_BUILDER = ViewBuilder::class;
 

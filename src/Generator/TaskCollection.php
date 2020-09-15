@@ -15,6 +15,7 @@ use IdeHelper\Generator\Task\DatabaseTypeTask;
 use IdeHelper\Generator\Task\ElementTask;
 use IdeHelper\Generator\Task\EnvTask;
 use IdeHelper\Generator\Task\FixtureTask;
+use IdeHelper\Generator\Task\FormHelperTask;
 use IdeHelper\Generator\Task\HelperTask;
 use IdeHelper\Generator\Task\LayoutTask;
 use IdeHelper\Generator\Task\MailerTask;
@@ -55,6 +56,7 @@ class TaskCollection {
 		EnvTask::class => EnvTask::class,
 		ConsoleTask::class => ConsoleTask::class,
 		ConnectionTask::class => ConnectionTask::class,
+		FormHelperTask::class => FormHelperTask::class,
 		DatabaseTableTask::class => DatabaseTableTask::class,
 		DatabaseTableColumnNameTask::class => DatabaseTableColumnNameTask::class,
 		DatabaseTableColumnTypeTask::class => DatabaseTableColumnTypeTask::class,

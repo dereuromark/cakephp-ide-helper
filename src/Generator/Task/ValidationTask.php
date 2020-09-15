@@ -7,7 +7,7 @@ use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Generator\Directive\RegisterArgumentsSet;
 use IdeHelper\ValueObject\StringName;
 
-class ValidationTask extends ModelTask {
+class ValidationTask implements TaskInterface {
 
 	public const SET_VALIDATION_WHEN = 'validationWhen';
 

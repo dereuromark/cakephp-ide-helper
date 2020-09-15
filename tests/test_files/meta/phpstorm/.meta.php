@@ -491,6 +491,17 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
+		\Cake\View\Helper\FormHelper::control(),
+		0,
+		'content',
+		'created',
+		'id',
+		'modified',
+		'name',
+		'user_id'
+	);
+
+	expectedArguments(
 		\Cake\View\Helper\HtmlHelper::linkFromPath(),
 		1,
 		argumentsSet('routePaths')
