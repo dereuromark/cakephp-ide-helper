@@ -5,7 +5,7 @@ namespace IdeHelper\Generator\Task;
 use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\ValueObject\StringName;
 
-class EnvTask extends ModelTask {
+class EnvTask implements TaskInterface {
 
 	protected const METHOD_ENV = '\\' . 'env()';
 

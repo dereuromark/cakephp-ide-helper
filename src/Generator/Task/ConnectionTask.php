@@ -6,7 +6,7 @@ use Cake\Datasource\ConnectionManager;
 use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\ValueObject\StringName;
 
-class ConnectionTask extends ModelTask {
+class ConnectionTask implements TaskInterface {
 
 	protected const METHOD_GET = '\\' . ConnectionManager::class . '::get()';
 

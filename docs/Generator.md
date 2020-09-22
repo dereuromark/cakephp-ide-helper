@@ -18,6 +18,7 @@ PhpStorm TOC
   * [Elements](#elements)
   * [Layouts](#layouts)
   * [Cache](#cache)
+  * [FormHelper](#formhelper)
   * [Validation](#validation)
     + [Validator::requirePresence()](#validator--requirepresence--)
   * [Request params](#request-params)
@@ -160,6 +161,9 @@ With this generator PhpStorm can auto-complete this, including all elements for 
 
 #### Cache
 `Cache::write()`, `Cache::read()` and other methods are now auto-completed for the cache engine(s) available.
+
+#### FormHelper
+`$this->Form->control()` is now auto-completed for the model fields available.
 
 #### Validation
 

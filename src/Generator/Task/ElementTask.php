@@ -12,7 +12,7 @@ use RecursiveIteratorIterator;
 use RecursiveRegexIterator;
 use RegexIterator;
 
-class ElementTask extends ModelTask {
+class ElementTask implements TaskInterface {
 
 	public const CLASS_VIEW = View::class;
 
