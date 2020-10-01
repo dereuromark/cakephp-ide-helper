@@ -80,7 +80,11 @@ class TableFinderTask extends ModelTask {
 		foreach ($models as $model => $className) {
 			$customFinders = $this->getFinderMethods($className);
 
+			/** @var class-string<object>|null $tableClass */
 			$tableClass = App::className($model, 'Model/Table', 'Table');
+			if (!$tableClass) {
+				continue;
+			}
 
 			$tableReflection = new ReflectionClass($tableClass);
 			if (!$tableReflection->isInstantiable()) {

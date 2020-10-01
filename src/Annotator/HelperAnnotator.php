@@ -7,6 +7,7 @@ use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\HelperTrait;
 use IdeHelper\Utility\App;
+use RuntimeException;
 use Throwable;
 
 class HelperAnnotator extends AbstractAnnotator {
@@ -25,6 +26,8 @@ class HelperAnnotator extends AbstractAnnotator {
 
 		$name = substr($name, 0, -6);
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
+
+		/** @var class-string<object>|null $className */
 		$className = App::className(($plugin ? $plugin . '.' : '') . $name, 'View/Helper', 'Helper');
 		if (!$className) {
 			return false;
@@ -47,6 +50,9 @@ class HelperAnnotator extends AbstractAnnotator {
 		$helperMap = $this->invokeProperty($helper, '_helperMap');
 
 		$content = file_get_contents($path);
+		if ($content === false) {
+			throw new RuntimeException('Cannot read file');
+		}
 
 		$annotations = $this->getHelperAnnotations($helperMap);
 

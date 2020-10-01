@@ -2,6 +2,8 @@
 
 namespace IdeHelper\Annotator;
 
+use RuntimeException;
+
 class CallbackAnnotator extends AbstractAnnotator {
 
 	/**
@@ -10,6 +12,9 @@ class CallbackAnnotator extends AbstractAnnotator {
 	 */
 	public function annotate(string $path): bool {
 		$content = file_get_contents($path);
+		if ($content === false) {
+			throw new RuntimeException('Cannot read file');
+		}
 
 		$this->invokeTasks($path, $content);
 

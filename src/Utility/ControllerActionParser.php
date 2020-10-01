@@ -5,6 +5,7 @@ namespace IdeHelper\Utility;
 use App\Controller\AppController;
 use ReflectionClass;
 use ReflectionMethod;
+use RuntimeException;
 
 class ControllerActionParser {
 
@@ -47,6 +48,9 @@ class ControllerActionParser {
 	 */
 	protected function parseFile($path): array {
 		$content = file_get_contents($path);
+		if ($content === false) {
+			throw new RuntimeException('Cannot read file');
+		}
 
 		preg_match_all('/public function (.+)\(/', $content, $matches);
 		if (empty($matches[1])) {

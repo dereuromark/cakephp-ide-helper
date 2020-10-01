@@ -21,17 +21,17 @@ class AnnotationFactory {
 	public static function create($tag, $type, $content = null, $index = null) {
 		switch ($tag) {
 			case PropertyAnnotation::TAG:
-				return new PropertyAnnotation($type, $content, $index);
+				return new PropertyAnnotation($type, (string)$content, $index);
 			case PropertyReadAnnotation::TAG:
-				return new PropertyReadAnnotation($type, $content, $index);
+				return new PropertyReadAnnotation($type, (string)$content, $index);
 			case MethodAnnotation::TAG:
-				return new MethodAnnotation($type, $content, $index);
+				return new MethodAnnotation($type, (string)$content, $index);
 			case VariableAnnotation::TAG:
-				return new VariableAnnotation($type, $content, $index);
+				return new VariableAnnotation($type, (string)$content, $index);
 			case MixinAnnotation::TAG:
 				return new MixinAnnotation($type, $index);
 			case ParamAnnotation::TAG:
-				return new ParamAnnotation($type, $content, $index);
+				return new ParamAnnotation($type, (string)$content, $index);
 			case UsesAnnotation::TAG:
 				return new UsesAnnotation($type, $index);
 		}

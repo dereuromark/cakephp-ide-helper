@@ -7,6 +7,7 @@ use Cake\TestSuite\TestCase;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\CallbackAnnotator;
 use IdeHelper\Console\Io;
+use RuntimeException;
 use Shim\TestSuite\ConsoleOutput;
 
 class CallbackAnnotatorTest extends TestCase {
@@ -51,9 +52,15 @@ class CallbackAnnotatorTest extends TestCase {
 		$annotator->annotate($execPath);
 
 		$content = file_get_contents($execPath);
+		if ($content === false) {
+			throw new RuntimeException('Cannot read file');
+		}
 
 		$testPath = TEST_FILES . 'Model/Table/CallbacksTable.php';
 		$expectedContent = file_get_contents($testPath);
+		if ($expectedContent === false) {
+			throw new RuntimeException('Cannot read file');
+		}
 		$this->assertTextEquals($expectedContent, $content);
 
 		$output = $this->out->output();

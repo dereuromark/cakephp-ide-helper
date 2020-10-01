@@ -10,6 +10,7 @@ use IdeHelper\Annotator\Traits\HelperTrait;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
 use IdeHelper\Utility\Plugin;
+use RuntimeException;
 
 class ViewAnnotator extends AbstractAnnotator {
 
@@ -26,6 +27,9 @@ class ViewAnnotator extends AbstractAnnotator {
 	 */
 	public function annotate(string $path): bool {
 		$content = file_get_contents($path);
+		if ($content === false) {
+			throw new RuntimeException('Cannot read file');
+		}
 
 		$helpers = $this->getHelpers();
 		$annotations = $this->buildAnnotations($helpers);
@@ -75,6 +79,9 @@ class ViewAnnotator extends AbstractAnnotator {
 
 		foreach ($folderContent[1] as $file) {
 			$content = file_get_contents($file);
+			if ($content === false) {
+				throw new RuntimeException('Cannot read file');
+			}
 			$helpers = $this->parseHelpersInContent($content);
 			$this->helpers = array_merge($this->helpers, $helpers);
 		}
@@ -106,7 +113,8 @@ class ViewAnnotator extends AbstractAnnotator {
 	protected function parseViewClass(): array {
 		$helpers = [];
 
-		$className = App::className('App', 'Controller', 'Controller');
+		/** @var class-string<object> $className */
+		$className = App::classNameOrFail('App', 'Controller', 'Controller');
 		if ($this->_isAbstract($className)) {
 			return [];
 		}

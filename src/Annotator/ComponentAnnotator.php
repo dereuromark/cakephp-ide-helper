@@ -8,6 +8,7 @@ use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\ComponentTrait;
 use IdeHelper\Utility\App;
+use RuntimeException;
 
 class ComponentAnnotator extends AbstractAnnotator {
 
@@ -25,18 +26,24 @@ class ComponentAnnotator extends AbstractAnnotator {
 
 		$name = substr($name, 0, -9);
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
+		/** @var class-string<object>|null $className */
 		$className = App::className(($plugin ? $plugin . '.' : '') . $name, 'Controller/Component', 'Component');
 		if (!$className) {
 			return false;
 		}
 
 		$content = file_get_contents($path);
+		if ($content === false) {
+			throw new RuntimeException('Cannot read file');
+		}
 		$annotations = $this->buildAnnotations($className);
 
 		return $this->annotateContent($path, $content, $annotations);
 	}
 
 	/**
+	 * @phpstan-param class-string<object> $className
+	 *
 	 * @param string $className
 	 *
 	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
@@ -53,7 +60,10 @@ class ComponentAnnotator extends AbstractAnnotator {
 	}
 
 	/**
+	 * @phpstan-param class-string<object> $className
+	 *
 	 * @param string $className
+	 *
 	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
 	protected function getComponentAnnotations(string $className) {

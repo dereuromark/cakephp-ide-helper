@@ -229,6 +229,9 @@ class VariableExtractor {
 		}
 
 		$prevIndex = $file->findPrevious(Tokens::$emptyTokens, $result['index'] - 1, $result['index'] - 3, true, null, true);
+		if ($prevIndex === false) {
+			return false;
+		}
 
 		for ($i = $prevIndex; $i > 0; $i--) {
 			$testIndex = $file->findPrevious(Tokens::$emptyTokens, $i, $i - 2, true, null, true);

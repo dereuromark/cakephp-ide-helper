@@ -46,6 +46,9 @@ class EntityAnnotator extends AbstractAnnotator {
 		}
 
 		$content = file_get_contents($path);
+		if ($content === false) {
+			throw new RuntimeException('Cannot read file');
+		}
 		$helper = new DocBlockHelper(new View());
 		$propertyHintMap = $this->propertyHintMap($content, $helper);
 
@@ -141,6 +144,7 @@ class EntityAnnotator extends AbstractAnnotator {
 		}
 
 		if ($association->type() === Association::MANY_TO_ONE) {
+			/** @var string $field */
 			$field = $association->getForeignKey();
 			if (!isset($schema[$field]['null'])) {
 				return false;

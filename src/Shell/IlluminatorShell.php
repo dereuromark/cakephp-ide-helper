@@ -32,7 +32,7 @@ class IlluminatorShell extends Shell {
 
 		$root = ROOT . DS;
 		if ($this->param('plugin')) {
-			$root = PluginPath::get($this->param('plugin'));
+			$root = PluginPath::get((string)$this->param('plugin'));
 		}
 		$path = $root . $path;
 		if (!is_dir($path)) {
@@ -40,7 +40,7 @@ class IlluminatorShell extends Shell {
 		}
 
 		$illuminator = $this->getIlluminator();
-		$filesChanged = $illuminator->illuminate($path, $this->param('filter'));
+		$filesChanged = $illuminator->illuminate($path, (string)$this->param('filter') ?: null);
 		if (!$filesChanged) {
 			return static::CODE_SUCCESS;
 		}
@@ -108,7 +108,7 @@ class IlluminatorShell extends Shell {
 	 * @return \IdeHelper\Illuminator\Illuminator
 	 */
 	protected function getIlluminator(): Illuminator {
-		$tasks = $this->param('task') ? explode(',', $this->param('task')) : [];
+		$tasks = $this->param('task') ? explode(',', (string)$this->param('task')) : [];
 
 		$taskCollection = new TaskCollection($this->_io(), $this->params, $tasks);
 

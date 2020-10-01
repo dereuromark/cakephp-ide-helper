@@ -42,6 +42,7 @@ class ModelAnnotator extends AbstractAnnotator {
 
 		$tableName = $plugin ? ($plugin . '.' . $modelName) : $modelName;
 		try {
+			/** @var class-string<object> $tableClass */
 			$tableClass = App::classNameOrFail($tableName, 'Model/Table', 'Table');
 		} catch (Throwable $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
@@ -109,6 +110,9 @@ class ModelAnnotator extends AbstractAnnotator {
 	 */
 	protected function table(string $path, string $entityName, array $associations, array $behaviors): bool {
 		$content = file_get_contents($path);
+		if ($content === false) {
+			throw new RuntimeException('Cannot read file');
+		}
 
 		$behaviors += $this->parseLoadedBehaviors($content);
 		$annotations = $this->buildAnnotations($associations, $entityName, $behaviors);
@@ -326,7 +330,7 @@ class ModelAnnotator extends AbstractAnnotator {
 
 		$behaviors = $this->extractBehaviors($map);
 
-		/** @var string|false $parentClass */
+		/** @var class-string<object>|false $parentClass */
 		$parentClass = get_parent_class($table);
 		if (!$parentClass) {
 			return [];

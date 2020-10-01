@@ -5,6 +5,7 @@ namespace IdeHelper\Annotator;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Utility\App;
+use RuntimeException;
 use Throwable;
 
 class ShellAnnotator extends AbstractAnnotator {
@@ -20,6 +21,9 @@ class ShellAnnotator extends AbstractAnnotator {
 		}
 
 		$content = file_get_contents($path);
+		if ($content === false) {
+			throw new RuntimeException('Cannot read file');
+		}
 		$primaryModelClass = $this->getPrimaryModelClass($content);
 		$usedModels = $this->getUsedModels($content);
 		if ($primaryModelClass) {
@@ -79,8 +83,10 @@ class ShellAnnotator extends AbstractAnnotator {
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
 		$fullName = ($plugin ? $plugin . '.' : '') . $name;
 		if (substr($name, -4) === 'Task') {
+			/** @var class-string<object>|null $className */
 			$className = App::className($fullName, 'Shell/Task');
 		} else {
+			/** @var class-string<object>|null $className */
 			$className = App::className($fullName, 'Shell');
 		}
 		if (!$className) {

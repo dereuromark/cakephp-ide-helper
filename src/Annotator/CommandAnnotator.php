@@ -2,6 +2,8 @@
 
 namespace IdeHelper\Annotator;
 
+use RuntimeException;
+
 class CommandAnnotator extends AbstractAnnotator {
 
 	/**
@@ -15,6 +17,9 @@ class CommandAnnotator extends AbstractAnnotator {
 		}
 
 		$content = file_get_contents($path);
+		if ($content === false) {
+			throw new RuntimeException('Cannot read file');
+		}
 		$primaryModelClass = $this->getPrimaryModelClass($content);
 		$usedModels = $this->getUsedModels($content);
 		if ($primaryModelClass) {

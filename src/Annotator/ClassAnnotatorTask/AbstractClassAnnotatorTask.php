@@ -54,6 +54,9 @@ abstract class AbstractClassAnnotatorTask extends AbstractAnnotator {
 		$beginningOfLineIndex = $this->beginningOfLine($file, $classOrTraitIndex);
 
 		$prevCode = $file->findPrevious(Tokens::$emptyTokens, $beginningOfLineIndex - 1, null, true);
+		if ($prevCode === false) {
+			return false;
+		}
 
 		$closeTagIndex = $file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $beginningOfLineIndex - 1, $prevCode);
 		$this->resetCounter();

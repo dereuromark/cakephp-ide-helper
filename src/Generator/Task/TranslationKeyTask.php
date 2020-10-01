@@ -47,6 +47,9 @@ class TranslationKeyTask implements TaskInterface {
 
 		$domains = [];
 		$domainKeys = [];
+		/**
+		 * @var string $domain
+		 */
 		foreach ($translationKeys as $domain => $keys) {
 			if ($domain === 'default') {
 				$method = '\\' . static::METHOD_DEFAULT;
@@ -83,9 +86,10 @@ class TranslationKeyTask implements TaskInterface {
 	 * @return \IdeHelper\ValueObject\StringName[][]
 	 */
 	protected function translationKeys(): array {
-		$translationsKeys = $this->parseTranslations();
+		$translations = $this->parseTranslations();
 
-		foreach ($translationsKeys as $domain => $array) {
+		$translationsKeys = [];
+		foreach ($translations as $domain => $array) {
 			$result = [];
 			foreach ($array as $key) {
 				$result[$key] = StringName::create($key);

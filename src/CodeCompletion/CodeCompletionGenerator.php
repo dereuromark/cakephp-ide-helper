@@ -61,7 +61,7 @@ TXT;
 	 * @return string
 	 */
 	protected function type(string $namespace): string {
-		return preg_replace('/[^\da-z]/i', '', $namespace);
+		return (string)preg_replace('/[^\da-z]/i', '', $namespace);
 	}
 
 	/**

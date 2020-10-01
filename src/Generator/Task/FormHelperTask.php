@@ -39,7 +39,11 @@ class FormHelperTask extends ModelTask {
 
 		$allFields = [];
 		foreach ($models as $model => $className) {
+			/** @var class-string<object>|null $tableClass */
 			$tableClass = App::className($model, 'Model/Table', 'Table');
+			if (!$tableClass) {
+				continue;
+			}
 
 			$tableReflection = new ReflectionClass($tableClass);
 			if (!$tableReflection->isInstantiable()) {

@@ -130,7 +130,7 @@ class TaskCollection {
 		}
 
 		$keys = array_keys($tasks);
-		$keyMap = array_combine($keys, $keys);
+		$keyMap = array_combine($keys, $keys) ?: [];
 		foreach ($keyMap as $k => $v) {
 			preg_match('#\bTask\\\\([A-Za-z0-9]+)Task$#', $v, $matches);
 			if (!$matches) {
@@ -159,18 +159,21 @@ class TaskCollection {
 
 			if ($content === null) {
 				$content = file_get_contents($path);
+				if ($content === false) {
+					throw new RuntimeException('Cannot read file');
+				}
 				$result = $content;
 			}
 
-			$result = $task->run($result, $path);
+			$result = $task->run((string)$result, $path);
 		}
 
 		if ($content === null || $result === $content) {
 			return false;
 		}
 
-		$this->displayDiff($content, $result);
-		$this->storeFile($path, $result, $this->_config[static::CONFIG_DRY_RUN]);
+		$this->displayDiff($content, (string)$result);
+		$this->storeFile($path, (string)$result, $this->_config[static::CONFIG_DRY_RUN]);
 
 		return true;
 	}
@@ -186,6 +189,9 @@ class TaskCollection {
 
 		$begin = null;
 		$end = null;
+		/**
+		 * @var int $key
+		 */
 		foreach ($array as $key => $row) {
 			if ($row[1] === 0) {
 				continue;

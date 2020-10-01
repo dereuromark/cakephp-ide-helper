@@ -12,6 +12,7 @@ use IdeHelper\Annotation\MethodAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\ComponentTrait;
 use IdeHelper\Utility\App;
+use RuntimeException;
 use Throwable;
 
 class ControllerAnnotator extends AbstractAnnotator {
@@ -29,6 +30,9 @@ class ControllerAnnotator extends AbstractAnnotator {
 		}
 
 		$content = file_get_contents($path);
+		if ($content === false) {
+			throw new RuntimeException('Cannot read file');
+		}
 		$primaryModelName = $this->getPrimaryModelClass($content, $className, $path);
 
 		$usedModels = $this->getUsedModels($content);
@@ -147,6 +151,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 		$plugin = $className !== 'AppController' ? $this->getConfig(static::CONFIG_PLUGIN) : null;
 		$prefix = $this->getPrefix($className, $path);
 
+		/** @var class-string<object>|null $fullClassName */
 		$fullClassName = App::className(($plugin ? $plugin . '.' : '') . $className, 'Controller' . $prefix);
 		if (!$fullClassName) {
 			return [];

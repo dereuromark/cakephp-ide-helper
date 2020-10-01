@@ -21,6 +21,9 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 */
 	public function annotate(string $path): bool {
 		$content = file_get_contents($path);
+		if ($content === false) {
+			throw new RuntimeException('Cannot read file');
+		}
 
 		$annotations = $this->buildAnnotations($path, $content);
 
@@ -51,7 +54,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 		if ($needsPhpTag) {
 			$phpOpenTagIndex = null;
 		} else {
-			$docBlockCloseTagIndex = $this->findExistingDocBlock($file, $phpOpenTagIndex);
+			$docBlockCloseTagIndex = $phpOpenTagIndex !== null ? $this->findExistingDocBlock($file, $phpOpenTagIndex) : null;
 		}
 
 		$this->resetCounter();

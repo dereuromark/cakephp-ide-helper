@@ -10,7 +10,7 @@ use PHP_CodeSniffer\Config;
 $composerVendorDir = getcwd() . DS . 'vendor';
 $codesnifferDir = 'squizlabs' . DS . 'php_codesniffer';
 if (!is_dir($composerVendorDir . DS . $codesnifferDir)) {
-	$ideHelperDir = substr(__DIR__, 0, strpos(__DIR__, DS . 'cakephp-ide-helper'));
+	$ideHelperDir = substr(__DIR__, 0, (int)strpos(__DIR__, DS . 'cakephp-ide-helper'));
 	$composerVendorDir = dirname($ideHelperDir);
 }
 $manualAutoload = $composerVendorDir . DS . $codesnifferDir . DS . 'autoload.php';

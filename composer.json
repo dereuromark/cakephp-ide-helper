@@ -58,7 +58,7 @@
 		"test": "php phpunit.phar",
 		"test-setup": "[ ! -f phpunit.phar ] && curl -OL https://phar.phpunit.de/phpunit-8.5.2.phar && mv phpunit-8.5.2.phar phpunit.phar || true",
 		"test-coverage" : "php phpunit.phar --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml",
-		"stan": "phpstan analyse -c tests/phpstan.neon -l 6 src/",
+		"stan": "phpstan analyse -c tests/phpstan.neon -l 8 src/",
 		"stan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan:^0.12 && mv composer.backup composer.json",
 		"lowest": "validate-prefer-lowest",
 		"lowest-setup": "composer update --prefer-lowest --prefer-stable --prefer-dist --no-interaction && cp composer.json composer.backup && composer require --dev dereuromark/composer-prefer-lowest && mv composer.backup composer.json",

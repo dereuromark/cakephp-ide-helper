@@ -214,8 +214,8 @@ class EntityFieldTask extends AbstractTask {
 
 			$constant = $tokens[$index]['content'];
 
-			$pos = strpos($constant, '_');
-			$prefix = substr($constant, 0, $pos);
+			$pos = strpos($constant, '_') ?: 0;
+			$prefix = substr($constant, 0, $pos) ?: '';
 			if ($prefix . '_' !== static::PREFIX) {
 				continue;
 			}

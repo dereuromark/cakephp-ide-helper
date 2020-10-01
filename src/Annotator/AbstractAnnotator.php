@@ -28,7 +28,7 @@ use SebastianBergmann\Diff\Differ;
 $composerVendorDir = getcwd() . DS . 'vendor';
 $codesnifferDir = 'squizlabs' . DS . 'php_codesniffer';
 if (!is_dir($composerVendorDir . DS . $codesnifferDir)) {
-	$ideHelperDir = substr(__DIR__, 0, strpos(__DIR__, DS . 'cakephp-ide-helper'));
+	$ideHelperDir = substr(__DIR__, 0, strpos(__DIR__, DS . 'cakephp-ide-helper') ?: 0);
 	$composerVendorDir = dirname($ideHelperDir);
 }
 $manualAutoload = $composerVendorDir . DS . $codesnifferDir . DS . 'autoload.php';
@@ -109,6 +109,9 @@ abstract class AbstractAnnotator {
 
 		$begin = null;
 		$end = null;
+		/**
+		 * @var int $key
+		 */
 		foreach ($array as $key => $row) {
 			if ($row[1] === 0) {
 				continue;
@@ -418,6 +421,7 @@ abstract class AbstractAnnotator {
 	protected function parseExistingAnnotations(File $file, int $closeTagIndex, array $types = self::TYPES): array {
 		$tokens = $file->getTokens();
 
+		/** @var int $startTagIndex */
 		$startTagIndex = $tokens[$closeTagIndex]['comment_opener'];
 
 		$annotations = [];
@@ -827,6 +831,8 @@ abstract class AbstractAnnotator {
 	}
 
 	/**
+	 * @phpstan-param class-string<object> $className
+	 *
 	 * @param string $className
 	 *
 	 * @return bool
