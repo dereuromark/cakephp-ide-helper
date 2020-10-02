@@ -32,8 +32,7 @@ class BehaviorTask implements TaskInterface {
 	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
 	 */
 	public function collect(): array {
-
-		$addList = [];
+		$addList = $removeList = [];
 		$behaviors = $this->collectBehaviors();
 		foreach ($behaviors as $name => $className) {
 			$addList[$name] = StringName::create($name);
