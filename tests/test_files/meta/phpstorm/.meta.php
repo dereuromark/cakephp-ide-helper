@@ -367,6 +367,17 @@ namespace PHPSTORM_META {
 		])
 	);
 
+	expectedArguments(
+		\Cake\ORM\Table::removeBehavior(),
+		0,
+		'CounterCache',
+		'My',
+		'Nullable',
+		'Timestamp',
+		'Translate',
+		'Tree'
+	);
+
 	override(
 		\Cake\ORM\TableRegistry::get(0),
 		map([
