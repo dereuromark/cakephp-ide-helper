@@ -39,7 +39,7 @@ class FormHelperTask extends ModelTask {
 
 		$allFields = [];
 		foreach ($models as $model => $className) {
-			/** @var class-string<object>|null $tableClass */
+			/** @phpstan-var class-string<object>|null $tableClass */
 			$tableClass = App::className($model, 'Model/Table', 'Table');
 			if (!$tableClass) {
 				continue;

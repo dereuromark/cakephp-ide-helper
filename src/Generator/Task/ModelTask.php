@@ -105,7 +105,7 @@ class ModelTask implements TaskInterface {
 				$model = $plugin . '.' . $model;
 			}
 
-			/** @var class-string<object>|null $className */
+			/** @phpstan-var class-string<object>|null $className */
 			$className = App::className($model, 'Model/Table', 'Table');
 			if (!$className) {
 				continue;

@@ -113,7 +113,7 @@ class ViewAnnotator extends AbstractAnnotator {
 	protected function parseViewClass(): array {
 		$helpers = [];
 
-		/** @var class-string<object> $className */
+		/** @phpstan-var class-string<object> $className */
 		$className = App::classNameOrFail('App', 'Controller', 'Controller');
 		if ($this->_isAbstract($className)) {
 			return [];

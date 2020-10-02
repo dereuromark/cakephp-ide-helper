@@ -27,7 +27,7 @@ class HelperAnnotator extends AbstractAnnotator {
 		$name = substr($name, 0, -6);
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
 
-		/** @var class-string<object>|null $className */
+		/** @phpstan-var class-string<object>|null $className */
 		$className = App::className(($plugin ? $plugin . '.' : '') . $name, 'View/Helper', 'Helper');
 		if (!$className) {
 			return false;

@@ -42,7 +42,7 @@ class ModelAnnotator extends AbstractAnnotator {
 
 		$tableName = $plugin ? ($plugin . '.' . $modelName) : $modelName;
 		try {
-			/** @var class-string<object> $tableClass */
+			/** @phpstan-var class-string<object> $tableClass */
 			$tableClass = App::classNameOrFail($tableName, 'Model/Table', 'Table');
 		} catch (Throwable $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
@@ -330,7 +330,7 @@ class ModelAnnotator extends AbstractAnnotator {
 
 		$behaviors = $this->extractBehaviors($map);
 
-		/** @var class-string<object>|false $parentClass */
+		/** @phpstan-var class-string<object>|false $parentClass */
 		$parentClass = get_parent_class($table);
 		if (!$parentClass) {
 			return [];

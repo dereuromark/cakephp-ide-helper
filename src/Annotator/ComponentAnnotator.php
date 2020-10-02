@@ -26,7 +26,7 @@ class ComponentAnnotator extends AbstractAnnotator {
 
 		$name = substr($name, 0, -9);
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
-		/** @var class-string<object>|null $className */
+		/** @phpstan-var class-string<object>|null $className */
 		$className = App::className(($plugin ? $plugin . '.' : '') . $name, 'Controller/Component', 'Component');
 		if (!$className) {
 			return false;

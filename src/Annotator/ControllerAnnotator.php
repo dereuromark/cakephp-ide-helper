@@ -151,7 +151,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 		$plugin = $className !== 'AppController' ? $this->getConfig(static::CONFIG_PLUGIN) : null;
 		$prefix = $this->getPrefix($className, $path);
 
-		/** @var class-string<object>|null $fullClassName */
+		/** @phpstan-var class-string<object>|null $fullClassName */
 		$fullClassName = App::className(($plugin ? $plugin . '.' : '') . $className, 'Controller' . $prefix);
 		if (!$fullClassName) {
 			return [];

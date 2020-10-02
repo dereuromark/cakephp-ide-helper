@@ -83,10 +83,10 @@ class ShellAnnotator extends AbstractAnnotator {
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
 		$fullName = ($plugin ? $plugin . '.' : '') . $name;
 		if (substr($name, -4) === 'Task') {
-			/** @var class-string<object>|null $className */
+			/** @phpstan-var class-string<object>|null $className */
 			$className = App::className($fullName, 'Shell/Task');
 		} else {
-			/** @var class-string<object>|null $className */
+			/** @phpstan-var class-string<object>|null $className */
 			$className = App::className($fullName, 'Shell');
 		}
 		if (!$className) {
