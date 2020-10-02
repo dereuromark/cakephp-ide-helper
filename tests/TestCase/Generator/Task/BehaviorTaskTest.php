@@ -27,7 +27,7 @@ class BehaviorTaskTest extends TestCase {
 	public function testCollect() {
 		$result = $this->task->collect();
 
-		$this->assertCount(1, $result);
+		$this->assertCount(2, $result);
 
 		/** @var \IdeHelper\Generator\Directive\Override $directive */
 		$directive = array_shift($result);
@@ -40,6 +40,18 @@ class BehaviorTaskTest extends TestCase {
 
 		$expected = '\'Shim.Nullable\'';
 		$this->assertSame($expected, (string)$list['Shim.Nullable']);
+
+		/** @var \IdeHelper\Generator\Directive\Override $directive */
+		$directive = array_shift($result);
+		$this->assertSame('\Cake\ORM\Table::removeBehavior()', $directive->toArray()['method']);
+
+		$list = $directive->toArray()['list'];
+
+		$expected = '\'Timestamp\'';
+		$this->assertSame($expected, (string)$list['Timestamp']);
+
+		$expected = '\'Nullable\'';
+		$this->assertSame($expected, (string)$list['Nullable']);
 	}
 
 }

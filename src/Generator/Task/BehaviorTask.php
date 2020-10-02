@@ -17,26 +17,41 @@ class BehaviorTask implements TaskInterface {
 	/**
 	 * @var int[]
 	 */
-	protected $aliases = [
+	protected $addAliases = [
 		'\\' . self::CLASS_TABLE . '::addBehavior()' => 0,
+	];
+
+	/**
+	 * @var int[]
+	 */
+	protected $removeAliases = [
+		'\\' . self::CLASS_TABLE . '::removeBehavior()' => 0,
 	];
 
 	/**
 	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
 	 */
 	public function collect(): array {
-		$list = [];
-
+		$addList = $removeList = [];
 		$behaviors = $this->collectBehaviors();
 		foreach ($behaviors as $name => $className) {
-			$list[$name] = StringName::create($name);
+			$addList[$name] = StringName::create($name);
+			if (strpos($name, '.') !== false) {
+				[, $name] = pluginSplit($name);
+			}
+			$removeList[$name] = StringName::create($name);
 		}
 
-		ksort($list);
+		ksort($addList);
+		ksort($removeList);
 
 		$result = [];
-		foreach ($this->aliases as $alias => $position) {
-			$directive = new ExpectedArguments($alias, $position, $list);
+		foreach ($this->addAliases as $alias => $position) {
+			$directive = new ExpectedArguments($alias, $position, $addList);
+			$result[$directive->key()] = $directive;
+		}
+		foreach ($this->removeAliases as $alias => $position) {
+			$directive = new ExpectedArguments($alias, $position, $removeList);
 			$result[$directive->key()] = $directive;
 		}
 

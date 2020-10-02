@@ -111,6 +111,7 @@ Note: Using Configure key `'IdeHelper.preemptive'` set to `true` you can be a bi
 The following is now auto-completed, for example:
 ```php
 $this->addBehavior('Tools.Slugged');
+$this->removeBehavior('Slugged'); // Note the alias without plugin prefix
 ```
 
 #### Components
