@@ -2,41 +2,62 @@
 
 namespace IdeHelper\Generator\Task;
 
+use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
 use Cake\Filesystem\Folder;
+use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
 use IdeHelper\Utility\Plugin;
 use IdeHelper\ValueObject\ClassName;
+use IdeHelper\ValueObject\StringName;
 
 class ComponentTask implements TaskInterface {
 
 	public const CLASS_CONTROLLER = Controller::class;
+	public const CLASS_COMPONENT_REGISTRY = ComponentRegistry::class;
 
 	/**
 	 * @var string[]
 	 */
-	protected $aliases = [
+	protected $loadAliases = [
 		'\\' . self::CLASS_CONTROLLER . '::loadComponent(0)',
+	];
+
+	/**
+	 * @var int[]
+	 */
+	protected $unloadAliases = [
+		'\\' . self::CLASS_COMPONENT_REGISTRY . '::unload()' => 0,
 	];
 
 	/**
 	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
 	 */
 	public function collect(): array {
-		$map = [];
+		$addMap = [];
+		$removeList = [];
 
 		$components = $this->collectComponents();
 		foreach ($components as $name => $className) {
-			$map[$name] = ClassName::create($className);
+			$addMap[$name] = ClassName::create($className);
+			if (strpos($name, '.') !== false) {
+				[, $name] = pluginSplit($name);
+			}
+			$removeList[$name] = StringName::create($name);
 		}
 
-		ksort($map);
+		ksort($addMap);
+		ksort($removeList);
 
 		$result = [];
-		foreach ($this->aliases as $alias) {
-			$directive = new Override($alias, $map);
+		foreach ($this->loadAliases as $alias) {
+			$directive = new Override($alias, $addMap);
+			$result[$directive->key()] = $directive;
+		}
+		foreach ($this->unloadAliases as $alias => $position) {
+			$directive = new ExpectedArguments($alias, $position, $removeList);
 			$result[$directive->key()] = $directive;
 		}
 
