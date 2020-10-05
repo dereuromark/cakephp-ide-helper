@@ -144,8 +144,11 @@ class EntityAnnotator extends AbstractAnnotator {
 		}
 
 		if ($association->type() === Association::MANY_TO_ONE) {
-			/** @var string $field */
+			/** @var string|string[] $field */
 			$field = $association->getForeignKey();
+			if (is_array($field)) {
+				return false;
+			}
 			if (!isset($schema[$field]['null'])) {
 				return false;
 			}
