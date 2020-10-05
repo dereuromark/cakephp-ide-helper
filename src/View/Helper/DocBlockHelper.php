@@ -75,9 +75,13 @@ class DocBlockHelper extends BakeDocBlockHelper {
 			if ($info['kind'] === 'association') {
 				$type = $this->associatedEntityTypeToHintType($info['type'], $info['association']);
 				if ($info['association']->type() === Association::MANY_TO_ONE) {
+					$key = $info['association']->getForeignKey();
+					if (is_array($key)) {
+						$key = implode('-', $key);
+					}	
 					$properties = $this->_insertAfter(
 						$properties,
-						$info['association']->getForeignKey(),
+						$key,
 						[$property => $this->columnTypeNullable($info, $type)]
 					);
 				} else {
