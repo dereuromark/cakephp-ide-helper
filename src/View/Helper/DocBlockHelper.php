@@ -78,7 +78,7 @@ class DocBlockHelper extends BakeDocBlockHelper {
 					$key = $info['association']->getForeignKey();
 					if (is_array($key)) {
 						$key = implode('-', $key);
-					}	
+					}
 					$properties = $this->_insertAfter(
 						$properties,
 						$key,
