@@ -63,7 +63,11 @@ class DatabaseTableTask implements TaskInterface {
 			$tables = static::$tables;
 		} else {
 			$db = $this->getConnection();
-			$tables = (new TableScanner($db))->listAll();
+			try {
+				$tables = (new TableScanner($db))->listAll();
+			} catch (\Exception $exception) {
+				$tables = [];
+			}
 			static::$tables = $tables;
 		}
 
