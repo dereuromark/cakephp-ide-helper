@@ -3,6 +3,7 @@ language: php
 php:
   - 7.2
   - 7.4
+  - nightly
 
 env:
   matrix:
@@ -37,15 +38,13 @@ before_script:
   - if [[ $DB == 'mysql' ]]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi
   - if [[ $DB == 'pgsql' ]]; then psql -c 'CREATE DATABASE cakephp_test;' -U postgres; fi
 
-  - if [[ $CHECKS != 1 ]]; then composer require --dev phpunit/phpunit:"^8.0"; fi
+  - if [[ $CHECKS != 1 ]]; then composer require --ignore-platform-reqs --dev phpunit/phpunit:"^8.5 || ^9.0" cakephp/cakephp:"dev-4.next as 4.2"; fi
 
-  - if [[ $PREFER_LOWEST != 1 ]]; then composer install --prefer-source --no-interaction; fi
-  - if [[ $PREFER_LOWEST == 1 ]]; then composer update --prefer-lowest --prefer-stable --prefer-dist --no-interaction; fi
-  - if [[ $PREFER_LOWEST == 1 ]]; then composer require --dev dereuromark/composer-prefer-lowest:dev-master; fi
+  - if [[ $PREFER_LOWEST != 1 ]]; then composer install --prefer-source --no-interaction --ignore-platform-reqs; fi
+  - if [[ $PREFER_LOWEST == 1 ]]; then composer update --prefer-lowest --prefer-stable --prefer-dist --no-interaction --ignore-platform-reqs; fi
 
 script:
   - if [[ $DEFAULT == 1 ]]; then vendor/bin/phpunit; fi
-  - if [[ $PREFER_LOWEST == 1 ]]; then vendor/bin/validate-prefer-lowest -m; fi
 
   - if [[ $CODECOVERAGE == 1 ]]; then phpdbg -qrr vendor/bin/phpunit --coverage-clover=clover.xml; fi
 
