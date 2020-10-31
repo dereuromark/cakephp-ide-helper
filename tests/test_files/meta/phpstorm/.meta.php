@@ -592,7 +592,7 @@ namespace PHPSTORM_META {
 	expectedArguments(
 		\Migrations\Table::addColumn(),
 		0,
-		argumentsSet('tableNames')
+		argumentsSet('columnNames')
 	);
 
 	expectedArguments(
@@ -604,7 +604,7 @@ namespace PHPSTORM_META {
 	expectedArguments(
 		\Migrations\Table::changeColumn(),
 		0,
-		argumentsSet('tableNames')
+		argumentsSet('columnNames')
 	);
 
 	expectedArguments(
@@ -616,19 +616,19 @@ namespace PHPSTORM_META {
 	expectedArguments(
 		\Migrations\Table::hasColumn(),
 		0,
-		argumentsSet('tableNames')
+		argumentsSet('columnNames')
 	);
 
 	expectedArguments(
 		\Migrations\Table::removeColumn(),
 		0,
-		argumentsSet('tableNames')
+		argumentsSet('columnNames')
 	);
 
 	expectedArguments(
 		\Migrations\Table::renameColumn(),
 		0,
-		argumentsSet('tableNames')
+		argumentsSet('columnNames')
 	);
 
 	expectedArguments(
@@ -666,6 +666,14 @@ namespace PHPSTORM_META {
 		'_cake_core_',
 		'_cake_model_',
 		'default'
+	);
+
+	registerArgumentsSet(
+		'columnNames',
+		'content',
+		'created',
+		'id',
+		'name'
 	);
 
 	registerArgumentsSet(

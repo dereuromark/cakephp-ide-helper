@@ -12,7 +12,7 @@ use IdeHelper\ValueObject\StringName;
  */
 class DatabaseTableColumnNameTask extends DatabaseTableTask {
 
-	public const SET_TABLE_NAMES = 'tableNames';
+	public const SET_COLUMN_NAMES = 'columnNames';
 
 	/**
 	 * @var string[]
@@ -39,7 +39,7 @@ class DatabaseTableColumnNameTask extends DatabaseTableTask {
 		ksort($list);
 
 		$result = [];
-		$registerArgumentsSet = new RegisterArgumentsSet(static::SET_TABLE_NAMES, $list);
+		$registerArgumentsSet = new RegisterArgumentsSet(static::SET_COLUMN_NAMES, $list);
 		$result[$registerArgumentsSet->key()] = $registerArgumentsSet;
 
 		foreach ($this->aliases as $alias) {

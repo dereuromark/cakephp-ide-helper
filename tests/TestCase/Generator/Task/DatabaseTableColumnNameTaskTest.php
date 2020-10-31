@@ -51,7 +51,7 @@ class DatabaseTableColumnNameTaskTest extends TestCase {
 
 		/** @var \IdeHelper\Generator\Directive\RegisterArgumentsSet $directive */
 		$directive = array_shift($result);
-		$this->assertSame(DatabaseTableColumnNameTask::SET_TABLE_NAMES, $directive->toArray()['set']);
+		$this->assertSame(DatabaseTableColumnNameTask::SET_COLUMN_NAMES, $directive->toArray()['set']);
 
 		/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */
 		$directive = array_shift($result);
@@ -63,7 +63,7 @@ class DatabaseTableColumnNameTaskTest extends TestCase {
 		}, $list);
 
 		$expectedList = [
-			'argumentsSet(\'tableNames\')',
+			'argumentsSet(\'columnNames\')',
 		];
 		$this->assertSame($expectedList, $list);
 
