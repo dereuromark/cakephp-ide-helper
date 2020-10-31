@@ -13,7 +13,7 @@ use Migrations\Migrations;
  */
 class DatabaseTableColumnTypeTask implements TaskInterface {
 
-	public const SET_TABLE_TYPES = 'tableTypes';
+	public const SET_COLUMN_TYPES = 'columnTypes';
 
 	/**
 	 * @var string[]
@@ -66,7 +66,7 @@ class DatabaseTableColumnTypeTask implements TaskInterface {
 		ksort($list);
 
 		$result = [];
-		$registerArgumentsSet = new RegisterArgumentsSet(static::SET_TABLE_TYPES, $list);
+		$registerArgumentsSet = new RegisterArgumentsSet(static::SET_COLUMN_TYPES, $list);
 		$result[$registerArgumentsSet->key()] = $registerArgumentsSet;
 
 		foreach ($this->aliases as $alias) {

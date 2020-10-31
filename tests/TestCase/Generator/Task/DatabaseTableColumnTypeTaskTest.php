@@ -48,7 +48,7 @@ class DatabaseTableColumnTypeTaskTest extends TestCase {
 
 		/** @var \IdeHelper\Generator\Directive\RegisterArgumentsSet $directive */
 		$directive = array_shift($result);
-		$this->assertSame(DatabaseTableColumnTypeTask::SET_TABLE_TYPES, $directive->toArray()['set']);
+		$this->assertSame(DatabaseTableColumnTypeTask::SET_COLUMN_TYPES, $directive->toArray()['set']);
 
 		$list = $directive->toArray()['list'];
 		$list = array_map(function ($className) {
@@ -92,7 +92,7 @@ class DatabaseTableColumnTypeTaskTest extends TestCase {
 		}, $list);
 
 		$expectedList = [
-			'argumentsSet(\'tableTypes\')',
+			'argumentsSet(\'columnTypes\')',
 		];
 		$this->assertSame($expectedList, $list);
 	}
@@ -118,7 +118,7 @@ class DatabaseTableColumnTypeTaskTest extends TestCase {
 
 		/** @var \IdeHelper\Generator\Directive\RegisterArgumentsSet $directive */
 		$directive = array_shift($result);
-		$this->assertSame(DatabaseTableColumnTypeTask::SET_TABLE_TYPES, $directive->toArray()['set']);
+		$this->assertSame(DatabaseTableColumnTypeTask::SET_COLUMN_TYPES, $directive->toArray()['set']);
 
 		$list = $directive->toArray()['list'];
 		$list = array_map(function ($className) {
@@ -143,7 +143,7 @@ class DatabaseTableColumnTypeTaskTest extends TestCase {
 		}, $list);
 
 		$expectedList = [
-			'argumentsSet(\'tableTypes\')',
+			'argumentsSet(\'columnTypes\')',
 		];
 		$this->assertSame($expectedList, $list);
 

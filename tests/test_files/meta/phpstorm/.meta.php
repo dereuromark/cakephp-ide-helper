@@ -598,7 +598,7 @@ namespace PHPSTORM_META {
 	expectedArguments(
 		\Migrations\Table::addColumn(),
 		1,
-		argumentsSet('tableTypes')
+		argumentsSet('columnTypes')
 	);
 
 	expectedArguments(
@@ -610,7 +610,7 @@ namespace PHPSTORM_META {
 	expectedArguments(
 		\Migrations\Table::changeColumn(),
 		1,
-		argumentsSet('tableTypes')
+		argumentsSet('columnTypes')
 	);
 
 	expectedArguments(
@@ -677,18 +677,7 @@ namespace PHPSTORM_META {
 	);
 
 	registerArgumentsSet(
-		'routePaths',
-		'Awesome.Admin/AwesomeHouses::openDoor',
-		'Bar::index'
-	);
-
-	registerArgumentsSet(
-		'tableNames',
-		'wheels'
-	);
-
-	registerArgumentsSet(
-		'tableTypes',
+		'columnTypes',
 		'biginteger',
 		'binary',
 		'binaryuuid',
@@ -710,6 +699,17 @@ namespace PHPSTORM_META {
 		'timestamp',
 		'uuid',
 		'year'
+	);
+
+	registerArgumentsSet(
+		'routePaths',
+		'Awesome.Admin/AwesomeHouses::openDoor',
+		'Bar::index'
+	);
+
+	registerArgumentsSet(
+		'tableNames',
+		'wheels'
 	);
 
 	registerArgumentsSet(
