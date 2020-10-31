@@ -47,7 +47,7 @@ class DatabaseTableColumnNameTaskTest extends TestCase {
 	public function testCollect() {
 		$result = $this->task->collect();
 
-		$this->assertCount(6, $result);
+		$this->assertCount(7, $result);
 
 		/** @var \IdeHelper\Generator\Directive\RegisterArgumentsSet $directive */
 		$directive = array_shift($result);

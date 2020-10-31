@@ -632,6 +632,12 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
+		\Migrations\Table::renameColumn(),
+		1,
+		argumentsSet('columnNames')
+	);
+
+	expectedArguments(
 		\Phinx\Seed\AbstractSeed::table(),
 		0,
 		argumentsSet('tableNames')
