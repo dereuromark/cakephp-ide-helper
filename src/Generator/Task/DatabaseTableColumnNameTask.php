@@ -47,6 +47,9 @@ class DatabaseTableColumnNameTask extends DatabaseTableTask {
 			$result[$directive->key()] = $directive;
 		}
 
+		$directive = new ExpectedArguments('\Migrations\Table::renameColumn()', 1, [$registerArgumentsSet]);
+		$result[$directive->key()] = $directive;
+
 		return $result;
 	}
 
