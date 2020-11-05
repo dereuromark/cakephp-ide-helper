@@ -86,7 +86,7 @@ jobs:
       run: composer stan-setup
 
     - name: Run phpstan
-      run: composer stan --error-format=github
+      run: phpstan analyse -c tests/phpstan.neon -l 8 --error-format=github src/
 
     - name: Run phpcs
       run: composer cs-check
