@@ -34,6 +34,7 @@ jobs:
       run: |
         sudo service mysql start
         mysql -h 127.0.0.1 -u root -proot -e 'CREATE DATABASE cakephp;'
+
     - name: Setup PHP
       uses: shivammathur/setup-php@v1
       with:
@@ -52,6 +53,7 @@ jobs:
           composer install
         fi
         if [[ ${{ matrix.prefer-lowest == 'prefer-lowest' }} ]]; then composer require --dev dereuromark/composer-prefer-lowest:dev-master; fi
+
     - name: Run PHPUnit
       run: |
         if [[ ${{ matrix.db-type }} == 'sqlite' ]]; then export DB_URL='sqlite:///:memory:'; fi
@@ -62,6 +64,10 @@ jobs:
         else
           vendor/bin/phpunit
         fi
+
+    - name: Validate prefer-lowest
+      run: if [[ ${{ matrix.prefer-lowest == 'prefer-lowest' }} ]]; then vendor/bin/validate-prefer-lowest -m; fi        
+
     - name: Code Coverage Report
       if: success() && matrix.php-version == '7.2' && matrix.db-type == 'sqlite'
       uses: codecov/codecov-action@v1
@@ -91,6 +97,3 @@ jobs:
 
     - name: Run phpcs
       run: composer cs-check
-
-    - name: Validate prefer-lowest
-      run: if [[ ${{ matrix.prefer-lowest == 'prefer-lowest' }} ]]; then vendor/bin/validate-prefer-lowest -m; fi
