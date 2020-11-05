@@ -44,7 +44,8 @@ jobs:
 
     - name: Composer install
       run: |
-        composer  --version
+        composer --version
+        composer require --dev phpunit/phpunit:"^8.5"
         if [[ ${{ matrix.prefer-lowest == 'prefer-lowest' }} ]]; then
           composer update --prefer-lowest --prefer-stable
         else
@@ -86,7 +87,7 @@ jobs:
       run: composer stan-setup
 
     - name: Run phpstan
-      run: phpstan analyse -c tests/phpstan.neon -l 8 --error-format=github src/
+      run: vendor/bin/phpstan analyse -c tests/phpstan.neon -l 8 --error-format=github src/
 
     - name: Run phpcs
       run: composer cs-check
