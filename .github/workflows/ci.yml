@@ -1,0 +1,96 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  testsuite:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['7.2', '7.4']
+        db-type: [sqlite, mysql, pgsql]
+        prefer-lowest: ['']
+        include:
+          - php-version: '7.2'
+            db-type: 'sqlite'
+            prefer-lowest: 'prefer-lowest'
+
+    services:
+      postgres:
+        image: postgres
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_PASSWORD: postgres
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - name: Setup Service
+      if: matrix.db-type == 'mysql'
+      run: |
+        sudo service mysql start
+        mysql -h 127.0.0.1 -u root -proot -e 'CREATE DATABASE cakephp;'
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v1
+      with:
+        php-version: ${{ matrix.php-version }}
+        extension-csv: mbstring, intl, pdo_${{ matrix.db-type }}
+        coverage: pcov
+        pecl: false
+
+    - name: Composer install
+      run: |
+        composer  --version
+        if [[ ${{ matrix.prefer-lowest == 'prefer-lowest' }} ]]; then
+          composer update --prefer-lowest --prefer-stable
+        else
+          composer install
+        fi
+        if [[ ${{ matrix.prefer-lowest == 'prefer-lowest' }} ]]; then composer require --dev dereuromark/composer-prefer-lowest:dev-master; fi
+    - name: Run PHPUnit
+      run: |
+        if [[ ${{ matrix.db-type }} == 'sqlite' ]]; then export DB_URL='sqlite:///:memory:'; fi
+        if [[ ${{ matrix.db-type }} == 'mysql' ]]; then export DB_URL='mysql://root:root@127.0.0.1/cakephp'; fi
+        if [[ ${{ matrix.db-type }} == 'pgsql' ]]; then export DB_URL='postgres://postgres:postgres@127.0.0.1/postgres'; fi
+        if [[ ${{ matrix.php-version }} == '7.2' && ${{ matrix.db-type }} == 'sqlite' ]]; then
+          vendor/bin/phpunit --coverage-clover=coverage.xml
+        else
+          vendor/bin/phpunit
+        fi
+    - name: Code Coverage Report
+      if: success() && matrix.php-version == '7.2' && matrix.db-type == 'sqlite'
+      uses: codecov/codecov-action@v1
+
+  validation:
+    name: Coding Standard & Static Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v1
+      with:
+        php-version: '7.4'
+        extension-csv: mbstring, intl
+        coverage: none
+        pecl: false
+
+    - name: Composer Install
+      run: composer stan-setup
+
+    - name: Run phpstan
+      run: composer stan --error-format=github
+
+    - name: Run phpcs
+      run: composer cs-check
+
+    - name: Validate prefer-lowest
+      run: |
+        if [[ ${{ matrix.prefer-lowest == 'prefer-lowest' ]]; then vendor/bin/validate-prefer-lowest -m; fi
