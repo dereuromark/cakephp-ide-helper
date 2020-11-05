@@ -92,5 +92,4 @@ jobs:
       run: composer cs-check
 
     - name: Validate prefer-lowest
-      run: |
-        if [[ ${{ matrix.prefer-lowest == 'prefer-lowest' ]]; then vendor/bin/validate-prefer-lowest -m; fi
+      run: if [[ ${{ matrix.prefer-lowest == 'prefer-lowest' }} ]]; then vendor/bin/validate-prefer-lowest -m; fi
