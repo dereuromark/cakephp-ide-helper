@@ -1,6 +1,6 @@
 <?php
 
-namespace IdeHelper\Test\TestCase\CodeCompletion\Task;
+namespace IdeHelper\Test\TestCase\CodeCompletion;
 
 use Cake\TestSuite\TestCase;
 use IdeHelper\CodeCompletion\CodeCompletionGenerator;

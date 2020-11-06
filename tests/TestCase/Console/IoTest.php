@@ -1,6 +1,6 @@
 <?php
 
-namespace IdeHelper\Test\TestCase\Shell;
+namespace IdeHelper\Test\TestCase\Console;
 
 use Cake\Console\ConsoleIo;
 use Cake\Console\Exception\StopException;

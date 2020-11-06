@@ -1,5 +1,5 @@
 <?php
-namespace TestApp\Shell;
+namespace TestApp\Command;
 
 use Cake\Console\Command;
 
