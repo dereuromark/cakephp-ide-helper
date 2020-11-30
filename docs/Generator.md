@@ -180,7 +180,8 @@ Now not just bool true/false, but also the possible "magic strings" are typehint
 #### Configure keys
 ![Configure Autocomplete](img/configure_autocomplete.png)
 
-`Configure::read()` as well as the other methods areauto-completed for currently existing keys.
+`Configure::read()` as well as the other methods are auto-completed for currently existing keys.
+Numeric keys are excluded as they are usually not part of an associative array config.
 
 #### ENV keys
 `env()` is auto-completed for most common and used keys.
