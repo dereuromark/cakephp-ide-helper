@@ -9,20 +9,20 @@ use IdeHelper\ValueObject\StringName;
 
 class ConfigureTask implements TaskInterface {
 
-	public const CLASS_TABLE = Configure::class;
+	public const CLASS_CONFIGURE = Configure::class;
 	public const SET_CONFIGURE_KEYS = 'configureKeys';
 
 	/**
 	 * @var int[]
 	 */
 	protected $methods = [
-		'\\' . self::CLASS_TABLE . '::read()' => 0,
-		'\\' . self::CLASS_TABLE . '::readOrFail()' => 0,
-		'\\' . self::CLASS_TABLE . '::check()' => 0,
-		'\\' . self::CLASS_TABLE . '::write()' => 0,
-		'\\' . self::CLASS_TABLE . '::delete()' => 0,
-		'\\' . self::CLASS_TABLE . '::consume()' => 0,
-		'\\' . self::CLASS_TABLE . '::consumeOrFail()' => 0,
+		'\\' . self::CLASS_CONFIGURE . '::read()' => 0,
+		'\\' . self::CLASS_CONFIGURE . '::readOrFail()' => 0,
+		'\\' . self::CLASS_CONFIGURE . '::check()' => 0,
+		'\\' . self::CLASS_CONFIGURE . '::write()' => 0,
+		'\\' . self::CLASS_CONFIGURE . '::delete()' => 0,
+		'\\' . self::CLASS_CONFIGURE . '::consume()' => 0,
+		'\\' . self::CLASS_CONFIGURE . '::consumeOrFail()' => 0,
 	];
 
 	/**
