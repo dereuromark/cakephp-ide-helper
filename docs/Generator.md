@@ -22,6 +22,7 @@ PhpStorm TOC
   * [Validation](#validation)
     + [Validator::requirePresence()](#validator--requirepresence--)
   * [Request params](#request-params)
+  * [Configure keys](#configure-keys)
   * [ENV keys](#env-keys)
   * [Translation keys](#translation-keys)
   * [ConnectionManager](#connectionmanager)
@@ -175,6 +176,12 @@ Now not just bool true/false, but also the possible "magic strings" are typehint
 
 #### Request params
 `$this->request->getParam()` auto-completes for `prefix`, `controller` and other common keys.
+
+#### Configure keys
+![Configure Autocomplete](img/configure_autocomplete.png)
+
+`Configure::read()` as well as the other methods are auto-completed for currently existing keys.
+Numeric keys are excluded as they are usually not part of an associative array config.
 
 #### ENV keys
 `env()` is auto-completed for most common and used keys.

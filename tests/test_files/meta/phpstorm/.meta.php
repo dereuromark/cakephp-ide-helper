@@ -85,6 +85,48 @@ namespace PHPSTORM_META {
 		])
 	);
 
+	expectedArguments(
+		\Cake\Core\Configure::check(),
+		0,
+		argumentsSet('configureKeys')
+	);
+
+	expectedArguments(
+		\Cake\Core\Configure::consume(),
+		0,
+		argumentsSet('configureKeys')
+	);
+
+	expectedArguments(
+		\Cake\Core\Configure::consumeOrFail(),
+		0,
+		argumentsSet('configureKeys')
+	);
+
+	expectedArguments(
+		\Cake\Core\Configure::delete(),
+		0,
+		argumentsSet('configureKeys')
+	);
+
+	expectedArguments(
+		\Cake\Core\Configure::read(),
+		0,
+		argumentsSet('configureKeys')
+	);
+
+	expectedArguments(
+		\Cake\Core\Configure::readOrFail(),
+		0,
+		argumentsSet('configureKeys')
+	);
+
+	expectedArguments(
+		\Cake\Core\Configure::write(),
+		0,
+		argumentsSet('configureKeys')
+	);
+
 	override(
 		\Cake\Core\PluginApplicationInterface::addPlugin(0),
 		map([
@@ -705,6 +747,23 @@ namespace PHPSTORM_META {
 		'timestamp',
 		'uuid',
 		'year'
+	);
+
+	registerArgumentsSet(
+		'configureKeys',
+		'App',
+		'App.encoding',
+		'App.namespace',
+		'App.paths',
+		'App.paths.templates',
+		'IdeHelper',
+		'IdeHelper.skipDatabaseTables',
+		'debug',
+		'plugins',
+		'plugins.Bake',
+		'plugins.Cake/TwigView',
+		'plugins.Migrations',
+		'plugins.Shim'
 	);
 
 	registerArgumentsSet(
