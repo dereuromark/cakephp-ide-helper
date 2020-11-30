@@ -72,8 +72,9 @@ class ConfigureTask implements TaskInterface {
 
 			$subPath = $path;
 			$subPath[] = $key;
+			$subPathString = implode('.', $subPath);
 
-			$keys[implode('.', $subPath)] = StringName::create($key);
+			$keys[$subPathString] = StringName::create($subPathString);
 
 			if (!is_array($row)) {
 				continue;

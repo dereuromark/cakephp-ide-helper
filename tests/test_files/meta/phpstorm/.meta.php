@@ -752,18 +752,18 @@ namespace PHPSTORM_META {
 	registerArgumentsSet(
 		'configureKeys',
 		'App',
-		'encoding',
-		'namespace',
-		'paths',
-		'templates',
+		'App.encoding',
+		'App.namespace',
+		'App.paths',
+		'App.paths.templates',
 		'IdeHelper',
-		'skipDatabaseTables',
+		'IdeHelper.skipDatabaseTables',
 		'debug',
 		'plugins',
-		'Bake',
-		'Cake/TwigView',
-		'Migrations',
-		'Shim'
+		'plugins.Bake',
+		'plugins.Cake/TwigView',
+		'plugins.Migrations',
+		'plugins.Shim'
 	);
 
 	registerArgumentsSet(

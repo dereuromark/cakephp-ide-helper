@@ -60,6 +60,9 @@ class ConfigureTaskTest extends TestCase {
 		$result = $this->invokeMethod($this->task, 'collectKeys');
 
 		$this->assertArrayHasKey('App.paths.templates', $result);
+		$this->assertArrayNotHasKey('paths', $result);
+		$this->assertArrayNotHasKey('templates', $result);
+
 		$this->assertSame('\'debug\'', (string)$result['debug']);
 	}
 
