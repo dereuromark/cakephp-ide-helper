@@ -10,7 +10,6 @@ use IdeHelper\ValueObject\StringName;
 class CacheTask implements TaskInterface {
 
 	public const CLASS_CACHE = Cache::class;
-
 	public const SET_CACHE_ENGINES = 'cacheEngines';
 
 	/**
