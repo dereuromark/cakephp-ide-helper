@@ -1,16 +1,10 @@
-services:
-	-
-		class: IdeHelper\PHPStan\AssociationTableMixinClassReflectionExtension
-		tags:
-			- phpstan.broker.methodsClassReflectionExtension
-			- phpstan.broker.propertiesClassReflectionExtension
 parameters:
+	level: 6
+	paths:
+		- TestCase/
 	bootstrapFiles:
 		- bootstrap.php
+		- ../phpunit.phar
 		- shim.php
 	checkMissingIterableValueType: false
 	ignoreErrors:
-		- '#Parameter \#1 \$association of method .+ModelAnnotator::throughAlias\(\) expects .+BelongsToMany, .+Association given.#'
-		- '#Unsafe usage of new static\(\).+#'
-		- '#Access to an undefined property .+DocBlockHelper::\$virtualFields.#'
-		- '#Parameter \#1 \$object of function get_class expects object, object\|string given.#'

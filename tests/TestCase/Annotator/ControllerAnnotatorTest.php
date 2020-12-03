@@ -32,6 +32,11 @@ class ControllerAnnotatorTest extends TestCase {
 	protected $err;
 
 	/**
+	 * @var \IdeHelper\Console\Io
+	 */
+	protected $io;
+
+	/**
 	 * @return void
 	 */
 	public function setUp(): void {

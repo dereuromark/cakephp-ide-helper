@@ -1,6 +1,6 @@
 name: CI
 
-on: 
+on:
   push:
   pull_request:
   schedule:
@@ -120,7 +120,7 @@ jobs:
       run: composer stan-setup
 
     - name: Run phpstan
-      run: vendor/bin/phpstan analyse -c tests/phpstan.neon -l 8 --error-format=github src/
+      run: vendor/bin/phpstan analyse --error-format=github
 
     - name: Run phpcs
       run: composer cs-check
