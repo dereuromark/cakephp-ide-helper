@@ -102,7 +102,6 @@ jobs:
         php-version: '7.4'
         extensions: mbstring, intl
         coverage: none
-        pecl: false
 
     - name: Get composer cache directory
       id: composercache
