@@ -43,9 +43,8 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-version }}
-        extension-csv: mbstring, intl, pdo_${{ matrix.db-type }}
+        extensions: mbstring, intl, pdo_${{ matrix.db-type }}
         coverage: pcov
-        pecl: false
 
     - name: Get composer cache directory
       id: composercache
