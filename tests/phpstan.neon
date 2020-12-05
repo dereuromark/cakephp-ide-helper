@@ -7,4 +7,7 @@ parameters:
 		- ../phpunit.phar
 		- shim.php
 	checkMissingIterableValueType: false
+	earlyTerminatingMethodCalls:
+		Cake\Console\Shell:
+			- abort
 	ignoreErrors:
