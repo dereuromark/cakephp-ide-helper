@@ -37,7 +37,7 @@ class EntityTaskTest extends TestCase {
 	public function testCollect() {
 		$result = $this->task->collect();
 
-		$this->assertCount(66, $result);
+		$this->assertCount(88, $result);
 
 		/** @var \IdeHelper\Generator\Directive\RegisterArgumentsSet $directive */
 		$directive = array_shift($result);
@@ -53,7 +53,6 @@ class EntityTaskTest extends TestCase {
 			'content' => "'content'",
 			'created' => "'created'",
 			'id' => "'id'",
-			'modified' => "'modified'",
 			'name' => "'name'",
 		];
 		$this->assertSame($expected, $list);

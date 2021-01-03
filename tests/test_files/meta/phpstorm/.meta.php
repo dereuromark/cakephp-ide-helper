@@ -939,6 +939,126 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
+		\TestApp\Model\Entity\BarBar::get(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBar')
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\BarBar::getError(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBar')
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\BarBar::getInvalidField(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBar')
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\BarBar::getOriginal(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBar')
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\BarBar::has(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBar')
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\BarBar::hasValue(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBar')
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\BarBar::isDirty(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBar')
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\BarBar::isEmpty(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBar')
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\BarBar::setDirty(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBar')
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\BarBar::setError(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBar')
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\BarBarsAbstract::get(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract')
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\BarBarsAbstract::getError(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract')
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\BarBarsAbstract::getInvalidField(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract')
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\BarBarsAbstract::getOriginal(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract')
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\BarBarsAbstract::has(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract')
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\BarBarsAbstract::hasValue(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract')
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\BarBarsAbstract::isDirty(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract')
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\BarBarsAbstract::isEmpty(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract')
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\BarBarsAbstract::setDirty(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract')
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\BarBarsAbstract::setError(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract')
+	);
+
+	expectedArguments(
 		\TestApp\Model\Entity\Car::get(),
 		0,
 		argumentsSet('entityFields:TestApp\Model\Entity\Car')
@@ -1163,6 +1283,22 @@ namespace PHPSTORM_META {
 
 	registerArgumentsSet(
 		'entityFields:Relations\Model\Entity\User',
+		'id',
+		'name'
+	);
+
+	registerArgumentsSet(
+		'entityFields:TestApp\Model\Entity\BarBar',
+		'content',
+		'created',
+		'id',
+		'name'
+	);
+
+	registerArgumentsSet(
+		'entityFields:TestApp\Model\Entity\BarBarsAbstract',
+		'content',
+		'created',
 		'id',
 		'name'
 	);
