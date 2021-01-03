@@ -27,7 +27,7 @@ class ComponentTaskTest extends TestCase {
 	public function testCollect() {
 		$result = $this->task->collect();
 
-		$this->assertCount(1, $result);
+		$this->assertCount(2, $result);
 
 		/** @var \IdeHelper\Generator\Directive\Override $directive */
 		$directive = array_shift($result);

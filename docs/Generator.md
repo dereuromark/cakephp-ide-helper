@@ -128,7 +128,8 @@ $this->removeBehavior('Slugged'); // Note the alias without plugin prefix
 #### Components
 The following is now auto-completed, for example:
 ```php
-$this->loadComponent('Security');
+$this->loadComponent('My.Useful');
+$this->components()->unload('Useful'); // Note the alias without plugin prefix
 ```
 
 #### Helpers
