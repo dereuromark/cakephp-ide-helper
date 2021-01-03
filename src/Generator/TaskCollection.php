@@ -14,6 +14,7 @@ use IdeHelper\Generator\Task\DatabaseTableColumnTypeTask;
 use IdeHelper\Generator\Task\DatabaseTableTask;
 use IdeHelper\Generator\Task\DatabaseTypeTask;
 use IdeHelper\Generator\Task\ElementTask;
+use IdeHelper\Generator\Task\EntityTask;
 use IdeHelper\Generator\Task\EnvTask;
 use IdeHelper\Generator\Task\FixtureTask;
 use IdeHelper\Generator\Task\FormHelperTask;
@@ -61,6 +62,7 @@ class TaskCollection {
 		DatabaseTableTask::class => DatabaseTableTask::class,
 		DatabaseTableColumnNameTask::class => DatabaseTableColumnNameTask::class,
 		DatabaseTableColumnTypeTask::class => DatabaseTableColumnTypeTask::class,
+		EntityTask::class => EntityTask::class,
 		FixtureTask::class => FixtureTask::class,
 		TranslationKeyTask::class => TranslationKeyTask::class,
 		ConfigureTask::class => ConfigureTask::class,

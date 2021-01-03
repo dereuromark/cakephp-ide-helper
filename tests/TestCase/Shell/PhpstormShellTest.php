@@ -43,6 +43,8 @@ class PhpstormShellTest extends TestCase {
 		}
 		if (file_exists(TMP . 'phpstorm' . DS . '.meta.php')) {
 			unlink(TMP . 'phpstorm' . DS . '.meta.php');
+		}
+		if (is_dir(TMP . 'phpstorm')) {
 			rmdir(TMP . 'phpstorm');
 		}
 

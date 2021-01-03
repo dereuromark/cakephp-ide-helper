@@ -8,6 +8,7 @@ PhpStorm TOC
 - [Available tasks](#available-tasks)
   * [Plugins](#plugins)
   * [Models](#models)
+  * [Entities](#entities)
   * [TableAssociations](#tableassociations)
   * [TableFinders](#tablefinders)
   * [Behaviors](#behaviors)
@@ -88,6 +89,15 @@ $users->doSomething();
 It now knows the concrete object of `$users` and can autocomplete the method call right away.
 
 You will not be able to quickly select from a list of input options, however.
+
+#### Entities
+The following is now auto-completed, for example:
+```php
+$user->setDirty('field_name');
+$user->setError('field_name');
+$user->getOriginal('field_name');
+...
+```
 
 #### TableAssociations
 The following is now auto-completed, for example:

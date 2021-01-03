@@ -52,9 +52,7 @@ class PhpstormGeneratorTest extends TestCase {
 		Configure::write('IdeHelper.skipDatabaseTables', ['/^(?!wheels)/']);
 
 		$result = $this->generator->generate();
-		if ($this->isDebug()) {
-			file_put_contents(TMP . '.meta.php', $result);
-		}
+		file_put_contents(TMP . '.meta.php', $result);
 
 		$file = Plugin::path('IdeHelper') . 'tests' . DS . 'test_files' . DS . 'meta' . DS . 'phpstorm' . DS . '.meta.php';
 		$expected = file_get_contents($file);
