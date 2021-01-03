@@ -70,6 +70,19 @@ namespace PHPSTORM_META {
 
 	exitPoint(\Cake\Console\ConsoleIo::abort());
 
+	expectedArguments(
+		\Cake\Controller\ComponentRegistry::unload(),
+		0,
+		'Auth',
+		'Flash',
+		'FormProtection',
+		'My',
+		'MyOther',
+		'Paginator',
+		'RequestHandler',
+		'Security'
+	);
+
 	override(
 		\Cake\Controller\Controller::loadComponent(0),
 		map([
