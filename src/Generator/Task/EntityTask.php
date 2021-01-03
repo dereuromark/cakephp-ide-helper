@@ -62,13 +62,14 @@ class EntityTask extends ModelTask {
 				$fields = $tableObject->getSchema()->columns();
 			} catch (\Exception $exception) {
 				// Do nothing
+				$tableObject = null;
 			}
 
 			if (!$fields) {
 				continue;
 			}
 
-			$entityClass = $tableObject->getEntityClass();
+			$entityClass = $tableObject ? $tableObject->getEntityClass() : null;
 
 			$list = [];
 			foreach ($fields as $field) {
