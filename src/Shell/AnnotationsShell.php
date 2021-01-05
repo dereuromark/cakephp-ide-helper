@@ -320,6 +320,10 @@ class AnnotationsShell extends Shell {
 		}
 
 		foreach ($folderContent[0] as $subFolder) {
+			if ($subFolder === 'Component') {
+				continue;
+			}
+
 			$prefixes = (array)Configure::read('IdeHelper.prefixes') ?: null;
 
 			if ($prefixes !== null && !in_array($subFolder, $prefixes, true)) {
