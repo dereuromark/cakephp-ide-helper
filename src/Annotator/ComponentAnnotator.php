@@ -111,8 +111,7 @@ class ComponentAnnotator extends AbstractAnnotator {
 	 *
 	 * @return bool
 	 */
-	protected function hasControllerAnnotation(string $content): bool
-	{
+	protected function hasControllerAnnotation(string $content): bool {
 		return strpos($content, '$this->getController()') !== false;
 	}
 
