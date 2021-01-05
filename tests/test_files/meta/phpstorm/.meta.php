@@ -77,7 +77,7 @@ namespace PHPSTORM_META {
 		'Flash',
 		'FormProtection',
 		'My',
-		'MyComponent',
+		'MyController',
 		'MyOther',
 		'Paginator',
 		'RequestHandler',
