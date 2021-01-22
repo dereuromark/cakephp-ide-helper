@@ -3,6 +3,7 @@
 namespace IdeHelper\Generator\Task;
 
 use Cake\Filesystem\Folder;
+use Cake\ORM\Table;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
@@ -112,7 +113,7 @@ class ModelTask implements TaskInterface {
 			}
 
 			$reflectionClass = new ReflectionClass($className);
-			if (!$reflectionClass->isInstantiable() || !$reflectionClass->isSubclassOf(\Cake\ORM\Table::class)) {
+			if (!$reflectionClass->isInstantiable() || !$reflectionClass->isSubclassOf(Table::class)) {
 				continue;
 			}
 
