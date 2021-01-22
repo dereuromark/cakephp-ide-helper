@@ -112,7 +112,7 @@ class ModelTask implements TaskInterface {
 			}
 
 			$reflectionClass = new ReflectionClass($className);
-			if (!$reflectionClass->isInstantiable()) {
+			if (!$reflectionClass->isInstantiable() || !$reflectionClass->isSubclassOf(\Cake\ORM\Table::class)) {
 				continue;
 			}
 
