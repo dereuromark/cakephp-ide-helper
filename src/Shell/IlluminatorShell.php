@@ -27,7 +27,7 @@ class IlluminatorShell extends Shell {
 	 */
 	public function illuminate($path = null) {
 		if (!$path) {
-			$path = 'src/';
+			$path = 'src' . DS;
 		}
 
 		$root = ROOT . DS;
