@@ -176,12 +176,58 @@ class AnnotationsShellTest extends TestCase {
 	}
 
 	/**
+	 * @return array
+	 */
+	public function provideSubcommandsForCiModeTest() {
+		return [
+			'models' => ['models'],
+			'view' => ['view'],
+			'helpers' => ['helpers'],
+			'components' => ['components'],
+			'shells' => ['shells'],
+			'templates' => ['templates'],
+			'controllers' => ['controllers'],
+		];
+	}
+
+	/**
+	 * @dataProvider provideSubcommandsForCiModeTest
+	 *
+	 * @param string $subcommand The subcommand to be tested
+	 * @return void
+	 */
+	public function testIndividualSubcommandCiModeNoChanges($subcommand) {
+		$this->skipIf($subcommand === 'view', 'View does not support the plugin parameter');
+
+		$result = $this->Shell->runCommand([$subcommand, '-d', '-v', '--ci', '-p', 'Awesome']);
+
+		$this->assertSame(AnnotationsShell::CODE_SUCCESS, $result);
+	}
+
+	/**
+	 * @dataProvider provideSubcommandsForCiModeTest
+	 *
+	 * @param string $subcommand The subcommand to be tested
+	 * @return void
+	 */
+	public function testIndividualSubcommandCiModeChanges($subcommand) {
+		$result = $this->Shell->runCommand([$subcommand, '-d', '-v', '--ci']);
+
+		if ($result !== AnnotationsShell::CODE_CHANGES) {
+			debug($this->out->output());
+			debug($this->err->output());
+		}
+
+		$this->assertSame(AnnotationsShell::CODE_CHANGES, $result, 'Expected ' . $subcommand . ' subcommand to return code ' . AnnotationsShell::CODE_CHANGES);
+	}
+
+	/**
 	 * @return void
 	 */
 	public function testClasses() {
 		$result = $this->Shell->runCommand(['classes', '-d', '-v']);
 
-		$this->assertNull($result);
+		$this->assertEquals(0, $result);
 	}
 
 	/**
@@ -190,7 +236,7 @@ class AnnotationsShellTest extends TestCase {
 	public function testCallbacks() {
 		$result = $this->Shell->runCommand(['callbacks', '-d', '-v']);
 
-		$this->assertNull($result);
+		$this->assertEquals(0, $result);
 	}
 
 }
