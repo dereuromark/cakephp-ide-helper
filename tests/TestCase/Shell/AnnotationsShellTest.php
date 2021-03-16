@@ -227,7 +227,7 @@ class AnnotationsShellTest extends TestCase {
 	public function testClasses() {
 		$result = $this->Shell->runCommand(['classes', '-d', '-v']);
 
-		$this->assertEquals(0, $result);
+		$this->assertSame(AnnotationsShell::CODE_SUCCESS, $result);
 	}
 
 	/**
@@ -236,7 +236,7 @@ class AnnotationsShellTest extends TestCase {
 	public function testCallbacks() {
 		$result = $this->Shell->runCommand(['callbacks', '-d', '-v']);
 
-		$this->assertEquals(0, $result);
+		$this->assertSame(AnnotationsShell::CODE_SUCCESS, $result);
 	}
 
 }
