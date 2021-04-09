@@ -54,7 +54,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 		if ($needsPhpTag) {
 			$phpOpenTagIndex = null;
 		} else {
-			$docBlockCloseTagIndex = $phpOpenTagIndex !== null ? $this->findExistingDocBlock($file, $phpOpenTagIndex) : null;
+			$docBlockCloseTagIndex = $this->findExistingDocBlock($file, $phpOpenTagIndex);
 		}
 
 		$this->resetCounter();
