@@ -46,6 +46,11 @@ class AnnotationsShell extends Shell {
 	];
 
 	/**
+	 * @var array
+	 */
+	protected $_instantiatedAnnotators = [];
+
+	/**
 	 * @return void
 	 */
 	public function startup(): void {
@@ -64,7 +69,7 @@ class AnnotationsShell extends Shell {
 	}
 
 	/**
-	 * @return void
+	 * @return int
 	 */
 	public function callbacks() {
 		$plugin = (string)$this->param('plugin') ?: null;
@@ -80,6 +85,12 @@ class AnnotationsShell extends Shell {
 		foreach ($folders as $folder) {
 			$this->_callbacks($folder . DS);
 		}
+
+		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
+			return static::CODE_CHANGES;
+		}
+
+		return static::CODE_SUCCESS;
 	}
 
 	/**
@@ -169,7 +180,7 @@ class AnnotationsShell extends Shell {
 
 			$this->$type();
 
-			if (AbstractAnnotator::$output !== false) {
+			if ($this->_annotatorMadeChanges()) {
 				$changes = true;
 			}
 		}
@@ -182,7 +193,7 @@ class AnnotationsShell extends Shell {
 	}
 
 	/**
-	 * @return void
+	 * @return int
 	 */
 	public function models() {
 		$plugin = (string)$this->param('plugin') ?: null;
@@ -191,6 +202,12 @@ class AnnotationsShell extends Shell {
 		foreach ($folders as $folder) {
 			$this->_models($folder);
 		}
+
+		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
+			return static::CODE_CHANGES;
+		}
+
+		return static::CODE_SUCCESS;
 	}
 
 	/**
@@ -216,7 +233,7 @@ class AnnotationsShell extends Shell {
 	}
 
 	/**
-	 * @return void
+	 * @return int
 	 */
 	public function classes() {
 		$plugin = (string)$this->param('plugin') ?: null;
@@ -233,13 +250,13 @@ class AnnotationsShell extends Shell {
 		$collection = new ClassAnnotatorTaskCollection();
 		$tasks = $collection->defaultTasks();
 		if (!in_array(TestClassAnnotatorTask::class, $tasks, true)) {
-			return;
+			return static::CODE_SUCCESS;
 		}
 
 		$path = $plugin ? PluginPath::get($plugin) : ROOT . DS;
 		$path .= 'tests' . DS . 'TestCase' . DS;
 		if (!is_dir($path)) {
-			return;
+			return static::CODE_SUCCESS;
 		}
 
 		$folder = new Folder($path);
@@ -247,6 +264,12 @@ class AnnotationsShell extends Shell {
 		foreach ($folders as $folder) {
 			$this->_classes($folder . DS);
 		}
+
+		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
+			return static::CODE_CHANGES;
+		}
+
+		return static::CODE_SUCCESS;
 	}
 
 	/**
@@ -287,7 +310,7 @@ class AnnotationsShell extends Shell {
 	}
 
 	/**
-	 * @return void
+	 * @return int
 	 */
 	public function controllers() {
 		$plugin = (string)$this->param('plugin') ?: null;
@@ -296,6 +319,12 @@ class AnnotationsShell extends Shell {
 		foreach ($folders as $folder) {
 			$this->_controllers($folder);
 		}
+
+		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
+			return static::CODE_CHANGES;
+		}
+
+		return static::CODE_SUCCESS;
 	}
 
 	/**
@@ -335,7 +364,7 @@ class AnnotationsShell extends Shell {
 	}
 
 	/**
-	 * @return void
+	 * @return int
 	 */
 	public function templates() {
 		$plugin = (string)$this->param('plugin') ?: null;
@@ -344,6 +373,12 @@ class AnnotationsShell extends Shell {
 		foreach ($folders as $folder) {
 			$this->_templates($folder);
 		}
+
+		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
+			return static::CODE_CHANGES;
+		}
+
+		return static::CODE_SUCCESS;
 	}
 
 	/**
@@ -393,7 +428,7 @@ class AnnotationsShell extends Shell {
 	}
 
 	/**
-	 * @return void
+	 * @return int
 	 */
 	public function helpers() {
 		$plugin = (string)$this->param('plugin') ?: null;
@@ -402,6 +437,12 @@ class AnnotationsShell extends Shell {
 		foreach ($folders as $folder) {
 			$this->_helpers($folder);
 		}
+
+		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
+			return static::CODE_CHANGES;
+		}
+
+		return static::CODE_SUCCESS;
 	}
 
 	/**
@@ -429,7 +470,7 @@ class AnnotationsShell extends Shell {
 	}
 
 	/**
-	 * @return void
+	 * @return int
 	 */
 	public function components() {
 		$plugin = (string)$this->param('plugin') ?: null;
@@ -438,6 +479,12 @@ class AnnotationsShell extends Shell {
 		foreach ($folders as $folder) {
 			$this->_components($folder);
 		}
+
+		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
+			return static::CODE_CHANGES;
+		}
+
+		return static::CODE_SUCCESS;
 	}
 
 	/**
@@ -465,7 +512,7 @@ class AnnotationsShell extends Shell {
 	}
 
 	/**
-	 * @return void
+	 * @return int
 	 */
 	public function commands() {
 		$plugin = (string)$this->param('plugin') ?: null;
@@ -474,10 +521,16 @@ class AnnotationsShell extends Shell {
 		foreach ($folders as $folder) {
 			$this->_commands($folder);
 		}
+
+		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
+			return static::CODE_CHANGES;
+		}
+
+		return static::CODE_SUCCESS;
 	}
 
 	/**
-	 * @return void
+	 * @return int
 	 */
 	public function shells() {
 		$plugin = (string)$this->param('plugin') ?: null;
@@ -486,6 +539,12 @@ class AnnotationsShell extends Shell {
 		foreach ($folders as $folder) {
 			$this->_shells($folder);
 		}
+
+		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
+			return static::CODE_CHANGES;
+		}
+
+		return static::CODE_SUCCESS;
 	}
 
 	/**
@@ -533,7 +592,7 @@ class AnnotationsShell extends Shell {
 	}
 
 	/**
-	 * @return void
+	 * @return int
 	 */
 	public function view() {
 		if ($this->param('plugin')) {
@@ -548,7 +607,7 @@ class AnnotationsShell extends Shell {
 		if (!$className || !file_exists($file)) {
 			$this->warn('You need to create `AppView.php` first in `src/View/`.');
 
-			return;
+			return static::CODE_SUCCESS;
 		}
 
 		$folder = pathinfo($file, PATHINFO_DIRNAME);
@@ -557,6 +616,12 @@ class AnnotationsShell extends Shell {
 
 		$annotator = $this->getAnnotator(ViewAnnotator::class);
 		$annotator->annotate($file);
+
+		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
+			return static::CODE_CHANGES;
+		}
+
+		return static::CODE_SUCCESS;
 	}
 
 	/**
@@ -585,6 +650,10 @@ class AnnotationsShell extends Shell {
 					'help' => 'Filter by search string in file name. For templates also in path.',
 					'default' => null,
 				],
+				'ci' => [
+					'help' => 'Enable CI mode (requires dry-run). This will return an error code ' . static::CODE_CHANGES . ' if changes are necessary.',
+					'boolean' => true,
+				],
 			],
 		];
 
@@ -595,10 +664,6 @@ class AnnotationsShell extends Shell {
 		$allParser['options']['interactive'] = [
 			'short' => 'i',
 			'help' => 'Interactive mode (prompt before each type).',
-			'boolean' => true,
-		];
-		$allParser['options']['ci'] = [
-			'help' => 'Enable CI mode (requires dry-run). This will return an error code ' . static::CODE_CHANGES . ' if changes are necessary.',
 			'boolean' => true,
 		];
 
@@ -684,7 +749,18 @@ class AnnotationsShell extends Shell {
 			$class = $tasks[$class];
 		}
 
-		return new $class($this->_io(), $this->params);
+		if (!isset($this->_instantiatedAnnotators[$class])) {
+			$this->_instantiatedAnnotators[$class] = new $class($this->_io(), $this->params);
+		}
+
+		return $this->_instantiatedAnnotators[$class];
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function _annotatorMadeChanges(): bool {
+		return AbstractAnnotator::$output !== false;
 	}
 
 }
