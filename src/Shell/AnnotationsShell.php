@@ -141,11 +141,12 @@ class AnnotationsShell extends Shell {
 			'commands',
 			'components',
 			'helpers',
-			'templates',
 		];
 		if (!$this->param('plugin') && !$this->param('filter')) {
 			$types[] = 'view';
 		}
+		$types[] = 'templates';
+
 		if ($this->param('remove')) {
 			$this->verbose('Skipping "classes" and "callbacks" annotations, they do not support removing.');
 		} else {
