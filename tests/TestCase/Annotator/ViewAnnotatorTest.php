@@ -8,10 +8,12 @@ use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\ViewAnnotator;
 use IdeHelper\Console\Io;
 use Shim\TestSuite\ConsoleOutput;
+use Shim\TestSuite\TestTrait;
 
 class ViewAnnotatorTest extends TestCase {
 
 	use DiffHelperTrait;
+	use TestTrait;
 
 	/**
 	 * @var \Shim\TestSuite\ConsoleOutput
@@ -76,6 +78,20 @@ class ViewAnnotatorTest extends TestCase {
 		];
 
 		return $this->getMockBuilder(ViewAnnotator::class)->setMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testGetHelpers(): void {
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$result = $this->invokeMethod($annotator, 'addExtractedHelpers', [[]]);
+		$expected = [
+			'My' => 'TestApp\View\Helper\MyHelper',
+			'Configure' => 'Shim\View\Helper\ConfigureHelper',
+		];
+		$this->assertEquals($expected, $result);
 	}
 
 }
