@@ -5,7 +5,7 @@
 
 /**
  * @var \TestApp\View\AppView $this
- * @var \TestApp\Model\Entity\Car[] $cars
+ * @var \TestApp\Model\Entity\Car[]|\Cake\Collection\CollectionInterface $cars
  * @var \TestApp\Model\Entity\Wheel $wheel
  */
 ?>

@@ -2,7 +2,7 @@
 /**
  * @var \TestApp\View\AppView $this
  * @var \Cake\ORM\Entity $car !
- * @var \TestApp\Model\Entity\Wheel[] $wheels
+ * @var \TestApp\Model\Entity\Wheel[]|\Cake\Collection\CollectionInterface $wheels
  * @var bool $bool
  */
 ?>

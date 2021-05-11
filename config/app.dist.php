@@ -17,7 +17,8 @@ return [
 		'templateExtensions' => [
 			'php',
 		],
-		'templatePaginationAsObject' => false,
+		// Set to false to disable, or string if you have a custom FQCN to be used
+		'templateCollectionObject' => true,
 		// Set to false to disable, defaults to mixed if enabled, you can also pass callable for logic
 		'autoCollect' => true,
 		// Can be strings or `/regex/` (e.g. `'/^\_.+$/i'` for underscore prefixed variables)

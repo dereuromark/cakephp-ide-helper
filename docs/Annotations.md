@@ -422,14 +422,16 @@ You can use `'IdeHelper.autoCollectBlacklist'` config to exclude certain variabl
 The array accepts both strings or regexp patterns like `'/^\_.+$/i'` for underscore prefixed variables).
 
 ### Pagination collections
-By default, all pagination collections should be closed using `toArray()`, before being passed to the view layer.
+By default, all collections (pagination, find) are object collections when being passed to the view layer.
 As such, the template annotates added for it are e.g.
 ```
-@var \App\Model\Entity\Article[] $articles
-```
-If you chose to retain them as object using `IdeHelper.templatePaginationAsObject`, the result will be
-```
 @var \App\Model\Entity\Article[]|\Cake\Collection\CollectionInterface $articles
+```
+The config `IdeHelper.templateCollectionObject` can be set to a FQCN string, if you want to display a custom class.
+
+If you always pass them an array, you can use `IdeHelper.templateCollectionObject` set to `false` to reflect this in the annotations:
+```
+@var \App\Model\Entity\Article[] $articles
 ```
 
 ### Preemptive annotating
