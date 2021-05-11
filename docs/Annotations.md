@@ -421,6 +421,17 @@ foreach ($role->users as $rolUser) {}
 You can use `'IdeHelper.autoCollectBlacklist'` config to exclude certain variables.
 The array accepts both strings or regexp patterns like `'/^\_.+$/i'` for underscore prefixed variables).
 
+### Pagination collections
+By default, all pagination collections should be closed using `toArray()`, before being passed to the view layer.
+As such, the template annotates added for it are e.g.
+```
+@var \App\Model\Entity\Article[] $articles
+```
+If you chose to retain them as object using `IdeHelper.templatePaginationAsObject`, the result will be
+```
+@var \App\Model\Entity\Article[]|\Cake\Collection\CollectionInterface $articles
+```
+
 ### Preemptive annotating
 Using Configure key `'IdeHelper.preemptive'` set to `true` you can be a bit more preemptive in annotations.
 E.g. `@var \App\View\AppView $this` will then be always added to View templates, even if not currently needed.

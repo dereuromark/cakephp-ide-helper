@@ -2,7 +2,7 @@
 /**
  * @var \Cake\View\View $this
  * @var \Cake\ORM\Entity $car !
- * @var \Cake\ORM\Entity[]|\Cake\Collection\CollectionInterface $wheels
+ * @var \Cake\ORM\Entity[] $wheels
  * @var bool $bool
  * @var \Really\Outdated $outdated
  */
