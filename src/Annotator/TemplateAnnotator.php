@@ -321,7 +321,18 @@ class TemplateAnnotator extends AbstractAnnotator {
 			}
 
 			$resultKey = $matches[1][$key];
-			$result[$resultKey] = AnnotationFactory::createOrFail(VariableAnnotation::TAG, '\\' . $className . '[]|\Cake\Collection\CollectionInterface', '$' . $matches[1][$key]);
+			$annotation = '\\' . $className . '[]';
+			if (Configure::read('IdeHelper.templateCollectionObject') !== false) {
+				/** @var string|true $object */
+				$object = Configure::read('IdeHelper.templateCollectionObject');
+				if (!$object || $object === true) {
+					$object = '\Cake\Collection\CollectionInterface';
+				}
+
+				$annotation .= '|' . $object;
+			}
+
+			$result[$resultKey] = AnnotationFactory::createOrFail(VariableAnnotation::TAG, $annotation, '$' . $matches[1][$key]);
 			// We do not need the singular then
 			$result[$entity] = null;
 		}
