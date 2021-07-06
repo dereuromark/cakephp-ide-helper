@@ -74,9 +74,7 @@ class AnnotationsShell extends Shell {
 	public function callbacks() {
 		$plugin = (string)$this->param('plugin') ?: null;
 
-		$path = $plugin ? PluginPath::get($plugin) : ROOT . DS;
-
-		$path .= 'src' . DS;
+		$path = $plugin ? PluginPath::classPath($plugin) : ROOT . DS . APP_DIR . DS;
 
 		$folder = new Folder($path);
 
@@ -239,8 +237,7 @@ class AnnotationsShell extends Shell {
 	public function classes() {
 		$plugin = (string)$this->param('plugin') ?: null;
 
-		$path = $plugin ? PluginPath::get($plugin) : ROOT . DS;
-		$path .= 'src' . DS;
+		$path = $plugin ? PluginPath::classPath($plugin) : ROOT . DS . APP_DIR . DS;
 
 		$folder = new Folder($path);
 		$folders = $folder->subdirectories();
@@ -606,7 +603,7 @@ class AnnotationsShell extends Shell {
 		$className = App::className('App', 'View', 'View');
 		$file = APP . 'View' . DS . 'AppView.php';
 		if (!$className || !file_exists($file)) {
-			$this->warn('You need to create `AppView.php` first in `src/View/`.');
+			$this->warn('You need to create `AppView.php` first in `' . APP_DIR . DS . 'View' . DS . '`.');
 
 			return static::CODE_SUCCESS;
 		}

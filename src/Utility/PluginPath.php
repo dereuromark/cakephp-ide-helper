@@ -20,4 +20,18 @@ class PluginPath {
 		return Plugin::path($plugin);
 	}
 
+	/**
+	 * @param string $plugin
+	 *
+	 * @return string
+	 */
+	public static function classPath(string $plugin): string {
+		try {
+			return Plugin::classPath($plugin);
+		} catch (MissingPluginException $exception) {
+		}
+
+		return Plugin::classPath($plugin);
+	}
+
 }
