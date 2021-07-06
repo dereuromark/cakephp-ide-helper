@@ -27,7 +27,7 @@ class IlluminatorShell extends Shell {
 	 */
 	public function illuminate($path = null) {
 		if (!$path) {
-			$path = 'src' . DS;
+			$path = ($this->param('plugin') ? 'src' : APP_DIR) . DS;
 		}
 
 		$root = ROOT . DS;
