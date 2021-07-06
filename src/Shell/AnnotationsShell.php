@@ -74,7 +74,7 @@ class AnnotationsShell extends Shell {
 	public function callbacks() {
 		$plugin = (string)$this->param('plugin') ?: null;
 
-		$path = ($plugin ? PluginPath::get($plugin) . 'src' : ROOT . DS . APP_DIR) . DS;
+		$path = $plugin ? PluginPath::classPath($plugin) : ROOT . DS . APP_DIR . DS;
 
 		$folder = new Folder($path);
 
@@ -237,7 +237,7 @@ class AnnotationsShell extends Shell {
 	public function classes() {
 		$plugin = (string)$this->param('plugin') ?: null;
 
-		$path = ($plugin ? PluginPath::get($plugin) . 'src' : ROOT . DS . APP_DIR) . DS;
+		$path = $plugin ? PluginPath::classPath($plugin) : ROOT . DS . APP_DIR . DS;
 
 		$folder = new Folder($path);
 		$folders = $folder->subdirectories();
