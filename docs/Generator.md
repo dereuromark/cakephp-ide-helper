@@ -356,6 +356,20 @@ $list = [
 ];
 ```
 
+If you want to reuse existing argument sets from other tasks, you can use the `ArgumentsSet` value object referencing them:
+
+```php
+use IdeHelper\Generator\Directive\ExpectedArguments;
+use IdeHelper\ValueObject\ArgumentsSet;
+
+$method = '\\' . static::CLASS_FORMAT_HELPER . '::sidebarLink()';
+$list = [
+    ArgumentsSet::create(FormatIconFontAwesome5Task::SET_ICONS_FONTAWESOME),
+];
+$directive = new ExpectedArguments($method, 1, $list);
+```
+Just make sure those argument sets are actually available, as this is not checked for you.
+
 ##### ExitPoint
 This new directive can help to let the IDE know what methods abort the current code flow.
 It will show "Unreachable statement" warning and usually highlight the following code in yellow to inform you.

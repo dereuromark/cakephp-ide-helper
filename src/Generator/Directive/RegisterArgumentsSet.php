@@ -13,7 +13,7 @@ namespace IdeHelper\Generator\Directive;
  *     \MyClass::REQUIRED
  * );
  *
- * Then it can be used in other places as argumentsSet("mySet").
+ * Then it can be used in other places as argumentsSet('mySet').
  *
  * @see https://www.jetbrains.com/help/phpstorm/ide-advanced-metadata.html#arguments-set
  */
