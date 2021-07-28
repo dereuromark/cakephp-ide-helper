@@ -3,6 +3,7 @@
 namespace IdeHelper\Annotator\Template;
 
 use PhpParser\Node;
+use PhpParser\NodeFinder;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\ParserFactory;
@@ -17,11 +18,27 @@ class EnhancedVariableExtractor {
 	 * @param string $content
 	 * @return array
 	 */
-	public function extract($content) {
-		$vars = $this->collect($content);
+	public function extract(string $content) {
+		$nodes = $this->parse($content);
 
-		dd($vars);
-		//TODO: Only one InlineHTML node is visible here, how to find the vars?
+		$result = [];
+
+		$nodeFinder = new NodeFinder();
+
+		//TODO: this finds too many!
+
+		/** @var \PhpParser\Node\Expr\Variable[] $variables */
+		$variables = $nodeFinder->findInstanceOf($nodes, Node\Expr\Variable::class);
+
+		foreach ($variables as $variable) {
+			if ($variable->name === 'this') {
+				continue;
+			}
+
+			$result[$variable->name] = [
+				'name' => $variable->name,
+			];
+		}
 
 		return $result;
 	}
@@ -31,7 +48,7 @@ class EnhancedVariableExtractor {
 	 *
 	 * @return Node[]
 	 */
-	protected function collect(string $content): array {
+	protected function parse(string $content): array {
 		$parser = (new ParserFactory)->create(ParserFactory::ONLY_PHP7);
 		try {
 			$ast = $parser->parse($content);
@@ -57,9 +74,13 @@ class EnhancedVariableExtractor {
 	 */
 	protected function resolveNames(array $ast) : array
 	{
-		$nameResolver = new NameResolver();
 		$nodeTraverser = new NodeTraverser();
+
+		$nameResolver = new NameResolver();
 		$nodeTraverser->addVisitor($nameResolver);
+
+		//$variableFinder= new VariableFinder();
+		//$nodeTraverser->addVisitor($variableFinder);
 
 		return $nodeTraverser->traverse($ast);
 	}

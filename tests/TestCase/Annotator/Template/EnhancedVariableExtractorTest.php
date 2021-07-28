@@ -27,9 +27,44 @@ class EnhancedVariableExtractorTest extends TestCase {
 	 */
 	public function testExtract() {
 		$path = TEST_ROOT . 'templates' . DS . 'Foos' . DS . 'vars.php';
+		$content = file_get_contents($path);
 
-		$result = $this->variableExtractor->extract($path);
+		$result = $this->variableExtractor->extract($content);
 
-		//TODO
+		//TODO/FIXME
+		$expected = [
+			'obj' => [
+				'name' => 'obj'
+			],
+			'allCars' => [
+				'name' => 'allCars'
+			],
+			'car' => [
+				'name' => 'car'
+			],
+			'finalCarTime' => [
+				'name' => 'finalCarTime'
+			],
+			'wheel' => [
+				'name' => 'wheel'
+			],
+			'date' => [
+				'name' => 'date'
+			],
+			'i' => [
+				'name' => 'i'
+			],
+			'engine' => [
+				'name' => 'engine'
+			],
+			'foos' => [
+				'name' => 'foos'
+			],
+			'foo' => [
+				'name' => 'foo'
+			]
+		];
+		debug($result);
+		$this->assertEquals($expected, $result);
 	}
 }
