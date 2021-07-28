@@ -6,6 +6,7 @@ use PhpParser\Node;
 use PhpParser\NodeFinder;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\NameResolver;
+use PhpParser\NodeVisitor\NodeConnectingVisitor;
 use PhpParser\ParserFactory;
 use Throwable;
 
@@ -76,8 +77,8 @@ class EnhancedVariableExtractor {
 	{
 		$nodeTraverser = new NodeTraverser();
 
-		$nameResolver = new NameResolver();
-		$nodeTraverser->addVisitor($nameResolver);
+		$nodeTraverser->addVisitor(new NameResolver());
+		$nodeTraverser->addVisitor(new NodeConnectingVisitor());
 
 		//$variableFinder= new VariableFinder();
 		//$nodeTraverser->addVisitor($variableFinder);
