@@ -190,14 +190,6 @@ class TableFinderTask extends ModelTask {
 		$name = lcfirst($matches[1]);
 
 		$parameter = $parameters[0];
-		// For PHP5.6 we need to skip this enhanced detection
-		if (!method_exists($parameter, 'getType')) {
-			if (strpos((string)$parameter, 'Parameter #0 [ <required> Cake\ORM\Query $') !== false) {
-				$result[] = $name;
-			}
-
-			return $result;
-		}
 
 		/** @var \ReflectionNamedType|null $parameterType */
 		$parameterType = $parameter->getType();
