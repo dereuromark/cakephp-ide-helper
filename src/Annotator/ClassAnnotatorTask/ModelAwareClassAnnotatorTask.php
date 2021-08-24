@@ -15,11 +15,25 @@ class ModelAwareClassAnnotatorTask extends AbstractClassAnnotatorTask implements
 	 * @return bool
 	 */
 	public function shouldRun(string $path, string $content): bool {
-		if (!preg_match('#\buse ModelAwareTrait\b#', $content)) {
+		if (preg_match('#\buse ModelAwareTrait\b#', $content)) {
+			return true;
+		}
+
+		$className = $this->getClassName($path, $content);
+		if (!$className) {
 			return false;
 		}
 
-		return true;
+		try {
+			$object = new $className();
+			if (method_exists($object, 'loadModel')) {
+				return true;
+			}
+		} catch (\Throwable $exception) {
+			// Do nothing
+		}
+
+		return false;
 	}
 
 	/**
@@ -48,6 +62,23 @@ class ModelAwareClassAnnotatorTask extends AbstractClassAnnotatorTask implements
 		$models = $matches[1];
 
 		return array_unique($models);
+	}
+
+	/**
+	 * @param string $path
+	 * @param string $content
+	 *
+	 * @return string|null
+	 */
+	protected function getClassName(string $path, string $content): ?string {
+		preg_match('#^namespace (.+)\b#m', $content, $matches);
+		if (!$matches) {
+			return null;
+		}
+
+		$className = pathinfo($path, PATHINFO_FILENAME);
+
+		return $matches[1] . '\\' . $className;
 	}
 
 }

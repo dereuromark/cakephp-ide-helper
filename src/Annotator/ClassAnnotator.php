@@ -27,7 +27,7 @@ class ClassAnnotator extends AbstractAnnotator {
 	 *
 	 * @return void
 	 */
-	protected function invokeTasks($path, $content): void {
+	protected function invokeTasks(string $path, string $content): void {
 		$tasks = $this->getTasks($content);
 
 		foreach ($tasks as $task) {
