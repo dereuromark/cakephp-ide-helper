@@ -4,6 +4,7 @@ namespace IdeHelper\Annotator;
 
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
+use Cake\Core\Configure;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\MethodAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
@@ -40,7 +41,8 @@ class ComponentAnnotator extends AbstractAnnotator {
 		$annotations = $this->buildAnnotations($className);
 
 		if ($this->hasControllerAnnotation($content)) {
-			$annotations[] = new MethodAnnotation('\App\Controller\AppController', 'getController()');
+			$appControllerClass = (Configure::read('App.namespace') ?: 'App') . '\Controller\AppController';
+			$annotations[] = new MethodAnnotation('\\' . $appControllerClass, 'getController()');
 		}
 
 		return $this->annotateContent($path, $content, $annotations);
