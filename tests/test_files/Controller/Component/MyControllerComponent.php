@@ -5,7 +5,7 @@ use Cake\Controller\Component;
 use Cake\Event\EventInterface;
 
 /**
- * @method \App\Controller\AppController getController()
+ * @method \TestApp\Controller\AppController getController()
  */
 class MyControllerComponent extends Component {
 
