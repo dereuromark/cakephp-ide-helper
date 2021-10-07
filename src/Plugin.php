@@ -6,6 +6,7 @@ use Cake\Console\CommandCollection;
 use Cake\Core\BasePlugin;
 use IdeHelper\Shell\AnnotationsShell;
 use IdeHelper\Shell\CodeCompletionShell;
+use IdeHelper\Shell\CommandLineShell;
 use IdeHelper\Shell\IlluminatorShell;
 use IdeHelper\Shell\PhpstormShell;
 
@@ -33,6 +34,7 @@ class Plugin extends BasePlugin {
 		$commands->add('code_completion', CodeCompletionShell::class);
 		$commands->add('illuminator', IlluminatorShell::class);
 		$commands->add('phpstorm', PhpstormShell::class);
+		$commands->add('command_line', CommandLineShell::class);
 
 		return $commands;
 	}
