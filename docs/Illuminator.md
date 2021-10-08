@@ -111,6 +111,11 @@ The native class name is the key then, your replacement the value.
 Setting the value to `null` completely disables a native task.
 
 
+### Configuration
+
+You can specify specific settings via `app.php` config:
+- `'IdeHelper.illuminatorIndentation'` as `'    '` to have spaces as indentation whitespace, defaults to `"\t"`.
+
 ### Important constraint
 Some tasks may be based on the results of the Annotator. So make sure you run that first, e.g.
 

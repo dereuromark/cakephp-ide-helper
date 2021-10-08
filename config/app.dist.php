@@ -42,6 +42,7 @@ return [
 		// For Illuminator tasks
 		'illuminatorTasks' => [
 		],
+		'illuminatorIndentation' => "\t",
 		// For code completion file generator
 		'codeCompletionTasks' => [
 		],

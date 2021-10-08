@@ -2,6 +2,7 @@
 
 namespace IdeHelper\Illuminator\Task;
 
+use Cake\Core\Configure;
 use Cake\Utility\Inflector;
 use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotation\PropertyReadAnnotation;
@@ -164,7 +165,7 @@ class EntityFieldTask extends AbstractTask {
 			$whitespace .= $tokens[$firstOfLine]['content'];
 		}
 		if ($level < 1) {
-			$whitespace = str_repeat(' ', 4);
+			$whitespace = Configure::read('IdeHelper.illuminatorIndentation') ?? "\t";
 		}
 
 		$beginIndex = $lastTokenOfLastLine;
