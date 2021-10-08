@@ -8,6 +8,7 @@ use Cake\Utility\Inflector;
 use Cake\View\View;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\VariableAnnotation;
+use IdeHelper\Annotator\Template\EnhancedVariableExtractor;
 use IdeHelper\Annotator\Template\VariableExtractor;
 use IdeHelper\Utility\App;
 use PHP_CodeSniffer\Files\File;
@@ -444,6 +445,10 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 */
 	protected function getTemplateVariables($path, $content) {
 		$file = $this->getFile($path, $content);
+
+		$extractor = new EnhancedVariableExtractor();
+		$x = $extractor->extract($content);
+		dd($x);
 
 		$class = Configure::read('IdeHelper.variableExtractor') ?: VariableExtractor::class;
 		/** @var \IdeHelper\Annotator\Template\VariableExtractor $extractor */
