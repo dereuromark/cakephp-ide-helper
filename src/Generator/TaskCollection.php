@@ -5,6 +5,7 @@ namespace IdeHelper\Generator;
 use Cake\Core\Configure;
 use IdeHelper\Generator\Task\BehaviorTask;
 use IdeHelper\Generator\Task\CacheTask;
+use IdeHelper\Generator\Task\CellTask;
 use IdeHelper\Generator\Task\ComponentTask;
 use IdeHelper\Generator\Task\ConfigureTask;
 use IdeHelper\Generator\Task\ConnectionTask;
@@ -66,6 +67,7 @@ class TaskCollection {
 		FixtureTask::class => FixtureTask::class,
 		TranslationKeyTask::class => TranslationKeyTask::class,
 		ConfigureTask::class => ConfigureTask::class,
+		CellTask::class => CellTask::class,
 	];
 
 	/**

@@ -642,6 +642,14 @@ namespace PHPSTORM_META {
 		argumentsSet('validationWhen')
 	);
 
+	override(
+		\Cake\View\CellTrait::cell(),
+		map([
+			'Test' => \TestApp\View\Cell\TestCell::class,
+			'Test::custom' => \TestApp\View\Cell\TestCell::class,
+		])
+	);
+
 	expectedArguments(
 		\Cake\View\Helper\FormHelper::control(),
 		0,
