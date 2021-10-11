@@ -28,14 +28,14 @@ class CellTask implements TaskInterface {
 
 		$cells = $this->collectCells();
 		foreach ($cells as $name => $className) {
-			$map[$name] = ClassName::create( $className );
+			$map[$name] = ClassName::create($className);
 		}
 
 		ksort( $map );
 
 		$result = [];
 		if ($map) {
-			$directive = new Override( static::$alias, $map );
+			$directive = new Override(static::$alias, $map);
 			$result[$directive->key()] = $directive;
 		}
 
@@ -48,16 +48,16 @@ class CellTask implements TaskInterface {
 	protected function collectCells(): array {
 		$cells = [];
 
-		$folders = AppPath::get( 'View/Cell' );
+		$folders = AppPath::get('View/Cell');
 		foreach ($folders as $folder) {
-			$cells = $this->addCells( $cells, $folder );
+			$cells = $this->addCells($cells, $folder);
 		}
 
 		$plugins = Plugin::all();
 		foreach ($plugins as $plugin) {
-			$folders = AppPath::get( 'View/Cell', $plugin );
+			$folders = AppPath::get('View/Cell', $plugin);
 			foreach ($folders as $folder) {
-				$cells = $this->addCells( $cells, $folder, $plugin );
+				$cells = $this->addCells($cells, $folder, $plugin);
 			}
 		}
 
@@ -72,10 +72,10 @@ class CellTask implements TaskInterface {
 	 * @return string[]
 	 */
 	protected function addCells(array $components, $folder, $plugin = null) {
-		$folderContent = ( new Folder( $folder ) )->read( Folder::SORT_NAME, true );
+		$folderContent = (new Folder( $folder ))->read(Folder::SORT_NAME, true);
 
 		foreach ($folderContent[1] as $file) {
-			preg_match( '/^(.+)Cell\.php$/', $file, $matches );
+			preg_match('/^(.+)Cell\.php$/', $file, $matches);
 			if (!$matches) {
 				continue;
 			}
@@ -84,21 +84,21 @@ class CellTask implements TaskInterface {
 				$name = $plugin . '.' . $name;
 			}
 
-			$className = App::className( $name, 'View/Cell', 'Cell' );
+			$className = App::className($name, 'View/Cell', 'Cell');
 			if (!$className) {
 				continue;
 			}
 
-			$methods = get_class_methods( $className );
-			$default_cell_methods = get_class_methods( Cell::class );
+			$methods = get_class_methods($className);
+			$defaultCellMethods = get_class_methods(Cell::class);
 
 			foreach ($methods as $method) {
-				if (!in_array( $method, $default_cell_methods )) {
+				if (!in_array($method, $defaultCellMethods, true)) {
 					$components[$name . '::' . $method] = $className;
 				}
 			}
 
-			unset( $components[$name . '::display'] );
+			unset($components[$name . '::display']);
 			$components[$name] = $className;
 		}
 
