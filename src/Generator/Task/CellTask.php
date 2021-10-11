@@ -31,7 +31,7 @@ class CellTask implements TaskInterface {
 			$map[$name] = ClassName::create($className);
 		}
 
-		ksort( $map );
+		ksort($map);
 
 		$result = [];
 		if ($map) {
@@ -72,7 +72,7 @@ class CellTask implements TaskInterface {
 	 * @return string[]
 	 */
 	protected function addCells(array $components, $folder, $plugin = null) {
-		$folderContent = (new Folder( $folder ))->read(Folder::SORT_NAME, true);
+		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);
 
 		foreach ($folderContent[1] as $file) {
 			preg_match('/^(.+)Cell\.php$/', $file, $matches);
