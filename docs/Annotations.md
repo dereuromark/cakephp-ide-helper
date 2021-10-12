@@ -562,6 +562,14 @@ verify the changes. This feature is still in a very alpha phase.
 
 Note that you can prevent removal (just as updating) by adding a comment to your annotation.
 That will skip any attempt to remove it.
+```php
+    @property array|null $data !
+```
+or
+```php
+    @property array|null $data ! A manual field for testing only
+```
+for example.
 
 ## Skipping annotations for a class
 Sometimes you are extending another class, in that case you can use `@inherit` tag as class doc block to skip annotating here.
