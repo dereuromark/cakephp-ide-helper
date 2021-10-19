@@ -50,8 +50,8 @@ class ViewAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param array $helperArray
-	 * @return array
+	 * @param array<string, string> $helperArray
+	 * @return array<string, string>
 	 */
 	protected function addExtractedHelpers(array $helperArray) {
 		$folders = $this->getFolders();

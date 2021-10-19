@@ -95,7 +95,7 @@ class TableCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implement
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $index
-	 * @param array $method
+	 * @param array<string, mixed> $method
 	 * @return bool
 	 */
 	protected function needsUpdate(File $file, int $index, array &$method): bool {

@@ -21,7 +21,7 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 
 	/**
 	 * @param \IdeHelper\Console\Io $io
-	 * @param array $config
+	 * @param array<string, mixed> $config
 	 * @param string $path
 	 * @param string $content
 	 */
@@ -56,7 +56,7 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $index
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	protected function parseMethod(File $file, $index) {
 		$tokens = $file->getTokens();

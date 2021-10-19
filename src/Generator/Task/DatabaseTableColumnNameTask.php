@@ -26,7 +26,7 @@ class DatabaseTableColumnNameTask extends DatabaseTableTask {
 	];
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$list = [];

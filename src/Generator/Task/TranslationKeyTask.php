@@ -38,7 +38,7 @@ class TranslationKeyTask implements TaskInterface {
 	protected const METHOD_DOMAIN = '__d()';
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$result = [];

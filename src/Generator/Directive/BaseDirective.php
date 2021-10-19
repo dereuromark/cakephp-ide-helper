@@ -26,14 +26,14 @@ abstract class BaseDirective {
 	abstract public function build();
 
 	/**
-	 * @param array $array
+	 * @param array<string|\IdeHelper\ValueObject\ValueObjectInterface> $array
 	 * @param int $indentation
 	 *
 	 * @return string
 	 */
 	protected function buildList(array $array, $indentation = 2): string {
 		$result = [];
-		foreach ($array as $alias => $value) {
+		foreach ($array as $value) {
 			if ($value instanceof ValueObjectInterface) {
 				$element = (string)$value;
 			} else {
@@ -46,7 +46,7 @@ abstract class BaseDirective {
 	}
 
 	/**
-	 * @param array $array
+	 * @param array<string, string|\IdeHelper\ValueObject\ValueObjectInterface> $array
 	 * @param int $indentation
 	 *
 	 * @return string

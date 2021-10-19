@@ -80,7 +80,7 @@ abstract class AbstractAnnotator {
 
 	/**
 	 * @param \IdeHelper\Console\Io $io
-	 * @param array $config
+	 * @param array<string, mixed> $config
 	 */
 	public function __construct(Io $io, array $config) {
 		static::$output = false;

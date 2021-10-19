@@ -90,9 +90,9 @@ class EntityAnnotator extends AbstractAnnotator {
 	/**
 	 * From Bake Plugin
 	 *
-	 * @param array $schema
+	 * @param array<string, mixed> $schema
 	 *
-	 * @return array
+	 * @return array<string, array>
 	 */
 	protected function hydrateSchemaFromAssoc(array $schema): array {
 		/** @var \Cake\ORM\AssociationCollection|\Cake\ORM\Association[] $associations */
@@ -135,7 +135,7 @@ class EntityAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param \Cake\ORM\Association $association
-	 * @param array $schema
+	 * @param array<string, mixed> $schema
 	 * @return bool
 	 */
 	protected function nullable(Association $association, array $schema): bool {
@@ -170,7 +170,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param array $propertySchema
+	 * @param array<string, array<string, mixed>> $propertySchema
 	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
 	 *
 	 * @return string[]

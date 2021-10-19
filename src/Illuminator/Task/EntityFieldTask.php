@@ -76,7 +76,7 @@ class EntityFieldTask extends AbstractTask {
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $classIndex
-	 * @return array
+	 * @return array<string, array>
 	 */
 	protected function getFields(File $file, int $classIndex): array {
 		$tokens = $file->getTokens();
@@ -196,7 +196,7 @@ class EntityFieldTask extends AbstractTask {
 	 * @param array $tokens
 	 * @param int $startIndex
 	 * @param int $endIndex
-	 * @return array
+	 * @return array<string, array>
 	 */
 	protected function getFieldConstants(array $tokens, $startIndex, $endIndex) {
 		$constants = [];

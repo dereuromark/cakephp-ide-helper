@@ -13,7 +13,7 @@ class FixtureTask implements TaskInterface {
 	protected const METHOD_ADD_FIXTURE = '\\' . TestCase::class . '::addFixture()';
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$result = [];

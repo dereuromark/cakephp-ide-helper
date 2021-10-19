@@ -71,11 +71,11 @@ class TaskCollection {
 	}
 
 	/**
-	 * @return array
+	 * @return array<string, array<string>>
 	 */
 	public function getMap(): array {
 		$map = [];
-		foreach ($this->tasks as $class => $task) {
+		foreach ($this->tasks as $task) {
 			$snippet = $task->create();
 			if (!$snippet) {
 				continue;

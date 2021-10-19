@@ -17,7 +17,7 @@ class ElementTask implements TaskInterface {
 	public const CLASS_VIEW = View::class;
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$result = [];

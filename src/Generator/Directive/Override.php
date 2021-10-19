@@ -27,13 +27,13 @@ class Override extends BaseDirective {
 	protected $method;
 
 	/**
-	 * @var array
+	 * @var array<string, string|\IdeHelper\ValueObject\ValueObjectInterface>
 	 */
 	protected $map;
 
 	/**
 	 * @param string $method
-	 * @param array $map
+	 * @param array<string, string|\IdeHelper\ValueObject\ValueObjectInterface> $map
 	 */
 	public function __construct($method, array $map) {
 		$this->method = $method;
@@ -41,7 +41,7 @@ class Override extends BaseDirective {
 	}
 
 	/**
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function toArray() {
 		return [

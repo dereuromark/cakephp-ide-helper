@@ -25,7 +25,7 @@ class PluginTask implements TaskInterface {
 	];
 
 	/**
-	 * @return array
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$map = [];

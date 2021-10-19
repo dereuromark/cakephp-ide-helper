@@ -16,7 +16,7 @@ class LayoutTask implements TaskInterface {
 	public const CLASS_VIEW_BUILDER = ViewBuilder::class;
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$result = [];

@@ -21,7 +21,7 @@ class CellTask implements TaskInterface {
 	protected static $alias = '\\' . self::CLASS_CELL . '::cell()';
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$map = [];

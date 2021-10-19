@@ -17,9 +17,21 @@ use Throwable;
 
 class TableFinderTask extends ModelTask {
 
+	/**
+	 * @var string
+	 */
 	public const INTERFACE_QUERY = QueryInterface::class;
+	/**
+	 * @var string
+	 */
 	public const CLASS_TABLE = Table::class;
+	/**
+	 * @var string
+	 */
 	public const CLASS_ASSOCIATION = Association::class;
+	/**
+	 * @var string
+	 */
 	public const CLASS_QUERY = Query::class;
 
 	/**
@@ -28,7 +40,7 @@ class TableFinderTask extends ModelTask {
 	protected $cache = [];
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$result = [];
@@ -51,7 +63,7 @@ class TableFinderTask extends ModelTask {
 	}
 
 	/**
-	 * @return array
+	 * @return array<string, array<string>>
 	 */
 	protected function collectFinders(): array {
 		$baseFinders = $this->getFinderMethods(static::CLASS_TABLE);

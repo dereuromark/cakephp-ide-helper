@@ -11,7 +11,7 @@ class ConnectionTask implements TaskInterface {
 	protected const METHOD_GET = '\\' . ConnectionManager::class . '::get()';
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$result = [];

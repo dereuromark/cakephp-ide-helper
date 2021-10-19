@@ -50,7 +50,7 @@ class RegisterArgumentsSet extends BaseDirective {
 	}
 
 	/**
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function toArray() {
 		return [

@@ -20,7 +20,7 @@ class MailerTask implements TaskInterface {
 	protected static $alias = '\\' . self::CLASS_MAILER . '::getMailer(0)';
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$map = [];

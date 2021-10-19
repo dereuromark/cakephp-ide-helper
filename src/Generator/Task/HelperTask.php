@@ -21,7 +21,7 @@ class HelperTask implements TaskInterface {
 	protected const METHOD_VIEW_BUILDER = '\\' . self::CLASS_VIEW_BUILDER . '::addHelper()';
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$helpers = $this->collectHelpers();

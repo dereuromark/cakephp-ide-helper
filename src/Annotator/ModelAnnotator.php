@@ -103,7 +103,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $path
 	 * @param string $entityName
-	 * @param array $associations
+	 * @param array<string, mixed> $associations
 	 * @param string[] $behaviors
 	 *
 	 * @return bool
@@ -121,7 +121,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param array $associations
+	 * @param array<string, mixed> $associations
 	 * @param string $entity
 	 * @param string[] $behaviors
 	 *
@@ -243,7 +243,7 @@ class ModelAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param \Cake\ORM\AssociationCollection $tableAssociations
-	 * @return array
+	 * @return array<string, array>
 	 */
 	protected function getAssociations(AssociationCollection $tableAssociations): array {
 		$associations = [];

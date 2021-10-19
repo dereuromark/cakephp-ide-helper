@@ -60,7 +60,7 @@ class HelperAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param array $helperMap
+	 * @param array<string, array<string, mixed>> $helperMap
 	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
 	 */
 	protected function getHelperAnnotations(array $helperMap): array {

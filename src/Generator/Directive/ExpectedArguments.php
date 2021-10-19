@@ -43,17 +43,17 @@ class ExpectedArguments extends BaseDirective {
 	/**
 	 * @var array
 	 */
-	protected $map;
+	protected $list;
 
 	/**
 	 * @param string $method
 	 * @param int $position Position, 0-based.
-	 * @param array $list
+	 * @param array<string|\IdeHelper\ValueObject\ValueObjectInterface> $list
 	 */
 	public function __construct($method, $position, array $list) {
 		$this->method = $method;
 		$this->position = $position;
-		$this->map = $list;
+		$this->list = $list;
 	}
 
 	/**
@@ -66,13 +66,13 @@ class ExpectedArguments extends BaseDirective {
 	}
 
 	/**
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function toArray() {
 		return [
 			'method' => $this->method,
 			'position' => $this->position,
-			'list' => $this->map,
+			'list' => $this->list,
 		];
 	}
 
@@ -82,8 +82,8 @@ class ExpectedArguments extends BaseDirective {
 	public function build() {
 		$method = $this->method;
 		$position = $this->position;
-		$list = $this->buildList($this->map);
 
+		$list = $this->buildList($this->list);
 		$result = <<<TXT
 	expectedArguments(
 		$method,

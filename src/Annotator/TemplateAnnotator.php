@@ -245,9 +245,9 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $content
-	 * @param array $variables
+	 * @param array<string, array> $variables
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	protected function getEntityAnnotations(string $content, array $variables): array {
 		$loopEntityAnnotations = $this->parseLoopEntities($content);
@@ -268,7 +268,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $content
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	protected function parseFormEntities(string $content): array {
 		preg_match_all('/\$this->Form->create\(\$(\w+)\W/i', $content, $matches);
@@ -278,6 +278,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		$result = [];
 
+		/** @var array<string> $entities */
 		$entities = array_unique($matches[1]);
 		foreach ($entities as $entity) {
 			$entityName = Inflector::camelize(Inflector::underscore($entity));
@@ -298,7 +299,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $content
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	protected function parseLoopEntities(string $content): array {
 		preg_match_all('/\bforeach \(\$([a-z]+) as \$([a-z]+)\)/i', $content, $matches);
@@ -308,7 +309,9 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		$result = [];
 
-		foreach ($matches[2] as $key => $entity) {
+		/** @var array<string> $entities */
+		$entities = $matches[2];
+		foreach ($entities as $key => $entity) {
 			if (Inflector::pluralize($entity) !== $matches[1][$key]) {
 				continue;
 			}
@@ -343,13 +346,14 @@ class TemplateAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $content
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	protected function parseEntities(string $content): array {
 		preg_match_all('/\$([a-z]+)->[a-z]+/i', $content, $matches);
 		if (empty($matches[1])) {
 			return [];
 		}
+		/** @var array<string> $variableNames */
 		$variableNames = array_unique($matches[1]);
 
 		$result = [];
@@ -440,7 +444,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 * @param string $path
 	 * @param string $content
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	protected function getTemplateVariables($path, $content) {
 		$file = $this->getFile($path, $content);
@@ -470,7 +474,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param array $variable
+	 * @param array<string, mixed> $variable
 	 *
 	 * @return \IdeHelper\Annotation\AbstractAnnotation
 	 */

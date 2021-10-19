@@ -25,7 +25,7 @@ class TableAssociationTask extends ModelTask {
 	];
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$models = $this->collectModels();
