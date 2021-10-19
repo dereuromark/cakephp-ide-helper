@@ -4,6 +4,9 @@ namespace IdeHelper\Annotation;
 
 class MixinAnnotation extends AbstractAnnotation {
 
+	/**
+	 * @var string
+	 */
 	public const TAG = '@mixin';
 
 	/**

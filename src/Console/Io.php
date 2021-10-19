@@ -26,7 +26,7 @@ class Io {
 	/**
 	 * Output at the verbose level.
 	 *
-	 * @param string|array $message A string or an array of strings to output
+	 * @param string|array<string> $message A string or an array of strings to output
 	 * @param int $newlines Number of newlines to append
 	 * @return int|null The number of bytes returned from writing to stdout.
 	 */
@@ -37,7 +37,7 @@ class Io {
 	/**
 	 * Output at all levels.
 	 *
-	 * @param string|array $message A string or an array of strings to output
+	 * @param string|array<string> $message A string or an array of strings to output
 	 * @param int $newlines Number of newlines to append
 	 * @return int|null The number of bytes returned from writing to stdout.
 	 */

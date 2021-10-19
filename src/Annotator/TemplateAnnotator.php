@@ -225,7 +225,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param array $tokens
+	 * @param array<array> $tokens
 	 * @param int $phpOpenTagIndex
 	 *
 	 * @return bool

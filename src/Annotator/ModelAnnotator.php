@@ -23,7 +23,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	public const CLASS_TABLE = Table::class;
 
 	/**
-	 * @var array
+	 * @var array<string, array<string, string>>
 	 */
 	protected $_cache = [];
 

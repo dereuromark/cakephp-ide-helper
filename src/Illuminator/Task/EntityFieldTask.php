@@ -20,7 +20,7 @@ class EntityFieldTask extends AbstractTask {
 	public const PREFIX = 'FIELD_';
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'visibility' => null,
@@ -136,7 +136,7 @@ class EntityFieldTask extends AbstractTask {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param array $fields
+	 * @param array<array> $fields
 	 * @param int $index Index of first token of previous line
 	 * @param bool $addToExisting
 	 * @param int $level
@@ -193,7 +193,7 @@ class EntityFieldTask extends AbstractTask {
 	}
 
 	/**
-	 * @param array $tokens
+	 * @param array<array> $tokens
 	 * @param int $startIndex
 	 * @param int $endIndex
 	 * @return array<string, array>

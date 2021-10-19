@@ -13,6 +13,9 @@ use SebastianBergmann\Diff\Differ;
 
 class TaskCollection {
 
+	/**
+	 * @var string
+	 */
 	public const CONFIG_DRY_RUN = 'dry-run';
 
 	/**
@@ -21,7 +24,7 @@ class TaskCollection {
 	protected $_io;
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_config;
 
@@ -41,7 +44,7 @@ class TaskCollection {
 
 	/**
 	 * @param \IdeHelper\Console\Io $io
-	 * @param array $config
+	 * @param array<string, mixed> $config
 	 * @param string[] $tasks
 	 * @throws \InvalidArgumentException
 	 */

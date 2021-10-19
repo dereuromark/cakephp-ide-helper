@@ -37,7 +37,7 @@ class AnnotationsShell extends Shell {
 	public const TEMPLATE_EXTENSIONS = ['php'];
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_config = [
 		'skipTemplatePaths' => [
@@ -46,7 +46,7 @@ class AnnotationsShell extends Shell {
 	];
 
 	/**
-	 * @var array
+	 * @var array<string, \IdeHelper\Annotator\AbstractAnnotator>
 	 */
 	protected $_instantiatedAnnotators = [];
 
@@ -742,6 +742,7 @@ class AnnotationsShell extends Shell {
 	 * @return \IdeHelper\Annotator\AbstractAnnotator
 	 */
 	protected function getAnnotator($class): AbstractAnnotator {
+		/** @phpstan-var array<class-string<\IdeHelper\Annotator\AbstractAnnotator>> $tasks */
 		$tasks = (array)Configure::read('IdeHelper.annotators');
 		if (isset($tasks[$class])) {
 			$class = $tasks[$class];

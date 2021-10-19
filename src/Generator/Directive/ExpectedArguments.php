@@ -41,7 +41,7 @@ class ExpectedArguments extends BaseDirective {
 	protected $position;
 
 	/**
-	 * @var array
+	 * @var array<string|\IdeHelper\ValueObject\ValueObjectInterface>
 	 */
 	protected $list;
 

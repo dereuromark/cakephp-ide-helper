@@ -19,12 +19,12 @@ use Throwable;
 class EntityAnnotator extends AbstractAnnotator {
 
 	/**
-	 * @var array|null
+	 * @var array<string, string>|null
 	 */
 	protected static $typeMap;
 
 	/**
-	 * @var array
+	 * @var array<string, string>
 	 */
 	protected static $typeMapDefaults = [
 		'mediumtext' => 'string',
@@ -173,7 +173,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @param array<string, array<string, mixed>> $propertySchema
 	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
 	 *
-	 * @return string[]
+	 * @return array<string, string>
 	 */
 	protected function buildExtendedEntityPropertyHintTypeMap(array $propertySchema, DocBlockHelper $helper): array {
 		$propertyHintMap = [];
@@ -214,7 +214,7 @@ class EntityAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $content
-	 * @return string[]
+	 * @return array<string, string>
 	 */
 	protected function buildVirtualPropertyHintTypeMap(string $content): array {
 		if (!preg_match('#\bfunction _get[A-Z][a-zA-Z0-9]+\(\)#', $content)) {
@@ -267,7 +267,7 @@ class EntityAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param array $tokens
+	 * @param array<array> $tokens
 	 * @param int $functionIndex
 	 * @return string
 	 */
@@ -292,7 +292,7 @@ class EntityAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param array $tokens
+	 * @param array<array> $tokens
 	 * @param int $functionIndex
 	 *
 	 * @return string
@@ -318,7 +318,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param array $tokens
+	 * @param array<array> $tokens
 	 * @param int $docBlockOpenTagIndex
 	 * @param int $docBlockCloseTagIndex
 	 *

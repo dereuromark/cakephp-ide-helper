@@ -45,7 +45,7 @@ class VariableExtractor {
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 *
-	 * @return array
+	 * @return array<array>
 	 */
 	protected function collect(File $file) {
 		$tokens = $file->getTokens();

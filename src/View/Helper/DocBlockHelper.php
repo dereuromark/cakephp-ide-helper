@@ -9,15 +9,15 @@ use Cake\ORM\Association;
 class DocBlockHelper extends BakeDocBlockHelper {
 
 	/**
-	 * @var array|null
+	 * @var array<string, bool>|null
 	 */
 	protected static $nullableMap;
 
 	/**
 	 * Overwrite Bake plugin class method until https://github.com/cakephp/bake/pull/470 lands.
 	 *
-	 * @param array $propertySchema The property schema to use for generating the type map.
-	 * @return string[] The property DocType map.
+	 * @param array<array> $propertySchema The property schema to use for generating the type map.
+	 * @return array<string, string> The property DocType map.
 	 */
 	public function buildEntityPropertyHintTypeMap(array $propertySchema): array {
 		$properties = [];
@@ -33,7 +33,7 @@ class DocBlockHelper extends BakeDocBlockHelper {
 	}
 
 	/**
-	 * @param array $info
+	 * @param array<string, string> $info
 	 * @param string|null $type
 	 * @param string|null $default
 	 *
@@ -66,8 +66,8 @@ class DocBlockHelper extends BakeDocBlockHelper {
 	 *
 	 * Overwrite with nullable option for now until Bake is adjusted ( https://github.com/cakephp/bake/issues/579 )
 	 *
-	 * @param array $propertySchema The property schema to use for generating the type map.
-	 * @return string[] The property DocType map.
+	 * @param array<string, array> $propertySchema The property schema to use for generating the type map.
+	 * @return array<string, string> The property DocType map.
 	 */
 	public function buildEntityAssociationHintTypeMap(array $propertySchema): array {
 		$properties = [];

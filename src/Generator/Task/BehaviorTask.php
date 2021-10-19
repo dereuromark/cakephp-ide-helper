@@ -83,11 +83,11 @@ class BehaviorTask implements TaskInterface {
 	}
 
 	/**
-	 * @param array $behaviors
+	 * @param array<string, string> $behaviors
 	 * @param string $folder
 	 * @param string|null $plugin
 	 *
-	 * @return string[]
+	 * @return array<string, string>
 	 */
 	protected function addBehaviors(array $behaviors, string $folder, ?string $plugin = null): array {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);
@@ -100,6 +100,7 @@ class BehaviorTask implements TaskInterface {
 			if (!$matches) {
 				continue;
 			}
+			/** @var string $name */
 			$name = $matches[1];
 			if ($plugin) {
 				$name = $plugin . '.' . $name;

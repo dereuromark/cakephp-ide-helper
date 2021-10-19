@@ -13,7 +13,7 @@ use Throwable;
 class TableCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implements CallbackAnnotatorTaskInterface {
 
 	/**
-	 * @var array
+	 * @var array<string, string>
 	 */
 	protected $callbacks = [
 		'beforeRules' => 'beforeRules',

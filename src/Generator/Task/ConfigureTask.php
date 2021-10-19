@@ -59,7 +59,7 @@ class ConfigureTask implements TaskInterface {
 
 	/**
 	 * @param array<string, mixed> $keys
-	 * @param array $data
+	 * @param array<mixed> $data
 	 * @param array<string> $path
 	 *
 	 * @return array<string, mixed>

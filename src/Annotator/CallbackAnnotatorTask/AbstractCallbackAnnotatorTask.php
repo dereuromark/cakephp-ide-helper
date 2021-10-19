@@ -35,7 +35,7 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 *
-	 * @return array
+	 * @return array<array>
 	 */
 	protected function getMethods(File $file) {
 		$methods = [];
@@ -76,7 +76,7 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 	/**
 	 * @param string $path
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param array $methods
+	 * @param array<array> $methods
 	 * @return bool
 	 */
 	protected function annotateMethods(string $path, File $file, array $methods): bool {

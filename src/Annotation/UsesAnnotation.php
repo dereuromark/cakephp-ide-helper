@@ -4,6 +4,9 @@ namespace IdeHelper\Annotation;
 
 class UsesAnnotation extends AbstractAnnotation {
 
+	/**
+	 * @var string
+	 */
 	public const TAG = '@uses';
 
 	/**

@@ -41,15 +41,42 @@ abstract class AbstractAnnotator {
 	use FileTrait;
 	use InstanceConfigTrait;
 
+	/**
+	 * @var string
+	 */
 	public const CONFIG_DRY_RUN = 'dry-run';
+	/**
+	 * @var string
+	 */
 	public const CONFIG_PLUGIN = 'plugin';
+	/**
+	 * @var string
+	 */
 	public const CONFIG_NAMESPACE = 'namespace';
+	/**
+	 * @var string
+	 */
 	public const CONFIG_VERBOSE = 'verbose';
+	/**
+	 * @var string
+	 */
 	public const CONFIG_REMOVE = 'remove';
 
+	/**
+	 * @var string
+	 */
 	public const COUNT_REMOVED = 'removed';
+	/**
+	 * @var string
+	 */
 	public const COUNT_UPDATED = 'updated';
+	/**
+	 * @var string
+	 */
 	public const COUNT_ADDED = 'added';
+	/**
+	 * @var string
+	 */
 	public const COUNT_SKIPPED = 'skipped';
 
 	public const TYPES = [
@@ -72,7 +99,7 @@ abstract class AbstractAnnotator {
 	protected $_io;
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		self::CONFIG_PLUGIN => null,
@@ -161,7 +188,7 @@ abstract class AbstractAnnotator {
 	}
 
 	/**
-	 * @var array
+	 * @var array<string, int>
 	 */
 	protected $_counter = [];
 
@@ -325,7 +352,7 @@ abstract class AbstractAnnotator {
 	}
 
 	/**
-	 * @param array $tokens
+	 * @param array<array> $tokens
 	 * @param int $index
 	 *
 	 * @return int
@@ -475,7 +502,7 @@ abstract class AbstractAnnotator {
 	 *
 	 * T_VARIABLE ..., content=`$variable`
 	 *
-	 * @param array $tokens
+	 * @param array<array> $tokens
 	 * @param int $closeTagIndex
 	 * @param string $variable
 	 *
@@ -505,7 +532,7 @@ abstract class AbstractAnnotator {
 	 * T_STRING ..., content=`PropertyName`
 	 * T_OBJECT_OPERATOR ..., content=`->`
 	 *
-	 * @param array $tokens
+	 * @param array<array> $tokens
 	 * @param int $closeTagIndex
 	 * @param string $variable
 	 *
@@ -564,7 +591,7 @@ abstract class AbstractAnnotator {
 	 * T_STRING ..., content=`method`
 	 * T_OPEN_PARENTHESIS ..., content=`(`
 	 *
-	 * @param array $tokens
+	 * @param array<array> $tokens
 	 * @param int $closeTagIndex
 	 * @param string $method
 	 *
