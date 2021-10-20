@@ -43,7 +43,7 @@ class CellTask implements TaskInterface {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function collectCells(): array {
 		$cells = [];
@@ -65,11 +65,11 @@ class CellTask implements TaskInterface {
 	}
 
 	/**
-	 * @param string[] $components
+	 * @param array<string> $components
 	 * @param string $folder
 	 * @param string|null $plugin
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function addCells(array $components, $folder, $plugin = null) {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);

@@ -42,7 +42,7 @@ class MailerTask implements TaskInterface {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function collectMailers(): array {
 		$mailers = [];
@@ -64,11 +64,11 @@ class MailerTask implements TaskInterface {
 	}
 
 	/**
-	 * @param string[] $components
+	 * @param array<string> $components
 	 * @param string $folder
 	 * @param string|null $plugin
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function addMailers(array $components, $folder, $plugin = null) {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);

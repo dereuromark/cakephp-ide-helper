@@ -32,7 +32,7 @@ class FormHelperTask extends ModelTask {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function collectFieldNames(): array {
 		$models = $this->collectModels();

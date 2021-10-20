@@ -53,7 +53,7 @@ class ComponentAnnotator extends AbstractAnnotator {
 	 *
 	 * @param string $className
 	 *
-	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
 	protected function buildAnnotations(string $className): array {
 		$annotations = [];
@@ -71,7 +71,7 @@ class ComponentAnnotator extends AbstractAnnotator {
 	 *
 	 * @param string $className
 	 *
-	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
 	protected function getComponentAnnotations(string $className) {
 		if ($this->_isAbstract($className)) {

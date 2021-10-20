@@ -63,7 +63,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $content
 	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function propertyHintMap(string $content, DocBlockHelper $helper): array {
 		/** @var \Cake\Database\Schema\TableSchemaInterface $tableSchema */
@@ -95,7 +95,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @return array<string, array>
 	 */
 	protected function hydrateSchemaFromAssoc(array $schema): array {
-		/** @var \Cake\ORM\AssociationCollection|\Cake\ORM\Association[] $associations */
+		/** @var \Cake\ORM\AssociationCollection|array<\Cake\ORM\Association> $associations */
 		$associations = $this->getConfig('associations');
 
 		foreach ($associations as $association) {
@@ -144,7 +144,7 @@ class EntityAnnotator extends AbstractAnnotator {
 		}
 
 		if ($association->type() === Association::MANY_TO_ONE) {
-			/** @var string|string[] $field */
+			/** @var string|array<string> $field */
 			$field = $association->getForeignKey();
 			if (is_array($field)) {
 				return false;
@@ -354,15 +354,15 @@ class EntityAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param string[] $propertyHintMap
+	 * @param array<string> $propertyHintMap
 	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
 	 *
 	 * @throws \RuntimeException
 	 *
-	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
 	protected function buildAnnotations(array $propertyHintMap, DocBlockHelper $helper): array {
-		/** @var string[] $virtualFields */
+		/** @var array<string> $virtualFields */
 		$virtualFields = $helper->virtualFields;
 
 		$real = $virtual = [];
@@ -391,7 +391,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 *
 	 * @param string $name
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function virtualFields(string $name): array {
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);

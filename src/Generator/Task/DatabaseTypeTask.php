@@ -49,7 +49,7 @@ class DatabaseTypeTask implements TaskInterface {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function getTypes(): array {
 		$types = [];

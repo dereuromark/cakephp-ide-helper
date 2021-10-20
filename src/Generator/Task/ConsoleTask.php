@@ -7,6 +7,9 @@ use IdeHelper\Generator\Directive\ExitPoint;
 
 class ConsoleTask implements TaskInterface {
 
+	/**
+	 * @var string
+	 */
 	protected const METHOD_ABORT = '\\' . ConsoleIo::class . '::abort()';
 
 	/**

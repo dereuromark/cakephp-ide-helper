@@ -15,7 +15,7 @@ class TableAssociationTask extends ModelTask {
 	public const CLASS_TABLE = Table::class;
 
 	/**
-	 * @var string[]
+	 * @var array<string, string>
 	 */
 	protected $aliases = [
 		'\\' . self::CLASS_TABLE . '::belongsTo(0)' => BelongsTo::class,

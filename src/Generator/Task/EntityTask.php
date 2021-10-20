@@ -8,10 +8,13 @@ use IdeHelper\ValueObject\StringName;
 
 class EntityTask extends ModelTask {
 
+	/**
+	 * @var string
+	 */
 	public const SET_ENTITY_FIELDS = 'entityFields';
 
 	/**
-	 * @var int[] array<string, int>
+	 * @var array<int> array<string, int>
 	 */
 	public static $methods = [
 		'has' => 0,
@@ -48,7 +51,7 @@ class EntityTask extends ModelTask {
 	}
 
 	/**
-	 * @return string[][]
+	 * @return array<array<string>>
 	 */
 	protected function getEntityFields(): array {
 		$modelFields = [];

@@ -45,18 +45,22 @@ abstract class AbstractAnnotator {
 	 * @var string
 	 */
 	public const CONFIG_DRY_RUN = 'dry-run';
+
 	/**
 	 * @var string
 	 */
 	public const CONFIG_PLUGIN = 'plugin';
+
 	/**
 	 * @var string
 	 */
 	public const CONFIG_NAMESPACE = 'namespace';
+
 	/**
 	 * @var string
 	 */
 	public const CONFIG_VERBOSE = 'verbose';
+
 	/**
 	 * @var string
 	 */
@@ -66,19 +70,25 @@ abstract class AbstractAnnotator {
 	 * @var string
 	 */
 	public const COUNT_REMOVED = 'removed';
+
 	/**
 	 * @var string
 	 */
 	public const COUNT_UPDATED = 'updated';
+
 	/**
 	 * @var string
 	 */
 	public const COUNT_ADDED = 'added';
+
 	/**
 	 * @var string
 	 */
 	public const COUNT_SKIPPED = 'skipped';
 
+	/**
+	 * @var array<string>
+	 */
 	public const TYPES = [
 		PropertyAnnotation::TAG,
 		PropertyReadAnnotation::TAG,
@@ -195,7 +205,7 @@ abstract class AbstractAnnotator {
 	/**
 	 * @param string $path
 	 * @param string $content
-	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $annotations
 	 *
 	 * @return bool
 	 */
@@ -256,7 +266,7 @@ abstract class AbstractAnnotator {
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $docBlockCloseIndex
-	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $annotations
 	 *
 	 * @throws \RuntimeException
 	 *
@@ -369,7 +379,7 @@ abstract class AbstractAnnotator {
 
 	/**
 	 * @param \IdeHelper\Annotation\AbstractAnnotation $annotation
-	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $existingAnnotations
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $existingAnnotations
 	 * @return bool
 	 */
 	protected function exists(AbstractAnnotation $annotation, array &$existingAnnotations): bool {
@@ -403,7 +413,7 @@ abstract class AbstractAnnotator {
 
 	/**
 	 * @param \IdeHelper\Annotation\AbstractAnnotation $annotation
-	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $existingAnnotations
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $existingAnnotations
 	 * @return \IdeHelper\Annotation\AbstractAnnotation|null
 	 */
 	protected function needsReplacing(AbstractAnnotation $annotation, array &$existingAnnotations) {
@@ -423,7 +433,7 @@ abstract class AbstractAnnotator {
 
 	/**
 	 * @param \IdeHelper\Annotation\AbstractAnnotation $annotation
-	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $existingAnnotations
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $existingAnnotations
 	 * @return bool
 	 */
 	protected function allowsReplacing(AbstractAnnotation $annotation, array &$existingAnnotations): bool {
@@ -441,9 +451,9 @@ abstract class AbstractAnnotator {
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $closeTagIndex
-	 * @param string[] $types
+	 * @param array<string> $types
 	 *
-	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
 	protected function parseExistingAnnotations(File $file, int $closeTagIndex, array $types = self::TYPES): array {
 		$tokens = $file->getTokens();
@@ -669,7 +679,7 @@ abstract class AbstractAnnotator {
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $index
-	 * @param \IdeHelper\Annotation\AbstractAnnotation[]|string[] $annotations
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation>|array<string> $annotations
 	 *
 	 * @return string
 	 */
@@ -737,9 +747,9 @@ abstract class AbstractAnnotator {
 	}
 
 	/**
-	 * @param string[] $usedModels
+	 * @param array<string> $usedModels
 	 * @param string $content
-	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
 	protected function getModelAnnotations(array $usedModels, string $content): array {
 		$annotations = [];

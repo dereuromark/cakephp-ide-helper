@@ -97,7 +97,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $content
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function getUsedModels(string $content): array {
 		preg_match_all('/\$this->loadModel\(\'([a-z.]+)\'/i', $content, $matches);
@@ -114,7 +114,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 * @param string $className
 	 * @param string $path
 	 *
-	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
 	protected function getComponentAnnotations(string $className, string $path): array {
 		try {
@@ -145,7 +145,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 * @param string $className
 	 * @param string $path
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function getUsedComponents(string $className, string $path): array {
 		$plugin = $className !== 'AppController' ? $this->getConfig(static::CONFIG_PLUGIN) : null;
@@ -183,7 +183,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 * @param string $content
 	 * @param string|null $primaryModelName
 	 *
-	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
 	protected function getPaginationAnnotations(string $content, ?string $primaryModelName): array {
 		$entityTypehints = $this->extractPaginateEntityTypehints($content, $primaryModelName);
@@ -204,7 +204,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 * @param string $content
 	 * @param string|null $primaryModelName
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function extractPaginateEntityTypehints(string $content, ?string $primaryModelName): array {
 		$models = [];

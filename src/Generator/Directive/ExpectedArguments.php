@@ -28,6 +28,9 @@ namespace IdeHelper\Generator\Directive;
  */
 class ExpectedArguments extends BaseDirective {
 
+	/**
+	 * @var string
+	 */
 	public const NAME = 'expectedArguments';
 
 	/**

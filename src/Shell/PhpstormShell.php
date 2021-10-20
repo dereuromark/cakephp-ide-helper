@@ -16,6 +16,9 @@ use RuntimeException;
  */
 class PhpstormShell extends Shell {
 
+	/**
+	 * @var int
+	 */
 	public const CODE_CHANGES = 2;
 
 	/**

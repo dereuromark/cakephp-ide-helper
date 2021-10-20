@@ -33,7 +33,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $path
 	 * @param string $content
-	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $annotations
 	 *
 	 * @return bool
 	 */
@@ -103,7 +103,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $annotations
 	 * @param int|null $phpOpenTagIndex
 	 * @param int|null $docBlockCloseIndex
 	 *
@@ -378,7 +378,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $annotations
 	 * @param int $docBlockCloseIndex
 	 *
 	 * @return bool
@@ -401,7 +401,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 * @param string $path
 	 * @param string $content
 	 *
-	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
 	protected function buildAnnotations(string $path, string $content): array {
 		$annotations = [];
@@ -454,7 +454,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 		$extractor = new $class();
 
 		$variables = $extractor->extract($file);
-		/** @var string[] $blacklist */
+		/** @var array<string> $blacklist */
 		$blacklist = (array)Configure::read('IdeHelper.autoCollectBlacklist');
 		foreach ($blacklist as $value) {
 			if (strpos($value, '/') === false) {

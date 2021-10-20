@@ -10,14 +10,14 @@ use RuntimeException;
 class ControllerActionParser {
 
 	/**
-	 * @var string[]|null
+	 * @var array<string>|null
 	 */
 	protected static $appControllerActions;
 
 	/**
 	 * @param string $path
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	public function parse(string $path): array {
 		$actions = $this->parseFile($path);
@@ -44,7 +44,7 @@ class ControllerActionParser {
 	/**
 	 * @param string $path
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function parseFile($path): array {
 		$content = file_get_contents($path);

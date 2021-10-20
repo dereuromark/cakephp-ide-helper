@@ -37,7 +37,7 @@ class LayoutTask implements TaskInterface {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function collectLayouts(): array {
 		$paths = App::path('templates');
@@ -57,11 +57,11 @@ class LayoutTask implements TaskInterface {
 	}
 
 	/**
-	 * @param string[] $result
-	 * @param string[] $paths
+	 * @param array<string> $result
+	 * @param array<string> $paths
 	 * @param string|null $plugin
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function addLayouts(array $result, array $paths, ?string $plugin = null): array {
 		foreach ($paths as $path) {

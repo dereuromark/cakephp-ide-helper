@@ -9,12 +9,15 @@ use IdeHelper\ValueObject\StringName;
 
 class ValidationTask implements TaskInterface {
 
+	/**
+	 * @var string
+	 */
 	public const SET_VALIDATION_WHEN = 'validationWhen';
 
 	/**
 	 * @phpstan-var array<string, int>
 	 *
-	 * @var int[]
+	 * @var array<int>
 	 */
 	protected static $methods = [
 		'requirePresence' => 1,
@@ -53,7 +56,7 @@ class ValidationTask implements TaskInterface {
 	}
 
 	/**
-	 * @return \IdeHelper\ValueObject\ValueObjectInterface[]
+	 * @return array<\IdeHelper\ValueObject\ValueObjectInterface>
 	 */
 	protected function getValidatorRequirePresence(): array {
 		return [

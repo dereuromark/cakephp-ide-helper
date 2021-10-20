@@ -33,7 +33,14 @@ use IdeHelper\Utility\PluginPath;
  */
 class AnnotationsShell extends Shell {
 
+	/**
+	 * @var int
+	 */
 	public const CODE_CHANGES = 2;
+
+	/**
+	 * @var array<string>
+	 */
 	public const TEMPLATE_EXTENSIONS = ['php'];
 
 	/**

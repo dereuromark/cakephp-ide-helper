@@ -7,12 +7,15 @@ use IdeHelper\ValueObject\StringName;
 
 class EnvTask implements TaskInterface {
 
+	/**
+	 * @var string
+	 */
 	protected const METHOD_ENV = '\\' . 'env()';
 
 	/**
 	 * Keys from Web based request, will be merged with CLI ones.
 	 *
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected static $keys = [
 		'HTTP_HOST',
@@ -64,7 +67,7 @@ class EnvTask implements TaskInterface {
 	}
 
 	/**
-	 * @return \IdeHelper\ValueObject\StringName[]
+	 * @return array<\IdeHelper\ValueObject\StringName>
 	 */
 	protected function envKeys(): array {
 		$keys = array_keys($_SERVER);

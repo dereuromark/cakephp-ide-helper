@@ -36,7 +36,7 @@ abstract class AbstractClassAnnotatorTask extends AbstractAnnotator {
 	/**
 	 * @param string $path
 	 * @param string $content
-	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $annotations
 	 *
 	 * @return bool
 	 */

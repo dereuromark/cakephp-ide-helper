@@ -18,7 +18,7 @@ class TranslationParser {
 	/**
 	 * @param string $path File path
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	public function parse(string $path): array {
 		$result = $this->poFileParser->parse($path);
