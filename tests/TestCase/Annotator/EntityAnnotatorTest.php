@@ -286,8 +286,6 @@ class EntityAnnotatorTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotateWithVirtualPropertiesAndReturnTypes() {
-		$this->skipIf(version_compare(PHP_VERSION, '7.1') < 0, 'Only possible in PHP 7.1+ (without nullable in 7.0).');
-
 		/** @var \TestApp\Model\Table\FooTable $Table */
 		$Table = TableRegistry::get('Foo');
 		$Table->hasMany('Wheels');
