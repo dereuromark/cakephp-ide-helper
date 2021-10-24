@@ -245,10 +245,7 @@ class EntityFieldTask extends AbstractTask {
 			return $this->_visibility;
 		}
 
-		$visConfig = $this->getConfig('visibility');
-		if ($visConfig === null) {
-			$visConfig = version_compare(PHP_VERSION, '7.1') >= 0;
-		}
+		$visConfig = $this->getConfig('visibility') ?? true;
 
 		return $this->_visibility = $visConfig;
 	}
