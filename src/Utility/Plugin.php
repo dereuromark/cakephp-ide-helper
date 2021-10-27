@@ -8,7 +8,7 @@ use Cake\Core\Plugin as CorePlugin;
 class Plugin extends CorePlugin {
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	public static function all(): array {
 		$plugins = static::loaded();

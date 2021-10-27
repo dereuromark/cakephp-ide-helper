@@ -104,7 +104,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param string $path
 	 * @param string $entityName
 	 * @param array<string, mixed> $associations
-	 * @param string[] $behaviors
+	 * @param array<string> $behaviors
 	 *
 	 * @return bool
 	 */
@@ -123,11 +123,11 @@ class ModelAnnotator extends AbstractAnnotator {
 	/**
 	 * @param array<string, mixed> $associations
 	 * @param string $entity
-	 * @param string[] $behaviors
+	 * @param array<string> $behaviors
 	 *
 	 * @throws \RuntimeException
 	 *
-	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
 	protected function buildAnnotations(array $associations, string $entity, array $behaviors): array {
 		$namespace = $this->getConfig(static::CONFIG_NAMESPACE);
@@ -222,7 +222,7 @@ class ModelAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $content
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function parseLoadedBehaviors(string $content): array {
 		preg_match_all('/\$this-\>addBehavior\(\'([a-z.\/]+)\'/i', $content, $matches);
@@ -322,7 +322,7 @@ class ModelAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param \Cake\ORM\Table $table
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function getBehaviors($table): array {
 		$object = $table->behaviors();
@@ -358,8 +358,8 @@ class ModelAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param string[] $map
-	 * @return string[]
+	 * @param array<string> $map
+	 * @return array<string>
 	 */
 	protected function extractBehaviors(array $map) {
 		$result = [];

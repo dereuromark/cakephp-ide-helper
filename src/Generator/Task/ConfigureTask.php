@@ -10,10 +10,14 @@ use IdeHelper\ValueObject\StringName;
 class ConfigureTask implements TaskInterface {
 
 	public const CLASS_CONFIGURE = Configure::class;
+
+	/**
+	 * @var string
+	 */
 	public const SET_CONFIGURE_KEYS = 'configureKeys';
 
 	/**
-	 * @var int[]
+	 * @var array<int>
 	 */
 	protected $methods = [
 		'\\' . self::CLASS_CONFIGURE . '::read()' => 0,
@@ -44,7 +48,7 @@ class ConfigureTask implements TaskInterface {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function collectKeys(): array {
 		$keys = [];

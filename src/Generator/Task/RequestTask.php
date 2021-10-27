@@ -11,7 +11,7 @@ class RequestTask implements TaskInterface {
 	public const CLASS_REQUEST = ServerRequest::class;
 
 	/**
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected static $paramKeys = [
 		'controller',
@@ -39,7 +39,7 @@ class RequestTask implements TaskInterface {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function collectParamKeys(): array {
 		$keys = [];

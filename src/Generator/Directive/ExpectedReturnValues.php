@@ -24,6 +24,9 @@ namespace IdeHelper\Generator\Directive;
  */
 class ExpectedReturnValues extends BaseDirective {
 
+	/**
+	 * @var string
+	 */
 	public const NAME = 'expectedReturnValues';
 
 	/**

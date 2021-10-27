@@ -14,7 +14,7 @@ use ReflectionClass;
 class ModelTask implements TaskInterface {
 
 	/**
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $aliases = [
 		'\Cake\ORM\TableRegistry::get(0)',

@@ -59,7 +59,7 @@ class Illuminator {
 
 	/**
 	 * @param string $path
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function getFiles($path) {
 		$folder = new Folder($path);

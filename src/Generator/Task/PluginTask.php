@@ -18,7 +18,7 @@ class PluginTask implements TaskInterface {
 	public const CLASS_APPLICATION = BaseApplication::class;
 
 	/**
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $aliases = [
 		'\\' . self::INTERFACE_APPLICATION . '::addPlugin(0)',
@@ -49,7 +49,7 @@ class PluginTask implements TaskInterface {
 	/**
 	 * Read from PluginCollection loaded config.
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function collectPlugins(): array {
 		$plugins = (array)Configure::read('plugins');

@@ -19,14 +19,14 @@ class ComponentTask implements TaskInterface {
 	public const CLASS_COMPONENT_REGISTRY = ComponentRegistry::class;
 
 	/**
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $loadAliases = [
 		'\\' . self::CLASS_CONTROLLER . '::loadComponent(0)',
 	];
 
 	/**
-	 * @var int[]
+	 * @var array<string, int>
 	 */
 	protected $unloadAliases = [
 		'\\' . self::CLASS_COMPONENT_REGISTRY . '::unload()' => 0,
@@ -65,7 +65,7 @@ class ComponentTask implements TaskInterface {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function collectComponents(): array {
 		$components = [];
@@ -87,11 +87,11 @@ class ComponentTask implements TaskInterface {
 	}
 
 	/**
-	 * @param string[] $components
+	 * @param array<string> $components
 	 * @param string $folder
 	 * @param string|null $plugin
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function addComponents(array $components, $folder, $plugin = null) {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);

@@ -15,14 +15,14 @@ class BehaviorTask implements TaskInterface {
 	public const CLASS_TABLE = Table::class;
 
 	/**
-	 * @var int[]
+	 * @var array<int>
 	 */
 	protected $addAliases = [
 		'\\' . self::CLASS_TABLE . '::addBehavior()' => 0,
 	];
 
 	/**
-	 * @var int[]
+	 * @var array<int>
 	 */
 	protected $removeAliases = [
 		'\\' . self::CLASS_TABLE . '::removeBehavior()' => 0,
@@ -59,7 +59,7 @@ class BehaviorTask implements TaskInterface {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function collectBehaviors(): array {
 		$behaviors = [];

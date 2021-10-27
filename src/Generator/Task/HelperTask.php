@@ -17,7 +17,14 @@ class HelperTask implements TaskInterface {
 	public const CLASS_VIEW = View::class;
 	public const CLASS_VIEW_BUILDER = ViewBuilder::class;
 
+	/**
+	 * @var string
+	 */
 	protected const METHOD_VIEW = '\\' . self::CLASS_VIEW . '::loadHelper(0)';
+
+	/**
+	 * @var string
+	 */
 	protected const METHOD_VIEW_BUILDER = '\\' . self::CLASS_VIEW_BUILDER . '::addHelper()';
 
 	/**
@@ -50,7 +57,7 @@ class HelperTask implements TaskInterface {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function collectHelpers(): array {
 		$helpers = [];
@@ -72,11 +79,11 @@ class HelperTask implements TaskInterface {
 	}
 
 	/**
-	 * @param string[] $helpers
+	 * @param array<string> $helpers
 	 * @param string $folder
 	 * @param string|null $plugin
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function addHelpers(array $helpers, $folder, $plugin = null) {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);

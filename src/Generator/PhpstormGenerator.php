@@ -38,7 +38,7 @@ class PhpstormGenerator implements GeneratorInterface {
 	}
 
 	/**
-	 * @param \IdeHelper\Generator\Directive\BaseDirective[] $map
+	 * @param array<\IdeHelper\Generator\Directive\BaseDirective> $map
 	 *
 	 * @return string
 	 */
@@ -64,7 +64,7 @@ TXT;
 	}
 
 	/**
-	 * @param \IdeHelper\Generator\Directive\BaseDirective[] $map
+	 * @param array<\IdeHelper\Generator\Directive\BaseDirective> $map
 	 *
 	 * @return void
 	 */

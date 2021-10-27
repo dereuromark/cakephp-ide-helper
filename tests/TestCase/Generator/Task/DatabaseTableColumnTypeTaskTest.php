@@ -14,7 +14,7 @@ use TestApp\Generator\Task\TestDatabaseTableColumnTypeTask;
 class DatabaseTableColumnTypeTaskTest extends TestCase {
 
 	/**
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $fixtures = [
 		'plugin.IdeHelper.Cars',

@@ -18,6 +18,9 @@ use InvalidArgumentException;
  */
 class IlluminatorShell extends Shell {
 
+	/**
+	 * @var int
+	 */
 	public const CODE_CHANGES = 2;
 
 	/**
@@ -125,7 +128,7 @@ class IlluminatorShell extends Shell {
 	/**
 	 * @throws \RuntimeException
 	 * @throws \InvalidArgumentException
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function getTaskList(): array {
 		$taskCollection = new TaskCollection($this->_io(), $this->params);

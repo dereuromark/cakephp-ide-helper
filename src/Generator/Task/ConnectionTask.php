@@ -8,6 +8,9 @@ use IdeHelper\ValueObject\StringName;
 
 class ConnectionTask implements TaskInterface {
 
+	/**
+	 * @var string
+	 */
 	protected const METHOD_GET = '\\' . ConnectionManager::class . '::get()';
 
 	/**
@@ -27,7 +30,7 @@ class ConnectionTask implements TaskInterface {
 	}
 
 	/**
-	 * @return \IdeHelper\ValueObject\StringName[]
+	 * @return array<\IdeHelper\ValueObject\StringName>
 	 */
 	protected function connectionKeys(): array {
 		$configured = ConnectionManager::configured();

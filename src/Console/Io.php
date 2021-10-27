@@ -57,7 +57,7 @@ class Io {
 	 * While using Shell::VERBOSE means it will only display when verbose output is toggled.
 	 *
 	 * @link http://book.cakephp.org/3.0/en/console-and-shells.html#Shell::out
-	 * @param string|string[] $message A string or an array of strings to output
+	 * @param string|array<string> $message A string or an array of strings to output
 	 * @param int $newlines Number of newlines to append
 	 * @param int $level The message's output level, see above.
 	 * @return int|null The number of bytes returned from writing to stdout.
@@ -70,7 +70,7 @@ class Io {
 	 * Outputs a single or multiple error messages to stderr. If no parameters
 	 * are passed outputs just a newline.
 	 *
-	 * @param string|string[] $message A string or an array of strings to output
+	 * @param string|array<string> $message A string or an array of strings to output
 	 * @param int $newlines Number of newlines to append
 	 * @return int|null The number of bytes returned from writing to stderr.
 	 */
@@ -87,7 +87,7 @@ class Io {
 	 * Convenience method for out() that wraps message between <info /> tag
 	 *
 	 * @see http://book.cakephp.org/3.0/en/console-and-shells.html#Shell::out
-	 * @param string|string[] $message A string or an array of strings to output
+	 * @param string|array<string> $message A string or an array of strings to output
 	 * @param int $newlines Number of newlines to append
 	 * @param int $level The message's output level, see above.
 	 * @return int|null The number of bytes returned from writing to stdout.
@@ -105,7 +105,7 @@ class Io {
 	 * Convenience method for out() that wraps message between <comment /> tag
 	 *
 	 * @see http://book.cakephp.org/3.0/en/console-and-shells.html#Shell::out
-	 * @param string|string[] $message A string or an array of strings to output
+	 * @param string|array<string> $message A string or an array of strings to output
 	 * @param int $newlines Number of newlines to append
 	 * @param int $level The message's output level, see above.
 	 * @return int|null The number of bytes returned from writing to stdout.
@@ -123,7 +123,7 @@ class Io {
 	 * Convenience method for err() that wraps message between <warning /> tag
 	 *
 	 * @see http://book.cakephp.org/3.0/en/console-and-shells.html#Shell::err
-	 * @param string|string[] $message A string or an array of strings to output
+	 * @param string|array<string> $message A string or an array of strings to output
 	 * @param int $newlines Number of newlines to append
 	 * @return int|null The number of bytes returned from writing to stderr.
 	 */
@@ -140,7 +140,7 @@ class Io {
 	 * Convenience method for out() that wraps message between <success /> tag
 	 *
 	 * @see http://book.cakephp.org/3.0/en/console-and-shells.html#Shell::out
-	 * @param string|string[] $message A string or an array of strings to output
+	 * @param string|array<string> $message A string or an array of strings to output
 	 * @param int $newlines Number of newlines to append
 	 * @param int $level The message's output level, see above.
 	 * @return int|null The number of bytes returned from writing to stdout.

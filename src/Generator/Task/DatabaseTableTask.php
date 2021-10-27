@@ -14,15 +14,18 @@ use IdeHelper\ValueObject\StringName;
  */
 class DatabaseTableTask implements TaskInterface {
 
+	/**
+	 * @var string
+	 */
 	public const SET_TABLE_NAMES = 'tableNames';
 
 	/**
-	 * @var string[]|null
+	 * @var array<string>|null
 	 */
 	protected static $tables;
 
 	/**
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $aliases = [
 		'\Migrations\AbstractMigration::table()',
@@ -56,7 +59,7 @@ class DatabaseTableTask implements TaskInterface {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function collectTables(): array {
 		if (static::$tables !== null) {

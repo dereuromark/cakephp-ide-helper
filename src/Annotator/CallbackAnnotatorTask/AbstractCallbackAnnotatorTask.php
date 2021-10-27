@@ -87,7 +87,7 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 		$fixer->beginChangeset();
 
 		foreach ($methods as $method) {
-			/** @var \IdeHelper\Annotation\ParamAnnotation[] $replacingAnnotations */
+			/** @var array<\IdeHelper\Annotation\ParamAnnotation> $replacingAnnotations */
 			$replacingAnnotations = $method['annotations'];
 			foreach ($replacingAnnotations as $annotation) {
 				$fixer->replaceToken($annotation->getIndex(), $annotation->build());
