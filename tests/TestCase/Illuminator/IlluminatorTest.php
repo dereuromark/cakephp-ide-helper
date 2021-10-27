@@ -59,8 +59,7 @@ class IlluminatorTest extends TestCase {
 
 		$out = $this->out->output();
 
-		$visibility = version_compare(PHP_VERSION, '7.1') >= 0 ? 'public ' : '';
-		$this->assertTextContains($visibility . 'const FIELD_ID = \'id\';', $out);
+		$this->assertTextContains('public const FIELD_ID = \'id\';', $out);
 	}
 
 }
