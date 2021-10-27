@@ -33,6 +33,7 @@
 		"cakephp/migrations": "^3.0.0",
 		"dereuromark/cakephp-shim": "^2.2.0",
 		"fig-r/psr2r-sniffer": "dev-next",
+		"spryker/code-sniffer": "dev-master as 0.16.6",
 		"phpunit/phpunit": "^9.5"
 	},
 	"autoload": {

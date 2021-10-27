@@ -82,7 +82,7 @@ class DocBlockHelper extends BakeDocBlockHelper {
 					$properties = $this->_insertAfter(
 						$properties,
 						$key,
-						[$property => $this->columnTypeNullable($info, $type)]
+						[$property => $this->columnTypeNullable($info, $type)],
 					);
 				} else {
 					$properties[$property] = $this->columnTypeNullable($info, $type);

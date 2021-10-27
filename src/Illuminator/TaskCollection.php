@@ -106,7 +106,7 @@ class TaskCollection {
 		$class = get_class($task);
 		if (!$task instanceof AbstractTask) {
 			throw new InvalidArgumentException(
-				"Cannot use '$class' as task, it is not implementing " . AbstractTask::class . '.'
+				"Cannot use '$class' as task, it is not implementing " . AbstractTask::class . '.',
 			);
 		}
 
