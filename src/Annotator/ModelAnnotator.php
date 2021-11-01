@@ -144,7 +144,11 @@ class ModelAnnotator extends AbstractAnnotator {
 			$fullClassName = '\\' . $fullClassName;
 			$fullClassNameCollection = ArrayString::generate($fullClassName);
 
-			// Copied from Bake plugin's DocBlockHelper
+			/**
+			 * Copied from Bake plugin's DocBlockHelper
+			 *
+			 * @link \Bake\View\Helper\DocBlockHelper::buildTableAnnotations()
+			 */
 			$annotations[] = "@method $fullClassName newEmptyEntity()";
 			$annotations[] = "@method $fullClassName newEntity(array \$data, array \$options = [])";
 			$annotations[] = "@method $fullClassNameCollection newEntities(array \$data, array \$options = [])";
