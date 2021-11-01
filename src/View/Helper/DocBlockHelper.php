@@ -16,7 +16,7 @@ class DocBlockHelper extends BakeDocBlockHelper {
 	/**
 	 * Overwrite Bake plugin class method until https://github.com/cakephp/bake/pull/470 lands.
 	 *
-	 * @param array<array> $propertySchema The property schema to use for generating the type map.
+	 * @param array<array<string, mixed>> $propertySchema The property schema to use for generating the type map.
 	 * @return array<string, string> The property DocType map.
 	 */
 	public function buildEntityPropertyHintTypeMap(array $propertySchema): array {
@@ -66,7 +66,7 @@ class DocBlockHelper extends BakeDocBlockHelper {
 	 *
 	 * Overwrite with nullable option for now until Bake is adjusted ( https://github.com/cakephp/bake/issues/579 )
 	 *
-	 * @param array<string, array> $propertySchema The property schema to use for generating the type map.
+	 * @param array<string, array<string, mixed>> $propertySchema The property schema to use for generating the type map.
 	 * @return array<string, string> The property DocType map.
 	 */
 	public function buildEntityAssociationHintTypeMap(array $propertySchema): array {

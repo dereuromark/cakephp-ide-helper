@@ -77,7 +77,7 @@ class ShellAnnotator extends AbstractAnnotator {
 	 *
 	 * @throws \Exception
 	 *
-	 * @return array<string, array>
+	 * @return array<string, array<string, mixed>>
 	 */
 	protected function getUsedTasks(string $name): array {
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);

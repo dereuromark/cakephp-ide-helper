@@ -362,7 +362,7 @@ abstract class AbstractAnnotator {
 	}
 
 	/**
-	 * @param array<array> $tokens
+	 * @param array<array<string, mixed>> $tokens
 	 * @param int $index
 	 *
 	 * @return int
@@ -512,7 +512,7 @@ abstract class AbstractAnnotator {
 	 *
 	 * T_VARIABLE ..., content=`$variable`
 	 *
-	 * @param array<array> $tokens
+	 * @param array<array<string, mixed>> $tokens
 	 * @param int $closeTagIndex
 	 * @param string $variable
 	 *
@@ -542,7 +542,7 @@ abstract class AbstractAnnotator {
 	 * T_STRING ..., content=`PropertyName`
 	 * T_OBJECT_OPERATOR ..., content=`->`
 	 *
-	 * @param array<array> $tokens
+	 * @param array<array<string, mixed>> $tokens
 	 * @param int $closeTagIndex
 	 * @param string $variable
 	 *
@@ -601,7 +601,7 @@ abstract class AbstractAnnotator {
 	 * T_STRING ..., content=`method`
 	 * T_OPEN_PARENTHESIS ..., content=`(`
 	 *
-	 * @param array<array> $tokens
+	 * @param array<array<string, mixed>> $tokens
 	 * @param int $closeTagIndex
 	 * @param string $method
 	 *

@@ -744,6 +744,8 @@ class AnnotationsShell extends Shell {
 	}
 
 	/**
+	 * @phpstan-param class-string<\IdeHelper\Annotator\AbstractAnnotator> $class
+	 *
 	 * @param string $class
 	 *
 	 * @return \IdeHelper\Annotator\AbstractAnnotator

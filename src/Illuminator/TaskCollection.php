@@ -94,7 +94,7 @@ class TaskCollection {
 	/**
 	 * Adds a task to the collection.
 	 *
-	 * @param string|\IdeHelper\Illuminator\Task\AbstractTask $task The task to map.
+	 * @param \IdeHelper\Illuminator\Task\AbstractTask|string $task The task to map.
 	 * @throws \InvalidArgumentException
 	 * @return $this
 	 */

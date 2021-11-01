@@ -42,7 +42,7 @@ class TaskCollection {
 	/**
 	 * Adds a task to the collection.
 	 *
-	 * @param string|\IdeHelper\CodeCompletion\Task\TaskInterface $task The task to map.
+	 * @param \IdeHelper\CodeCompletion\Task\TaskInterface|string $task The task to map.
 	 * @throws \InvalidArgumentException
 	 * @return $this
 	 */

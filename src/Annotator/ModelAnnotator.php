@@ -243,7 +243,7 @@ class ModelAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param \Cake\ORM\AssociationCollection $tableAssociations
-	 * @return array<string, array>
+	 * @return array<string, array<string, string>>
 	 */
 	protected function getAssociations(AssociationCollection $tableAssociations): array {
 		$associations = [];
@@ -363,7 +363,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	 */
 	protected function extractBehaviors(array $map) {
 		$result = [];
-		/** @var string|object $behavior */
+		/** @var object|string $behavior */
 		foreach ($map as $name => $behavior) {
 			$behaviorClassName = get_class($behavior) ?: '';
 			$pluginName = $this->resolvePluginName($behaviorClassName, $name);
@@ -409,6 +409,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	 */
 	protected function getEntityAnnotator(string $entityClass, TableSchemaInterface $schema, AssociationCollection $associations): AbstractAnnotator {
 		$class = EntityAnnotator::class;
+		/** @phpstan-var array<class-string<\IdeHelper\Annotator\AbstractAnnotator>> $tasks */
 		$tasks = (array)Configure::read('IdeHelper.annotators');
 		if (isset($tasks[$class])) {
 			$class = $tasks[$class];

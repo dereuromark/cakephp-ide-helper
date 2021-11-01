@@ -112,7 +112,7 @@ class TaskCollection {
 	/**
 	 * Adds a task to the collection.
 	 *
-	 * @param string|\IdeHelper\Generator\Task\TaskInterface $task The task to map.
+	 * @param \IdeHelper\Generator\Task\TaskInterface|string $task The task to map.
 	 * @throws \InvalidArgumentException
 	 * @return $this
 	 */

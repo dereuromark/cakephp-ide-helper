@@ -92,10 +92,10 @@ class EntityAnnotator extends AbstractAnnotator {
 	 *
 	 * @param array<string, mixed> $schema
 	 *
-	 * @return array<string, array>
+	 * @return array<string, array<string, mixed>>
 	 */
 	protected function hydrateSchemaFromAssoc(array $schema): array {
-		/** @var \Cake\ORM\AssociationCollection|array<\Cake\ORM\Association> $associations */
+		/** @var \Cake\ORM\AssociationCollection|\Cake\ORM\Association[] $associations */
 		$associations = $this->getConfig('associations');
 
 		foreach ($associations as $association) {
@@ -144,7 +144,7 @@ class EntityAnnotator extends AbstractAnnotator {
 		}
 
 		if ($association->type() === Association::MANY_TO_ONE) {
-			/** @var string|array<string> $field */
+			/** @var array<string>|string $field */
 			$field = $association->getForeignKey();
 			if (is_array($field)) {
 				return false;
@@ -267,7 +267,7 @@ class EntityAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param array<array> $tokens
+	 * @param array<array<string, mixed>> $tokens
 	 * @param int $functionIndex
 	 * @return string
 	 */
@@ -292,7 +292,7 @@ class EntityAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param array<array> $tokens
+	 * @param array<array<string, mixed>> $tokens
 	 * @param int $functionIndex
 	 *
 	 * @return string
@@ -318,7 +318,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param array<array> $tokens
+	 * @param array<array<string, mixed>> $tokens
 	 * @param int $docBlockOpenTagIndex
 	 * @param int $docBlockCloseTagIndex
 	 *
