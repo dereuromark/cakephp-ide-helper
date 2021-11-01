@@ -333,7 +333,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 					$object = '\Cake\Collection\CollectionInterface';
 				}
 
-				$annotation .= '|' . $object;
+				$annotation = '\\' . $className . '[]' . '|' . $object;
 			}
 
 			$result[$resultKey] = AnnotationFactory::createOrFail(VariableAnnotation::TAG, $annotation, '$' . $matches[1][$key]);
