@@ -19,12 +19,12 @@ use Throwable;
 class EntityAnnotator extends AbstractAnnotator {
 
 	/**
-	 * @var array|null
+	 * @var array<string, string>|null
 	 */
 	protected static $typeMap;
 
 	/**
-	 * @var array
+	 * @var array<string, string>
 	 */
 	protected static $typeMapDefaults = [
 		'mediumtext' => 'string',
@@ -63,7 +63,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $content
 	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function propertyHintMap(string $content, DocBlockHelper $helper): array {
 		/** @var \Cake\Database\Schema\TableSchemaInterface $tableSchema */
@@ -90,9 +90,9 @@ class EntityAnnotator extends AbstractAnnotator {
 	/**
 	 * From Bake Plugin
 	 *
-	 * @param array $schema
+	 * @param array<string, mixed> $schema
 	 *
-	 * @return array
+	 * @return array<string, array<string, mixed>>
 	 */
 	protected function hydrateSchemaFromAssoc(array $schema): array {
 		/** @var \Cake\ORM\AssociationCollection|\Cake\ORM\Association[] $associations */
@@ -135,7 +135,7 @@ class EntityAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param \Cake\ORM\Association $association
-	 * @param array $schema
+	 * @param array<string, mixed> $schema
 	 * @return bool
 	 */
 	protected function nullable(Association $association, array $schema): bool {
@@ -144,7 +144,7 @@ class EntityAnnotator extends AbstractAnnotator {
 		}
 
 		if ($association->type() === Association::MANY_TO_ONE) {
-			/** @var string|string[] $field */
+			/** @var array<string>|string $field */
 			$field = $association->getForeignKey();
 			if (is_array($field)) {
 				return false;
@@ -170,10 +170,10 @@ class EntityAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param array $propertySchema
+	 * @param array<string, array<string, mixed>> $propertySchema
 	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
 	 *
-	 * @return string[]
+	 * @return array<string, string>
 	 */
 	protected function buildExtendedEntityPropertyHintTypeMap(array $propertySchema, DocBlockHelper $helper): array {
 		$propertyHintMap = [];
@@ -214,7 +214,7 @@ class EntityAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $content
-	 * @return string[]
+	 * @return array<string, string>
 	 */
 	protected function buildVirtualPropertyHintTypeMap(string $content): array {
 		if (!preg_match('#\bfunction _get[A-Z][a-zA-Z0-9]+\(\)#', $content)) {
@@ -267,7 +267,7 @@ class EntityAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param array $tokens
+	 * @param array<array<string, mixed>> $tokens
 	 * @param int $functionIndex
 	 * @return string
 	 */
@@ -292,7 +292,7 @@ class EntityAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param array $tokens
+	 * @param array<array<string, mixed>> $tokens
 	 * @param int $functionIndex
 	 *
 	 * @return string
@@ -318,7 +318,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param array $tokens
+	 * @param array<array<string, mixed>> $tokens
 	 * @param int $docBlockOpenTagIndex
 	 * @param int $docBlockCloseTagIndex
 	 *
@@ -354,15 +354,15 @@ class EntityAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param string[] $propertyHintMap
+	 * @param array<string> $propertyHintMap
 	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
 	 *
 	 * @throws \RuntimeException
 	 *
-	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
 	protected function buildAnnotations(array $propertyHintMap, DocBlockHelper $helper): array {
-		/** @var string[] $virtualFields */
+		/** @var array<string> $virtualFields */
 		$virtualFields = $helper->virtualFields;
 
 		$real = $virtual = [];
@@ -391,7 +391,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 *
 	 * @param string $name
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function virtualFields(string $name): array {
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);

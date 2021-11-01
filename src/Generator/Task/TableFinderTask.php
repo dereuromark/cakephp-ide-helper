@@ -17,18 +17,33 @@ use Throwable;
 
 class TableFinderTask extends ModelTask {
 
+	/**
+	 * @var string
+	 */
 	public const INTERFACE_QUERY = QueryInterface::class;
+
+	/**
+	 * @var string
+	 */
 	public const CLASS_TABLE = Table::class;
+
+	/**
+	 * @var string
+	 */
 	public const CLASS_ASSOCIATION = Association::class;
+
+	/**
+	 * @var string
+	 */
 	public const CLASS_QUERY = Query::class;
 
 	/**
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $cache = [];
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$result = [];
@@ -51,7 +66,7 @@ class TableFinderTask extends ModelTask {
 	}
 
 	/**
-	 * @return array
+	 * @return array<string, array<string>>
 	 */
 	protected function collectFinders(): array {
 		$baseFinders = $this->getFinderMethods(static::CLASS_TABLE);
@@ -71,7 +86,7 @@ class TableFinderTask extends ModelTask {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function getCustomFinders(): array {
 		$models = $this->collectModels();
@@ -97,7 +112,7 @@ class TableFinderTask extends ModelTask {
 				$modelObject = TableRegistry::getTableLocator()->get($model);
 				$behaviors = $modelObject->behaviors();
 
-				/** @var \Cake\ORM\Behavior[] $iterator */
+				/** @var array<\Cake\ORM\Behavior> $iterator */
 				$iterator = $behaviors->getIterator();
 				foreach ($iterator as $behavior) {
 					$behaviorClass = get_class($behavior);
@@ -145,7 +160,7 @@ class TableFinderTask extends ModelTask {
 	/**
 	 * @param string $className
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function getFinderMethods($className) {
 		$result = [];
@@ -161,11 +176,11 @@ class TableFinderTask extends ModelTask {
 	}
 
 	/**
-	 * @param string[] $result
+	 * @param array<string> $result
 	 * @param string $method
 	 * @param string $className
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function addMethod(array $result, $method, $className) {
 		// We must exclude all find...By... patterns as possible false positives for now (refs https://github.com/cakephp/cakephp/issues/11240)

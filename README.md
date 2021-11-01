@@ -79,4 +79,4 @@ The following plugins use this plugin to improve IDE compatibility around factor
 More collections of useful tasks can be found in the [IdeHelperExtra plugin](https://github.com/dereuromark/cakephp-ide-helper-extra).
 
 ### Install, Setup, Usage
-See the **[Docs](https://github.com/dereuromark/cakephp-ide-helper/tree/master/docs)** for details.
+See the **[Docs](docs/)** for details.

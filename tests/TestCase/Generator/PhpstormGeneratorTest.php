@@ -15,7 +15,7 @@ use TestApp\Generator\Task\TestFixtureTask;
 class PhpstormGeneratorTest extends TestCase {
 
 	/**
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $fixtures = [
 		'plugin.IdeHelper.Cars',

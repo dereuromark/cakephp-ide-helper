@@ -9,25 +9,25 @@ use IdeHelper\Console\Io;
 class CallbackAnnotatorTaskCollection {
 
 	/**
-	 * @phpstan-var class-string<\IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface>[]
+	 * @phpstan-var array<class-string<\IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface>, class-string<\IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface>>
 	 *
-	 * @var string[]
+	 * @var array<string, string>
 	 */
 	protected $defaultTasks = [
 		TableCallbackAnnotatorTask::class => TableCallbackAnnotatorTask::class,
 	];
 
 	/**
-	 * @phpstan-var class-string<\IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface>[]
+	 * @phpstan-var array<class-string<\IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface>>
 	 *
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $tasks;
 
 	/**
-	 * @phpstan-param class-string<\IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface>[] $tasks
+	 * @phpstan-param array<class-string<\IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface>> $tasks
 	 *
-	 * @param string[] $tasks
+	 * @param array<string> $tasks
 	 */
 	public function __construct(array $tasks = []) {
 		$defaultTasks = $this->defaultTasks();
@@ -43,9 +43,9 @@ class CallbackAnnotatorTaskCollection {
 	}
 
 	/**
-	 * @phpstan-return class-string<\IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface>[]
+	 * @phpstan-return array<class-string<\IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface>>
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	public function defaultTasks(): array {
 		$tasks = (array)Configure::read('IdeHelper.callbackAnnotatorTasks') + $this->defaultTasks;
@@ -62,10 +62,10 @@ class CallbackAnnotatorTaskCollection {
 
 	/**
 	 * @param \IdeHelper\Console\Io $io
-	 * @param array $config
+	 * @param array<string, mixed> $config
 	 * @param string $path
 	 * @param string $content
-	 * @return \IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface[]
+	 * @return array<\IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface>
 	 */
 	public function tasks(Io $io, array $config, $path, $content) {
 		$tasks = $this->tasks;

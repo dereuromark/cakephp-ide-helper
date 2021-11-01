@@ -15,6 +15,9 @@ namespace IdeHelper\Generator\Directive;
  */
 class ExitPoint extends BaseDirective {
 
+	/**
+	 * @var string
+	 */
 	public const NAME = 'exitPoint';
 
 	/**
@@ -39,7 +42,7 @@ class ExitPoint extends BaseDirective {
 	}
 
 	/**
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function toArray() {
 		return [

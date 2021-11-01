@@ -12,13 +12,14 @@ class VariableExtractor {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function extract(File $file) {
 		$vars = $this->collect($file);
 
 		$result = [];
 		foreach ($vars as $var) {
+			/** @var string $name */
 			$name = $var['name'];
 			if (!isset($result[$name])) {
 				$result[$name] = $var;
@@ -44,7 +45,7 @@ class VariableExtractor {
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 *
-	 * @return array
+	 * @return array<array<string, mixed>>
 	 */
 	protected function collect(File $file) {
 		$tokens = $file->getTokens();
@@ -71,9 +72,9 @@ class VariableExtractor {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param array $token
+	 * @param array<string, mixed> $token
 	 * @param int $index
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	protected function getVar(File $file, array $token, $index) {
 		$variable = substr($token['content'], 1);
@@ -97,7 +98,7 @@ class VariableExtractor {
 	 * Guesses the variable type based on PHP token elements before or after.
 	 *
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param array $result
+	 * @param array<string, mixed> $result
 	 * @return string|null
 	 */
 	protected function getVarType(File $file, array $result) {
@@ -124,7 +125,7 @@ class VariableExtractor {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param array $result
+	 * @param array<string, mixed> $result
 	 * @return string|null
 	 */
 	protected function getExcludeReason(File $file, array $result) {
@@ -144,7 +145,7 @@ class VariableExtractor {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param array $result
+	 * @param array<string, mixed> $result
 	 * @return bool
 	 */
 	protected function isLoopVar(File $file, array $result) {
@@ -164,7 +165,7 @@ class VariableExtractor {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param array $result
+	 * @param array<string, mixed> $result
 	 * @param int $assignmentIndex
 	 *
 	 * @return bool
@@ -186,7 +187,7 @@ class VariableExtractor {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param array $result
+	 * @param array<string, mixed> $result
 	 * @return bool
 	 */
 	protected function isTryCatchVar(File $file, array $result) {
@@ -210,7 +211,7 @@ class VariableExtractor {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param array $result
+	 * @param array<string, mixed> $result
 	 * @return bool
 	 */
 	protected function isAssignment(File $file, array $result) {

@@ -10,10 +10,14 @@ use IdeHelper\ValueObject\StringName;
 class CacheTask implements TaskInterface {
 
 	public const CLASS_CACHE = Cache::class;
+
+	/**
+	 * @var string
+	 */
 	public const SET_CACHE_ENGINES = 'cacheEngines';
 
 	/**
-	 * @var int[]
+	 * @var array<int>
 	 */
 	protected $aliases = [
 		'\\' . self::CLASS_CACHE . '::clear()' => 0,
@@ -30,7 +34,7 @@ class CacheTask implements TaskInterface {
 	];
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$result = [];
@@ -48,7 +52,7 @@ class CacheTask implements TaskInterface {
 	}
 
 	/**
-	 * @return \IdeHelper\ValueObject\StringName[]
+	 * @return array<\IdeHelper\ValueObject\StringName>
 	 */
 	protected function collectCacheEngines(): array {
 		$cacheEngines = Cache::configured();

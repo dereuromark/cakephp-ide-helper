@@ -13,10 +13,13 @@ use Migrations\Migrations;
  */
 class DatabaseTableColumnTypeTask implements TaskInterface {
 
+	/**
+	 * @var string
+	 */
 	public const SET_COLUMN_TYPES = 'columnTypes';
 
 	/**
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $aliases = [
 		'\Migrations\Table::addColumn()',
@@ -26,7 +29,7 @@ class DatabaseTableColumnTypeTask implements TaskInterface {
 	/**
 	 * Used if the Migrations plugin is not loaded
 	 *
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $defaultTypes = [
 		'string',
@@ -53,7 +56,7 @@ class DatabaseTableColumnTypeTask implements TaskInterface {
 	];
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$list = [];
@@ -78,7 +81,7 @@ class DatabaseTableColumnTypeTask implements TaskInterface {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function collectTableColumnTypes(): array {
 		if (!Plugin::isLoaded('Migrations')) {

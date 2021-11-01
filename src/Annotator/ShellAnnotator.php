@@ -59,7 +59,7 @@ class ShellAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $content
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function getUsedModels(string $content): array {
 		preg_match_all('/\$this->loadModel\(\'([a-z.\/]+)\'/i', $content, $matches);
@@ -77,7 +77,7 @@ class ShellAnnotator extends AbstractAnnotator {
 	 *
 	 * @throws \Exception
 	 *
-	 * @return array
+	 * @return array<string, array<string, mixed>>
 	 */
 	protected function getUsedTasks(string $name): array {
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);

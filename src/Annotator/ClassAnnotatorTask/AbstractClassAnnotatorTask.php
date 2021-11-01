@@ -15,7 +15,7 @@ abstract class AbstractClassAnnotatorTask extends AbstractAnnotator {
 
 	/**
 	 * @param \IdeHelper\Console\Io $io
-	 * @param array $config
+	 * @param array<string, mixed> $config
 	 * @param string $content
 	 */
 	public function __construct(Io $io, array $config, $content) {
@@ -36,7 +36,7 @@ abstract class AbstractClassAnnotatorTask extends AbstractAnnotator {
 	/**
 	 * @param string $path
 	 * @param string $content
-	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $annotations
 	 *
 	 * @return bool
 	 */

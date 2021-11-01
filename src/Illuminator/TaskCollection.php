@@ -13,6 +13,9 @@ use SebastianBergmann\Diff\Differ;
 
 class TaskCollection {
 
+	/**
+	 * @var string
+	 */
 	public const CONFIG_DRY_RUN = 'dry-run';
 
 	/**
@@ -21,28 +24,28 @@ class TaskCollection {
 	protected $_io;
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_config;
 
 	/**
-	 * @phpstan-var class-string<\IdeHelper\Illuminator\Task\AbstractTask>[]
+	 * @phpstan-var array<class-string<\IdeHelper\Illuminator\Task\AbstractTask>, class-string<\IdeHelper\Illuminator\Task\AbstractTask>>
 	 *
-	 * @var string[]
+	 * @var array<string, string>
 	 */
 	protected $defaultTasks = [
 		EntityFieldTask::class => EntityFieldTask::class,
 	];
 
 	/**
-	 * @var \IdeHelper\Illuminator\Task\AbstractTask[]
+	 * @var array<\IdeHelper\Illuminator\Task\AbstractTask>
 	 */
 	protected $tasks;
 
 	/**
 	 * @param \IdeHelper\Console\Io $io
-	 * @param array $config
-	 * @param string[] $tasks
+	 * @param array<string, mixed> $config
+	 * @param array<string> $tasks
 	 * @throws \InvalidArgumentException
 	 */
 	public function __construct(Io $io, array $config, array $tasks = []) {
@@ -71,9 +74,9 @@ class TaskCollection {
 	}
 
 	/**
-	 * @phpstan-return class-string<\IdeHelper\Illuminator\Task\AbstractTask>[]
+	 * @phpstan-return array<class-string<\IdeHelper\Illuminator\Task\AbstractTask>>
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function defaultTasks(): array {
 		$tasks = (array)Configure::read('IdeHelper.illuminatorTasks') + $this->defaultTasks;
@@ -91,7 +94,7 @@ class TaskCollection {
 	/**
 	 * Adds a task to the collection.
 	 *
-	 * @param string|\IdeHelper\Illuminator\Task\AbstractTask $task The task to map.
+	 * @param \IdeHelper\Illuminator\Task\AbstractTask|string $task The task to map.
 	 * @throws \InvalidArgumentException
 	 * @return $this
 	 */
@@ -103,7 +106,7 @@ class TaskCollection {
 		$class = get_class($task);
 		if (!$task instanceof AbstractTask) {
 			throw new InvalidArgumentException(
-				"Cannot use '$class' as task, it is not implementing " . AbstractTask::class . '.'
+				"Cannot use '$class' as task, it is not implementing " . AbstractTask::class . '.',
 			);
 		}
 
@@ -113,16 +116,16 @@ class TaskCollection {
 	}
 
 	/**
-	 * @return \IdeHelper\Illuminator\Task\AbstractTask[]
+	 * @return array<\IdeHelper\Illuminator\Task\AbstractTask>
 	 */
 	public function tasks(): array {
 		return $this->tasks;
 	}
 
 	/**
-	 * @param string[]|\IdeHelper\Illuminator\Task\AbstractTask[] $tasks
+	 * @param array<string>|array<\IdeHelper\Illuminator\Task\AbstractTask> $tasks
 	 * @throws \RuntimeException
-	 * @return string[]
+	 * @return array<string>
 	 */
 	public function taskNames($tasks = []): array {
 		if (!$tasks) {

@@ -19,7 +19,7 @@ class CodeCompletionGenerator {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	public function generate(): array {
 		$map = $this->taskCollection->getMap();
@@ -47,7 +47,7 @@ TXT;
 	}
 
 	/**
-	 * @param string[] $array
+	 * @param array<string> $array
 	 *
 	 * @return string
 	 */

@@ -29,16 +29,20 @@ class TranslationKeyTask implements TaskInterface {
 
 	/**
 	 * function __(string $singular, ...$args): string
+	 *
+	 * @var string
 	 */
 	protected const METHOD_DEFAULT = '__()';
 
 	/**
 	 * function __d(string $domain, string $msg, ...$args): string
+	 *
+	 * @var string
 	 */
 	protected const METHOD_DOMAIN = '__d()';
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$result = [];
@@ -47,9 +51,6 @@ class TranslationKeyTask implements TaskInterface {
 
 		$domains = [];
 		$domainKeys = [];
-		/**
-		 * @var string $domain
-		 */
 		foreach ($translationKeys as $domain => $keys) {
 			if ($domain === 'default') {
 				$method = '\\' . static::METHOD_DEFAULT;
@@ -83,7 +84,7 @@ class TranslationKeyTask implements TaskInterface {
 	}
 
 	/**
-	 * @return \IdeHelper\ValueObject\StringName[][]
+	 * @return array<string, array<string, \IdeHelper\ValueObject\StringName>>
 	 */
 	protected function translationKeys(): array {
 		$translations = $this->parseTranslations();
@@ -106,7 +107,7 @@ class TranslationKeyTask implements TaskInterface {
 	}
 
 	/**
-	 * @return string[][]
+	 * @return array<array<string>>
 	 */
 	protected function parseTranslations(): array {
 		$keys = [];
@@ -171,9 +172,9 @@ class TranslationKeyTask implements TaskInterface {
 	}
 
 	/**
-	 * @param \IdeHelper\ValueObject\StringName[] $domains
+	 * @param array<\IdeHelper\ValueObject\StringName> $domains
 	 *
-	 * @return \IdeHelper\ValueObject\StringName[]
+	 * @return array<\IdeHelper\ValueObject\StringName>
 	 */
 	protected function completeDomains(array $domains): array {
 		$plugins = Plugin::all();

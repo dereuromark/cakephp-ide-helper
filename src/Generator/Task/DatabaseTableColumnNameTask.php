@@ -12,10 +12,13 @@ use IdeHelper\ValueObject\StringName;
  */
 class DatabaseTableColumnNameTask extends DatabaseTableTask {
 
+	/**
+	 * @var string
+	 */
 	public const SET_COLUMN_NAMES = 'columnNames';
 
 	/**
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $aliases = [
 		'\Migrations\Table::addColumn()',
@@ -26,7 +29,7 @@ class DatabaseTableColumnNameTask extends DatabaseTableTask {
 	];
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$list = [];
@@ -54,7 +57,7 @@ class DatabaseTableColumnNameTask extends DatabaseTableTask {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function collectTableColumnNames(): array {
 		$schema = $this->getConnection()->getSchemaCollection();

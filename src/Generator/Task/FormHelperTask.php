@@ -15,7 +15,7 @@ class FormHelperTask extends ModelTask {
 	public const CLASS_FORM_HELPER = FormHelper::class;
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$result = [];
@@ -32,7 +32,7 @@ class FormHelperTask extends ModelTask {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function collectFieldNames(): array {
 		$models = $this->collectModels();

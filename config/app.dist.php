@@ -17,6 +17,7 @@ return [
 		'templateExtensions' => [
 			'php',
 		],
+		'arrayAsGenerics' => false, // Enable to have modern generics syntax (recommended) in doc blocks
 		// Set to false to disable, or string if you have a custom FQCN to be used
 		'templateCollectionObject' => true,
 		// Set to false to disable, defaults to mixed if enabled, you can also pass callable for logic

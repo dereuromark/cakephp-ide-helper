@@ -10,6 +10,7 @@ use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\VariableAnnotation;
 use IdeHelper\Annotator\Template\VariableExtractor;
 use IdeHelper\Utility\App;
+use IdeHelper\Utility\ArrayString;
 use PHP_CodeSniffer\Files\File;
 use RuntimeException;
 
@@ -33,7 +34,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $path
 	 * @param string $content
-	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $annotations
 	 *
 	 * @return bool
 	 */
@@ -103,7 +104,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $annotations
 	 * @param int|null $phpOpenTagIndex
 	 * @param int|null $docBlockCloseIndex
 	 *
@@ -225,7 +226,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param array $tokens
+	 * @param array<array<string, mixed>> $tokens
 	 * @param int $phpOpenTagIndex
 	 *
 	 * @return bool
@@ -245,9 +246,9 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $content
-	 * @param array $variables
+	 * @param array<string, array<string, mixed>> $variables
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	protected function getEntityAnnotations(string $content, array $variables): array {
 		$loopEntityAnnotations = $this->parseLoopEntities($content);
@@ -268,7 +269,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $content
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	protected function parseFormEntities(string $content): array {
 		preg_match_all('/\$this->Form->create\(\$(\w+)\W/i', $content, $matches);
@@ -278,6 +279,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		$result = [];
 
+		/** @var array<string> $entities */
 		$entities = array_unique($matches[1]);
 		foreach ($entities as $entity) {
 			$entityName = Inflector::camelize(Inflector::underscore($entity));
@@ -298,7 +300,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $content
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	protected function parseLoopEntities(string $content): array {
 		preg_match_all('/\bforeach \(\$([a-z]+) as \$([a-z]+)\)/i', $content, $matches);
@@ -308,7 +310,9 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		$result = [];
 
-		foreach ($matches[2] as $key => $entity) {
+		/** @var array<string> $entities */
+		$entities = $matches[2];
+		foreach ($entities as $key => $entity) {
 			if (Inflector::pluralize($entity) !== $matches[1][$key]) {
 				continue;
 			}
@@ -321,7 +325,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 			}
 
 			$resultKey = $matches[1][$key];
-			$annotation = '\\' . $className . '[]';
+			$annotation = '\\' . ArrayString::generate($className);
 			if (Configure::read('IdeHelper.templateCollectionObject') !== false) {
 				/** @var string|true $object */
 				$object = Configure::read('IdeHelper.templateCollectionObject');
@@ -343,13 +347,14 @@ class TemplateAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $content
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	protected function parseEntities(string $content): array {
 		preg_match_all('/\$([a-z]+)->[a-z]+/i', $content, $matches);
 		if (empty($matches[1])) {
 			return [];
 		}
+		/** @var array<string> $variableNames */
 		$variableNames = array_unique($matches[1]);
 
 		$result = [];
@@ -374,7 +379,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param \IdeHelper\Annotation\AbstractAnnotation[] $annotations
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $annotations
 	 * @param int $docBlockCloseIndex
 	 *
 	 * @return bool
@@ -397,7 +402,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 * @param string $path
 	 * @param string $content
 	 *
-	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
 	protected function buildAnnotations(string $path, string $content): array {
 		$annotations = [];
@@ -440,7 +445,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 * @param string $path
 	 * @param string $content
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	protected function getTemplateVariables($path, $content) {
 		$file = $this->getFile($path, $content);
@@ -450,7 +455,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 		$extractor = new $class();
 
 		$variables = $extractor->extract($file);
-		/** @var string[] $blacklist */
+		/** @var array<string> $blacklist */
 		$blacklist = (array)Configure::read('IdeHelper.autoCollectBlacklist');
 		foreach ($blacklist as $value) {
 			if (strpos($value, '/') === false) {
@@ -470,7 +475,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param array $variable
+	 * @param array<string, mixed> $variable
 	 *
 	 * @return \IdeHelper\Annotation\AbstractAnnotation
 	 */

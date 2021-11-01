@@ -9,6 +9,9 @@ use IdeHelper\Utility\Plugin;
 
 class BehaviorTask implements TaskInterface {
 
+	/**
+	 * @var string
+	 */
 	public const TYPE_NAMESPACE = 'Cake\ORM';
 
 	/**
@@ -42,7 +45,7 @@ TXT;
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function collectBehaviors(): array {
 		$behaviors = [];
@@ -64,11 +67,11 @@ TXT;
 	}
 
 	/**
-	 * @param string[] $behaviors
+	 * @param array<string> $behaviors
 	 * @param string $folder
 	 * @param string|null $plugin
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function addBehaviors(array $behaviors, string $folder, ?string $plugin = null): array {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);
@@ -95,7 +98,7 @@ TXT;
 	}
 
 	/**
-	 * @param string[] $behaviors
+	 * @param array<string> $behaviors
 	 *
 	 * @return string
 	 */

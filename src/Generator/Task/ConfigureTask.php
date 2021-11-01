@@ -10,10 +10,14 @@ use IdeHelper\ValueObject\StringName;
 class ConfigureTask implements TaskInterface {
 
 	public const CLASS_CONFIGURE = Configure::class;
+
+	/**
+	 * @var string
+	 */
 	public const SET_CONFIGURE_KEYS = 'configureKeys';
 
 	/**
-	 * @var int[]
+	 * @var array<int>
 	 */
 	protected $methods = [
 		'\\' . self::CLASS_CONFIGURE . '::read()' => 0,
@@ -26,7 +30,7 @@ class ConfigureTask implements TaskInterface {
 	];
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$result = [];
@@ -44,7 +48,7 @@ class ConfigureTask implements TaskInterface {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function collectKeys(): array {
 		$keys = [];
@@ -58,13 +62,13 @@ class ConfigureTask implements TaskInterface {
 	}
 
 	/**
-	 * @param array $keys
-	 * @param mixed $data
-	 * @param array $path
+	 * @param array<string, mixed> $keys
+	 * @param array<mixed> $data
+	 * @param array<string> $path
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
-	protected function addKeys(array $keys, $data, array $path = []): array {
+	protected function addKeys(array $keys, array $data, array $path = []): array {
 		foreach ($data as $key => $row) {
 			if (is_numeric($key)) {
 				continue;

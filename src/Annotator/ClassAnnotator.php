@@ -41,7 +41,7 @@ class ClassAnnotator extends AbstractAnnotator {
 
 	/**
 	 * @param string $content
-	 * @return \IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface[]
+	 * @return array<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>
 	 */
 	protected function getTasks(string $content): array {
 		$taskCollection = new ClassAnnotatorTaskCollection();

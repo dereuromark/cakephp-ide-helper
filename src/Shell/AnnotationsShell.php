@@ -33,11 +33,18 @@ use IdeHelper\Utility\PluginPath;
  */
 class AnnotationsShell extends Shell {
 
+	/**
+	 * @var int
+	 */
 	public const CODE_CHANGES = 2;
+
+	/**
+	 * @var array<string>
+	 */
 	public const TEMPLATE_EXTENSIONS = ['php'];
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_config = [
 		'skipTemplatePaths' => [
@@ -46,7 +53,7 @@ class AnnotationsShell extends Shell {
 	];
 
 	/**
-	 * @var array
+	 * @var array<string, \IdeHelper\Annotator\AbstractAnnotator>
 	 */
 	protected $_instantiatedAnnotators = [];
 
@@ -737,11 +744,14 @@ class AnnotationsShell extends Shell {
 	}
 
 	/**
+	 * @phpstan-param class-string<\IdeHelper\Annotator\AbstractAnnotator> $class
+	 *
 	 * @param string $class
 	 *
 	 * @return \IdeHelper\Annotator\AbstractAnnotator
 	 */
 	protected function getAnnotator($class): AbstractAnnotator {
+		/** @phpstan-var array<class-string<\IdeHelper\Annotator\AbstractAnnotator>> $tasks */
 		$tasks = (array)Configure::read('IdeHelper.annotators');
 		if (isset($tasks[$class])) {
 			$class = $tasks[$class];

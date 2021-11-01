@@ -65,14 +65,10 @@ $cache = [
 
 Cache::setConfig($cache);
 
-Type::build('time')
-	->useImmutable();
-Type::build('date')
-	->useImmutable();
-Type::build('datetime')
-	->useImmutable();
-Type::build('timestamp')
-	->useImmutable();
+Type::build('time');
+Type::build('date');
+Type::build('datetime');
+Type::build('timestamp');
 
 class_alias(Cake\Controller\Controller::class, 'App\Controller\AppController');
 

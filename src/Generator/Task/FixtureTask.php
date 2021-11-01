@@ -10,10 +10,13 @@ use IdeHelper\ValueObject\StringName;
 
 class FixtureTask implements TaskInterface {
 
+	/**
+	 * @var string
+	 */
 	protected const METHOD_ADD_FIXTURE = '\\' . TestCase::class . '::addFixture()';
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$result = [];
@@ -28,7 +31,7 @@ class FixtureTask implements TaskInterface {
 	}
 
 	/**
-	 * @return \IdeHelper\ValueObject\StringName[]
+	 * @return array<\IdeHelper\ValueObject\StringName>
 	 */
 	protected function getFixtures(): array {
 		$list = [];
@@ -61,7 +64,7 @@ class FixtureTask implements TaskInterface {
 	 * @param string $domain
 	 * @param string|null $subFolder
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function parseFixtures(string $fixtureFolder, string $domain, ?string $subFolder = null): array {
 		if (!is_dir($fixtureFolder)) {

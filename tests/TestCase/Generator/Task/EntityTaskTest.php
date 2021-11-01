@@ -10,7 +10,7 @@ use IdeHelper\Generator\Task\EntityTask;
 class EntityTaskTest extends TestCase {
 
 	/**
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $fixtures = [
 		'plugin.IdeHelper.Cars',

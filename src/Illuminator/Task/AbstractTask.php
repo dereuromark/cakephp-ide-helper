@@ -26,21 +26,39 @@ abstract class AbstractTask {
 	use FileTrait;
 	use InstanceConfigTrait;
 
+	/**
+	 * @var string
+	 */
 	public const CONFIG_DRY_RUN = 'dry-run';
+
+	/**
+	 * @var string
+	 */
 	public const CONFIG_PLUGIN = 'plugin';
+
+	/**
+	 * @var string
+	 */
 	public const CONFIG_NAMESPACE = 'namespace';
+
+	/**
+	 * @var string
+	 */
 	public const CONFIG_VERBOSE = 'verbose';
 
+	/**
+	 * @var string
+	 */
 	public const COUNT_ADDED = 'added';
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 	];
 
 	/**
-	 * @param array $config
+	 * @param array<string, mixed> $config
 	 */
 	public function __construct(array $config) {
 		$this->setConfig($config);

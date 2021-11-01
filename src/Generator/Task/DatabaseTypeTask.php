@@ -18,7 +18,7 @@ class DatabaseTypeTask implements TaskInterface {
 	public const CLASS_TYPE = TypeFactory::class;
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$result = [];
@@ -49,7 +49,7 @@ class DatabaseTypeTask implements TaskInterface {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function getTypes(): array {
 		$types = [];

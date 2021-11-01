@@ -19,6 +19,9 @@ namespace IdeHelper\Generator\Directive;
  */
 class RegisterArgumentsSet extends BaseDirective {
 
+	/**
+	 * @var string
+	 */
 	public const NAME = 'registerArgumentsSet';
 
 	/**
@@ -27,17 +30,17 @@ class RegisterArgumentsSet extends BaseDirective {
 	protected $set;
 
 	/**
-	 * @var array
+	 * @var array<string|\IdeHelper\ValueObject\ValueObjectInterface>
 	 */
-	protected $map;
+	protected $list;
 
 	/**
 	 * @param string $set
-	 * @param array $list
+	 * @param array<string|\IdeHelper\ValueObject\ValueObjectInterface> $list
 	 */
 	public function __construct($set, array $list) {
 		$this->set = $set;
-		$this->map = $list;
+		$this->list = $list;
 	}
 
 	/**
@@ -50,12 +53,12 @@ class RegisterArgumentsSet extends BaseDirective {
 	}
 
 	/**
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function toArray() {
 		return [
 			'set' => $this->set,
-			'list' => $this->map,
+			'list' => $this->list,
 		];
 	}
 
@@ -64,7 +67,7 @@ class RegisterArgumentsSet extends BaseDirective {
 	 */
 	public function build() {
 		$set = "'" . $this->set . "'";
-		$list = $this->buildList($this->map);
+		$list = $this->buildList($this->list);
 
 		$result = <<<TXT
 	registerArgumentsSet(

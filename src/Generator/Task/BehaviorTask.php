@@ -15,21 +15,21 @@ class BehaviorTask implements TaskInterface {
 	public const CLASS_TABLE = Table::class;
 
 	/**
-	 * @var int[]
+	 * @var array<int>
 	 */
 	protected $addAliases = [
 		'\\' . self::CLASS_TABLE . '::addBehavior()' => 0,
 	];
 
 	/**
-	 * @var int[]
+	 * @var array<int>
 	 */
 	protected $removeAliases = [
 		'\\' . self::CLASS_TABLE . '::removeBehavior()' => 0,
 	];
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$addList = $removeList = [];
@@ -59,7 +59,7 @@ class BehaviorTask implements TaskInterface {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function collectBehaviors(): array {
 		$behaviors = [];
@@ -83,11 +83,11 @@ class BehaviorTask implements TaskInterface {
 	}
 
 	/**
-	 * @param array $behaviors
+	 * @param array<string, string> $behaviors
 	 * @param string $folder
 	 * @param string|null $plugin
 	 *
-	 * @return string[]
+	 * @return array<string, string>
 	 */
 	protected function addBehaviors(array $behaviors, string $folder, ?string $plugin = null): array {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);
@@ -100,6 +100,7 @@ class BehaviorTask implements TaskInterface {
 			if (!$matches) {
 				continue;
 			}
+			/** @var string $name */
 			$name = $matches[1];
 			if ($plugin) {
 				$name = $plugin . '.' . $name;

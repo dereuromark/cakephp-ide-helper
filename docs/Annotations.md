@@ -4,6 +4,10 @@ Note that freshly [baking](https://github.com/cakephp/bake) your code will resul
 but often times there is already existing code, and re-baking it is not an option then usually.
 And of course it also keeps your manually added or modified code annotated.
 
+## Important options to start with
+The following will be defined under `IdeHelper` key of `app.php` config:
+- `arrayAsGenerics`: Set to true to have modern generics syntax used (`array<type>` instead of legacy `type[]`).
+
 ## Controllers
 All controllers should at least annotate their primary model.
 They should also annotate the other loaded models as well as the loaded components.

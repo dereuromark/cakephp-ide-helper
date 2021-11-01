@@ -42,7 +42,7 @@ class CallbackAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $path
 	 * @param string $content
-	 * @return \IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface[]
+	 * @return array<\IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface>
 	 */
 	protected function getTasks(string $path, string $content): array {
 		$taskCollection = new CallbackAnnotatorTaskCollection();

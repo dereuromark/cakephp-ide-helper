@@ -21,7 +21,7 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 
 	/**
 	 * @param \IdeHelper\Console\Io $io
-	 * @param array $config
+	 * @param array<string, mixed> $config
 	 * @param string $path
 	 * @param string $content
 	 */
@@ -35,7 +35,7 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 *
-	 * @return array
+	 * @return array<array<string, mixed>>
 	 */
 	protected function getMethods(File $file) {
 		$methods = [];
@@ -56,7 +56,7 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $index
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	protected function parseMethod(File $file, $index) {
 		$tokens = $file->getTokens();
@@ -76,7 +76,7 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 	/**
 	 * @param string $path
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param array $methods
+	 * @param array<array<string, mixed>> $methods
 	 * @return bool
 	 */
 	protected function annotateMethods(string $path, File $file, array $methods): bool {
@@ -87,7 +87,7 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 		$fixer->beginChangeset();
 
 		foreach ($methods as $method) {
-			/** @var \IdeHelper\Annotation\ParamAnnotation[] $replacingAnnotations */
+			/** @var array<\IdeHelper\Annotation\ParamAnnotation> $replacingAnnotations */
 			$replacingAnnotations = $method['annotations'];
 			foreach ($replacingAnnotations as $annotation) {
 				$fixer->replaceToken($annotation->getIndex(), $annotation->build());

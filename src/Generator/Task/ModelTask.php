@@ -14,7 +14,7 @@ use ReflectionClass;
 class ModelTask implements TaskInterface {
 
 	/**
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $aliases = [
 		'\Cake\ORM\TableRegistry::get(0)',
@@ -26,7 +26,7 @@ class ModelTask implements TaskInterface {
 	/**
 	 * Buffer
 	 *
-	 * @var array|null
+	 * @var array<string, string>|null
 	 */
 	protected static $models;
 
@@ -38,7 +38,7 @@ class ModelTask implements TaskInterface {
 	}
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$map = [];
@@ -60,7 +60,7 @@ class ModelTask implements TaskInterface {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string, string>
 	 */
 	protected function collectModels(): array {
 		if (static::$models !== null) {
@@ -88,11 +88,11 @@ class ModelTask implements TaskInterface {
 	}
 
 	/**
-	 * @param array $models
+	 * @param array<string, string> $models
 	 * @param string $folder
 	 * @param string|null $plugin
 	 *
-	 * @return string[]
+	 * @return array<string, string>
 	 */
 	protected function addModels(array $models, $folder, $plugin = null) {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);
@@ -102,6 +102,7 @@ class ModelTask implements TaskInterface {
 			if (!$matches) {
 				continue;
 			}
+			/** @var string $model */
 			$model = $matches[1];
 			if ($plugin) {
 				$model = $plugin . '.' . $model;

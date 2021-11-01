@@ -10,9 +10,9 @@ use IdeHelper\Console\Io;
 class ClassAnnotatorTaskCollection {
 
 	/**
-	 * @phpstan-var class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>[]
+	 * @phpstan-var array<class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>, class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>>
 	 *
-	 * @var string[]
+	 * @var array<string, string>
 	 */
 	protected $defaultTasks = [
 		ModelAwareClassAnnotatorTask::class => ModelAwareClassAnnotatorTask::class,
@@ -20,16 +20,16 @@ class ClassAnnotatorTaskCollection {
 	];
 
 	/**
-	 * @phpstan-var class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>[]
+	 * @phpstan-var array<class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>>
 	 *
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $tasks;
 
 	/**
-	 * @phpstan-param class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>[] $tasks
+	 * @phpstan-param array<class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>> $tasks
 	 *
-	 * @param string[] $tasks
+	 * @param array<string> $tasks
 	 */
 	public function __construct(array $tasks = []) {
 		$defaultTasks = $this->defaultTasks();
@@ -45,9 +45,9 @@ class ClassAnnotatorTaskCollection {
 	}
 
 	/**
-	 * @phpstan-return class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>[]
+	 * @phpstan-return array<class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>>
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	public function defaultTasks(): array {
 		$tasks = (array)Configure::read('IdeHelper.classAnnotatorTasks') + $this->defaultTasks;
@@ -64,9 +64,9 @@ class ClassAnnotatorTaskCollection {
 
 	/**
 	 * @param \IdeHelper\Console\Io $io
-	 * @param array $config
+	 * @param array<string, mixed> $config
 	 * @param string $content
-	 * @return \IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface[]
+	 * @return array<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>
 	 */
 	public function tasks(Io $io, array $config, $content) {
 		$tasks = $this->tasks;

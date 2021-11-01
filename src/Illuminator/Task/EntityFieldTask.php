@@ -17,10 +17,13 @@ class EntityFieldTask extends AbstractTask {
 
 	use FileTrait;
 
+	/**
+	 * @var string
+	 */
 	public const PREFIX = 'FIELD_';
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'visibility' => null,
@@ -76,7 +79,7 @@ class EntityFieldTask extends AbstractTask {
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $classIndex
-	 * @return array
+	 * @return array<string, array<string, mixed>>
 	 */
 	protected function getFields(File $file, int $classIndex): array {
 		$tokens = $file->getTokens();
@@ -136,7 +139,7 @@ class EntityFieldTask extends AbstractTask {
 
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param array $fields
+	 * @param array<array<string, mixed>> $fields
 	 * @param int $index Index of first token of previous line
 	 * @param bool $addToExisting
 	 * @param int $level
@@ -193,10 +196,10 @@ class EntityFieldTask extends AbstractTask {
 	}
 
 	/**
-	 * @param array $tokens
+	 * @param array<array<string, mixed>> $tokens
 	 * @param int $startIndex
 	 * @param int $endIndex
-	 * @return array
+	 * @return array<string, array<string, mixed>>
 	 */
 	protected function getFieldConstants(array $tokens, $startIndex, $endIndex) {
 		$constants = [];

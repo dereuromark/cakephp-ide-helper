@@ -47,7 +47,7 @@ class TestClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 
 	/**
 	 * @param string $content
-	 * @param string[] $types
+	 * @param array<string> $types
 	 * @return bool
 	 */
 	protected function matchesType($content, array $types) {
@@ -103,8 +103,8 @@ class TestClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 	}
 
 	/**
-	 * @param string[] $classes
-	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 * @param array<string> $classes
+	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
 	protected function buildUsesAnnotations(array $classes): array {
 		$annotations = [];

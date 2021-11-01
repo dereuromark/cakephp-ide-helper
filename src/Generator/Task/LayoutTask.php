@@ -16,7 +16,7 @@ class LayoutTask implements TaskInterface {
 	public const CLASS_VIEW_BUILDER = ViewBuilder::class;
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$result = [];
@@ -37,7 +37,7 @@ class LayoutTask implements TaskInterface {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function collectLayouts(): array {
 		$paths = App::path('templates');
@@ -57,11 +57,11 @@ class LayoutTask implements TaskInterface {
 	}
 
 	/**
-	 * @param string[] $result
-	 * @param string[] $paths
+	 * @param array<string> $result
+	 * @param array<string> $paths
 	 * @param string|null $plugin
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function addLayouts(array $result, array $paths, ?string $plugin = null): array {
 		foreach ($paths as $path) {

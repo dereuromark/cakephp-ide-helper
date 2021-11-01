@@ -7,10 +7,13 @@ use IdeHelper\Generator\Directive\ExitPoint;
 
 class ConsoleTask implements TaskInterface {
 
+	/**
+	 * @var string
+	 */
 	protected const METHOD_ABORT = '\\' . ConsoleIo::class . '::abort()';
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$result = [];

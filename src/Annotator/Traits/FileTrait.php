@@ -32,7 +32,7 @@ trait FileTrait {
 		$ruleset = new Ruleset($config);
 
 		$fileObject = new File($file, $ruleset, $config);
-		$fileObject->setContent($content !== null ? $content : (string)file_get_contents($file));
+		$fileObject->setContent($content ?? (string)file_get_contents($file));
 		$fileObject->parse();
 
 		return $fileObject;

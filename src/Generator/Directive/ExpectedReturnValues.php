@@ -24,6 +24,9 @@ namespace IdeHelper\Generator\Directive;
  */
 class ExpectedReturnValues extends BaseDirective {
 
+	/**
+	 * @var string
+	 */
 	public const NAME = 'expectedReturnValues';
 
 	/**
@@ -32,17 +35,17 @@ class ExpectedReturnValues extends BaseDirective {
 	protected $method;
 
 	/**
-	 * @var array
+	 * @var array<string|\IdeHelper\ValueObject\ValueObjectInterface>
 	 */
-	protected $map;
+	protected $list;
 
 	/**
 	 * @param string $method
-	 * @param array $list
+	 * @param array<string|\IdeHelper\ValueObject\ValueObjectInterface> $list
 	 */
 	public function __construct($method, array $list) {
 		$this->method = $method;
-		$this->map = $list;
+		$this->list = $list;
 	}
 
 	/**
@@ -55,12 +58,12 @@ class ExpectedReturnValues extends BaseDirective {
 	}
 
 	/**
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function toArray() {
 		return [
 			'method' => $this->method,
-			'list' => $this->map,
+			'list' => $this->list,
 		];
 	}
 
@@ -69,7 +72,7 @@ class ExpectedReturnValues extends BaseDirective {
 	 */
 	public function build() {
 		$method = $this->method;
-		$list = $this->buildList($this->map);
+		$list = $this->buildList($this->list);
 
 		$result = <<<TXT
 	expectedReturnValues(

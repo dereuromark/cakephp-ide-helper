@@ -36,9 +36,9 @@ use InvalidArgumentException;
 class TaskCollection {
 
 	/**
-	 * @phpstan-var class-string<\IdeHelper\Generator\Task\TaskInterface>[]
+	 * @phpstan-var array<class-string<\IdeHelper\Generator\Task\TaskInterface>, class-string<\IdeHelper\Generator\Task\TaskInterface>>
 	 *
-	 * @var string[]
+	 * @var array<string, string>
 	 */
 	protected $defaultTasks = [
 		ModelTask::class => ModelTask::class,
@@ -71,12 +71,12 @@ class TaskCollection {
 	];
 
 	/**
-	 * @var \IdeHelper\Generator\Task\TaskInterface[]
+	 * @var array<\IdeHelper\Generator\Task\TaskInterface>
 	 */
 	protected $tasks;
 
 	/**
-	 * @param (string|\IdeHelper\Generator\Task\TaskInterface)[] $tasks
+	 * @param array<string|\IdeHelper\Generator\Task\TaskInterface> $tasks
 	 */
 	public function __construct(array $tasks = []) {
 		$defaultTasks = $this->defaultTasks();
@@ -92,9 +92,9 @@ class TaskCollection {
 	}
 
 	/**
-	 * @phpstan-return class-string<\IdeHelper\Generator\Task\TaskInterface>[]
+	 * @phpstan-return array<class-string<\IdeHelper\Generator\Task\TaskInterface>>
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function defaultTasks(): array {
 		$tasks = (array)Configure::read('IdeHelper.generatorTasks') + $this->defaultTasks;
@@ -112,7 +112,7 @@ class TaskCollection {
 	/**
 	 * Adds a task to the collection.
 	 *
-	 * @param string|\IdeHelper\Generator\Task\TaskInterface $task The task to map.
+	 * @param \IdeHelper\Generator\Task\TaskInterface|string $task The task to map.
 	 * @throws \InvalidArgumentException
 	 * @return $this
 	 */
@@ -124,7 +124,7 @@ class TaskCollection {
 		$class = get_class($task);
 		if (!$task instanceof TaskInterface) {
 			throw new InvalidArgumentException(
-				"Cannot use '$class' as task, it is not implementing " . TaskInterface::class . '.'
+				"Cannot use '$class' as task, it is not implementing " . TaskInterface::class . '.',
 			);
 		}
 
@@ -134,14 +134,14 @@ class TaskCollection {
 	}
 
 	/**
-	 * @return \IdeHelper\Generator\Task\TaskInterface[]
+	 * @return array<\IdeHelper\Generator\Task\TaskInterface>
 	 */
 	public function tasks(): array {
 		return $this->tasks;
 	}
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<\IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function getMap(): array {
 		$map = [];

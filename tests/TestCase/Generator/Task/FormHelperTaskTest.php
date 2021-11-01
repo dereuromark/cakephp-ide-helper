@@ -9,7 +9,7 @@ use IdeHelper\Generator\Task\FormHelperTask;
 class FormHelperTaskTest extends TestCase {
 
 	/**
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $fixtures = [
 		'plugin.IdeHelper.Cars',

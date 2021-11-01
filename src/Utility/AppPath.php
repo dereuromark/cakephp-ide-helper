@@ -11,7 +11,7 @@ class AppPath {
 	 * @param string $type
 	 * @param string|null $plugin
 	 * @throws \Cake\Core\Exception\MissingPluginException
-	 * @return array
+	 * @return array<string>
 	 */
 	public static function get(string $type, ?string $plugin = null): array {
 		try {

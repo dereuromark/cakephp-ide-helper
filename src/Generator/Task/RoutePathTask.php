@@ -19,6 +19,10 @@ class RoutePathTask implements TaskInterface {
 	public const CLASS_ROUTER = Router::class;
 	public const CLASS_URL_HELPER = UrlHelper::class;
 	public const CLASS_HTML_HELPER = HtmlHelper::class;
+
+	/**
+	 * @var string
+	 */
 	public const SET_ROUTE_PATHS = 'routePaths';
 
 	/**
@@ -31,7 +35,7 @@ class RoutePathTask implements TaskInterface {
 	}
 
 	/**
-	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
+	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
 		$result = [];
@@ -60,7 +64,7 @@ class RoutePathTask implements TaskInterface {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function collectPaths(): array {
 		$plugins = Plugin::all();
@@ -86,7 +90,7 @@ class RoutePathTask implements TaskInterface {
 	 * @param string $folder
 	 * @param string|null $plugin
 	 * @param string|null $prefix
-	 * @return string[]
+	 * @return array<string>
 	 */
 	protected function _paths(string $folder, ?string $plugin = null, ?string $prefix = null): array {
 		$paths = [];
