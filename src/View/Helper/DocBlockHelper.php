@@ -122,9 +122,9 @@ class DocBlockHelper extends BakeDocBlockHelper {
 	 *
 	 * Overwrite with array vs generics syntax switch.
 	 *
-	 * @param array $associations Associations list.
-	 * @param array $associationInfo Association info.
-	 * @param array $behaviors Behaviors list.
+	 * @param array<string, array<array<string, mixed>>> $associations Associations list.
+	 * @param array<string, array<string, mixed>> $associationInfo Association info.
+	 * @param array<string, array<mixed>> $behaviors Behaviors list.
 	 * @param string $entity Entity name.
 	 * @param string $namespace Namespace.
 	 * @return array<string>
