@@ -139,8 +139,9 @@ class ModelAnnotator extends AbstractAnnotator {
 			}
 		}
 
-		$fullClassName = "\\$namespace\\Model\\Entity\\$entity";
+		$fullClassName = "$namespace\\Model\\Entity\\$entity";
 		if (class_exists($fullClassName)) {
+			$fullClassName = '\\' . $fullClassName;
 			$fullClassNameCollection = ArrayString::generate($fullClassName);
 
 			// Copied from Bake plugin's DocBlockHelper
