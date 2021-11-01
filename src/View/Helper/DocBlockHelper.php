@@ -150,7 +150,7 @@ class DocBlockHelper extends BakeDocBlockHelper {
 		$class = "{$namespace}\\Model\\Entity\\{$entity}";
 		$classes = ArrayString::generate($class);
 		$annotations[] = "@method \\$class newEmptyEntity()";
-		$annotations[] = "@method \\{$namespace}\\Model\\Entity\\{$entity} newEntity(array \$data, array \$options = [])";
+		$annotations[] = "@method \\$class newEntity(array \$data, array \$options = [])";
 		$annotations[] = "@method \\$classes newEntities(array \$data, array \$options = [])";
 		$annotations[] = "@method \\$class get(\$primaryKey, \$options = [])";
 		$annotations[] = "@method \\$class findOrCreate(\$search, ?callable \$callback = null, \$options = [])";
