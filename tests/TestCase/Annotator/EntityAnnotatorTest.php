@@ -404,6 +404,42 @@ class EntityAnnotatorTest extends TestCase {
 	}
 
 	/**
+	 * @return void
+	 */
+	public function testAnnotateWithGenericUsage() {
+		/** @var \TestApp\Model\Table\FooTable $Table */
+		$Table = TableRegistry::get('Foo');
+		$Table->hasMany('Wheels');
+
+		$schema = $Table->getSchema();
+		$associations = $Table->associations();
+		$annotator = $this->_getAnnotatorMock(['schema' => $schema, 'associations' => $associations]);
+
+		$expectedContent = str_replace(["\r\n", "\r"], "\n", file_get_contents(TEST_FILES . 'Model/Entity/PHP/Generics.php'));
+		$callback = function ($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->_displayDiff($expectedContent, $value);
+			}
+
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP . 'Model/Entity/PHP/Generics.php';
+
+		Configure::write('IdeHelper.arrayAsGenerics', true);
+
+		$annotator->annotate($path);
+
+		Configure::delete('IdeHelper.arrayAsGenerics');
+
+		$output = $this->out->output();
+
+		$this->assertTextContains('   -> 1 annotation updated', $output);
+	}
+
+	/**
 	 * @param array $params
 	 * @return \IdeHelper\Annotator\EntityAnnotator|\PHPUnit\Framework\MockObject\MockObject
 	 */
@@ -413,7 +449,7 @@ class EntityAnnotatorTest extends TestCase {
 			AbstractAnnotator::CONFIG_DRY_RUN => true,
 		];
 
-		return $this->getMockBuilder(EntityAnnotator::class)->setMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
+		return $this->getMockBuilder(EntityAnnotator::class)->onlyMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
 	}
 
 }

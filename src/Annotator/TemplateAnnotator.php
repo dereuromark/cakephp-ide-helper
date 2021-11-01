@@ -10,6 +10,7 @@ use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\VariableAnnotation;
 use IdeHelper\Annotator\Template\VariableExtractor;
 use IdeHelper\Utility\App;
+use IdeHelper\Utility\ArrayString;
 use PHP_CodeSniffer\Files\File;
 use RuntimeException;
 
@@ -324,7 +325,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 			}
 
 			$resultKey = $matches[1][$key];
-			$annotation = '\\' . $className . '[]';
+			$annotation = '\\' . ArrayString::generate($className);
 			if (Configure::read('IdeHelper.templateCollectionObject') !== false) {
 				/** @var string|true $object */
 				$object = Configure::read('IdeHelper.templateCollectionObject');
