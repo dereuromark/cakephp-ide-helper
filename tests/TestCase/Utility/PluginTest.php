@@ -11,7 +11,7 @@ class PluginTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		Configure::delete('IdeHelper.plugins');
@@ -20,7 +20,7 @@ class PluginTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown(): void {
+	protected function tearDown(): void {
 		parent::tearDown();
 
 		Configure::delete('IdeHelper.plugins');

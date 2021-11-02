@@ -35,7 +35,7 @@ class PhpstormShellTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		if (!is_dir(LOGS)) {
@@ -62,7 +62,7 @@ class PhpstormShellTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown(): void {
+	protected function tearDown(): void {
 		parent::tearDown();
 		unset($this->Shell);
 	}
