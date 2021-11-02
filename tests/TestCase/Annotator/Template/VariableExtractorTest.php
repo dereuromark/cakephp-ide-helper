@@ -24,7 +24,7 @@ class VariableExtractorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->variableExtractor = new VariableExtractor();

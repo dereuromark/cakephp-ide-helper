@@ -20,7 +20,7 @@ class TableFinderTaskTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
 		Configure::write('IdeHelper.preemptive', true);
@@ -31,7 +31,7 @@ class TableFinderTaskTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown(): void {
+	protected function tearDown(): void {
 		Configure::delete('IdeHelper');
 
 		parent::tearDown();
