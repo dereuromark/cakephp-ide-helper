@@ -24,13 +24,6 @@ class TranslationParserTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown(): void {
-		parent::tearDown();
-	}
-
-	/**
-	 * @return void
-	 */
 	public function testParse() {
 		$path = TEST_FILES . 'locales' . DS . 'default.po';
 

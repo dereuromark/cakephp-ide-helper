@@ -27,13 +27,6 @@ class ElementTaskTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown(): void {
-		parent::tearDown();
-	}
-
-	/**
-	 * @return void
-	 */
 	public function testCollect() {
 		$result = $this->task->collect();
 
