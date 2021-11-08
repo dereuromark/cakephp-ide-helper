@@ -385,14 +385,14 @@ abstract class AbstractAnnotator {
 	protected function exists(AbstractAnnotation $annotation, array &$existingAnnotations): bool {
 		foreach ($existingAnnotations as $key => $existingAnnotation) {
 			if ($existingAnnotation->build() === $annotation->build()) {
-				unset ($existingAnnotations[$key]);
+				unset($existingAnnotations[$key]);
 
 				return true;
 			}
 
 			if ($annotation instanceof PropertyAnnotation && $existingAnnotation instanceof PropertyAnnotation) {
 				if ($annotation->getProperty() === $existingAnnotation->getProperty() && $annotation->getType() === $existingAnnotation->getType()) {
-					unset ($existingAnnotations[$key]);
+					unset($existingAnnotations[$key]);
 
 					return true;
 				}
@@ -401,7 +401,7 @@ abstract class AbstractAnnotator {
 			// Lets skip on existing ones that are only guessed.
 			if ($annotation instanceof VariableAnnotation && $existingAnnotation instanceof VariableAnnotation) {
 				if ($annotation->getVariable() === $existingAnnotation->getVariable() && $annotation->getGuessed()) {
-					unset ($existingAnnotations[$key]);
+					unset($existingAnnotations[$key]);
 
 					return true;
 				}
@@ -422,7 +422,7 @@ abstract class AbstractAnnotator {
 				$newAnnotation = clone $existingAnnotation;
 				$newAnnotation->replaceWith($annotation);
 
-				unset ($existingAnnotations[$key]);
+				unset($existingAnnotations[$key]);
 
 				return $newAnnotation;
 			}
@@ -439,7 +439,7 @@ abstract class AbstractAnnotator {
 	protected function allowsReplacing(AbstractAnnotation $annotation, array &$existingAnnotations): bool {
 		foreach ($existingAnnotations as $key => $existingAnnotation) {
 			if ($existingAnnotation->matches($annotation) && $existingAnnotation->getDescription() !== '') {
-				unset ($existingAnnotations[$key]);
+				unset($existingAnnotations[$key]);
 
 				return false;
 			}
