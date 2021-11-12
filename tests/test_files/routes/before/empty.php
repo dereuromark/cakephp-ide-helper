@@ -1,0 +1,3 @@
+<?php
+
+$routes->prefix();

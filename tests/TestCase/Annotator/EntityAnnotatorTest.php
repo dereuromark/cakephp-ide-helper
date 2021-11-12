@@ -449,7 +449,7 @@ class EntityAnnotatorTest extends TestCase {
 			AbstractAnnotator::CONFIG_DRY_RUN => true,
 		];
 
-		return $this->getMockBuilder(EntityAnnotator::class)->onlyMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
+		return $this->getMockBuilder(EntityAnnotator::class)->setMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
 	}
 
 }

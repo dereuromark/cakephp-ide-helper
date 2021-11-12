@@ -253,6 +253,16 @@ would get the following annotations:
  */
 ```
 
+## Routes
+Route files in 4.x are not needed to be static anymore.
+For this we need the object to work with annotated.
+`config/routes.php` files would get the following annotation:
+```php
+/**
+ * @var \Cake\Routing\RouteBuilder $routes
+ */
+```
+
 ## Replacing native tasks
 Using associative arrays you can even exchange any native task with your own implementation:
 ```php
