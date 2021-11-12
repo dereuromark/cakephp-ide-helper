@@ -376,7 +376,7 @@ class AnnotationsShell extends Shell {
 	 */
 	public function routes() {
 		$plugin = (string)$this->param('plugin') ?: null;
-		$path = $plugin ? Plugin::path($plugin) : APP;
+		$path = $plugin ? Plugin::path($plugin) : ROOT . DS;
 
 		$name = 'routes.php';
 		$path .= 'config' . DS . $name;
