@@ -5,6 +5,7 @@ namespace IdeHelper\Shell;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Console\Shell;
 use Cake\Core\Configure;
+use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
 use Cake\Utility\Inflector;
 use IdeHelper\Annotator\AbstractAnnotator;
@@ -17,6 +18,7 @@ use IdeHelper\Annotator\ComponentAnnotator;
 use IdeHelper\Annotator\ControllerAnnotator;
 use IdeHelper\Annotator\HelperAnnotator;
 use IdeHelper\Annotator\ModelAnnotator;
+use IdeHelper\Annotator\RoutesAnnotator;
 use IdeHelper\Annotator\ShellAnnotator;
 use IdeHelper\Annotator\TemplateAnnotator;
 use IdeHelper\Annotator\ViewAnnotator;
@@ -153,8 +155,9 @@ class AnnotationsShell extends Shell {
 		$types[] = 'templates';
 
 		if ($this->param('remove')) {
-			$this->verbose('Skipping "classes" and "callbacks" annotations, they do not support removing.');
+			$this->verbose('Skipping "routes, "classes" and "callbacks" annotations, they do not support removing.');
 		} else {
+			$types[] = 'routes';
 			$types[] = 'classes';
 			$types[] = 'callbacks';
 		}
@@ -366,6 +369,30 @@ class AnnotationsShell extends Shell {
 
 			$this->_controllers($folder . $subFolder . DS);
 		}
+	}
+
+	/**
+	 * @return int
+	 */
+	public function routes() {
+		$plugin = (string)$this->param('plugin') ?: null;
+		$path = $plugin ? Plugin::path($plugin) : APP;
+
+		$name = 'routes.php';
+		$path .= 'config' . DS . $name;
+		if (!file_exists($path)) {
+			return static::CODE_SUCCESS;
+		}
+
+		$this->out('-> ' . $name, 1, Shell::VERBOSE);
+		$annotator = $this->getAnnotator(RoutesAnnotator::class);
+		$annotator->annotate($path);
+
+		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
+			return static::CODE_CHANGES;
+		}
+
+		return static::CODE_SUCCESS;
 	}
 
 	/**
@@ -700,6 +727,9 @@ class AnnotationsShell extends Shell {
 				'parser' => $subcommandParser,
 			])->addSubcommand('shells', [
 				'help' => 'Annotate primary model as well as used models in shells. Also annotates tasks.',
+				'parser' => $subcommandParser,
+			])->addSubcommand('routes', [
+				'help' => 'Annotate routes file.',
 				'parser' => $subcommandParser,
 			])->addSubcommand('classes', [
 				'help' => 'Annotate classes using class annotation tasks. This task is not part of "all" when "-r" is used.',

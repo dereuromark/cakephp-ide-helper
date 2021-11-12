@@ -246,7 +246,7 @@ class ModelAnnotatorTest extends TestCase {
 			AbstractAnnotator::CONFIG_VERBOSE => true,
 		];
 
-		return $this->getMockBuilder(ModelAnnotator::class)->setMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
+		return $this->getMockBuilder(ModelAnnotator::class)->onlyMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
 	}
 
 	/**
