@@ -52,6 +52,8 @@ class EntityTaskTest extends TestCase {
 		$expected = [
 			'content' => "'content'",
 			'created' => "'created'",
+			'foo' => "'foo'",
+			'houses' => "'houses'",
 			'id' => "'id'",
 			'name' => "'name'",
 		];

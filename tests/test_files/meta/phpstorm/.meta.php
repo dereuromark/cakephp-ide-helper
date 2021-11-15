@@ -1295,6 +1295,7 @@ namespace PHPSTORM_META {
 
 	registerArgumentsSet(
 		'entityFields:Cake\ORM\Entity',
+		'car',
 		'content',
 		'created',
 		'id',
@@ -1305,6 +1306,7 @@ namespace PHPSTORM_META {
 		'entityFields:Relations\Model\Entity\Bar',
 		'id',
 		'name',
+		'user',
 		'user_id'
 	);
 
@@ -1312,11 +1314,14 @@ namespace PHPSTORM_META {
 		'entityFields:Relations\Model\Entity\Foo',
 		'id',
 		'name',
+		'user',
 		'user_id'
 	);
 
 	registerArgumentsSet(
 		'entityFields:Relations\Model\Entity\User',
+		'bar',
+		'foo',
 		'id',
 		'name'
 	);
@@ -1325,6 +1330,8 @@ namespace PHPSTORM_META {
 		'entityFields:TestApp\Model\Entity\BarBar',
 		'content',
 		'created',
+		'foo',
+		'houses',
 		'id',
 		'name'
 	);
@@ -1333,6 +1340,8 @@ namespace PHPSTORM_META {
 		'entityFields:TestApp\Model\Entity\BarBarsAbstract',
 		'content',
 		'created',
+		'foo',
+		'houses',
 		'id',
 		'name'
 	);
@@ -1343,15 +1352,18 @@ namespace PHPSTORM_META {
 		'created',
 		'id',
 		'modified',
-		'name'
+		'name',
+		'wheels'
 	);
 
 	registerArgumentsSet(
 		'entityFields:TestApp\Model\Entity\Wheel',
+		'car',
 		'content',
 		'created',
 		'id',
-		'name'
+		'name',
+		'virtual_one'
 	);
 
 	registerArgumentsSet(

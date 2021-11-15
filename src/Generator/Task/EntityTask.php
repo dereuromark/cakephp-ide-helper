@@ -2,6 +2,7 @@
 
 namespace IdeHelper\Generator\Task;
 
+use Cake\ORM\Table;
 use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Generator\Directive\RegisterArgumentsSet;
 use IdeHelper\ValueObject\StringName;
@@ -59,20 +60,41 @@ class EntityTask extends ModelTask {
 		$models = $this->collectModels();
 		foreach ($models as $model => $className) {
 			$fields = [];
+			$tableObject = null;
 			try {
 				/** @var \Cake\ORM\Table $tableObject */
 				$tableObject = new $className();
 				$fields = $tableObject->getSchema()->columns();
+
 			} catch (\Exception $exception) {
 				// Do nothing
-				$tableObject = null;
+			}
+
+			if ($tableObject) {
+				try {
+					$fieldsFromRelations = $this->addFromRelations($tableObject);
+					$fields = array_merge($fields, $fieldsFromRelations);
+					$fields = array_unique($fields);
+				} catch (\Exception $exception) {
+					// Do nothing
+				}
+			}
+
+			$entityClass = $tableObject ? $tableObject->getEntityClass() : null;
+			try {
+				/** @var \Cake\Datasource\EntityInterface $entityObject */
+				$entityObject = new $entityClass;
+				$visibleFields = $entityObject->getVisible();
+				$virtualFields = $entityObject->getVirtual();
+				$fields = array_merge($fields, $virtualFields, $visibleFields);
+				$fields = array_unique($fields);
+			} catch (\Exception $exception) {
+				// Do nothing
 			}
 
 			if (!$fields) {
 				continue;
 			}
-
-			$entityClass = $tableObject ? $tableObject->getEntityClass() : null;
 
 			$list = [];
 			foreach ($fields as $field) {
@@ -85,6 +107,24 @@ class EntityTask extends ModelTask {
 		}
 
 		return $modelFields;
+	}
+
+	/**
+	 * @param \Cake\ORM\Table $table
+	 *
+	 * @return array<string>
+	 */
+	protected function addFromRelations(Table $table): array {
+		$fields = [];
+
+		/** @var \Cake\ORM\AssociationCollection|\Cake\ORM\Association[] $associations */
+		$associations = $table->associations();
+
+		foreach ($associations as $association) {
+			$fields[] = $association->getProperty();
+		}
+
+		return $fields;
 	}
 
 }
