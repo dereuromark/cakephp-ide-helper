@@ -4,12 +4,12 @@ namespace IdeHelper\Test\TestCase\Annotator\ClassAnnotatorTask;
 
 use Cake\Console\ConsoleIo;
 use IdeHelper\Annotator\AbstractAnnotator;
-use IdeHelper\Annotator\ClassAnnotatorTask\TestClassAnnotatorTask;
+use IdeHelper\Annotator\ClassAnnotatorTask\FormClassAnnotatorTask;
 use IdeHelper\Console\Io;
 use Shim\TestSuite\ConsoleOutput;
 use Shim\TestSuite\TestCase;
 
-class TestClassAnnotatorTaskTest extends TestCase {
+class FormClassAnnotatorTaskTest extends TestCase {
 
 	/**
 	 * @var \Shim\TestSuite\ConsoleOutput
@@ -44,16 +44,9 @@ class TestClassAnnotatorTaskTest extends TestCase {
 	public function testShouldRun() {
 		$task = $this->getTask('');
 
-		$content = 'namespace TestApp\Test\TestCase\Controller' . PHP_EOL . 'class FooControllerTest extends ControllerIntegrationTestCase';
-		$result = $task->shouldRun('/tests/TestCase/Foo.php', $content);
+		$content = 'namespace TestApp\\Form' . PHP_EOL . 'use TestApp\\Form\\DocForm' . PHP_EOL . '$docForm->execute()';
+		$result = $task->shouldRun('/src/Foo.php', $content);
 		$this->assertTrue($result);
-
-		$content = 'namespace TestApp\Test\TestCase\Command' . PHP_EOL . 'class FooCommandTest extends ConsoleIntegrationTestCase';
-		$result = $task->shouldRun('/tests/TestCase/Foo.php', $content);
-		$this->assertTrue($result);
-
-		$result = $task->shouldRun('/tests/TestCase/Foo.php', 'namespace TestApp\Foo');
-		$this->assertFalse($result);
 
 		$result = $task->shouldRun('/tests/Foo.php', $content);
 		$this->assertFalse($result);
@@ -63,15 +56,15 @@ class TestClassAnnotatorTaskTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotate() {
-		$content = file_get_contents(TEST_FILES . 'tests' . DS . 'BarControllerTest.missing.php');
+		$content = file_get_contents(TEST_FILES . 'FormAnnotation' . DS . 'FormAnnotation.missing.php');
 		$task = $this->getTask($content);
-		$path = '/tests/TestCase/Controller/BarControllerTest.php';
+		$path = '/src/Foo/Foo.php';
 
 		$result = $task->annotate($path);
 		$this->assertTrue($result);
 
 		$content = $task->getContent();
-		$this->assertTextContains('* @uses \TestApp\Controller\BarController', $content);
+		$this->assertTextContains('* @uses \TestApp\Form\DocForm::_execute()', $content);
 
 		$output = $this->out->output();
 		$this->assertTextContains('  -> 1 annotation added.', $output);
@@ -81,9 +74,9 @@ class TestClassAnnotatorTaskTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotateExisting() {
-		$content = file_get_contents(TEST_FILES . 'tests' . DS . 'BarControllerTest.existing.php');
+		$content = file_get_contents(TEST_FILES . 'FormAnnotation' . DS . 'FormAnnotation.existing.php');
 		$task = $this->getTask($content);
-		$path = '/tests/TestCase/Controller/BarControllerTest.php';
+		$path = '/src/Foo/Foo.php';
 
 		$result = $task->annotate($path);
 		$this->assertFalse($result);
@@ -100,7 +93,7 @@ class TestClassAnnotatorTaskTest extends TestCase {
 	 * @param string $content
 	 * @param array $params
 	 *
-	 * @return \IdeHelper\Annotator\ClassAnnotatorTask\TestClassAnnotatorTask
+	 * @return \IdeHelper\Annotator\ClassAnnotatorTask\FormClassAnnotatorTask
 	 */
 	protected function getTask(string $content, array $params = []) {
 		$params += [
@@ -108,7 +101,7 @@ class TestClassAnnotatorTaskTest extends TestCase {
 			AbstractAnnotator::CONFIG_VERBOSE => true,
 		];
 
-		return new TestClassAnnotatorTask($this->io, $params, $content);
+		return new FormClassAnnotatorTask($this->io, $params, $content);
 	}
 
 }

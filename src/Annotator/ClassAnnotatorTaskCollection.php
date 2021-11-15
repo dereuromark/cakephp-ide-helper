@@ -3,6 +3,7 @@
 namespace IdeHelper\Annotator;
 
 use Cake\Core\Configure;
+use IdeHelper\Annotator\ClassAnnotatorTask\FormClassAnnotatorTask;
 use IdeHelper\Annotator\ClassAnnotatorTask\ModelAwareClassAnnotatorTask;
 use IdeHelper\Annotator\ClassAnnotatorTask\TestClassAnnotatorTask;
 use IdeHelper\Console\Io;
@@ -16,6 +17,7 @@ class ClassAnnotatorTaskCollection {
 	 */
 	protected $defaultTasks = [
 		ModelAwareClassAnnotatorTask::class => ModelAwareClassAnnotatorTask::class,
+		FormClassAnnotatorTask::class => FormClassAnnotatorTask::class,
 		TestClassAnnotatorTask::class => TestClassAnnotatorTask::class,
 	];
 
