@@ -68,33 +68,6 @@ class FormClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 	}
 
 	/**
-	 * @param string $content
-	 *
-	 * @return string|null
-	 */
-	protected function getTestedClass(string $content): ?string {
-		preg_match('#namespace (.+);#', $content, $matches);
-		if (!$matches) {
-			return null;
-		}
-
-		$namespace = str_replace('\\Test\\TestCase\\', '\\', $matches[1]);
-
-		preg_match('#\bclass (.+)Test extends#', $content, $matches);
-		if (!$matches) {
-			return null;
-		}
-		$className = $matches[1];
-
-		$fullClassName = $namespace . '\\' . $className;
-		if (!class_exists($fullClassName)) {
-			return null;
-		}
-
-		return $fullClassName;
-	}
-
-	/**
 	 * @param array<string> $classes
 	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
