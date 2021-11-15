@@ -282,6 +282,17 @@ Out of the box the following tasks are run:
 
 Any `use ModelAwareTrait` usage together with `$this->loadModel(...)` calls will add the required annotation on top of the class.
 
+### Form::execute()
+This will add a convenience inline annotation to quickly jump to the actual business logic code.
+```php
+use App\Form\ReleaseForm
+
+$releaseForm = new ReleaseForm();
+
+/** @uses \App\Form\ReleaseForm::_execute() */
+$releaseForm->execute($data);
+```
+
 ### Test
 
 Any test class of specific types can be annotated with the corresponding class it tests.
