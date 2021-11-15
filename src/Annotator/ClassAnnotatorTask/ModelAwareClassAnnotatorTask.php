@@ -2,6 +2,8 @@
 
 namespace IdeHelper\Annotator\ClassAnnotatorTask;
 
+use Throwable;
+
 /**
  * Classes that use ModelAwareTrait should automatically have used tables - via loadModel() call - annotated.
  */
@@ -29,7 +31,7 @@ class ModelAwareClassAnnotatorTask extends AbstractClassAnnotatorTask implements
 			if (method_exists($object, 'loadModel')) {
 				return true;
 			}
-		} catch (\Throwable $exception) {
+		} catch (Throwable $exception) {
 			// Do nothing
 		}
 

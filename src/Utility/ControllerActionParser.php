@@ -6,6 +6,7 @@ use App\Controller\AppController;
 use ReflectionClass;
 use ReflectionMethod;
 use RuntimeException;
+use Throwable;
 
 class ControllerActionParser {
 
@@ -26,7 +27,7 @@ class ControllerActionParser {
 			try {
 				$class = new ReflectionClass(AppController::class);
 				$methods = $class->getMethods(ReflectionMethod::IS_PUBLIC);
-			} catch (\Throwable $exception) {
+			} catch (Throwable $exception) {
 				return [];
 			}
 

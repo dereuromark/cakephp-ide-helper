@@ -8,6 +8,7 @@ use Cake\Datasource\ConnectionManager;
 use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Generator\Directive\RegisterArgumentsSet;
 use IdeHelper\ValueObject\StringName;
+use Throwable;
 
 /**
  * This task is useful when using Migrations plugin and creating Migration files.
@@ -68,7 +69,7 @@ class DatabaseTableTask implements TaskInterface {
 			$db = $this->getConnection();
 			try {
 				$tables = (new TableScanner($db))->listAll();
-			} catch (\Exception $exception) {
+			} catch (Throwable $exception) {
 				$tables = [];
 			}
 			static::$tables = $tables;

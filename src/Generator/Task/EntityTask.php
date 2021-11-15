@@ -6,6 +6,7 @@ use Cake\ORM\Table;
 use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Generator\Directive\RegisterArgumentsSet;
 use IdeHelper\ValueObject\StringName;
+use Throwable;
 
 class EntityTask extends ModelTask {
 
@@ -66,7 +67,7 @@ class EntityTask extends ModelTask {
 				$tableObject = new $className();
 				$fields = $tableObject->getSchema()->columns();
 
-			} catch (\Exception $exception) {
+			} catch (Throwable $exception) {
 				// Do nothing
 			}
 
@@ -75,7 +76,7 @@ class EntityTask extends ModelTask {
 					$fieldsFromRelations = $this->addFromRelations($tableObject);
 					$fields = array_merge($fields, $fieldsFromRelations);
 					$fields = array_unique($fields);
-				} catch (\Exception $exception) {
+				} catch (Throwable $exception) {
 					// Do nothing
 				}
 			}
@@ -88,7 +89,7 @@ class EntityTask extends ModelTask {
 				$virtualFields = $entityObject->getVirtual();
 				$fields = array_merge($fields, $virtualFields, $visibleFields);
 				$fields = array_unique($fields);
-			} catch (\Exception $exception) {
+			} catch (Throwable $exception) {
 				// Do nothing
 			}
 

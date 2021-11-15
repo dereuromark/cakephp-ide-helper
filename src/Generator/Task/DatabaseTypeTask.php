@@ -4,11 +4,11 @@ namespace IdeHelper\Generator\Task;
 
 use Cake\Database\Type;
 use Cake\Database\TypeFactory;
-use Exception;
 use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\ValueObject\ClassName;
 use IdeHelper\ValueObject\StringName;
+use Throwable;
 
 /**
  * For Database TypeFactory calls around column types.
@@ -56,7 +56,7 @@ class DatabaseTypeTask implements TaskInterface {
 
 		try {
 			$allTypes = Type::buildAll();
-		} catch (Exception $exception) {
+		} catch (Throwable $exception) {
 			return $types;
 		}
 

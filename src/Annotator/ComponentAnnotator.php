@@ -11,6 +11,7 @@ use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\ComponentTrait;
 use IdeHelper\Utility\App;
 use RuntimeException;
+use Throwable;
 
 class ComponentAnnotator extends AbstractAnnotator {
 
@@ -81,7 +82,7 @@ class ComponentAnnotator extends AbstractAnnotator {
 		$controller = new Controller();
 		try {
 			$object = new $className(new ComponentRegistry($controller));
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			if ($this->getConfig(static::CONFIG_VERBOSE)) {
 				$this->_io->warn('   Skipping component annotations: ' . $e->getMessage());
 			}
