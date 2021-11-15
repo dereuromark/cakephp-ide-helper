@@ -83,7 +83,7 @@ class EntityTask extends ModelTask {
 			$entityClass = $tableObject ? $tableObject->getEntityClass() : null;
 			try {
 				/** @var \Cake\Datasource\EntityInterface $entityObject */
-				$entityObject = new $entityClass;
+				$entityObject = new $entityClass();
 				$visibleFields = $entityObject->getVisible();
 				$virtualFields = $entityObject->getVirtual();
 				$fields = array_merge($fields, $virtualFields, $visibleFields);
