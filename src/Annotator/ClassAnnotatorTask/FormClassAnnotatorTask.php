@@ -24,11 +24,11 @@ class FormClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 		}
 
 		$appNamespace = Configure::read('App.namespace') ?: 'App';
-		if (!preg_match('#\buse ' . $appNamespace . '\\\\Form\\\\(.+)Form\b#', $content, $matches)) {
+		if (!preg_match('#\buse (\w+)\\\\Form\\\\(.+)Form\b#', $content, $matches)) {
 			return false;
 		}
 
-		$varName = lcfirst($matches[1]) . 'Form';
+		$varName = lcfirst($matches[2]) . 'Form';
 		if (!preg_match('#\$' . $varName . '->execute\(#', $content)) {
 			return false;
 		}
@@ -41,9 +41,9 @@ class FormClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 	 * @return bool
 	 */
 	public function annotate(string $path): bool {
-		$appNamespace = Configure::read('App.namespace') ?: 'App';
-		preg_match('#\buse ' . $appNamespace . '\\\\Form\\\\(.+)Form\b#', $this->content, $matches);
-		$name = $matches[1] . 'Form';
+		preg_match('#\buse (\w+)\\\\Form\\\\(.+)Form\b#', $this->content, $matches);
+		$appNamespace = $matches[1];
+		$name = $matches[2] . 'Form';
 
 		$varName = lcfirst($name);
 		$rows = explode(PHP_EOL, $this->content);

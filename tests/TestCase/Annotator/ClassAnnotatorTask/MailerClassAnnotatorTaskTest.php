@@ -4,12 +4,12 @@ namespace IdeHelper\Test\TestCase\Annotator\ClassAnnotatorTask;
 
 use Cake\Console\ConsoleIo;
 use IdeHelper\Annotator\AbstractAnnotator;
-use IdeHelper\Annotator\ClassAnnotatorTask\FormClassAnnotatorTask;
+use IdeHelper\Annotator\ClassAnnotatorTask\MailerClassAnnotatorTask;
 use IdeHelper\Console\Io;
 use Shim\TestSuite\ConsoleOutput;
 use Shim\TestSuite\TestCase;
 
-class FormClassAnnotatorTaskTest extends TestCase {
+class MailerClassAnnotatorTaskTest extends TestCase {
 
 	/**
 	 * @var \Shim\TestSuite\ConsoleOutput
@@ -44,7 +44,21 @@ class FormClassAnnotatorTaskTest extends TestCase {
 	public function testShouldRun() {
 		$task = $this->getTask('');
 
-		$content = 'namespace TestApp\\Foo' . PHP_EOL . 'use TestApp\\Form\\DocForm' . PHP_EOL . '$docForm->execute()';
+		$content = 'namespace TestApp\\Foo' . PHP_EOL . 'use TestApp\\Mailer\\NotificationMailer' . PHP_EOL . '$notificationMailer->send(\'notify\')';
+		$result = $task->shouldRun('/src/Foo.php', $content);
+		$this->assertTrue($result);
+
+		$result = $task->shouldRun('/tests/Foo.php', $content);
+		$this->assertFalse($result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testShouldRunViaCall() {
+		$task = $this->getTask('');
+
+		$content = 'namespace TestApp\\Foo' . PHP_EOL . '$notificationMailer = $this->getMailer(\'Notification\')' . PHP_EOL . '$notificationMailer->send(\'notify\')';
 		$result = $task->shouldRun('/src/Foo.php', $content);
 		$this->assertTrue($result);
 
@@ -56,7 +70,7 @@ class FormClassAnnotatorTaskTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotate() {
-		$content = file_get_contents(TEST_FILES . 'FormAnnotation' . DS . 'FormAnnotation.missing.php');
+		$content = file_get_contents(TEST_FILES . 'MailerAnnotation' . DS . 'MailerAnnotation.missing.php');
 		$task = $this->getTask($content);
 		$path = '/src/Foo/Foo.php';
 
@@ -64,7 +78,7 @@ class FormClassAnnotatorTaskTest extends TestCase {
 		$this->assertTrue($result);
 
 		$content = $task->getContent();
-		$this->assertTextContains('* @uses \TestApp\Form\DocForm::_execute()', $content);
+		$this->assertTextContains('* @uses \TestApp\Mailer\NotificationMailer::notify()', $content);
 
 		$output = $this->out->output();
 		$this->assertTextContains('  -> 1 annotation added.', $output);
@@ -74,7 +88,7 @@ class FormClassAnnotatorTaskTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotateExisting() {
-		$content = file_get_contents(TEST_FILES . 'FormAnnotation' . DS . 'FormAnnotation.existing.php');
+		$content = file_get_contents(TEST_FILES . 'MailerAnnotation' . DS . 'MailerAnnotation.existing.php');
 		$task = $this->getTask($content);
 		$path = '/src/Foo/Foo.php';
 
@@ -93,7 +107,7 @@ class FormClassAnnotatorTaskTest extends TestCase {
 	 * @param string $content
 	 * @param array $params
 	 *
-	 * @return \IdeHelper\Annotator\ClassAnnotatorTask\FormClassAnnotatorTask
+	 * @return \IdeHelper\Annotator\ClassAnnotatorTask\MailerClassAnnotatorTask
 	 */
 	protected function getTask(string $content, array $params = []) {
 		$params += [
@@ -101,7 +115,7 @@ class FormClassAnnotatorTaskTest extends TestCase {
 			AbstractAnnotator::CONFIG_VERBOSE => true,
 		];
 
-		return new FormClassAnnotatorTask($this->io, $params, $content);
+		return new MailerClassAnnotatorTask($this->io, $params, $content);
 	}
 
 }

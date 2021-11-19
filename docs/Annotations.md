@@ -285,12 +285,23 @@ Any `use ModelAwareTrait` usage together with `$this->loadModel(...)` calls will
 ### Form::execute()
 This will add a convenience inline annotation to quickly jump to the actual business logic code.
 ```php
-use App\Form\ReleaseForm
+use App\Form\ReleaseForm;
 
 $releaseForm = new ReleaseForm();
 
 /** @uses \App\Form\ReleaseForm::_execute() */
 $releaseForm->execute($data);
+```
+
+### Mailer::send()
+This will add a convenience inline annotation to quickly jump to the actual business logic code.
+```php
+use App\Mailer\NotificationMailer;
+// or
+$notificationMailer = $this->getMailer('Notification');
+
+/** @uses \App\Mailer\NotificationMailer::notify() */
+$notificationMailer->send('notify', [$user, $details]);
 ```
 
 ### Test
