@@ -69,6 +69,20 @@ class MailerClassAnnotatorTaskTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testShouldRunViaCallPlugin() {
+		$task = $this->getTask('');
+
+		$content = 'namespace TestApp\\Foo' . PHP_EOL . '$notificationMailer = $this->getMailer(\'FooBar.Notification\')' . PHP_EOL . '$notificationMailer->send(\'notify\')';
+		$result = $task->shouldRun('/src/Foo.php', $content);
+		$this->assertTrue($result);
+
+		$result = $task->shouldRun('/tests/Foo.php', $content);
+		$this->assertFalse($result);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testAnnotate() {
 		$content = file_get_contents(TEST_FILES . 'MailerAnnotation' . DS . 'MailerAnnotation.missing.php');
 		$task = $this->getTask($content);
