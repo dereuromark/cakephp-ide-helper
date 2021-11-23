@@ -364,9 +364,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			$this->_cache[$parentClass] = $parentBehaviors = $this->extractBehaviors($map);
 		}
 
-		$result = array_diff_key($behaviors, $parentBehaviors);
-
-		return $result;
+		return array_diff_key($behaviors, $parentBehaviors);
 	}
 
 	/**
