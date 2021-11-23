@@ -281,7 +281,6 @@ class ModelAnnotator extends AbstractAnnotator {
 			$className = App::className($through, 'Model/Table', 'Table') ?: static::CLASS_TABLE;
 			[, $throughName] = pluginSplit($through);
 			if (strpos($throughName, '\\') !== false) {
-				/** @psalm-suppress PossiblyFalseOperand */
 				$throughName = substr($throughName, strrpos($throughName, '\\') + 1, -5);
 			}
 			$type = HasMany::class;
