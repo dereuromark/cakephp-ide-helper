@@ -233,7 +233,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @return array<string>
 	 */
 	protected function parseLoadedBehaviors(string $content): array {
-		preg_match_all('/\$this-\>addBehavior\(\'([a-z.\/]+)\'/i', $content, $matches);
+		preg_match_all('/\$this->addBehavior\(\'([a-z.\/]+)\'/i', $content, $matches);
 		if (empty($matches[1])) {
 			return [];
 		}
@@ -280,6 +280,9 @@ class ModelAnnotator extends AbstractAnnotator {
 
 			$className = App::className($through, 'Model/Table', 'Table') ?: static::CLASS_TABLE;
 			[, $throughName] = pluginSplit($through);
+			if (strpos($throughName, '\\') !== false) {
+				$throughName = substr($throughName, strrpos($throughName, '\\') + 1, -5);
+			}
 			$type = HasMany::class;
 			if (isset($associations[$type][$throughName])) {
 				continue;
@@ -360,9 +363,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			$this->_cache[$parentClass] = $parentBehaviors = $this->extractBehaviors($map);
 		}
 
-		$result = array_diff_key($behaviors, $parentBehaviors);
-
-		return $result;
+		return array_diff_key($behaviors, $parentBehaviors);
 	}
 
 	/**
