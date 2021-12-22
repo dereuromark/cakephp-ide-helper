@@ -10,9 +10,9 @@ use RuntimeException;
 class RoutesAnnotator extends TemplateAnnotator {
 
 	/**
-     * @param string $path Path to file.
-     * @throws \RuntimeException
-     * @return bool
+	 * @param string $path Path to file.
+	 * @throws \RuntimeException
+	 * @return bool
 	 */
 	public function annotate(string $path): bool {
 		$content = file_get_contents($path);
