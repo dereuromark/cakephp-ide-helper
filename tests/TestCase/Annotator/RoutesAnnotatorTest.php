@@ -122,6 +122,21 @@ class RoutesAnnotatorTest extends TestCase {
 	}
 
 	/**
+	 * @return void
+	 */
+	public function testHasAnnotation() {
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$content = <<<PHP
+/**
+ * @var \Cake\Routing\RouteBuilder \$routes
+ */
+PHP;
+		$result = $this->invokeMethod($annotator, 'hasAnnotation', [$content]);
+		$this->assertTrue($result);
+	}
+
+	/**
 	 * @param array $params
 	 * @return \IdeHelper\Annotator\RoutesAnnotator|\PHPUnit\Framework\MockObject\MockObject
 	 */

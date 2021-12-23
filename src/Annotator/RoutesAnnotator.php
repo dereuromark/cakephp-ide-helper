@@ -20,6 +20,10 @@ class RoutesAnnotator extends TemplateAnnotator {
 			throw new RuntimeException('Cannot read file');
 		}
 
+		if ($this->hasAnnotation($content)) {
+			return false;
+		}
+
 		$annotations = $this->buildAnnotations($path, $content);
 
 		return $this->annotateContent($path, $content, $annotations);
@@ -41,6 +45,15 @@ class RoutesAnnotator extends TemplateAnnotator {
 		}
 
 		return $annotations;
+	}
+
+	/**
+	 * @param string $content
+	 *
+	 * @return bool
+	 */
+	protected function hasAnnotation(string $content): bool {
+		return (bool)preg_match('/\* @var .+\\\\RouteBuilder \\$routes/', $content);
 	}
 
 }
