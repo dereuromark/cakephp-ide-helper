@@ -70,6 +70,14 @@ namespace PHPSTORM_META {
 
 	exitPoint(\Cake\Console\ConsoleIo::abort());
 
+	override(
+		\Cake\Console\ConsoleIo::helper(0),
+		map([
+			'Progress' => \Cake\Shell\Helper\ProgressHelper::class,
+			'Table' => \Cake\Shell\Helper\TableHelper::class,
+		])
+	);
+
 	expectedArguments(
 		\Cake\Controller\ComponentRegistry::unload(),
 		0,
