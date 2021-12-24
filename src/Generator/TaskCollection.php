@@ -9,6 +9,7 @@ use IdeHelper\Generator\Task\CellTask;
 use IdeHelper\Generator\Task\ComponentTask;
 use IdeHelper\Generator\Task\ConfigureTask;
 use IdeHelper\Generator\Task\ConnectionTask;
+use IdeHelper\Generator\Task\ConsoleHelperTask;
 use IdeHelper\Generator\Task\ConsoleTask;
 use IdeHelper\Generator\Task\DatabaseTableColumnNameTask;
 use IdeHelper\Generator\Task\DatabaseTableColumnTypeTask;
@@ -68,6 +69,7 @@ class TaskCollection {
 		TranslationKeyTask::class => TranslationKeyTask::class,
 		ConfigureTask::class => ConfigureTask::class,
 		CellTask::class => CellTask::class,
+		ConsoleHelperTask::class => ConsoleHelperTask::class,
 	];
 
 	/**
