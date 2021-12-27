@@ -61,7 +61,7 @@ class EntityAnnotator extends AbstractAnnotator {
 		return $this->annotateContent($path, $content, $annotations);
 	}
 
-	protected function getClassName($name) {
+	protected function getClassName(string $name): ?string {
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
 
 		return App::className(($plugin ? $plugin . '.' : '') . $name, 'Model/Entity');
