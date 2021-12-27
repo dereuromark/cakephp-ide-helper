@@ -11,7 +11,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime|null $modified
  * @property \TestApp\Model\Entity\Wheel[] $wheels
  *
- * @property-read string|null $virtual_one
+ * @property-read string|null $virtual_one {@uses \TestApp\Model\Entity\Wheel::_getVirtualOne()}
  */
 class Wheel extends Entity {
 

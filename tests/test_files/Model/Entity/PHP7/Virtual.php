@@ -12,7 +12,7 @@ use Cake\ORM\Entity;
  * @property string $virtual_two
  * @property \TestApp\Model\Entity\Wheel[] $wheels
  *
- * @property-read string|null $virtual_one
+ * @property-read string|null $virtual_one {@uses \TestApp\Model\Entity\Virtual::_getVirtualOne()}
  */
 class Virtual extends Entity {
 
