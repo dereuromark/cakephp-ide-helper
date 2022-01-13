@@ -2,7 +2,15 @@
 	"name": "dereuromark/cakephp-ide-helper",
 	"description": "CakePHP IdeHelper Plugin to improve auto-completion",
 	"type": "cakephp-plugin",
-	"keywords": ["cakephp", "IDE", "autocomplete", "annotations", "plugin", "phpstorm", "phpdoc"],
+	"keywords": [
+		"cakephp",
+		"IDE",
+		"autocomplete",
+		"annotations",
+		"plugin",
+		"phpstorm",
+		"phpdoc"
+	],
 	"homepage": "https://github.com/dereuromark/cakephp-ide-helper/",
 	"license": "MIT",
 	"authors": [
@@ -57,7 +65,7 @@
 	"prefer-stable": true,
 	"scripts": {
 		"test": "phpunit",
-		"test-coverage" : "phpunit --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml",
+		"test-coverage": "phpunit --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml",
 		"stan": "phpstan analyse",
 		"stan-tests": "phpstan analyse -c tests/phpstan.neon",
 		"stan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan:^1.0.0 && mv composer.backup composer.json",
@@ -73,8 +81,8 @@
 	},
 	"config": {
 		"allow-plugins": {
-			"dealerdirect/phpcodesniffer-composer-installer": true,
-			"cakephp/plugin-installer": true
+			"cakephp/plugin-installer": true,
+			"dealerdirect/phpcodesniffer-composer-installer": true
 		}
 	}
 }
