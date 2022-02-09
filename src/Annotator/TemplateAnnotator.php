@@ -51,6 +51,13 @@ class TemplateAnnotator extends AbstractAnnotator {
 		}
 
 		$needsPhpTag = $phpOpenTagIndex === null || $this->needsPhpTag($file, $phpOpenTagIndex);
+
+		$nextIndex = $file->findNext(T_DECLARE, $phpOpenTagIndex, $phpOpenTagIndex + 2);
+		if ($nextIndex) {
+			$tokens = $file->getTokens();
+			$phpOpenTagIndex = $tokens[$nextIndex]['parenthesis_closer'] + 1;
+		}
+
 		$docBlockCloseTagIndex = null;
 		if ($needsPhpTag) {
 			$phpOpenTagIndex = null;
@@ -179,6 +186,10 @@ class TemplateAnnotator extends AbstractAnnotator {
 		}
 
 		$nextIndex = $file->findNext(T_WHITESPACE, $phpOpenTagIndex + 1, null, true);
+		if ($tokens[$nextIndex]['code'] === T_DECLARE) {
+			return false;
+		}
+
 		if ($tokens[$nextIndex]['line'] === $tokens[$phpOpenTagIndex]['line']) {
 			return true;
 		}

@@ -287,7 +287,7 @@ class TemplateAnnotatorTest extends TestCase {
 
 		$output = $this->out->output();
 
-		$this->assertTextContains('   -> 2 annotations added.', $output);
+		$this->assertTextContains('   -> 1 annotation added.', $output);
 	}
 
 	/**
