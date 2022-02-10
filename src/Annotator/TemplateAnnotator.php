@@ -51,10 +51,14 @@ class TemplateAnnotator extends AbstractAnnotator {
 		}
 
 		$needsPhpTag = $phpOpenTagIndex === null || $this->needsPhpTag($file, $phpOpenTagIndex);
+
+		$phpOpenTagIndex = $this->checkforDeclareStatement($file, $phpOpenTagIndex);
+
 		$docBlockCloseTagIndex = null;
 		if ($needsPhpTag) {
 			$phpOpenTagIndex = null;
-		} else {
+		}
+		if ($phpOpenTagIndex !== null) {
 			$docBlockCloseTagIndex = $this->findExistingDocBlock($file, $phpOpenTagIndex);
 		}
 
@@ -179,6 +183,10 @@ class TemplateAnnotator extends AbstractAnnotator {
 		}
 
 		$nextIndex = $file->findNext(T_WHITESPACE, $phpOpenTagIndex + 1, null, true);
+		if ($tokens[$nextIndex]['code'] === T_DECLARE) {
+			return false;
+		}
+
 		if ($tokens[$nextIndex]['line'] === $tokens[$phpOpenTagIndex]['line']) {
 			return true;
 		}
@@ -502,6 +510,32 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		/** @return \IdeHelper\Annotator\AbstractAnnotator */
 		return $annotation;
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param int|null $phpOpenTagIndex
+	 *
+	 * @return int|null
+	 */
+	protected function checkforDeclareStatement(File $file, ?int $phpOpenTagIndex): ?int {
+		if ($phpOpenTagIndex === null) {
+			return $phpOpenTagIndex;
+		}
+
+		$nextIndex = $file->findNext(T_DECLARE, $phpOpenTagIndex, $phpOpenTagIndex + 2);
+		if (!$nextIndex) {
+			return $phpOpenTagIndex;
+		}
+
+		$tokens = $file->getTokens();
+
+		$lastIndexOfRow = $tokens[$nextIndex]['parenthesis_closer'];
+		while (!empty($tokens[$lastIndexOfRow + 1]) && $tokens[$lastIndexOfRow + 1]['line'] === $tokens[$lastIndexOfRow]['line']) {
+			$lastIndexOfRow++;
+		}
+
+		return $lastIndexOfRow;
 	}
 
 }
