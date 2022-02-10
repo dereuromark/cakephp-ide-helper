@@ -52,16 +52,13 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		$needsPhpTag = $phpOpenTagIndex === null || $this->needsPhpTag($file, $phpOpenTagIndex);
 
-		$nextIndex = $file->findNext(T_DECLARE, $phpOpenTagIndex, $phpOpenTagIndex + 2);
-		if ($nextIndex) {
-			$tokens = $file->getTokens();
-			$phpOpenTagIndex = $tokens[$nextIndex]['parenthesis_closer'] + 1;
-		}
+		$phpOpenTagIndex = $this->checkforDeclareStatement($file, $phpOpenTagIndex);
 
 		$docBlockCloseTagIndex = null;
 		if ($needsPhpTag) {
 			$phpOpenTagIndex = null;
-		} else {
+		}
+		if ($phpOpenTagIndex) {
 			$docBlockCloseTagIndex = $this->findExistingDocBlock($file, $phpOpenTagIndex);
 		}
 
@@ -513,6 +510,28 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		/** @return \IdeHelper\Annotator\AbstractAnnotator */
 		return $annotation;
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param int|null $phpOpenTagIndex
+	 *
+	 * @return int|null
+	 */
+	protected function checkforDeclareStatement(File $file, ?int $phpOpenTagIndex): ?int {
+		if ($phpOpenTagIndex === null) {
+			return $phpOpenTagIndex;
+		}
+
+		$nextIndex = $file->findNext(T_DECLARE, $phpOpenTagIndex, $phpOpenTagIndex + 2);
+		if (!$nextIndex) {
+			return $phpOpenTagIndex;
+		}
+
+		$tokens = $file->getTokens();
+
+		//TODO find last content of row automatically
+		return $tokens[$nextIndex]['parenthesis_closer'] + 1;
 	}
 
 }
