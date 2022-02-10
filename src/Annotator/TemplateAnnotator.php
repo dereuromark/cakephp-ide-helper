@@ -530,8 +530,12 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		$tokens = $file->getTokens();
 
-		//TODO find last content of row automatically
-		return $tokens[$nextIndex]['parenthesis_closer'] + 1;
+		$lastIndexOfRow = $tokens[$nextIndex]['parenthesis_closer'];
+		while (!empty($tokens[$lastIndexOfRow + 1]) && $tokens[$lastIndexOfRow + 1]['line'] === $tokens[$lastIndexOfRow]['line']) {
+			$lastIndexOfRow++;
+		}
+
+		return $lastIndexOfRow;
 	}
 
 }
