@@ -118,7 +118,7 @@ class EntityTask extends ModelTask {
 	protected function addFromRelations(Table $table): array {
 		$fields = [];
 
-		/** @var \Cake\ORM\AssociationCollection|\Cake\ORM\Association[] $associations */
+		/** @var \Cake\ORM\AssociationCollection<\Cake\ORM\Association> $associations */
 		$associations = $table->associations();
 
 		foreach ($associations as $association) {

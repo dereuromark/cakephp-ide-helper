@@ -95,7 +95,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @return array<string, array<string, mixed>>
 	 */
 	protected function hydrateSchemaFromAssoc(array $schema): array {
-		/** @var \Cake\ORM\AssociationCollection|\Cake\ORM\Association[] $associations */
+		/** @var \Cake\ORM\AssociationCollection<\Cake\ORM\Association> $associations */
 		$associations = $this->getConfig('associations');
 
 		foreach ($associations as $association) {
