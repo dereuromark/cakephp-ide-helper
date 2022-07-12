@@ -55,6 +55,9 @@ class PhpstormGeneratorTest extends TestCase {
 		file_put_contents(TMP . '.meta.php', $result);
 
 		$file = Plugin::path('IdeHelper') . 'tests' . DS . 'test_files' . DS . 'meta' . DS . 'phpstorm' . DS . '.meta.php';
+		if (version_compare(Configure::version(), '4.4.0') > 0) {
+			$file = Plugin::path('IdeHelper') . 'tests' . DS . 'test_files' . DS . 'meta' . DS . 'phpstorm' . DS . '.meta-44.php';
+		}
 		$expected = file_get_contents($file);
 
 		$this->assertTextEquals($expected, $result);
