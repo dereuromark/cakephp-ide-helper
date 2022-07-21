@@ -17,7 +17,12 @@ class ArrayString {
 			return sprintf( ($type ?: 'array') . '<%s>', $value);
 		}
 
-		return $value . '[]';
+		$value .= '[]';
+		if ($type) {
+			$value .= '|' . $type;
+		}
+
+		return $value;
 	}
 
 }
