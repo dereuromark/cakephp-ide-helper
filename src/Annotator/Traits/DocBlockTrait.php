@@ -25,189 +25,183 @@ use PHPStan\PhpDocParser\Parser\TypeParser;
 /**
  * Common functionality around doc block parsing and writing.
  */
-trait DocBlockTrait
-{
-    /**
-     * @param string $tagName tag name
-     * @param string $tagComment tag comment
-     *
-     * @return \PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode
-     */
-    protected static function getValueNode(string $tagName, string $tagComment): PhpDocTagValueNode
-    {
-        static $phpDocParser;
-        if (!$phpDocParser) {
-            $constExprParser = new ConstExprParser();
-            $phpDocParser = new PhpDocParser(new TypeParser($constExprParser), $constExprParser);
-        }
+trait DocBlockTrait {
 
-        static $phpDocLexer;
-        if (!$phpDocLexer) {
-            $phpDocLexer = new Lexer();
-        }
+	/**
+	 * @param string $tagName tag name
+	 * @param string $tagComment tag comment
+	 *
+	 * @return \PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode
+	 */
+	protected static function getValueNode(string $tagName, string $tagComment): PhpDocTagValueNode {
+		static $phpDocParser;
+		if (!$phpDocParser) {
+			$constExprParser = new ConstExprParser();
+			$phpDocParser = new PhpDocParser(new TypeParser($constExprParser), $constExprParser);
+		}
 
-        return $phpDocParser->parseTagValue(new TokenIterator($phpDocLexer->tokenize($tagComment)), $tagName);
-    }
+		static $phpDocLexer;
+		if (!$phpDocLexer) {
+			$phpDocLexer = new Lexer();
+		}
 
-    /**
-     * @param \PHPStan\PhpDocParser\Ast\PhpDoc\MethodTagValueNode|\PHPStan\PhpDocParser\Ast\PhpDoc\PropertyTagValueNode|\PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode|\PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode|\PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode|\PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode $valueNode
-     *
-     * @return array<string>
-     */
-    protected function valueNodeParts(PhpDocTagValueNode $valueNode): array
-    {
-        if ($valueNode instanceof MethodTagValueNode) {
-            $types = [$valueNode->returnType];
-        } elseif ($valueNode instanceof GenericTagValueNode) {
-            $types = [$valueNode];
-        } elseif ($valueNode->type instanceof UnionTypeNode) {
-            $types = $valueNode->type->types;
-        } else {
-            $types = [$valueNode->type];
-        }
+		return $phpDocParser->parseTagValue(new TokenIterator($phpDocLexer->tokenize($tagComment)), $tagName);
+	}
 
-        $result = [];
-        foreach ($types as $type) {
-            $result[] = (string)$type;
-        }
+	/**
+	 * @param \PHPStan\PhpDocParser\Ast\PhpDoc\MethodTagValueNode|\PHPStan\PhpDocParser\Ast\PhpDoc\PropertyTagValueNode|\PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode|\PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode|\PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode|\PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode $valueNode
+	 *
+	 * @return array<string>
+	 */
+	protected function valueNodeParts(PhpDocTagValueNode $valueNode): array {
+		if ($valueNode instanceof MethodTagValueNode) {
+			$types = [$valueNode->returnType];
+		} elseif ($valueNode instanceof GenericTagValueNode) {
+			$types = [$valueNode];
+		} elseif ($valueNode->type instanceof UnionTypeNode) {
+			$types = $valueNode->type->types;
+		} else {
+			$types = [$valueNode->type];
+		}
 
-        return $result;
-    }
+		$result = [];
+		foreach ($types as $type) {
+			$result[] = (string)$type;
+		}
 
-    /**
-     * @param array<string> $parts
-     * @param \PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode $valueNode
-     *
-     * @return string
-     */
-    protected function stringifyValueNode(array $parts, PhpDocTagValueNode $valueNode): string
-    {
-        if ($valueNode instanceof ParamTagValueNode) {
-            return trim(sprintf(
-                '%s %s%s %s',
-                implode('|', $parts),
-                $valueNode->isVariadic ? '...' : '',
-                $valueNode->parameterName,
-                $valueNode->description,
-            ));
-        }
-        if ($valueNode instanceof ReturnTagValueNode) {
-            return trim(sprintf(
-                '%s%s',
-                implode('|', $parts),
-                $valueNode->description,
-            ));
-        }
-        if ($valueNode instanceof MethodTagValueNode) {
-            return trim(sprintf(
-                '%s %s() %s',
-                implode('|', $parts),
-                $valueNode->methodName,
-                $valueNode->description,
-            ));
-        }
-        if ($valueNode instanceof VarTagValueNode) {
-            return trim(sprintf(
-                '%s %s%s',
-                implode('|', $parts),
-                $valueNode->variableName,
-                $valueNode->description,
-            ));
-        }
-        if ($valueNode instanceof ThrowsTagValueNode) {
-            return trim(sprintf(
-                '%s %s',
-                implode('|', $parts),
-                $valueNode->description,
-            ));
-        }
+		return $result;
+	}
 
-        return trim(implode('|', $parts));
-    }
+	/**
+	 * @param array<string> $parts
+	 * @param \PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode $valueNode
+	 *
+	 * @return string
+	 */
+	protected function stringifyValueNode(array $parts, PhpDocTagValueNode $valueNode): string {
+		if ($valueNode instanceof ParamTagValueNode) {
+			return trim(sprintf(
+				'%s %s%s %s',
+				implode('|', $parts),
+				$valueNode->isVariadic ? '...' : '',
+				$valueNode->parameterName,
+				$valueNode->description,
+			));
+		}
+		if ($valueNode instanceof ReturnTagValueNode) {
+			return trim(sprintf(
+				'%s%s',
+				implode('|', $parts),
+				$valueNode->description,
+			));
+		}
+		if ($valueNode instanceof MethodTagValueNode) {
+			return trim(sprintf(
+				'%s %s() %s',
+				implode('|', $parts),
+				$valueNode->methodName,
+				$valueNode->description,
+			));
+		}
+		if ($valueNode instanceof VarTagValueNode) {
+			return trim(sprintf(
+				'%s %s%s',
+				implode('|', $parts),
+				$valueNode->variableName,
+				$valueNode->description,
+			));
+		}
+		if ($valueNode instanceof ThrowsTagValueNode) {
+			return trim(sprintf(
+				'%s %s',
+				implode('|', $parts),
+				$valueNode->description,
+			));
+		}
 
-    /**
-     * Looks for either `@inheritDoc` or `{@inheritDoc}`.
-     * Also allows `@inheritdoc` or `{@inheritdoc}` aliases.
-     *
-     * @param \PHP_CodeSniffer\Files\File $phpCsFile
-     * @param int $docBlockStartIndex
-     * @param int $docBlockEndIndex
-     * @param string $needle
-     *
-     * @return bool
-     */
-    protected function hasInheritDoc(File $phpCsFile, $docBlockStartIndex, $docBlockEndIndex, $needle = '@inheritDoc')
-    {
-        $tokens = $phpCsFile->getTokens();
+		return trim(implode('|', $parts));
+	}
 
-        for ($i = $docBlockStartIndex + 1; $i < $docBlockEndIndex; ++$i) {
-            if (empty($tokens[$i]['content'])) {
-                continue;
-            }
-            $content = $tokens[$i]['content'];
-            $pos = stripos($content, $needle);
-            if ($pos === false) {
-                continue;
-            }
+	/**
+	 * Looks for either `@inheritDoc` or `{@inheritDoc}`.
+	 * Also allows `@inheritdoc` or `{@inheritdoc}` aliases.
+	 *
+	 * @param \PHP_CodeSniffer\Files\File $phpCsFile
+	 * @param int $docBlockStartIndex
+	 * @param int $docBlockEndIndex
+	 * @param string $needle
+	 *
+	 * @return bool
+	 */
+	protected function hasInheritDoc(File $phpCsFile, $docBlockStartIndex, $docBlockEndIndex, $needle = '@inheritDoc') {
+		$tokens = $phpCsFile->getTokens();
 
-            if ($pos && strpos($needle, '@') === 0 && substr($content, $pos - 1, $pos) === '{') {
-                return false;
-            }
+		for ($i = $docBlockStartIndex + 1; $i < $docBlockEndIndex; ++$i) {
+			if (empty($tokens[$i]['content'])) {
+				continue;
+			}
+			$content = $tokens[$i]['content'];
+			$pos = stripos($content, $needle);
+			if ($pos === false) {
+				continue;
+			}
 
-            return true;
-        }
+			if ($pos && strpos($needle, '@') === 0 && substr($content, $pos - 1, $pos) === '{') {
+				return false;
+			}
 
-        return false;
-    }
+			return true;
+		}
 
-    /**
-     * Allow \Foo\Bar[] or array<\Foo\Bar> to pass as array.
-     *
-     * @param array<string> $docBlockTypes
-     * @param string $iterableType
-     *
-     * @return bool
-     */
-    protected function containsTypeArray(array $docBlockTypes, string $iterableType = 'array'): bool
-    {
-        foreach ($docBlockTypes as $docBlockType) {
-            if (strpos($docBlockType, '[]') !== false || strpos($docBlockType, $iterableType . '<') === 0) {
-                return true;
-            }
-        }
+		return false;
+	}
 
-        return false;
-    }
+	/**
+	 * Allow \Foo\Bar[] or array<\Foo\Bar> to pass as array.
+	 *
+	 * @param array<string> $docBlockTypes
+	 * @param string $iterableType
+	 *
+	 * @return bool
+	 */
+	protected function containsTypeArray(array $docBlockTypes, string $iterableType = 'array'): bool {
+		foreach ($docBlockTypes as $docBlockType) {
+			if (strpos($docBlockType, '[]') !== false || strpos($docBlockType, $iterableType . '<') === 0) {
+				return true;
+			}
+		}
 
-    /**
-     * Checks for ...<...>.
-     *
-     * @param array<string> $docBlockTypes
-     *
-     * @return bool
-     */
-    protected function containsIterableSyntax(array $docBlockTypes): bool
-    {
-        foreach ($docBlockTypes as $docBlockType) {
-            if (strpos($docBlockType, '<') !== false) {
-                return true;
-            }
-        }
+		return false;
+	}
 
-        return false;
-    }
+	/**
+	 * Checks for ...<...>.
+	 *
+	 * @param array<string> $docBlockTypes
+	 *
+	 * @return bool
+	 */
+	protected function containsIterableSyntax(array $docBlockTypes): bool {
+		foreach ($docBlockTypes as $docBlockType) {
+			if (strpos($docBlockType, '<') !== false) {
+				return true;
+			}
+		}
 
-    /**
-     * @param array<\PHPStan\PhpDocParser\Ast\Type\TypeNode|string> $typeNodes type nodes
-     *
-     * @return string
-     */
-    protected function renderUnionTypes(array $typeNodes): string
-    {
-        return (string)preg_replace(
-            ['/ ([|&]) /', '/<\(/', '/\)>/', '/\), /', '/, \(/'],
-            ['${1}', '<', '>', ', ', ', '],
-            implode('|', $typeNodes),
-        );
-    }
+		return false;
+	}
+
+	/**
+	 * @param array<\PHPStan\PhpDocParser\Ast\Type\TypeNode|string> $typeNodes type nodes
+	 *
+	 * @return string
+	 */
+	protected function renderUnionTypes(array $typeNodes): string {
+		return (string)preg_replace(
+			['/ ([|&]) /', '/<\(/', '/\)>/', '/\), /', '/, \(/'],
+			['${1}', '<', '>', ', ', ', '],
+			implode('|', $typeNodes),
+		);
+	}
+
 }
