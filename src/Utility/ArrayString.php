@@ -14,7 +14,7 @@ class ArrayString {
 	 */
 	public static function generate(string $value, ?string $type = null): string {
 		if (Configure::read('IdeHelper.arrayAsGenerics')) {
-			return sprintf( ($type ?: 'array') . '<%s>', $value);
+			return sprintf(($type ?: 'array') . '<%s>', $value);
 		}
 
 		$value .= '[]';
