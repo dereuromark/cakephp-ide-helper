@@ -8,15 +8,21 @@ class ArrayString {
 
 	/**
 	 * @param string $value
+	 * @param string|null $type
 	 *
 	 * @return string
 	 */
-	public static function generate(string $value): string {
+	public static function generate(string $value, ?string $type = null): string {
 		if (Configure::read('IdeHelper.arrayAsGenerics')) {
-			return sprintf('array<%s>', $value);
+			return sprintf(($type ?: 'array') . '<%s>', $value);
 		}
 
-		return $value . '[]';
+		$value .= '[]';
+		if ($type) {
+			$value .= '|' . $type;
+		}
+
+		return $value;
 	}
 
 }

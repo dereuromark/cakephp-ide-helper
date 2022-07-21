@@ -12,6 +12,7 @@ use IdeHelper\Annotation\MethodAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\ComponentTrait;
 use IdeHelper\Utility\App;
+use IdeHelper\Utility\ArrayString;
 use RuntimeException;
 use Throwable;
 
@@ -186,16 +187,14 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
 	protected function getPaginationAnnotations(string $content, ?string $primaryModelName): array {
-		$entityTypehints = $this->extractPaginateEntityTypehints($content, $primaryModelName);
-		if (!$entityTypehints) {
+		$entities = $this->extractPaginateEntities($content, $primaryModelName);
+		if (!$entities) {
 			return [];
 		}
 
-		$entityTypehints[] = '\\' . ResultSetInterface::class;
+		$resultSetInterfaceCollection = ArrayString::generate(implode('|', $entities), '\\' . ResultSetInterface::class);
 
-		$type = implode('|', $entityTypehints);
-
-		$annotations = [AnnotationFactory::createOrFail(MethodAnnotation::TAG, $type, 'paginate($object = null, array $settings = [])')];
+		$annotations = [AnnotationFactory::createOrFail(MethodAnnotation::TAG, $resultSetInterfaceCollection, 'paginate($object = null, array $settings = [])')];
 
 		return $annotations;
 	}
@@ -206,7 +205,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 *
 	 * @return array<string>
 	 */
-	protected function extractPaginateEntityTypehints(string $content, ?string $primaryModelName): array {
+	protected function extractPaginateEntities(string $content, ?string $primaryModelName): array {
 		$models = [];
 
 		preg_match_all('/\$this->paginate\(\)/i', $content, $matches);
@@ -227,11 +226,11 @@ class ControllerAnnotator extends AbstractAnnotator {
 		foreach ($models as $model) {
 			$entityClassName = $this->getEntity($model, $primaryModelName);
 
-			$typehint = '\\' . ltrim($entityClassName, '\\') . '[]';
-			if (in_array($typehint, $result, true)) {
+			$fullClassName = '\\' . ltrim($entityClassName, '\\');
+			if (in_array($fullClassName, $result, true)) {
 				continue;
 			}
-			$result[] = $typehint;
+			$result[] = $fullClassName;
 		}
 
 		return $result;
