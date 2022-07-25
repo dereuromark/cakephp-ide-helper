@@ -334,7 +334,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 			}
 
 			$resultKey = $matches[1][$key];
-			$annotation = '\\' . GenericString::generate($className);
+			$annotation = GenericString::generate('\\' . $className);
 			if (Configure::read('IdeHelper.templateCollectionObject') !== false) {
 				/** @var string|bool $object */
 				$object = Configure::read('IdeHelper.templateCollectionObject');
