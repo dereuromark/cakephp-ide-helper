@@ -342,7 +342,11 @@ class TemplateAnnotator extends AbstractAnnotator {
 					$object = '\\' . CollectionInterface::class;
 				}
 
-				$annotation = GenericString::generate('\\' . $className, $object);
+				if (Configure::read('IdeHelper.objectAsGenerics') === true) {
+					$annotation .= '|' . GenericString::generate('\\' . $className, $object);
+				} else {
+					$annotation = GenericString::generate('\\' . $className, $object);
+				}
 			}
 
 			$result[$resultKey] = AnnotationFactory::createOrFail(VariableAnnotation::TAG, $annotation, '$' . $matches[1][$key]);
