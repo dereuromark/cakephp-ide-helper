@@ -179,11 +179,17 @@ trait DocBlockTrait {
 	 * @return string
 	 */
 	protected function renderUnionTypes(array $typeNodes): string {
-		return (string)preg_replace(
+		$string = (string)preg_replace(
 			['/ ([\|&]) /', '/<\(/', '/\)>/', '/\), /', '/, \(/'],
 			['${1}', '<', '>', ', ', ', '],
 			implode('|', $typeNodes),
 		);
+
+		if (substr($string, 0, 1) === '(' && substr($string, -1, 1) === ')') {
+			$string = substr($string, 1, -1);
+		}
+
+		return $string;
 	}
 
 }
