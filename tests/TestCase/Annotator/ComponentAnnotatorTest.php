@@ -68,6 +68,8 @@ class ComponentAnnotatorTest extends TestCase {
 	}
 
 	/**
+	 * Note that property always needs $ in front of it: $Prop instead of Prop.
+	 *
 	 * @return void
 	 */
 	public function testAnnotateWithExistingDocBlock() {

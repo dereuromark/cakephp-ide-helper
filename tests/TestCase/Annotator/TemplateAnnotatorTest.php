@@ -214,7 +214,7 @@ class TemplateAnnotatorTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testAnnotateExisting() {
+	public function testAnnotateExistingBasic() {
 		$annotator = $this->_getAnnotatorMock([]);
 
 		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'templates/existing.php'));

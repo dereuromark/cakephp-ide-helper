@@ -3,6 +3,7 @@
 namespace IdeHelper\Annotator;
 
 use Bake\View\Helper\DocBlockHelper;
+use Cake\Collection\CollectionInterface;
 use Cake\Core\Configure;
 use Cake\Utility\Inflector;
 use Cake\View\View;
@@ -52,7 +53,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		$needsPhpTag = $phpOpenTagIndex === null || $this->needsPhpTag($file, $phpOpenTagIndex);
 
-		$phpOpenTagIndex = $this->checkforDeclareStatement($file, $phpOpenTagIndex);
+		$phpOpenTagIndex = $this->checkForDeclareStatement($file, $phpOpenTagIndex);
 
 		$docBlockCloseTagIndex = null;
 		if ($needsPhpTag) {
@@ -335,13 +336,13 @@ class TemplateAnnotator extends AbstractAnnotator {
 			$resultKey = $matches[1][$key];
 			$annotation = '\\' . ArrayString::generate($className);
 			if (Configure::read('IdeHelper.templateCollectionObject') !== false) {
-				/** @var string|true $object */
+				/** @var string|bool $object */
 				$object = Configure::read('IdeHelper.templateCollectionObject');
 				if (!$object || $object === true) {
-					$object = '\Cake\Collection\CollectionInterface';
+					$object = '\\' . CollectionInterface::class;
 				}
 
-				$annotation = '\\' . $className . '[]' . '|' . $object;
+				$annotation = ArrayString::generate('\\' . $className, $object);
 			}
 
 			$result[$resultKey] = AnnotationFactory::createOrFail(VariableAnnotation::TAG, $annotation, '$' . $matches[1][$key]);
@@ -518,7 +519,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 *
 	 * @return int|null
 	 */
-	protected function checkforDeclareStatement(File $file, ?int $phpOpenTagIndex): ?int {
+	protected function checkForDeclareStatement(File $file, ?int $phpOpenTagIndex): ?int {
 		if ($phpOpenTagIndex === null) {
 			return $phpOpenTagIndex;
 		}

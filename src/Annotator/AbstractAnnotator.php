@@ -15,12 +15,14 @@ use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotation\PropertyReadAnnotation;
 use IdeHelper\Annotation\UsesAnnotation;
 use IdeHelper\Annotation\VariableAnnotation;
+use IdeHelper\Annotator\Traits\DocBlockTrait;
 use IdeHelper\Annotator\Traits\FileTrait;
 use IdeHelper\Console\Io;
 use IdeHelper\Utility\App;
 use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Util\Tokens;
+use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use ReflectionClass;
 use RuntimeException;
 use SebastianBergmann\Diff\Differ;
@@ -40,6 +42,7 @@ abstract class AbstractAnnotator {
 
 	use FileTrait;
 	use InstanceConfigTrait;
+	use DocBlockTrait;
 
 	/**
 	 * @var string
@@ -476,18 +479,21 @@ abstract class AbstractAnnotator {
 				continue;
 			}
 
-			$type = $tokens[$classNameIndex]['content'];
+			$content = $tokens[$classNameIndex]['content'];
 
-			$appendix = '';
-			$spacePos = strpos($type, ' ');
-			if ($spacePos) {
-				$appendix = substr($type, $spacePos);
-				$type = substr($type, 0, $spacePos);
+			/** @var \PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode|\PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode $valueNode */
+			$valueNode = static::getValueNode($tokens[$i]['content'], $content);
+			if ($valueNode instanceof InvalidTagValueNode) {
+				continue;
 			}
 
+			$returnTypes = $this->valueNodeParts($valueNode);
+			$typeString = $this->renderUnionTypes($returnTypes);
+
 			$tag = $tokens[$i]['content'];
-			$content = trim($appendix);
-			$annotation = AnnotationFactory::createOrFail($tag, $type, $content, $classNameIndex);
+			$content = mb_substr($content, mb_strlen($typeString) + 1);
+
+			$annotation = AnnotationFactory::createOrFail($tag, $typeString, $content, $classNameIndex);
 			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === VariableAnnotation::TAG && $this->varInUse($tokens, $closeTagIndex, $content)) {
 				$annotation->setInUse();
 			}
