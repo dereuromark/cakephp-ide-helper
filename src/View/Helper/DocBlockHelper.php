@@ -7,7 +7,7 @@ use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\ORM\Association;
 use Cake\Utility\Inflector;
-use IdeHelper\Utility\ArrayString;
+use IdeHelper\Utility\GenericString;
 
 class DocBlockHelper extends BakeDocBlockHelper {
 
@@ -111,7 +111,7 @@ class DocBlockHelper extends BakeDocBlockHelper {
 			$annotationType === Association::MANY_TO_MANY ||
 			$annotationType === Association::ONE_TO_MANY
 		) {
-			return ArrayString::generate($type);
+			return GenericString::generate($type);
 		}
 
 		return $type;
@@ -148,7 +148,7 @@ class DocBlockHelper extends BakeDocBlockHelper {
 		}
 
 		$class = "{$namespace}\\Model\\Entity\\{$entity}";
-		$classes = ArrayString::generate($class);
+		$classes = GenericString::generate($class);
 		$annotations[] = "@method \\$class newEmptyEntity()";
 		$annotations[] = "@method \\$class newEntity(array \$data, array \$options = [])";
 		$annotations[] = "@method \\$classes newEntities(array \$data, array \$options = [])";

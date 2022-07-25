@@ -12,7 +12,7 @@ use IdeHelper\Annotation\MethodAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\ComponentTrait;
 use IdeHelper\Utility\App;
-use IdeHelper\Utility\ArrayString;
+use IdeHelper\Utility\GenericString;
 use RuntimeException;
 use Throwable;
 
@@ -192,7 +192,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 			return [];
 		}
 
-		$resultSetInterfaceCollection = ArrayString::generate(implode('|', $entities), '\\' . ResultSetInterface::class);
+		$resultSetInterfaceCollection = GenericString::generate(implode('|', $entities), '\\' . ResultSetInterface::class);
 
 		$annotations = [AnnotationFactory::createOrFail(MethodAnnotation::TAG, $resultSetInterfaceCollection, 'paginate($object = null, array $settings = [])')];
 

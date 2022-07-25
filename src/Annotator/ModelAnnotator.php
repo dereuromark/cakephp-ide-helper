@@ -16,7 +16,7 @@ use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
-use IdeHelper\Utility\ArrayString;
+use IdeHelper\Utility\GenericString;
 use ReflectionClass;
 use RuntimeException;
 use Throwable;
@@ -144,7 +144,7 @@ class ModelAnnotator extends AbstractAnnotator {
 		$fullClassName = "$namespace\\Model\\Entity\\$entity";
 		if (class_exists($fullClassName)) {
 			$fullClassName = '\\' . $fullClassName;
-			$fullClassNameCollection = ArrayString::generate($fullClassName);
+			$fullClassNameCollection = GenericString::generate($fullClassName);
 
 			/**
 			 * Copied from Bake plugin's DocBlockHelper
@@ -166,7 +166,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			$annotations[] = "@method $fullClassName|false save({$entityInterface} \$entity, \$options = [])";
 			$annotations[] = "@method $fullClassName saveOrFail({$entityInterface} \$entity, \$options = [])";
 
-			$resultSetInterfaceCollection = ArrayString::generate($fullClassName, '\\' . ResultSetInterface::class);
+			$resultSetInterfaceCollection = GenericString::generate($fullClassName, '\\' . ResultSetInterface::class);
 
 			$annotations[] = "@method {$resultSetInterfaceCollection}|false saveMany(iterable \$entities, \$options = [])";
 			$annotations[] = "@method {$resultSetInterfaceCollection} saveManyOrFail(iterable \$entities, \$options = [])";
