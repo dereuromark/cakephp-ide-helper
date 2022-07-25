@@ -133,7 +133,7 @@ trait DocBlockTrait {
 	 *
 	 * @return bool
 	 */
-	protected function hasInheritDoc(File $phpCsFile, $docBlockStartIndex, $docBlockEndIndex, $needle = '@inheritDoc') {
+	protected function hasInheritDoc(File $phpCsFile, int $docBlockStartIndex, int $docBlockEndIndex, string $needle = '@inheritDoc'): bool {
 		$tokens = $phpCsFile->getTokens();
 
 		for ($i = $docBlockStartIndex + 1; $i < $docBlockEndIndex; ++$i) {
@@ -151,24 +151,6 @@ trait DocBlockTrait {
 			}
 
 			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Allow \Foo\Bar[] or array<\Foo\Bar> to pass as array.
-	 *
-	 * @param array<string> $docBlockTypes
-	 * @param string $iterableType
-	 *
-	 * @return bool
-	 */
-	protected function containsTypeArray(array $docBlockTypes, string $iterableType = 'array'): bool {
-		foreach ($docBlockTypes as $docBlockType) {
-			if (strpos($docBlockType, '[]') !== false || strpos($docBlockType, $iterableType . '<') === 0) {
-				return true;
-			}
 		}
 
 		return false;
