@@ -461,13 +461,27 @@ The array accepts both strings or regexp patterns like `'/^\_.+$/i'` for undersc
 Usually, all collections (pagination, find) are object collections when being passed to the view layer.
 As such, the template annotates added for it are e.g.
 ```
+// Using objectAsGenerics false
 @var \App\Model\Entity\Article[]|\Cake\Collection\CollectionInterface $articles
+
+// Using objectAsGenerics true
+@var \Cake\Collection\CollectionInterface<\App\Model\Entity\Article> $articles
 ```
+
 The config `IdeHelper.templateCollectionObject` can be set to a FQCN string if you want to display a custom class (e.g. `\Cake\Datasource\ResultSetInterface`).
+You can also set it to `iterable` (recommended) if you don't use any of the specific interface methods (just iterating over them):
+```
+// Using templateCollectionObject set to 'iterable'
+@var iterable<\App\Model\Entity\Article> $articles
+```
 
 If you always pass them an array, you can use `IdeHelper.templateCollectionObject` set to `false` to reflect this in the annotations:
 ```
+// Using arrayAsGenerics false
 @var \App\Model\Entity\Article[] $articles
+
+// Using arrayAsGenerics true
+@var array<\App\Model\Entity\Article> $articles
 ```
 
 ### Preemptive annotating

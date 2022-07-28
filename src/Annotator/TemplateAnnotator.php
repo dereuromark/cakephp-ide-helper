@@ -11,6 +11,7 @@ use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\VariableAnnotation;
 use IdeHelper\Annotator\Template\VariableExtractor;
 use IdeHelper\Utility\App;
+use IdeHelper\Utility\CollectionClass;
 use IdeHelper\Utility\GenericString;
 use PHP_CodeSniffer\Files\File;
 use RuntimeException;
@@ -336,16 +337,13 @@ class TemplateAnnotator extends AbstractAnnotator {
 			$resultKey = $matches[1][$key];
 			$annotation = GenericString::generate('\\' . $className);
 			if (Configure::read('IdeHelper.templateCollectionObject') !== false) {
-				/** @var string|bool $object */
-				$object = Configure::read('IdeHelper.templateCollectionObject');
-				if (!$object || $object === true) {
-					$object = '\\' . CollectionInterface::class;
-				}
-
-				if (Configure::read('IdeHelper.objectAsGenerics') === true) {
-					$annotation .= '|' . GenericString::generate('\\' . $className, $object);
+				$collectionClass = CollectionClass::name('\\' . CollectionInterface::class);
+				/** @var string|bool|null $collectionType */
+				$collectionType = Configure::read('IdeHelper.templateCollectionObject');
+				if (Configure::read('IdeHelper.objectAsGenerics') === true && $collectionType !== 'iterable') {
+					$annotation .= '|' . GenericString::generate('\\' . $className, $collectionClass);
 				} else {
-					$annotation = GenericString::generate('\\' . $className, $object);
+					$annotation = GenericString::generate('\\' . $className, $collectionClass);
 				}
 			}
 
