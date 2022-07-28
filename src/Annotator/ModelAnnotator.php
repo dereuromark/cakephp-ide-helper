@@ -167,7 +167,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			$annotations[] = "@method $fullClassName|false save({$entityInterface} \$entity, \$options = [])";
 			$annotations[] = "@method $fullClassName saveOrFail({$entityInterface} \$entity, \$options = [])";
 
-			$resultSetInterfaceCollection = GenericString::generate($fullClassName, CollectionClass::name('\\' . ResultSetInterface::class));
+			$resultSetInterfaceCollection = GenericString::generate($fullClassName, '\\' . ResultSetInterface::class);
 
 			$annotations[] = "@method {$resultSetInterfaceCollection}|false saveMany(iterable \$entities, \$options = [])";
 			$annotations[] = "@method {$resultSetInterfaceCollection} saveManyOrFail(iterable \$entities, \$options = [])";
