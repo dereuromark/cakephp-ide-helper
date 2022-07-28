@@ -16,7 +16,6 @@ use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
-use IdeHelper\Utility\CollectionClass;
 use IdeHelper\Utility\GenericString;
 use ReflectionClass;
 use RuntimeException;

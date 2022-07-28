@@ -12,7 +12,6 @@ use IdeHelper\Annotation\MethodAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\ComponentTrait;
 use IdeHelper\Utility\App;
-use IdeHelper\Utility\CollectionClass;
 use IdeHelper\Utility\GenericString;
 use RuntimeException;
 use Throwable;
