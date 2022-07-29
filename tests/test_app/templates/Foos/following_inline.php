@@ -1,6 +1,6 @@
 <?php
 /**
- * @var \App\View\AppView $this
+ * @var \TestApp\View\AppView $this
  */
 
 /** @var Authorization\Identity $identity */
