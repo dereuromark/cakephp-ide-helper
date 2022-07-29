@@ -106,8 +106,20 @@ class TemplateAnnotator extends AbstractAnnotator {
 		}
 
 		// Assume the first doc block is the license file doc block
-		while ($index = $this->findExistingDocBlock($file, $commentCloseIndex)) {
-			$commentCloseIndex = $index;
+		while ($closeIndex = $this->findExistingDocBlock($file, $commentCloseIndex)) {
+			$line = $tokens[$closeIndex]['line'];
+			$openIndex = $tokens[$closeIndex]['comment_opener'];
+			$nextContentIndex = $file->findNext(T_WHITESPACE, $closeIndex + 1, null, true);
+			// This must be an inline docblock, so we need to bail
+			if (
+				$nextContentIndex
+				&& $tokens[$nextContentIndex]['line'] === $line + 1
+				&& $tokens[$openIndex]['line'] === $tokens[$closeIndex]['line']
+			) {
+				break;
+			}
+
+			$commentCloseIndex = $closeIndex;
 		}
 
 		return $commentCloseIndex;

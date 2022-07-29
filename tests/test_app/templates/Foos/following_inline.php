@@ -1,9 +1,10 @@
 <?php
 /**
+ * @license MIT
  * @var \TestApp\View\AppView $this
  */
 
-/** @var Authorization\Identity $identity */
+/** @var \Authorization\Identity $identity */
 $identity = $this->getRequest()
 	->getAttribute('identity');
 ?>
