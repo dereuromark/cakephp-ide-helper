@@ -100,6 +100,11 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		$commentCloseIndex = $tokens[$nextIndex]['comment_closer'];
 
+		$tagIndex = $file->findNext(T_DOC_COMMENT_TAG, $phpOpenTagIndex + 1, $commentCloseIndex);
+		if (!$tagIndex || $tokens[$tagIndex]['content'] === '@var') {
+			return $commentCloseIndex;
+		}
+
 		// Assume the first doc block is the license file doc block
 		while ($index = $this->findExistingDocBlock($file, $commentCloseIndex)) {
 			$commentCloseIndex = $index;

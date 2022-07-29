@@ -394,6 +394,33 @@ class TemplateAnnotatorTest extends TestCase {
 	}
 
 	/**
+	 * Tests that a docblock with a following inline one works.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateWithFollowingInline() {
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'templates/following_inline.php'));
+		$callback = function($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->_displayDiff($expectedContent, $value);
+			}
+
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = TEST_ROOT . 'templates/Foos/following_inline.php';
+		$annotator->annotate($path);
+
+		$output = $this->out->output();
+
+		$this->assertTextContains('   -> 1 annotation added.', $output);
+	}
+
+	/**
 	 * @param array $params
 	 * @return \IdeHelper\Annotator\TemplateAnnotator|\PHPUnit\Framework\MockObject\MockObject
 	 */
