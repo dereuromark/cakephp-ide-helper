@@ -2,6 +2,7 @@
 
 namespace IdeHelper\Annotator\CallbackAnnotatorTask;
 
+use Cake\Core\Exception\CakeException;
 use Cake\Utility\Inflector;
 use IdeHelper\Annotation\LinkAnnotation;
 use PHP_CodeSniffer\Files\File;
@@ -39,6 +40,8 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 		$file = $this->getFile($path, $this->content);
 
 		$methods = $this->getMethods($file);
+		$namespace = $this->getNamespace($file);
+		$class = $this->getClass($file);
 
 		foreach ($methods as $index => $method) {
 			if (!$this->isVirtualField($method)) {
@@ -47,7 +50,7 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 				continue;
 			}
 
-			$method['link'] = '$' . Inflector::underscore(substr($method['name'], 4));
+			$method['link'] = $namespace . '\\' . $class . '::$' . Inflector::underscore(substr($method['name'], 4));
 
 			if (!$this->needsUpdate($file, $index, $method)) {
 				unset($methods[$index]);
@@ -56,6 +59,10 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 			}
 
 			$methods[$index] = $method;
+		}
+
+		if (!$methods) {
+			return false;
 		}
 
 		return $this->annotateMethods($path, $file, $methods);
@@ -127,7 +134,6 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 		$annotations = $this->parseExistingAnnotations($file, $method['docBlockEnd'], ['@link']);
 
 		$expectedAnnotation = new LinkAnnotation($method['link']);
-
 		if (empty($annotations) || $annotations[0]->getType() !== $method['link']) {
 			$method['annotation'] = $expectedAnnotation;
 
@@ -141,6 +147,7 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 		}
 
 		$currentAnnotation->replaceWith($expectedAnnotation);
+		$currentAnnotation->setInUse();
 
 		$method['annotations'] = [
 			$currentAnnotation,
@@ -162,6 +169,46 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 *
+	 * @return string
+	 */
+	protected function getNamespace(File $file): string {
+		$namespaceIndex = $file->findNext(T_NAMESPACE, 0);
+		$startIndex = $file->findNext(T_WHITESPACE, $namespaceIndex + 1, null, true);
+		$endIndex = $file->findNext(T_SEMICOLON, $namespaceIndex + 1);
+
+		if (!$namespaceIndex || !$endIndex) {
+			throw new CakeException('File does not seem to be a valid entity class');
+		}
+
+		$tokens = $file->getTokens();
+		$elements = ['\\'];
+		for ($i = $startIndex; $i < $endIndex; $i++) {
+			$elements[] = $tokens[$i]['content'];
+		}
+
+		return implode('', $elements);
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 *
+	 * @return string
+	 */
+	protected function getClass(File $file): string {
+		$classIndex = $file->findNext(T_CLASS, 0);
+		$classNameIndex = $file->findNext(T_WHITESPACE, $classIndex + 1, null, true);
+
+		$tokens = $file->getTokens();
+		if (!$classNameIndex || empty($tokens[$classNameIndex])) {
+			throw new CakeException('File does not seem to be a valid entity class');
+		}
+
+		return $tokens[$classNameIndex]['content'];
 	}
 
 }

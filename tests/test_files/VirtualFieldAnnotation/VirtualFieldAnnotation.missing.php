@@ -1,5 +1,5 @@
 <?php
-namespace TestApp\Foo;
+namespace TestApp\Model\Entity;
 
 class Foo {
 
