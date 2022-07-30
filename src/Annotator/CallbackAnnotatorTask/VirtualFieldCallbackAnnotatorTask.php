@@ -15,8 +15,8 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 	 * @var array<string, string>
 	 */
 	protected $methods = [
-		'_get' => '#\bprotected function (_get\w+)\(\)#',
-		'_set' => '#\bprotected function (_set\w+)\(\)#',
+		'_get' => '#_get[A-Z]\w+#',
+		'_set' => '#_set[A-Z]\w+#',
 	];
 
 	/**
@@ -156,7 +156,7 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 	 */
 	protected function isVirtualField(array $method): bool {
 		foreach ($this->methods as $regex) {
-			if (preg_match($regex, $method['name']) !== false) {
+			if (preg_match($regex, $method['name'])) {
 				return true;
 			}
 		}

@@ -540,6 +540,17 @@ Inside the concrete PostsTable after running the `callbacks` command:
 public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
 ```
 
+### Entity virtual field setter/getter annotations
+A virtual field will be "linked" to the property it handles:
+```php
+/**
+ * @link $expected_type
+ *
+ * @return int|null
+ */
+protected function _getExpectedType(): ?int
+```
+
 ### Custom Tasks
 
 Just create your own Task class:
