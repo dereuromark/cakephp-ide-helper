@@ -77,10 +77,9 @@ abstract class AbstractClassAnnotatorTask extends AbstractAnnotator {
 			return false;
 		}
 
-		$this->content = $newContent;
-
 		$this->displayDiff($content, $newContent);
 		$this->storeFile($path, $newContent);
+		$this->content = $newContent;
 
 		$this->report();
 
@@ -130,10 +129,9 @@ abstract class AbstractClassAnnotatorTask extends AbstractAnnotator {
 			return false;
 		}
 
-		$this->content = $newContent;
-
 		$this->displayDiff($content, $newContent);
 		$this->storeFile($path, $newContent);
+		$this->content = $newContent;
 
 		$this->report();
 

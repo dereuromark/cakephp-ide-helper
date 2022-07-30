@@ -4,6 +4,7 @@ namespace IdeHelper\Annotator;
 
 use Cake\Core\Configure;
 use IdeHelper\Annotator\CallbackAnnotatorTask\TableCallbackAnnotatorTask;
+use IdeHelper\Annotator\CallbackAnnotatorTask\VirtualFieldCallbackAnnotatorTask;
 use IdeHelper\Console\Io;
 
 class CallbackAnnotatorTaskCollection {
@@ -15,6 +16,7 @@ class CallbackAnnotatorTaskCollection {
 	 */
 	protected $defaultTasks = [
 		TableCallbackAnnotatorTask::class => TableCallbackAnnotatorTask::class,
+		VirtualFieldCallbackAnnotatorTask::class => VirtualFieldCallbackAnnotatorTask::class,
 	];
 
 	/**

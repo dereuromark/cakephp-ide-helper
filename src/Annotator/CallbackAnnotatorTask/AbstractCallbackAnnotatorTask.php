@@ -33,6 +33,15 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 	}
 
 	/**
+	 * For testing only
+	 *
+	 * @return string
+	 */
+	public function getContent(): string {
+		return $this->content;
+	}
+
+	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 *
 	 * @return array<array<string, mixed>>
@@ -107,6 +116,7 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 
 		$this->displayDiff($this->content, $newContent);
 		$this->storeFile($path, $newContent);
+		$this->content = $newContent;
 
 		$this->report();
 

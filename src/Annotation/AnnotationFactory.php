@@ -34,6 +34,8 @@ class AnnotationFactory {
 				return new ParamAnnotation($type, (string)$content, $index);
 			case UsesAnnotation::TAG:
 				return new UsesAnnotation($type, $index);
+			case LinkAnnotation::TAG:
+				return new LinkAnnotation($type, $index);
 		}
 
 		return null;
