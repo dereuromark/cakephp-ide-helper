@@ -8,7 +8,7 @@ use PHP_CodeSniffer\Files\File;
 use Throwable;
 
 /**
- * Fix up generic callback(EventInterface $event, EntityInterface $entity, ...) methods to have at least the $entity documented as concrete class.
+ * Fix up generic *(EventInterface $event, EntityInterface $entity, ...) hook methods to have at least the $entity documented as concrete class.
  */
 class TableCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implements CallbackAnnotatorTaskInterface {
 
