@@ -63,7 +63,7 @@ class VirtualFieldCallbackAnnotatorTaskTest extends TestCase {
 		$this->assertTrue($result);
 
 		$content = $task->getContent();
-		$this->assertTextContains('* @link \TestApp\Model\Entity\Foo::$expected_release_type', $content);
+		$this->assertTextContains('* @see \TestApp\Model\Entity\Foo::$expected_release_type', $content);
 	}
 
 	/**
@@ -78,7 +78,7 @@ class VirtualFieldCallbackAnnotatorTaskTest extends TestCase {
 		$this->assertTrue($result);
 
 		$content = $task->getContent();
-		$count = substr_count($content, '@link');
+		$count = substr_count($content, '@see');
 		// We cannot avoid the duplication for incomplete tags for now
 		$this->assertSame(3, $count, 'Count is ' . $count);
 

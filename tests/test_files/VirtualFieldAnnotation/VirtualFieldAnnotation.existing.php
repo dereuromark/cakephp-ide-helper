@@ -4,7 +4,7 @@ namespace TestApp\Model\Entity;
 class Foo {
 
 	/**
-	 * @link \TestApp\Model\Entity\Foo::$expected_release_type
+	 * @see \TestApp\Model\Entity\Foo::$expected_release_type
 	 *
 	 * @return int|null
 	 */
@@ -15,7 +15,7 @@ class Foo {
 	}
 
 	/**
-	 * @link $something
+	 * @see $something
 	 *
 	 * @return string|null
 	 */

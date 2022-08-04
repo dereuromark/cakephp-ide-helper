@@ -4,7 +4,7 @@ namespace IdeHelper\Annotator\CallbackAnnotatorTask;
 
 use Cake\Core\Exception\CakeException;
 use Cake\Utility\Inflector;
-use IdeHelper\Annotation\LinkAnnotation;
+use IdeHelper\Annotation\SeeAnnotation;
 use PHP_CodeSniffer\Files\File;
 
 /**
@@ -50,7 +50,7 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 				continue;
 			}
 
-			$method['link'] = $namespace . '\\' . $class . '::$' . Inflector::underscore(substr($method['name'], 4));
+			$method['see'] = $namespace . '\\' . $class . '::$' . Inflector::underscore(substr($method['name'], 4));
 
 			if (!$this->needsUpdate($file, $index, $method)) {
 				unset($methods[$index]);
@@ -97,7 +97,7 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 				//$file->findFirstOnLine();
 
 				//dd($file->getTokens()[$endIndex]);
-				$fixer->addContentBefore($endIndex, '* @link ' . $addingAnnotation->build() . PHP_EOL . '	 ');
+				$fixer->addContentBefore($endIndex, '* @see ' . $addingAnnotation->build() . PHP_EOL . '	 ');
 			}
 		}
 
@@ -131,10 +131,10 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 			return false;
 		}
 
-		$annotations = $this->parseExistingAnnotations($file, $method['docBlockEnd'], ['@link']);
+		$annotations = $this->parseExistingAnnotations($file, $method['docBlockEnd'], ['@see']);
 
-		$expectedAnnotation = new LinkAnnotation($method['link']);
-		if (empty($annotations) || $annotations[0]->getType() !== $method['link']) {
+		$expectedAnnotation = new SeeAnnotation($method['see']);
+		if (empty($annotations) || $annotations[0]->getType() !== $method['see']) {
 			$method['annotation'] = $expectedAnnotation;
 
 			return true;
