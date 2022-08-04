@@ -218,7 +218,7 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 	protected function indentation(File $file, int $endIndex): string {
 		$tokens = $file->getTokens();
 		$indentationElements = [];
-		for ($i = $endIndex - 1; $i > 0; $i++) {
+		for ($i = $endIndex - 1; $i > 0; $i--) {
 			if ($tokens[$i]['line'] !== $tokens[$endIndex]['line']) {
 				break;
 			}
