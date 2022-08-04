@@ -15,3 +15,4 @@ parameters:
 		- '#Unsafe usage of new static\(\).+#'
 		- '#Access to an undefined property .+DocBlockHelper::\$virtualFields.#'
 		- '#Parameter \#1 \$object of function get_class expects object, object\|string given.#'
+		- '#Constant T_.+ not found.#'

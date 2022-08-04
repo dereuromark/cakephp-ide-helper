@@ -94,10 +94,8 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 			if ($addingAnnotation) {
 				$endIndex = $method['docBlockEnd'];
 
-				//$file->findFirstOnLine();
-
-				//dd($file->getTokens()[$endIndex]);
-				$fixer->addContentBefore($endIndex, '* @see ' . $addingAnnotation->build() . PHP_EOL . '	 ');
+				$indentation = $this->indentation($file, $endIndex);
+				$fixer->addContentBefore($endIndex, '* @see ' . $addingAnnotation->build() . PHP_EOL . $indentation);
 			}
 		}
 
@@ -209,6 +207,26 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 		}
 
 		return $tokens[$classNameIndex]['content'];
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param int $endIndex
+	 *
+	 * @return string
+	 */
+	protected function indentation(File $file, int $endIndex): string {
+		$tokens = $file->getTokens();
+		$indentationElements = [];
+		for ($i = $endIndex - 1; $i > 0; $i++) {
+			if ($tokens[$i]['line'] !== $tokens[$endIndex]['line']) {
+				break;
+			}
+
+			$indentationElements[] = $tokens[$i]['content'];
+		}
+
+		return implode('', $indentationElements);
 	}
 
 }
