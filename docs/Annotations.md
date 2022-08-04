@@ -544,12 +544,13 @@ public function beforeSave(EventInterface $event, EntityInterface $entity, Array
 A virtual field will be "linked" to the property it handles:
 ```php
 /**
- * @link $expected_type
+ * @see \App\Model\Entity\MyEntity::$expected_type
  *
  * @return int|null
  */
 protected function _getExpectedType(): ?int
 ```
+This way you can quick-jump there from the property and vice versa within your IDE.
 
 ### Custom Tasks
 
