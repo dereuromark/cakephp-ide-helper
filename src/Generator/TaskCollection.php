@@ -3,6 +3,7 @@
 namespace IdeHelper\Generator;
 
 use Cake\Core\Configure;
+use IdeHelper\Generator\Task\AuthServiceLoadIdentifierTask;
 use IdeHelper\Generator\Task\BehaviorTask;
 use IdeHelper\Generator\Task\CacheTask;
 use IdeHelper\Generator\Task\CellTask;
@@ -34,7 +35,8 @@ use IdeHelper\Generator\Task\TranslationKeyTask;
 use IdeHelper\Generator\Task\ValidationTask;
 use InvalidArgumentException;
 
-class TaskCollection {
+class TaskCollection
+{
 
 	/**
 	 * @phpstan-var array<class-string<\IdeHelper\Generator\Task\TaskInterface>, class-string<\IdeHelper\Generator\Task\TaskInterface>>
@@ -70,6 +72,7 @@ class TaskCollection {
 		ConfigureTask::class => ConfigureTask::class,
 		CellTask::class => CellTask::class,
 		ConsoleHelperTask::class => ConsoleHelperTask::class,
+		AuthServiceLoadIdentifierTask::class => AuthServiceLoadIdentifierTask::class,
 	];
 
 	/**
@@ -80,7 +83,8 @@ class TaskCollection {
 	/**
 	 * @param array<string|\IdeHelper\Generator\Task\TaskInterface> $tasks
 	 */
-	public function __construct(array $tasks = []) {
+	public function __construct(array $tasks = [])
+	{
 		$defaultTasks = $this->defaultTasks();
 		$tasks += $defaultTasks;
 
@@ -98,7 +102,8 @@ class TaskCollection {
 	 *
 	 * @return array<string>
 	 */
-	protected function defaultTasks(): array {
+	protected function defaultTasks(): array
+	{
 		$tasks = (array)Configure::read('IdeHelper.generatorTasks') + $this->defaultTasks;
 
 		foreach ($tasks as $k => $v) {
@@ -118,7 +123,8 @@ class TaskCollection {
 	 * @throws \InvalidArgumentException
 	 * @return $this
 	 */
-	protected function add($task) {
+	protected function add($task)
+	{
 		if (is_string($task)) {
 			$task = new $task();
 		}
@@ -138,14 +144,16 @@ class TaskCollection {
 	/**
 	 * @return array<\IdeHelper\Generator\Task\TaskInterface>
 	 */
-	public function tasks(): array {
+	public function tasks(): array
+	{
 		return $this->tasks;
 	}
 
 	/**
 	 * @return array<\IdeHelper\Generator\Directive\BaseDirective>
 	 */
-	public function getMap(): array {
+	public function getMap(): array
+	{
 		$map = [];
 		foreach ($this->tasks as $task) {
 			$map += $task->collect();
@@ -155,5 +163,4 @@ class TaskCollection {
 
 		return $map;
 	}
-
 }
