@@ -2,6 +2,14 @@
 // @link https://confluence.jetbrains.com/display/PhpStorm/PhpStorm+Advanced+Metadata
 namespace PHPSTORM_META {
 
+	override(
+		\Authentication\AuthenticationService::loadIdentifier(0),
+		map([
+			'Authentication.Password' => \Authentication\Identifier\PasswordIdentifier::class,
+			'Authentication.Token' => \Authentication\Identifier\TokenIdentifier::class,
+		])
+	);
+
 	expectedArguments(
 		\Cake\Cache\Cache::add(),
 		2,

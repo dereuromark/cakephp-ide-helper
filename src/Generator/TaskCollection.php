@@ -3,6 +3,7 @@
 namespace IdeHelper\Generator;
 
 use Cake\Core\Configure;
+use IdeHelper\Generator\Task\AuthServiceLoadIdentifierTask;
 use IdeHelper\Generator\Task\BehaviorTask;
 use IdeHelper\Generator\Task\CacheTask;
 use IdeHelper\Generator\Task\CellTask;
@@ -70,6 +71,7 @@ class TaskCollection {
 		ConfigureTask::class => ConfigureTask::class,
 		CellTask::class => CellTask::class,
 		ConsoleHelperTask::class => ConsoleHelperTask::class,
+		AuthServiceLoadIdentifierTask::class => AuthServiceLoadIdentifierTask::class,
 	];
 
 	/**
