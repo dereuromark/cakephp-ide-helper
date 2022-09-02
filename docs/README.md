@@ -81,7 +81,7 @@ bin/cake code_completion generate
 ### Using the generator shell
 So far the meta file is available for the following IDEs:
 - PhpStorm (2016.2+)
-- VSCode
+- VSCode using PHP Intelephense plugin (bmewburn.vscode-intelephense-client)
 
 Generate your app `.phpstorm.meta.php` meta file:
 ```
