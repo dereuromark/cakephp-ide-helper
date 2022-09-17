@@ -1,30 +1,26 @@
 <?php
 
-
 namespace IdeHelper\CodeCompletion\Task;
 
-use IdeHelper\CodeCompletion\Task\TaskInterface;
+class ModelEventsTask implements TaskInterface {
 
-class ModelEventsTask implements TaskInterface
-{
+	/**
+	 * @var string
+	 */
+	public const TYPE_NAMESPACE = 'Cake\ORM';
 
-    const TYPE_NAMESPACE = 'Cake\ORM';
+	/**
+	 * @return string
+	 */
+	public function type(): string {
+		return static::TYPE_NAMESPACE;
+	}
 
-    /**
-     * @return string
-     */
-    public function type(): string
-    {
-        return static::TYPE_NAMESPACE;
-    }
-
-    /**
-     * @return string
-     */
-    public function create(): string
-    {
-
-        return <<<HERE
+	/**
+	 * @return string
+	 */
+	public function create(): string {
+		return <<<HERE
 
         use ArrayObject;
         use Cake\Datasource\EntityInterface;
@@ -50,5 +46,6 @@ class ModelEventsTask implements TaskInterface
 
         
         HERE;
-    }
+	}
+
 }

@@ -37,12 +37,12 @@ class CodeCompletionGeneratorTest extends TestCase {
 		$expected = [
 			'Cake\ORM',
 		];
-	
+
 		$this->assertSame($expected, $result);
 		$this->assertFileExists(TMP . 'CodeCompletionCakeORM.php');
 
 		$result = file_get_contents(TMP . 'CodeCompletionCakeORM.php');
-	
+
 		$expected = <<<TXT
 <?php
 namespace Cake\ORM;
