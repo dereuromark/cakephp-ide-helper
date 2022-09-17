@@ -4,10 +4,12 @@ namespace IdeHelper\CodeCompletion;
 
 use Cake\Core\Configure;
 use IdeHelper\CodeCompletion\Task\BehaviorTask;
+use IdeHelper\CodeCompletion\Task\ModelEventsTask;
 use IdeHelper\CodeCompletion\Task\TaskInterface;
 use InvalidArgumentException;
 
-class TaskCollection {
+class TaskCollection
+{
 
 	/**
 	 * @phpstan-var array<class-string<\IdeHelper\CodeCompletion\Task\TaskInterface>, class-string<\IdeHelper\CodeCompletion\Task\TaskInterface>>
@@ -16,6 +18,7 @@ class TaskCollection {
 	 */
 	protected $defaultTasks = [
 		BehaviorTask::class => BehaviorTask::class,
+		ModelEventsTask::class => ModelEventsTask::class
 	];
 
 	/**
@@ -26,7 +29,8 @@ class TaskCollection {
 	/**
 	 * @param array<string|\IdeHelper\Generator\Task\TaskInterface> $tasks
 	 */
-	public function __construct(array $tasks = []) {
+	public function __construct(array $tasks = [])
+	{
 		$defaultTasks = (array)Configure::read('IdeHelper.codeCompletionTasks') + $this->defaultTasks;
 		$tasks += $defaultTasks;
 
@@ -46,7 +50,8 @@ class TaskCollection {
 	 * @throws \InvalidArgumentException
 	 * @return $this
 	 */
-	protected function add($task) {
+	protected function add($task)
+	{
 		if (is_string($task)) {
 			$task = new $task();
 		}
@@ -66,14 +71,16 @@ class TaskCollection {
 	/**
 	 * @return array<\IdeHelper\CodeCompletion\Task\TaskInterface>
 	 */
-	public function tasks(): array {
+	public function tasks(): array
+	{
 		return $this->tasks;
 	}
 
 	/**
 	 * @return array<string, array<string>>
 	 */
-	public function getMap(): array {
+	public function getMap(): array
+	{
 		$map = [];
 		foreach ($this->tasks as $task) {
 			$snippet = $task->create();
@@ -88,5 +95,4 @@ class TaskCollection {
 
 		return $map;
 	}
-
 }
