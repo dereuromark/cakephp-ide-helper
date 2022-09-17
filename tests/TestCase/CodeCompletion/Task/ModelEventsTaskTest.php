@@ -26,7 +26,7 @@ class ModelEventsTaskTest extends TestCase {
 	 */
 	public function testCollect() {
 		$result = $this->task->create();
-
+    
 		$expected = <<<HERE
 
         use ArrayObject;
@@ -53,7 +53,7 @@ class ModelEventsTaskTest extends TestCase {
 
         
         HERE;
-		
+
 		$this->assertTextEquals($expected, $result);
 	}
 
