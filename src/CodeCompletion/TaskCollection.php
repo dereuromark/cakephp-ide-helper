@@ -4,6 +4,7 @@ namespace IdeHelper\CodeCompletion;
 
 use Cake\Core\Configure;
 use IdeHelper\CodeCompletion\Task\BehaviorTask;
+use IdeHelper\CodeCompletion\Task\ModelEventsTask;
 use IdeHelper\CodeCompletion\Task\TaskInterface;
 use InvalidArgumentException;
 
@@ -16,6 +17,7 @@ class TaskCollection {
 	 */
 	protected $defaultTasks = [
 		BehaviorTask::class => BehaviorTask::class,
+		ModelEventsTask::class => ModelEventsTask::class,
 	];
 
 	/**
