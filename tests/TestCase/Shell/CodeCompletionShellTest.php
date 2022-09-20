@@ -72,7 +72,7 @@ class CodeCompletionShellTest extends TestCase {
 		$result = $this->Shell->runCommand(['generate']);
 
 		$output = $this->out->output();
-		$this->assertTextContains('CodeCompletion files generated: Cake\ORM', $output);
+		$this->assertTextContains('CodeCompletion files generated: Cake\Controller, Cake\ORM, Cake\View', $output);
 
 		$this->assertSame(CodeCompletionShell::CODE_SUCCESS, $result);
 	}
