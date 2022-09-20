@@ -43,12 +43,12 @@ use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\Validation\Validator;
 
-class Table
+abstract class Table
 {
 $events
 }
 
-class Behavior
+abstract class Behavior
 {
 $events
 }

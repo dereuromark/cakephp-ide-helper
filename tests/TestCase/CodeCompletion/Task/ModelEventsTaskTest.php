@@ -34,7 +34,7 @@ use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\Validation\Validator;
 
-class Table
+abstract class Table
 {
 	public function beforeMarshal(EventInterface \$event, ArrayObject \$data, ArrayObject \$options): void;
 	public function afterMarshal(EventInterface \$event, EntityInterface \$entity, ArrayObject \$data, ArrayObject \$options): void;
@@ -51,7 +51,7 @@ class Table
 	public function afterDeleteCommit(EventInterface \$event, EntityInterface \$entity, ArrayObject \$options): void;
 }
 
-class Behavior
+abstract class Behavior
 {
 	public function beforeMarshal(EventInterface \$event, ArrayObject \$data, ArrayObject \$options): void;
 	public function afterMarshal(EventInterface \$event, EntityInterface \$entity, ArrayObject \$data, ArrayObject \$options): void;
