@@ -42,6 +42,7 @@ if (false) {
 		public function afterLayout(EventInterface \$event): void {}
 	}
 }
+
 TXT;
 
 		$this->assertTextEquals($expected, $result);

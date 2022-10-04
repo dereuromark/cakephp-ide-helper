@@ -39,6 +39,7 @@ if (false) {
 $events
 	}
 }
+
 TXT;
 	}
 
