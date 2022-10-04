@@ -31,16 +31,17 @@ class ViewEventsTaskTest extends TestCase {
 
 use Cake\Event\EventInterface;
 
-abstract class Helper
-{
-	public function beforeRenderFile(EventInterface \$event): void {}
-	public function afterRenderFile(EventInterface \$event): void {}
-	public function beforeRender(EventInterface \$event): void {}
-	public function afterRender(EventInterface \$event): void {}
-	public function beforeLayout(EventInterface \$event): void {}
-	public function afterLayout(EventInterface \$event): void {}
+if (false) {
+	abstract class Helper
+	{
+		public function beforeRenderFile(EventInterface \$event): void {}
+		public function afterRenderFile(EventInterface \$event): void {}
+		public function beforeRender(EventInterface \$event): void {}
+		public function afterRender(EventInterface \$event): void {}
+		public function beforeLayout(EventInterface \$event): void {}
+		public function afterLayout(EventInterface \$event): void {}
+	}
 }
-
 TXT;
 
 		$this->assertTextEquals($expected, $result);

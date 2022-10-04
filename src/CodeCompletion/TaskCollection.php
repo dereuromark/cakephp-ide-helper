@@ -60,7 +60,7 @@ class TaskCollection {
 		$class = get_class($task);
 		if (!$task instanceof TaskInterface) {
 			throw new InvalidArgumentException(
-				"Cannot use '$class' as task, it is not implementing " . TaskInterface::class . '.',
+				sprintf('Cannot use `%s` as task, it is not implementing `%s`.', $class, TaskInterface::class),
 			);
 		}
 
