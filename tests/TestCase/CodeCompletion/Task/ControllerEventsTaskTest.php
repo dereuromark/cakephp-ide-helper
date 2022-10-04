@@ -34,22 +34,22 @@ use Cake\Http\Response;
 
 abstract class Controller
 {
-	public function startup(EventInterface \$event): ?Response;
-	public function beforeFilter(EventInterface \$event): ?Response;
-	public function beforeRender(EventInterface \$event): ?Response;
-	public function afterFilter(EventInterface \$event): ?Response;
-	public function shutdown(EventInterface \$event): ?Response;
-	public function beforeRedirect(EventInterface \$event, \$url, Response \$response);
+	public function startup(EventInterface \$event): ?Response {}
+	public function beforeFilter(EventInterface \$event): ?Response {}
+	public function beforeRender(EventInterface \$event): ?Response {}
+	public function afterFilter(EventInterface \$event): ?Response {}
+	public function shutdown(EventInterface \$event): ?Response {}
+	public function beforeRedirect(EventInterface \$event, \$url, Response \$response) {}
 }
 
 abstract class Component
 {
-	public function startup(EventInterface \$event): ?Response;
-	public function beforeFilter(EventInterface \$event): ?Response;
-	public function beforeRender(EventInterface \$event): ?Response;
-	public function afterFilter(EventInterface \$event): ?Response;
-	public function shutdown(EventInterface \$event): ?Response;
-	public function beforeRedirect(EventInterface \$event, \$url, Response \$response);
+	public function startup(EventInterface \$event): ?Response {}
+	public function beforeFilter(EventInterface \$event): ?Response {}
+	public function beforeRender(EventInterface \$event): ?Response {}
+	public function afterFilter(EventInterface \$event): ?Response {}
+	public function shutdown(EventInterface \$event): ?Response {}
+	public function beforeRedirect(EventInterface \$event, \$url, Response \$response) {}
 }
 
 TXT;

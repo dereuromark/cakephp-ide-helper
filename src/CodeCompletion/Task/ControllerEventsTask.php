@@ -21,12 +21,12 @@ class ControllerEventsTask implements TaskInterface {
 	 */
 	public function create(): string {
 		$events = <<<TXT
-	public function startup(EventInterface \$event): ?Response;
-	public function beforeFilter(EventInterface \$event): ?Response;
-	public function beforeRender(EventInterface \$event): ?Response;
-	public function afterFilter(EventInterface \$event): ?Response;
-	public function shutdown(EventInterface \$event): ?Response;
-	public function beforeRedirect(EventInterface \$event, \$url, Response \$response);
+	public function startup(EventInterface \$event): ?Response {}
+	public function beforeFilter(EventInterface \$event): ?Response {}
+	public function beforeRender(EventInterface \$event): ?Response {}
+	public function afterFilter(EventInterface \$event): ?Response {}
+	public function shutdown(EventInterface \$event): ?Response {}
+	public function beforeRedirect(EventInterface \$event, \$url, Response \$response) {}
 TXT;
 
 		return <<<TXT
