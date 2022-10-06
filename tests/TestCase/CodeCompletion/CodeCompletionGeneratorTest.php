@@ -81,8 +81,8 @@ if (false) {
 		public function beforeMarshal(EventInterface \$event, ArrayObject \$data, ArrayObject \$options): void {}
 		public function afterMarshal(EventInterface \$event, EntityInterface \$entity, ArrayObject \$data, ArrayObject \$options): void {}
 		public function beforeFind(EventInterface \$event, Query \$query, ArrayObject \$options, \$primary): void {}
-		public function buildValidator(EventInterface \$event, Validator \$validator, \$name) {}
-		public function buildRules(EventInterface \$event, RulesChecker \$rules) {}
+		public function buildValidator(EventInterface \$event, Validator \$validator, \$name): void {}
+		public function buildRules(EventInterface \$event, RulesChecker \$rules): RulesChecker {}
 		public function beforeRules(EventInterface \$event, EntityInterface \$entity, ArrayObject \$options, \$operation): void {}
 		public function afterRules(EventInterface \$event, EntityInterface \$entity, ArrayObject \$options, \$result, \$operation): void {}
 		public function beforeSave(EventInterface \$event, EntityInterface \$entity, ArrayObject \$options): void {}
@@ -98,8 +98,8 @@ if (false) {
 		public function beforeMarshal(EventInterface \$event, ArrayObject \$data, ArrayObject \$options): void {}
 		public function afterMarshal(EventInterface \$event, EntityInterface \$entity, ArrayObject \$data, ArrayObject \$options): void {}
 		public function beforeFind(EventInterface \$event, Query \$query, ArrayObject \$options, \$primary): void {}
-		public function buildValidator(EventInterface \$event, Validator \$validator, \$name) {}
-		public function buildRules(EventInterface \$event, RulesChecker \$rules) {}
+		public function buildValidator(EventInterface \$event, Validator \$validator, \$name): void {}
+		public function buildRules(EventInterface \$event, RulesChecker \$rules): RulesChecker {}
 		public function beforeRules(EventInterface \$event, EntityInterface \$entity, ArrayObject \$options, \$operation): void {}
 		public function afterRules(EventInterface \$event, EntityInterface \$entity, ArrayObject \$options, \$result, \$operation): void {}
 		public function beforeSave(EventInterface \$event, EntityInterface \$entity, ArrayObject \$options): void {}
