@@ -35,22 +35,46 @@ use Cake\Http\Response;
 if (false) {
 	abstract class Controller
 	{
-		public function startup(EventInterface \$event): ?Response {}
-		public function beforeFilter(EventInterface \$event): ?Response {}
-		public function beforeRender(EventInterface \$event): ?Response {}
-		public function afterFilter(EventInterface \$event): ?Response {}
-		public function shutdown(EventInterface \$event): ?Response {}
-		public function beforeRedirect(EventInterface \$event, \$url, Response \$response) {}
+		public function startup(EventInterface \$event): ?Response {
+			return null;
+		}
+		public function beforeFilter(EventInterface \$event): ?Response {
+			return null;
+		}
+		public function beforeRender(EventInterface \$event): ?Response {
+			return null;
+		}
+		public function afterFilter(EventInterface \$event): ?Response {
+			return null;
+		}
+		public function shutdown(EventInterface \$event): ?Response {
+			return null;
+		}
+		public function beforeRedirect(EventInterface \$event, \$url, Response \$response) {
+			return null;
+		}
 	}
 
 	abstract class Component
 	{
-		public function startup(EventInterface \$event): ?Response {}
-		public function beforeFilter(EventInterface \$event): ?Response {}
-		public function beforeRender(EventInterface \$event): ?Response {}
-		public function afterFilter(EventInterface \$event): ?Response {}
-		public function shutdown(EventInterface \$event): ?Response {}
-		public function beforeRedirect(EventInterface \$event, \$url, Response \$response) {}
+		public function startup(EventInterface \$event): ?Response {
+			return null;
+		}
+		public function beforeFilter(EventInterface \$event): ?Response {
+			return null;
+		}
+		public function beforeRender(EventInterface \$event): ?Response {
+			return null;
+		}
+		public function afterFilter(EventInterface \$event): ?Response {
+			return null;
+		}
+		public function shutdown(EventInterface \$event): ?Response {
+			return null;
+		}
+		public function beforeRedirect(EventInterface \$event, \$url, Response \$response) {
+			return null;
+		}
 	}
 }
 
