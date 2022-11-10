@@ -25,7 +25,7 @@ class ModelEventsTask implements TaskInterface {
 		public function afterMarshal(EventInterface \$event, EntityInterface \$entity, ArrayObject \$data, ArrayObject \$options): void {}
 		public function beforeFind(EventInterface \$event, Query \$query, ArrayObject \$options, \$primary): void {}
 		public function buildValidator(EventInterface \$event, Validator \$validator, \$name): void {}
-		public function buildRules(EventInterface \$event, RulesChecker \$rules): RulesChecker { return \$rules; }
+		public function buildRules(RulesChecker \$rules): RulesChecker { return \$rules; }
 		public function beforeRules(EventInterface \$event, EntityInterface \$entity, ArrayObject \$options, \$operation): void {}
 		public function afterRules(EventInterface \$event, EntityInterface \$entity, ArrayObject \$options, \$result, \$operation): void {}
 		public function beforeSave(EventInterface \$event, EntityInterface \$entity, ArrayObject \$options): void {}
