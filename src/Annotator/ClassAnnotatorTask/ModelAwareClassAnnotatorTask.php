@@ -28,8 +28,12 @@ class ModelAwareClassAnnotatorTask extends AbstractClassAnnotatorTask implements
 		if (!$className) {
 			return false;
 		}
-
-		return (new \ReflectionClass($className))->hasMethod('loadModel');
+		
+		try {
+			return (new \ReflectionClass($className))->hasMethod('loadModel');
+		} catch (Throwable $exception) {
+			return false;
+		}
 	}
 
 	/**
