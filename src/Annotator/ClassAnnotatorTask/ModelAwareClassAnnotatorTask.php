@@ -2,6 +2,7 @@
 
 namespace IdeHelper\Annotator\ClassAnnotatorTask;
 
+use ReflectionClass;
 use Throwable;
 
 /**
@@ -24,13 +25,14 @@ class ModelAwareClassAnnotatorTask extends AbstractClassAnnotatorTask implements
 			return true;
 		}
 
+		/** @var class-string|null $className */
 		$className = $this->getClassName($path, $content);
 		if (!$className) {
 			return false;
 		}
-		
+
 		try {
-			return (new \ReflectionClass($className))->hasMethod('loadModel');
+			return (new ReflectionClass($className))->hasMethod('loadModel');
 		} catch (Throwable $exception) {
 			return false;
 		}
