@@ -15,6 +15,9 @@ if (!defined('T_NULLABLE')) {
 if (!defined('T_DOC_COMMENT_TAG')) {
 	define('T_DOC_COMMENT_TAG', 'PHPCS_T_DOC_COMMENT_TAG');
 }
+if (!defined('T_SEMICOLON')) {
+	define('T_SEMICOLON', 'PHPCS_T_SEMICOLON');
+}
 
 if (!class_exists(\PHPUnit\Framework\TestCase::class)) {
 	require 'TestCase.php';
