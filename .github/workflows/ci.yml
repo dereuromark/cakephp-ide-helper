@@ -9,7 +9,7 @@ on:
 
 jobs:
   testsuite:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -83,11 +83,11 @@ jobs:
 
     - name: Code Coverage Report
       if: success() && matrix.php-version == '7.3' && matrix.db-type == 'sqlite'
-      uses: codecov/codecov-action@v1
+      uses: codecov/codecov-action@v3
 
   validation:
     name: Coding Standard & Static Analysis
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v3
