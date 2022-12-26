@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<ruleset name="plugin">
+    <config name="installed_paths" value="../../fig-r/psr2r-sniffer"/>
+    <arg value="nps"/>
+
+    <file>config/</file>
+    <file>src/</file>
+    <file>tests/</file>
+    <exclude-pattern>/tests/test_files/</exclude-pattern>
+    <exclude-pattern>/tests/test_app/</exclude-pattern>
+    <rule ref="PSR2R"/>
+</ruleset>
