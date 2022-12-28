@@ -40,7 +40,7 @@ class TableFinderTask extends ModelTask {
 	/**
 	 * @var array<string>
 	 */
-	protected $cache = [];
+	protected array $cache = [];
 
 	/**
 	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>

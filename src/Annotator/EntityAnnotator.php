@@ -26,7 +26,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	/**
 	 * @var array<string, string>
 	 */
-	protected static $typeMapDefaults = [
+	protected static array $typeMapDefaults = [
 		'mediumtext' => 'string',
 		'longtext' => 'string',
 		'array' => 'array',

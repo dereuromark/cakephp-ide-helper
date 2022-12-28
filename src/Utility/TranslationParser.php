@@ -6,10 +6,7 @@ use Cake\I18n\Parser\PoFileParser;
 
 class TranslationParser {
 
-	/**
-	 * @var \Cake\I18n\Parser\PoFileParser
-	 */
-	protected $poFileParser;
+	protected PoFileParser $poFileParser;
 
 	public function __construct() {
 		$this->poFileParser = new PoFileParser();

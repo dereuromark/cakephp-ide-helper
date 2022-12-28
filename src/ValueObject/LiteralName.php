@@ -7,10 +7,7 @@ namespace IdeHelper\ValueObject;
  */
 class LiteralName implements ValueObjectInterface {
 
-	/**
-	 * @var string
-	 */
-	protected $value;
+	protected string $value;
 
 	/**
 	 * @param string $value

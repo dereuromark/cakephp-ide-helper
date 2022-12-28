@@ -29,15 +29,12 @@ class ExpectedReturnValues extends BaseDirective {
 	 */
 	public const NAME = 'expectedReturnValues';
 
-	/**
-	 * @var string
-	 */
-	protected $method;
+	protected string $method;
 
 	/**
 	 * @var array<string|\IdeHelper\ValueObject\ValueObjectInterface>
 	 */
-	protected $list;
+	protected array $list;
 
 	/**
 	 * @param string $method

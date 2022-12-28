@@ -19,7 +19,7 @@ class ConfigureTask implements TaskInterface {
 	/**
 	 * @var array<int>
 	 */
-	protected $methods = [
+	protected array $methods = [
 		'\\' . self::CLASS_CONFIGURE . '::read()' => 0,
 		'\\' . self::CLASS_CONFIGURE . '::readOrFail()' => 0,
 		'\\' . self::CLASS_CONFIGURE . '::check()' => 0,

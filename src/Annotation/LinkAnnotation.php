@@ -9,10 +9,7 @@ class LinkAnnotation extends AbstractAnnotation {
 	 */
 	public const TAG = '@link';
 
-	/**
-	 * @var string
-	 */
-	protected $description;
+	protected string $description;
 
 	/**
 	 * @param string $type

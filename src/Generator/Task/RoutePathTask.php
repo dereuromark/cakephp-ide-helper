@@ -25,10 +25,7 @@ class RoutePathTask implements TaskInterface {
 	 */
 	public const SET_ROUTE_PATHS = 'routePaths';
 
-	/**
-	 * @var \IdeHelper\Utility\ControllerActionParser
-	 */
-	protected $controllerActionParser;
+	protected ControllerActionParser $controllerActionParser;
 
 	public function __construct() {
 		$this->controllerActionParser = new ControllerActionParser();

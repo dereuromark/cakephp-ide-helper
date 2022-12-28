@@ -20,7 +20,7 @@ class ConsoleHelperTask implements TaskInterface {
 	/**
 	 * @var array<string>
 	 */
-	protected $loadAliases = [
+	protected array $loadAliases = [
 		'\\' . self::CLASS_CONSOLE_IO . '::helper(0)',
 	];
 

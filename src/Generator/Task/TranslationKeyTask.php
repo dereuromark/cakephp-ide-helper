@@ -18,10 +18,7 @@ use RegexIterator;
  */
 class TranslationKeyTask implements TaskInterface {
 
-	/**
-	 * @var \IdeHelper\Utility\TranslationParser
-	 */
-	protected $translationParser;
+	protected TranslationParser $translationParser;
 
 	public function __construct() {
 		$this->translationParser = new TranslationParser();

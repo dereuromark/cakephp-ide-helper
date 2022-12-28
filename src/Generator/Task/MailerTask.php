@@ -14,10 +14,7 @@ class MailerTask implements TaskInterface {
 
 	public const CLASS_MAILER = MailerAwareTrait::class;
 
-	/**
-	 * @var string
-	 */
-	protected static $alias = '\\' . self::CLASS_MAILER . '::getMailer(0)';
+	protected static string $alias = '\\' . self::CLASS_MAILER . '::getMailer(0)';
 
 	/**
 	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>

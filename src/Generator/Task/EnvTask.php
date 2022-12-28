@@ -17,7 +17,7 @@ class EnvTask implements TaskInterface {
 	 *
 	 * @var array<string>
 	 */
-	protected static $keys = [
+	protected static array $keys = [
 		'HTTP_HOST',
 		'HTTPS',
 		'REMOTE_ADDR',

@@ -41,7 +41,7 @@ class TaskCollection {
 	 *
 	 * @var array<string, string>
 	 */
-	protected $defaultTasks = [
+	protected array $defaultTasks = [
 		ModelTask::class => ModelTask::class,
 		BehaviorTask::class => BehaviorTask::class,
 		ComponentTask::class => ComponentTask::class,
@@ -75,7 +75,7 @@ class TaskCollection {
 	/**
 	 * @var array<\IdeHelper\Generator\Task\TaskInterface>
 	 */
-	protected $tasks;
+	protected array $tasks = [];
 
 	/**
 	 * @param array<string|\IdeHelper\Generator\Task\TaskInterface> $tasks

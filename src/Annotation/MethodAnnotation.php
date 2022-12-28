@@ -9,15 +9,9 @@ class MethodAnnotation extends AbstractAnnotation {
 	 */
 	public const TAG = '@method';
 
-	/**
-	 * @var string
-	 */
-	protected $method;
+	protected string $method;
 
-	/**
-	 * @var string
-	 */
-	protected $description;
+	protected string $description;
 
 	/**
 	 * @param string $type

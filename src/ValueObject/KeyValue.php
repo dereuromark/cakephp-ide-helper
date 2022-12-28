@@ -7,15 +7,9 @@ namespace IdeHelper\ValueObject;
  */
 class KeyValue {
 
-	/**
-	 * @var \IdeHelper\ValueObject\ValueObjectInterface
-	 */
-	protected $key;
+	protected ValueObjectInterface $key;
 
-	/**
-	 * @var \IdeHelper\ValueObject\ValueObjectInterface
-	 */
-	protected $value;
+	protected ValueObjectInterface $value;
 
 	/**
 	 * @param \IdeHelper\ValueObject\ValueObjectInterface $key

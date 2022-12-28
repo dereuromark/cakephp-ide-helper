@@ -23,7 +23,7 @@ class DatabaseTableTask implements TaskInterface {
 	/**
 	 * @var array<string>|null
 	 */
-	protected static $tables;
+	protected static ?array $tables = null;
 
 	/**
 	 * @var array<string>

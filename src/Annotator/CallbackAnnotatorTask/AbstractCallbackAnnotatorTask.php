@@ -9,10 +9,7 @@ use PHP_CodeSniffer\Util\Tokens;
 
 abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 
-	/**
-	 * @var string
-	 */
-	protected $path;
+	protected string $path;
 
 	/**
 	 * @var string

@@ -17,7 +17,7 @@ class TableAssociationTask extends ModelTask {
 	/**
 	 * @var array<string, string>
 	 */
-	protected $aliases = [
+	protected array $aliases = [
 		'\\' . self::CLASS_TABLE . '::belongsTo(0)' => BelongsTo::class,
 		'\\' . self::CLASS_TABLE . '::hasOne(0)' => HasOne::class,
 		'\\' . self::CLASS_TABLE . '::hasMany(0)' => HasMany::class,

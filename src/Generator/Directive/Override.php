@@ -24,15 +24,12 @@ class Override extends BaseDirective {
 	 */
 	public const NAME = 'override';
 
-	/**
-	 * @var string
-	 */
-	protected $method;
+	protected string $method;
 
 	/**
 	 * @var array<string, string|\IdeHelper\ValueObject\ValueObjectInterface>
 	 */
-	protected $map;
+	protected array $map;
 
 	/**
 	 * @param string $method

@@ -6,10 +6,7 @@ use Cake\Filesystem\Folder;
 
 class Illuminator {
 
-	/**
-	 * @var \IdeHelper\Illuminator\TaskCollection
-	 */
-	protected $taskCollection;
+	protected TaskCollection $taskCollection;
 
 	/**
 	 * @param \IdeHelper\Illuminator\TaskCollection $taskCollection

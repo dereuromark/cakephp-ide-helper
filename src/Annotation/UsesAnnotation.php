@@ -9,10 +9,7 @@ class UsesAnnotation extends AbstractAnnotation {
 	 */
 	public const TAG = '@uses';
 
-	/**
-	 * @var string
-	 */
-	protected $description;
+	protected string $description;
 
 	/**
 	 * @param string $type

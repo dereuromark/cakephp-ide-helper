@@ -6,10 +6,7 @@ use RuntimeException;
 
 class AnnotationFactory {
 
-	/**
-	 * @var string
-	 */
-	protected $property;
+	protected string $property;
 
 	/**
 	 * @param string $tag

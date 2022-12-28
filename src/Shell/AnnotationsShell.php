@@ -48,7 +48,7 @@ class AnnotationsShell extends Shell {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected $_config = [
+	protected array $_config = [
 		'skipTemplatePaths' => [
 			'/templates/Bake/',
 		],
@@ -57,7 +57,7 @@ class AnnotationsShell extends Shell {
 	/**
 	 * @var array<string, \IdeHelper\Annotator\AbstractAnnotator>
 	 */
-	protected $_instantiatedAnnotators = [];
+	protected array $_instantiatedAnnotators = [];
 
 	/**
 	 * @return void

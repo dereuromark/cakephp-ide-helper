@@ -19,7 +19,7 @@ class ViewAnnotator extends AbstractAnnotator {
 	/**
 	 * @var array<string>
 	 */
-	protected $helpers = [];
+	protected array $helpers = [];
 
 	/**
 	 * @param string $path Path to file.

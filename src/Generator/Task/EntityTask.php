@@ -18,7 +18,7 @@ class EntityTask extends ModelTask {
 	/**
 	 * @var array<int> array<string, int>
 	 */
-	public static $methods = [
+	public static array $methods = [
 		'has' => 0,
 		'get' => 0,
 		'hasValue' => 0,

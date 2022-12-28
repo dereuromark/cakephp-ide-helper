@@ -6,10 +6,7 @@ use Cake\Core\Configure;
 
 class CodeCompletionGenerator {
 
-	/**
-	 * @var \IdeHelper\CodeCompletion\TaskCollection
-	 */
-	protected $taskCollection;
+	protected TaskCollection $taskCollection;
 
 	/**
 	 * @param \IdeHelper\CodeCompletion\TaskCollection $taskCollection

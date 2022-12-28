@@ -18,29 +18,26 @@ class TaskCollection {
 	 */
 	public const CONFIG_DRY_RUN = 'dry-run';
 
-	/**
-	 * @var \IdeHelper\Console\Io
-	 */
-	protected $_io;
+	protected Io $_io;
 
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected $_config;
+	protected array $_config;
 
 	/**
 	 * @phpstan-var array<class-string<\IdeHelper\Illuminator\Task\AbstractTask>, class-string<\IdeHelper\Illuminator\Task\AbstractTask>>
 	 *
 	 * @var array<string, string>
 	 */
-	protected $defaultTasks = [
+	protected array $defaultTasks = [
 		EntityFieldTask::class => EntityFieldTask::class,
 	];
 
 	/**
 	 * @var array<\IdeHelper\Illuminator\Task\AbstractTask>
 	 */
-	protected $tasks;
+	protected array $tasks = [];
 
 	/**
 	 * @param \IdeHelper\Console\Io $io

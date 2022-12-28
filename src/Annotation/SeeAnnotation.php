@@ -9,10 +9,7 @@ class SeeAnnotation extends AbstractAnnotation {
 	 */
 	public const TAG = '@see';
 
-	/**
-	 * @var string
-	 */
-	protected $description;
+	protected string $description;
 
 	/**
 	 * @param string $type

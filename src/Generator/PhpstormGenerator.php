@@ -7,15 +7,9 @@ use IdeHelper\Generator\Directive\RegisterArgumentsSet;
 
 class PhpstormGenerator implements GeneratorInterface {
 
-	/**
-	 * @var \IdeHelper\Generator\TaskCollection
-	 */
-	protected $taskCollection;
+	protected TaskCollection $taskCollection;
 
-	/**
-	 * @var \Cake\Console\ConsoleIo|null
-	 */
-	protected $consoleIo;
+	protected ?ConsoleIo $consoleIo;
 
 	/**
 	 * @param \IdeHelper\Generator\TaskCollection $taskCollection

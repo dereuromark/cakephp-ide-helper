@@ -15,7 +15,7 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 	/**
 	 * @var array<string, string>
 	 */
-	protected $methods = [
+	protected array $methods = [
 		'_get' => '#_get[A-Z]\w+#',
 		'_set' => '#_set[A-Z]\w+#',
 	];

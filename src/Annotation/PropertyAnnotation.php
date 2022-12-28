@@ -9,15 +9,9 @@ class PropertyAnnotation extends AbstractAnnotation {
 	 */
 	public const TAG = '@property';
 
-	/**
-	 * @var string
-	 */
-	protected $property;
+	protected string $property;
 
-	/**
-	 * @var string
-	 */
-	protected $description;
+	protected string $description;
 
 	/**
 	 * @param string $type

@@ -19,7 +19,7 @@ class ValidationTask implements TaskInterface {
 	 *
 	 * @var array<int>
 	 */
-	protected static $methods = [
+	protected static array $methods = [
 		'requirePresence' => 1,
 		'allowEmptyFor' => 2,
 		'allowEmptyString' => 2,

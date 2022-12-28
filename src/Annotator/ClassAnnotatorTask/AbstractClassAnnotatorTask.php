@@ -10,10 +10,7 @@ use RuntimeException;
 
 abstract class AbstractClassAnnotatorTask extends AbstractAnnotator {
 
-	/**
-	 * @var string
-	 */
-	protected $content;
+	protected string $content;
 
 	/**
 	 * @param \IdeHelper\Console\Io $io

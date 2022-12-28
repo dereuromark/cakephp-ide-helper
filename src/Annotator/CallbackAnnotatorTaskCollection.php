@@ -14,7 +14,7 @@ class CallbackAnnotatorTaskCollection {
 	 *
 	 * @var array<string, string>
 	 */
-	protected $defaultTasks = [
+	protected array $defaultTasks = [
 		TableCallbackAnnotatorTask::class => TableCallbackAnnotatorTask::class,
 		VirtualFieldCallbackAnnotatorTask::class => VirtualFieldCallbackAnnotatorTask::class,
 	];

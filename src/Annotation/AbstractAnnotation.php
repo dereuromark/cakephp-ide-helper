@@ -11,22 +11,14 @@ abstract class AbstractAnnotation implements AnnotationInterface, ReplacableAnno
 	 */
 	public const TAG = '';
 
-	/**
-	 * @var string
-	 */
-	protected $type;
+	protected string $type;
+
+	protected ?int $index;
 
 	/**
-	 * @var int|null
-	 */
-	protected $index;
-
-	/**
-	 * Needed for removing annotations
-	 *
-	 * @var bool
-	 */
-	protected $isInUse = false;
+  * Needed for removing annotations
+  */
+	protected bool $isInUse = false;
 
 	/**
 	 * @param string $type

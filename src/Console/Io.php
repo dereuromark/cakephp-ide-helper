@@ -11,10 +11,7 @@ use Cake\Console\Shell;
  */
 class Io {
 
-	/**
-	 * @var \Cake\Console\ConsoleIo
-	 */
-	protected $_io;
+	protected ConsoleIo $_io;
 
 	/**
 	 * @param \Cake\Console\ConsoleIo $io

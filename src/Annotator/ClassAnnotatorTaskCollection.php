@@ -16,7 +16,7 @@ class ClassAnnotatorTaskCollection {
 	 *
 	 * @var array<string, string>
 	 */
-	protected $defaultTasks = [
+	protected array $defaultTasks = [
 		ModelAwareClassAnnotatorTask::class => ModelAwareClassAnnotatorTask::class,
 		FormClassAnnotatorTask::class => FormClassAnnotatorTask::class,
 		MailerClassAnnotatorTask::class => MailerClassAnnotatorTask::class,

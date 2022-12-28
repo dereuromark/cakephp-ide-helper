@@ -9,15 +9,9 @@ class ParamAnnotation extends AbstractAnnotation {
 	 */
 	public const TAG = '@param';
 
-	/**
-	 * @var string
-	 */
-	protected $variable;
+	protected string $variable;
 
-	/**
-	 * @var string
-	 */
-	protected $description;
+	protected string $description;
 
 	/**
 	 * @param string $type

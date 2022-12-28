@@ -19,7 +19,7 @@ class CacheTask implements TaskInterface {
 	/**
 	 * @var array<int>
 	 */
-	protected $aliases = [
+	protected array $aliases = [
 		'\\' . self::CLASS_CACHE . '::clear()' => 0,
 		'\\' . self::CLASS_CACHE . '::read()' => 1,
 		'\\' . self::CLASS_CACHE . '::readMany()' => 1,

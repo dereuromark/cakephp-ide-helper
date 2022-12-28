@@ -101,15 +101,9 @@ abstract class AbstractAnnotator {
 		UsesAnnotation::TAG,
 	];
 
-	/**
-	 * @var bool
-	 */
-	public static $output = false;
+	public static bool $output = false;
 
-	/**
-	 * @var \IdeHelper\Console\Io
-	 */
-	protected $_io;
+	protected Io $_io;
 
 	/**
 	 * @var array<string, mixed>
@@ -203,7 +197,7 @@ abstract class AbstractAnnotator {
 	/**
 	 * @var array<string, int>
 	 */
-	protected $_counter = [];
+	protected array $_counter = [];
 
 	/**
 	 * @param string $path

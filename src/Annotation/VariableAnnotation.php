@@ -9,20 +9,11 @@ class VariableAnnotation extends AbstractAnnotation {
 	 */
 	public const TAG = '@var';
 
-	/**
-	 * @var string
-	 */
-	protected $variable;
+	protected string $variable;
 
-	/**
-	 * @var string
-	 */
-	protected $description;
+	protected string $description;
 
-	/**
-	 * @var bool
-	 */
-	protected $guessed = false;
+	protected bool $guessed = false;
 
 	/**
 	 * @param string $type

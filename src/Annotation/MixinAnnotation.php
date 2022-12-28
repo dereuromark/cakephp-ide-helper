@@ -9,10 +9,7 @@ class MixinAnnotation extends AbstractAnnotation {
 	 */
 	public const TAG = '@mixin';
 
-	/**
-	 * @var string
-	 */
-	protected $description;
+	protected string $description;
 
 	/**
 	 * @param string $type

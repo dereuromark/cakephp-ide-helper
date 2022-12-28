@@ -21,14 +21,14 @@ class ComponentTask implements TaskInterface {
 	/**
 	 * @var array<string>
 	 */
-	protected $loadAliases = [
+	protected array $loadAliases = [
 		'\\' . self::CLASS_CONTROLLER . '::loadComponent(0)',
 	];
 
 	/**
 	 * @var array<string, int>
 	 */
-	protected $unloadAliases = [
+	protected array $unloadAliases = [
 		'\\' . self::CLASS_COMPONENT_REGISTRY . '::unload()' => 0,
 	];
 

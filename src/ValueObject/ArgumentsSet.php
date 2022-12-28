@@ -11,10 +11,7 @@ namespace IdeHelper\ValueObject;
  */
 class ArgumentsSet implements ValueObjectInterface {
 
-	/**
-	 * @var string
-	 */
-	protected $value;
+	protected string $value;
 
 	/**
 	 * @param string $value

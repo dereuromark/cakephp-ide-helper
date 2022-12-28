@@ -13,7 +13,7 @@ class RequestTask implements TaskInterface {
 	/**
 	 * @var array<string>
 	 */
-	protected static $paramKeys = [
+	protected static array $paramKeys = [
 		'controller',
 		'action',
 		'plugin',

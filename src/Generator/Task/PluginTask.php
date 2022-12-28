@@ -20,7 +20,7 @@ class PluginTask implements TaskInterface {
 	/**
 	 * @var array<string>
 	 */
-	protected $aliases = [
+	protected array $aliases = [
 		'\\' . self::INTERFACE_APPLICATION . '::addPlugin(0)',
 	];
 

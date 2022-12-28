@@ -33,20 +33,14 @@ class ExpectedArguments extends BaseDirective {
 	 */
 	public const NAME = 'expectedArguments';
 
-	/**
-	 * @var string
-	 */
-	protected $method;
+	protected string $method;
 
-	/**
-	 * @var int
-	 */
-	protected $position;
+	protected int $position;
 
 	/**
 	 * @var array<string|\IdeHelper\ValueObject\ValueObjectInterface>
 	 */
-	protected $list;
+	protected array $list;
 
 	/**
 	 * @param string $method

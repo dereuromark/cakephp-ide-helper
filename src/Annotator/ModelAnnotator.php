@@ -28,7 +28,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	/**
 	 * @var array<string, array<string, string>>
 	 */
-	protected $_cache = [];
+	protected array $_cache = [];
 
 	/**
 	 * @param string $path Path to file.

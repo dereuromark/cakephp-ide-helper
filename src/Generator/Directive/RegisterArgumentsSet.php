@@ -24,15 +24,12 @@ class RegisterArgumentsSet extends BaseDirective {
 	 */
 	public const NAME = 'registerArgumentsSet';
 
-	/**
-	 * @var string
-	 */
-	protected $set;
+	protected string $set;
 
 	/**
 	 * @var array<string|\IdeHelper\ValueObject\ValueObjectInterface>
 	 */
-	protected $list;
+	protected array $list;
 
 	/**
 	 * @param string $set

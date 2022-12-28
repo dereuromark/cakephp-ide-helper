@@ -20,10 +20,7 @@ class ExitPoint extends BaseDirective {
 	 */
 	public const NAME = 'exitPoint';
 
-	/**
-	 * @var string
-	 */
-	protected $method;
+	protected string $method;
 
 	/**
 	 * @param string $method

@@ -15,10 +15,7 @@ class CellTask implements TaskInterface {
 
 	public const CLASS_CELL = CellTrait::class;
 
-	/**
-	 * @var string
-	 */
-	protected static $alias = '\\' . self::CLASS_CELL . '::cell()';
+	protected static string $alias = '\\' . self::CLASS_CELL . '::cell()';
 
 	/**
 	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
