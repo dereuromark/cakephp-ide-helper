@@ -4,7 +4,7 @@ namespace IdeHelper\Generator\Task;
 
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
-use Cake\Filesystem\Folder;
+use IdeHelper\Filesystem\Folder;
 use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\App;

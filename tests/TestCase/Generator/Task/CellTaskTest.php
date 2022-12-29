@@ -7,10 +7,7 @@ use IdeHelper\Generator\Task\CellTask;
 
 class CellTaskTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\Generator\Task\CellTask
-	 */
-	protected $task;
+	protected CellTask $task;
 
 	/**
 	 * @return void

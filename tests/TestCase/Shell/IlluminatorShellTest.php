@@ -5,22 +5,17 @@ namespace IdeHelper\Test\TestCase\Shell;
 use Cake\Console\ConsoleIo;
 use Cake\TestSuite\TestCase;
 use IdeHelper\Shell\IlluminatorShell;
+use PHPUnit\Framework\MockObject\MockObject;
 use Shim\TestSuite\ConsoleOutput;
 
 class IlluminatorShellTest extends TestCase {
 
-	/**
-	 * @var array
-	 */
-	protected $fixtures = [
+	protected array $fixtures = [
 		'plugin.IdeHelper.Cars',
 		'plugin.IdeHelper.Wheels',
 	];
 
-	/**
-	 * @var \IdeHelper\Shell\IlluminatorShell|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	protected $Shell;
+	protected IlluminatorShell|MockObject $Shell;
 
 	/**
 	 * @var \Shim\TestSuite\ConsoleOutput

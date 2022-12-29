@@ -2,7 +2,7 @@
 
 namespace IdeHelper\CodeCompletion\Task;
 
-use Cake\Filesystem\Folder;
+use IdeHelper\Filesystem\Folder;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
 use IdeHelper\Utility\Plugin;

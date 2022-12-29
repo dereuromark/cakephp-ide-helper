@@ -12,10 +12,7 @@ class TableFinderTaskTest extends TestCase {
 
 	use TestTrait;
 
-	/**
-	 * @var \IdeHelper\Generator\Task\TableFinderTask
-	 */
-	protected $task;
+	protected TableFinderTask $task;
 
 	/**
 	 * @return void

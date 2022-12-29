@@ -21,10 +21,7 @@ class VariableExtractorTest extends TestCase {
 
 	use FileTrait;
 
-	/**
-	 * @var \IdeHelper\Annotator\Template\VariableExtractor
-	 */
-	protected $variableExtractor;
+	protected ?VariableExtractor $variableExtractor = null;
 
 	/**
 	 * @return void

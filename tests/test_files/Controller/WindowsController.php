@@ -8,9 +8,6 @@ use Cake\Controller\Controller;
  */
 class WindowsController extends Controller {
 
-	/**
-	 * @var string
-	 */
-	protected $modelClass = 'Awesome.Windows';
+	protected string $modelClass = 'Awesome.Windows';
 
 }

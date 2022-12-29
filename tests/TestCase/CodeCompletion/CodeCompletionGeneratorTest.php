@@ -8,10 +8,7 @@ use IdeHelper\CodeCompletion\TaskCollection;
 
 class CodeCompletionGeneratorTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\CodeCompletion\CodeCompletionGenerator
-	 */
-	protected $generator;
+	protected CodeCompletionGenerator $generator;
 
 	/**
 	 * @return void

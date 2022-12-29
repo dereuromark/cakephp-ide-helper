@@ -5,10 +5,7 @@ use Cake\Console\Shell;
 
 class MyShell extends Shell {
 
-	/**
-	 * @var string
-	 */
-	protected $modelClass = 'Cars';
+	protected string $modelClass = 'Cars';
 
 	/**
 	 * @var array

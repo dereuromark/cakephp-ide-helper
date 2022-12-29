@@ -21,10 +21,7 @@ class FormClassAnnotatorTaskTest extends TestCase {
 	 */
 	protected $err;
 
-	/**
-	 * @var \IdeHelper\Console\Io
-	 */
-	protected $io;
+	protected ?Io $io = null;
 
 	/**
 	 * @return void

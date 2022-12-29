@@ -26,10 +26,7 @@ class Wheel extends Entity {
 	const FIELD_MODIFIED = 'modified';
 	const FIELD_VIRTUAL_ONE = 'virtual_one';
 
-	/**
-	 * @var array
-	 */
-	protected $_virtual = [
+	protected array $_virtual = [
 		'virtual_one',
 	];
 

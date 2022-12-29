@@ -7,10 +7,7 @@ use Shim\TestSuite\TestCase;
 
 class EnvTaskTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\Generator\Task\EnvTask
-	 */
-	protected $task;
+	protected ?EnvTask $task = null;
 
 	/**
 	 * @return void

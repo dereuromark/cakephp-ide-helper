@@ -10,10 +10,7 @@ class LayoutTaskTest extends TestCase {
 
 	use TestTrait;
 
-	/**
-	 * @var \IdeHelper\Generator\Task\LayoutTask
-	 */
-	protected $task;
+	protected LayoutTask $task;
 
 	/**
 	 * @return void

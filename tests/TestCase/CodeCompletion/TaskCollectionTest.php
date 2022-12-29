@@ -7,10 +7,7 @@ use IdeHelper\CodeCompletion\TaskCollection;
 
 class TaskCollectionTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\CodeCompletion\TaskCollection
-	 */
-	protected $taskCollection;
+	protected TaskCollection $taskCollection;
 
 	/**
 	 * @return void

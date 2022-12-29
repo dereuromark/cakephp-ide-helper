@@ -21,10 +21,7 @@ class EntityAnnotatorTest extends TestCase {
 	use DiffHelperTrait;
 	use TestTrait;
 
-	/**
-	 * @var array
-	 */
-	protected $fixtures = [
+	protected array $fixtures = [
 		'plugin.IdeHelper.Foo',
 	];
 
@@ -38,10 +35,7 @@ class EntityAnnotatorTest extends TestCase {
 	 */
 	protected $err;
 
-	/**
-	 * @var \IdeHelper\Console\Io
-	 */
-	protected $io;
+	protected Io $io;
 
 	/**
 	 * @return void

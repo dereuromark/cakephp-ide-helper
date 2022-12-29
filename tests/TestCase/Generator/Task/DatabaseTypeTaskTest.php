@@ -9,10 +9,7 @@ use TestApp\Database\Type\UuidType;
 
 class DatabaseTypeTaskTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\Generator\Task\DatabaseTypeTask
-	 */
-	protected $task;
+	protected DatabaseTypeTask $task;
 
 	/**
 	 * @return void

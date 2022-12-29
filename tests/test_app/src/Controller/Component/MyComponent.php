@@ -5,9 +5,6 @@ use Cake\Controller\Component;
 
 class MyComponent extends Component {
 
-	/**
-	 * @var array
-	 */
-	public $components = ['Flash', 'RequestHandler', 'MyNamespace/MyPlugin.My'];
+	public array $components = ['Flash', 'RequestHandler', 'MyNamespace/MyPlugin.My'];
 
 }

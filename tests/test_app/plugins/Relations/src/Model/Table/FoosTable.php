@@ -7,10 +7,7 @@ use Cake\ORM\Table;
 
 class FoosTable extends Table {
 
-	/**
-	 * @var array
-	 */
-	protected $_fields = [
+	protected array $_fields = [
 		'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'autoIncrement' => true],
 		'name' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => null],
 		'user_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null],

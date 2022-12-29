@@ -10,15 +10,9 @@ use Shim\TestSuite\ConsoleOutput;
 
 class IoTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\Console\Io
-	 */
-	protected $io;
+	protected Io $io;
 
-	/**
-	 * @var \Cake\Console\ConsoleIo
-	 */
-	protected $consoleIo;
+	protected ConsoleIo $consoleIo;
 
 	/**
 	 * @var \Shim\TestSuite\ConsoleOutput

@@ -7,10 +7,7 @@ use IdeHelper\Generator\Task\HelperTask;
 
 class HelperTaskTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\Generator\Task\HelperTask
-	 */
-	protected $task;
+	protected HelperTask $task;
 
 	/**
 	 * @return void

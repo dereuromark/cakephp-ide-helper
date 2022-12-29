@@ -2,8 +2,8 @@
 
 namespace IdeHelper\Generator\Task;
 
-use Cake\Filesystem\Folder;
 use Cake\ORM\Table;
+use IdeHelper\Filesystem\Folder;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;

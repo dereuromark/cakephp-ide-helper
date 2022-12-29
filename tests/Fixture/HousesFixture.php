@@ -8,10 +8,8 @@ class HousesFixture extends TestFixture {
 
 	/**
 	 * Fields
-	 *
-	 * @var array
 	 */
-	public $fields = [
+	public array $fields = [
 		'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
 		'name' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
 		'_constraints' => [
@@ -25,10 +23,8 @@ class HousesFixture extends TestFixture {
 
 	/**
 	 * Records
-	 *
-	 * @var array
 	 */
-	public $records = [
+	public array $records = [
 		[
 			'id' => 1,
 			'name' => 'Lorem ipsum dolor sit amet',

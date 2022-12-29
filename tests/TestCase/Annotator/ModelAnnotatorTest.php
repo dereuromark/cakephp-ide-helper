@@ -16,10 +16,7 @@ class ModelAnnotatorTest extends TestCase {
 
 	use DiffHelperTrait;
 
-	/**
-	 * @var array
-	 */
-	protected $fixtures = [
+	protected array $fixtures = [
 		'plugin.IdeHelper.Foo',
 		'plugin.IdeHelper.Wheels',
 		'plugin.IdeHelper.BarBars',
@@ -35,10 +32,7 @@ class ModelAnnotatorTest extends TestCase {
 	 */
 	protected $err;
 
-	/**
-	 * @var \IdeHelper\Console\Io
-	 */
-	protected $io;
+	protected Io $io;
 
 	/**
 	 * @return void

@@ -5,22 +5,17 @@ namespace IdeHelper\Test\TestCase\Shell;
 use Cake\Console\ConsoleIo;
 use Cake\TestSuite\TestCase;
 use IdeHelper\Shell\PhpstormShell;
+use PHPUnit\Framework\MockObject\MockObject;
 use Shim\TestSuite\ConsoleOutput;
 
 class PhpstormShellTest extends TestCase {
 
-	/**
-	 * @var array
-	 */
-	protected $fixtures = [
+	protected array $fixtures = [
 		'plugin.IdeHelper.Cars',
 		'plugin.IdeHelper.Wheels',
 	];
 
-	/**
-	 * @var \IdeHelper\Shell\PhpstormShell|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	protected $Shell;
+	protected PhpstormShell|MockObject $Shell;
 
 	/**
 	 * @var \Shim\TestSuite\ConsoleOutput

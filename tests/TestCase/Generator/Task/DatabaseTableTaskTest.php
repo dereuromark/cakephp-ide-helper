@@ -11,15 +11,12 @@ class DatabaseTableTaskTest extends TestCase {
 	/**
 	 * @var array<string>
 	 */
-	protected $fixtures = [
+	protected array $fixtures = [
 		'plugin.IdeHelper.Cars',
 		'plugin.IdeHelper.Wheels',
 	];
 
-	/**
-	 * @var \IdeHelper\Generator\Task\DatabaseTableTask
-	 */
-	protected $task;
+	protected DatabaseTableTask $task;
 
 	/**
 	 * @return void

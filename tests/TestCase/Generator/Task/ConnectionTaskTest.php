@@ -7,10 +7,7 @@ use Shim\TestSuite\TestCase;
 
 class ConnectionTaskTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\Generator\Task\ConnectionTask
-	 */
-	protected $task;
+	protected ?ConnectionTask $task = null;
 
 	/**
 	 * @return void

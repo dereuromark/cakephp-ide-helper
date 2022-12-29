@@ -7,10 +7,7 @@ use IdeHelper\Generator\Task\PluginTask;
 
 class PluginTaskTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\Generator\Task\PluginTask
-	 */
-	protected $task;
+	protected PluginTask $task;
 
 	/**
 	 * @return void

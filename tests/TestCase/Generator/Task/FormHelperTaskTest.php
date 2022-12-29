@@ -11,15 +11,12 @@ class FormHelperTaskTest extends TestCase {
 	/**
 	 * @var array<string>
 	 */
-	protected $fixtures = [
+	protected array $fixtures = [
 		'plugin.IdeHelper.Cars',
 		'plugin.IdeHelper.Wheels',
 	];
 
-	/**
-	 * @var \IdeHelper\Generator\Task\FormHelperTask
-	 */
-	protected $task;
+	protected FormHelperTask $task;
 
 	/**
 	 * @return void

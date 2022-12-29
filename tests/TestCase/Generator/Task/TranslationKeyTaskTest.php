@@ -8,10 +8,7 @@ use Shim\TestSuite\TestCase;
 
 class TranslationKeyTaskTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\Generator\Task\TranslationKeyTask
-	 */
-	protected $task;
+	protected ?TranslationKeyTask $task = null;
 
 	/**
 	 * @return void

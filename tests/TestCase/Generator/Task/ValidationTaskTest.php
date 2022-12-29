@@ -8,10 +8,7 @@ use Shim\TestSuite\TestCase;
 
 class ValidationTaskTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\Generator\Task\ValidationTask
-	 */
-	protected $task;
+	protected ?ValidationTask $task = null;
 
 	/**
 	 * @return void

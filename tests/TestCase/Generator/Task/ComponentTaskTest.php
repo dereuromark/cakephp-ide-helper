@@ -7,10 +7,7 @@ use IdeHelper\Generator\Task\ComponentTask;
 
 class ComponentTaskTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\Generator\Task\ComponentTask
-	 */
-	protected $task;
+	protected ComponentTask $task;
 
 	/**
 	 * @return void

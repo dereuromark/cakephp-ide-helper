@@ -11,10 +11,7 @@ class ConfigureTaskTest extends TestCase {
 
 	use TestTrait;
 
-	/**
-	 * @var \IdeHelper\Generator\Task\ConfigureTask
-	 */
-	protected $task;
+	protected ConfigureTask $task;
 
 	/**
 	 * @return void

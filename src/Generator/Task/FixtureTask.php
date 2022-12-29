@@ -2,8 +2,8 @@
 
 namespace IdeHelper\Generator\Task;
 
-use Cake\Filesystem\Folder;
 use Cake\TestSuite\TestCase;
+use IdeHelper\Filesystem\Folder;
 use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Utility\Plugin;
 use IdeHelper\ValueObject\StringName;

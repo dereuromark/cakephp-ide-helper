@@ -15,10 +15,7 @@ use Cake\ORM\Entity;
  */
 class Wheel extends Entity {
 
-	/**
-	 * @var array
-	 */
-	protected $_virtual = [
+	protected array $_virtual = [
 		'virtual_one',
 	];
 

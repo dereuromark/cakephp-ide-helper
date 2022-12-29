@@ -12,15 +12,12 @@ class EntityTaskTest extends TestCase {
 	/**
 	 * @var array<string>
 	 */
-	protected $fixtures = [
+	protected array $fixtures = [
 		'plugin.IdeHelper.Cars',
 		'plugin.IdeHelper.Wheels',
 	];
 
-	/**
-	 * @var \IdeHelper\Generator\Task\EntityTask
-	 */
-	protected $task;
+	protected EntityTask $task;
 
 	/**
 	 * @return void

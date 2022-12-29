@@ -5,24 +5,19 @@ namespace IdeHelper\Test\TestCase\Shell;
 use Cake\Console\ConsoleIo;
 use Cake\TestSuite\TestCase;
 use IdeHelper\Shell\AnnotationsShell;
+use PHPUnit\Framework\MockObject\MockObject;
 use Shim\TestSuite\ConsoleOutput;
 
 class AnnotationsShellTest extends TestCase {
 
-	/**
-	 * @var array
-	 */
-	protected $fixtures = [
+	protected array $fixtures = [
 		'plugin.IdeHelper.Cars',
 		'plugin.IdeHelper.Wheels',
 		'plugin.IdeHelper.Houses',
 		'plugin.IdeHelper.Windows',
 	];
 
-	/**
-	 * @var \IdeHelper\Shell\AnnotationsShell|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	protected $Shell;
+	protected AnnotationsShell|MockObject $Shell;
 
 	/**
 	 * @var \Shim\TestSuite\ConsoleOutput

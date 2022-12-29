@@ -9,10 +9,7 @@ use Cake\Console\Shell;
  */
 class MyPluginShell extends Shell {
 
-	/**
-	 * @var string
-	 */
-	protected $modelClass = 'Awesome.Houses';
+	protected string $modelClass = 'Awesome.Houses';
 
 	/**
 	 * @return void

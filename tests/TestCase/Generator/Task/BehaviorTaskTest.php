@@ -7,10 +7,7 @@ use IdeHelper\Generator\Task\BehaviorTask;
 
 class BehaviorTaskTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\Generator\Task\BehaviorTask
-	 */
-	protected $task;
+	protected BehaviorTask $task;
 
 	/**
 	 * @return void

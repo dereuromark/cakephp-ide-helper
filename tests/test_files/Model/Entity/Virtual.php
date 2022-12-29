@@ -16,10 +16,7 @@ use Cake\ORM\Entity;
  */
 class Virtual extends Entity {
 
-	/**
-	 * @var array
-	 */
-	protected $_virtual = [
+	protected array $_virtual = [
 		'virtual_one',
 	];
 

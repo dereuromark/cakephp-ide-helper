@@ -2,7 +2,7 @@
 
 namespace IdeHelper\Illuminator;
 
-use Cake\Console\Shell;
+use Cake\Console\ConsoleIo;
 use Cake\Core\Configure;
 use IdeHelper\Console\Io;
 use IdeHelper\Illuminator\Task\AbstractTask;
@@ -216,12 +216,12 @@ class TaskCollection {
 
 			if ($row[1] === 1) {
 				$char = '+';
-				$this->_io->info('   | ' . $char . $output, 1, Shell::VERBOSE);
+				$this->_io->info('   | ' . $char . $output, 1, ConsoleIo::VERBOSE);
 			} elseif ($row[1] === 2) {
 				$char = '-';
-				$this->_io->out('<warning>' . '   | ' . $char . $output . '</warning>', 1, Shell::VERBOSE);
+				$this->_io->out('<warning>' . '   | ' . $char . $output . '</warning>', 1, ConsoleIo::VERBOSE);
 			} else {
-				$this->_io->out('   | ' . $char . $output, 1, Shell::VERBOSE);
+				$this->_io->out('   | ' . $char . $output, 1, ConsoleIo::VERBOSE);
 			}
 		}
 	}

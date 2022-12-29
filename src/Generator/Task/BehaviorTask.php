@@ -3,8 +3,8 @@
 namespace IdeHelper\Generator\Task;
 
 use Cake\Core\App;
-use Cake\Filesystem\Folder;
 use Cake\ORM\Table;
+use IdeHelper\Filesystem\Folder;
 use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Utility\AppPath;
 use IdeHelper\Utility\Plugin;

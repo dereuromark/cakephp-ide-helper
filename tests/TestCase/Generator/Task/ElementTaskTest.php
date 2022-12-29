@@ -10,10 +10,7 @@ class ElementTaskTest extends TestCase {
 
 	use TestTrait;
 
-	/**
-	 * @var \IdeHelper\Generator\Task\ElementTask
-	 */
-	protected $task;
+	protected ElementTask $task;
 
 	/**
 	 * @return void

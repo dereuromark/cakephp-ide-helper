@@ -3,7 +3,7 @@
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
-use Cake\Database\Type;
+use Cake\Database\TypeFactory;
 
 if (!defined('DS')) {
 	define('DS', DIRECTORY_SEPARATOR);
@@ -65,15 +65,15 @@ $cache = [
 
 Cache::setConfig($cache);
 
-Type::build('time');
-Type::build('date');
-Type::build('datetime');
-Type::build('timestamp');
+TypeFactory::build('time');
+TypeFactory::build('date');
+TypeFactory::build('datetime');
+TypeFactory::build('timestamp');
 
 class_alias(Cake\Controller\Controller::class, 'App\Controller\AppController');
 
 Plugin::getCollection()->add(new IdeHelper\Plugin());
-Plugin::getCollection()->add(new Shim\Plugin());
+//Plugin::getCollection()->add(new Shim\Plugin());
 Plugin::getCollection()->add(new Awesome\Plugin());
 Plugin::getCollection()->add(new Controllers\Plugin());
 Plugin::getCollection()->add(new Relations\Plugin());
@@ -108,3 +108,8 @@ Cake\Datasource\ConnectionManager::setConfig('test', [
 	'quoteIdentifiers' => true,
 	'cacheMetadata' => true,
 ]);
+
+if (env('FIXTURE_SCHEMA_METADATA')) {
+	$loader = new Cake\TestSuite\Fixture\SchemaLoader();
+	$loader->loadInternalFile(env('FIXTURE_SCHEMA_METADATA'));
+}

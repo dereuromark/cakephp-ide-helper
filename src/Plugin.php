@@ -4,22 +4,11 @@ namespace IdeHelper;
 
 use Cake\Console\CommandCollection;
 use Cake\Core\BasePlugin;
-use IdeHelper\Shell\AnnotationsShell;
-use IdeHelper\Shell\CodeCompletionShell;
-use IdeHelper\Shell\IlluminatorShell;
-use IdeHelper\Shell\PhpstormShell;
 
 /**
  * Plugin for IdeHelper
  */
 class Plugin extends BasePlugin {
-
-	/**
-	 * Plugin name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'IdeHelper';
 
 	/**
 	 * Define the console commands for an application.

@@ -6,10 +6,7 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 class MyFixture extends TestFixture {
 
-	/**
-	 * @var array
-	 */
-	public $fields = [
+	public array $fields = [
 		'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
 	];
 

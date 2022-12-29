@@ -3,7 +3,7 @@
 namespace IdeHelper\Annotator;
 
 use Bake\View\Helper\DocBlockHelper;
-use Cake\Console\Shell;
+use Cake\Console\ConsoleIo;
 use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
 use Cake\View\View;
@@ -170,12 +170,12 @@ abstract class AbstractAnnotator {
 
 			if ($row[1] === 1) {
 				$char = '+';
-				$this->_io->info('   | ' . $char . $output, 1, Shell::VERBOSE);
+				$this->_io->info('   | ' . $char . $output, 1, ConsoleIo::VERBOSE);
 			} elseif ($row[1] === 2) {
 				$char = '-';
-				$this->_io->out('<warning>' . '   | ' . $char . $output . '</warning>', 1, Shell::VERBOSE);
+				$this->_io->out('<warning>' . '   | ' . $char . $output . '</warning>', 1, ConsoleIo::VERBOSE);
 			} else {
-				$this->_io->out('   | ' . $char . $output, 1, Shell::VERBOSE);
+				$this->_io->out('   | ' . $char . $output, 1, ConsoleIo::VERBOSE);
 			}
 		}
 	}

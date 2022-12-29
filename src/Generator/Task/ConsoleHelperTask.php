@@ -4,7 +4,7 @@ namespace IdeHelper\Generator\Task;
 
 use Cake\Console\ConsoleIo;
 use Cake\Console\Helper;
-use Cake\Filesystem\Folder;
+use IdeHelper\Filesystem\Folder;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;

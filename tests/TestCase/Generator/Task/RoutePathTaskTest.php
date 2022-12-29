@@ -7,10 +7,7 @@ use IdeHelper\Generator\Task\RoutePathTask;
 
 class RoutePathTaskTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\Generator\Task\RoutePathTask
-	 */
-	protected $task;
+	protected RoutePathTask $task;
 
 	/**
 	 * @return void

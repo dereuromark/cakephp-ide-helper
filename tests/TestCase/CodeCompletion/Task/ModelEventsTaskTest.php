@@ -7,10 +7,7 @@ use IdeHelper\CodeCompletion\Task\ModelEventsTask;
 
 class ModelEventsTaskTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\CodeCompletion\Task\ModelEventsTask
-	 */
-	protected $task;
+	protected ModelEventsTask $task;
 
 	/**
 	 * @return void

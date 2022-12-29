@@ -7,10 +7,7 @@ use IdeHelper\CodeCompletion\Task\ControllerEventsTask;
 
 class ControllerEventsTaskTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\CodeCompletion\Task\ControllerEventsTask
-	 */
-	protected $task;
+	protected ControllerEventsTask $task;
 
 	/**
 	 * @return void

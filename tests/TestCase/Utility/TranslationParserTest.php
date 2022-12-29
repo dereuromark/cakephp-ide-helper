@@ -7,10 +7,7 @@ use IdeHelper\Utility\TranslationParser;
 
 class TranslationParserTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\Utility\TranslationParser
-	 */
-	protected $translationParser;
+	protected TranslationParser $translationParser;
 
 	/**
 	 * @return void

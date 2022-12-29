@@ -21,15 +21,9 @@ class IlluminatorTest extends TestCase {
 	 */
 	protected $err;
 
-	/**
-	 * @var \IdeHelper\Console\Io
-	 */
-	protected $io;
+	protected Io $io;
 
-	/**
-	 * @var \IdeHelper\Illuminator\Illuminator
-	 */
-	protected $illuminator;
+	protected Illuminator $illuminator;
 
 	/**
 	 * @return void

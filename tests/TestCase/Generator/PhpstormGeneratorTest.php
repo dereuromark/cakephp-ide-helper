@@ -17,15 +17,12 @@ class PhpstormGeneratorTest extends TestCase {
 	/**
 	 * @var array<string>
 	 */
-	protected $fixtures = [
+	protected array $fixtures = [
 		'plugin.IdeHelper.Cars',
 		'plugin.IdeHelper.Wheels',
 	];
 
-	/**
-	 * @var \IdeHelper\Generator\PhpstormGenerator
-	 */
-	protected $generator;
+	protected ?PhpstormGenerator $generator = null;
 
 	/**
 	 * @return void

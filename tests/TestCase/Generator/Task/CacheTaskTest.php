@@ -8,10 +8,7 @@ use IdeHelper\Generator\Task\CacheTask;
 
 class CacheTaskTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\Generator\Task\CacheTask
-	 */
-	protected $task;
+	protected CacheTask $task;
 
 	/**
 	 * @return void

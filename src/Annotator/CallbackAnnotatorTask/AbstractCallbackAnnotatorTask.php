@@ -11,10 +11,7 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 
 	protected string $path;
 
-	/**
-	 * @var string
-	 */
-	protected $content;
+	protected string $content;
 
 	/**
 	 * @param \IdeHelper\Console\Io $io

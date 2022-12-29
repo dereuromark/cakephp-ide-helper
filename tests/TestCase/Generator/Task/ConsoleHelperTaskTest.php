@@ -7,10 +7,7 @@ use IdeHelper\Generator\Task\ConsoleHelperTask;
 
 class ConsoleHelperTaskTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\Generator\Task\ConsoleHelperTask
-	 */
-	protected $task;
+	protected ConsoleHelperTask $task;
 
 	/**
 	 * @return void

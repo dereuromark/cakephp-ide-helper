@@ -6,7 +6,6 @@ use Cake\Console\ConsoleOptionParser;
 use Cake\Console\Shell;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
-use Cake\Filesystem\Folder;
 use Cake\Utility\Inflector;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\CallbackAnnotator;
@@ -23,6 +22,7 @@ use IdeHelper\Annotator\ShellAnnotator;
 use IdeHelper\Annotator\TemplateAnnotator;
 use IdeHelper\Annotator\ViewAnnotator;
 use IdeHelper\Console\Io;
+use IdeHelper\Filesystem\Folder;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
 use IdeHelper\Utility\PluginPath;
@@ -105,7 +105,7 @@ class AnnotationsShell extends Shell {
 	 * @return void
 	 */
 	protected function _callbacks($folder) {
-		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
+		$this->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
 
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);
 
@@ -120,7 +120,7 @@ class AnnotationsShell extends Shell {
 				continue;
 			}
 
-			$this->out('-> ' . $name, 1, Shell::VERBOSE);
+			$this->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
 
 			$annotator = $this->getAnnotator(CallbackAnnotator::class);
 			$annotator->annotate($folder . $file);
@@ -224,7 +224,7 @@ class AnnotationsShell extends Shell {
 	 * @return void
 	 */
 	protected function _models($folder) {
-		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
+		$this->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
 
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);
 
@@ -234,7 +234,7 @@ class AnnotationsShell extends Shell {
 				continue;
 			}
 
-			$this->out('-> ' . $name, 1, Shell::VERBOSE);
+			$this->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
 
 			$annotator = $this->getAnnotator(ModelAnnotator::class);
 			$annotator->annotate($folder . $file);
@@ -285,7 +285,7 @@ class AnnotationsShell extends Shell {
 	 * @return void
 	 */
 	protected function _classes($folder) {
-		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
+		$this->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
 
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);
 
@@ -300,7 +300,7 @@ class AnnotationsShell extends Shell {
 				continue;
 			}
 
-			$this->out('-> ' . $name, 1, Shell::VERBOSE);
+			$this->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
 
 			$annotator = $this->getAnnotator(ClassAnnotator::class);
 			$annotator->annotate($folder . $file);
@@ -340,7 +340,7 @@ class AnnotationsShell extends Shell {
 	 * @return void
 	 */
 	protected function _controllers($folder) {
-		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
+		$this->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
 
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);
 
@@ -350,7 +350,7 @@ class AnnotationsShell extends Shell {
 				continue;
 			}
 
-			$this->out('-> ' . $name, 1, Shell::VERBOSE);
+			$this->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
 
 			$annotator = $this->getAnnotator(ControllerAnnotator::class);
 			$annotator->annotate($folder . $file);
@@ -384,7 +384,7 @@ class AnnotationsShell extends Shell {
 			return static::CODE_SUCCESS;
 		}
 
-		$this->out('-> ' . $name, 1, Shell::VERBOSE);
+		$this->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
 		$annotator = $this->getAnnotator(RoutesAnnotator::class);
 		$annotator->annotate($path);
 
@@ -420,7 +420,7 @@ class AnnotationsShell extends Shell {
 	protected function _templates($folder) {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true, true);
 
-		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
+		$this->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
 		foreach ($folderContent[1] as $file) {
 			$extension = pathinfo($file, PATHINFO_EXTENSION);
 			if ($this->_shouldSkipExtension($extension)) {
@@ -437,7 +437,7 @@ class AnnotationsShell extends Shell {
 				continue;
 			}
 
-			$this->out('-> ' . $name, 1, Shell::VERBOSE);
+			$this->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
 			$annotator = $this->getAnnotator(TemplateAnnotator::class);
 			$annotator->annotate($file);
 		}
@@ -484,14 +484,14 @@ class AnnotationsShell extends Shell {
 	protected function _helpers($folder) {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true, true);
 
-		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
+		$this->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
 		foreach ($folderContent[1] as $file) {
 			$name = pathinfo($file, PATHINFO_FILENAME);
 			if ($this->_shouldSkip($name)) {
 				continue;
 			}
 
-			$this->out('-> ' . $name, 1, Shell::VERBOSE);
+			$this->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
 			$annotator = $this->getAnnotator(HelperAnnotator::class);
 			$annotator->annotate($file);
 		}
@@ -526,14 +526,14 @@ class AnnotationsShell extends Shell {
 	protected function _components($folder) {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true, true);
 
-		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
+		$this->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
 		foreach ($folderContent[1] as $file) {
 			$name = pathinfo($file, PATHINFO_FILENAME);
 			if ($this->_shouldSkip($name)) {
 				continue;
 			}
 
-			$this->out('-> ' . $name, 1, Shell::VERBOSE);
+			$this->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
 			$annotator = $this->getAnnotator(ComponentAnnotator::class);
 			$annotator->annotate($file);
 		}
@@ -586,14 +586,14 @@ class AnnotationsShell extends Shell {
 	protected function _commands($folder) {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true, true);
 
-		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
+		$this->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
 		foreach ($folderContent[1] as $file) {
 			$name = pathinfo($file, PATHINFO_FILENAME);
 			if ($this->_shouldSkip($name)) {
 				continue;
 			}
 
-			$this->out('-> ' . $name, 1, Shell::VERBOSE);
+			$this->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
 			$annotator = $this->getAnnotator(CommandAnnotator::class);
 			$annotator->annotate($file);
 		}
@@ -606,14 +606,14 @@ class AnnotationsShell extends Shell {
 	protected function _shells($folder) {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true, true);
 
-		$this->out(str_replace(ROOT, '', $folder), 1, Shell::VERBOSE);
+		$this->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
 		foreach ($folderContent[1] as $file) {
 			$name = pathinfo($file, PATHINFO_FILENAME);
 			if ($this->_shouldSkip($name)) {
 				continue;
 			}
 
-			$this->out('-> ' . $name, 1, Shell::VERBOSE);
+			$this->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
 			$annotator = $this->getAnnotator(ShellAnnotator::class);
 			$annotator->annotate($file);
 		}

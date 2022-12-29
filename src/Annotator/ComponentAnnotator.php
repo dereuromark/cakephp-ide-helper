@@ -5,6 +5,7 @@ namespace IdeHelper\Annotator;
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
+use Cake\Http\ServerRequest;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\MethodAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
@@ -79,7 +80,7 @@ class ComponentAnnotator extends AbstractAnnotator {
 			return [];
 		}
 
-		$controller = new Controller();
+		$controller = new Controller(new ServerRequest());
 		try {
 			$object = new $className(new ComponentRegistry($controller));
 		} catch (Throwable $e) {

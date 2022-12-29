@@ -5,10 +5,7 @@ use Cake\View\Helper;
 
 class MyHelper extends Helper {
 
-	/**
-	 * @var array
-	 */
-	protected $helpers = [
+	protected array $helpers = [
 		'Html',
 		'Form',
 		'Shim.Configure',

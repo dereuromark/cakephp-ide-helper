@@ -25,10 +25,7 @@ class ViewAnnotatorTest extends TestCase {
 	 */
 	protected $err;
 
-	/**
-	 * @var \IdeHelper\Console\Io
-	 */
-	protected $io;
+	protected Io $io;
 
 	/**
 	 * @return void

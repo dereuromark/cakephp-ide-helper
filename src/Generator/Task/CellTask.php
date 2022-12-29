@@ -2,9 +2,9 @@
 
 namespace IdeHelper\Generator\Task;
 
-use Cake\Filesystem\Folder;
 use Cake\View\Cell;
 use Cake\View\CellTrait;
+use IdeHelper\Filesystem\Folder;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;

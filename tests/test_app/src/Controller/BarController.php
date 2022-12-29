@@ -3,10 +3,7 @@ namespace TestApp\Controller;
 
 class BarController extends AppController {
 
-	/**
-	 * @var string
-	 */
-	protected $modelClass = 'BarBars';
+	protected string $modelClass = 'BarBars';
 
 	/**
 	 * @return void

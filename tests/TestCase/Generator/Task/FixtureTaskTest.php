@@ -7,10 +7,7 @@ use IdeHelper\Generator\Task\FixtureTask;
 
 class FixtureTaskTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\Generator\Task\FixtureTask
-	 */
-	protected $task;
+	protected FixtureTask $task;
 
 	/**
 	 * @return void

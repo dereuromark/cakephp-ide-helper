@@ -7,10 +7,7 @@ use IdeHelper\Generator\Task\TableAssociationTask;
 
 class TableAssociationTaskTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\Generator\Task\TableAssociationTask
-	 */
-	protected $task;
+	protected TableAssociationTask $task;
 
 	/**
 	 * @return void

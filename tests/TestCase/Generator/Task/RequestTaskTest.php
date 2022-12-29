@@ -7,10 +7,7 @@ use Shim\TestSuite\TestCase;
 
 class RequestTaskTest extends TestCase {
 
-	/**
-	 * @var \IdeHelper\Generator\Task\RequestTask
-	 */
-	protected $task;
+	protected ?RequestTask $task = null;
 
 	/**
 	 * @return void

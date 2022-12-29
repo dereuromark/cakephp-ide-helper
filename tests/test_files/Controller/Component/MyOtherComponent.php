@@ -10,9 +10,6 @@ use Cake\Controller\Component;
  */
 class MyOtherComponent extends Component {
 
-	/**
-	 * @var array
-	 */
-	public $components = ['Flash', 'RequestHandler', 'SomeInvalidOneWillBeIgnored', 'Security'];
+	public array $components = ['Flash', 'RequestHandler', 'SomeInvalidOneWillBeIgnored', 'Security'];
 
 }

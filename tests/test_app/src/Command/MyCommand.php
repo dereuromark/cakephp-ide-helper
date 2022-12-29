@@ -5,10 +5,7 @@ use Cake\Console\Command;
 
 class MyCommand extends Command {
 
-	/**
-	 * @var string
-	 */
-	protected $modelClass = 'Cars';
+	protected string $modelClass = 'Cars';
 
 	/**
 	 * @return void

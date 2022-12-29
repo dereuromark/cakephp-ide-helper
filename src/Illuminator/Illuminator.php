@@ -2,7 +2,7 @@
 
 namespace IdeHelper\Illuminator;
 
-use Cake\Filesystem\Folder;
+use IdeHelper\Filesystem\Folder;
 
 class Illuminator {
 
