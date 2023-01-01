@@ -134,7 +134,7 @@ class DocBlockHelper extends BakeDocBlockHelper {
 		array $associationInfo,
 		array $behaviors,
 		string $entity,
-		string $namespace
+		string $namespace,
 	): array {
 		$annotations = [];
 		foreach ($associations as $type => $assocs) {
