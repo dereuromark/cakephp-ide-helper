@@ -16,8 +16,8 @@ abstract class AbstractAnnotation implements AnnotationInterface, ReplacableAnno
 	protected ?int $index;
 
 	/**
-  * Needed for removing annotations
-  */
+	 * Needed for removing annotations
+	 */
 	protected bool $isInUse = false;
 
 	/**

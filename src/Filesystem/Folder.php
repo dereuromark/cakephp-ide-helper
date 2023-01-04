@@ -68,19 +68,19 @@ class Folder {
 	public const SORT_TIME = 'time';
 
 	/**
-  * Path to Folder.
-  */
+	 * Path to Folder.
+	 */
 	public ?string $path = null;
 
 	/**
-  * Sortedness. Whether list results
-  * should be sorted by name.
-  */
+	 * Sortedness. Whether list results
+	 * should be sorted by name.
+	 */
 	public bool $sort = false;
 
 	/**
-  * Mode to be used on create. Does nothing on windows platforms.
-  */
+	 * Mode to be used on create. Does nothing on windows platforms.
+	 */
 	public int $mode = 0755;
 
 	/**
