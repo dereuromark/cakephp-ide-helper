@@ -5,7 +5,7 @@ use Cake\Controller\Controller;
 
 /**
  * @property \TestApp\Controller\Component\MyOtherComponent $MyOther
- * @property \TestApp\Controller\Component\RequestHandlerComponent $RequestHandler
+ * @property \TestApp\Controller\Component\CheckHttpCacheComponent $CheckHttpCache
  */
 class AppController extends Controller {
 
@@ -16,7 +16,7 @@ class AppController extends Controller {
 		parent::initialize();
 
 		$this->loadComponent('Flash');
-		$this->loadComponent('RequestHandler');
+		$this->loadComponent('CheckHttpCache');
 		$this->loadComponent('MyOther');
 	}
 

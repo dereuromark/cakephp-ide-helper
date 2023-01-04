@@ -7,8 +7,8 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $name
  * @property string $content
- * @property \Cake\I18n\FrozenTime $created
- * @property \Cake\I18n\FrozenTime|null $modified
+ * @property \Cake\I18n\DateTime $created
+ * @property \Cake\I18n\DateTime|null $modified
  * @property-read string|null $virtual_one
  * @property mixed $virtual_two
  * @property \TestApp\Model\Entity\Wheel[] $wheels

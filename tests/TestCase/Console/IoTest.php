@@ -52,50 +52,50 @@ class IoTest extends TestCase {
 	 * @return void
 	 */
 	public function testSuccess() {
-		$this->io->success('Foo');
+		$this->io->success('Foos');
 
 		$output = $this->out->output();
-		$this->assertTextContains('Foo', $output);
+		$this->assertTextContains('Foos', $output);
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testInfo() {
-		$this->io->info('Foo');
+		$this->io->info('Foos');
 
 		$output = $this->out->output();
-		$this->assertTextContains('Foo', $output);
+		$this->assertTextContains('Foos', $output);
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testComment() {
-		$this->io->comment('Foo');
+		$this->io->comment('Foos');
 
 		$output = $this->out->output();
-		$this->assertTextContains('Foo', $output);
+		$this->assertTextContains('Foos', $output);
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testWarn() {
-		$this->io->warn('Foo');
+		$this->io->warn('Foos');
 
 		$output = $this->err->output();
-		$this->assertTextContains('Foo', $output);
+		$this->assertTextContains('Foos', $output);
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testErr() {
-		$this->io->err('Foo');
+		$this->io->err('Foos');
 
 		$output = $this->err->output();
-		$this->assertTextContains('Foo', $output);
+		$this->assertTextContains('Foos', $output);
 	}
 
 	/**
@@ -103,10 +103,10 @@ class IoTest extends TestCase {
 	 */
 	public function testVerbose() {
 		$this->consoleIo->level(ConsoleIo::VERBOSE);
-		$this->io->verbose('Foo');
+		$this->io->verbose('Foos');
 
 		$output = $this->out->output();
-		$this->assertTextContains('Foo', $output);
+		$this->assertTextContains('Foos', $output);
 	}
 
 	/**
@@ -114,10 +114,10 @@ class IoTest extends TestCase {
 	 */
 	public function testQuiet() {
 		$this->consoleIo->level(ConsoleIo::QUIET);
-		$this->io->quiet('Foo');
+		$this->io->quiet('Foos');
 
 		$output = $this->out->output();
-		$this->assertTextContains('Foo', $output);
+		$this->assertTextContains('Foos', $output);
 	}
 
 	/**
@@ -145,7 +145,7 @@ class IoTest extends TestCase {
 	public function testAbort() {
 		$this->expectException(StopException::class);
 
-		$this->io->abort('Foo');
+		$this->io->abort('Foos');
 	}
 
 }

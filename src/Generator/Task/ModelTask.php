@@ -17,7 +17,6 @@ class ModelTask implements TaskInterface {
 	 * @var array<string>
 	 */
 	protected array $aliases = [
-		'\Cake\ORM\TableRegistry::get(0)',
 		'\Cake\ORM\Locator\LocatorInterface::get(0)',
 		'\Cake\ORM\Locator\LocatorAwareTrait::fetchTable(0)',
 		'\Cake\Datasource\ModelAwareTrait::loadModel(0)',

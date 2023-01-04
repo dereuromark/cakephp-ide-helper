@@ -132,7 +132,7 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 		$annotations = $this->parseExistingAnnotations($file, $method['docBlockEnd'], ['@see']);
 
 		$expectedAnnotation = new SeeAnnotation($method['see']);
-		if (empty($annotations) || $annotations[0]->getType() !== $method['see']) {
+		if (!$annotations || $annotations[0]->getType() !== $method['see']) {
 			$method['annotation'] = $expectedAnnotation;
 
 			return true;

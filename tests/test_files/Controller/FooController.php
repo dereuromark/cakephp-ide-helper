@@ -2,7 +2,7 @@
 namespace TestApp\Controller;
 
 /**
- * @property \TestApp\Model\Table\FooTable $Foo
+ * @property \TestApp\Model\Table\FoosTable $Foos
  */
 class FooController extends AppController {
 }

@@ -91,15 +91,15 @@ class ComponentAnnotator extends AbstractAnnotator {
 			return [];
 		}
 
-		$map = $this->invokeProperty($object, '_componentMap');
+		$map = $this->invokeProperty($object, 'components');
 
-		if (empty($map)) {
+		if (!$map) {
 			return [];
 		}
 
 		$annotations = [];
 		foreach ($map as $name => $config) {
-			$className = $this->findClassName($config['class']);
+			$className = $this->findClassName($config['className'] ?? $name);
 			if (!$className) {
 				continue;
 			}

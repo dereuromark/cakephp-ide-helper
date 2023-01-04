@@ -1,7 +1,7 @@
 <?php
 namespace TestApp\Model\Table;
 
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\Table;
 
 class CustomFinderTable extends Table {
@@ -11,7 +11,7 @@ class CustomFinderTable extends Table {
 	 *
 	 * @return \Cake\ORM\Query
 	 */
-	public function findSomethingCustom(Query $query) {
+	public function findSomethingCustom(SelectQuery $query): SelectQuery {
 		return $query;
 	}
 

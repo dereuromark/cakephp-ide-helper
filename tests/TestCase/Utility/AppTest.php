@@ -12,7 +12,7 @@ class AppTest extends TestCase {
 	 * @return void
 	 */
 	public function testClassName() {
-		$result = App::className('Foo', 'Bar', 'Baz');
+		$result = App::className('Foos', 'Bar', 'Baz');
 		$this->assertNull($result);
 
 		$result = App::className('IdeHelper.DocBlock', 'View/Helper', 'Helper');

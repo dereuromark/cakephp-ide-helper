@@ -4,7 +4,7 @@ namespace TestApp\Model\Table;
 use Cake\ORM\Table;
 
 /**
- * @property \TestApp\Model\Table\FooTable&\Cake\ORM\Association\BelongsTo $Foo
+ * @property \TestApp\Model\Table\FoosTable&\Cake\ORM\Association\BelongsTo $Foo
  * @property \Awesome\Model\Table\HousesTable&\Cake\ORM\Association\BelongsToMany $Houses
  * @property \Awesome\Model\Table\WindowsTable&\Cake\ORM\Association\HasMany $Windows
  *
@@ -34,7 +34,7 @@ class BarBarsTable extends Table {
 	public function initialize(array $config): void {
 		parent::initialize($config);
 
-		$this->belongsTo('Foo');
+		$this->belongsTo('Foos');
 		$this->belongsToMany('Houses', [
 			'className' => 'Awesome.Houses',
 			'through' => 'Awesome.Windows',

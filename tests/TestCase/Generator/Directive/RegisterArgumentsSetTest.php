@@ -24,7 +24,7 @@ class RegisterArgumentsSetTest extends TestCase {
 	registerArgumentsSet(
 		'foo',
 		\Foo\Bar::class,
-		"string"
+		"string",
 	);
 TXT;
 		$this->assertSame($expected, $result);
@@ -64,7 +64,7 @@ TXT;
 	expectedArguments(
 		\My\Class::someMethod(),
 		1,
-		argumentsSet('fooBar')
+		argumentsSet('fooBar'),
 	);
 TXT;
 		$this->assertSame($expected, $result);
@@ -89,7 +89,7 @@ TXT;
 		$expected = <<<TXT
 	expectedReturnValues(
 		\My\Class::someMethod(),
-		argumentsSet('fooBar')
+		argumentsSet('fooBar'),
 	);
 TXT;
 		$this->assertSame($expected, $result);

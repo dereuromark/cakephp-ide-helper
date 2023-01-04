@@ -18,7 +18,6 @@ use IdeHelper\Annotator\ControllerAnnotator;
 use IdeHelper\Annotator\HelperAnnotator;
 use IdeHelper\Annotator\ModelAnnotator;
 use IdeHelper\Annotator\RoutesAnnotator;
-use IdeHelper\Annotator\ShellAnnotator;
 use IdeHelper\Annotator\TemplateAnnotator;
 use IdeHelper\Annotator\ViewAnnotator;
 use IdeHelper\Console\Io;
@@ -600,30 +599,6 @@ class AnnotationsShell extends Shell {
 	}
 
 	/**
-	 * @param string $folder
-	 * @return void
-	 */
-	protected function _shells($folder) {
-		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true, true);
-
-		$this->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
-		foreach ($folderContent[1] as $file) {
-			$name = pathinfo($file, PATHINFO_FILENAME);
-			if ($this->_shouldSkip($name)) {
-				continue;
-			}
-
-			$this->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
-			$annotator = $this->getAnnotator(ShellAnnotator::class);
-			$annotator->annotate($file);
-		}
-
-		foreach ($folderContent[0] as $subFolder) {
-			$this->_shells($subFolder);
-		}
-	}
-
-	/**
 	 * @return int
 	 */
 	public function view() {
@@ -700,7 +675,7 @@ class AnnotationsShell extends Shell {
 		];
 
 		return parent::getOptionParser()
-			->setDescription('Annotation Shell for generating better IDE auto-complete/hinting.')
+			->setDescription('Annotation Command for generating better IDE auto-complete/hinting.')
 			->addSubcommand('all', [
 				'help' => 'Annotate all supported classes.',
 				'parser' => $allParser,
@@ -724,9 +699,6 @@ class AnnotationsShell extends Shell {
 				'parser' => $subcommandParser,
 			])->addSubcommand('commands', [
 				'help' => 'Annotate primary model as well as used models in commands.',
-				'parser' => $subcommandParser,
-			])->addSubcommand('shells', [
-				'help' => 'Annotate primary model as well as used models in shells. Also annotates tasks.',
 				'parser' => $subcommandParser,
 			])->addSubcommand('routes', [
 				'help' => 'Annotate routes file.',

@@ -4,7 +4,7 @@ namespace TestApp\Custom;
 use Cake\Datasource\ModelAwareTrait;
 
 /**
- * @property \TestApp\Model\Table\FooTable $Foo
+ * @property \TestApp\Model\Table\FoosTable $Foos
  */
 class CustomClass {
 
@@ -14,7 +14,7 @@ class CustomClass {
 	 * @return void
 	 */
 	public function initialize() {
-		$this->loadModel('Foo');
+		$this->loadModel('Foos');
 	}
 
 }

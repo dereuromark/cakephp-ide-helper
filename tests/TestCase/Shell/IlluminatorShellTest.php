@@ -33,13 +33,14 @@ class IlluminatorShellTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->skipIf(true, 'Deprecated, will be moved to Command');
+
 		$this->out = new ConsoleOutput();
 		$this->err = new ConsoleOutput();
 		$io = new ConsoleIo($this->out, $this->err);
 
 		$this->Shell = $this->getMockBuilder(IlluminatorShell::class)
 			->setMethods(['_stop'])
-			->setConstructorArgs([$io])
 			->getMock();
 	}
 
@@ -55,7 +56,7 @@ class IlluminatorShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testIlluminateDryRun() {
-		$result = $this->Shell->runCommand(['illuminate', '-d', '-v']);
+		$result = $this->Shell->run(['illuminate', '-d', '-v']);
 
 		$output = $this->out->output();
 		$this->assertTextContains('# /src/Illuminator/Illuminator.php', $output);

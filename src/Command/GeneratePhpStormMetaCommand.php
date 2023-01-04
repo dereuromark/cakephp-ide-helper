@@ -1,21 +1,18 @@
 <?php
 
-namespace IdeHelper\Shell;
+namespace IdeHelper\Command;
 
+use Cake\Console\Arguments;
+use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
-use Cake\Console\Shell;
+use Cake\Core\Configure;
 use IdeHelper\Console\Io;
 use IdeHelper\Generator\PhpstormGenerator;
 use IdeHelper\Generator\TaskCollection;
 use RuntimeException;
+use Shim\Command\Command;
 
-/**
- * Shell for generating PhpStorm specific IDE meta file.
- *
- * @author Mark Scherer
- * @license MIT
- */
-class PhpstormShell extends Shell {
+class GeneratePhpStormMetaCommand extends Command {
 
 	/**
 	 * @var int
@@ -23,11 +20,54 @@ class PhpstormShell extends Shell {
 	public const CODE_CHANGES = 2;
 
 	/**
-	 * Generates .phpstorm.meta.php file.
-	 *
-	 * @return int
+	 * @var array<string>
 	 */
-	public function generate() {
+	public const TEMPLATE_EXTENSIONS = ['php'];
+
+	/**
+	 * @var array<string, mixed>
+	 */
+	protected array $_config = [
+		'skipTemplatePaths' => [
+			'/templates/Bake/',
+		],
+	];
+
+	/**
+	 * @var array<string, \IdeHelper\Annotator\AbstractAnnotator>
+	 */
+	protected array $_instantiatedAnnotators = [];
+
+	/**
+	 * The name of this command.
+	 *
+	 * @var string
+	 */
+	//protected string $name = 'generate_phpstorm';
+
+	/**
+	 * @return void
+	 */
+	public function initialize(): void {
+		parent::initialize();
+
+		$skip = (array)Configure::read('IdeHelper.skipTemplatePaths');
+		if ($skip) {
+			$this->_config['skipTemplatePaths'] = $skip;
+		}
+	}
+
+	/**
+	 * E.g.:
+	 * bin/cake upgrade /path/to/app --level=cakephp40
+	 *
+	 * @param \Cake\Console\Arguments $args The command arguments.
+	 * @param \Cake\Console\ConsoleIo $io The console io
+	 *
+	 * @throws \Cake\Console\Exception\StopException
+	 * @return int|null|void The exit code or null for success
+	 */
+	public function execute(Arguments $args, ConsoleIo $io) {
 		$phpstormGenerator = $this->getGenerator();
 		$content = $phpstormGenerator->generate();
 
@@ -35,13 +75,13 @@ class PhpstormShell extends Shell {
 
 		$currentContent = file_exists($file) ? file_get_contents($file) : null;
 		if ($content === $currentContent) {
-			$this->out('Meta file `/.phpstorm.meta.php/.ide-helper.meta.php` still up to date.');
+			$io->out('Meta file `/.phpstorm.meta.php/.ide-helper.meta.php` still up to date.');
 
 			return parent::CODE_SUCCESS;
 		}
 
-		if ($this->param('dry-run')) {
-			$this->out('Meta file `/.phpstorm.meta.php/.ide-helper.meta.php` needs updating.');
+		if ($args->getOption('dry-run')) {
+			$io->out('Meta file `/.phpstorm.meta.php/.ide-helper.meta.php` needs updating.');
 
 			return static::CODE_CHANGES;
 		}
@@ -49,15 +89,17 @@ class PhpstormShell extends Shell {
 		$this->ensureDir();
 		file_put_contents($file, $content);
 
-		$this->out('Meta file `/.phpstorm.meta.php/.ide-helper.meta.php` generated.');
+		$io->out('Meta file `/.phpstorm.meta.php/.ide-helper.meta.php` generated.');
 
 		return static::CODE_SUCCESS;
 	}
 
 	/**
-	 * @return \Cake\Console\ConsoleOptionParser
+	 * @param \Cake\Console\ConsoleOptionParser $parser The parser to be defined
+	 *
+	 * @return \Cake\Console\ConsoleOptionParser The built parser.
 	 */
-	public function getOptionParser(): ConsoleOptionParser {
+	protected function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser {
 		$subcommandParser = [
 			'options' => [
 				'dry-run' => [
@@ -82,7 +124,7 @@ class PhpstormShell extends Shell {
 	protected function getGenerator(): PhpstormGenerator {
 		$taskCollection = new TaskCollection();
 
-		return new PhpstormGenerator($taskCollection, $this->getIo());
+		return new PhpstormGenerator($taskCollection, $this->io());
 	}
 
 	/**
@@ -112,5 +154,4 @@ class PhpstormShell extends Shell {
 	protected function io(): Io {
 		return new Io($this->io);
 	}
-
 }

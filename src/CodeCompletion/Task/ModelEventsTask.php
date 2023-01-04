@@ -44,12 +44,12 @@ use Cake\Event\EventInterface;
 use Cake\Validation\Validator;
 
 if (false) {
-	abstract class Table
+	class Table
 	{
 $events
 	}
 
-	abstract class Behavior
+	class Behavior
 	{
 $events
 	}

@@ -14,7 +14,7 @@ use IdeHelper\Console\Io;
 use IdeHelper\View\Helper\DocBlockHelper;
 use Shim\TestSuite\ConsoleOutput;
 use Shim\TestSuite\TestTrait;
-use TestApp\Model\Table\FooTable;
+use TestApp\Model\Table\FoosTable;
 
 class EntityAnnotatorTest extends TestCase {
 
@@ -22,7 +22,7 @@ class EntityAnnotatorTest extends TestCase {
 	use TestTrait;
 
 	protected array $fixtures = [
-		'plugin.IdeHelper.Foo',
+		'plugin.IdeHelper.Foos',
 	];
 
 	/**
@@ -50,7 +50,7 @@ class EntityAnnotatorTest extends TestCase {
 		$consoleIo = new ConsoleIo($this->out, $this->err);
 		$this->io = new Io($consoleIo);
 
-		$x = TableRegistry::get('IdeHelper.Foo', ['className' => FooTable::class]);
+		$x = TableRegistry::getTableLocator()->get('IdeHelper.Foos', ['className' => FoosTable::class]);
 		$columns = [
 			'id' => [
 				'type' => 'integer',
@@ -102,9 +102,9 @@ class EntityAnnotatorTest extends TestCase {
 				'precision' => null,
 			],
 		];
-		$schema = new TableSchema('Foo', $columns);
+		$schema = new TableSchema('Foos', $columns);
 		$x->setSchema($schema);
-		TableRegistry::set('Foo', $x);
+		TableRegistry::getTableLocator()->set('Foos', $x);
 	}
 
 	/**
@@ -157,8 +157,8 @@ class EntityAnnotatorTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotate() {
-		/** @var \TestApp\Model\Table\FooTable $Table */
-		$Table = TableRegistry::get('Foo');
+		/** @var \TestApp\Model\Table\FoosTable $Table */
+		$Table = TableRegistry::getTableLocator()->get('Foos');
 
 		$schema = $Table->getSchema();
 		$associations = $Table->associations();
@@ -187,8 +187,8 @@ class EntityAnnotatorTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotateWithExistingDocBlock() {
-		/** @var \TestApp\Model\Table\FooTable $Table */
-		$Table = TableRegistry::get('Foo');
+		/** @var \TestApp\Model\Table\FoosTable $Table */
+		$Table = TableRegistry::getTableLocator()->get('Foos');
 		$Table->hasMany('Wheels');
 
 		$schema = $Table->getSchema();
@@ -218,8 +218,8 @@ class EntityAnnotatorTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotateWithVirtualProperties() {
-		/** @var \TestApp\Model\Table\FooTable $Table */
-		$Table = TableRegistry::get('Foo');
+		/** @var \TestApp\Model\Table\FoosTable $Table */
+		$Table = TableRegistry::getTableLocator()->get('Foos');
 		$Table->hasMany('Wheels');
 
 		$schema = $Table->getSchema();
@@ -249,8 +249,8 @@ class EntityAnnotatorTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotateWithVirtualPropertiesReadOnly() {
-		/** @var \TestApp\Model\Table\FooTable $Table */
-		$Table = TableRegistry::get('Foo');
+		/** @var \TestApp\Model\Table\FoosTable $Table */
+		$Table = TableRegistry::getTableLocator()->get('Foos');
 		$Table->hasMany('Wheels');
 
 		$schema = $Table->getSchema();
@@ -280,8 +280,8 @@ class EntityAnnotatorTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotateWithVirtualPropertiesAndReturnTypes() {
-		/** @var \TestApp\Model\Table\FooTable $Table */
-		$Table = TableRegistry::get('Foo');
+		/** @var \TestApp\Model\Table\FoosTable $Table */
+		$Table = TableRegistry::getTableLocator()->get('Foos');
 		$Table->hasMany('Wheels');
 
 		$schema = $Table->getSchema();
@@ -312,7 +312,7 @@ class EntityAnnotatorTest extends TestCase {
 	 */
 	public function testAnnotateHasOne() {
 		/** @var \Relations\Model\Table\UsersTable $Table */
-		$Table = TableRegistry::get('Relations.Users');
+		$Table = TableRegistry::getTableLocator()->get('Relations.Users');
 
 		$schema = $Table->getSchema();
 		$associations = $Table->associations();
@@ -342,7 +342,7 @@ class EntityAnnotatorTest extends TestCase {
 	 */
 	public function testAnnotateBelongsToRequired() {
 		/** @var \Relations\Model\Table\UsersTable $Table */
-		$Table = TableRegistry::get('Relations.Foos');
+		$Table = TableRegistry::getTableLocator()->get('Relations.Foos');
 
 		$schema = $Table->getSchema();
 		$associations = $Table->associations();
@@ -372,7 +372,7 @@ class EntityAnnotatorTest extends TestCase {
 	 */
 	public function testAnnotateBelongsToNullable() {
 		/** @var \Relations\Model\Table\BarsTable $Table */
-		$Table = TableRegistry::get('Relations.Bars');
+		$Table = TableRegistry::getTableLocator()->get('Relations.Bars');
 
 		$schema = $Table->getSchema();
 		$associations = $Table->associations();
@@ -401,8 +401,8 @@ class EntityAnnotatorTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotateWithGenericUsage() {
-		/** @var \TestApp\Model\Table\FooTable $Table */
-		$Table = TableRegistry::get('Foo');
+		/** @var \TestApp\Model\Table\FoosTable $Table */
+		$Table = TableRegistry::getTableLocator()->get('Foos');
 		$Table->hasMany('Wheels');
 
 		$schema = $Table->getSchema();

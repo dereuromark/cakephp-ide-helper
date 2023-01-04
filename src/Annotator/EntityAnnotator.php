@@ -49,12 +49,13 @@ class EntityAnnotator extends AbstractAnnotator {
 		if ($content === false) {
 			throw new RuntimeException('Cannot read file');
 		}
+
 		$helper = new DocBlockHelper(new View());
 		$propertyHintMap = $this->propertyHintMap($content, $helper);
 
 		$virtualFields = $this->virtualFields($name);
-		// For BC reasons we cannot pass it as 3rd param, so we transport it on the helper
-		$helper->virtualFields = $virtualFields;
+		// For BC reasons we cannot pass it as 3rd param, so we transport it on the helper as setter/getter
+		$helper->setVirtualFields($virtualFields);
 		$annotations = $this->buildAnnotations($propertyHintMap, $helper);
 
 		return $this->annotateContent($path, $content, $annotations);
@@ -362,8 +363,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
 	protected function buildAnnotations(array $propertyHintMap, DocBlockHelper $helper): array {
-		/** @var array<string> $virtualFields */
-		$virtualFields = $helper->virtualFields;
+		$virtualFields = $helper->getVirtualFields();
 
 		$real = $virtual = [];
 		foreach ($propertyHintMap as $name => $type) {

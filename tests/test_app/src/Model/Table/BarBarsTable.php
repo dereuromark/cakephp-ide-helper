@@ -12,7 +12,7 @@ class BarBarsTable extends Table {
 	public function initialize(array $config): void {
 		parent::initialize($config);
 
-		$this->belongsTo('Foo');
+		$this->belongsTo('Foos');
 		$this->belongsToMany('Houses', [
 			'className' => 'Awesome.Houses',
 			'through' => 'Awesome.Windows',

@@ -16,6 +16,8 @@ class DocBlockHelper extends BakeDocBlockHelper {
 	 */
 	protected static $nullableMap;
 
+	protected array $virtualFields = [];
+
 	/**
 	 * Overwrite Bake plugin class method until https://github.com/cakephp/bake/pull/470 lands.
 	 *
@@ -173,6 +175,22 @@ class DocBlockHelper extends BakeDocBlockHelper {
 		}
 
 		return $annotations;
+	}
+
+	/**
+	 * @param array<string> $virtualFields
+	 *
+	 * @return void
+	 */
+	public function setVirtualFields(array $virtualFields): void {
+		$this->virtualFields = $virtualFields;
+	}
+
+	/**
+	 * @return array<string>
+	 */
+	public function getVirtualFields(): array {
+		return $this->virtualFields;
 	}
 
 }

@@ -3,7 +3,7 @@ namespace TestApp\Model\Table;
 
 use Cake\ORM\Table;
 
-class FooTable extends Table {
+class FoosTable extends Table {
 
 	/**
 	 * @param array $config

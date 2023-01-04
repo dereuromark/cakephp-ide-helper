@@ -24,11 +24,11 @@ class ModelTaskTest extends TestCase {
 	public function testCollect() {
 		$result = $this->task->collect();
 
-		$this->assertCount(4, $result);
+		$this->assertCount(3, $result);
 
 		/** @var \IdeHelper\Generator\Directive\Override $directive */
 		$directive = array_shift($result);
-		$this->assertSame('\Cake\ORM\TableRegistry::get(0)', $directive->toArray()['method']);
+		$this->assertSame('\Cake\ORM\Locator\LocatorInterface::get(0)', $directive->toArray()['method']);
 
 		$map = $directive->toArray()['map'];
 		$map = array_map(function ($className) {
@@ -45,7 +45,7 @@ class ModelTaskTest extends TestCase {
 			'Controllers.Houses' => '\Controllers\Model\Table\HousesTable::class',
 			'CustomFinder' => '\TestApp\Model\Table\CustomFinderTable::class',
 			'Exceptions' => '\TestApp\Model\Table\ExceptionsTable::class',
-			'Foo' => '\TestApp\Model\Table\FooTable::class',
+			'Foos' => '\TestApp\Model\Table\FoosTable::class',
 			'MyNamespace/MyPlugin.My' => '\MyNamespace\MyPlugin\Model\Table\MyTable::class',
 			'Relations.Bars' => '\Relations\Model\Table\BarsTable::class',
 			'Relations.Foos' => '\Relations\Model\Table\FoosTable::class',

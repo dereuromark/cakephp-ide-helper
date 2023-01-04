@@ -15,7 +15,7 @@ class AppController extends Controller {
 		parent::initialize();
 
 		$this->loadComponent('Flash');
-		$this->loadComponent('RequestHandler');
+		$this->loadComponent('CheckHttpCache');
 		$this->loadComponent('MyOther');
 	}
 

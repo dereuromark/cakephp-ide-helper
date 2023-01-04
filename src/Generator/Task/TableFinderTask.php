@@ -5,6 +5,7 @@ namespace IdeHelper\Generator\Task;
 use Cake\Datasource\QueryInterface;
 use Cake\ORM\Association;
 use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use IdeHelper\Generator\Directive\Override;
@@ -208,7 +209,7 @@ class TableFinderTask extends ModelTask {
 
 		/** @var \ReflectionNamedType|\ReflectionUnionType|null $parameterType */
 		$parameterType = $parameter->getType();
-		if (!$parameterType || !method_exists($parameterType, 'getName') || $parameterType->getName() !== Query::class) {
+		if (!$parameterType || !method_exists($parameterType, 'getName') || $parameterType->getName() !== SelectQuery::class) {
 			return $result;
 		}
 

@@ -12,7 +12,7 @@ use IdeHelper\Annotator\TemplateAnnotator;
 use IdeHelper\Console\Io;
 use Shim\TestSuite\ConsoleOutput;
 use Shim\TestSuite\TestTrait;
-use TestApp\Model\Table\FooTable;
+use TestApp\Model\Table\FoosTable;
 
 class TemplateAnnotatorTest extends TestCase {
 
@@ -42,7 +42,7 @@ class TemplateAnnotatorTest extends TestCase {
 		$consoleIo = new ConsoleIo($this->out, $this->err);
 		$this->io = new Io($consoleIo);
 
-		$x = TableRegistry::get('IdeHelper.Foo', ['className' => FooTable::class]);
+		$x = TableRegistry::getTableLocator()->get('IdeHelper.Foos', ['className' => FoosTable::class]);
 		$columns = [
 			'id' => [
 				'type' => 'integer',
@@ -56,9 +56,9 @@ class TemplateAnnotatorTest extends TestCase {
 				'precision' => null,
 			],
 		];
-		$schema = new TableSchema('Foo', $columns);
+		$schema = new TableSchema('Foos', $columns);
 		$x->setSchema($schema);
-		TableRegistry::set('Foo', $x);
+		TableRegistry::getTableLocator()->set('Foos', $x);
 
 		Configure::delete('IdeHelper');
 		Configure::write('IdeHelper.preemptive', true);
@@ -79,7 +79,7 @@ class TemplateAnnotatorTest extends TestCase {
 	public function testGetVariableAnnotations() {
 		Configure::write('IdeHelper.autoCollect', function(array $variable) {
 			if ($variable['name'] === 'date') {
-				return 'Cake\I18n\FrozenTime';
+				return 'Cake\I18n\DateTime';
 			}
 
 			return 'mixed';
@@ -93,7 +93,7 @@ class TemplateAnnotatorTest extends TestCase {
 		];
 		/** @uses \IdeHelper\Annotator\TemplateAnnotator::_getVariableAnnotation() */
 		$result = $this->invokeMethod($annotator, 'getVariableAnnotation', [$variable]);
-		$this->assertSame('@var Cake\I18n\FrozenTime $date', (string)$result);
+		$this->assertSame('@var Cake\I18n\DateTime $date', (string)$result);
 	}
 
 	/**

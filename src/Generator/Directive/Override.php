@@ -71,7 +71,7 @@ class Override extends BaseDirective {
 		$method,
 		map([
 $mapDefinitions
-		])
+		]),
 	);
 TXT;
 

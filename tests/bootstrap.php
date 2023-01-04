@@ -73,7 +73,7 @@ TypeFactory::build('timestamp');
 class_alias(Cake\Controller\Controller::class, 'App\Controller\AppController');
 
 Plugin::getCollection()->add(new IdeHelper\Plugin());
-//Plugin::getCollection()->add(new Shim\Plugin());
+Plugin::getCollection()->add(new Shim\Plugin());
 Plugin::getCollection()->add(new Awesome\Plugin());
 Plugin::getCollection()->add(new Controllers\Plugin());
 Plugin::getCollection()->add(new Relations\Plugin());

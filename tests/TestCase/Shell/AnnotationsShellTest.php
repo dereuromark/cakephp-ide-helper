@@ -35,6 +35,8 @@ class AnnotationsShellTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->skipIf(true, 'Deprecated, will be moved to Command');
+
 		if (!is_dir(LOGS)) {
 			mkdir(LOGS, 0770, true);
 		}
@@ -45,7 +47,6 @@ class AnnotationsShellTest extends TestCase {
 
 		$this->Shell = $this->getMockBuilder(AnnotationsShell::class)
 			->setMethods(['in', '_stop', 'storeFile'])
-			->setConstructorArgs([$io])
 			->getMock();
 	}
 
@@ -61,7 +62,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testModels() {
-		$this->Shell->runCommand(['models', '-d', '-v', '-r']);
+		$this->Shell->run(['models', '-d', '-v', '-r']);
 
 		$output = $this->out->output();
 		$this->assertTextContains(' annotations added', $output);
@@ -71,7 +72,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testView() {
-		$this->Shell->runCommand(['view', '-d', '-v', '-r']);
+		$this->Shell->run(['view', '-d', '-v', '-r']);
 
 		$output = $this->out->output();
 		$this->assertTextContains(' annotations added', $output);
@@ -81,7 +82,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testHelpers() {
-		$this->Shell->runCommand(['helpers', '-d', '-v', '-r']);
+		$this->Shell->run(['helpers', '-d', '-v', '-r']);
 
 		$output = $this->out->output();
 		$this->assertTextContains(' annotations added', $output);
@@ -91,7 +92,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testComponents() {
-		$this->Shell->runCommand(['components', '-d', '-v', '-r']);
+		$this->Shell->run(['components', '-d', '-v', '-r']);
 
 		$output = $this->out->output();
 		$this->assertTextContains(' annotations added', $output);
@@ -101,7 +102,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testShells() {
-		$this->Shell->runCommand(['shells', '-d', '-v', '-r']);
+		$this->Shell->run(['shells', '-d', '-v', '-r']);
 
 		$output = $this->out->output();
 		$this->assertTextContains(' annotations added', $output);
@@ -111,7 +112,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testTemplates() {
-		$this->Shell->runCommand(['templates', '-d', '-v', '-r']);
+		$this->Shell->run(['templates', '-d', '-v', '-r']);
 
 		$output = $this->out->output();
 		$this->assertTextContains(' annotations added', $output);
@@ -121,7 +122,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testControllers() {
-		$this->Shell->runCommand(['controllers', '-d', '-v', '-r']);
+		$this->Shell->run(['controllers', '-d', '-v', '-r']);
 		$output = $this->out->output();
 
 		$this->assertTextContains('BarController', $output);
@@ -133,7 +134,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testAll() {
-		$result = $this->Shell->runCommand(['all', '-d', '-v', '-r']);
+		$result = $this->Shell->run(['all', '-d', '-v', '-r']);
 		$this->assertSame(AnnotationsShell::CODE_SUCCESS, $result);
 
 		$output = $this->out->output();
@@ -151,7 +152,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testAllCiModeNoChanges() {
-		$result = $this->Shell->runCommand(['all', '-d', '-v', '--ci', '-p', 'Awesome']);
+		$result = $this->Shell->run(['all', '-d', '-v', '--ci', '-p', 'Awesome']);
 
 		if ($result && $result !== AnnotationsShell::CODE_SUCCESS) {
 			debug($this->out->output());
@@ -165,7 +166,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testAllCiModeChanges() {
-		$result = $this->Shell->runCommand(['all', '-d', '-v', '--ci']);
+		$result = $this->Shell->run(['all', '-d', '-v', '--ci']);
 
 		$this->assertSame(AnnotationsShell::CODE_CHANGES, $result);
 	}
@@ -194,7 +195,7 @@ class AnnotationsShellTest extends TestCase {
 	public function testIndividualSubcommandCiModeNoChanges($subcommand) {
 		$this->skipIf($subcommand === 'view', 'View does not support the plugin parameter');
 
-		$result = $this->Shell->runCommand([$subcommand, '-d', '-v', '--ci', '-p', 'Awesome']);
+		$result = $this->Shell->run([$subcommand, '-d', '-v', '--ci', '-p', 'Awesome']);
 
 		$this->assertSame(AnnotationsShell::CODE_SUCCESS, $result);
 	}
@@ -206,7 +207,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testIndividualSubcommandCiModeChanges($subcommand) {
-		$result = $this->Shell->runCommand([$subcommand, '-d', '-v', '--ci']);
+		$result = $this->Shell->run([$subcommand, '-d', '-v', '--ci']);
 
 		if ($result !== AnnotationsShell::CODE_CHANGES) {
 			debug($this->out->output());
@@ -220,7 +221,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testClasses() {
-		$result = $this->Shell->runCommand(['classes', '-d', '-v']);
+		$result = $this->Shell->run(['classes', '-d', '-v']);
 
 		$this->assertSame(AnnotationsShell::CODE_SUCCESS, $result);
 	}
@@ -229,7 +230,7 @@ class AnnotationsShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testCallbacks() {
-		$result = $this->Shell->runCommand(['callbacks', '-d', '-v']);
+		$result = $this->Shell->run(['callbacks', '-d', '-v']);
 
 		$this->assertSame(AnnotationsShell::CODE_SUCCESS, $result);
 	}

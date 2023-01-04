@@ -1,7 +1,7 @@
 <?php
 namespace TestApp\Command;
 
-use Cake\Console\Command;
+use Shim\Command\Command;
 
 class MyCommand extends Command {
 

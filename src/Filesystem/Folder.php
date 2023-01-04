@@ -115,7 +115,7 @@ class Folder {
 	 * @param int|null $mode Mode (CHMOD) to apply to created folder, false to ignore
 	 */
 	public function __construct(?string $path = null, bool $create = false, ?int $mode = null) {
-		if (empty($path)) {
+		if (!$path) {
 			$path = TMP;
 		}
 		if ($mode) {
@@ -299,7 +299,7 @@ class Folder {
 	 * @return bool true if path is absolute.
 	 */
 	public static function isAbsolute(string $path): bool {
-		if (empty($path)) {
+		if (!$path) {
 			return false;
 		}
 
@@ -446,7 +446,7 @@ class Folder {
 				}
 			}
 
-			if (empty($this->_errors)) {
+			if (!$this->_errors) {
 				return true;
 			}
 		}

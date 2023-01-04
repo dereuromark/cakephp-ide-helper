@@ -1,39 +1,43 @@
 <?php
 
-namespace IdeHelper\Test\TestCase\Shell;
+namespace IdeHelper\Test\TestCase\Command;
 
 use Cake\Console\ConsoleIo;
+use Cake\Console\TestSuite\ConsoleIntegrationTestTrait;
 use Cake\TestSuite\TestCase;
+use IdeHelper\Command\GeneratePhpStormMetaCommand;
 use IdeHelper\Shell\PhpstormShell;
 use PHPUnit\Framework\MockObject\MockObject;
 use Shim\TestSuite\ConsoleOutput;
 
-class PhpstormShellTest extends TestCase {
+class GeneratePhpstormMetaCommandTest extends TestCase {
+
+	use ConsoleIntegrationTestTrait;
 
 	protected array $fixtures = [
 		'plugin.IdeHelper.Cars',
 		'plugin.IdeHelper.Wheels',
 	];
 
-	protected PhpstormShell|MockObject $Shell;
+	protected GeneratePhpStormMetaCommand|MockObject $command;
 
 	/**
 	 * @var \Shim\TestSuite\ConsoleOutput
 	 */
-	protected $out;
+	protected ConsoleOutput $out;
 
 	/**
 	 * @var \Shim\TestSuite\ConsoleOutput
 	 */
-	protected $err;
+	protected ConsoleOutput $err;
+
+	protected ConsoleIo $io;
 
 	/**
 	 * @return void
 	 */
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->skipIf(true, 'Deprecated, will be moved to Command');
 
 		if (!is_dir(LOGS)) {
 			mkdir(LOGS, 0770, true);
@@ -47,12 +51,12 @@ class PhpstormShellTest extends TestCase {
 
 		$this->out = new ConsoleOutput();
 		$this->err = new ConsoleOutput();
-		$io = new ConsoleIo($this->out, $this->err);
+		$this->io = new ConsoleIo($this->out, $this->err);
 
-		$this->Shell = $this->getMockBuilder(GeneratePhpStormCommand::class)
-			->setMethods(['_stop', 'getMetaFilePath'])
+		$this->command = $this->getMockBuilder(GeneratePhpStormMetaCommand::class)
+			->onlyMethods(['getMetaFilePath'])
 			->getMock();
-		$this->Shell->expects($this->any())->method('getMetaFilePath')->willReturn(TMP . 'phpstorm' . DS . '.meta.php');
+		$this->command->expects($this->any())->method('getMetaFilePath')->willReturn(TMP . 'phpstorm' . DS . '.meta.php');
 	}
 
 	/**
@@ -60,7 +64,7 @@ class PhpstormShellTest extends TestCase {
 	 */
 	protected function tearDown(): void {
 		parent::tearDown();
-		unset($this->Shell);
+		unset($this->command);
 	}
 
 	/**
@@ -68,7 +72,9 @@ class PhpstormShellTest extends TestCase {
 	 */
 	public function testDirExists() {
 		$this->assertFalse(file_exists(TMP . 'phpstorm'));
-		$this->Shell->run(['generate']);
+
+		$this->exec('generate_php_storm_meta');
+		//$this->command->executeCommand(GeneratePhpStormMetaCommand::class, [], $this->io);
 		$this->assertTrue(file_exists(TMP . 'phpstorm' . DS . '.meta.php'));
 	}
 
@@ -77,7 +83,10 @@ class PhpstormShellTest extends TestCase {
 	 */
 	public function testDirExistsDryRun() {
 		$this->assertFalse(file_exists(TMP . 'phpstorm'));
-		$this->Shell->run(['generate', '-d']);
+		//$this->command->run(['dry-run' => true], $this->io);
+
+		$this->exec('generate_php_storm_meta -d');
+
 		$this->assertFalse(file_exists(TMP . 'phpstorm' . DS . '.meta.php'));
 		$this->assertFalse(file_exists(TMP . 'phpstorm'));
 	}
@@ -86,29 +95,29 @@ class PhpstormShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testGenerateDryRun() {
-		$result = $this->Shell->run(['generate', '-d']);
+		//$result = $this->command->run(['generate', '-d'], $this->io);
 
 		$output = $this->out->output();
 		$this->assertTextContains(' needs updating', $output);
 
-		$this->assertSame(GeneratePhpStormCommand::CODE_CHANGES, $result);
+		$this->assertSame(GeneratePhpStormMetaCommand::CODE_CHANGES, $result);
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testGenerate() {
-		$result = $this->Shell->run(['generate']);
+		//$this->command->run(['generate'], $this->io);
 
 		$output = $this->out->output();
 		$this->assertTextContains('Meta file `/.phpstorm.meta.php/.ide-helper.meta.php` generated.', $output);
 
-		$result = $this->Shell->run(['generate']);
+		//$result = $this->command->run(['generate'], $this->io);
 
 		$output = $this->out->output();
 		$this->assertTextContains('Meta file `/.phpstorm.meta.php/.ide-helper.meta.php` still up to date.', $output);
 
-		$this->assertSame(GeneratePhpStormCommand::CODE_SUCCESS, $result);
+		$this->assertSame(GeneratePhpStormMetaCommand::CODE_SUCCESS, $result);
 	}
 
 }

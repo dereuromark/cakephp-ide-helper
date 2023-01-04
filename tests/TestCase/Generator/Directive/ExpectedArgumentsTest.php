@@ -24,7 +24,7 @@ class ExpectedArgumentsTest extends TestCase {
 		\Cake\ORM\Table::addBehavior(),
 		0,
 		\Foo\Bar::class,
-		"string"
+		"string",
 	);
 TXT;
 		$this->assertSame($expected, $result);

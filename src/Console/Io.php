@@ -13,14 +13,7 @@ class Io {
 
 	protected ConsoleIo $_io;
 
-	/**
-	 * @param \Cake\Console\ConsoleIo $io
-	 */
-	public function __construct(ConsoleIo $io) {
-		$this->_io = $io;
-	}
-
-	/**
+    /**
 	 * Output at the verbose level.
 	 *
 	 * @param array<string>|string $message A string or an array of strings to output
@@ -31,7 +24,14 @@ class Io {
 		return $this->_io->verbose($message, $newlines);
 	}
 
-	/**
+    /**
+     * @param \Cake\Console\ConsoleIo $io
+     */
+    public function __construct(ConsoleIo $io) {
+        $this->_io = $io;
+    }
+
+    /**
 	 * Output at all levels.
 	 *
 	 * @param array<string>|string $message A string or an array of strings to output

@@ -3,7 +3,6 @@
 namespace IdeHelper\Generator\Task;
 
 use Cake\Console\ConsoleIo;
-use Cake\Console\Helper;
 use IdeHelper\Filesystem\Folder;
 use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\App;
@@ -12,8 +11,6 @@ use IdeHelper\Utility\Plugin;
 use IdeHelper\ValueObject\ClassName;
 
 class ConsoleHelperTask implements TaskInterface {
-
-	public const CLASS_HELPER = Helper::class;
 
 	public const CLASS_CONSOLE_IO = ConsoleIo::class;
 
@@ -55,14 +52,14 @@ class ConsoleHelperTask implements TaskInterface {
 	protected function collectHelpers(): array {
 		$helpers = [];
 
-		$folders = array_merge(App::core('Shell/Helper'), AppPath::get('Shell/Helper'));
+		$folders = array_merge(App::core('Command/Helper'), AppPath::get('Command/Helper'));
 		foreach ($folders as $folder) {
 			$helpers = $this->addHelpers($helpers, $folder);
 		}
 
 		$plugins = Plugin::all();
 		foreach ($plugins as $plugin) {
-			$folders = AppPath::get('Shell/Helper', $plugin);
+			$folders = AppPath::get('Command/Helper', $plugin);
 			foreach ($folders as $folder) {
 				$helpers = $this->addHelpers($helpers, $folder, $plugin);
 			}
@@ -91,7 +88,7 @@ class ConsoleHelperTask implements TaskInterface {
 				$name = $plugin . '.' . $name;
 			}
 
-			$className = App::className($name, 'Shell/Helper', 'Helper');
+			$className = App::className($name, 'Command/Helper', 'Helper');
 			if (!$className) {
 				continue;
 			}

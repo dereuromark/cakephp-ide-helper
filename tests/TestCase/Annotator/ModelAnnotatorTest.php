@@ -10,27 +10,24 @@ use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\ModelAnnotator;
 use IdeHelper\Console\Io;
 use Shim\TestSuite\ConsoleOutput;
-use TestApp\Model\Table\FooTable;
+use TestApp\Model\Table\FoosTable;
 
 class ModelAnnotatorTest extends TestCase {
 
 	use DiffHelperTrait;
 
+	/**
+	 * @var array<string>
+	 */
 	protected array $fixtures = [
-		'plugin.IdeHelper.Foo',
+		'plugin.IdeHelper.Foos',
 		'plugin.IdeHelper.Wheels',
 		'plugin.IdeHelper.BarBars',
 	];
 
-	/**
-	 * @var \Shim\TestSuite\ConsoleOutput
-	 */
-	protected $out;
+	protected ConsoleOutput $out;
 
-	/**
-	 * @var \Shim\TestSuite\ConsoleOutput
-	 */
-	protected $err;
+	protected ConsoleOutput $err;
 
 	protected Io $io;
 
@@ -45,7 +42,7 @@ class ModelAnnotatorTest extends TestCase {
 		$consoleIo = new ConsoleIo($this->out, $this->err);
 		$this->io = new Io($consoleIo);
 
-		$x = TableRegistry::get('IdeHelper.Foo', ['className' => FooTable::class]);
+		$x = TableRegistry::getTableLocator()->get('IdeHelper.Foos', ['className' => FoosTable::class]);
 		$columns = [
 			'id' => [
 				'type' => 'integer',
@@ -88,9 +85,9 @@ class ModelAnnotatorTest extends TestCase {
 				'precision' => null,
 			],
 		];
-		$schema = new TableSchema('Foo', $columns);
+		$schema = new TableSchema('Foos', $columns);
 		$x->setSchema($schema);
-		TableRegistry::set('Foo', $x);
+		TableRegistry::getTableLocator()->set('Foos', $x);
 	}
 
 	/**

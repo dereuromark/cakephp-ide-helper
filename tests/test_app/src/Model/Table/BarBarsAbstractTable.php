@@ -11,7 +11,7 @@ class BarBarsAbstractTable extends AbstractTable {
 		parent::initialize($config);
 
 		$this->setTable('bar_bars');
-		$this->belongsTo('Foo');
+		$this->belongsTo('Foos');
 		$this->belongsToMany('Houses', [
 			'className' => 'Awesome.Houses',
 			'through' => 'Awesome.Windows',

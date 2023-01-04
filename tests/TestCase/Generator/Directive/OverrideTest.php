@@ -27,7 +27,7 @@ class OverrideTest extends TestCase {
 		map([
 			'Tree' => \Cake\ORM\Table::class,
 			'CounterCache' => \Cake\ORM\Table::class,
-		])
+		]),
 	);
 TXT;
 		$this->assertSame($expected, $result);
@@ -53,7 +53,7 @@ TXT;
 		\Cake\ORM\Table::addBehavior(0),
 		map([
 			\Cake\ORM\Table::class => \Cake\ORM\Table::class,
-		])
+		]),
 	);
 TXT;
 		$this->assertSame($expected, $result);

@@ -11,7 +11,7 @@ class NestedClass {
 	 * @return void
 	 */
 	public function initialize() {
-		$this->loadModel('Foo');
+		$this->loadModel('Foos');
 	}
 
 }

@@ -47,7 +47,8 @@ class HelperAnnotator extends AbstractAnnotator {
 			return false;
 		}
 
-		$helperMap = $this->invokeProperty($helper, '_helperMap');
+		/** @uses \Cake\View\Helper::helpers */
+		$helperMap = $this->invokeProperty($helper, 'helpers');
 
 		$content = file_get_contents($path);
 		if ($content === false) {
@@ -64,13 +65,13 @@ class HelperAnnotator extends AbstractAnnotator {
 	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
 	protected function getHelperAnnotations(array $helperMap): array {
-		if (empty($helperMap)) {
+		if (!$helperMap) {
 			return [];
 		}
 
 		$helperAnnotations = [];
 		foreach ($helperMap as $helper => $config) {
-			$className = $this->findClassName($config['class']);
+			$className = $this->findClassName($config['className'] ?? $helper);
 			if (!$className) {
 				continue;
 			}

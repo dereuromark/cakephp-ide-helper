@@ -3,6 +3,7 @@
 namespace IdeHelper\Annotator;
 
 use Cake\Core\Configure;
+use Cake\Http\ServerRequest;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\HelperTrait;
@@ -128,9 +129,8 @@ class ViewAnnotator extends AbstractAnnotator {
 			return [];
 		}
 
-		/** @var \App\Controller\AppController $Controller */
-		$Controller = new $className();
-		/** @var \Cake\View\View $View */
+		/** @var \Cake\Controller\Controller $Controller */
+		$Controller = new $className(new ServerRequest());
 		$View = $Controller->createView();
 
 		foreach ($View->helpers() as $alias => $helper) {

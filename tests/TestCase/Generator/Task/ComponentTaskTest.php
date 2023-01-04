@@ -32,11 +32,11 @@ class ComponentTaskTest extends TestCase {
 
 		$map = $directive->toArray()['map'];
 
-		$expected = '\Cake\Controller\Component\AuthComponent::class';
-		$this->assertSame($expected, (string)$map['Auth']);
+		$expected = '\Cake\Controller\Component\FormProtectionComponent::class';
+		$this->assertSame($expected, (string)$map['FormProtection']);
 
-		$expected = '\TestApp\Controller\Component\RequestHandlerComponent::class';
-		$this->assertSame($expected, (string)$map['RequestHandler']);
+		$expected = '\TestApp\Controller\Component\MyOtherComponent::class';
+		$this->assertSame($expected, (string)$map['MyOther']);
 	}
 
 }

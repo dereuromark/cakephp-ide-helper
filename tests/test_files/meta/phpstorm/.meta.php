@@ -5,67 +5,67 @@ namespace PHPSTORM_META {
 	expectedArguments(
 		\Cake\Cache\Cache::add(),
 		2,
-		argumentsSet('cacheEngines')
+		argumentsSet('cacheEngines'),
 	);
 
 	expectedArguments(
 		\Cake\Cache\Cache::clear(),
 		0,
-		argumentsSet('cacheEngines')
+		argumentsSet('cacheEngines'),
 	);
 
 	expectedArguments(
 		\Cake\Cache\Cache::clearGroup(),
 		1,
-		argumentsSet('cacheEngines')
+		argumentsSet('cacheEngines'),
 	);
 
 	expectedArguments(
 		\Cake\Cache\Cache::decrement(),
 		2,
-		argumentsSet('cacheEngines')
+		argumentsSet('cacheEngines'),
 	);
 
 	expectedArguments(
 		\Cake\Cache\Cache::delete(),
 		1,
-		argumentsSet('cacheEngines')
+		argumentsSet('cacheEngines'),
 	);
 
 	expectedArguments(
 		\Cake\Cache\Cache::deleteMany(),
 		1,
-		argumentsSet('cacheEngines')
+		argumentsSet('cacheEngines'),
 	);
 
 	expectedArguments(
 		\Cake\Cache\Cache::increment(),
 		2,
-		argumentsSet('cacheEngines')
+		argumentsSet('cacheEngines'),
 	);
 
 	expectedArguments(
 		\Cake\Cache\Cache::read(),
 		1,
-		argumentsSet('cacheEngines')
+		argumentsSet('cacheEngines'),
 	);
 
 	expectedArguments(
 		\Cake\Cache\Cache::readMany(),
 		1,
-		argumentsSet('cacheEngines')
+		argumentsSet('cacheEngines'),
 	);
 
 	expectedArguments(
 		\Cake\Cache\Cache::remember(),
 		2,
-		argumentsSet('cacheEngines')
+		argumentsSet('cacheEngines'),
 	);
 
 	expectedArguments(
 		\Cake\Cache\Cache::write(),
 		2,
-		argumentsSet('cacheEngines')
+		argumentsSet('cacheEngines'),
 	);
 
 	exitPoint(\Cake\Console\ConsoleIo::abort());
@@ -73,81 +73,75 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\Console\ConsoleIo::helper(0),
 		map([
-			'Progress' => \Cake\Shell\Helper\ProgressHelper::class,
-			'Table' => \Cake\Shell\Helper\TableHelper::class,
-		])
+			'Progress' => \Cake\Command\Helper\ProgressHelper::class,
+			'Table' => \Cake\Command\Helper\TableHelper::class,
+		]),
 	);
 
 	expectedArguments(
 		\Cake\Controller\ComponentRegistry::unload(),
 		0,
-		'Auth',
+		'CheckHttpCache',
 		'Flash',
 		'FormProtection',
 		'My',
 		'MyController',
 		'MyOther',
-		'Paginator',
-		'RequestHandler',
-		'Security'
 	);
 
 	override(
 		\Cake\Controller\Controller::loadComponent(0),
 		map([
-			'Auth' => \Cake\Controller\Component\AuthComponent::class,
+			'CheckHttpCache' => \TestApp\Controller\Component\CheckHttpCacheComponent::class,
 			'Flash' => \Cake\Controller\Component\FlashComponent::class,
 			'FormProtection' => \Cake\Controller\Component\FormProtectionComponent::class,
 			'My' => \TestApp\Controller\Component\MyComponent::class,
 			'MyController' => \TestApp\Controller\Component\MyControllerComponent::class,
 			'MyNamespace/MyPlugin.My' => \MyNamespace\MyPlugin\Controller\Component\MyComponent::class,
 			'MyOther' => \TestApp\Controller\Component\MyOtherComponent::class,
-			'Paginator' => \Cake\Controller\Component\PaginatorComponent::class,
-			'RequestHandler' => \TestApp\Controller\Component\RequestHandlerComponent::class,
-			'Security' => \Cake\Controller\Component\SecurityComponent::class,
-		])
+		]),
 	);
 
 	expectedArguments(
 		\Cake\Core\Configure::check(),
 		0,
-		argumentsSet('configureKeys')
+		argumentsSet('configureKeys'),
 	);
 
 	expectedArguments(
 		\Cake\Core\Configure::consume(),
 		0,
-		argumentsSet('configureKeys')
+		argumentsSet('configureKeys'),
 	);
 
 	expectedArguments(
 		\Cake\Core\Configure::consumeOrFail(),
 		0,
-		argumentsSet('configureKeys')
+		argumentsSet('configureKeys'),
 	);
 
 	expectedArguments(
 		\Cake\Core\Configure::delete(),
 		0,
-		argumentsSet('configureKeys')
+		argumentsSet('configureKeys'),
 	);
 
 	expectedArguments(
 		\Cake\Core\Configure::read(),
 		0,
-		argumentsSet('configureKeys')
+		argumentsSet('configureKeys'),
 	);
 
 	expectedArguments(
 		\Cake\Core\Configure::readOrFail(),
 		0,
-		argumentsSet('configureKeys')
+		argumentsSet('configureKeys'),
 	);
 
 	expectedArguments(
 		\Cake\Core\Configure::write(),
 		0,
-		argumentsSet('configureKeys')
+		argumentsSet('configureKeys'),
 	);
 
 	override(
@@ -157,7 +151,7 @@ namespace PHPSTORM_META {
 			'Cake/TwigView' => \Cake\Http\BaseApplication::class,
 			'Migrations' => \Cake\Http\BaseApplication::class,
 			'Shim' => \Cake\Http\BaseApplication::class,
-		])
+		]),
 	);
 
 	override(
@@ -184,7 +178,7 @@ namespace PHPSTORM_META {
 			'timestamptimezone' => \Cake\Database\Type\DateTimeTimezoneType::class,
 			'tinyinteger' => \Cake\Database\Type\IntegerType::class,
 			'uuid' => \Cake\Database\Type\UuidType::class,
-		])
+		]),
 	);
 
 	expectedArguments(
@@ -210,13 +204,13 @@ namespace PHPSTORM_META {
 		'timestampfractional',
 		'timestamptimezone',
 		'tinyinteger',
-		'uuid'
+		'uuid',
 	);
 
 	expectedArguments(
 		\Cake\Datasource\ConnectionManager::get(),
 		0,
-		'test'
+		'test',
 	);
 
 	override(
@@ -231,7 +225,7 @@ namespace PHPSTORM_META {
 			'Controllers.Houses' => \Controllers\Model\Table\HousesTable::class,
 			'CustomFinder' => \TestApp\Model\Table\CustomFinderTable::class,
 			'Exceptions' => \TestApp\Model\Table\ExceptionsTable::class,
-			'Foo' => \TestApp\Model\Table\FooTable::class,
+			'Foos' => \TestApp\Model\Table\FoosTable::class,
 			'MyNamespace/MyPlugin.My' => \MyNamespace\MyPlugin\Model\Table\MyTable::class,
 			'Relations.Bars' => \Relations\Model\Table\BarsTable::class,
 			'Relations.Foos' => \Relations\Model\Table\FoosTable::class,
@@ -240,7 +234,7 @@ namespace PHPSTORM_META {
 			'SkipSome' => \TestApp\Model\Table\SkipSomeTable::class,
 			'Wheels' => \TestApp\Model\Table\WheelsTable::class,
 			'WheelsExtra' => \TestApp\Model\Table\WheelsExtraTable::class,
-		])
+		]),
 	);
 
 	override(
@@ -253,7 +247,7 @@ namespace PHPSTORM_META {
 			'somethingCustom' => \Cake\ORM\Query::class,
 			'threaded' => \Cake\ORM\Query::class,
 			'treeList' => \Cake\ORM\Query::class,
-		])
+		]),
 	);
 
 	expectedArguments(
@@ -265,14 +259,14 @@ namespace PHPSTORM_META {
 		'controller',
 		'pass',
 		'plugin',
-		'prefix'
+		'prefix',
 	);
 
 	override(
 		\Cake\Mailer\MailerAwareTrait::getMailer(0),
 		map([
 			'User' => \TestApp\Mailer\UserMailer::class,
-		])
+		]),
 	);
 
 	override(
@@ -285,67 +279,67 @@ namespace PHPSTORM_META {
 			'somethingCustom' => \Cake\ORM\Query::class,
 			'threaded' => \Cake\ORM\Query::class,
 			'treeList' => \Cake\ORM\Query::class,
-		])
+		]),
 	);
 
 	expectedArguments(
 		\Cake\ORM\Entity::get(),
 		0,
-		argumentsSet('entityFields:Cake\ORM\Entity')
+		argumentsSet('entityFields:Cake\ORM\Entity'),
 	);
 
 	expectedArguments(
 		\Cake\ORM\Entity::getError(),
 		0,
-		argumentsSet('entityFields:Cake\ORM\Entity')
+		argumentsSet('entityFields:Cake\ORM\Entity'),
 	);
 
 	expectedArguments(
 		\Cake\ORM\Entity::getInvalidField(),
 		0,
-		argumentsSet('entityFields:Cake\ORM\Entity')
+		argumentsSet('entityFields:Cake\ORM\Entity'),
 	);
 
 	expectedArguments(
 		\Cake\ORM\Entity::getOriginal(),
 		0,
-		argumentsSet('entityFields:Cake\ORM\Entity')
+		argumentsSet('entityFields:Cake\ORM\Entity'),
 	);
 
 	expectedArguments(
 		\Cake\ORM\Entity::has(),
 		0,
-		argumentsSet('entityFields:Cake\ORM\Entity')
+		argumentsSet('entityFields:Cake\ORM\Entity'),
 	);
 
 	expectedArguments(
 		\Cake\ORM\Entity::hasValue(),
 		0,
-		argumentsSet('entityFields:Cake\ORM\Entity')
+		argumentsSet('entityFields:Cake\ORM\Entity'),
 	);
 
 	expectedArguments(
 		\Cake\ORM\Entity::isDirty(),
 		0,
-		argumentsSet('entityFields:Cake\ORM\Entity')
+		argumentsSet('entityFields:Cake\ORM\Entity'),
 	);
 
 	expectedArguments(
 		\Cake\ORM\Entity::isEmpty(),
 		0,
-		argumentsSet('entityFields:Cake\ORM\Entity')
+		argumentsSet('entityFields:Cake\ORM\Entity'),
 	);
 
 	expectedArguments(
 		\Cake\ORM\Entity::setDirty(),
 		0,
-		argumentsSet('entityFields:Cake\ORM\Entity')
+		argumentsSet('entityFields:Cake\ORM\Entity'),
 	);
 
 	expectedArguments(
 		\Cake\ORM\Entity::setError(),
 		0,
-		argumentsSet('entityFields:Cake\ORM\Entity')
+		argumentsSet('entityFields:Cake\ORM\Entity'),
 	);
 
 	override(
@@ -360,7 +354,7 @@ namespace PHPSTORM_META {
 			'Controllers.Houses' => \Controllers\Model\Table\HousesTable::class,
 			'CustomFinder' => \TestApp\Model\Table\CustomFinderTable::class,
 			'Exceptions' => \TestApp\Model\Table\ExceptionsTable::class,
-			'Foo' => \TestApp\Model\Table\FooTable::class,
+			'Foos' => \TestApp\Model\Table\FoosTable::class,
 			'MyNamespace/MyPlugin.My' => \MyNamespace\MyPlugin\Model\Table\MyTable::class,
 			'Relations.Bars' => \Relations\Model\Table\BarsTable::class,
 			'Relations.Foos' => \Relations\Model\Table\FoosTable::class,
@@ -369,7 +363,7 @@ namespace PHPSTORM_META {
 			'SkipSome' => \TestApp\Model\Table\SkipSomeTable::class,
 			'Wheels' => \TestApp\Model\Table\WheelsTable::class,
 			'WheelsExtra' => \TestApp\Model\Table\WheelsExtraTable::class,
-		])
+		]),
 	);
 
 	override(
@@ -384,7 +378,7 @@ namespace PHPSTORM_META {
 			'Controllers.Houses' => \Controllers\Model\Table\HousesTable::class,
 			'CustomFinder' => \TestApp\Model\Table\CustomFinderTable::class,
 			'Exceptions' => \TestApp\Model\Table\ExceptionsTable::class,
-			'Foo' => \TestApp\Model\Table\FooTable::class,
+			'Foos' => \TestApp\Model\Table\FoosTable::class,
 			'MyNamespace/MyPlugin.My' => \MyNamespace\MyPlugin\Model\Table\MyTable::class,
 			'Relations.Bars' => \Relations\Model\Table\BarsTable::class,
 			'Relations.Foos' => \Relations\Model\Table\FoosTable::class,
@@ -393,7 +387,7 @@ namespace PHPSTORM_META {
 			'SkipSome' => \TestApp\Model\Table\SkipSomeTable::class,
 			'Wheels' => \TestApp\Model\Table\WheelsTable::class,
 			'WheelsExtra' => \TestApp\Model\Table\WheelsExtraTable::class,
-		])
+		]),
 	);
 
 	expectedArguments(
@@ -404,7 +398,7 @@ namespace PHPSTORM_META {
 		'Shim.Nullable',
 		'Timestamp',
 		'Translate',
-		'Tree'
+		'Tree',
 	);
 
 	override(
@@ -419,7 +413,7 @@ namespace PHPSTORM_META {
 			'Controllers.Houses' => \Cake\ORM\Association\BelongsToMany::class,
 			'CustomFinder' => \Cake\ORM\Association\BelongsToMany::class,
 			'Exceptions' => \Cake\ORM\Association\BelongsToMany::class,
-			'Foo' => \Cake\ORM\Association\BelongsToMany::class,
+			'Foos' => \Cake\ORM\Association\BelongsToMany::class,
 			'MyNamespace/MyPlugin.My' => \Cake\ORM\Association\BelongsToMany::class,
 			'Relations.Bars' => \Cake\ORM\Association\BelongsToMany::class,
 			'Relations.Foos' => \Cake\ORM\Association\BelongsToMany::class,
@@ -428,7 +422,7 @@ namespace PHPSTORM_META {
 			'SkipSome' => \Cake\ORM\Association\BelongsToMany::class,
 			'Wheels' => \Cake\ORM\Association\BelongsToMany::class,
 			'WheelsExtra' => \Cake\ORM\Association\BelongsToMany::class,
-		])
+		]),
 	);
 
 	override(
@@ -443,7 +437,7 @@ namespace PHPSTORM_META {
 			'Controllers.Houses' => \Cake\ORM\Association\BelongsTo::class,
 			'CustomFinder' => \Cake\ORM\Association\BelongsTo::class,
 			'Exceptions' => \Cake\ORM\Association\BelongsTo::class,
-			'Foo' => \Cake\ORM\Association\BelongsTo::class,
+			'Foos' => \Cake\ORM\Association\BelongsTo::class,
 			'MyNamespace/MyPlugin.My' => \Cake\ORM\Association\BelongsTo::class,
 			'Relations.Bars' => \Cake\ORM\Association\BelongsTo::class,
 			'Relations.Foos' => \Cake\ORM\Association\BelongsTo::class,
@@ -452,7 +446,7 @@ namespace PHPSTORM_META {
 			'SkipSome' => \Cake\ORM\Association\BelongsTo::class,
 			'Wheels' => \Cake\ORM\Association\BelongsTo::class,
 			'WheelsExtra' => \Cake\ORM\Association\BelongsTo::class,
-		])
+		]),
 	);
 
 	override(
@@ -465,7 +459,7 @@ namespace PHPSTORM_META {
 			'somethingCustom' => \Cake\ORM\Query::class,
 			'threaded' => \Cake\ORM\Query::class,
 			'treeList' => \Cake\ORM\Query::class,
-		])
+		]),
 	);
 
 	override(
@@ -480,7 +474,7 @@ namespace PHPSTORM_META {
 			'Controllers.Houses' => \Cake\ORM\Association\HasMany::class,
 			'CustomFinder' => \Cake\ORM\Association\HasMany::class,
 			'Exceptions' => \Cake\ORM\Association\HasMany::class,
-			'Foo' => \Cake\ORM\Association\HasMany::class,
+			'Foos' => \Cake\ORM\Association\HasMany::class,
 			'MyNamespace/MyPlugin.My' => \Cake\ORM\Association\HasMany::class,
 			'Relations.Bars' => \Cake\ORM\Association\HasMany::class,
 			'Relations.Foos' => \Cake\ORM\Association\HasMany::class,
@@ -489,7 +483,7 @@ namespace PHPSTORM_META {
 			'SkipSome' => \Cake\ORM\Association\HasMany::class,
 			'Wheels' => \Cake\ORM\Association\HasMany::class,
 			'WheelsExtra' => \Cake\ORM\Association\HasMany::class,
-		])
+		]),
 	);
 
 	override(
@@ -504,7 +498,7 @@ namespace PHPSTORM_META {
 			'Controllers.Houses' => \Cake\ORM\Association\HasOne::class,
 			'CustomFinder' => \Cake\ORM\Association\HasOne::class,
 			'Exceptions' => \Cake\ORM\Association\HasOne::class,
-			'Foo' => \Cake\ORM\Association\HasOne::class,
+			'Foos' => \Cake\ORM\Association\HasOne::class,
 			'MyNamespace/MyPlugin.My' => \Cake\ORM\Association\HasOne::class,
 			'Relations.Bars' => \Cake\ORM\Association\HasOne::class,
 			'Relations.Foos' => \Cake\ORM\Association\HasOne::class,
@@ -513,7 +507,7 @@ namespace PHPSTORM_META {
 			'SkipSome' => \Cake\ORM\Association\HasOne::class,
 			'Wheels' => \Cake\ORM\Association\HasOne::class,
 			'WheelsExtra' => \Cake\ORM\Association\HasOne::class,
-		])
+		]),
 	);
 
 	expectedArguments(
@@ -524,37 +518,13 @@ namespace PHPSTORM_META {
 		'Nullable',
 		'Timestamp',
 		'Translate',
-		'Tree'
-	);
-
-	override(
-		\Cake\ORM\TableRegistry::get(0),
-		map([
-			'Awesome.Houses' => \Awesome\Model\Table\HousesTable::class,
-			'Awesome.Windows' => \Awesome\Model\Table\WindowsTable::class,
-			'BarBars' => \TestApp\Model\Table\BarBarsTable::class,
-			'BarBarsAbstract' => \TestApp\Model\Table\BarBarsAbstractTable::class,
-			'Callbacks' => \TestApp\Model\Table\CallbacksTable::class,
-			'Cars' => \TestApp\Model\Table\CarsTable::class,
-			'Controllers.Houses' => \Controllers\Model\Table\HousesTable::class,
-			'CustomFinder' => \TestApp\Model\Table\CustomFinderTable::class,
-			'Exceptions' => \TestApp\Model\Table\ExceptionsTable::class,
-			'Foo' => \TestApp\Model\Table\FooTable::class,
-			'MyNamespace/MyPlugin.My' => \MyNamespace\MyPlugin\Model\Table\MyTable::class,
-			'Relations.Bars' => \Relations\Model\Table\BarsTable::class,
-			'Relations.Foos' => \Relations\Model\Table\FoosTable::class,
-			'Relations.Users' => \Relations\Model\Table\UsersTable::class,
-			'SkipMe' => \TestApp\Model\Table\SkipMeTable::class,
-			'SkipSome' => \TestApp\Model\Table\SkipSomeTable::class,
-			'Wheels' => \TestApp\Model\Table\WheelsTable::class,
-			'WheelsExtra' => \TestApp\Model\Table\WheelsExtraTable::class,
-		])
+		'Tree',
 	);
 
 	expectedArguments(
 		\Cake\Routing\Router::pathUrl(),
 		0,
-		argumentsSet('routePaths')
+		argumentsSet('routePaths'),
 	);
 
 	expectedArguments(
@@ -563,91 +533,91 @@ namespace PHPSTORM_META {
 		'app.Houses',
 		'core.Posts',
 		'plugin.IdeHelper.Cars',
-		'plugin.MyNamespace/MyPlugin.Sub/My'
+		'plugin.MyNamespace/MyPlugin.Sub/My',
 	);
 
 	expectedArguments(
 		\Cake\Validation\Validator::allowEmptyArray(),
 		2,
-		argumentsSet('validationWhen')
+		argumentsSet('validationWhen'),
 	);
 
 	expectedArguments(
 		\Cake\Validation\Validator::allowEmptyDate(),
 		2,
-		argumentsSet('validationWhen')
+		argumentsSet('validationWhen'),
 	);
 
 	expectedArguments(
 		\Cake\Validation\Validator::allowEmptyDateTime(),
 		2,
-		argumentsSet('validationWhen')
+		argumentsSet('validationWhen'),
 	);
 
 	expectedArguments(
 		\Cake\Validation\Validator::allowEmptyFile(),
 		2,
-		argumentsSet('validationWhen')
+		argumentsSet('validationWhen'),
 	);
 
 	expectedArguments(
 		\Cake\Validation\Validator::allowEmptyFor(),
 		2,
-		argumentsSet('validationWhen')
+		argumentsSet('validationWhen'),
 	);
 
 	expectedArguments(
 		\Cake\Validation\Validator::allowEmptyString(),
 		2,
-		argumentsSet('validationWhen')
+		argumentsSet('validationWhen'),
 	);
 
 	expectedArguments(
 		\Cake\Validation\Validator::allowEmptyTime(),
 		2,
-		argumentsSet('validationWhen')
+		argumentsSet('validationWhen'),
 	);
 
 	expectedArguments(
 		\Cake\Validation\Validator::notEmptyArray(),
 		2,
-		argumentsSet('validationWhen')
+		argumentsSet('validationWhen'),
 	);
 
 	expectedArguments(
 		\Cake\Validation\Validator::notEmptyDate(),
 		2,
-		argumentsSet('validationWhen')
+		argumentsSet('validationWhen'),
 	);
 
 	expectedArguments(
 		\Cake\Validation\Validator::notEmptyDateTime(),
 		2,
-		argumentsSet('validationWhen')
+		argumentsSet('validationWhen'),
 	);
 
 	expectedArguments(
 		\Cake\Validation\Validator::notEmptyFile(),
 		2,
-		argumentsSet('validationWhen')
+		argumentsSet('validationWhen'),
 	);
 
 	expectedArguments(
 		\Cake\Validation\Validator::notEmptyString(),
 		2,
-		argumentsSet('validationWhen')
+		argumentsSet('validationWhen'),
 	);
 
 	expectedArguments(
 		\Cake\Validation\Validator::notEmptyTime(),
 		2,
-		argumentsSet('validationWhen')
+		argumentsSet('validationWhen'),
 	);
 
 	expectedArguments(
 		\Cake\Validation\Validator::requirePresence(),
 		1,
-		argumentsSet('validationWhen')
+		argumentsSet('validationWhen'),
 	);
 
 	override(
@@ -655,7 +625,7 @@ namespace PHPSTORM_META {
 		map([
 			'Test' => \TestApp\View\Cell\TestCell::class,
 			'Test::custom' => \TestApp\View\Cell\TestCell::class,
-		])
+		]),
 	);
 
 	expectedArguments(
@@ -666,19 +636,19 @@ namespace PHPSTORM_META {
 		'id',
 		'modified',
 		'name',
-		'user_id'
+		'user_id',
 	);
 
 	expectedArguments(
 		\Cake\View\Helper\HtmlHelper::linkFromPath(),
 		1,
-		argumentsSet('routePaths')
+		argumentsSet('routePaths'),
 	);
 
 	expectedArguments(
 		\Cake\View\Helper\UrlHelper::buildFromPath(),
 		0,
-		argumentsSet('routePaths')
+		argumentsSet('routePaths'),
 	);
 
 	expectedArguments(
@@ -686,7 +656,7 @@ namespace PHPSTORM_META {
 		0,
 		'Awesome.pagination',
 		'deeply/nested',
-		'example'
+		'example',
 	);
 
 	override(
@@ -702,11 +672,10 @@ namespace PHPSTORM_META {
 			'Paginator' => \Cake\View\Helper\PaginatorHelper::class,
 			'Shim.Configure' => \Shim\View\Helper\ConfigureHelper::class,
 			'Shim.Cookie' => \Shim\View\Helper\CookieHelper::class,
-			'Shim.Form' => \Shim\View\Helper\FormHelper::class,
 			'Text' => \Cake\View\Helper\TextHelper::class,
 			'Time' => \Cake\View\Helper\TimeHelper::class,
 			'Url' => \Cake\View\Helper\UrlHelper::class,
-		])
+		]),
 	);
 
 	expectedArguments(
@@ -722,502 +691,561 @@ namespace PHPSTORM_META {
 		'Paginator',
 		'Shim.Configure',
 		'Shim.Cookie',
-		'Shim.Form',
 		'Text',
 		'Time',
-		'Url'
+		'Url',
 	);
 
 	expectedArguments(
 		\Cake\View\ViewBuilder::setLayout(),
 		0,
-		'ajax'
+		'ajax',
 	);
 
 	expectedArguments(
 		\Migrations\AbstractMigration::table(),
 		0,
-		argumentsSet('tableNames')
+		argumentsSet('tableNames'),
 	);
 
 	expectedArguments(
 		\Migrations\AbstractSeed::table(),
 		0,
-		argumentsSet('tableNames')
+		argumentsSet('tableNames'),
 	);
 
 	expectedArguments(
 		\Migrations\Table::addColumn(),
 		0,
-		argumentsSet('columnNames')
+		argumentsSet('columnNames'),
 	);
 
 	expectedArguments(
 		\Migrations\Table::addColumn(),
 		1,
-		argumentsSet('columnTypes')
+		argumentsSet('columnTypes'),
 	);
 
 	expectedArguments(
 		\Migrations\Table::changeColumn(),
 		0,
-		argumentsSet('columnNames')
+		argumentsSet('columnNames'),
 	);
 
 	expectedArguments(
 		\Migrations\Table::changeColumn(),
 		1,
-		argumentsSet('columnTypes')
+		argumentsSet('columnTypes'),
 	);
 
 	expectedArguments(
 		\Migrations\Table::hasColumn(),
 		0,
-		argumentsSet('columnNames')
+		argumentsSet('columnNames'),
 	);
 
 	expectedArguments(
 		\Migrations\Table::removeColumn(),
 		0,
-		argumentsSet('columnNames')
+		argumentsSet('columnNames'),
 	);
 
 	expectedArguments(
 		\Migrations\Table::renameColumn(),
 		0,
-		argumentsSet('columnNames')
+		argumentsSet('columnNames'),
 	);
 
 	expectedArguments(
 		\Migrations\Table::renameColumn(),
 		1,
-		argumentsSet('columnNames')
+		argumentsSet('columnNames'),
 	);
 
 	expectedArguments(
 		\Phinx\Seed\AbstractSeed::table(),
 		0,
-		argumentsSet('tableNames')
+		argumentsSet('tableNames'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\Bar::get(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Bar')
+		argumentsSet('entityFields:Relations\Model\Entity\Bar'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\Bar::getError(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Bar')
+		argumentsSet('entityFields:Relations\Model\Entity\Bar'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\Bar::getInvalidField(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Bar')
+		argumentsSet('entityFields:Relations\Model\Entity\Bar'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\Bar::getOriginal(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Bar')
+		argumentsSet('entityFields:Relations\Model\Entity\Bar'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\Bar::has(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Bar')
+		argumentsSet('entityFields:Relations\Model\Entity\Bar'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\Bar::hasValue(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Bar')
+		argumentsSet('entityFields:Relations\Model\Entity\Bar'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\Bar::isDirty(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Bar')
+		argumentsSet('entityFields:Relations\Model\Entity\Bar'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\Bar::isEmpty(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Bar')
+		argumentsSet('entityFields:Relations\Model\Entity\Bar'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\Bar::setDirty(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Bar')
+		argumentsSet('entityFields:Relations\Model\Entity\Bar'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\Bar::setError(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Bar')
+		argumentsSet('entityFields:Relations\Model\Entity\Bar'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\Foo::get(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Foo')
+		argumentsSet('entityFields:Relations\Model\Entity\Foo'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\Foo::getError(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Foo')
+		argumentsSet('entityFields:Relations\Model\Entity\Foo'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\Foo::getInvalidField(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Foo')
+		argumentsSet('entityFields:Relations\Model\Entity\Foo'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\Foo::getOriginal(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Foo')
+		argumentsSet('entityFields:Relations\Model\Entity\Foo'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\Foo::has(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Foo')
+		argumentsSet('entityFields:Relations\Model\Entity\Foo'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\Foo::hasValue(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Foo')
+		argumentsSet('entityFields:Relations\Model\Entity\Foo'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\Foo::isDirty(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Foo')
+		argumentsSet('entityFields:Relations\Model\Entity\Foo'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\Foo::isEmpty(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Foo')
+		argumentsSet('entityFields:Relations\Model\Entity\Foo'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\Foo::setDirty(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Foo')
+		argumentsSet('entityFields:Relations\Model\Entity\Foo'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\Foo::setError(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Foo')
+		argumentsSet('entityFields:Relations\Model\Entity\Foo'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\User::get(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\User')
+		argumentsSet('entityFields:Relations\Model\Entity\User'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\User::getError(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\User')
+		argumentsSet('entityFields:Relations\Model\Entity\User'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\User::getInvalidField(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\User')
+		argumentsSet('entityFields:Relations\Model\Entity\User'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\User::getOriginal(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\User')
+		argumentsSet('entityFields:Relations\Model\Entity\User'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\User::has(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\User')
+		argumentsSet('entityFields:Relations\Model\Entity\User'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\User::hasValue(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\User')
+		argumentsSet('entityFields:Relations\Model\Entity\User'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\User::isDirty(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\User')
+		argumentsSet('entityFields:Relations\Model\Entity\User'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\User::isEmpty(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\User')
+		argumentsSet('entityFields:Relations\Model\Entity\User'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\User::setDirty(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\User')
+		argumentsSet('entityFields:Relations\Model\Entity\User'),
 	);
 
 	expectedArguments(
 		\Relations\Model\Entity\User::setError(),
 		0,
-		argumentsSet('entityFields:Relations\Model\Entity\User')
+		argumentsSet('entityFields:Relations\Model\Entity\User'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\BarBar::get(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBar')
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBar'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\BarBar::getError(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBar')
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBar'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\BarBar::getInvalidField(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBar')
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBar'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\BarBar::getOriginal(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBar')
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBar'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\BarBar::has(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBar')
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBar'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\BarBar::hasValue(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBar')
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBar'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\BarBar::isDirty(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBar')
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBar'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\BarBar::isEmpty(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBar')
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBar'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\BarBar::setDirty(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBar')
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBar'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\BarBar::setError(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBar')
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBar'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\BarBarsAbstract::get(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract')
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\BarBarsAbstract::getError(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract')
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\BarBarsAbstract::getInvalidField(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract')
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\BarBarsAbstract::getOriginal(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract')
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\BarBarsAbstract::has(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract')
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\BarBarsAbstract::hasValue(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract')
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\BarBarsAbstract::isDirty(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract')
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\BarBarsAbstract::isEmpty(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract')
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\BarBarsAbstract::setDirty(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract')
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\BarBarsAbstract::setError(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract')
+		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\Car::get(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Car')
+		argumentsSet('entityFields:TestApp\Model\Entity\Car'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\Car::getError(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Car')
+		argumentsSet('entityFields:TestApp\Model\Entity\Car'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\Car::getInvalidField(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Car')
+		argumentsSet('entityFields:TestApp\Model\Entity\Car'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\Car::getOriginal(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Car')
+		argumentsSet('entityFields:TestApp\Model\Entity\Car'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\Car::has(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Car')
+		argumentsSet('entityFields:TestApp\Model\Entity\Car'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\Car::hasValue(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Car')
+		argumentsSet('entityFields:TestApp\Model\Entity\Car'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\Car::isDirty(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Car')
+		argumentsSet('entityFields:TestApp\Model\Entity\Car'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\Car::isEmpty(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Car')
+		argumentsSet('entityFields:TestApp\Model\Entity\Car'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\Car::setDirty(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Car')
+		argumentsSet('entityFields:TestApp\Model\Entity\Car'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\Car::setError(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Car')
+		argumentsSet('entityFields:TestApp\Model\Entity\Car'),
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\Foo::get(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\Foo'),
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\Foo::getError(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\Foo'),
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\Foo::getInvalidField(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\Foo'),
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\Foo::getOriginal(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\Foo'),
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\Foo::has(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\Foo'),
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\Foo::hasValue(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\Foo'),
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\Foo::isDirty(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\Foo'),
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\Foo::isEmpty(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\Foo'),
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\Foo::setDirty(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\Foo'),
+	);
+
+	expectedArguments(
+		\TestApp\Model\Entity\Foo::setError(),
+		0,
+		argumentsSet('entityFields:TestApp\Model\Entity\Foo'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\Wheel::get(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Wheel')
+		argumentsSet('entityFields:TestApp\Model\Entity\Wheel'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\Wheel::getError(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Wheel')
+		argumentsSet('entityFields:TestApp\Model\Entity\Wheel'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\Wheel::getInvalidField(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Wheel')
+		argumentsSet('entityFields:TestApp\Model\Entity\Wheel'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\Wheel::getOriginal(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Wheel')
+		argumentsSet('entityFields:TestApp\Model\Entity\Wheel'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\Wheel::has(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Wheel')
+		argumentsSet('entityFields:TestApp\Model\Entity\Wheel'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\Wheel::hasValue(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Wheel')
+		argumentsSet('entityFields:TestApp\Model\Entity\Wheel'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\Wheel::isDirty(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Wheel')
+		argumentsSet('entityFields:TestApp\Model\Entity\Wheel'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\Wheel::isEmpty(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Wheel')
+		argumentsSet('entityFields:TestApp\Model\Entity\Wheel'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\Wheel::setDirty(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Wheel')
+		argumentsSet('entityFields:TestApp\Model\Entity\Wheel'),
 	);
 
 	expectedArguments(
 		\TestApp\Model\Entity\Wheel::setError(),
 		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Wheel')
+		argumentsSet('entityFields:TestApp\Model\Entity\Wheel'),
 	);
 
 	expectedArguments(
@@ -1229,26 +1257,26 @@ namespace PHPSTORM_META {
 		'ide_helper',
 		'my_namespace/my_plugin',
 		'relations',
-		'shim'
+		'shim',
 	);
 
 	expectedArguments(
 		\env(),
 		0,
-		'HTTP_HOST'
+		'HTTP_HOST',
 	);
 
 	expectedArguments(
 		\urlArray(),
 		0,
-		argumentsSet('routePaths')
+		argumentsSet('routePaths'),
 	);
 
 	registerArgumentsSet(
 		'cacheEngines',
 		'_cake_core_',
 		'_cake_model_',
-		'default'
+		'default',
 	);
 
 	registerArgumentsSet(
@@ -1256,7 +1284,7 @@ namespace PHPSTORM_META {
 		'content',
 		'created',
 		'id',
-		'name'
+		'name',
 	);
 
 	registerArgumentsSet(
@@ -1281,7 +1309,7 @@ namespace PHPSTORM_META {
 		'time',
 		'timestamp',
 		'uuid',
-		'year'
+		'year',
 	);
 
 	registerArgumentsSet(
@@ -1298,16 +1326,13 @@ namespace PHPSTORM_META {
 		'plugins.Bake',
 		'plugins.Cake/TwigView',
 		'plugins.Migrations',
-		'plugins.Shim'
+		'plugins.Shim',
 	);
 
 	registerArgumentsSet(
 		'entityFields:Cake\ORM\Entity',
-		'car',
-		'content',
-		'created',
 		'id',
-		'name'
+		'name',
 	);
 
 	registerArgumentsSet(
@@ -1315,7 +1340,7 @@ namespace PHPSTORM_META {
 		'id',
 		'name',
 		'user',
-		'user_id'
+		'user_id',
 	);
 
 	registerArgumentsSet(
@@ -1323,7 +1348,7 @@ namespace PHPSTORM_META {
 		'id',
 		'name',
 		'user',
-		'user_id'
+		'user_id',
 	);
 
 	registerArgumentsSet(
@@ -1331,7 +1356,7 @@ namespace PHPSTORM_META {
 		'bar',
 		'foo',
 		'id',
-		'name'
+		'name',
 	);
 
 	registerArgumentsSet(
@@ -1341,7 +1366,7 @@ namespace PHPSTORM_META {
 		'foo',
 		'houses',
 		'id',
-		'name'
+		'name',
 	);
 
 	registerArgumentsSet(
@@ -1351,7 +1376,7 @@ namespace PHPSTORM_META {
 		'foo',
 		'houses',
 		'id',
-		'name'
+		'name',
 	);
 
 	registerArgumentsSet(
@@ -1361,7 +1386,15 @@ namespace PHPSTORM_META {
 		'id',
 		'modified',
 		'name',
-		'wheels'
+		'wheels',
+	);
+
+	registerArgumentsSet(
+		'entityFields:TestApp\Model\Entity\Foo',
+		'content',
+		'created',
+		'id',
+		'name',
 	);
 
 	registerArgumentsSet(
@@ -1371,24 +1404,24 @@ namespace PHPSTORM_META {
 		'created',
 		'id',
 		'name',
-		'virtual_one'
+		'virtual_one',
 	);
 
 	registerArgumentsSet(
 		'routePaths',
 		'Awesome.Admin/AwesomeHouses::openDoor',
-		'Bar::index'
+		'Bar::index',
 	);
 
 	registerArgumentsSet(
 		'tableNames',
-		'wheels'
+		'wheels',
 	);
 
 	registerArgumentsSet(
 		'validationWhen',
 		'create',
-		'update'
+		'update',
 	);
 
 }

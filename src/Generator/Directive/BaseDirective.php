@@ -31,7 +31,7 @@ abstract class BaseDirective {
 	 *
 	 * @return string
 	 */
-	protected function buildList(array $array, $indentation = 2): string {
+	protected function buildList(array $array, int $indentation = 2): string {
 		$result = [];
 		foreach ($array as $value) {
 			if ($value instanceof ValueObjectInterface) {
@@ -42,7 +42,12 @@ abstract class BaseDirective {
 			$result[] = str_repeat("\t", $indentation) . $element;
 		}
 
-		return implode(',' . PHP_EOL, $result);
+		$string = implode(',' . PHP_EOL, $result);
+		if ($string) {
+			$string .= ',';
+		}
+
+		return $string;
 	}
 
 	/**
@@ -51,7 +56,7 @@ abstract class BaseDirective {
 	 *
 	 * @return string
 	 */
-	protected function buildKeyValueMap(array $array, $indentation = 3): string {
+	protected function buildKeyValueMap(array $array, int $indentation = 3): string {
 		$result = [];
 		foreach ($array as $alias => $value) {
 			if ($value instanceof KeyValue) {

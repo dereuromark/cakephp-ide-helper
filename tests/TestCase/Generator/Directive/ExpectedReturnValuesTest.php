@@ -23,7 +23,7 @@ class ExpectedReturnValuesTest extends TestCase {
 	expectedReturnValues(
 		\Cake\ORM\Table::addBehavior(),
 		\Foo\Bar::class,
-		"string"
+		"string",
 	);
 TXT;
 		$this->assertSame($expected, $result);

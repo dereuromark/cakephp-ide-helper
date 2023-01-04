@@ -4,7 +4,7 @@ namespace TestApp\Custom\Nested;
 use Cake\Datasource\ModelAwareTrait;
 
 /**
- * @property \TestApp\Model\Table\FooTable $Foo
+ * @property \TestApp\Model\Table\FoosTable $Foos
  */
 class NestedClass {
 
@@ -14,7 +14,7 @@ class NestedClass {
 	 * @return void
 	 */
 	public function initialize() {
-		$this->loadModel('Foo');
+		$this->loadModel('Foos');
 	}
 
 }

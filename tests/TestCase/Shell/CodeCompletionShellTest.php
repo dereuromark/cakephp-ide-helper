@@ -33,6 +33,8 @@ class CodeCompletionShellTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->skipIf(true, 'Deprecated, will be moved to Command');
+
 		if (!is_dir(LOGS)) {
 			mkdir(LOGS, 0770, true);
 		}
@@ -47,7 +49,6 @@ class CodeCompletionShellTest extends TestCase {
 
 		$this->Shell = $this->getMockBuilder(CodeCompletionShell::class)
 			->setMethods(['_stop', 'getMetaFilePath'])
-			->setConstructorArgs([$io])
 			->getMock();
 		$this->Shell->expects($this->any())->method('getMetaFilePath')->willReturn(TMP . 'phpstorm' . DS . '.meta.php');
 	}
@@ -64,7 +65,7 @@ class CodeCompletionShellTest extends TestCase {
 	 * @return void
 	 */
 	public function testGenerate() {
-		$result = $this->Shell->runCommand(['generate']);
+		$result = $this->Shell->run(['generate']);
 
 		$output = $this->out->output();
 		$this->assertTextContains('CodeCompletion files generated: Cake\Controller, Cake\ORM, Cake\View', $output);

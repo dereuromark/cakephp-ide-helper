@@ -4,7 +4,7 @@ namespace IdeHelper\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
 
-class FooFixture extends TestFixture {
+class FoosFixture extends TestFixture {
 
 	/**
 	 * Fields

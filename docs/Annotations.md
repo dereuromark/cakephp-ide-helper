@@ -215,7 +215,7 @@ A component containing
 would get the following annotations:
 ```php
 /**
- * @property \App\Controller\Component\RequestHandlerComponent $RequestHandler
+ * @property \App\Controller\Component\CheckHttpCacheComponent $CheckHttpCache
  * @property \Flash\Controller\Component\FlashComponent $Flash
  */
 ```
