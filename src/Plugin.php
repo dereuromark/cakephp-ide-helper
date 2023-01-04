@@ -15,13 +15,6 @@ use IdeHelper\Shell\PhpstormShell;
 class Plugin extends BasePlugin {
 
 	/**
-	 * Plugin name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'IdeHelper';
-
-	/**
 	 * Define the console commands for an application.
 	 *
 	 * @param \Cake\Console\CommandCollection $commands The CommandCollection to add commands into.

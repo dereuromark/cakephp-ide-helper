@@ -1,37 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-    colors="true"
-    bootstrap="tests/bootstrap.php"
-    >
-    <php>
-        <ini name="memory_limit" value="-1"/>
-        <ini name="apc.enable_cli" value="1"/>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" bootstrap="tests/bootstrap.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+
+	<php>
+		<ini name="memory_limit" value="-1"/>
+		<ini name="apc.enable_cli" value="1"/>
 		<!-- E_ALL => 32767 -->
 		<!-- E_ALL & ~E_USER_DEPRECATED => 16383 -->
 		<ini name="error_reporting" value="16383"/>
-    </php>
 
-    <!-- Add any additional test suites you want to run here -->
-    <testsuites>
-        <testsuite name="ide-helper">
-            <directory>tests/TestCase/</directory>
-        </testsuite>
-    </testsuites>
+		<env name="FIXTURE_SCHEMA_METADATA" value="tests/schema.php"/>
+	</php>
 
-    <!-- Setup a listener for fixtures -->
-    <listeners>
-        <listener class="Cake\TestSuite\Fixture\FixtureInjector">
-            <arguments>
-                <object class="Cake\TestSuite\Fixture\FixtureManager"/>
-            </arguments>
-        </listener>
-    </listeners>
+	<testsuites>
+		<testsuite name="ide-helper">
+			<directory>tests/TestCase/</directory>
+		</testsuite>
+	</testsuites>
 
-    <!-- Prevent coverage reports from looking in tests and vendors -->
-    <filter>
-        <whitelist>
-            <directory suffix=".php">src/</directory>
-        </whitelist>
-    </filter>
+	<listeners>
+		<listener class="Cake\TestSuite\Fixture\FixtureInjector">
+			<arguments>
+				<object class="Cake\TestSuite\Fixture\FixtureManager"/>
+			</arguments>
+		</listener>
+	</listeners>
 
+	<coverage>
+		<include>
+			<directory suffix=".php">src/</directory>
+		</include>
+	</coverage>
 </phpunit>
