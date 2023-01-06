@@ -74,11 +74,6 @@
 		"cs-check": "phpcs --extensions=php",
 		"cs-fix": "phpcbf --extensions=php"
 	},
-	"extra": {
-		"branch-alias": {
-			"dev-master": "1.0.x-dev"
-		}
-	},
 	"config": {
 		"allow-plugins": {
 			"cakephp/plugin-installer": true,
