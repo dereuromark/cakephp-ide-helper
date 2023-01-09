@@ -19,7 +19,7 @@ class ExpectedArgumentsTest extends TestCase {
 		$directive = new ExpectedArguments('\\' . Table::class . '::addBehavior()', 0, $map);
 
 		$result = $directive->build();
-		$expected = <<<TXT
+		$expected = <<<'TXT'
 	expectedArguments(
 		\Cake\ORM\Table::addBehavior(),
 		0,

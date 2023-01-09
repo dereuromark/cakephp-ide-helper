@@ -19,7 +19,7 @@ class ExpectedReturnValuesTest extends TestCase {
 		$directive = new ExpectedReturnValues('\\' . Table::class . '::addBehavior()', $map);
 
 		$result = $directive->build();
-		$expected = <<<TXT
+		$expected = <<<'TXT'
 	expectedReturnValues(
 		\Cake\ORM\Table::addBehavior(),
 		\Foo\Bar::class,

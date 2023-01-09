@@ -24,7 +24,7 @@ class ControllerEventsTaskTest extends TestCase {
 	public function testCollect() {
 		$result = $this->task->create();
 
-		$expected = <<<TXT
+		$expected = <<<'TXT'
 
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
@@ -32,44 +32,44 @@ use Cake\Http\Response;
 if (false) {
 	class Controller
 	{
-		public function startup(EventInterface \$event): ?Response {
+		public function startup(EventInterface $event): ?Response {
 			return null;
 		}
-		public function beforeFilter(EventInterface \$event): ?Response {
+		public function beforeFilter(EventInterface $event): ?Response {
 			return null;
 		}
-		public function beforeRender(EventInterface \$event): ?Response {
+		public function beforeRender(EventInterface $event): ?Response {
 			return null;
 		}
-		public function afterFilter(EventInterface \$event): ?Response {
+		public function afterFilter(EventInterface $event): ?Response {
 			return null;
 		}
-		public function shutdown(EventInterface \$event): ?Response {
+		public function shutdown(EventInterface $event): ?Response {
 			return null;
 		}
-		public function beforeRedirect(EventInterface \$event, \$url, Response \$response) {
+		public function beforeRedirect(EventInterface $event, $url, Response $response) {
 			return null;
 		}
 	}
 
 	class Component
 	{
-		public function startup(EventInterface \$event): ?Response {
+		public function startup(EventInterface $event): ?Response {
 			return null;
 		}
-		public function beforeFilter(EventInterface \$event): ?Response {
+		public function beforeFilter(EventInterface $event): ?Response {
 			return null;
 		}
-		public function beforeRender(EventInterface \$event): ?Response {
+		public function beforeRender(EventInterface $event): ?Response {
 			return null;
 		}
-		public function afterFilter(EventInterface \$event): ?Response {
+		public function afterFilter(EventInterface $event): ?Response {
 			return null;
 		}
-		public function shutdown(EventInterface \$event): ?Response {
+		public function shutdown(EventInterface $event): ?Response {
 			return null;
 		}
-		public function beforeRedirect(EventInterface \$event, \$url, Response \$response) {
+		public function beforeRedirect(EventInterface $event, $url, Response $response) {
 			return null;
 		}
 	}

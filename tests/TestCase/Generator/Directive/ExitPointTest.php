@@ -15,7 +15,7 @@ class ExitPointTest extends TestCase {
 		$directive = new ExitPoint('\\' . ConsoleIo::class . '::abort()');
 
 		$result = $directive->build();
-		$expected = <<<TXT
+		$expected = <<<'TXT'
 	exitPoint(\Cake\Console\ConsoleIo::abort());
 TXT;
 		$this->assertSame($expected, $result);

@@ -83,14 +83,14 @@ class VariableExtractorTest extends TestCase {
 	 * @return void
 	 */
 	public function testExtractExceptions() {
-		$content = <<<CODE
+		$content = <<<'PHP'
 <?php
-foreach (\$exceptions as \$exception) {}
+foreach ($exceptions as $exception) {}
 
 try {
-} catch (Exception \$e) {
+} catch (Exception $e) {
 }
-CODE;
+PHP;
 
 		$file = $this->getFile('', $content);
 
@@ -116,13 +116,13 @@ CODE;
 	 * @return void
 	 */
 	public function testExtractAssignment() {
-		$content = <<<CODE
+		$content = <<<'PHP'
 <?php
-if (strpos(\$module, '.')) {
-    [\$prefix, \$moduleName, \$suffix] = explode('.', \$module);
+if (strpos($module, '.')) {
+    [$prefix, $moduleName, $suffix] = explode('.', $module);
 }
-//list(\$x, \$y) = [\$z, \$z]; // We dont support the old syntax yet/anymore
-CODE;
+//list($x, $y) = [$z, $z]; // We dont support the old syntax yet/anymore
+PHP;
 
 		$file = $this->getFile('', $content);
 
@@ -162,14 +162,14 @@ CODE;
 	 * @return void
 	 */
 	public function testExtractTypeStringAndArray() {
-		$content = <<<CODE
+		$content = <<<'PHP'
 <?php
-echo \$x['foo'];
-echo \$string;
-echo \$y . 'z' . \$z;
+echo $x['foo'];
+echo $string;
+echo $y . 'z' . $z;
 ?>
-<?= \$str ?>
-CODE;
+<?= $str ?>
+PHP;
 
 		$file = $this->getFile('', $content);
 

@@ -20,7 +20,7 @@ class RegisterArgumentsSetTest extends TestCase {
 		$directive = new RegisterArgumentsSet('foo', $list);
 
 		$result = $directive->build();
-		$expected = <<<TXT
+		$expected = <<<'TXT'
 	registerArgumentsSet(
 		'foo',
 		\Foo\Bar::class,
@@ -60,7 +60,7 @@ TXT;
 		$directive = new ExpectedArguments('\My\Class::someMethod()', 1, $list);
 
 		$result = $directive->build();
-		$expected = <<<TXT
+		$expected = <<<'TXT'
 	expectedArguments(
 		\My\Class::someMethod(),
 		1,
@@ -86,7 +86,7 @@ TXT;
 		$directive = new ExpectedReturnValues('\My\Class::someMethod()', $list);
 
 		$result = $directive->build();
-		$expected = <<<TXT
+		$expected = <<<'TXT'
 	expectedReturnValues(
 		\My\Class::someMethod(),
 		argumentsSet('fooBar'),

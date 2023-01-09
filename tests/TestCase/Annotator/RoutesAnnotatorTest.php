@@ -124,9 +124,9 @@ class RoutesAnnotatorTest extends TestCase {
 	public function testHasAnnotation() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$content = <<<PHP
+		$content = <<<'PHP'
 /**
- * @var \Cake\Routing\RouteBuilder \$routes
+ * @var \Cake\Routing\RouteBuilder $routes
  */
 PHP;
 		$result = $this->invokeMethod($annotator, 'hasAnnotation', [$content]);

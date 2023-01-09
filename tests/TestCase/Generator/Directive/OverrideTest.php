@@ -21,7 +21,7 @@ class OverrideTest extends TestCase {
 		$directive = new Override('\\' . Table::class . '::addBehavior(0)', $map);
 
 		$result = $directive->build();
-		$expected = <<<TXT
+		$expected = <<<'TXT'
 	override(
 		\Cake\ORM\Table::addBehavior(0),
 		map([
@@ -48,7 +48,7 @@ TXT;
 		$directive = new Override('\\' . Table::class . '::addBehavior(0)', $map);
 
 		$result = $directive->build();
-		$expected = <<<TXT
+		$expected = <<<'TXT'
 	override(
 		\Cake\ORM\Table::addBehavior(0),
 		map([
