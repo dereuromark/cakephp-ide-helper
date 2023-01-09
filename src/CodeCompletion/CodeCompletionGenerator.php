@@ -24,7 +24,7 @@ class CodeCompletionGenerator {
 		foreach ($map as $namespace => $array) {
 			$content = $this->buildContent($array);
 
-			$template = <<<TXT
+			$template = <<<CODE
 <?php
 namespace $namespace;
 
@@ -32,7 +32,7 @@ namespace $namespace;
  * Only for code completion - regenerate using `bin/cake code_completion generate`.
  */
 $content
-TXT;
+CODE;
 
 			$path = $this->path();
 			$filename = $path . 'CodeCompletion' . $this->type($namespace) . '.php';

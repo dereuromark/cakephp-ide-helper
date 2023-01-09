@@ -20,28 +20,28 @@ class ControllerEventsTask implements TaskInterface {
 	 * @return string
 	 */
 	public function create(): string {
-		$events = <<<TXT
-		public function startup(EventInterface \$event): ?Response {
+		$events = <<<'TXT'
+		public function startup(EventInterface $event): ?Response {
 			return null;
 		}
-		public function beforeFilter(EventInterface \$event): ?Response {
+		public function beforeFilter(EventInterface $event): ?Response {
 			return null;
 		}
-		public function beforeRender(EventInterface \$event): ?Response {
+		public function beforeRender(EventInterface $event): ?Response {
 			return null;
 		}
-		public function afterFilter(EventInterface \$event): ?Response {
+		public function afterFilter(EventInterface $event): ?Response {
 			return null;
 		}
-		public function shutdown(EventInterface \$event): ?Response {
+		public function shutdown(EventInterface $event): ?Response {
 			return null;
 		}
-		public function beforeRedirect(EventInterface \$event, \$url, Response \$response) {
+		public function beforeRedirect(EventInterface $event, $url, Response $response) {
 			return null;
 		}
 TXT;
 
-		return <<<TXT
+		return <<<CODE
 
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
@@ -58,7 +58,7 @@ $events
 	}
 }
 
-TXT;
+CODE;
 	}
 
 }

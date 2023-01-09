@@ -20,16 +20,16 @@ class ViewEventsTask implements TaskInterface {
 	 * @return string
 	 */
 	public function create(): string {
-		$events = <<<TXT
-		public function beforeRenderFile(EventInterface \$event): void {}
-		public function afterRenderFile(EventInterface \$event): void {}
-		public function beforeRender(EventInterface \$event): void {}
-		public function afterRender(EventInterface \$event): void {}
-		public function beforeLayout(EventInterface \$event): void {}
-		public function afterLayout(EventInterface \$event): void {}
+		$events = <<<'TXT'
+		public function beforeRenderFile(EventInterface $event): void {}
+		public function afterRenderFile(EventInterface $event): void {}
+		public function beforeRender(EventInterface $event): void {}
+		public function afterRender(EventInterface $event): void {}
+		public function beforeLayout(EventInterface $event): void {}
+		public function afterLayout(EventInterface $event): void {}
 TXT;
 
-		return <<<TXT
+		return <<<CODE
 
 use Cake\Event\EventInterface;
 
@@ -40,7 +40,7 @@ $events
 	}
 }
 
-TXT;
+CODE;
 	}
 
 }

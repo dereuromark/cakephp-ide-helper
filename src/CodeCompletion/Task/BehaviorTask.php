@@ -32,14 +32,14 @@ class BehaviorTask implements TaskInterface {
 
 		$content = $this->build($behaviors);
 
-		$content = <<<TXT
+		$content = <<<CODE
 abstract class BehaviorRegistry extends \Cake\Core\ObjectRegistry {
 
 $content
 
 }
 
-TXT;
+CODE;
 
 		return $content;
 	}
@@ -108,14 +108,14 @@ TXT;
 		foreach ($behaviors as $behavior => $className) {
 			[$plugin, $name] = pluginSplit($behavior);
 
-			$template = <<<TXT
+			$template = <<<CODE
 	/**
 	 * $behavior behavior.
 	 *
 	 * @var \\$className
 	 */
 	public \$$name;
-TXT;
+CODE;
 			$result[] = $template;
 		}
 
