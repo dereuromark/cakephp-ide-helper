@@ -27,19 +27,19 @@ class ViewEventsTaskTest extends TestCase {
 	public function testCollect() {
 		$result = $this->task->create();
 
-		$expected = <<<TXT
+		$expected = <<<'TXT'
 
 use Cake\Event\EventInterface;
 
 if (false) {
 	abstract class Helper
 	{
-		public function beforeRenderFile(EventInterface \$event): void {}
-		public function afterRenderFile(EventInterface \$event): void {}
-		public function beforeRender(EventInterface \$event): void {}
-		public function afterRender(EventInterface \$event): void {}
-		public function beforeLayout(EventInterface \$event): void {}
-		public function afterLayout(EventInterface \$event): void {}
+		public function beforeRenderFile(EventInterface $event): void {}
+		public function afterRenderFile(EventInterface $event): void {}
+		public function beforeRender(EventInterface $event): void {}
+		public function afterRender(EventInterface $event): void {}
+		public function beforeLayout(EventInterface $event): void {}
+		public function afterLayout(EventInterface $event): void {}
 	}
 }
 
