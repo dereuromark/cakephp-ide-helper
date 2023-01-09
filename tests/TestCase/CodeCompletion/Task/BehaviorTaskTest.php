@@ -27,7 +27,7 @@ class BehaviorTaskTest extends TestCase {
 	public function testCollect() {
 		$result = $this->task->create();
 
-		$expected = <<<TXT
+		$expected = <<<'TXT'
 abstract class BehaviorRegistry extends \Cake\Core\ObjectRegistry {
 
 	/**
@@ -35,14 +35,14 @@ abstract class BehaviorRegistry extends \Cake\Core\ObjectRegistry {
 	 *
 	 * @var \MyNamespace\MyPlugin\Model\Behavior\MyBehavior
 	 */
-	public \$My;
+	public $My;
 
 	/**
 	 * Shim.Nullable behavior.
 	 *
 	 * @var \Shim\Model\Behavior\NullableBehavior
 	 */
-	public \$Nullable;
+	public $Nullable;
 
 }
 
