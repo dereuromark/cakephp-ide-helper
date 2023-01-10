@@ -26,9 +26,7 @@ class TaskCollection {
 	protected array $_config;
 
 	/**
-	 * @phpstan-var array<class-string<\IdeHelper\Illuminator\Task\AbstractTask>, class-string<\IdeHelper\Illuminator\Task\AbstractTask>>
-	 *
-	 * @var array<string, string>
+	 * @var array<class-string<\IdeHelper\Illuminator\Task\AbstractTask>, class-string<\IdeHelper\Illuminator\Task\AbstractTask>>
 	 */
 	protected array $defaultTasks = [
 		EntityFieldTask::class => EntityFieldTask::class,
@@ -71,9 +69,7 @@ class TaskCollection {
 	}
 
 	/**
-	 * @phpstan-return array<class-string<\IdeHelper\Illuminator\Task\AbstractTask>>
-	 *
-	 * @return array<string>
+	 * @return array<class-string<\IdeHelper\Illuminator\Task\AbstractTask>>
 	 */
 	protected function defaultTasks(): array {
 		$tasks = (array)Configure::read('IdeHelper.illuminatorTasks') + $this->defaultTasks;

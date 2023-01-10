@@ -51,9 +51,7 @@ class ComponentAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @phpstan-param class-string<object> $className
-	 *
-	 * @param string $className
+	 * @param class-string<object> $className
 	 *
 	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
@@ -69,9 +67,7 @@ class ComponentAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @phpstan-param class-string<object> $className
-	 *
-	 * @param string $className
+	 * @param class-string<object> $className $className
 	 *
 	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */

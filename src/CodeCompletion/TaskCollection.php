@@ -13,9 +13,7 @@ use InvalidArgumentException;
 class TaskCollection {
 
 	/**
-	 * @phpstan-var array<class-string<\IdeHelper\CodeCompletion\Task\TaskInterface>, class-string<\IdeHelper\CodeCompletion\Task\TaskInterface>>
-	 *
-	 * @var array<string, string>
+	 * @var array<class-string<\IdeHelper\CodeCompletion\Task\TaskInterface>, class-string<\IdeHelper\CodeCompletion\Task\TaskInterface>>
 	 */
 	protected array $defaultTasks = [
 		BehaviorTask::class => BehaviorTask::class,
@@ -30,7 +28,7 @@ class TaskCollection {
 	protected array $tasks = [];
 
 	/**
-	 * @param array<string|\IdeHelper\Generator\Task\TaskInterface> $tasks
+	 * @param array<class-string<\IdeHelper\CodeCompletion\Task\TaskInterface>|\IdeHelper\Generator\Task\TaskInterface> $tasks
 	 */
 	public function __construct(array $tasks = []) {
 		$defaultTasks = (array)Configure::read('IdeHelper.codeCompletionTasks') + $this->defaultTasks;
@@ -48,7 +46,7 @@ class TaskCollection {
 	/**
 	 * Adds a task to the collection.
 	 *
-	 * @param \IdeHelper\CodeCompletion\Task\TaskInterface|string $task The task to map.
+	 * @param \IdeHelper\CodeCompletion\Task\TaskInterface|class-string<\IdeHelper\CodeCompletion\Task\TaskInterface> $task The task to map.
 	 * @throws \InvalidArgumentException
 	 * @return $this
 	 */

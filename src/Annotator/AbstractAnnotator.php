@@ -868,9 +868,7 @@ abstract class AbstractAnnotator {
 	}
 
 	/**
-	 * @phpstan-param class-string<object> $className
-	 *
-	 * @param string $className
+	 * @param class-string<object> $className
 	 *
 	 * @return bool
 	 */

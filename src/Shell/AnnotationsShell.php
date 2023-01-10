@@ -746,13 +746,11 @@ class AnnotationsShell extends Shell {
 	}
 
 	/**
-	 * @phpstan-param class-string<\IdeHelper\Annotator\AbstractAnnotator> $class
-	 *
-	 * @param string $class
+	 * @param class-string<\IdeHelper\Annotator\AbstractAnnotator> $class
 	 *
 	 * @return \IdeHelper\Annotator\AbstractAnnotator
 	 */
-	protected function getAnnotator($class): AbstractAnnotator {
+	protected function getAnnotator(string $class): AbstractAnnotator {
 		/** @phpstan-var array<class-string<\IdeHelper\Annotator\AbstractAnnotator>> $tasks */
 		$tasks = (array)Configure::read('IdeHelper.annotators');
 		if (isset($tasks[$class])) {

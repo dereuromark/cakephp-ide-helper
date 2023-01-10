@@ -15,9 +15,7 @@ class ValidationTask implements TaskInterface {
 	public const SET_VALIDATION_WHEN = 'validationWhen';
 
 	/**
-	 * @phpstan-var array<string, int>
-	 *
-	 * @var array<int>
+	 * @var array<string, int>
 	 */
 	protected static array $methods = [
 		'requirePresence' => 1,

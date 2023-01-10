@@ -37,9 +37,7 @@ use InvalidArgumentException;
 class TaskCollection {
 
 	/**
-	 * @phpstan-var array<class-string<\IdeHelper\Generator\Task\TaskInterface>, class-string<\IdeHelper\Generator\Task\TaskInterface>>
-	 *
-	 * @var array<string, string>
+	 * @var array<class-string<\IdeHelper\Generator\Task\TaskInterface>, class-string<\IdeHelper\Generator\Task\TaskInterface>>
 	 */
 	protected array $defaultTasks = [
 		ModelTask::class => ModelTask::class,
@@ -94,9 +92,7 @@ class TaskCollection {
 	}
 
 	/**
-	 * @phpstan-return array<class-string<\IdeHelper\Generator\Task\TaskInterface>>
-	 *
-	 * @return array<string>
+	 * @return array<class-string<\IdeHelper\Generator\Task\TaskInterface>>
 	 */
 	protected function defaultTasks(): array {
 		$tasks = (array)Configure::read('IdeHelper.generatorTasks') + $this->defaultTasks;

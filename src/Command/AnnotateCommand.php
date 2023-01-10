@@ -6,6 +6,8 @@ use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
+use IdeHelper\Annotator\AbstractAnnotator;
+use IdeHelper\Console\Io;
 use Shim\Command\Command;
 
 class AnnotateCommand extends Command {
@@ -148,6 +150,65 @@ class AnnotateCommand extends Command {
 				'help' => 'Annotate callback methods using callback annotation tasks. This task is not part of "all" when "-r" is used.',
 				'parser' => $parserWithoutRemove,
 			]);
+	}
+
+	/**
+	 * @return \IdeHelper\Console\Io
+	 */
+	protected function _io(): Io {
+		return new Io($this->_io());
+	}
+
+	/**
+	 * @param string $fileName
+	 *
+	 * @return bool
+	 */
+	protected function _shouldSkip(string $fileName): bool {
+		$filter = (string)$this->param('filter');
+		if (!$filter) {
+			return false;
+		}
+
+		return !(bool)preg_match('/' . preg_quote($filter, '/') . '/i', $fileName);
+	}
+
+	/**
+	 * Checks template extensions against whitelist.
+	 *
+	 * @param string $extension
+	 * @return bool
+	 */
+	protected function _shouldSkipExtension(string $extension): bool {
+		$whitelist = Configure::read('IdeHelper.templateExtensions') ?: static::TEMPLATE_EXTENSIONS;
+
+		return !in_array($extension, $whitelist, true);
+	}
+
+	/**
+	 * @param class-string<\IdeHelper\Annotator\AbstractAnnotator> $class
+	 *
+	 * @return \IdeHelper\Annotator\AbstractAnnotator
+	 */
+	protected function getAnnotator(string $class): AbstractAnnotator {
+		/** @phpstan-var array<class-string<\IdeHelper\Annotator\AbstractAnnotator>> $tasks */
+		$tasks = (array)Configure::read('IdeHelper.annotators');
+		if (isset($tasks[$class])) {
+			$class = $tasks[$class];
+		}
+
+		if (!isset($this->_instantiatedAnnotators[$class])) {
+			$this->_instantiatedAnnotators[$class] = new $class($this->_io(), $this->params);
+		}
+
+		return $this->_instantiatedAnnotators[$class];
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function _annotatorMadeChanges(): bool {
+		return AbstractAnnotator::$output !== false;
 	}
 
 }
