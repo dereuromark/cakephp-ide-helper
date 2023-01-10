@@ -35,13 +35,6 @@ class AnnotateCommand extends Command {
 	protected array $_instantiatedAnnotators = [];
 
 	/**
-	 * The name of this command.
-	 *
-	 * @var string
-	 */
-	//protected string $name = 'annotate';
-
-	/**
 	 * @return void
 	 */
 	public function initialize(): void {

@@ -12,9 +12,7 @@ use IdeHelper\Console\Io;
 class ClassAnnotatorTaskCollection {
 
 	/**
-	 * @phpstan-var array<class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>, class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>>
-	 *
-	 * @var array<string, string>
+	 * @var array<class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>, class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>>
 	 */
 	protected array $defaultTasks = [
 		ModelAwareClassAnnotatorTask::class => ModelAwareClassAnnotatorTask::class,
@@ -24,16 +22,12 @@ class ClassAnnotatorTaskCollection {
 	];
 
 	/**
-	 * @phpstan-var array<class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>>
-	 *
-	 * @var array<string>
+	 * @var array<class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>>
 	 */
-	protected $tasks;
+	protected array $tasks;
 
 	/**
-	 * @phpstan-param array<class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>> $tasks
-	 *
-	 * @param array<string> $tasks
+	 * @param array<class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>> $tasks
 	 */
 	public function __construct(array $tasks = []) {
 		$defaultTasks = $this->defaultTasks();
@@ -49,9 +43,7 @@ class ClassAnnotatorTaskCollection {
 	}
 
 	/**
-	 * @phpstan-return array<class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>>
-	 *
-	 * @return array<string>
+	 * @return array<class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>>
 	 */
 	public function defaultTasks(): array {
 		$tasks = (array)Configure::read('IdeHelper.classAnnotatorTasks') + $this->defaultTasks;
@@ -72,7 +64,7 @@ class ClassAnnotatorTaskCollection {
 	 * @param string $content
 	 * @return array<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>
 	 */
-	public function tasks(Io $io, array $config, $content) {
+	public function tasks(Io $io, array $config, string $content): array {
 		$tasks = $this->tasks;
 
 		$collection = [];

@@ -18,15 +18,9 @@ class ControllerAnnotatorTest extends TestCase {
 		'plugin.IdeHelper.Wheels',
 	];
 
-	/**
-	 * @var \Shim\TestSuite\ConsoleOutput
-	 */
-	protected $out;
+	protected ConsoleOutput $out;
 
-	/**
-	 * @var \Shim\TestSuite\ConsoleOutput
-	 */
-	protected $err;
+	protected ConsoleOutput $err;
 
 	protected Io $io;
 

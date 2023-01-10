@@ -28,7 +28,7 @@ class DatabaseTableTask implements TaskInterface {
 	/**
 	 * @var array<string>
 	 */
-	protected $aliases = [
+	protected array $aliases = [
 		'\Migrations\AbstractMigration::table()',
 		'\Migrations\AbstractSeed::table()',
 		'\Phinx\Seed\AbstractSeed::table()',

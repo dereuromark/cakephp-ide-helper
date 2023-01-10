@@ -15,15 +15,9 @@ class ComponentAnnotatorTest extends TestCase {
 	use DiffHelperTrait;
 	use TestTrait;
 
-	/**
-	 * @var \Shim\TestSuite\ConsoleOutput
-	 */
-	protected $out;
+	protected ConsoleOutput $out;
 
-	/**
-	 * @var \Shim\TestSuite\ConsoleOutput
-	 */
-	protected $err;
+	protected ConsoleOutput $err;
 
 	protected Io $io;
 

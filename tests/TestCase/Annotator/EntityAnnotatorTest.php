@@ -25,15 +25,9 @@ class EntityAnnotatorTest extends TestCase {
 		'plugin.IdeHelper.Foos',
 	];
 
-	/**
-	 * @var \Shim\TestSuite\ConsoleOutput
-	 */
-	protected $out;
+	protected ConsoleOutput $out;
 
-	/**
-	 * @var \Shim\TestSuite\ConsoleOutput
-	 */
-	protected $err;
+	protected ConsoleOutput $err;
 
 	protected Io $io;
 

@@ -6,7 +6,6 @@ use Cake\Console\ConsoleIo;
 use Cake\Console\TestSuite\ConsoleIntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 use IdeHelper\Command\GeneratePhpStormMetaCommand;
-use IdeHelper\Shell\PhpstormShell;
 use PHPUnit\Framework\MockObject\MockObject;
 use Shim\TestSuite\ConsoleOutput;
 

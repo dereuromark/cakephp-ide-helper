@@ -54,7 +54,7 @@ abstract class AbstractTask {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected $_defaultConfig = [
+	protected array $_defaultConfig = [
 	];
 
 	/**

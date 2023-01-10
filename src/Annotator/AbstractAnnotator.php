@@ -108,7 +108,7 @@ abstract class AbstractAnnotator {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected $_defaultConfig = [
+	protected array $_defaultConfig = [
 		self::CONFIG_PLUGIN => null,
 	];
 

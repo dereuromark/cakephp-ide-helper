@@ -5,7 +5,6 @@ namespace IdeHelper\Command;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
-use Cake\Core\Configure;
 use IdeHelper\Console\Io;
 use IdeHelper\Illuminator\Illuminator;
 use IdeHelper\Illuminator\TaskCollection;
@@ -17,25 +16,6 @@ class IlluminateCommand extends Command {
 	 * @var int
 	 */
 	public const CODE_CHANGES = 2;
-
-	/**
-	 * The name of this command.
-	 *
-	 * @var string
-	 */
-	//protected string $name = 'illuminate';
-
-	/**
-	 * @return void
-	 */
-	public function initialize(): void {
-		parent::initialize();
-
-		$skip = (array)Configure::read('IdeHelper.skipTemplatePaths');
-		if ($skip) {
-			$this->_config['skipTemplatePaths'] = $skip;
-		}
-	}
 
 	/**
 	 * E.g.:
@@ -112,9 +92,11 @@ class IlluminateCommand extends Command {
 	 * @return \IdeHelper\Illuminator\Illuminator
 	 */
 	protected function getIlluminator(): Illuminator {
+		assert($this->args !== null, 'Args not set');
+
 		$tasks = $this->args->getOption('task') ? explode(',', (string)$this->args->getOption('task')) : [];
 
-		$taskCollection = new TaskCollection($this->io(), $this->params, $tasks);
+		$taskCollection = new TaskCollection($this->io(), $this->args->getOptions(), $tasks);
 
 		return new Illuminator($taskCollection);
 	}
@@ -125,6 +107,8 @@ class IlluminateCommand extends Command {
 	 * @return array<string>
 	 */
 	protected function getTaskList(): array {
+		assert($this->args !== null, 'Args not set');
+
 		$taskCollection = new TaskCollection($this->io(), $this->args->getOptions());
 
 		return $taskCollection->taskNames();
@@ -134,6 +118,9 @@ class IlluminateCommand extends Command {
 	 * @return \IdeHelper\Console\Io
 	 */
 	protected function io(): Io {
+		assert($this->io !== null, 'IO not set');
+
 		return new Io($this->io);
 	}
+
 }

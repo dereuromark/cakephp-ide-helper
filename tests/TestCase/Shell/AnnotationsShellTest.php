@@ -19,15 +19,9 @@ class AnnotationsShellTest extends TestCase {
 
 	protected AnnotationsShell|MockObject $Shell;
 
-	/**
-	 * @var \Shim\TestSuite\ConsoleOutput
-	 */
-	protected $out;
+	protected ConsoleOutput $out;
 
-	/**
-	 * @var \Shim\TestSuite\ConsoleOutput
-	 */
-	protected $err;
+	protected ConsoleOutput $err;
 
 	/**
 	 * @return void

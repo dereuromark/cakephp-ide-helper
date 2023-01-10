@@ -16,6 +16,9 @@ class DocBlockHelper extends BakeDocBlockHelper {
 	 */
 	protected static $nullableMap;
 
+	/**
+	 * @var array<string>
+	 */
 	protected array $virtualFields = [];
 
 	/**

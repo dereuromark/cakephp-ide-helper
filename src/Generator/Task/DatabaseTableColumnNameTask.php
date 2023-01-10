@@ -20,7 +20,7 @@ class DatabaseTableColumnNameTask extends DatabaseTableTask {
 	/**
 	 * @var array<string>
 	 */
-	protected $aliases = [
+	protected array $aliases = [
 		'\Migrations\Table::addColumn()',
 		'\Migrations\Table::changeColumn()',
 		'\Migrations\Table::removeColumn()',

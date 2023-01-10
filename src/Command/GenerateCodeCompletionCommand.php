@@ -5,7 +5,6 @@ namespace IdeHelper\Command;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
-use Cake\Core\Configure;
 use IdeHelper\Console\Io;
 use Shim\Command\Command;
 
@@ -22,37 +21,9 @@ class GenerateCodeCompletionCommand extends Command {
 	public const TEMPLATE_EXTENSIONS = ['php'];
 
 	/**
-	 * @var array<string, mixed>
-	 */
-	protected array $_config = [
-		'skipTemplatePaths' => [
-			'/templates/Bake/',
-		],
-	];
-
-	/**
 	 * @var array<string, \IdeHelper\Annotator\AbstractAnnotator>
 	 */
 	protected array $_instantiatedAnnotators = [];
-
-	/**
-	 * The name of this command.
-	 *
-	 * @var string
-	 */
-	//protected string $name = 'generate_code_completion';
-
-	/**
-	 * @return void
-	 */
-	public function initialize(): void {
-		parent::initialize();
-
-		$skip = (array)Configure::read('IdeHelper.skipTemplatePaths');
-		if ($skip) {
-			$this->_config['skipTemplatePaths'] = $skip;
-		}
-	}
 
 	/**
 	 * E.g.:
@@ -99,11 +70,12 @@ class GenerateCodeCompletionCommand extends Command {
 			]);
 	}
 
-
 	/**
 	 * @return \IdeHelper\Console\Io
 	 */
 	protected function io(): Io {
+		assert($this->io !== null, 'IO not set');
+
 		return new Io($this->io);
 	}
 

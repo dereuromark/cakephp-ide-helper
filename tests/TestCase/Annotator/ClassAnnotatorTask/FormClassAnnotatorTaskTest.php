@@ -11,15 +11,9 @@ use Shim\TestSuite\TestCase;
 
 class FormClassAnnotatorTaskTest extends TestCase {
 
-	/**
-	 * @var \Shim\TestSuite\ConsoleOutput
-	 */
-	protected $out;
+	protected ConsoleOutput $out;
 
-	/**
-	 * @var \Shim\TestSuite\ConsoleOutput
-	 */
-	protected $err;
+	protected ConsoleOutput $err;
 
 	protected ?Io $io = null;
 

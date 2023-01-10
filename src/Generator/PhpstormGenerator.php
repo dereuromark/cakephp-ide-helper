@@ -2,22 +2,22 @@
 
 namespace IdeHelper\Generator;
 
-use Cake\Console\ConsoleIo;
+use IdeHelper\Console\Io;
 use IdeHelper\Generator\Directive\RegisterArgumentsSet;
 
 class PhpstormGenerator implements GeneratorInterface {
 
 	protected TaskCollection $taskCollection;
 
-	protected ?ConsoleIo $consoleIo;
+	protected ?Io $io = null;
 
 	/**
 	 * @param \IdeHelper\Generator\TaskCollection $taskCollection
-	 * @param \Cake\Console\ConsoleIo|null $consoleIo
+	 * @param \IdeHelper\Console\Io|null $io
 	 */
-	public function __construct(TaskCollection $taskCollection, ?ConsoleIo $consoleIo = null) {
+	public function __construct(TaskCollection $taskCollection, ?Io $io = null) {
 		$this->taskCollection = $taskCollection;
-		$this->consoleIo = $consoleIo;
+		$this->io = $io;
 	}
 
 	/**
@@ -63,7 +63,7 @@ TXT;
 	 * @return void
 	 */
 	protected function outputSetInfo(array $map): void {
-		if (!$this->consoleIo) {
+		if (!$this->io) {
 			return;
 		}
 
@@ -74,9 +74,9 @@ TXT;
 			}
 		}
 
-		$this->consoleIo->verbose('The following sets are available for re-use:');
+		$this->io->verbose('The following sets are available for re-use:');
 		foreach ($sets as $set) {
-			$this->consoleIo->verbose('- ' . $set);
+			$this->io->verbose('- ' . $set);
 		}
 	}
 
