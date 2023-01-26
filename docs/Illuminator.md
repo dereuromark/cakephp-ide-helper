@@ -20,8 +20,8 @@ This task will add those based on the defined property annotations in the doc bl
 /**
  * @property int $id
  * @property string $brand_name
- * @property \Cake\I18n\FrozenTime $created
- * @property \Cake\I18n\FrozenTime|null $retired
+ * @property \Cake\I18n\DateTime $created
+ * @property \Cake\I18n\DateTime|null $retired
  * @property \App\Model\Entity\Wheel[] $wheels
  */
 class Car extends Entity {

@@ -438,7 +438,7 @@ If you need more control over it, you can configure a callable to detect/guess:
 ```php
 'IdeHelper.autoCollect', function(array $variable) {
     if ($variable['name'] === 'date') {
-        return 'Cake\I18n\FrozenTime';
+        return 'Cake\I18n\DateTime';
     }
     return null;
 });
