@@ -32,8 +32,7 @@ class ViewEventsTaskTest extends TestCase {
 use Cake\Event\EventInterface;
 
 if (false) {
-	abstract class Helper
-	{
+	abstract class Helper {
 		public function beforeRenderFile(EventInterface $event): void {}
 		public function afterRenderFile(EventInterface $event): void {}
 		public function beforeRender(EventInterface $event): void {}

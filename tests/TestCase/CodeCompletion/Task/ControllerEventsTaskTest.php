@@ -33,8 +33,7 @@ use Cake\Event\EventInterface;
 use Cake\Http\Response;
 
 if (false) {
-	abstract class Controller
-	{
+	abstract class Controller {
 		public function startup(EventInterface $event): ?Response {
 			return null;
 		}
@@ -55,8 +54,7 @@ if (false) {
 		}
 	}
 
-	abstract class Component
-	{
+	abstract class Component {
 		public function startup(EventInterface $event): ?Response {
 			return null;
 		}

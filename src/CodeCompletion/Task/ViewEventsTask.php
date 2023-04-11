@@ -34,8 +34,7 @@ TXT;
 use Cake\Event\EventInterface;
 
 if (false) {
-	abstract class Helper
-	{
+	abstract class Helper {
 $events
 	}
 }
