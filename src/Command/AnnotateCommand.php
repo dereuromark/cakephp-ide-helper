@@ -115,7 +115,8 @@ class AnnotateCommand extends Command {
 		];
 
 		return parent::getOptionParser()
-			->setDescription('Annotation Command for generating better IDE auto-complete/hinting.')
+			->setDescription('Annotation Command for generating better IDE auto-complete/hinting.');
+			/*
 			->addSubcommand('all', [
 				'help' => 'Annotate all supported classes.',
 				'parser' => $allParser,
@@ -149,14 +150,17 @@ class AnnotateCommand extends Command {
 			])->addSubcommand('callbacks', [
 				'help' => 'Annotate callback methods using callback annotation tasks. This task is not part of "all" when "-r" is used.',
 				'parser' => $parserWithoutRemove,
-			]);
+			])
+			*/
 	}
 
 	/**
 	 * @return \IdeHelper\Console\Io
 	 */
 	protected function _io(): Io {
-		return new Io($this->_io());
+		assert($this->io !== null, 'IO not set');
+
+		return new Io($this->io);
 	}
 
 	/**
@@ -165,7 +169,9 @@ class AnnotateCommand extends Command {
 	 * @return bool
 	 */
 	protected function _shouldSkip(string $fileName): bool {
-		$filter = (string)$this->param('filter');
+		assert($this->args !== null, 'Args not set');
+
+		$filter = (string)$this->args->getOption('filter');
 		if (!$filter) {
 			return false;
 		}
@@ -198,7 +204,9 @@ class AnnotateCommand extends Command {
 		}
 
 		if (!isset($this->_instantiatedAnnotators[$class])) {
-			$this->_instantiatedAnnotators[$class] = new $class($this->_io(), $this->params);
+			assert($this->args !== null, 'Args not set');
+
+			$this->_instantiatedAnnotators[$class] = new $class($this->_io(), $this->args->getOptions());
 		}
 
 		return $this->_instantiatedAnnotators[$class];

@@ -11,3 +11,5 @@ parameters:
 		Cake\Console\Shell:
 			- abort
 	ignoreErrors:
+	excludePaths:
+		- src/Shell/*

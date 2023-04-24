@@ -4,6 +4,10 @@ namespace IdeHelper;
 
 use Cake\Console\CommandCollection;
 use Cake\Core\BasePlugin;
+use IdeHelper\Command\AnnotateCommand;
+use IdeHelper\Command\GenerateCodeCompletionCommand;
+use IdeHelper\Command\GeneratePhpStormMetaCommand;
+use IdeHelper\Command\IlluminateCommand;
 
 /**
  * Plugin for IdeHelper
@@ -18,10 +22,10 @@ class Plugin extends BasePlugin {
 	 */
 	public function console(CommandCollection $commands): CommandCollection {
 		// Add entry command to handle entry point and backwards compat.
-		$commands->add('annotate', AnnotationsShell::class);
-		$commands->add('code_completion', CodeCompletionShell::class);
-		$commands->add('illuminator', IlluminatorShell::class);
-		$commands->add('phpstorm', PhpstormShell::class);
+		$commands->add('annotate', AnnotateCommand::class);
+		$commands->add('code_completion', GenerateCodeCompletionCommand::class);
+		$commands->add('illuminator', IlluminateCommand::class);
+		$commands->add('phpstorm', GeneratePhpStormMetaCommand::class);
 
 		return $commands;
 	}

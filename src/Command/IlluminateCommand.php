@@ -79,13 +79,10 @@ class IlluminateCommand extends Command {
 		];
 
 		$taskList = 'Tasks: ' . implode(', ', $tasks);
+		$descr = 'Illuminator PHP File Modifier.' . PHP_EOL . 'Run Illuminator tasks over your PHP files.' . PHP_EOL;
 
 		return parent::getOptionParser()
-			->setDescription('Illuminator PHP File Modifier.')
-			->addSubcommand('illuminate', [
-				'help' => 'Run Illuminator tasks over your PHP files.' . PHP_EOL . $taskList,
-				'parser' => $subcommandParser,
-			]);
+			->setDescription($descr . $taskList);
 	}
 
 	/**

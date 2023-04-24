@@ -73,8 +73,7 @@ use Cake\Event\EventInterface;
 use Cake\Validation\Validator;
 
 if (false) {
-	class Table
-	{
+	class Table {
 		public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options): void {}
 		public function afterMarshal(EventInterface $event, EntityInterface $entity, ArrayObject $data, ArrayObject $options): void {}
 		public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, $primary): void {}
@@ -90,8 +89,7 @@ if (false) {
 		public function afterDeleteCommit(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {}
 	}
 
-	class Behavior
-	{
+	class Behavior {
 		public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options): void {}
 		public function afterMarshal(EventInterface $event, EntityInterface $entity, ArrayObject $data, ArrayObject $options): void {}
 		public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, $primary): void {}

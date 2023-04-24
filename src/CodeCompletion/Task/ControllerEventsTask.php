@@ -47,13 +47,11 @@ use Cake\Event\EventInterface;
 use Cake\Http\Response;
 
 if (false) {
-	class Controller
-	{
+	class Controller {
 $events
 	}
 
-	class Component
-	{
+	class Component {
 $events
 	}
 }

@@ -52,22 +52,17 @@ class GenerateCodeCompletionCommand extends Command {
 	 * @return \Cake\Console\ConsoleOptionParser The built parser.
 	 */
 	protected function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser {
-		$subcommandParser = [
-			'options' => [
-				'dry-run' => [
-					'short' => 'd',
-					'help' => 'Dry run the generation. This will not actually generate any files.',
-					'boolean' => true,
-				],
+		$options = [
+			'dry-run' => [
+				'short' => 'd',
+				'help' => 'Dry run the generation. This will not actually generate any files.',
+				'boolean' => true,
 			],
 		];
 
 		return parent::getOptionParser()
 			->setDescription('CodeCompletion File Generator for generating better IDE auto-complete/hinting.')
-			->addSubcommand('generate', [
-				'help' => 'Generates `/tmp/CodeCompletion{type}.php` files.',
-				'parser' => $subcommandParser,
-			]);
+			->addOptions($options);
 	}
 
 	/**

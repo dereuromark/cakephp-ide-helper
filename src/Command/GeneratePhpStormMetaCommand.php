@@ -81,12 +81,10 @@ class GeneratePhpStormMetaCommand extends Command {
 			],
 		];
 
+		$details = 'Generate `/.phpstorm.meta.php/.ide-helper.meta.php` meta file.';
+
 		return parent::getOptionParser()
-			->setDescription('Meta File Generator for generating better IDE auto-complete/hinting in PhpStorm.')
-			->addSubcommand('generate', [
-				'help' => 'Generate `/.phpstorm.meta.php/.ide-helper.meta.php` meta file.',
-				'parser' => $subcommandParser,
-			]);
+			->setDescription('Meta File Generator for generating better IDE auto-complete/hinting in PhpStorm.' . PHP_EOL . $details);
 	}
 
 	/**
