@@ -10,6 +10,7 @@ use IdeHelper\Illuminator\Task\EntityFieldTask;
 use InvalidArgumentException;
 use RuntimeException;
 use SebastianBergmann\Diff\Differ;
+use SebastianBergmann\Diff\Output\DiffOnlyOutputBuilder;
 
 class TaskCollection {
 
@@ -187,7 +188,7 @@ class TaskCollection {
 	 * @return void
 	 */
 	protected function displayDiff(string $oldContent, string $newContent): void {
-		$differ = new Differ(null);
+		$differ = new Differ(new DiffOnlyOutputBuilder());
 		$array = $differ->diffToArray($oldContent, $newContent);
 
 		$begin = null;
