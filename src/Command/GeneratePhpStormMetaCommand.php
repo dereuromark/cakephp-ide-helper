@@ -39,6 +39,8 @@ class GeneratePhpStormMetaCommand extends Command {
 	 * @return int|null|void The exit code or null for success
 	 */
 	public function execute(Arguments $args, ConsoleIo $io) {
+		parent::execute($args, $io);
+
 		$phpstormGenerator = $this->getGenerator();
 		$content = $phpstormGenerator->generate();
 
