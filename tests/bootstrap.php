@@ -1,5 +1,6 @@
 <?php
 
+use Awesome\Plugin as AwesomePlugin;
 use Cake\Cache\Cache;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
@@ -7,6 +8,11 @@ use Cake\Core\Plugin;
 use Cake\Database\TypeFactory;
 use Cake\Datasource\ConnectionManager;
 use Cake\TestSuite\Fixture\SchemaLoader;
+use Controllers\Plugin as ControllersPlugin;
+use IdeHelper\Plugin as IdeHelperPlugin;
+use MyNamespace\MyPlugin\Plugin as MyPluginPlugin;
+use Relations\Plugin as RelationsPlugin;
+use Shim\Plugin as ShimPlugin;
 
 if (!defined('DS')) {
 	define('DS', DIRECTORY_SEPARATOR);
@@ -76,12 +82,12 @@ TypeFactory::build('timestamp');
 
 class_alias(Controller::class, 'App\Controller\AppController');
 
-Plugin::getCollection()->add(new IdeHelper\Plugin());
-Plugin::getCollection()->add(new Shim\Plugin());
-Plugin::getCollection()->add(new Awesome\Plugin());
-Plugin::getCollection()->add(new Controllers\Plugin());
-Plugin::getCollection()->add(new Relations\Plugin());
-Plugin::getCollection()->add(new MyNamespace\MyPlugin\Plugin());
+Plugin::getCollection()->add(new IdeHelperPlugin());
+Plugin::getCollection()->add(new ShimPlugin());
+Plugin::getCollection()->add(new AwesomePlugin());
+Plugin::getCollection()->add(new ControllersPlugin());
+Plugin::getCollection()->add(new RelationsPlugin());
+Plugin::getCollection()->add(new MyPluginPlugin());
 
 if (getenv('db_dsn')) {
 	ConnectionManager::setConfig('test', [

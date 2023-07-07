@@ -109,8 +109,7 @@ class AnnotateCommand extends Command {
 
 		$parser->addOptions($options);
 
-		return parent::buildOptionParser($parser)
-			->setDescription('Annotation Command for generating better IDE auto-complete/hinting.');
+		return $parser->setDescription('Annotation Command for generating better IDE auto-complete/hinting.');
 	}
 
 	/**

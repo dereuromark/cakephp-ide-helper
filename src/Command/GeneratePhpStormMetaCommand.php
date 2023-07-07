@@ -19,26 +19,13 @@ class GeneratePhpStormMetaCommand extends Command {
 	public const CODE_CHANGES = 2;
 
 	/**
-	 * @var array<string>
-	 */
-	public const TEMPLATE_EXTENSIONS = ['php'];
-
-	/**
-	 * @var array<string, \IdeHelper\Annotator\AbstractAnnotator>
-	 */
-	protected array $_instantiatedAnnotators = [];
-
-	/**
-	 * E.g.:
-	 * bin/cake upgrade /path/to/app --level=cakephp40
-	 *
 	 * @param \Cake\Console\Arguments $args The command arguments.
 	 * @param \Cake\Console\ConsoleIo $io The console io
 	 *
 	 * @throws \Cake\Console\Exception\StopException
-	 * @return int|null|void The exit code or null for success
+	 * @return int The exit code or null for success
 	 */
-	public function execute(Arguments $args, ConsoleIo $io) {
+	public function execute(Arguments $args, ConsoleIo $io): int {
 		parent::execute($args, $io);
 
 		$phpstormGenerator = $this->getGenerator();
@@ -74,16 +61,16 @@ class GeneratePhpStormMetaCommand extends Command {
 	 */
 	protected function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser {
 		$subcommandParser = [
-			'options' => [
-				'dry-run' => [
-					'short' => 'd',
-					'help' => 'Dry run the generation. This will output an error code ' . static::CODE_CHANGES . ' if file needs changing. Can be used for CI checking.',
-					'boolean' => true,
-				],
+			'dry-run' => [
+				'short' => 'd',
+				'help' => 'Dry run the generation. This will output an error code ' . static::CODE_CHANGES . ' if file needs changing. Can be used for CI checking.',
+				'boolean' => true,
 			],
 		];
 
 		$details = 'Generate `/.phpstorm.meta.php/.ide-helper.meta.php` meta file.';
+
+		$parser->addOptions($subcommandParser);
 
 		return $parser
 			->setDescription('Meta File Generator for generating better IDE auto-complete/hinting in PhpStorm.' . PHP_EOL . $details);

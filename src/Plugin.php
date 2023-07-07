@@ -46,7 +46,7 @@ class Plugin extends BasePlugin {
 		$commands->add('annotate callbacks', CallbacksCommand::class);
 		$commands->add('annotate all', AllCommand::class);
 
-		$commands->add('code_completion', GenerateCodeCompletionCommand::class);
+		$commands->add('code_completion generate', GenerateCodeCompletionCommand::class);
 		$commands->add('illuminator', IlluminateCommand::class);
 		$commands->add('phpstorm', GeneratePhpStormMetaCommand::class);
 
