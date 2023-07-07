@@ -34,7 +34,7 @@ class IlluminatorShellTest extends TestCase {
 		$io = new ConsoleIo($this->out, $this->err);
 
 		$this->Shell = $this->getMockBuilder(IlluminatorShell::class)
-			->setMethods(['_stop'])
+			->onlyMethods(['_stop'])
 			->getMock();
 	}
 

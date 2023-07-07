@@ -41,7 +41,7 @@
 		"cakephp/migrations": "4.x-dev",
 		"dereuromark/cakephp-shim": "dev-cake5",
 		"fig-r/psr2r-sniffer": "dev-next",
-		"phpunit/phpunit": "^9.5"
+		"phpunit/phpunit": "^10.1"
 	},
 	"autoload": {
 		"psr-4": {

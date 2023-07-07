@@ -145,7 +145,7 @@ class AnnotateCommandTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function provideSubcommandsForCiModeTest() {
+	public static function provideSubcommandsForCiModeTest() {
 		return [
 			'models' => ['models'],
 			'view' => ['view'],
