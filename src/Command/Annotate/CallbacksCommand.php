@@ -16,7 +16,7 @@ class CallbacksCommand extends AnnotateCommand {
 	 * @return string
 	 */
 	public static function getDescription(): string {
-		return 'Annotate callback methods using callback annotation tasks. This task is not part of "all" when "-r" is used.';
+		return 'Annotate callback methods using callback annotation tasks. This task is not part of `all` when `-r` is used.';
 	}
 
 	/**
