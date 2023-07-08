@@ -33,9 +33,9 @@
 		"php": ">=8.1",
 		"cakephp/cakephp": "5.x-dev",
 		"cakephp/bake": "3.x-dev",
-		"sebastian/diff": "^4.0.3 || ^5.0.0",
-		"phpstan/phpdoc-parser": "^1.7.0",
-		"squizlabs/php_codesniffer": "^3.6.0"
+		"sebastian/diff": "^5.0",
+		"phpstan/phpdoc-parser": "^1.7",
+		"squizlabs/php_codesniffer": "^3.7"
 	},
 	"require-dev": {
 		"cakephp/plugin-installer": "^2.0",
