@@ -214,7 +214,7 @@ namespace PHPSTORM_META {
 	);
 
 	override(
-		\Cake\Datasource\ModelAwareTrait::loadModel(0),
+		\Cake\Datasource\ModelAwareTrait::fetchModel(0),
 		map([
 			'Awesome.Houses' => \Awesome\Model\Table\HousesTable::class,
 			'Awesome.Windows' => \Awesome\Model\Table\WindowsTable::class,
