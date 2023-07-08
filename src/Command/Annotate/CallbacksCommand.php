@@ -42,12 +42,12 @@ class CallbacksCommand extends AnnotateCommand {
 
 		$path = $plugin ? Plugin::classPath($plugin) : ROOT . DS . APP_DIR . DS;
 
-		$folders = glob($path . '*', GLOB_ONLYDIR);
+		$folders = glob($path . '*', GLOB_ONLYDIR) ?: [];
 		foreach ($folders as $folder) {
 			$this->_callbacks($folder . DS);
 		}
 
-		if ($this->getOptionParser('ci') && $this->_annotatorMadeChanges()) {
+		if ($args->getOption('ci') && $this->_annotatorMadeChanges()) {
 			return static::CODE_CHANGES;
 		}
 
@@ -58,12 +58,11 @@ class CallbacksCommand extends AnnotateCommand {
 	 * @param string $folder
 	 * @return void
 	 */
-	protected function _callbacks($folder) {
-		$this->io->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
+	protected function _callbacks(string $folder) {
+		$this->io?->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
 
-		$folderContent = glob($folder . '*');
+		$folderContent = glob($folder . '*') ?: [];
 		foreach ($folderContent as $path) {
-
 			if (is_dir($path)) {
 				$folderName = pathinfo($path, PATHINFO_BASENAME);
 				$prefixes = (array)Configure::read('IdeHelper.prefixes') ?: null;
@@ -84,7 +83,7 @@ class CallbacksCommand extends AnnotateCommand {
 					continue;
 				}
 
-				$this->io->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
+				$this->io?->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
 
 				$annotator = $this->getAnnotator(CallbackAnnotator::class);
 				$annotator->annotate($path);

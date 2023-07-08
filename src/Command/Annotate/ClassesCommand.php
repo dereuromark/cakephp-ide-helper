@@ -44,7 +44,7 @@ class ClassesCommand extends AnnotateCommand {
 
 		$path = $plugin ? Plugin::classPath($plugin) : ROOT . DS . APP_DIR . DS;
 
-		$folders = glob($path . '*', GLOB_ONLYDIR);
+		$folders = glob($path . '*', GLOB_ONLYDIR) ?: [];
 		foreach ($folders as $folder) {
 			$this->_classes($folder . DS);
 		}
@@ -61,7 +61,7 @@ class ClassesCommand extends AnnotateCommand {
 			return static::CODE_SUCCESS;
 		}
 
-		$folders = glob($path . '*', GLOB_ONLYDIR);
+		$folders = glob($path . '*', GLOB_ONLYDIR) ?: [];
 		foreach ($folders as $folder) {
 			$this->_classes($folder . DS);
 		}
@@ -78,9 +78,9 @@ class ClassesCommand extends AnnotateCommand {
 	 * @return void
 	 */
 	protected function _classes(string $folder) {
-		$this->io->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
+		$this->io?->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
 
-		$folderContent = glob($folder . '*');
+		$folderContent = glob($folder . '*') ?: [];
 		foreach ($folderContent as $path) {
 
 			// Prevent infinite loop
@@ -108,7 +108,7 @@ class ClassesCommand extends AnnotateCommand {
 					continue;
 				}
 
-				$this->io->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
+				$this->io?->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
 
 				$annotator = $this->getAnnotator(ClassAnnotator::class);
 				$annotator->annotate($path);

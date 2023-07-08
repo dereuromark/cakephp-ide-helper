@@ -43,10 +43,10 @@ class ComponentsCommand extends AnnotateCommand {
 	 * @param string $folder
 	 * @return void
 	 */
-	protected function _components($folder) {
-		$folderContent = glob($folder . '*');
+	protected function _components(string $folder) {
+		$this->io?->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
 
-		$this->io->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
+		$folderContent = glob($folder . '*') ?: [];
 		foreach ($folderContent as $path) {
 			if (is_dir($path)) {
 				$this->_components($path);
@@ -56,7 +56,7 @@ class ComponentsCommand extends AnnotateCommand {
 					continue;
 				}
 
-				$this->io->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
+				$this->io?->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
 				$annotator = $this->getAnnotator(ComponentAnnotator::class);
 				$annotator->annotate($path);
 			}

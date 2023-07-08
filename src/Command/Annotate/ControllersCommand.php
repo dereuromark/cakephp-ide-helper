@@ -44,11 +44,10 @@ class ControllersCommand extends AnnotateCommand {
 	 * @param string $folder
 	 * @return void
 	 */
-	protected function _controllers($folder) {
-		$this->io->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
+	protected function _controllers(string $folder) {
+		$this->io?->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
 
-		$folderContent = glob($folder . '*');
-
+		$folderContent = glob($folder . '*') ?: [];
 		foreach ($folderContent as $path) {
 
 			if (is_dir($path)) {
@@ -70,7 +69,7 @@ class ControllersCommand extends AnnotateCommand {
 					continue;
 				}
 
-				$this->io->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
+				$this->io?->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
 
 				$annotator = $this->getAnnotator(ControllerAnnotator::class);
 				$annotator->annotate($path);

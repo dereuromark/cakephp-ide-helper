@@ -25,11 +25,9 @@ class ViewCommand extends AnnotateCommand {
 	public function execute(Arguments $args, ConsoleIo $io): int {
 		parent::execute($args, $io);
 
-		if ($args->getOption('plugin')) {
-			$this->abort('Plugin option not supported for this command');
-		}
-		if ($args->getOption('filter')) {
-			$this->abort('Filter option not supported for this command');
+		if ($args->getOption('plugin') || $args->getOption('filter')) {
+			$io->err('Plugin or filter option not supported for this command');
+			$this->abort();
 		}
 
 		$className = App::className('App', 'View', 'View');

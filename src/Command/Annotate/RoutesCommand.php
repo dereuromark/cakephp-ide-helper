@@ -34,7 +34,7 @@ class RoutesCommand extends AnnotateCommand {
 			return static::CODE_SUCCESS;
 		}
 
-		$this->io->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
+		$this->io?->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
 		$annotator = $this->getAnnotator(RoutesAnnotator::class);
 		$annotator->annotate($path);
 

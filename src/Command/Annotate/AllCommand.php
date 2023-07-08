@@ -62,7 +62,7 @@ class AllCommand extends AnnotateCommand {
 			} else {
 				$in = $io->askChoice($shortName . '?', ['y', 'n', 'a'], 'y');
 				if ($in === 'a') {
-					$this->abort('Aborted');
+					$this->abort();
 				}
 				if ($in !== 'y') {
 					continue;
