@@ -55,22 +55,18 @@ class AllCommand extends AnnotateCommand {
 			if ($key !== 0) {
 				$io->out('');
 			}
-			if (!$args->getOption('interactive')) {
-				$shortName = App::shortName($type, 'Command', 'Command');
-				$shortName = str_replace('IdeHelper.Annotate/', '', $shortName);
-				$io->out('[' . $shortName . ']');
-			}
+			$shortName = App::shortName($type, 'Command', 'Command');
+			$shortName = str_replace('IdeHelper.Annotate/', '', $shortName);
 			if (!$this->interactive) {
-				$in = 'y';
+				$io->out('[' . $shortName . ']');
 			} else {
-				$in = $io->askChoice($type . '?', ['y', 'n', 'a'], 'y');
-			}
-
-			if ($in === 'a') {
-				$this->abort('Aborted');
-			}
-			if ($in !== 'y') {
-				continue;
+				$in = $io->askChoice($shortName . '?', ['y', 'n', 'a'], 'y');
+				if ($in === 'a') {
+					$this->abort('Aborted');
+				}
+				if ($in !== 'y') {
+					continue;
+				}
 			}
 
 			$commandInstance = new $type();
