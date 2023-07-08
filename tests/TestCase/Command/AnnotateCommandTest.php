@@ -72,7 +72,7 @@ class AnnotateCommandTest extends TestCase {
 		$this->assertExitSuccess();
 		$this->assertOutputContains('BarController');
 		$this->assertOutputContains(' annotations added');
-		$this->assertOutputContains('FooController');
+		$this->assertOutputContains('FoosController');
 	}
 
 	/**
@@ -81,7 +81,7 @@ class AnnotateCommandTest extends TestCase {
 	public function testCommands(): void {
 		$this->exec('annotate commands -d -v -r');
 		$this->assertExitSuccess();
-		$this->assertOutputContains(' annotation added');
+		$this->assertOutputContains(' 2 annotations added');
 	}
 
 	/**

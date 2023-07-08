@@ -6,7 +6,7 @@ use ReflectionClass;
 use Throwable;
 
 /**
- * Classes that use ModelAwareTrait should automatically have used tables - via loadModel() call - annotated.
+ * Classes that use ModelAwareTrait should automatically have used tables - via fetchModel() call - annotated.
  */
 class ModelAwareClassAnnotatorTask extends AbstractClassAnnotatorTask implements ClassAnnotatorTaskInterface {
 
@@ -32,7 +32,7 @@ class ModelAwareClassAnnotatorTask extends AbstractClassAnnotatorTask implements
 		}
 
 		try {
-			return (new ReflectionClass($className))->hasMethod('loadModel');
+			return (new ReflectionClass($className))->hasMethod('fetchModel');
 		} catch (Throwable $exception) {
 			return false;
 		}
@@ -56,7 +56,7 @@ class ModelAwareClassAnnotatorTask extends AbstractClassAnnotatorTask implements
 	 * @return array<string>
 	 */
 	protected function getUsedModels(string $content): array {
-		preg_match_all('/\$this-\>loadModel\(\'([a-z.]+)\'/i', $content, $matches);
+		preg_match_all('/\$this-\>fetchModel\(\'([a-z.]+)\'/i', $content, $matches);
 		if (empty($matches[1])) {
 			return [];
 		}

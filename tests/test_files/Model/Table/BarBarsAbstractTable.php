@@ -2,7 +2,7 @@
 namespace TestApp\Model\Table;
 
 /**
- * @property \TestApp\Model\Table\FoosTable&\Cake\ORM\Association\BelongsTo $Foo
+ * @property \TestApp\Model\Table\FoosTable&\Cake\ORM\Association\BelongsTo $Foos
  * @property \Awesome\Model\Table\HousesTable&\Cake\ORM\Association\BelongsToMany $Houses
  * @property \Awesome\Model\Table\WindowsTable&\Cake\ORM\Association\HasMany $Windows
  *

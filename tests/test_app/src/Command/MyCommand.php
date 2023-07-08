@@ -5,13 +5,13 @@ use Shim\Command\Command;
 
 class MyCommand extends Command {
 
-	protected string $modelClass = 'Cars';
+	protected ?string $defaultTable = 'Cars';
 
 	/**
 	 * @return void
 	 */
 	public function main() {
-		$this->loadModel('Wheels');
+		$this->fetchTable('Wheels');
 	}
 
 }
