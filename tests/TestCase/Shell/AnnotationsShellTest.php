@@ -40,7 +40,7 @@ class AnnotationsShellTest extends TestCase {
 		$io = new ConsoleIo($this->out, $this->err);
 
 		$this->Shell = $this->getMockBuilder(AnnotationsShell::class)
-			->setMethods(['in', '_stop', 'storeFile'])
+			->onlyMethods(['in', '_stop', 'storeFile'])
 			->getMock();
 	}
 
@@ -168,7 +168,7 @@ class AnnotationsShellTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function provideSubcommandsForCiModeTest() {
+	public static function provideSubcommandsForCiModeTest() {
 		return [
 			'models' => ['models'],
 			'view' => ['view'],

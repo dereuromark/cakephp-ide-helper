@@ -136,7 +136,7 @@ PHP;
 			AbstractAnnotator::CONFIG_DRY_RUN => true,
 		];
 
-		return $this->getMockBuilder(RoutesAnnotator::class)->setMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
+		return $this->getMockBuilder(RoutesAnnotator::class)->onlyMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
 	}
 
 }

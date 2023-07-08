@@ -44,7 +44,7 @@ class PhpstormShellTest extends TestCase {
 		$io = new ConsoleIo($this->out, $this->err);
 
 		$this->Shell = $this->getMockBuilder(GeneratePhpStormCommand::class)
-			->setMethods(['_stop', 'getMetaFilePath'])
+			->onlyMethods(['_stop', 'getMetaFilePath'])
 			->getMock();
 		$this->Shell->expects($this->any())->method('getMetaFilePath')->willReturn(TMP . 'phpstorm' . DS . '.meta.php');
 	}

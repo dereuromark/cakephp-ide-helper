@@ -8,6 +8,6 @@ use Cake\Controller\Controller;
  */
 class WindowsController extends Controller {
 
-	protected string $modelClass = 'Awesome.Windows';
+	protected ?string $defaultTable = 'Awesome.Windows';
 
 }

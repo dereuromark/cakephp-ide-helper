@@ -4,6 +4,7 @@ namespace IdeHelper\Annotator;
 
 use Cake\Core\Configure;
 use Cake\Datasource\ResultSetInterface;
+use Cake\Http\ServerRequest;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
@@ -73,11 +74,11 @@ class ControllerAnnotator extends AbstractAnnotator {
 			return $dynamicallyFoundModelClass !== '' ? $dynamicallyFoundModelClass : null;
 		}
 
-		if (preg_match('/\bprotected \$modelClass = \'([a-z.\/]+)\'/i', $content, $matches)) {
+		if (preg_match('/\bprotected \?string \$defaultTable = \'([a-z.\/]+)\'/i', $content, $matches)) {
 			return $matches[1];
 		}
 
-		if (preg_match('/\bprotected \$modelClass = \'\';/i', $content, $matches)) {
+		if (preg_match('/\bprotected \?string \$defaultTable = \'\';/i', $content, $matches)) {
 			return null;
 		}
 
@@ -101,7 +102,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 * @return array<string>
 	 */
 	protected function getUsedModels(string $content): array {
-		preg_match_all('/\$this->loadModel\(\'([a-z.]+)\'/i', $content, $matches);
+		preg_match_all('/\$this->fetchTable\(\'([a-z.]+)\'/i', $content, $matches);
 		if (empty($matches[1])) {
 			return [];
 		}
@@ -162,8 +163,9 @@ class ControllerAnnotator extends AbstractAnnotator {
 			return [];
 		}
 
+		$request = new ServerRequest(['url' => 'justfortesting']);
 		/** @var \App\Controller\AppController $controller */
-		$controller = new $fullClassName();
+		$controller = new $fullClassName($request);
 
 		$components = [];
 		foreach ($controller->components()->loaded() as $component) {
@@ -291,7 +293,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 			return null;
 		}
 
-		$modelClass = $this->invokeProperty($controller, 'modelClass');
+		$modelClass = $this->invokeProperty($controller, 'defaultTable');
 		if (!$modelClass) {
 			return null;
 		}

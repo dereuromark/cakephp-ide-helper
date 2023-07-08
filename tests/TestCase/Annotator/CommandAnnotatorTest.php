@@ -71,7 +71,7 @@ class CommandAnnotatorTest extends TestCase {
 			AbstractAnnotator::CONFIG_DRY_RUN => true,
 		];
 
-		return $this->getMockBuilder(CommandAnnotator::class)->setMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
+		return $this->getMockBuilder(CommandAnnotator::class)->onlyMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
 	}
 
 }

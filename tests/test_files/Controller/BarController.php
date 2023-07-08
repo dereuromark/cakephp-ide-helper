@@ -10,7 +10,7 @@ namespace TestApp\Controller;
  */
 class BarController extends AppController {
 
-	protected string $modelClass = 'BarBars';
+	protected ?string $defaultTable = 'BarBars';
 
 	/**
 	 * @return void
@@ -21,7 +21,7 @@ class BarController extends AppController {
 		$this->loadComponent('Flash');
 		$this->loadComponent('MyNamespace/MyPlugin.My');
 
-		$this->loadModel('Wheels');
+		$this->fetchTable('Wheels');
 	}
 
 	/**

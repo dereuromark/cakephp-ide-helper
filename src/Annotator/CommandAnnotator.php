@@ -38,7 +38,7 @@ class CommandAnnotator extends AbstractAnnotator {
 	 * @return string|null
 	 */
 	protected function getPrimaryModelClass(string $content): ?string {
-		if (!preg_match('/\bprotected \$modelClass = \'([a-z.\/]+)\'/i', $content, $matches)) {
+		if (!preg_match('/\bprotected \?string \$defaultTable = \'([a-z.\/]+)\'/i', $content, $matches)) {
 			return null;
 		}
 
@@ -54,7 +54,7 @@ class CommandAnnotator extends AbstractAnnotator {
 	 * @return array<string>
 	 */
 	protected function getUsedModels(string $content): array {
-		preg_match_all('/\$this->loadModel\(\'([a-z.\/]+)\'/i', $content, $matches);
+		preg_match_all('/\$this->fetchTable\(\'([a-z.\/]+)\'/i', $content, $matches);
 		if (empty($matches[1])) {
 			return [];
 		}

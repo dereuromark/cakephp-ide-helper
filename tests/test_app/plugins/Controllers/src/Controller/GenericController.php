@@ -5,6 +5,6 @@ use Cake\Controller\Controller;
 
 class GenericController extends Controller {
 
-	protected string $modelClass = '';
+	protected ?string $defaultTable = '';
 
 }

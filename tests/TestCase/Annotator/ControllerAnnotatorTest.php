@@ -42,7 +42,7 @@ class ControllerAnnotatorTest extends TestCase {
 	public function testAnnotate() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Controller/FooController.php'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Controller/FoosController.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -53,7 +53,7 @@ class ControllerAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = APP . 'Controller/FooController.php';
+		$path = APP . 'Controller/FoosController.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -121,7 +121,7 @@ class ControllerAnnotatorTest extends TestCase {
 			AbstractAnnotator::CONFIG_DRY_RUN => true,
 		];
 
-		return $this->getMockBuilder(ControllerAnnotator::class)->setMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
+		return $this->getMockBuilder(ControllerAnnotator::class)->onlyMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
 	}
 
 	/**

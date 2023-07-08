@@ -1,7 +1,7 @@
 <?php
 namespace TestApp\Command;
 
-use Cake\Console\Command;
+use Shim\Command\Command;
 
 /**
  * @property \TestApp\Model\Table\WheelsTable $Wheels
@@ -9,13 +9,13 @@ use Cake\Console\Command;
  */
 class MyCommand extends Command {
 
-	protected string $modelClass = 'Cars';
+	protected ?string $defaultTable = 'Cars';
 
 	/**
 	 * @return void
 	 */
 	public function main() {
-		$this->loadModel('Wheels');
+		$this->fetchTable('Wheels');
 	}
 
 }

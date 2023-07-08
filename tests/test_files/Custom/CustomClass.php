@@ -14,7 +14,7 @@ class CustomClass {
 	 * @return void
 	 */
 	public function initialize() {
-		$this->loadModel('Foos');
+		$this->fetchModel('Foos');
 	}
 
 }
