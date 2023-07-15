@@ -286,7 +286,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 		try {
 			/** @var \Cake\Controller\Controller $controller */
-			$controller = new $fullClassName();
+			$controller = new $fullClassName(new ServerRequest());
 		} catch (Throwable $e) {
 			$this->_io->warn('   Could not look up model class for ' . $fullClassName . ': ' . $e->getMessage());
 
