@@ -157,7 +157,7 @@ class DocBlockHelper extends BakeDocBlockHelper {
 		$annotations[] = "@method \\$class newEmptyEntity()";
 		$annotations[] = "@method \\$class newEntity(array \$data, array \$options = [])";
 		$annotations[] = "@method \\$classes newEntities(array \$data, array \$options = [])";
-		$annotations[] = "@method \\$class get(\$primaryKey, \$options = [])";
+		$annotations[] = "@method \\$class get(mixed \$primaryKey, array|string \$finder = 'all', \Psr\SimpleCache\CacheInterface|string|null \$cache = null, \Closure|string|null \$cacheKey = null, mixed ...\$args)";
 		$annotations[] = "@method \\$class findOrCreate(\$search, ?callable \$callback = null, \$options = [])";
 		$annotations[] = "@method \\$class patchEntity(\\Cake\\Datasource\\EntityInterface \$entity, array \$data, array \$options = [])";
 		$annotations[] = "@method \\$classes patchEntities(iterable \$entities, array \$data, array \$options = [])";
