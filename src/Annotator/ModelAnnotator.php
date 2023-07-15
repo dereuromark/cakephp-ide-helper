@@ -155,7 +155,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			$annotations[] = "@method $fullClassName newEntity(array \$data, array \$options = [])";
 			$annotations[] = "@method $fullClassNameCollection newEntities(array \$data, array \$options = [])";
 
-			$annotations[] = "@method $fullClassName get(\$primaryKey, \$options = [])";
+			$annotations[] = "@method $fullClassName get(mixed \$primaryKey, array|string \$finder = 'all', \Psr\SimpleCache\CacheInterface|string|null \$cache = null, \Closure|string|null \$cacheKey = null, mixed ...\$args)";
 			$annotations[] = "@method $fullClassName findOrCreate(\$search, ?callable \$callback = null, \$options = [])";
 
 			$entityInterface = '\\' . EntityInterface::class;

@@ -4,7 +4,7 @@ namespace TestApp\Model\Table;
 use Cake\ORM\Table;
 
 /**
- * @method \TestApp\Model\Entity\Foo get($primaryKey, $options = [])
+ * @method \TestApp\Model\Entity\Foo get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \TestApp\Model\Entity\Foo newEntity($data = null, array $options = [])
  * @method \TestApp\Model\Entity\Foo[] newEntities(array $data, array $options = [])
  * @method \TestApp\Model\Entity\Foo|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
