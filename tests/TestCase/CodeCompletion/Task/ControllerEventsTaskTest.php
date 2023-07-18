@@ -31,7 +31,7 @@ use Cake\Http\Response;
 
 if (false) {
 	class Controller {
-		public function startup(EventInterface $event): ?Response {
+		public function startup(EventInterface $event) {
 			return null;
 		}
 		public function beforeFilter(EventInterface $event) {
@@ -52,7 +52,7 @@ if (false) {
 	}
 
 	class Component {
-		public function startup(EventInterface $event): ?Response {
+		public function startup(EventInterface $event) {
 			return null;
 		}
 		public function beforeFilter(EventInterface $event) {
