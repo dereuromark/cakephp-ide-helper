@@ -34,16 +34,16 @@ if (false) {
 		public function startup(EventInterface $event): ?Response {
 			return null;
 		}
-		public function beforeFilter(EventInterface $event): ?Response {
+		public function beforeFilter(EventInterface $event) {
 			return null;
 		}
-		public function beforeRender(EventInterface $event): ?Response {
+		public function beforeRender(EventInterface $event) {
 			return null;
 		}
-		public function afterFilter(EventInterface $event): ?Response {
+		public function afterFilter(EventInterface $event) {
 			return null;
 		}
-		public function shutdown(EventInterface $event): ?Response {
+		public function shutdown(EventInterface $event) {
 			return null;
 		}
 		public function beforeRedirect(EventInterface $event, $url, Response $response) {
@@ -55,16 +55,16 @@ if (false) {
 		public function startup(EventInterface $event): ?Response {
 			return null;
 		}
-		public function beforeFilter(EventInterface $event): ?Response {
+		public function beforeFilter(EventInterface $event) {
 			return null;
 		}
-		public function beforeRender(EventInterface $event): ?Response {
+		public function beforeRender(EventInterface $event) {
 			return null;
 		}
-		public function afterFilter(EventInterface $event): ?Response {
+		public function afterFilter(EventInterface $event) {
 			return null;
 		}
-		public function shutdown(EventInterface $event): ?Response {
+		public function shutdown(EventInterface $event) {
 			return null;
 		}
 		public function beforeRedirect(EventInterface $event, $url, Response $response) {

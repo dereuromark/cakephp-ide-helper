@@ -3,7 +3,7 @@
 namespace IdeHelper\Test\TestCase\Annotator;
 
 use SebastianBergmann\Diff\Differ;
-use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
+use SebastianBergmann\Diff\Output\DiffOnlyOutputBuilder;
 
 trait DiffHelperTrait {
 
@@ -16,7 +16,7 @@ trait DiffHelperTrait {
 	 * @return void
 	 */
 	protected function _displayDiff($expected, $actual) {
-		$differ = new Differ(new UnifiedDiffOutputBuilder());
+		$differ = new Differ(new DiffOnlyOutputBuilder());
 		$array = $differ->diffToArray($expected, $actual);
 
 		$begin = null;
