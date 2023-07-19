@@ -1,9 +1,17 @@
 <?php
 
+use Awesome\Plugin as AwesomePlugin;
 use Cake\Cache\Cache;
+use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Database\Type;
+use Cake\Datasource\ConnectionManager;
+use Controllers\Plugin as ControllersPlugin;
+use IdeHelper\Plugin as IdeHelperPlugin;
+use MyNamespace\MyPlugin\Plugin as MyNamespaceMyPluginPlugin;
+use Relations\Plugin as RelationsPlugin;
+use Shim\Plugin as ShimPlugin;
 
 if (!defined('DS')) {
 	define('DS', DIRECTORY_SEPARATOR);
@@ -70,17 +78,17 @@ Type::build('date');
 Type::build('datetime');
 Type::build('timestamp');
 
-class_alias(Cake\Controller\Controller::class, 'App\Controller\AppController');
+class_alias(Controller::class, 'App\Controller\AppController');
 
-Plugin::getCollection()->add(new IdeHelper\Plugin());
-Plugin::getCollection()->add(new Shim\Plugin());
-Plugin::getCollection()->add(new Awesome\Plugin());
-Plugin::getCollection()->add(new Controllers\Plugin());
-Plugin::getCollection()->add(new Relations\Plugin());
-Plugin::getCollection()->add(new MyNamespace\MyPlugin\Plugin());
+Plugin::getCollection()->add(new IdeHelperPlugin());
+Plugin::getCollection()->add(new ShimPlugin());
+Plugin::getCollection()->add(new AwesomePlugin());
+Plugin::getCollection()->add(new ControllersPlugin());
+Plugin::getCollection()->add(new RelationsPlugin());
+Plugin::getCollection()->add(new MyNamespaceMyPluginPlugin());
 
 if (getenv('db_dsn')) {
-	Cake\Datasource\ConnectionManager::setConfig('test', [
+	ConnectionManager::setConfig('test', [
 		'className' => 'Cake\Database\Connection',
 		'url' => getenv('db_dsn'),
 		'timezone' => 'UTC',
@@ -98,7 +106,7 @@ if (!getenv('db_dsn')) {
 	//putenv('db_dsn=postgres://postgres@127.0.0.1/test');
 }
 
-Cake\Datasource\ConnectionManager::setConfig('test', [
+ConnectionManager::setConfig('test', [
 	'url' => getenv('db_dsn'),
 	'driver' => getenv('db_class'),
 	'database' => getenv('db_database'),
