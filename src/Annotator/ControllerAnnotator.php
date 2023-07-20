@@ -12,6 +12,7 @@ use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\MethodAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\ComponentTrait;
+use IdeHelper\Annotator\Traits\ModelTrait;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\GenericString;
 use RuntimeException;
@@ -20,6 +21,7 @@ use Throwable;
 class ControllerAnnotator extends AbstractAnnotator {
 
 	use ComponentTrait;
+	use ModelTrait;
 
 	/**
 	 * @param string $path Path to file.
@@ -94,24 +96,6 @@ class ControllerAnnotator extends AbstractAnnotator {
 		}
 
 		return $modelName ?: null;
-	}
-
-	/**
-	 * @param string $content
-	 *
-	 * @return array<string, string> Model: Property, Table
-	 */
-	protected function getUsedModels(string $content): array {
-		preg_match_all('/\$this->([a-z]+)\s*=\s*\$this->fetchTable\(\'([a-z.]+)\'/i', $content, $matches);
-		if (empty($matches[1])) {
-			return [];
-		}
-
-		$properties = $matches[1];
-		$tables = $matches[2];
-		$models = array_combine($properties, $tables);
-
-		return $models;
 	}
 
 	/**
