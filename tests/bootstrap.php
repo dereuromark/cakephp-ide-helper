@@ -9,7 +9,7 @@ use Cake\Database\Type;
 use Cake\Datasource\ConnectionManager;
 use Controllers\Plugin as ControllersPlugin;
 use IdeHelper\Plugin as IdeHelperPlugin;
-use MyNamespace\MyPlugin\Plugin as MyNamespaceMyPluginPlugin;
+use MyNamespace\MyPlugin\Plugin as MyPluginPlugin;
 use Relations\Plugin as RelationsPlugin;
 use Shim\Plugin as ShimPlugin;
 
@@ -85,7 +85,7 @@ Plugin::getCollection()->add(new ShimPlugin());
 Plugin::getCollection()->add(new AwesomePlugin());
 Plugin::getCollection()->add(new ControllersPlugin());
 Plugin::getCollection()->add(new RelationsPlugin());
-Plugin::getCollection()->add(new MyNamespaceMyPluginPlugin());
+Plugin::getCollection()->add(new MyPluginPlugin());
 
 if (getenv('db_dsn')) {
 	ConnectionManager::setConfig('test', [
