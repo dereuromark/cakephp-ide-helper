@@ -15,7 +15,7 @@ class MyCommand extends Command {
 	 * @return void
 	 */
 	public function main() {
-		$this->fetchTable('Wheels');
+		$this->Wheels = $this->fetchTable('Wheels');
 	}
 
 }

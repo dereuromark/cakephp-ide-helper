@@ -99,17 +99,19 @@ class ControllerAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $content
 	 *
-	 * @return array<string>
+	 * @return array<string, string> Model: Property, Table
 	 */
 	protected function getUsedModels(string $content): array {
-		preg_match_all('/\$this->fetchTable\(\'([a-z.]+)\'/i', $content, $matches);
+		preg_match_all('/\$this->([a-z]+)\s*=\s*\$this->fetchTable\(\'([a-z.]+)\'/i', $content, $matches);
 		if (empty($matches[1])) {
 			return [];
 		}
 
-		$models = $matches[1];
+		$properties = $matches[1];
+		$tables = $matches[2];
+		$models = array_combine($properties, $tables);
 
-		return array_unique($models);
+		return $models;
 	}
 
 	/**
