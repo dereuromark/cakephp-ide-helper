@@ -14,7 +14,7 @@ class BarController extends AppController {
 		$this->loadComponent('Flash');
 		$this->loadComponent('MyNamespace/MyPlugin.My');
 
-		$this->fetchTable('Wheels');
+		$this->Wheels = $this->fetchTable('Wheels');
 	}
 
 	/**
