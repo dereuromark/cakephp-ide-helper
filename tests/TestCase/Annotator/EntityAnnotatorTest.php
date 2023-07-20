@@ -77,6 +77,15 @@ class EntityAnnotatorTest extends TestCase {
 				'precision' => null,
 				'fixed' => null,
 			],
+			'offer_date' => [
+				'type' => 'date',
+				'length' => null,
+				'null' => false,
+				'default' => null,
+				'comment' => '',
+				'baseType' => null,
+				'precision' => null,
+			],
 			'created' => [
 				'type' => 'datetime',
 				'length' => null,
@@ -174,7 +183,7 @@ class EntityAnnotatorTest extends TestCase {
 
 		$output = $this->out->output();
 
-		$this->assertTextContains('   -> 3 annotations added, 1 annotation updated.', $output);
+		$this->assertTextContains('   -> 4 annotations added, 1 annotation updated.', $output);
 	}
 
 	/**
@@ -205,7 +214,7 @@ class EntityAnnotatorTest extends TestCase {
 
 		$output = $this->out->output();
 
-		$this->assertTextContains('   -> 6 annotations added', $output);
+		$this->assertTextContains('   -> 7 annotations added', $output);
 	}
 
 	/**
@@ -236,7 +245,7 @@ class EntityAnnotatorTest extends TestCase {
 
 		$output = $this->out->output();
 
-		$this->assertTextContains('   -> 7 annotations added', $output);
+		$this->assertTextContains('   -> 8 annotations added', $output);
 	}
 
 	/**
@@ -267,7 +276,7 @@ class EntityAnnotatorTest extends TestCase {
 
 		$output = $this->out->output();
 
-		$this->assertTextContains('   -> 8 annotations added', $output);
+		$this->assertTextContains('   -> 9 annotations added', $output);
 	}
 
 	/**
@@ -298,7 +307,7 @@ class EntityAnnotatorTest extends TestCase {
 
 		$output = $this->out->output();
 
-		$this->assertTextContains('   -> 8 annotations added', $output);
+		$this->assertTextContains('   -> 9 annotations added', $output);
 	}
 
 	/**
@@ -424,7 +433,7 @@ class EntityAnnotatorTest extends TestCase {
 
 		$output = $this->out->output();
 
-		$this->assertTextContains('   -> 1 annotation updated', $output);
+		$this->assertTextContains('   -> 1 annotation added, 1 annotation updated', $output);
 	}
 
 	/**
