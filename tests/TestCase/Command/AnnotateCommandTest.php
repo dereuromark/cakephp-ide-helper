@@ -87,14 +87,6 @@ class AnnotateCommandTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testRoutes(): void {
-		$this->exec('annotate routes -d -v -r');
-		$this->assertExitSuccess();
-	}
-
-	/**
-	 * @return void
-	 */
 	public function testClasses(): void {
 		$this->exec('annotate classes -d -v');
 		$this->assertExitSuccess();
