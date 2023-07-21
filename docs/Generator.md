@@ -57,7 +57,7 @@ Any file inside this directory will be parsed and used. Prefixing with a `.` dot
 #### Plugins
 In your `Application.php` you can, after composer requiring (and refreshing meta file), auto-complete the available plugins for your `addPlugin()` calls:
 ```php
-    public function bootstrap() {
+    public function bootstrap(): void {
         ...
         $this->addPlugin('TypeHere');
     }
@@ -241,7 +241,7 @@ use IdeHelper\Generator\Task\TaskInterface;
 class MyTask implements TaskInterface {
 
     /**
-     * @return \IdeHelper\Generator\Directive\BaseDirective[]
+     * @return array<\IdeHelper\Generator\Directive\BaseDirective>
      */
     public function collect(): array {
         ...
@@ -258,7 +258,7 @@ Then add it to the config:
     ],
 ],
 ```
-The key `'MyTask'` can be any string but it must be unique across all existing tasks.
+The key `'MyTask'` can be any string, but it must be unique across all existing tasks.
 
 #### Replacing native tasks
 Using associative arrays you can even exchange any native task with your own implementation:
@@ -321,7 +321,7 @@ $list = [
 ```
 
 ##### ExpectedReturnValues
-You can also just expected return types for a method.
+You can also set expected return types for a method.
 ```php
 $method = '\Namespace\PackageName\MyFactory::create()';
 $list = [

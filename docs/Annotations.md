@@ -329,7 +329,7 @@ class MyClassAnnotatorTask extends AbstractClassAnnotatorTask implements ClassAn
      * @param string $content
      * @return bool
      */
-    public function shouldRun($path, $content) {
+    public function shouldRun(string $path, string $content): bool {
         ...
     }
 
@@ -337,7 +337,7 @@ class MyClassAnnotatorTask extends AbstractClassAnnotatorTask implements ClassAn
      * @param string $path
      * @return bool
      */
-    public function annotate($path) {
+    public function annotate(string $path): bool {
         ...
     }
 
@@ -521,7 +521,7 @@ Behaviors and generic code use the following signature:
  * @param \ArrayObject $options Options
  * @return void
  */
-public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
+public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void
 ```
 And as long you only use methods and attributes of the EntityInterface (as contracted here), this is fine.
 
@@ -537,7 +537,7 @@ Inside the concrete PostsTable after running the `callbacks` command:
  * @param \ArrayObject $options Options
  * @return void
  */
-public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
+public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void
 ```
 
 ### Entity virtual field setter/getter annotations
@@ -567,7 +567,7 @@ class MyCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implements C
      * @param string $path
      * @return bool
      */
-    public function shouldRun($path) {
+    public function shouldRun(string $path): bool {
         ...
     }
 
@@ -575,7 +575,7 @@ class MyCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implements C
      * @param string $path
      * @return bool
      */
-    public function annotate($path) {
+    public function annotate(string $path): bool {
         ...
     }
 
@@ -673,7 +673,7 @@ class MyAnnotator extends AbstractAnnotator {
      * @param string $path
      * @return bool
      */
-    public function annotate($path) {
+    public function annotate(string $path): bool {
         ...
     }
 }

@@ -39,14 +39,14 @@ class MyTask implements TaskInterface {
     /**
      * @return string
      */
-    public function type() {
+    public function type(): string {
         return static::TYPE_NAMESPACE;
     }
 
     /**
      * @return string
      */
-    public function create() {
+    public function create(): string {
         ...
     }
 
@@ -126,7 +126,7 @@ abstract class SomeObject extends SomeObjectInterface {
     /**
      * @return \My\Cool\Alpha
      */
-    public function search() {
+    public function search(): Alpha {
         return $this->alpha;
     }
 

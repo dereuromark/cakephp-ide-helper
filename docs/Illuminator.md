@@ -72,7 +72,7 @@ class MyTask implements TaskInterface {
      * @param string $path
      * @return bool
      */
-    public function shouldRun($path) {
+    public function shouldRun(string $path): bool {
         ...
     }
 
@@ -81,7 +81,7 @@ class MyTask implements TaskInterface {
      * @param string $path
      * @return string
      */
-    public function run($content, $path) {
+    public function run(string $content, string $path): string {
         ...
     }
 
