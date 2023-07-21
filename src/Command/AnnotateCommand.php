@@ -10,7 +10,7 @@ use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Console\Io;
 use Shim\Command\Command;
 
-class AnnotateCommand extends Command {
+abstract class AnnotateCommand extends Command {
 
 	/**
 	 * @var int

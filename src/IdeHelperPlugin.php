@@ -14,7 +14,6 @@ use IdeHelper\Command\Annotate\HelpersCommand;
 use IdeHelper\Command\Annotate\ModelsCommand;
 use IdeHelper\Command\Annotate\TemplatesCommand;
 use IdeHelper\Command\Annotate\ViewCommand;
-use IdeHelper\Command\AnnotateCommand;
 use IdeHelper\Command\GenerateCodeCompletionCommand;
 use IdeHelper\Command\GeneratePhpStormMetaCommand;
 use IdeHelper\Command\IlluminateCommand;
@@ -31,8 +30,6 @@ class IdeHelperPlugin extends BasePlugin {
 	 * @return \Cake\Console\CommandCollection The updated collection.
 	 */
 	public function console(CommandCollection $commands): CommandCollection {
-		// Add entry command to handle entry point and backwards compat.
-		$commands->add('annotate', AnnotateCommand::class);
 		$commands->add('annotate models', ModelsCommand::class);
 		$commands->add('annotate view', ViewCommand::class);
 		$commands->add('annotate helpers', HelpersCommand::class);
