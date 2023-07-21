@@ -39,9 +39,8 @@ class AllCommand extends AnnotateCommand {
 		}
 
 		if ($args->getOption('remove')) {
-			$io->verbose('Skipping "routes, "classes" and "callbacks" annotations, they do not support removing.');
+			$io->verbose('Skipping "classes" and "callbacks" annotations, they do not support removing.');
 		} else {
-			$types[] = RoutesCommand::class;
 			$types[] = ClassesCommand::class;
 			$types[] = CallbacksCommand::class;
 		}

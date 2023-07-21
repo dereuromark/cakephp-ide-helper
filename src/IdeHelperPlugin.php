@@ -12,7 +12,6 @@ use IdeHelper\Command\Annotate\ComponentsCommand;
 use IdeHelper\Command\Annotate\ControllersCommand;
 use IdeHelper\Command\Annotate\HelpersCommand;
 use IdeHelper\Command\Annotate\ModelsCommand;
-use IdeHelper\Command\Annotate\RoutesCommand;
 use IdeHelper\Command\Annotate\TemplatesCommand;
 use IdeHelper\Command\Annotate\ViewCommand;
 use IdeHelper\Command\AnnotateCommand;
@@ -23,7 +22,7 @@ use IdeHelper\Command\IlluminateCommand;
 /**
  * Plugin for IdeHelper
  */
-class Plugin extends BasePlugin {
+class IdeHelperPlugin extends BasePlugin {
 
 	/**
 	 * Define the console commands for an application.
@@ -41,7 +40,6 @@ class Plugin extends BasePlugin {
 		$commands->add('annotate templates', TemplatesCommand::class);
 		$commands->add('annotate controllers', ControllersCommand::class);
 		$commands->add('annotate commands', CommandsCommand::class);
-		$commands->add('annotate routes', RoutesCommand::class);
 		$commands->add('annotate classes', ClassesCommand::class);
 		$commands->add('annotate callbacks', CallbacksCommand::class);
 		$commands->add('annotate all', AllCommand::class);
