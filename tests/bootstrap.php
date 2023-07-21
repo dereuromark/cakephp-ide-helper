@@ -12,7 +12,7 @@ use Controllers\ControllersPlugin;
 use IdeHelper\IdeHelperPlugin;
 use MyNamespace\MyPlugin\MyPluginPlugin;
 use Relations\RelationsPlugin;
-use Shim\Plugin as ShimPlugin;
+use Shim\ShimPlugin;
 
 if (!defined('DS')) {
 	define('DS', DIRECTORY_SEPARATOR);
