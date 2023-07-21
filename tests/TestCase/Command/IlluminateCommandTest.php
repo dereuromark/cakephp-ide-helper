@@ -13,7 +13,7 @@ class IlluminateCommandTest extends TestCase {
 	 * @return void
 	 */
 	public function testIlluminateDryRun() {
-		$this->exec('illuminator -d -v');
+		$this->exec('illuminate -d -v');
 
 		$this->assertExitSuccess();
 		$this->assertOutputContains('# /src/Illuminator/Illuminator.php');

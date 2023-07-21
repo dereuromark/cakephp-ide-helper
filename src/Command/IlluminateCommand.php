@@ -19,7 +19,6 @@ class IlluminateCommand extends Command {
 	 */
 	public const CODE_CHANGES = 2;
 
-
 	/**
 	 * @return string
 	 */

@@ -75,7 +75,7 @@ The code completion file aims to be generic and to work with all IDEs.
 
 Generate your code completion files into TMP:
 ```
-bin/cake code_completion generate
+bin/cake generate code_completion
 ```
 
 ### Using the generator shell
@@ -85,18 +85,18 @@ So far the meta file is available for the following IDEs:
 
 Generate your app `.phpstorm.meta.php` meta file:
 ```
-bin/cake phpstorm generate
+bin/cake generate phpstorm
 ```
 
 ### Using the illuminator shell
 Improve your PHP files:
 ```
-bin/cake illuminator illuminate <path>
+bin/cake illuminate <path>
 ```
 
 Use `-v` for verbose and detailed output:
 ```
-bin/cake illuminator illuminate <path> -v
+bin/cake illuminate <path> -v
 ```
 
 Use `-t` (`--task`) to only run specific task(s), can be a comma separated list.
@@ -110,9 +110,9 @@ Group them for your project as composer.json script commands:
 ```
 "scripts": {
     ...
-    "setup": "bin/cake code_completion generate && bin/cake phpstorm generate",
+    "setup": "bin/cake generate code_completion && bin/cake generate phpstorm",
     "annotate": "bin/cake annotate all && bin/cake annotate all -p Sandbox && ...",
-    "illuminate": "bin/cake illuminator illuminate",
+    "illuminate": "bin/cake illuminate",
 ```
 
 This way you only need to remember these high level ones:

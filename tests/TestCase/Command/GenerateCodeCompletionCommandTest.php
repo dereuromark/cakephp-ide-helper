@@ -45,7 +45,7 @@ class GenerateCodeCompletionCommandTest extends TestCase {
 	 * @return void
 	 */
 	public function testGenerate() {
-		$this->exec('code_completion generate');
+		$this->exec('generate code_completion');
 		$this->assertOutputContains('CodeCompletion files generated: Cake\Controller, Cake\ORM, Cake\View');
 		$this->assertExitSuccess();
 	}

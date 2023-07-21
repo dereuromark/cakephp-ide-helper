@@ -66,7 +66,7 @@ class GeneratePhpstormMetaCommandTest extends TestCase {
 	public function testDirExists() {
 		$this->assertFalse(file_exists(static::META_FILE));
 
-		$this->exec('phpstorm');
+		$this->exec('generate phpstorm');
 		$this->assertTrue(file_exists(static::META_FILE));
 	}
 
@@ -75,7 +75,7 @@ class GeneratePhpstormMetaCommandTest extends TestCase {
 	 */
 	public function testDirExistsDryRun() {
 		$this->assertFalse(file_exists(static::META_FILE));
-		$this->exec('phpstorm -d');
+		$this->exec('generate phpstorm -d');
 
 		$this->assertFalse(file_exists(static::META_FILE));
 		$this->assertFalse(file_exists(static::META_FOLDER));
@@ -85,7 +85,7 @@ class GeneratePhpstormMetaCommandTest extends TestCase {
 	 * @return void
 	 */
 	public function testGenerateDryRun() {
-		$this->exec('phpstorm -d');
+		$this->exec('generate phpstorm -d');
 		$this->assertOutputContains(' needs updating');
 
 		$this->assertSame(GeneratePhpStormMetaCommand::CODE_CHANGES, $this->_exitCode);
@@ -95,10 +95,10 @@ class GeneratePhpstormMetaCommandTest extends TestCase {
 	 * @return void
 	 */
 	public function testGenerate() {
-		$this->exec('phpstorm');
+		$this->exec('generate phpstorm');
 		$this->assertOutputContains('Meta file `/.phpstorm.meta.php/.ide-helper.meta.php` generated.');
 
-		$this->exec('phpstorm');
+		$this->exec('generate phpstorm');
 		$this->assertOutputContains('Meta file `/.phpstorm.meta.php/.ide-helper.meta.php` still up to date.');
 
 		$this->assertExitSuccess();

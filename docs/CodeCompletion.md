@@ -7,7 +7,7 @@ In contrast to the PhpStorm meta file generator this one is supposed to be more 
 ## Usage
 This command will generate your CodeCompletion `php` files in your app's `TMP/` directory:
 ```
-bin/cake code_completion generate
+bin/cake generate code_completion
 ```
 
 Those should not be persisted and will just always be regenerated or updated locally if needed.

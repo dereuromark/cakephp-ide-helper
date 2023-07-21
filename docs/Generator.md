@@ -44,7 +44,7 @@ PhpStorm TOC
 ## PhpStorm
 This command will generate your `.ide-helper.meta.php` in your app's `ROOT/.phpstorm.meta.php/` directory:
 ```
-bin/cake phpstorm generate
+bin/cake generate phpstorm
 ```
 
 Make sure it is indexed (maybe a restart of PhpStorm could be required).
@@ -466,7 +466,7 @@ You can re-use sets that are present from any of the built-in or your custom tas
 
 In verbose mode the console gives you the available sets for re-use:
 ```
-bin/cake phpstorm generate -v
+bin/cake generate phpstorm -v
 ```
 
 You can then just directly make use of them in any matching directive (for such lists):
