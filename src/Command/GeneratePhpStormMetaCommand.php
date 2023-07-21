@@ -19,6 +19,13 @@ class GeneratePhpStormMetaCommand extends Command {
 	public const CODE_CHANGES = 2;
 
 	/**
+	 * @return string
+	 */
+	public static function getDescription(): string {
+		return 'Meta File Generator for generating better IDE auto-complete/hinting in PhpStorm.';
+	}
+
+	/**
 	 * @param \Cake\Console\Arguments $args The command arguments.
 	 * @param \Cake\Console\ConsoleIo $io The console io
 	 *
@@ -73,7 +80,7 @@ class GeneratePhpStormMetaCommand extends Command {
 		$parser->addOptions($subcommandParser);
 
 		return $parser
-			->setDescription('Meta File Generator for generating better IDE auto-complete/hinting in PhpStorm.' . PHP_EOL . $details);
+			->setDescription(static::getDescription() . PHP_EOL . $details);
 	}
 
 	/**

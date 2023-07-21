@@ -12,6 +12,13 @@ use Shim\Command\Command;
 class GenerateCodeCompletionCommand extends Command {
 
 	/**
+	 * @return string
+	 */
+	public static function getDescription(): string {
+		return 'CodeCompletion File Generator for generating better IDE auto-complete/hinting.';
+	}
+
+	/**
 	 * @param \Cake\Console\Arguments $args The command arguments.
 	 * @param \Cake\Console\ConsoleIo $io The console io
 	 *
@@ -48,7 +55,7 @@ class GenerateCodeCompletionCommand extends Command {
 		];
 
 		return $parser
-			->setDescription('CodeCompletion File Generator for generating better IDE auto-complete/hinting.')
+			->setDescription(static::getDescription())
 			->addOptions($options);
 	}
 

@@ -19,6 +19,14 @@ class IlluminateCommand extends Command {
 	 */
 	public const CODE_CHANGES = 2;
 
+
+	/**
+	 * @return string
+	 */
+	public static function getDescription(): string {
+		return 'PHP file modifier.';
+	}
+
 	/**
 	 * E.g.:
 	 * bin/cake upgrade /path/to/app --level=cakephp40
@@ -101,7 +109,7 @@ class IlluminateCommand extends Command {
 		]);
 
 		$taskList = 'Tasks: ' . implode(', ', $tasks);
-		$descr = 'Illuminator PHP File Modifier.' . PHP_EOL . 'Run Illuminator tasks over your PHP files.' . PHP_EOL;
+		$descr = static::getDescription() . PHP_EOL . 'Run Illuminator tasks over your PHP files.' . PHP_EOL;
 
 		return $parser->setDescription($descr . $taskList);
 	}
