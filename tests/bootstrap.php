@@ -9,7 +9,7 @@ use Cake\Database\TypeFactory;
 use Cake\Datasource\ConnectionManager;
 use Cake\TestSuite\Fixture\SchemaLoader;
 use Controllers\Plugin as ControllersPlugin;
-use IdeHelper\Plugin as IdeHelperPlugin;
+use IdeHelper\IdeHelperPlugin;
 use MyNamespace\MyPlugin\Plugin as MyPluginPlugin;
 use Relations\Plugin as RelationsPlugin;
 use Shim\Plugin as ShimPlugin;
