@@ -28,6 +28,23 @@ class CallbackAnnotatorTest extends TestCase {
 		$this->err = new ConsoleOutput();
 		$consoleIo = new ConsoleIo($this->out, $this->err);
 		$this->io = new Io($consoleIo);
+
+		$file = TMP . 'CallbacksTable.php';
+		if (file_exists($file)) {
+			unlink($file);
+		}
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function tearDown(): void {
+		parent::tearDown();
+
+		$file = TMP . 'CallbacksTable.php';
+		if (file_exists($file)) {
+			unlink($file);
+		}
 	}
 
 	/**

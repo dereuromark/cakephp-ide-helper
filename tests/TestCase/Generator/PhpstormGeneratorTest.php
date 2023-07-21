@@ -45,6 +45,18 @@ class PhpstormGeneratorTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	protected function tearDown(): void {
+		parent::tearDown();
+
+		$file = TMP . '.meta.php';
+		if (file_exists($file)) {
+			unlink($file);
+		}
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testCollect() {
 		Configure::write('IdeHelper.skipDatabaseTables', ['/^(?!wheels)/']);
 

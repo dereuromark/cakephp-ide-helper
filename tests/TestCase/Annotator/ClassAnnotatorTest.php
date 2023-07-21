@@ -27,6 +27,25 @@ class ClassAnnotatorTest extends TestCase {
 		$this->err = new ConsoleOutput();
 		$consoleIo = new ConsoleIo($this->out, $this->err);
 		$this->io = new Io($consoleIo);
+
+		$file = TMP . 'src' . DS . 'CustomClass.php';
+		if (file_exists($file)) {
+			unlink($file);
+			rmdir(TMP . 'src' . DS);
+		}
+	}
+
+	/**
+	 * @return void
+	 */
+	protected function tearDown(): void {
+		parent::tearDown();
+
+		$file = TMP . 'src' . DS . 'CustomClass.php';
+		if (file_exists($file)) {
+			unlink($file);
+			rmdir(TMP . 'src' . DS);
+		}
 	}
 
 	/**
@@ -35,18 +54,18 @@ class ClassAnnotatorTest extends TestCase {
 	public function testAnnotate() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$path = APP . 'Custom/CustomClass.php';
+		$path = APP . 'Custom' . DS . 'CustomClass.php';
 		if (!is_dir(TMP . 'src')) {
 			mkdir(TMP . 'src', 0770, true);
 		}
-		$execPath = TMP . 'src/CustomClass.php';
+		$execPath = TMP . 'src' . DS . 'CustomClass.php';
 		copy($path, $execPath);
 
 		$annotator->annotate($execPath);
 
 		$content = file_get_contents($execPath);
 
-		$testPath = TEST_FILES . 'Custom/CustomClass.php';
+		$testPath = TEST_FILES . 'Custom' . DS . 'CustomClass.php';
 		$expectedContent = file_get_contents($testPath);
 		$this->assertTextEquals($expectedContent, $content);
 
