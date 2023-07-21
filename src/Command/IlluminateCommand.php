@@ -30,6 +30,7 @@ class IlluminateCommand extends Command {
 	 * @return int The exit code or null for success
 	 */
 	public function execute(Arguments $args, ConsoleIo $io): int {
+		parent::execute($args, $io);
 		$path = $args->getArgument('path');
 		if (!$path) {
 			$path = ($args->getOption('plugin') ? 'src' : APP_DIR) . DS;
@@ -124,9 +125,7 @@ class IlluminateCommand extends Command {
 	 * @return array<string>
 	 */
 	protected function getTaskList(): array {
-		assert($this->args !== null, 'Args not set');
-
-		$taskCollection = new TaskCollection($this->io(), $this->args->getOptions());
+		$taskCollection = new TaskCollection($this->io(), []);
 
 		return $taskCollection->taskNames();
 	}
@@ -135,9 +134,9 @@ class IlluminateCommand extends Command {
 	 * @return \IdeHelper\Console\Io
 	 */
 	protected function io(): Io {
-		assert($this->io !== null, 'IO not set');
+		$io = $this->io ?? new ConsoleIo();
 
-		return new Io($this->io);
+		return new Io($io);
 	}
 
 }
