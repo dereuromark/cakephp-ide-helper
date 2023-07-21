@@ -3,5 +3,5 @@ namespace Awesome;
 
 use Cake\Core\BasePlugin;
 
-class Plugin extends BasePlugin {
+class AwesomePlugin extends BasePlugin {
 }

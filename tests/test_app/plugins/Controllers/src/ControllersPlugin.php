@@ -3,5 +3,5 @@ namespace Controllers;
 
 use Cake\Core\BasePlugin;
 
-class Plugin extends BasePlugin {
+class ControllersPlugin extends BasePlugin {
 }

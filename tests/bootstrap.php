@@ -1,6 +1,6 @@
 <?php
 
-use Awesome\Plugin as AwesomePlugin;
+use Awesome\AwesomePlugin;
 use Cake\Cache\Cache;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
@@ -8,10 +8,10 @@ use Cake\Core\Plugin;
 use Cake\Database\TypeFactory;
 use Cake\Datasource\ConnectionManager;
 use Cake\TestSuite\Fixture\SchemaLoader;
-use Controllers\Plugin as ControllersPlugin;
+use Controllers\ControllersPlugin;
 use IdeHelper\IdeHelperPlugin;
-use MyNamespace\MyPlugin\Plugin as MyPluginPlugin;
-use Relations\Plugin as RelationsPlugin;
+use MyNamespace\MyPlugin\MyPluginPlugin;
+use Relations\RelationsPlugin;
 use Shim\Plugin as ShimPlugin;
 
 if (!defined('DS')) {

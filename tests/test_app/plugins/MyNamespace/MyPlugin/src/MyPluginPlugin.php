@@ -3,5 +3,5 @@ namespace MyNamespace\MyPlugin;
 
 use Cake\Core\BasePlugin;
 
-class Plugin extends BasePlugin {
+class MyPluginPlugin extends BasePlugin {
 }
