@@ -2,9 +2,12 @@
 
 namespace IdeHelper\Annotator;
 
+use IdeHelper\Annotator\Traits\ModelTrait;
 use RuntimeException;
 
 class CommandAnnotator extends AbstractAnnotator {
+
+	use ModelTrait;
 
 	/**
 	 * @param string $path Path to file.
@@ -46,22 +49,6 @@ class CommandAnnotator extends AbstractAnnotator {
 		$modelName = $matches[1];
 
 		return $modelName;
-	}
-
-	/**
-	 * @param string $content
-	 *
-	 * @return array<string>
-	 */
-	protected function getUsedModels(string $content): array {
-		preg_match_all('/\$this->fetchTable\(\'([a-z.\/]+)\'/i', $content, $matches);
-		if (empty($matches[1])) {
-			return [];
-		}
-
-		$models = $matches[1];
-
-		return array_unique($models);
 	}
 
 }

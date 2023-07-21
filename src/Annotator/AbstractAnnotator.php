@@ -26,7 +26,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use ReflectionClass;
 use RuntimeException;
 use SebastianBergmann\Diff\Differ;
-use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
+use SebastianBergmann\Diff\Output\DiffOnlyOutputBuilder;
 
 $composerVendorDir = getcwd() . DS . 'vendor';
 $codesnifferDir = 'squizlabs' . DS . 'php_codesniffer';
@@ -139,7 +139,7 @@ abstract class AbstractAnnotator {
 	 * @return void
 	 */
 	protected function displayDiff(string $oldContent, string $newContent): void {
-		$differ = new Differ(new UnifiedDiffOutputBuilder());
+		$differ = new Differ(new DiffOnlyOutputBuilder());
 		$array = $differ->diffToArray($oldContent, $newContent);
 
 		$begin = null;
