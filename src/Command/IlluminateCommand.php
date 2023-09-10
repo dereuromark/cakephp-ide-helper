@@ -114,13 +114,11 @@ class IlluminateCommand extends Command {
 	}
 
 	/**
-	 * @param \Cake\Console\Arguments|null $args
+	 * @param \Cake\Console\Arguments $args
 	 *
 	 * @return \IdeHelper\Illuminator\Illuminator
 	 */
-	protected function getIlluminator(?Arguments $args): Illuminator {
-		assert($args !== null, 'Args not set');
-
+	protected function getIlluminator(Arguments $args): Illuminator {
 		$tasks = $args->getOption('task') ? explode(',', (string)$args->getOption('task')) : [];
 
 		$taskCollection = new TaskCollection($this->io(), $args->getOptions(), $tasks);
