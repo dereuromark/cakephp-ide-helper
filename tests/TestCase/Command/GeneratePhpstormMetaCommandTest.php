@@ -30,6 +30,9 @@ class GeneratePhpstormMetaCommandTest extends TestCase {
 	 */
 	protected ConsoleOutput $err;
 
+	/**
+	 * @var \Cake\Console\ConsoleIo
+	 */
 	protected ConsoleIo $io;
 
 	protected const META_FOLDER = ROOT . DS . '.phpstorm.meta.php' . DS;

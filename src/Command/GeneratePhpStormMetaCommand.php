@@ -2,6 +2,7 @@
 
 namespace IdeHelper\Command;
 
+use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
@@ -9,7 +10,6 @@ use IdeHelper\Console\Io;
 use IdeHelper\Generator\PhpstormGenerator;
 use IdeHelper\Generator\TaskCollection;
 use RuntimeException;
-use Shim\Command\Command;
 
 class GeneratePhpStormMetaCommand extends Command {
 
@@ -17,6 +17,11 @@ class GeneratePhpStormMetaCommand extends Command {
 	 * @var int
 	 */
 	public const CODE_CHANGES = 2;
+
+	/**
+	 * @var \Cake\Console\ConsoleIo
+	 */
+	protected ConsoleIo $io;
 
 	/**
 	 * @return string
@@ -33,6 +38,8 @@ class GeneratePhpStormMetaCommand extends Command {
 	 * @return int The exit code or null for success
 	 */
 	public function execute(Arguments $args, ConsoleIo $io): int {
+		$this->io = $io;
+
 		parent::execute($args, $io);
 
 		$phpstormGenerator = $this->getGenerator();

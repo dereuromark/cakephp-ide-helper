@@ -2,6 +2,7 @@
 
 namespace IdeHelper\Command;
 
+use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
@@ -10,7 +11,6 @@ use IdeHelper\Console\Io;
 use IdeHelper\Illuminator\Illuminator;
 use IdeHelper\Illuminator\TaskCollection;
 use InvalidArgumentException;
-use Shim\Command\Command;
 
 class IlluminateCommand extends Command {
 
@@ -18,6 +18,11 @@ class IlluminateCommand extends Command {
 	 * @var int
 	 */
 	public const CODE_CHANGES = 2;
+
+	/**
+	 * @var \Cake\Console\ConsoleIo
+	 */
+	protected ConsoleIo $io;
 
 	/**
 	 * @return string
@@ -37,7 +42,10 @@ class IlluminateCommand extends Command {
 	 * @return int The exit code or null for success
 	 */
 	public function execute(Arguments $args, ConsoleIo $io): int {
+		$this->io = $io;
+
 		parent::execute($args, $io);
+
 		$path = $args->getArgument('path');
 		if (!$path) {
 			$path = ($args->getOption('plugin') ? 'src' : APP_DIR) . DS;
@@ -52,7 +60,7 @@ class IlluminateCommand extends Command {
 			throw new InvalidArgumentException('Path does not exist: ' . $path);
 		}
 
-		$illuminator = $this->getIlluminator();
+		$illuminator = $this->getIlluminator($args);
 		$filesChanged = $illuminator->illuminate($path, (string)$args->getOption('filter') ?: null);
 		if (!$filesChanged) {
 			return static::CODE_SUCCESS;
@@ -114,14 +122,14 @@ class IlluminateCommand extends Command {
 	}
 
 	/**
+	 * @param \Cake\Console\Arguments $args
+	 *
 	 * @return \IdeHelper\Illuminator\Illuminator
 	 */
-	protected function getIlluminator(): Illuminator {
-		assert($this->args !== null, 'Args not set');
+	protected function getIlluminator(Arguments $args): Illuminator {
+		$tasks = $args->getOption('task') ? explode(',', (string)$args->getOption('task')) : [];
 
-		$tasks = $this->args->getOption('task') ? explode(',', (string)$this->args->getOption('task')) : [];
-
-		$taskCollection = new TaskCollection($this->io(), $this->args->getOptions(), $tasks);
+		$taskCollection = new TaskCollection($this->io(), $args->getOptions(), $tasks);
 
 		return new Illuminator($taskCollection);
 	}
