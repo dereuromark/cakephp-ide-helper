@@ -44,7 +44,7 @@ class CommandsCommand extends AnnotateCommand {
 	 * @return void
 	 */
 	protected function _commands(string $folder) {
-		$this->io?->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
+		$this->io->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
 
 		$folderContent = glob($folder . '*') ?: [];
 		foreach ($folderContent as $file) {
@@ -56,7 +56,7 @@ class CommandsCommand extends AnnotateCommand {
 				continue;
 			}
 
-			$this->io?->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
+			$this->io->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
 			$annotator = $this->getAnnotator(CommandAnnotator::class);
 			$annotator->annotate($file);
 		}
