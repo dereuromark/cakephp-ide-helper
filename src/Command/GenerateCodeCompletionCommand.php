@@ -7,7 +7,7 @@ use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use IdeHelper\CodeCompletion\CodeCompletionGenerator;
 use IdeHelper\CodeCompletion\TaskCollection;
-use Shim\Command\Command;
+use Cake\Command\Command;
 
 class GenerateCodeCompletionCommand extends Command {
 

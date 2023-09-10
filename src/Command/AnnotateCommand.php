@@ -2,13 +2,13 @@
 
 namespace IdeHelper\Command;
 
+use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Console\Io;
-use Shim\Command\Command;
 
 abstract class AnnotateCommand extends Command {
 
@@ -36,6 +36,10 @@ abstract class AnnotateCommand extends Command {
 	 */
 	protected array $_instantiatedAnnotators = [];
 
+	protected ?Arguments $args = null;
+
+	protected ?ConsoleIo $io = null;
+
 	/**
 	 * @return void
 	 */
@@ -59,6 +63,9 @@ abstract class AnnotateCommand extends Command {
 	 * @return int|null|void The exit code or null for success
 	 */
 	public function execute(Arguments $args, ConsoleIo $io) {
+		$this->args = $args;
+		$this->io = $io;
+
 		parent::execute($args, $io);
 
 		if ($args->getOption('ci')) {
