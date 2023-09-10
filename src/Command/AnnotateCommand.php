@@ -36,9 +36,15 @@ abstract class AnnotateCommand extends Command {
 	 */
 	protected array $_instantiatedAnnotators = [];
 
-	protected ?Arguments $args = null;
+	/**
+	 * @var \Cake\Console\Arguments
+	 */
+	protected Arguments $args;
 
-	protected ?ConsoleIo $io = null;
+	/**
+	 * @var \Cake\Console\ConsoleIo
+	 */
+	protected ConsoleIo $io;
 
 	/**
 	 * @return void

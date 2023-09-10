@@ -20,6 +20,11 @@ class IlluminateCommand extends Command {
 	public const CODE_CHANGES = 2;
 
 	/**
+	 * @var \Cake\Console\ConsoleIo
+	 */
+	protected ConsoleIo $io;
+
+	/**
 	 * @return string
 	 */
 	public static function getDescription(): string {
@@ -37,7 +42,10 @@ class IlluminateCommand extends Command {
 	 * @return int The exit code or null for success
 	 */
 	public function execute(Arguments $args, ConsoleIo $io): int {
+		$this->io = $io;
+
 		parent::execute($args, $io);
+
 		$path = $args->getArgument('path');
 		if (!$path) {
 			$path = ($args->getOption('plugin') ? 'src' : APP_DIR) . DS;
