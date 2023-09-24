@@ -42,8 +42,8 @@ use ArrayObject;
 use Cake\Database\Query\SelectQuery;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
-use Cake\Validation\Validator;
 use Cake\ORM\RulesChecker;
+use Cake\Validation\Validator;
 
 if (false) {
 	class Table {
