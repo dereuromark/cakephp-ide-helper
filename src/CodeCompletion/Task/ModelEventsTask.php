@@ -22,8 +22,8 @@ class ModelEventsTask implements TaskInterface {
 	public function create(): string {
 		$events = <<<'TXT'
 		public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options): void {}
-		public function afterMarshal(EventInterface $event, EntityInterface $entity, ArrayObject $data, ArrayObject $options): void {}
-		public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, bool $primary): void {}
+		public function afterMarshal(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {}
+		public function beforeFind(EventInterface $event, SelectQuery $query, ArrayObject $options, boolean $primary): void {}
 		public function buildValidator(EventInterface $event, Validator $validator, string $name): void {}
 		public function buildRules(RulesChecker $rules): RulesChecker { return $rules; }
 		public function beforeRules(EventInterface $event, EntityInterface $entity, ArrayObject $options, string $operation): void {}
@@ -39,7 +39,7 @@ TXT;
 		return <<<CODE
 
 use ArrayObject;
-use Cake\Database\Query;
+use Cake\Database\Query\SelectQuery;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\Validation\Validator;
