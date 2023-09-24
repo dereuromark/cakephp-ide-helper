@@ -39,9 +39,9 @@ TXT;
 		return <<<CODE
 
 use ArrayObject;
-use Cake\Database\Query\SelectQuery;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\RulesChecker;
 use Cake\Validation\Validator;
 
