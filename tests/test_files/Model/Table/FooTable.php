@@ -7,11 +7,11 @@ use Cake\ORM\Table;
  * @method \TestApp\Model\Entity\Foo get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \TestApp\Model\Entity\Foo newEntity($data = null, array $options = [])
  * @method \TestApp\Model\Entity\Foo[] newEntities(array $data, array $options = [])
- * @method \TestApp\Model\Entity\Foo|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \TestApp\Model\Entity\Foo saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \TestApp\Model\Entity\Foo|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \TestApp\Model\Entity\Foo saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
  * @method \TestApp\Model\Entity\Foo patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \TestApp\Model\Entity\Foo[] patchEntities($entities, array $data, array $options = [])
- * @method \TestApp\Model\Entity\Foo findOrCreate($search, callable $callback = null, $options = [])
+ * @method \TestApp\Model\Entity\Foo findOrCreate($search, callable $callback = null, array $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @mixin \MyNamespace\MyPlugin\Model\Behavior\MyBehavior
