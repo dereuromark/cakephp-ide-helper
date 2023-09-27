@@ -12,15 +12,15 @@ use Cake\ORM\Table;
  * @method \TestApp\Model\Entity\BarBar newEntity(array $data, array $options = [])
  * @method \TestApp\Model\Entity\BarBar[] newEntities(array $data, array $options = [])
  * @method \TestApp\Model\Entity\BarBar get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \TestApp\Model\Entity\BarBar findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \TestApp\Model\Entity\BarBar findOrCreate($search, ?callable $callback = null, array $options = [])
  * @method \TestApp\Model\Entity\BarBar patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \TestApp\Model\Entity\BarBar[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \TestApp\Model\Entity\BarBar|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \TestApp\Model\Entity\BarBar saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \TestApp\Model\Entity\BarBar|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \TestApp\Model\Entity\BarBar saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, array $options = [])
+ * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, array $options = [])
+ * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
+ * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @mixin \MyNamespace\MyPlugin\Model\Behavior\MyBehavior
