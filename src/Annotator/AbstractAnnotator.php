@@ -886,8 +886,7 @@ abstract class AbstractAnnotator {
 	 *
 	 * @return int
 	 */
-	protected function skipOverAttributes(File $file, int $index): int
-	{
+	protected function skipOverAttributes(File $file, int $index): int {
 		$prevCode = $file->findPrevious(Tokens::$emptyTokens, $index - 1, null, true);
 		if (!$prevCode) {
 			return $index;
