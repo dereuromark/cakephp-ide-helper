@@ -219,6 +219,7 @@ abstract class AbstractAnnotator {
 			return false;
 		}
 		$beginningOfLineIndex = $this->beginningOfLine($file, $classOrTraitIndex);
+		$beginningOfLineIndex = $this->skipOverAttributes($file, $beginningOfLineIndex);
 
 		$closeTagIndex = $this->findDocBlockCloseTagIndex($file, $beginningOfLineIndex);
 		$this->resetCounter();
@@ -877,6 +878,28 @@ abstract class AbstractAnnotator {
 		$reflection = new ReflectionClass($className);
 
 		return $reflection->isAbstract();
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param int $index
+	 *
+	 * @return int
+	 */
+	protected function skipOverAttributes(File $file, int $index): int
+	{
+		$prevCode = $file->findPrevious(Tokens::$emptyTokens, $index - 1, null, true);
+		if (!$prevCode) {
+			return $index;
+		}
+
+		$tokens = $file->getTokens();
+		while ($prevCode && $tokens[$prevCode]['code'] === T_ATTRIBUTE_END) {
+			$beginningOfLine = $this->beginningOfLine($file, $prevCode);
+			$prevCode = $file->findPrevious(Tokens::$emptyTokens, $beginningOfLine - 1, null, true);
+		}
+
+		return $beginningOfLine ?? $index;
 	}
 
 }
