@@ -120,6 +120,8 @@ This way you only need to remember these high level ones:
 - `composer annotate` (include all your /plugins, the non-vendor ones)
 - `composer illuminate` (include all your /plugins, the non-vendor ones)
 
-## Migrating from 3.x?
+## Migrating from 4.x?
 
-- `bin/cake annotations` is now `bin/cake annotate`.
+- `bin/cake code_completion generate` is now `bin/cake generate code_completion`.
+- `bin/cake phpstorm generate` is now `bin/cake generate phpstorm`.
+- `bin/cake illuminator` is now `bin/cake illuminate`.
