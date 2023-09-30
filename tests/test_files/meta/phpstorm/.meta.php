@@ -651,14 +651,6 @@ namespace PHPSTORM_META {
 		argumentsSet('routePaths'),
 	);
 
-	expectedArguments(
-		\Cake\View\View::element(),
-		0,
-		'Awesome.pagination',
-		'deeply/nested',
-		'example',
-	);
-
 	override(
 		\Cake\View\View::addHelper(0),
 		map([
@@ -676,6 +668,14 @@ namespace PHPSTORM_META {
 			'Time' => \Cake\View\Helper\TimeHelper::class,
 			'Url' => \Cake\View\Helper\UrlHelper::class,
 		]),
+	);
+
+	expectedArguments(
+		\Cake\View\View::element(),
+		0,
+		'Awesome.pagination',
+		'deeply/nested',
+		'example',
 	);
 
 	override(
