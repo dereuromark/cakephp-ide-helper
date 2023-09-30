@@ -660,6 +660,25 @@ namespace PHPSTORM_META {
 	);
 
 	override(
+		\Cake\View\View::addHelper(0),
+		map([
+			'Breadcrumbs' => \Cake\View\Helper\BreadcrumbsHelper::class,
+			'Flash' => \Cake\View\Helper\FlashHelper::class,
+			'Form' => \Cake\View\Helper\FormHelper::class,
+			'Html' => \TestApp\View\Helper\HtmlHelper::class,
+			'IdeHelper.DocBlock' => \IdeHelper\View\Helper\DocBlockHelper::class,
+			'My' => \TestApp\View\Helper\MyHelper::class,
+			'Number' => \Cake\View\Helper\NumberHelper::class,
+			'Paginator' => \Cake\View\Helper\PaginatorHelper::class,
+			'Shim.Configure' => \Shim\View\Helper\ConfigureHelper::class,
+			'Shim.Cookie' => \Shim\View\Helper\CookieHelper::class,
+			'Text' => \Cake\View\Helper\TextHelper::class,
+			'Time' => \Cake\View\Helper\TimeHelper::class,
+			'Url' => \Cake\View\Helper\UrlHelper::class,
+		]),
+	);
+
+	override(
 		\Cake\View\View::loadHelper(0),
 		map([
 			'Breadcrumbs' => \Cake\View\Helper\BreadcrumbsHelper::class,

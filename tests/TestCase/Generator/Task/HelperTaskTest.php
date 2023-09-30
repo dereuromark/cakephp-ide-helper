@@ -24,11 +24,15 @@ class HelperTaskTest extends TestCase {
 	public function testCollect() {
 		$result = $this->task->collect();
 
-		$this->assertCount(2, $result);
+		$this->assertCount(3, $result);
 
 		/** @var \IdeHelper\Generator\Directive\Override $directive */
 		$directive = array_shift($result);
 		$this->assertSame('\Cake\View\View::loadHelper(0)', $directive->toArray()['method']);
+
+		/** @var \IdeHelper\Generator\Directive\Override $directive */
+		$directive = array_shift($result);
+		$this->assertSame('\Cake\View\View::addHelper(0)', $directive->toArray()['method']);
 
 		$map = $directive->toArray()['map'];
 
