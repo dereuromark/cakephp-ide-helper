@@ -2,7 +2,6 @@
 
 namespace IdeHelper\Generator\Task;
 
-use Cake\Database\Type;
 use Cake\Database\TypeFactory;
 use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Generator\Directive\Override;
@@ -55,7 +54,7 @@ class DatabaseTypeTask implements TaskInterface {
 		$types = [];
 
 		try {
-			$allTypes = Type::buildAll();
+			$allTypes = TypeFactory::buildAll();
 		} catch (Throwable $exception) {
 			return $types;
 		}
