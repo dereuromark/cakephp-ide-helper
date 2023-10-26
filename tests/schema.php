@@ -5,10 +5,10 @@ use Cake\Utility\Inflector;
 $tables = [];
 
 /**
- * @var \DirectoryIterator<\DirectoryIterator> $ierator
+ * @var \DirectoryIterator<\DirectoryIterator> $iterator
  */
-$ierator = new DirectoryIterator(__DIR__ . DS . 'Fixture');
-foreach ($ierator as $file) {
+$iterator = new DirectoryIterator(__DIR__ . DS . 'Fixture');
+foreach ($iterator as $file) {
 	if (!preg_match('/(\w+)Fixture.php$/', (string)$file, $matches)) {
 		continue;
 	}
