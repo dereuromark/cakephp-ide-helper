@@ -2,7 +2,7 @@
 
 namespace IdeHelper\Test\TestCase\Generator\Task;
 
-use Cake\Database\Type;
+use Cake\Database\TypeFactory;
 use Cake\TestSuite\TestCase;
 use IdeHelper\Generator\Task\DatabaseTypeTask;
 use TestApp\Database\Type\UuidType;
@@ -24,7 +24,7 @@ class DatabaseTypeTaskTest extends TestCase {
 	 * @return void
 	 */
 	public function testCollect() {
-		Type::set('uuid', new UuidType());
+		TypeFactory::set('uuid', new UuidType());
 
 		$result = $this->task->collect();
 
