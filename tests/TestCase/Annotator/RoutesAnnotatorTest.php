@@ -137,6 +137,44 @@ PHP;
 	}
 
 	/**
+	 * @return void
+	 */
+	public function testNeedsAnnotationTrue() {
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$content = <<<'PHP'
+/**
+ */
+$routes->scope()
+PHP;
+		$result = $this->invokeMethod($annotator, 'needsAnnotation', [$content]);
+		$this->assertTrue($result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testNeedsAnnotationFalse() {
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$content = <<<'PHP'
+/**
+ */
+return static function (RouteBuilder $x) {
+PHP;
+		$result = $this->invokeMethod($annotator, 'needsAnnotation', [$content]);
+		$this->assertFalse($result);
+
+		$content = <<<'PHP'
+/**
+ */
+return function (RouteBuilder $y) {
+PHP;
+		$result = $this->invokeMethod($annotator, 'needsAnnotation', [$content]);
+		$this->assertFalse($result);
+	}
+
+	/**
 	 * @param array $params
 	 * @return \IdeHelper\Annotator\RoutesAnnotator|\PHPUnit\Framework\MockObject\MockObject
 	 */
