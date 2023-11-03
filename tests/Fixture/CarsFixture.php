@@ -36,7 +36,7 @@ class CarsFixture extends TestFixture {
 			'content' => 'Lorem ipsum dolor sit amet',
 			'created' => '2016-06-23 14:59:54',
 			'modified' => '2016-06-23 14:59:54',
-			'status' => 0, //CarStatus::NEW,
+			'status' => CarStatus::NEW,
 		],
 	];
 
