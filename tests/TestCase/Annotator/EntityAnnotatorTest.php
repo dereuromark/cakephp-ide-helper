@@ -21,10 +21,6 @@ class EntityAnnotatorTest extends TestCase {
 	use DiffHelperTrait;
 	use TestTrait;
 
-	protected array $fixtures = [
-		'plugin.IdeHelper.Foos',
-	];
-
 	protected ConsoleOutput $out;
 
 	protected ConsoleOutput $err;
@@ -190,8 +186,8 @@ class EntityAnnotatorTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotateWithExistingDocBlock() {
-		/** @var \TestApp\Model\Table\FoosTable $Table */
-		$Table = TableRegistry::getTableLocator()->get('Foos');
+		/** @var \TestApp\Model\Table\CarsTable $Table */
+		$Table = TableRegistry::getTableLocator()->get('Cars');
 		$Table->hasMany('Wheels');
 
 		$schema = $Table->getSchema();

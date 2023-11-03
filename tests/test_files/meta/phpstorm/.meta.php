@@ -636,6 +636,7 @@ namespace PHPSTORM_META {
 		'id',
 		'modified',
 		'name',
+		'status',
 		'user_id',
 	);
 
@@ -1405,6 +1406,7 @@ namespace PHPSTORM_META {
 		'id',
 		'modified',
 		'name',
+		'status',
 		'wheels',
 	);
 

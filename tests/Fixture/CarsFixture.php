@@ -3,6 +3,7 @@
 namespace IdeHelper\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
+use TestApp\Model\Enum\CarStatus;
 
 class CarsFixture extends TestFixture {
 
@@ -15,6 +16,7 @@ class CarsFixture extends TestFixture {
 		'content' => ['type' => 'text', 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
 		'created' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
 		'modified' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+		'status' => ['type' => 'tinyinteger', 'length' => 2, 'null' => false, 'default' => '0'],
 		'_constraints' => [
 			'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
 		],
@@ -34,6 +36,7 @@ class CarsFixture extends TestFixture {
 			'content' => 'Lorem ipsum dolor sit amet',
 			'created' => '2016-06-23 14:59:54',
 			'modified' => '2016-06-23 14:59:54',
+			'status' => CarStatus::NEW,
 		],
 	];
 
