@@ -60,6 +60,10 @@ class DatabaseTypeTask implements TaskInterface {
 		}
 
 		foreach ($allTypes as $key => $type) {
+			if (str_starts_with($key, 'enum-')) {
+				continue;
+			}
+
 			$types[$key] = get_class($type);
 		}
 

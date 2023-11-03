@@ -21,10 +21,6 @@ class EntityAnnotatorTest extends TestCase {
 	use DiffHelperTrait;
 	use TestTrait;
 
-	protected array $fixtures = [
-		'plugin.IdeHelper.Foos',
-	];
-
 	protected ConsoleOutput $out;
 
 	protected ConsoleOutput $err;
@@ -191,7 +187,7 @@ class EntityAnnotatorTest extends TestCase {
 	 */
 	public function testAnnotateWithExistingDocBlock() {
 		/** @var \TestApp\Model\Table\FoosTable $Table */
-		$Table = TableRegistry::getTableLocator()->get('Foos');
+		$Table = TableRegistry::getTableLocator()->get('Cars');
 		$Table->hasMany('Wheels');
 
 		$schema = $Table->getSchema();
@@ -434,6 +430,36 @@ class EntityAnnotatorTest extends TestCase {
 		$output = $this->out->output();
 
 		$this->assertTextContains('   -> 1 annotation added, 1 annotation updated', $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function _testAnnotateEnum() {
+		/** @var \TestApp\Model\Table\FoosTable $Table */
+		$Table = TableRegistry::getTableLocator()->get('Cars');
+
+		$schema = $Table->getSchema();
+		$associations = $Table->associations();
+		$annotator = $this->_getAnnotatorMock(['schema' => $schema, 'associations' => $associations]);
+
+		$expectedContent = str_replace(["\r\n", "\r"], "\n", file_get_contents(TEST_FILES . 'Model/Entity/Car.php'));
+		$callback = function ($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->_displayDiff($expectedContent, $value);
+			}
+
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP . 'Model/Entity/Car.php';
+		$annotator->annotate($path);
+
+		$output = $this->out->output();
+
+		$this->assertTextContains('   -> 4 annotations added, 1 annotation updated.', $output);
 	}
 
 	/**
