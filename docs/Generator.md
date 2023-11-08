@@ -67,7 +67,7 @@ This is especially useful for more complex and possibly vendor-prefix names (e.g
 #### Models
 ```php
 /** @var \App\Model\Table\UsersTable $users */
-$users = TableRegistry::get('Users');
+$users = TableRegistry::getTableLocator()->get('Users');
 $users->doSomething();
 ```
 So far `$users` required the annotation above to be typehinted and clickable.
@@ -83,7 +83,7 @@ If you prefer FQCN as argument, you will still get the benefit here for the retu
 ```php
 use App\Model\Table\UsersTable;
 
-$users = TableRegistry::get(UsersTable::class);
+$users = TableRegistry::getTableLocator()->get(UsersTable::class);
 $users->doSomething();
 ```
 It now knows the concrete object of `$users` and can autocomplete the method call right away.
