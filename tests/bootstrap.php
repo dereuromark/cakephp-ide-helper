@@ -89,23 +89,9 @@ Plugin::getCollection()->add(new ControllersPlugin());
 Plugin::getCollection()->add(new RelationsPlugin());
 Plugin::getCollection()->add(new MyPluginPlugin());
 
-if (getenv('DB_URL')) {
-	ConnectionManager::setConfig('test', [
-		'className' => 'Cake\Database\Connection',
-		'url' => getenv('DB_URL'),
-		'timezone' => 'UTC',
-		'quoteIdentifiers' => true,
-		'cacheMetadata' => true,
-	]);
-
-	return;
-}
-
 // Ensure default test connection is defined
 if (!getenv('DB_URL')) {
-	putenv('db_dsn=sqlite:///:memory:');
-
-	//putenv('db_dsn=postgres://postgres@127.0.0.1/test');
+	putenv('DB_URL=sqlite:///:memory:');
 }
 
 ConnectionManager::setConfig('test', [
