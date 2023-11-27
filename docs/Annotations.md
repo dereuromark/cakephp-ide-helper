@@ -50,7 +50,7 @@ namespace App\Controller;
  */
 class ApplesController extends AppController {
 
-    protected $modelClass = 'MyApples';
+    protected ?string $defaultTable = 'MyApples';
 
 }
 ```
@@ -73,13 +73,18 @@ A LocationsTable class would then get the following doc block annotations added 
 ```php
 /**
  * @method \App\Model\Entity\Location get($primaryKey, $options = [])
- * @method \App\Model\Entity\Location newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Location[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Location newEmptyEntity()
+ * @method \App\Model\Entity\Location newEntity(array $data, array $options = [])
+ * @method array<\App\Model\Entity\Location> newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Location|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Location saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Location patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Location[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Location findOrCreate($search, callable $callback = null, $options = [])
+ * @method array<\App\Model\Entity\Location> patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Location findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Location>|false saveMany(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Location> saveManyOrFail(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Location>|false deleteMany(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Location> deleteManyOrFail(iterable $entities, $options = [])
  *
  * @property \App\Model\Table\ImagesTable&\Cake\ORM\Association\HasMany $Images
  * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
@@ -90,7 +95,7 @@ A LocationsTable class would then get the following doc block annotations added 
 ### Entities
 Entities should annotate their properties and relations.
 
-A Location entity could look like this afterwards:
+A Location entity could look like this afterward:
 ```php
 /**
  * @property int $id
@@ -98,8 +103,8 @@ A Location entity could look like this afterwards:
  * @property \App\Model\Entity\User $user
  * @property string $location
  * @property string $details
- * @property \Cake\I18n\Time $created
- * @property \Cake\I18n\Time $modified
+ * @property \Cake\I18n\DateTime $created
+ * @property \Cake\I18n\DateTime $modified
  * @property string|null $virtual_property
  *
  * @property \App\Model\Entity\Image[] $images
@@ -149,7 +154,7 @@ bin/cake annotate shells
     /**
      * @var string
      */
-    protected $modelClass = 'Cars';
+    protected ?string $modelClass = 'Cars';
 
     /**
      * @return void
