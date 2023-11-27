@@ -86,8 +86,8 @@ A LocationsTable class would then get the following doc block annotations added 
  * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Location>|false deleteMany(iterable $entities, $options = [])
  * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Location> deleteManyOrFail(iterable $entities, $options = [])
  *
- * @property \App\Model\Table\ImagesTable&\Cake\ORM\Association\HasMany $Images
- * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
+ * @property \Cake\ORM\Association\HasMany<\App\Model\Table\ImagesTable> $Images
+ * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\UsersTable> $Users
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
 ```
