@@ -85,7 +85,7 @@ So far the meta file is available for the following IDEs:
 
 Generate your app `.phpstorm.meta.php` meta file:
 ```
-bin/cake generate phpstorm
+bin/cake phpstorm generate
 ```
 
 ### Using the illuminator shell
