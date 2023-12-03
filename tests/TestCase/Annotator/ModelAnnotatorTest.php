@@ -10,7 +10,6 @@ use Cake\TestSuite\TestCase;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\ModelAnnotator;
 use IdeHelper\Console\Io;
-use Phinx\Config\Config;
 use Shim\TestSuite\ConsoleOutput;
 use TestApp\Model\Table\FoosTable;
 
