@@ -137,7 +137,7 @@ class ModelAnnotator extends AbstractAnnotator {
 		$annotations = [];
 		foreach ($associations as $type => $assocs) {
 			foreach ($assocs as $name => $className) {
-				if (Configure::read('IdeHelper.assocsAsGeneric') === true) {
+				if (Configure::read('IdeHelper.assocsAsGenerics') === true) {
 					$annotations[] = "@property \\{$type}<\\{$className}> \${$name}";
 				} else {
 					$annotations[] = "@property \\{$className}&\\{$type} \${$name}";

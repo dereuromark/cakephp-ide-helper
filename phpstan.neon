@@ -11,6 +11,7 @@ parameters:
 	bootstrapFiles:
 		- tests/bootstrap.php
 		- tests/shim.php
+	checkGenericClassInNonGenericObjectType: false
 	ignoreErrors:
 		- '#Unsafe usage of new static\(\).+#'
 		- '#Parameter \#1 \$object of function get_class expects object, object\|string given.#'

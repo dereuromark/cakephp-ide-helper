@@ -43,7 +43,7 @@ class ModelAnnotatorTest extends TestCase {
 		$consoleIo = new ConsoleIo($this->out, $this->err);
 		$this->io = new Io($consoleIo);
 
-		Configure::write('IdeHelper.assocsAsGeneric', true);
+		Configure::write('IdeHelper.assocsAsGenerics', true);
 
 		$x = TableRegistry::getTableLocator()->get('IdeHelper.Foos', ['className' => FoosTable::class]);
 		$columns = [
@@ -99,7 +99,7 @@ class ModelAnnotatorTest extends TestCase {
 	public function tearDown(): void {
 		parent::tearDown();
 
-		Configure::delete('IdeHelper.assocsAsGeneric');
+		Configure::delete('IdeHelper.assocsAsGenerics');
 	}
 
 	/**
