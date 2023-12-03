@@ -3,12 +3,14 @@
 namespace IdeHelper\Test\TestCase\Annotator;
 
 use Cake\Console\ConsoleIo;
+use Cake\Core\Configure;
 use Cake\Database\Schema\TableSchema;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\ModelAnnotator;
 use IdeHelper\Console\Io;
+use Phinx\Config\Config;
 use Shim\TestSuite\ConsoleOutput;
 use TestApp\Model\Table\FoosTable;
 
@@ -41,6 +43,8 @@ class ModelAnnotatorTest extends TestCase {
 		$this->err = new ConsoleOutput();
 		$consoleIo = new ConsoleIo($this->out, $this->err);
 		$this->io = new Io($consoleIo);
+
+		Configure::write('IdeHelper.assocsAsGeneric', true);
 
 		$x = TableRegistry::getTableLocator()->get('IdeHelper.Foos', ['className' => FoosTable::class]);
 		$columns = [
@@ -88,6 +92,13 @@ class ModelAnnotatorTest extends TestCase {
 		$schema = new TableSchema('Foos', $columns);
 		$x->setSchema($schema);
 		TableRegistry::getTableLocator()->set('Foos', $x);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function tearDown(): void {
+		Configure::delete('IdeHelper.assocsAsGeneric');
 	}
 
 	/**
