@@ -3,6 +3,7 @@
 namespace IdeHelper\Test\TestCase\Command;
 
 use Cake\Console\TestSuite\ConsoleIntegrationTestTrait;
+use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
 use IdeHelper\Command\AnnotateCommand;
 
@@ -26,6 +27,17 @@ class AnnotateCommandTest extends TestCase {
 		if (!is_dir(LOGS)) {
 			mkdir(LOGS, 0770, true);
 		}
+
+		Configure::write('IdeHelper.assocsAsGeneric', true);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function tearDown(): void {
+		parent::tearDown();
+
+		Configure::delete('IdeHelper.assocsAsGeneric');
 	}
 
 	/**

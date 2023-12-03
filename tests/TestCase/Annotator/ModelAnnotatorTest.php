@@ -98,6 +98,8 @@ class ModelAnnotatorTest extends TestCase {
 	 * @return void
 	 */
 	public function tearDown(): void {
+		parent::tearDown();
+
 		Configure::delete('IdeHelper.assocsAsGeneric');
 	}
 
