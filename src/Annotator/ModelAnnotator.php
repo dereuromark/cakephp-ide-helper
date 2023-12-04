@@ -283,7 +283,7 @@ class ModelAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			/** @var \Cake\ORM\Association\BelongsToMany $association */
+			/** @var \Cake\ORM\Association\BelongsToMany<\Cake\ORM\Table> $association */
 			$through = $this->throughAlias($association);
 			if (!$through) {
 				continue;
@@ -306,7 +306,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param \Cake\ORM\Association\BelongsToMany $association
+	 * @param \Cake\ORM\Association\BelongsToMany<\Cake\ORM\Table> $association
 	 * @return string
 	 */
 	protected function throughAlias(BelongsToMany $association): string {
@@ -328,7 +328,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	/**
 	 * @uses \Cake\ORM\Association\BelongsToMany::_junctionTableName()
 	 *
-	 * @param \Cake\ORM\Association\BelongsToMany $association
+	 * @param \Cake\ORM\Association\BelongsToMany<\Cake\ORM\Table> $association
 	 * @return string
 	 */
 	protected function junctionTableName(BelongsToMany $association): string {
