@@ -28,7 +28,7 @@ class AnnotateCommandTest extends TestCase {
 			mkdir(LOGS, 0770, true);
 		}
 
-		Configure::write('IdeHelper.assocsAsGeneric', true);
+		Configure::write('IdeHelper.assocsAsGenerics', true);
 	}
 
 	/**
@@ -134,7 +134,7 @@ class AnnotateCommandTest extends TestCase {
 	 */
 	public function testAllCiModeNoChanges() {
 		$this->exec('annotate all -d -v --ci -p Awesome');
-		$this->assertExitSuccess();
+		$this->assertExitSuccess($this->_out->output());
 	}
 
 	/**
@@ -143,7 +143,7 @@ class AnnotateCommandTest extends TestCase {
 	public function testAllCiModeChanges() {
 		$this->exec('annotate all -d -v --ci');
 
-		$this->assertExitCode(AnnotateCommand::CODE_CHANGES);
+		$this->assertExitCode(AnnotateCommand::CODE_CHANGES, $this->_out->output());
 	}
 
 	/**
@@ -166,11 +166,11 @@ class AnnotateCommandTest extends TestCase {
 	 * @param string $subcommand The subcommand to be tested
 	 * @return void
 	 */
-	public function testIndividualSubcommandCiModeNoChanges($subcommand) {
+	public function testIndividualSubcommandCiModeNoChanges(string $subcommand): void {
 		$this->skipIf($subcommand === 'view', 'View does not support the plugin parameter');
 
 		$this->exec('annotate ' . $subcommand . ' -d -v --ci -p Awesome');
-		$this->assertExitSuccess();
+		$this->assertExitSuccess($this->_out->output());
 	}
 
 	/**
@@ -179,10 +179,10 @@ class AnnotateCommandTest extends TestCase {
 	 * @param string $subcommand The subcommand to be tested
 	 * @return void
 	 */
-	public function testIndividualSubcommandCiModeChanges($subcommand) {
+	public function testIndividualSubcommandCiModeChanges(string $subcommand): void {
 		$this->exec('annotate ' . $subcommand . ' -d -v --ci');
 
-		$this->assertExitCode(AnnotateCommand::CODE_CHANGES);
+		$this->assertExitCode(AnnotateCommand::CODE_CHANGES, $this->_out->output());
 	}
 
 }
