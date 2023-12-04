@@ -4,7 +4,7 @@ namespace TestApp\Model\Table;
 use Cake\ORM\Table;
 
 /**
- * @property \TestApp\Model\Table\CarsTable&\Cake\ORM\Association\BelongsTo $Cars
+ * @property \Cake\ORM\Association\BelongsTo<\TestApp\Model\Table\CarsTable> $Cars
  */
 class WheelsExtraTable extends Table {
 

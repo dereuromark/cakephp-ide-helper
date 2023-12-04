@@ -5,7 +5,7 @@ use Cake\ORM\Table;
 
 /**
  * @method \TestApp\Model\Entity\Wheel newEntity(array $data, array $options = [])
- * @property \TestApp\Model\Table\CarsTable&\Cake\ORM\Association\BelongsTo $Cars
+ * @property \Cake\ORM\Association\BelongsTo<\TestApp\Model\Table\CarsTable> $Cars
  * @method \TestApp\Model\Entity\Wheel newEmptyEntity()
  * @method \TestApp\Model\Entity\Wheel[] newEntities(array $data, array $options = [])
  * @method \TestApp\Model\Entity\Wheel get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)

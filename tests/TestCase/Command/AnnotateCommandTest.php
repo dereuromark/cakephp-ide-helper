@@ -3,6 +3,7 @@
 namespace IdeHelper\Test\TestCase\Command;
 
 use Cake\Console\TestSuite\ConsoleIntegrationTestTrait;
+use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
 use IdeHelper\Command\AnnotateCommand;
 
@@ -26,6 +27,17 @@ class AnnotateCommandTest extends TestCase {
 		if (!is_dir(LOGS)) {
 			mkdir(LOGS, 0770, true);
 		}
+
+		Configure::write('IdeHelper.assocsAsGenerics', true);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function tearDown(): void {
+		parent::tearDown();
+
+		Configure::delete('IdeHelper.assocsAsGenerics');
 	}
 
 	/**
@@ -122,7 +134,7 @@ class AnnotateCommandTest extends TestCase {
 	 */
 	public function testAllCiModeNoChanges() {
 		$this->exec('annotate all -d -v --ci -p Awesome');
-		$this->assertExitSuccess();
+		$this->assertExitSuccess($this->_out->output());
 	}
 
 	/**
@@ -131,7 +143,7 @@ class AnnotateCommandTest extends TestCase {
 	public function testAllCiModeChanges() {
 		$this->exec('annotate all -d -v --ci');
 
-		$this->assertExitCode(AnnotateCommand::CODE_CHANGES);
+		$this->assertExitCode(AnnotateCommand::CODE_CHANGES, $this->_out->output());
 	}
 
 	/**
@@ -154,11 +166,11 @@ class AnnotateCommandTest extends TestCase {
 	 * @param string $subcommand The subcommand to be tested
 	 * @return void
 	 */
-	public function testIndividualSubcommandCiModeNoChanges($subcommand) {
+	public function testIndividualSubcommandCiModeNoChanges(string $subcommand): void {
 		$this->skipIf($subcommand === 'view', 'View does not support the plugin parameter');
 
 		$this->exec('annotate ' . $subcommand . ' -d -v --ci -p Awesome');
-		$this->assertExitSuccess();
+		$this->assertExitSuccess($this->_out->output());
 	}
 
 	/**
@@ -167,10 +179,10 @@ class AnnotateCommandTest extends TestCase {
 	 * @param string $subcommand The subcommand to be tested
 	 * @return void
 	 */
-	public function testIndividualSubcommandCiModeChanges($subcommand) {
+	public function testIndividualSubcommandCiModeChanges(string $subcommand): void {
 		$this->exec('annotate ' . $subcommand . ' -d -v --ci');
 
-		$this->assertExitCode(AnnotateCommand::CODE_CHANGES);
+		$this->assertExitCode(AnnotateCommand::CODE_CHANGES, $this->_out->output());
 	}
 
 }

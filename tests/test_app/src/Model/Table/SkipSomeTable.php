@@ -4,8 +4,8 @@ namespace TestApp\Model\Table;
 use Cake\ORM\Table;
 
 /**
- * @property \TestApp\Model\Table\CarsTable|\Cake\ORM\Association\BelongsTo $Cars
- * @property \TestApp\Model\Table\CarsTable|\Cake\ORM\Association\BelongsTo $CarsAwesome
+ * @property \Cake\ORM\Association\BelongsTo<\TestApp\Model\Table\CarsTable> $Cars
+ * @property \Cake\ORM\Association\BelongsTo<\TestApp\Model\Table\CarsTable> $CarsAwesome
  */
 class SkipSomeTable extends Table {
 
