@@ -37,7 +37,7 @@ class AnnotateCommandTest extends TestCase {
 	public function tearDown(): void {
 		parent::tearDown();
 
-		Configure::delete('IdeHelper.assocsAsGeneric');
+		Configure::delete('IdeHelper.assocsAsGenerics');
 	}
 
 	/**
