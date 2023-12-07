@@ -31,7 +31,7 @@
 	},
 	"require": {
 		"php": ">=7.4",
-		"cakephp/cakephp": "^4.2.0",
+		"cakephp/cakephp": "^4.4.0",
 		"cakephp/bake": "^2.1.0",
 		"sebastian/diff": "^4.0.3||^5.0",
 		"phpstan/phpdoc-parser": "^1.7.0",
