@@ -82,6 +82,7 @@ namespace PHPSTORM_META {
 		\Cake\Controller\ComponentRegistry::unload(),
 		0,
 		'Auth',
+		'CheckHttpCache',
 		'Flash',
 		'FormProtection',
 		'My',
@@ -96,6 +97,7 @@ namespace PHPSTORM_META {
 		\Cake\Controller\Controller::loadComponent(0),
 		map([
 			'Auth' => \Cake\Controller\Component\AuthComponent::class,
+			'CheckHttpCache' => \Cake\Controller\Component\CheckHttpCacheComponent::class,
 			'Flash' => \Cake\Controller\Component\FlashComponent::class,
 			'FormProtection' => \Cake\Controller\Component\FormProtectionComponent::class,
 			'My' => \TestApp\Controller\Component\MyComponent::class,
@@ -679,6 +681,26 @@ namespace PHPSTORM_META {
 		\Cake\View\Helper\UrlHelper::buildFromPath(),
 		0,
 		argumentsSet('routePaths')
+	);
+
+	override(
+		\Cake\View\View::addHelper(0),
+		map([
+			'Breadcrumbs' => \Cake\View\Helper\BreadcrumbsHelper::class,
+			'Flash' => \Cake\View\Helper\FlashHelper::class,
+			'Form' => \Cake\View\Helper\FormHelper::class,
+			'Html' => \TestApp\View\Helper\HtmlHelper::class,
+			'IdeHelper.DocBlock' => \IdeHelper\View\Helper\DocBlockHelper::class,
+			'My' => \TestApp\View\Helper\MyHelper::class,
+			'Number' => \Cake\View\Helper\NumberHelper::class,
+			'Paginator' => \Cake\View\Helper\PaginatorHelper::class,
+			'Shim.Configure' => \Shim\View\Helper\ConfigureHelper::class,
+			'Shim.Cookie' => \Shim\View\Helper\CookieHelper::class,
+			'Shim.Form' => \Shim\View\Helper\FormHelper::class,
+			'Text' => \Cake\View\Helper\TextHelper::class,
+			'Time' => \Cake\View\Helper\TimeHelper::class,
+			'Url' => \Cake\View\Helper\UrlHelper::class,
+		])
 	);
 
 	expectedArguments(

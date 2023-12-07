@@ -14,13 +14,16 @@ use IdeHelper\ValueObject\ClassName;
 
 class HelperTask implements TaskInterface {
 
-	public const CLASS_VIEW = View::class;
-	public const CLASS_VIEW_BUILDER = ViewBuilder::class;
+	protected const CLASS_VIEW = View::class;
+	protected const CLASS_VIEW_BUILDER = ViewBuilder::class;
 
 	/**
-	 * @var string
+	 * @var array<string>
 	 */
-	protected const METHOD_VIEW = '\\' . self::CLASS_VIEW . '::loadHelper(0)';
+	protected array $overrideMethods = [
+		'\\' . self::CLASS_VIEW . '::loadHelper(0)',
+		'\\' . self::CLASS_VIEW . '::addHelper(0)',
+	];
 
 	/**
 	 * @var string
@@ -41,8 +44,10 @@ class HelperTask implements TaskInterface {
 
 		$result = [];
 
-		$directive = new Override(static::METHOD_VIEW, $map);
-		$result[$directive->key()] = $directive;
+		foreach ($this->overrideMethods as $method) {
+			$directive = new Override($method, $map);
+			$result[$directive->key()] = $directive;
+		}
 
 		$list = [];
 		foreach ($helpers as $name => $className) {
