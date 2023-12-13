@@ -21,6 +21,7 @@ class RequestTask implements TaskInterface {
 		'pass',
 		'_matchedRoute',
 		'_ext',
+		'_entity',
 	];
 
 	/**
