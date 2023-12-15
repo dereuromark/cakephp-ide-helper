@@ -310,7 +310,11 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @return string
 	 */
 	protected function throughAlias(BelongsToMany $association): string {
-		$through = $association->getThrough();
+		try {
+			$through = $association->getThrough();
+		} catch (Throwable) {
+			$through = null;
+		}
 		if ($through) {
 			if (is_object($through)) {
 				return $through->getAlias();
