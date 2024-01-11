@@ -31,43 +31,73 @@ use Cake\Http\Response;
 
 if (false) {
 	class Controller {
+		/**
+         * @param \Cake\Event\EventInterface $event
+         *
+         * @return \Cake\Http\Response|null|void
+         */
 		public function startup(EventInterface $event) {
 			return null;
 		}
+		/**
+         * @param \Cake\Event\EventInterface $event
+         *
+         * @return \Cake\Http\Response|null|void
+         */
 		public function beforeFilter(EventInterface $event) {
 			return null;
 		}
+		/**
+         * @param \Cake\Event\EventInterface $event
+         *
+         * @return \Cake\Http\Response|null|void
+         */
 		public function beforeRender(EventInterface $event) {
 			return null;
 		}
+		/**
+         * @param \Cake\Event\EventInterface $event
+         *
+         * @return \Cake\Http\Response|null|void
+         */
 		public function afterFilter(EventInterface $event) {
 			return null;
 		}
+		/**
+         * @param \Cake\Event\EventInterface $event
+         *
+         * @return \Cake\Http\Response|null|void
+         */
 		public function shutdown(EventInterface $event) {
 			return null;
 		}
+		/**
+         * @param \Cake\Event\EventInterface $event
+         *
+         * @return \Cake\Http\Response|null|void
+         */
 		public function beforeRedirect(EventInterface $event, $url, Response $response) {
 			return null;
 		}
 	}
 
 	class Component {
-		public function startup(EventInterface $event) {
+		public function startup(EventInterface $event): \Cake\Http\Response|null {
 			return null;
 		}
-		public function beforeFilter(EventInterface $event) {
+		public function beforeFilter(EventInterface $event): \Cake\Http\Response|null {
 			return null;
 		}
-		public function beforeRender(EventInterface $event) {
+		public function beforeRender(EventInterface $event): \Cake\Http\Response|null {
 			return null;
 		}
-		public function afterFilter(EventInterface $event) {
+		public function afterFilter(EventInterface $event): \Cake\Http\Response|null {
 			return null;
 		}
-		public function shutdown(EventInterface $event) {
+		public function shutdown(EventInterface $event): \Cake\Http\Response|null {
 			return null;
 		}
-		public function beforeRedirect(EventInterface $event, $url, Response $response) {
+		public function beforeRedirect(EventInterface $event, $url, Response $response): \Cake\Http\Response|null {
 			return null;
 		}
 	}
