@@ -3,7 +3,7 @@
  * @var \TestApp\View\AppView $this
  * @var array $x
  * @var array<int> $ints
- * @var array{a: int, b: string}|null $shaped
+ * @var array{a: int, b: string|null}|null $shaped
  * @var mixed $foo
  */
 	foreach ($x as $y) {
