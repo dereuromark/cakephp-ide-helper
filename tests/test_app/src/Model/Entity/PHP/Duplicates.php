@@ -9,7 +9,8 @@ use Cake\ORM\Entity;
  * @property string $content
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime|null $modified
- * @property \TestApp\Model\Entity\Wheel[] $wheels
+ * @property \Cake\I18n\Date $offer_date
+ * @property int $content
  */
-class Generics extends Entity {
+class Duplicates extends Entity {
 }
