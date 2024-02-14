@@ -488,7 +488,7 @@ abstract class AbstractAnnotator {
 
 			$tag = $tokens[$i]['content'];
 			$variablePos = strpos($content, ' $');
-			if ($tag === '@var' && $variablePos) {
+			if ($tag === VariableAnnotation::TAG && $variablePos) {
 				$content = mb_substr($content, $variablePos + 1);
 			} else {
 				$content = mb_substr($content, mb_strlen($typeString) + 1);
