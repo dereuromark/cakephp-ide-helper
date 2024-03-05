@@ -51,5 +51,6 @@ return [
 		],
 		// If a custom directory should be used, defaults to TMP otherwise
 		'codeCompletionPath' => null,
+		'codeCompletionReturnType' => null, // Auto-detect based on controller/component, set to true/false to force one mode.
 	],
 ];

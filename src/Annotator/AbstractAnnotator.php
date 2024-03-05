@@ -485,14 +485,41 @@ abstract class AbstractAnnotator {
 			/** @var \PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode|\PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode $valueNode */
 			$valueNode = static::getValueNode($tokens[$i]['content'], $content);
 			if ($valueNode instanceof InvalidTagValueNode) {
-				continue;
+				$multilineFixed = false;
+				for ($p = $i + 3; $p < $closeTagIndex; $p++) {
+					if ($tokens[$p]['type'] === 'T_DOC_COMMENT_TAG') {
+						break;
+					}
+
+					if ($tokens[$p]['type'] !== 'T_DOC_COMMENT_STRING') {
+						continue;
+					}
+
+					$content .= $tokens[$p]['content'];
+					/** @var \PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode|\PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode $valueNode */
+					$valueNode = static::getValueNode($tokens[$i]['content'], $content);
+					if (!($valueNode instanceof InvalidTagValueNode)) {
+						$multilineFixed = true;
+
+						break;
+					}
+				}
+
+				if (!$multilineFixed || $valueNode instanceof InvalidTagValueNode) {
+					continue;
+				}
 			}
 
 			$returnTypes = $this->valueNodeParts($valueNode);
 			$typeString = $this->renderUnionTypes($returnTypes);
 
 			$tag = $tokens[$i]['content'];
-			$content = mb_substr($content, mb_strlen($typeString) + 1);
+			$variablePos = strpos($content, ' $');
+			if ($tag === VariableAnnotation::TAG && $variablePos) {
+				$content = mb_substr($content, $variablePos + 1);
+			} else {
+				$content = mb_substr($content, mb_strlen($typeString) + 1);
+			}
 
 			$annotation = AnnotationFactory::createOrFail($tag, $typeString, $content, $classNameIndex);
 			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === VariableAnnotation::TAG && $this->varInUse($tokens, $closeTagIndex, $content)) {
