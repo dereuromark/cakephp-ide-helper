@@ -499,7 +499,7 @@ abstract class AbstractAnnotator {
 					}
 				}
 
-				if (!$multilineFixed) {
+				if (!$multilineFixed || $valueNode instanceof InvalidTagValueNode) {
 					continue;
 				}
 			}
