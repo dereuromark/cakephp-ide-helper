@@ -495,6 +495,7 @@ abstract class AbstractAnnotator {
 					$valueNode = static::getValueNode($tokens[$i]['content'], $content);
 					if (!($valueNode instanceof InvalidTagValueNode)) {
 						$multilineFixed = true;
+
 						break;
 					}
 				}
