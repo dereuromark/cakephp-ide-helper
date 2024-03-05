@@ -10,7 +10,8 @@
 		"annotations",
 		"plugin",
 		"phpstorm",
-		"phpdoc"
+		"phpdoc",
+		"dev"
 	],
 	"authors": [
 		{
