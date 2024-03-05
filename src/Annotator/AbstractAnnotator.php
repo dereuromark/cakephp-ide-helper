@@ -492,7 +492,12 @@ abstract class AbstractAnnotator {
 			$typeString = $this->renderUnionTypes($returnTypes);
 
 			$tag = $tokens[$i]['content'];
-			$content = mb_substr($content, mb_strlen($typeString) + 1);
+			$variablePos = strpos($content, ' $');
+			if ($tag === VariableAnnotation::TAG && $variablePos) {
+				$content = mb_substr($content, $variablePos + 1);
+			} else {
+				$content = mb_substr($content, mb_strlen($typeString) + 1);
+			}
 
 			$annotation = AnnotationFactory::createOrFail($tag, $typeString, $content, $classNameIndex);
 			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === VariableAnnotation::TAG && $this->varInUse($tokens, $closeTagIndex, $content)) {
