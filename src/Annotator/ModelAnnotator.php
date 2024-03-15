@@ -7,7 +7,6 @@ use Cake\Database\Schema\TableSchemaInterface;
 use Cake\Datasource\EntityInterface;
 use Cake\Datasource\ResultSetInterface;
 use Cake\ORM\Association\BelongsToMany;
-use Cake\ORM\Association\HasMany;
 use Cake\ORM\AssociationCollection;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
@@ -278,28 +277,6 @@ class ModelAnnotator extends AbstractAnnotator {
 			$className = App::className($table, 'Model/Table', 'Table') ?: static::CLASS_TABLE;
 
 			$associations[$type][$name] = $className;
-
-			if ($type !== BelongsToMany::class) {
-				continue;
-			}
-
-			/** @var \Cake\ORM\Association\BelongsToMany<\Cake\ORM\Table> $association */
-			$through = $this->throughAlias($association);
-			if (!$through) {
-				continue;
-			}
-
-			$className = App::className($through, 'Model/Table', 'Table') ?: static::CLASS_TABLE;
-			[, $throughName] = pluginSplit($through);
-			if (strpos($throughName, '\\') !== false) {
-				$throughName = substr($throughName, strrpos($throughName, '\\') + 1, -5);
-			}
-			$type = HasMany::class;
-			if (isset($associations[$type][$throughName])) {
-				continue;
-			}
-
-			$associations[$type][$throughName] = $className;
 		}
 
 		return $associations;
