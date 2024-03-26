@@ -4,7 +4,10 @@ namespace IdeHelper\Annotator;
 
 use Cake\Core\Configure;
 use Cake\ORM\Association;
+use Cake\ORM\Association\BelongsToMany;
 use Cake\ORM\Entity;
+use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 use Cake\View\View;
 use IdeHelper\Annotation\AnnotationFactory;
@@ -99,6 +102,7 @@ class EntityAnnotator extends AbstractAnnotator {
 		/** @var \Cake\ORM\AssociationCollection<\Cake\ORM\Association> $associations */
 		$associations = $this->getConfig('associations');
 
+		/** @var \Cake\ORM\Association $association */
 		foreach ($associations as $association) {
 			try {
 				$entityClass = '\\' . ltrim($association->getTarget()->getEntityClass(), '\\');
@@ -126,12 +130,82 @@ class EntityAnnotator extends AbstractAnnotator {
 					'type' => $entityClass,
 					'null' => $this->nullable($association, $schema),
 				];
+
+				if ($association->type() !== 'manyToMany') {
+					continue;
+				}
+
+				/** @var \Cake\ORM\Association\BelongsToMany<\Cake\ORM\Table> $association */
+				$table = $this->getThrough($association);
+				if (!$table) {
+					$table = new Table();
+				}
+
+				try {
+					$className = $table->getEntityClass();
+				} catch (Throwable $e) {
+					$className = Entity::class;
+				}
+
+				$entityClass = '\\' . ltrim($className, '\\');
+				$alias = $association->getTarget()->getAlias() . 'Join';
+				$table->addAssociations(['belongsTo' => [$alias]]);
+				$schema['_joinData'] = [
+					'kind' => 'association',
+					'association' => $table->{$alias},
+					'type' => $entityClass,
+					'null' => false,
+				];
+
 			} catch (Throwable $exception) {
+				if ($this->getConfig(static::CONFIG_VERBOSE)) {
+					$this->_io->warn($exception->getMessage());
+				}
+
 				continue;
 			}
 		}
 
 		return $schema;
+	}
+
+	/**
+	 * @param \Cake\ORM\Association\BelongsToMany<\Cake\ORM\Table> $association
+	 *
+	 * @return \Cake\ORM\Table|null
+	 */
+	protected function getThrough(BelongsToMany $association): ?Table {
+		try {
+			$through = $association->getThrough();
+		} catch (Throwable) {
+			$through = null;
+		}
+		if ($through) {
+			if (is_object($through)) {
+				return $through;
+			}
+
+			return TableRegistry::getTableLocator()->get($through);
+		}
+
+		return null;
+	}
+
+	/**
+	 * @uses \Cake\ORM\Association\BelongsToMany::_junctionTableName()
+	 *
+	 * @param \Cake\ORM\Association\BelongsToMany<\Cake\ORM\Table> $association
+	 * @return string
+	 */
+	protected function junctionTableName(BelongsToMany $association): string {
+		$tablesNames = array_map('Cake\Utility\Inflector::underscore', [
+			$association->getSource()->getTable(),
+			$association->getTarget()->getTable(),
+		]);
+
+		sort($tablesNames);
+
+		return implode('_', $tablesNames);
 	}
 
 	/**
