@@ -42,7 +42,7 @@
 		"cakephp/migrations": "^4.0.1",
 		"cakephp/plugin-installer": "^2.0.1",
 		"dereuromark/cakephp-shim": "^3.0.0",
-		"fig-r/psr2r-sniffer": "dev-next",
+		"fig-r/psr2r-sniffer": "dev-master",
 		"phpunit/phpunit": "^10.1"
 	},
 	"minimum-stability": "stable",
