@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPUnit\Framework;
+namespace IdeHelper\Test;
 
 abstract class TestCase {
 }
