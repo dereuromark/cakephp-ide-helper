@@ -42,7 +42,7 @@ class ComponentTask implements TaskInterface {
 		$components = $this->collectComponents();
 		foreach ($components as $name => $className) {
 			$addMap[$name] = ClassName::create($className);
-			if (strpos($name, '.') !== false) {
+			if (str_contains($name, '.')) {
 				[, $name] = pluginSplit($name);
 			}
 			$removeList[$name] = StringName::create($name);

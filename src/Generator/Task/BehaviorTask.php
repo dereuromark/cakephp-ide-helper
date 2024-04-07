@@ -36,7 +36,7 @@ class BehaviorTask implements TaskInterface {
 		$behaviors = $this->collectBehaviors();
 		foreach ($behaviors as $name => $className) {
 			$addList[$name] = StringName::create($name);
-			if (strpos($name, '.') !== false) {
+			if (str_contains($name, '.')) {
 				[, $name] = pluginSplit($name);
 			}
 			$removeList[$name] = StringName::create($name);

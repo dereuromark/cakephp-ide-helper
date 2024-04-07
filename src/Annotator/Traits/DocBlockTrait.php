@@ -146,7 +146,7 @@ trait DocBlockTrait {
 				continue;
 			}
 
-			if ($pos && strpos($needle, '@') === 0 && substr($content, $pos - 1, $pos) === '{') {
+			if ($pos && str_starts_with($needle, '@') && substr($content, $pos - 1, $pos) === '{') {
 				return false;
 			}
 
@@ -165,7 +165,7 @@ trait DocBlockTrait {
 	 */
 	protected function containsIterableSyntax(array $docBlockTypes): bool {
 		foreach ($docBlockTypes as $docBlockType) {
-			if (strpos($docBlockType, '<') !== false) {
+			if (str_contains($docBlockType, '<')) {
 				return true;
 			}
 		}

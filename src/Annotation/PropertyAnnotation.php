@@ -22,10 +22,10 @@ class PropertyAnnotation extends AbstractAnnotation {
 		parent::__construct($type, $index);
 
 		$description = '';
-		if (strpos($property, ' ') !== false) {
+		if (str_contains($property, ' ')) {
 			[$property, $description] = explode(' ', $property, 2);
 		}
-		if (substr($property, 0, 1) !== '$') {
+		if (!str_starts_with($property, '$')) {
 			$property = '$' . $property;
 		}
 

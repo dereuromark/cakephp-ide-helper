@@ -19,7 +19,7 @@ class FormClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 	 * @return bool
 	 */
 	public function shouldRun(string $path, string $content): bool {
-		if (strpos($path, DS . 'src' . DS) === false) {
+		if (!str_contains($path, DS . 'src' . DS)) {
 			return false;
 		}
 

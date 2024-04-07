@@ -77,7 +77,7 @@ class EnvTask implements TaskInterface {
 		$list = [];
 
 		foreach ($keys as $key) {
-			if (strpos($key, '_') === 0) {
+			if (str_starts_with($key, '_')) {
 				continue;
 			}
 

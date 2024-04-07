@@ -24,7 +24,7 @@ class TestClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 	 * @return bool
 	 */
 	public function shouldRun(string $path, string $content): bool {
-		if (strpos($path, DS . 'tests' . DS . 'TestCase' . DS) === false) {
+		if (!str_contains($path, DS . 'tests' . DS . 'TestCase' . DS)) {
 			return false;
 		}
 

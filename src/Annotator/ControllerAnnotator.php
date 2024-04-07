@@ -240,7 +240,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 			$entityClassName = $table->getEntityClass();
 		} catch (Throwable $exception) {
 			$plugin = null;
-			if (strpos($modelName, '.') !== false) {
+			if (str_contains($modelName, '.')) {
 				[$plugin, $modelName] = explode('.', $modelName, 2);
 			}
 			$entity = Inflector::singularize($modelName);
@@ -284,7 +284,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 			return null;
 		}
 
-		if ($this->getConfig(static::CONFIG_PLUGIN) && strpos($modelClass, '.') === false) {
+		if ($this->getConfig(static::CONFIG_PLUGIN) && !str_contains($modelClass, '.')) {
 			$modelClass = $this->getConfig(static::CONFIG_PLUGIN) . '.' . $modelClass;
 		}
 

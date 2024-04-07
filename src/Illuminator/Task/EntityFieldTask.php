@@ -104,7 +104,7 @@ class EntityFieldTask extends AbstractTask {
 				continue;
 			}
 			$field = mb_substr($pieces[1], 1);
-			if (strpos($field, ' ') === 0 || strpos($field, '_') === 0) {
+			if (str_starts_with($field, ' ') || str_starts_with($field, '_')) {
 				continue;
 			}
 			// We also skip camelCase as those are not the convention

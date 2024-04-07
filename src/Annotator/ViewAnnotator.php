@@ -69,8 +69,8 @@ class ViewAnnotator extends AbstractAnnotator {
 				continue;
 			}
 
-			$className = $this->findClassName($helper);
-			if (!$className || strpos($className, 'Cake\\') === 0) {
+			$className = $this->findClassName($helper, !$this->getConfig(static::CONFIG_PLUGIN));
+			if (!$className || str_starts_with($className, 'Cake\\')) {
 				continue;
 			}
 
@@ -135,7 +135,7 @@ class ViewAnnotator extends AbstractAnnotator {
 
 		foreach ($View->helpers() as $alias => $helper) {
 			$className = get_class($helper);
-			if (strpos($className, 'Cake\\') === 0) {
+			if (str_starts_with($className, 'Cake\\')) {
 				continue;
 			}
 

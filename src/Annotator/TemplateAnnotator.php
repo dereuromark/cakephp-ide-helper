@@ -486,7 +486,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 		/** @var array<string> $blacklist */
 		$blacklist = (array)Configure::read('IdeHelper.autoCollectBlacklist');
 		foreach ($blacklist as $value) {
-			if (strpos($value, '/') === false) {
+			if (!str_contains($value, '/')) {
 				unset($variables[$value]);
 
 				continue;

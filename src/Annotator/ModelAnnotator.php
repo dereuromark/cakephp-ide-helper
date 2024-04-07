@@ -387,10 +387,10 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @return string|null
 	 */
 	protected function resolvePluginName(string $className, string $name): ?string {
-		if (strpos($className, 'Cake\\ORM') === 0) {
+		if (str_starts_with($className, 'Cake\\ORM')) {
 			return '';
 		}
-		if (strpos($className, 'App\\Model\\') === 0) {
+		if (str_starts_with($className, 'App\\Model\\')) {
 			return '';
 		}
 

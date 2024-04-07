@@ -18,7 +18,7 @@ class ModelAwareClassAnnotatorTask extends AbstractClassAnnotatorTask implements
 	 * @return bool
 	 */
 	public function shouldRun(string $path, string $content): bool {
-		if (strpos($path, DS . 'src' . DS) === false) {
+		if (!str_contains($path, DS . 'src' . DS)) {
 			return false;
 		}
 		if (preg_match('#\buse ModelAwareTrait\b#', $content)) {

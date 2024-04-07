@@ -95,7 +95,7 @@ class ComponentAnnotator extends AbstractAnnotator {
 
 		$annotations = [];
 		foreach ($map as $name => $config) {
-			$className = $this->findClassName($config['className'] ?? $name);
+			$className = $this->findClassName($config['className'] ?? $name, !$this->getConfig(static::CONFIG_PLUGIN));
 			if (!$className) {
 				continue;
 			}
@@ -112,7 +112,7 @@ class ComponentAnnotator extends AbstractAnnotator {
 	 * @return bool
 	 */
 	protected function hasControllerAnnotation(string $content): bool {
-		return strpos($content, '$this->getController()') !== false;
+		return str_contains($content, '$this->getController()');
 	}
 
 }
