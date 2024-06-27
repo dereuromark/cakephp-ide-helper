@@ -6,11 +6,9 @@ use Cake\Core\Configure;
 use Cake\Database\Schema\TableSchemaInterface;
 use Cake\Datasource\EntityInterface;
 use Cake\Datasource\ResultSetInterface;
-use Cake\ORM\Association\BelongsToMany;
 use Cake\ORM\AssociationCollection;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
-use Cake\Utility\Inflector;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Utility\App;
@@ -280,47 +278,6 @@ class ModelAnnotator extends AbstractAnnotator {
 		}
 
 		return $associations;
-	}
-
-	/**
-	 * @param \Cake\ORM\Association\BelongsToMany<\Cake\ORM\Table> $association
-	 * @return string
-	 */
-	protected function throughAlias(BelongsToMany $association): string {
-		try {
-			$through = $association->getThrough();
-		} catch (Throwable) {
-			$through = null;
-		}
-		if ($through) {
-			if (is_object($through)) {
-				return $through->getAlias();
-			}
-
-			return $through;
-		}
-
-		$tableName = $this->junctionTableName($association);
-		$through = Inflector::camelize($tableName);
-
-		return $through;
-	}
-
-	/**
-	 * @uses \Cake\ORM\Association\BelongsToMany::_junctionTableName()
-	 *
-	 * @param \Cake\ORM\Association\BelongsToMany<\Cake\ORM\Table> $association
-	 * @return string
-	 */
-	protected function junctionTableName(BelongsToMany $association): string {
-		$tablesNames = array_map('Cake\Utility\Inflector::underscore', [
-			$association->getSource()->getTable(),
-			$association->getTarget()->getTable(),
-		]);
-
-		sort($tablesNames);
-
-		return implode('_', $tablesNames);
 	}
 
 	/**
