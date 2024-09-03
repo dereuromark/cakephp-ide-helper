@@ -15,6 +15,7 @@ class FixtureTaskTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->loadPlugins(['MyNamespace/MyPlugin', 'IdeHelper']);
 		$this->task = new FixtureTask();
 	}
 

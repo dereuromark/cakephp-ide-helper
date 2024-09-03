@@ -15,6 +15,7 @@ class TableAssociationTaskTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->loadPlugins(['Awesome', 'Controllers', 'MyNamespace/MyPlugin', 'Relations', 'Shim', 'IdeHelper']);
 		$this->task = new TableAssociationTask();
 	}
 

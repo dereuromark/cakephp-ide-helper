@@ -26,6 +26,7 @@ class GenerateCodeCompletionCommandTest extends TestCase {
 				unlink($file);
 			}
 		}
+		$this->loadPlugins(['IdeHelper']);
 	}
 
 	/**

@@ -15,6 +15,7 @@ class ModelTaskTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->loadPlugins(['Awesome', 'Controllers', 'MyNamespace/MyPlugin', 'Relations']);
 		$this->task = new ModelTask();
 	}
 

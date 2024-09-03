@@ -188,7 +188,6 @@ class EntityAnnotatorTest extends TestCase {
 	public function testAnnotateWithExistingDocBlock() {
 		/** @var \TestApp\Model\Table\CarsTable $Table */
 		$Table = TableRegistry::getTableLocator()->get('Cars');
-		$Table->hasMany('Wheels');
 
 		$schema = $Table->getSchema();
 		$associations = $Table->associations();

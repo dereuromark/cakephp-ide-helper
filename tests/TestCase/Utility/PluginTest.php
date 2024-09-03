@@ -14,6 +14,7 @@ class PluginTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->loadPlugins(['IdeHelper', 'Awesome', 'MyNamespace/MyPlugin']);
 		Configure::delete('IdeHelper.plugins');
 	}
 

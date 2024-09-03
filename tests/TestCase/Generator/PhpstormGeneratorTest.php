@@ -29,6 +29,7 @@ class PhpstormGeneratorTest extends TestCase {
 	 */
 	protected function setUp(): void {
 		parent::setUp();
+		$this->loadPlugins(['Awesome', 'Controllers', 'MyNamespace/MyPlugin', 'Relations', 'Shim', 'IdeHelper']);
 
 		$taskCollection = new TaskCollection([
 			EnvTask::class => TestEnvTask::class,
