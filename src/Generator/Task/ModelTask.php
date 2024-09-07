@@ -29,6 +29,10 @@ class ModelTask implements TaskInterface {
 	 */
 	protected static ?array $models = null;
 
+	public function __construct() {
+		$this->clearBuffer();
+	}
+
 	/**
 	 * @return void
 	 */

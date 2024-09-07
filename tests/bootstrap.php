@@ -1,18 +1,11 @@
 <?php
 
-use Awesome\AwesomePlugin;
 use Cake\Cache\Cache;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
-use Cake\Core\Plugin;
 use Cake\Database\TypeFactory;
 use Cake\Datasource\ConnectionManager;
 use Cake\TestSuite\Fixture\SchemaLoader;
-use Controllers\ControllersPlugin;
-use IdeHelper\IdeHelperPlugin;
-use MyNamespace\MyPlugin\MyPluginPlugin;
-use Relations\RelationsPlugin;
-use Shim\ShimPlugin;
 
 if (!defined('DS')) {
 	define('DS', DIRECTORY_SEPARATOR);
@@ -81,13 +74,6 @@ TypeFactory::build('datetime');
 TypeFactory::build('timestamp');
 
 class_alias(Controller::class, 'App\Controller\AppController');
-
-Plugin::getCollection()->add(new IdeHelperPlugin());
-Plugin::getCollection()->add(new ShimPlugin());
-Plugin::getCollection()->add(new AwesomePlugin());
-Plugin::getCollection()->add(new ControllersPlugin());
-Plugin::getCollection()->add(new RelationsPlugin());
-Plugin::getCollection()->add(new MyPluginPlugin());
 
 // Ensure default test connection is defined
 if (!getenv('DB_URL')) {

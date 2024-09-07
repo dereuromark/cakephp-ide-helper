@@ -15,6 +15,7 @@ class PluginTaskTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->loadPlugins(['Bake', 'Cake/TwigView', 'Migrations', 'Shim']);
 		$this->task = new PluginTask();
 	}
 
