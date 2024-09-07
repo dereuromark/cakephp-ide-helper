@@ -32,8 +32,8 @@
 	},
 	"require": {
 		"php": ">=8.1",
-		"cakephp/bake": "dev-3.next as 3.1.0",
-		"cakephp/cakephp": "dev-5.next as 5.1.0",
+		"cakephp/bake": "^3.0.4",
+		"cakephp/cakephp": "^5.0.0",
 		"phpstan/phpdoc-parser": "^1.7",
 		"sebastian/diff": "^5.0 || ^6.0",
 		"squizlabs/php_codesniffer": "^3.7"
