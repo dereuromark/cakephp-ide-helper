@@ -53,6 +53,7 @@ class GeneratePhpstormMetaCommandTest extends TestCase {
 		if (is_dir(static::META_FOLDER)) {
 			rmdir(static::META_FOLDER);
 		}
+		$this->loadPlugins(['IdeHelper']);
 	}
 
 	/**

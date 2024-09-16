@@ -13,6 +13,7 @@ class IlluminateCommandTest extends TestCase {
 	 * @return void
 	 */
 	public function testIlluminateDryRun() {
+		$this->loadPlugins(['IdeHelper']);
 		$this->exec('illuminate -d -v');
 
 		$this->assertExitSuccess();
