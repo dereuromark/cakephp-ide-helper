@@ -39,9 +39,10 @@
 		"squizlabs/php_codesniffer": "^3.7"
 	},
 	"require-dev": {
+		"cakephp/cakephp": "^5.1.0",
+		"dereuromark/cakephp-shim": "^3.3.0",
 		"cakephp/migrations": "^4.0.1",
 		"cakephp/plugin-installer": "^2.0.1",
-		"dereuromark/cakephp-shim": "^3.0.0",
 		"fig-r/psr2r-sniffer": "dev-master",
 		"phpunit/phpunit": "^10.5.5 || ^11.1.3"
 	},

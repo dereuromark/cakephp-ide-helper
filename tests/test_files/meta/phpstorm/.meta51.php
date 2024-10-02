@@ -88,6 +88,7 @@ namespace PHPSTORM_META {
 		'My',
 		'MyController',
 		'MyOther',
+		'RequestHandler',
 	);
 
 	override(
@@ -100,6 +101,7 @@ namespace PHPSTORM_META {
 			'MyController' => \TestApp\Controller\Component\MyControllerComponent::class,
 			'MyNamespace/MyPlugin.My' => \MyNamespace\MyPlugin\Controller\Component\MyComponent::class,
 			'MyOther' => \TestApp\Controller\Component\MyOtherComponent::class,
+			'Shim.RequestHandler' => \Shim\Controller\Component\RequestHandlerComponent::class,
 		]),
 	);
 
