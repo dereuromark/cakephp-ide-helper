@@ -4,7 +4,7 @@ namespace TestApp\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * @property array{foo: string}|null $params
+ * @property array{foo: string}|null $params !
  * @property int $id
  * @property string $name
  * @property string $content

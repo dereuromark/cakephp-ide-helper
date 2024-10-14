@@ -187,7 +187,7 @@ class EntityAnnotatorTest extends TestCase {
 
 		$output = $this->out->output();
 
-		$this->assertTextContains('   -> 5 annotations added, 1 annotation updated.', $output);
+		$this->assertTextContains('   -> 4 annotations added, 1 annotation updated.', $output);
 	}
 
 	/**
