@@ -6,6 +6,7 @@ use Cake\Core\Configure;
 use Cake\Utility\Inflector;
 use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotation\PropertyReadAnnotation;
+use IdeHelper\Annotator\Traits\DocBlockTrait;
 use IdeHelper\Annotator\Traits\FileTrait;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Util\Tokens;
@@ -16,6 +17,7 @@ use PHP_CodeSniffer\Util\Tokens;
 class EntityFieldTask extends AbstractTask {
 
 	use FileTrait;
+	use DocBlockTrait;
 
 	/**
 	 * @var string
@@ -99,11 +101,16 @@ class EntityFieldTask extends AbstractTask {
 				continue;
 			}
 
-			$pieces = explode(' ', $tokens[$i + 2]['content']);
-			if (count($pieces) < 2) {
-				continue;
-			}
-			$field = mb_substr($pieces[1], 1);
+			/** @var \PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode|\PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode $valueNode */
+			$valueNode = static::getValueNode($tokens[$i]['content'], $tokens[$i + 2]['content']);
+			$returnTypes = $this->valueNodeParts($valueNode);
+			$typeString = $this->renderUnionTypes($returnTypes);
+
+			$varAndComment = substr($tokens[$i + 2]['content'], strlen($typeString) + 1);
+			$varName = mb_substr($varAndComment, 1);
+			$pieces = explode(' ', $varName);
+			$field = $pieces[0];
+
 			if (str_starts_with($field, ' ') || str_starts_with($field, '_')) {
 				continue;
 			}
