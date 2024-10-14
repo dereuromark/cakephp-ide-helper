@@ -76,7 +76,7 @@ class VariableExtractor {
 	 * @param int $index
 	 * @return array<string, mixed>
 	 */
-	protected function getVar(File $file, array $token, $index) {
+	protected function getVar(File $file, array $token, int $index) {
 		$variable = substr($token['content'], 1);
 
 		$result = [

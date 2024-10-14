@@ -84,7 +84,7 @@ class ViewAnnotator extends AbstractAnnotator {
 	 * @param string $folder
 	 * @return void
 	 */
-	protected function checkTemplates($folder) {
+	protected function checkTemplates(string $folder) {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, false, true);
 
 		foreach ($folderContent[1] as $file) {
