@@ -27,6 +27,7 @@ class AnnotateCommandTest extends TestCase {
 		if (!is_dir(LOGS)) {
 			mkdir(LOGS, 0770, true);
 		}
+		$this->loadPlugins(['IdeHelper']);
 
 		Configure::write('IdeHelper.assocsAsGenerics', true);
 	}
@@ -161,11 +162,11 @@ class AnnotateCommandTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider provideSubcommandsForCiModeTest
 	 *
 	 * @param string $subcommand The subcommand to be tested
 	 * @return void
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('provideSubcommandsForCiModeTest')]
 	public function testIndividualSubcommandCiModeNoChanges(string $subcommand): void {
 		$this->skipIf($subcommand === 'view', 'View does not support the plugin parameter');
 
@@ -174,11 +175,11 @@ class AnnotateCommandTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider provideSubcommandsForCiModeTest
 	 *
 	 * @param string $subcommand The subcommand to be tested
 	 * @return void
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('provideSubcommandsForCiModeTest')]
 	public function testIndividualSubcommandCiModeChanges(string $subcommand): void {
 		$this->exec('annotate ' . $subcommand . ' -d -v --ci');
 

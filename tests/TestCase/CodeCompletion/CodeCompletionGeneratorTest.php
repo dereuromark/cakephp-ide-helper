@@ -16,6 +16,7 @@ class CodeCompletionGeneratorTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->loadPlugins(['MyNamespace/MyPlugin', 'Shim']);
 		$taskCollection = new TaskCollection();
 		$this->generator = new CodeCompletionGenerator($taskCollection);
 

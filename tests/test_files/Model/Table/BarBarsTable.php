@@ -6,7 +6,6 @@ use Cake\ORM\Table;
 /**
  * @property \Cake\ORM\Association\BelongsTo<\TestApp\Model\Table\FoosTable> $Foos
  * @property \Cake\ORM\Association\BelongsToMany<\Awesome\Model\Table\HousesTable> $Houses
- * @property \Cake\ORM\Association\HasMany<\Awesome\Model\Table\WindowsTable> $Windows
  *
  * @method \TestApp\Model\Entity\BarBar newEmptyEntity()
  * @method \TestApp\Model\Entity\BarBar newEntity(array $data, array $options = [])

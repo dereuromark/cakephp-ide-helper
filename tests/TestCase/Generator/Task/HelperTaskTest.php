@@ -15,6 +15,7 @@ class HelperTaskTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->loadPlugins(['Shim']);
 		$this->task = new HelperTask();
 	}
 

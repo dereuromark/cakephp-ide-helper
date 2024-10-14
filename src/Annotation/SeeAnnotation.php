@@ -17,7 +17,7 @@ class SeeAnnotation extends AbstractAnnotation {
 	 */
 	public function __construct($type, $index = null) {
 		$description = '';
-		if (strpos($type, ' ') !== false) {
+		if (str_contains($type, ' ')) {
 			[$type, $description] = explode(' ', $type, 2);
 		}
 

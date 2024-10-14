@@ -23,7 +23,7 @@ class ClassName implements ValueObjectInterface {
 	 * @return static
 	 */
 	public static function create(string $className) {
-		if (strpos($className, '\\') === 0) {
+		if (str_starts_with($className, '\\')) {
 			$className = substr($className, 1);
 		}
 

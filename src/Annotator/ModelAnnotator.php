@@ -6,12 +6,9 @@ use Cake\Core\Configure;
 use Cake\Database\Schema\TableSchemaInterface;
 use Cake\Datasource\EntityInterface;
 use Cake\Datasource\ResultSetInterface;
-use Cake\ORM\Association\BelongsToMany;
-use Cake\ORM\Association\HasMany;
 use Cake\ORM\AssociationCollection;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
-use Cake\Utility\Inflector;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Utility\App;
@@ -278,72 +275,9 @@ class ModelAnnotator extends AbstractAnnotator {
 			$className = App::className($table, 'Model/Table', 'Table') ?: static::CLASS_TABLE;
 
 			$associations[$type][$name] = $className;
-
-			if ($type !== BelongsToMany::class) {
-				continue;
-			}
-
-			/** @var \Cake\ORM\Association\BelongsToMany<\Cake\ORM\Table> $association */
-			$through = $this->throughAlias($association);
-			if (!$through) {
-				continue;
-			}
-
-			$className = App::className($through, 'Model/Table', 'Table') ?: static::CLASS_TABLE;
-			[, $throughName] = pluginSplit($through);
-			if (strpos($throughName, '\\') !== false) {
-				$throughName = substr($throughName, strrpos($throughName, '\\') + 1, -5);
-			}
-			$type = HasMany::class;
-			if (isset($associations[$type][$throughName])) {
-				continue;
-			}
-
-			$associations[$type][$throughName] = $className;
 		}
 
 		return $associations;
-	}
-
-	/**
-	 * @param \Cake\ORM\Association\BelongsToMany<\Cake\ORM\Table> $association
-	 * @return string
-	 */
-	protected function throughAlias(BelongsToMany $association): string {
-		try {
-			$through = $association->getThrough();
-		} catch (Throwable) {
-			$through = null;
-		}
-		if ($through) {
-			if (is_object($through)) {
-				return $through->getAlias();
-			}
-
-			return $through;
-		}
-
-		$tableName = $this->junctionTableName($association);
-		$through = Inflector::camelize($tableName);
-
-		return $through;
-	}
-
-	/**
-	 * @uses \Cake\ORM\Association\BelongsToMany::_junctionTableName()
-	 *
-	 * @param \Cake\ORM\Association\BelongsToMany<\Cake\ORM\Table> $association
-	 * @return string
-	 */
-	protected function junctionTableName(BelongsToMany $association): string {
-		$tablesNames = array_map('Cake\Utility\Inflector::underscore', [
-			$association->getSource()->getTable(),
-			$association->getTarget()->getTable(),
-		]);
-
-		sort($tablesNames);
-
-		return implode('_', $tablesNames);
 	}
 
 	/**
@@ -410,10 +344,10 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @return string|null
 	 */
 	protected function resolvePluginName(string $className, string $name): ?string {
-		if (strpos($className, 'Cake\\ORM') === 0) {
+		if (str_starts_with($className, 'Cake\\ORM')) {
 			return '';
 		}
-		if (strpos($className, 'App\\Model\\') === 0) {
+		if (str_starts_with($className, 'App\\Model\\')) {
 			return '';
 		}
 

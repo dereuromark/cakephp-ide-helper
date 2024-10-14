@@ -27,6 +27,7 @@ class ViewAnnotatorTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->loadPlugins(['Shim']);
 		$this->out = new ConsoleOutput();
 		$this->err = new ConsoleOutput();
 		$consoleIo = new ConsoleIo($this->out, $this->err);

@@ -24,7 +24,7 @@ class VariableAnnotation extends AbstractAnnotation {
 		parent::__construct($type, $index);
 
 		$description = '';
-		if (strpos($variable, ' ') !== false) {
+		if (str_contains($variable, ' ')) {
 			[$variable, $description] = explode(' ', $variable, 2);
 		}
 		$this->variable = $variable;

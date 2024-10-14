@@ -18,6 +18,7 @@ class ElementTaskTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->loadPlugins(['Awesome']);
 		$this->task = new ElementTask();
 	}
 

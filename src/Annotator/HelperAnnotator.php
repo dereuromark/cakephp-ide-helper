@@ -71,7 +71,7 @@ class HelperAnnotator extends AbstractAnnotator {
 
 		$helperAnnotations = [];
 		foreach ($helperMap as $helper => $config) {
-			$className = $this->findClassName($config['className'] ?? $helper);
+			$className = $this->findClassName($config['className'] ?? $helper, !$this->getConfig(static::CONFIG_PLUGIN));
 			if (!$className) {
 				continue;
 			}

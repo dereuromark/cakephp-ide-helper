@@ -29,6 +29,7 @@ class PhpstormGeneratorTest extends TestCase {
 	 */
 	protected function setUp(): void {
 		parent::setUp();
+		$this->loadPlugins(['Awesome', 'Controllers', 'MyNamespace/MyPlugin', 'Relations', 'Shim', 'IdeHelper']);
 
 		$taskCollection = new TaskCollection([
 			EnvTask::class => TestEnvTask::class,
@@ -63,7 +64,8 @@ class PhpstormGeneratorTest extends TestCase {
 		$result = $this->generator->generate();
 		file_put_contents(TMP . '.meta.php', $result);
 
-		$file = Plugin::path('IdeHelper') . 'tests' . DS . 'test_files' . DS . 'meta' . DS . 'phpstorm' . DS . '.meta.php';
+		$fileName = version_compare(Configure::version(), '5.1.0', '>=') ? '.meta51.php' : '.meta.php';
+		$file = Plugin::path('IdeHelper') . 'tests' . DS . 'test_files' . DS . 'meta' . DS . 'phpstorm' . DS . $fileName;
 		$expected = file_get_contents($file);
 
 		$this->assertTextEquals($expected, $result);

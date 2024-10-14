@@ -18,6 +18,7 @@ class TranslationKeyTaskTest extends TestCase {
 
 		$this->task = new TranslationKeyTask();
 
+		$this->loadPlugins(['Awesome', 'Controllers', 'MyNamespace/MyPlugin', 'Relations', 'Shim', 'IdeHelper']);
 		Configure::write('App.paths.locales', [
 			TEST_ROOT . 'locales' . DS,
 		]);

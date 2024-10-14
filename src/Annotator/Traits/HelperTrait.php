@@ -12,11 +12,12 @@ trait HelperTrait {
 
 	/**
 	 * @param string $helper
+	 * @param bool $includeApp
 	 *
 	 * @return string|null
 	 */
-	protected function findClassName(string $helper): ?string {
-		$className = App::className($helper, 'View/Helper', 'Helper');
+	protected function findClassName(string $helper, bool $includeApp): ?string {
+		$className = App::className($helper, 'View/Helper', 'Helper', $includeApp);
 		if ($className) {
 			return $className;
 		}

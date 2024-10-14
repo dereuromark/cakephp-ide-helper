@@ -16,7 +16,7 @@ class Plugin extends CorePlugin {
 
 		$pluginMap = (array)Configure::read('IdeHelper.plugins');
 		foreach ($pluginMap as $plugin) {
-			if (strpos($plugin, '-') === 0) {
+			if (str_starts_with($plugin, '-')) {
 				$plugin = substr($plugin, 1);
 				unset($plugins[$plugin]);
 

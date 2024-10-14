@@ -23,7 +23,7 @@ trait ModelTrait {
 		$models = array_combine($properties, $tables);
 
 		preg_match_all('/\b(public|protected|private) \$([a-z]+)\b/i', $content, $propertyMatches);
-		$excluded = $propertyMatches[2] ?? [];
+		$excluded = $propertyMatches[2];
 		foreach ($excluded as $property) {
 			if (isset($models[$property])) {
 				unset($models[$property]);

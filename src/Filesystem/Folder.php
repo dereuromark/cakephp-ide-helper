@@ -537,7 +537,7 @@ class Folder {
 		foreach ($iterator as $itemPath => $fsIterator) {
 			if ($skipHidden) {
 				$subPathName = $fsIterator->getSubPathname();
-				if ($subPathName[0] === '.' || strpos($subPathName, DIRECTORY_SEPARATOR . '.') !== false) {
+				if ($subPathName[0] === '.' || str_contains($subPathName, DIRECTORY_SEPARATOR . '.')) {
 					unset($fsIterator);
 
 					continue;
@@ -896,7 +896,7 @@ class Folder {
 	 * @return string|false The resolved path
 	 */
 	public function realpath($path) {
-		if (strpos($path, '..') === false) {
+		if (!str_contains($path, '..')) {
 			if (!static::isAbsolute($path)) {
 				$path = static::addPathElement((string)$this->path, $path);
 			}
