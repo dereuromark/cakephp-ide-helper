@@ -87,6 +87,14 @@ class ModelAnnotatorTest extends TestCase {
 				'baseType' => null,
 				'precision' => null,
 			],
+			'params' => [
+				'type' => 'json',
+				'length' => null,
+				'null' => true,
+				'default' => null,
+				'comment' => '',
+				'precision' => null,
+			],
 		];
 		$schema = new TableSchema('Foos', $columns);
 		$x->setSchema($schema);

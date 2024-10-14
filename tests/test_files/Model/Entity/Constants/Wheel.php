@@ -4,6 +4,7 @@ namespace TestApp\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
+ * @property array{foo: string}|null $params
  * @property int $id
  * @property string $name
  * @property string $content
@@ -27,6 +28,7 @@ class Wheel extends Entity {
 		return 'Virtual One';
 	}
 
+	const FIELD_PARAMS = 'params';
 	const FIELD_ID = 'id';
 	const FIELD_NAME = 'name';
 	const FIELD_CONTENT = 'content';
