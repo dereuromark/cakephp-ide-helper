@@ -279,4 +279,5 @@ class ModelAnnotatorSpecificTest extends TestCase {
 		$output = $this->out->output();
 		$this->assertTextContains('  -> 17 annotations added', $output);
 	}
+
 }

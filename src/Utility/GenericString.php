@@ -34,7 +34,7 @@ class GenericString {
 
 			return $value . '[]|' . $type . '<' . $value . '>';
 		}
-		
+
 		$value .= '[]';
 		if ($type) {
 			$value .= '|' . $type;
