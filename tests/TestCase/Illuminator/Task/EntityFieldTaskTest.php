@@ -50,13 +50,47 @@ class EntityFieldTaskTest extends TestCase {
 			'visibility' => false,
 		]);
 
-		$path = TEST_FILES . 'Model/Entity/Wheel.php';
+		$path = APP . 'Model/Entity/Complex/Wheel.php';
 		$result = $task->run(file_get_contents($path), $path);
 
 		$this->assertTextContains('const FIELD_ID = \'id\';', $result);
 
 		$result = str_replace('    ', "\t", $result);
 		$expected = file_get_contents(TEST_FILES . 'Model/Entity/Constants/Wheel.php');
+		$this->assertTextEquals($expected, $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testIlluminateComplex() {
+		$task = $this->_getTask([
+			'visibility' => false,
+		]);
+
+		$path = APP . 'Model/Entity/Complex/Wheel.php';
+		$this->assertFileExists($path);
+		$result = $task->run(file_get_contents($path), $path);
+
+		$result = str_replace('    ', "\t", $result);
+		$expected = file_get_contents(TEST_FILES . 'Model/Entity/Constants/Wheel.php');
+		$this->assertTextEquals($expected, $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testIlluminateComplex2() {
+		$task = $this->_getTask([
+			'visibility' => false,
+		]);
+
+		$path = APP . 'Model/Entity/Complex2/Wheel.php';
+		$this->assertFileExists($path);
+		$result = $task->run(file_get_contents($path), $path);
+
+		$result = str_replace('    ', "\t", $result);
+		$expected = file_get_contents(TEST_FILES . 'Model/Entity/Constants/WheelComplex.php');
 		$this->assertTextEquals($expected, $result);
 	}
 

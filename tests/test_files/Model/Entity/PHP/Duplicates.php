@@ -10,6 +10,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime|null $modified
  * @property \Cake\I18n\Date $offer_date
+ * @property array|null $params
  */
 class Duplicates extends Entity {
 }

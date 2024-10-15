@@ -5,6 +5,7 @@ use Cake\ORM\Entity;
 
 /**
  * @property-read bool $virtual_read_only This should be kept.
+ * @property array|null $params
  * @property int $id
  * @property string $name
  * @property string $content

@@ -1,29 +1,31 @@
 <?php
-namespace TestApp\Model\Entity\PHP7;
+namespace TestApp\Model\Entity;
 
 use Cake\ORM\Entity;
 
 /**
- * @property array|null $params
+ * @property array{user?: int, account?: int|string, newContacts?: array<mixed>}|null $params !
  * @property int $id
  * @property string $name
  * @property string $content
  * @property \Cake\I18n\Date $offer_date
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime|null $modified
- * @property string $virtual_two
  * @property \TestApp\Model\Entity\Wheel[] $wheels
  *
  * @property-read string|null $virtual_one
  */
-class Virtual extends Entity {
+class Wheel extends Entity {
 
-	protected function _getVirtualOne(): ?string {
+	protected array $_virtual = [
+		'virtual_one',
+	];
+
+	/**
+	 * @return string|null
+	 */
+	protected function _getVirtualOne() {
 		return 'Virtual One';
-	}
-
-	protected function _getVirtualTwo(): string {
-		return 'Virtual Two';
 	}
 
 }

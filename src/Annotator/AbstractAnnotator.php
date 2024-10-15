@@ -398,7 +398,7 @@ abstract class AbstractAnnotator {
 				}
 			}
 
-			// Lets skip on existing ones that are only guessed.
+			// Let's skip on existing ones that are only guessed.
 			if ($annotation instanceof VariableAnnotation && $existingAnnotation instanceof VariableAnnotation) {
 				if ($annotation->getVariable() === $existingAnnotation->getVariable() && $annotation->getGuessed()) {
 					unset($existingAnnotations[$key]);
@@ -511,7 +511,7 @@ abstract class AbstractAnnotator {
 
 			$tag = $tokens[$i]['content'];
 			$variablePos = strpos($content, ' $');
-			if ($tag === VariableAnnotation::TAG && $variablePos) {
+			if (in_array($tag, [VariableAnnotation::TAG, PropertyAnnotation::TAG]) && $variablePos) {
 				$content = mb_substr($content, $variablePos + 1);
 			} else {
 				$content = mb_substr($content, mb_strlen($typeString) + 1);

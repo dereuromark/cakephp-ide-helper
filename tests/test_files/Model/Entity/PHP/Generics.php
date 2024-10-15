@@ -4,6 +4,7 @@ namespace TestApp\Model\Entity\PHP;
 use Cake\ORM\Entity;
 
 /**
+ * @property array|null $params
  * @property int $id
  * @property string $name
  * @property string $content
