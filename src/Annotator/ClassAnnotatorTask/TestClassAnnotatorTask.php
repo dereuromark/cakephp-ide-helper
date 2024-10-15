@@ -50,7 +50,7 @@ class TestClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 	 * @param array<string> $types
 	 * @return bool
 	 */
-	protected function matchesType($content, array $types) {
+	protected function matchesType(string $content, array $types): bool {
 		foreach ($types as $type => $pattern) {
 			if (preg_match($pattern, $content)) {
 				return true;
