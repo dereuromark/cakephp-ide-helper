@@ -180,12 +180,26 @@ trait DocBlockTrait {
 	 */
 	protected function renderUnionTypes(array $typeNodes): string {
 		$string = (string)preg_replace(
-			['/ ([\|&]) /', '/<\(/', '/\)>/', '/\), /', '/, \(/'],
-			['${1}', '<', '>', ', ', ', '],
+			[
+				'/ ([|&]) /', // Spaces around union types (int | string) -> (int|string)
+				'/\(<([^()]+)>\)/', // Remove unnecessary parentheses around union types (int|string)
+				'/<\(/', // Replaces `(<` with `<`
+				'/\)>/', // Replaces `)>` with `>`
+				'/\), /', // Replaces `), ` with `, `
+				'/[:,] \(/', // Replaces `: (` with `: ` and `, (` with `, `
+			],
+			[
+				'${1}', // Keeps the union type pipe `|`
+				'${1}', // Remove parentheses around union types
+				'<', // Replaces `(<` with `<`
+				'>', // Replaces `)>` with `>`
+				', ', // Replace `), ` with `, `
+				', ', // Replace `, (` with `, `
+			],
 			implode('|', $typeNodes),
 		);
 
-		if (substr($string, 0, 1) === '(' && substr($string, -1, 1) === ')') {
+		if (str_starts_with($string, '(') && str_ends_with($string, ')')) {
 			$string = substr($string, 1, -1);
 		}
 
