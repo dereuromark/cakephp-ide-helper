@@ -146,34 +146,36 @@ class ModelAnnotator extends AbstractAnnotator {
 		if (class_exists($fullClassName)) {
 			$fullClassName = '\\' . $fullClassName;
 			$fullClassNameCollection = GenericString::generate($fullClassName);
+			$entityInterface = '\\' . EntityInterface::class;
+			$resultSetInterfaceCollection = GenericString::generate($fullClassName, '\\' . ResultSetInterface::class);
+
+			if (Configure::read('IdeHelper.useConcreteEntities')) {
+				$entityInterface = $fullClassName;
+			}
 
 			/**
 			 * Copied from Bake plugin's DocBlockHelper
 			 *
 			 * @link \Bake\View\Helper\DocBlockHelper::buildTableAnnotations()
 			 */
-			$annotations[] = "@method $fullClassName newEmptyEntity()";
-			$annotations[] = "@method $fullClassName newEntity(array \$data, array \$options = [])";
-			$annotations[] = "@method $fullClassNameCollection newEntities(array \$data, array \$options = [])";
+			$annotations[] = "@method {$fullClassName} newEmptyEntity()";
+			$annotations[] = "@method {$fullClassName} newEntity(array<mixed> \$data, array<string, mixed> \$options = [])";
+			$annotations[] = "@method {$fullClassNameCollection} newEntities(array<mixed> \$data, array<string, mixed> \$options = [])";
 
-			$annotations[] = "@method $fullClassName get(mixed \$primaryKey, array|string \$finder = 'all', \Psr\SimpleCache\CacheInterface|string|null \$cache = null, \Closure|string|null \$cacheKey = null, mixed ...\$args)";
-			$annotations[] = "@method $fullClassName findOrCreate(\$search, ?callable \$callback = null, array \$options = [])";
+			$annotations[] = "@method {$fullClassName} get(mixed \$primaryKey, string \$finder = 'all', \Psr\SimpleCache\CacheInterface|string|null \$cache = null, \Closure|string|null \$cacheKey = null, mixed ...\$args)";
+			$annotations[] = "@method {$fullClassName} findOrCreate(\$search, ?callable \$callback = null, array<string, mixed> \$options = [])";
 
-			$entityInterface = '\\' . EntityInterface::class;
+			$annotations[] = "@method {$fullClassName} patchEntity({$entityInterface} \$entity, array<mixed> \$data, array<string, mixed> \$options = [])";
+			$annotations[] = "@method {$fullClassNameCollection} patchEntities(iterable<{$entityInterface}> \$entities, array<mixed> \$data, array<string, mixed> \$options = [])";
 
-			$annotations[] = "@method $fullClassName patchEntity({$entityInterface} \$entity, array \$data, array \$options = [])";
-			$annotations[] = "@method $fullClassNameCollection patchEntities(iterable \$entities, array \$data, array \$options = [])";
+			$annotations[] = "@method {$fullClassName}|false save({$entityInterface} \$entity, array<string, mixed> \$options = [])";
+			$annotations[] = "@method {$fullClassName} saveOrFail({$entityInterface} \$entity, array<string, mixed> \$options = [])";
 
-			$annotations[] = "@method $fullClassName|false save({$entityInterface} \$entity, array \$options = [])";
-			$annotations[] = "@method $fullClassName saveOrFail({$entityInterface} \$entity, array \$options = [])";
+			$annotations[] = "@method {$resultSetInterfaceCollection}|false saveMany(iterable<{$entityInterface}> \$entities, array<string, mixed> \$options = [])";
+			$annotations[] = "@method {$resultSetInterfaceCollection} saveManyOrFail(iterable<{$entityInterface}> \$entities, array<string, mixed> \$options = [])";
 
-			$resultSetInterfaceCollection = GenericString::generate($fullClassName, '\\' . ResultSetInterface::class);
-
-			$annotations[] = "@method {$resultSetInterfaceCollection}|false saveMany(iterable \$entities, array \$options = [])";
-			$annotations[] = "@method {$resultSetInterfaceCollection} saveManyOrFail(iterable \$entities, array \$options = [])";
-
-			$annotations[] = "@method {$resultSetInterfaceCollection}|false deleteMany(iterable \$entities, array \$options = [])";
-			$annotations[] = "@method {$resultSetInterfaceCollection} deleteManyOrFail(iterable \$entities, array \$options = [])";
+			$annotations[] = "@method {$resultSetInterfaceCollection}|false deleteMany(iterable<{$entityInterface}> \$entities, array<string, mixed> \$options = [])";
+			$annotations[] = "@method {$resultSetInterfaceCollection} deleteManyOrFail(iterable<{$entityInterface}> \$entities, array<string, mixed> \$options = [])";
 		}
 
 		// Make replaceable via parsed object

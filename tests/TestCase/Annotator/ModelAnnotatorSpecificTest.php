@@ -13,7 +13,7 @@ use IdeHelper\Console\Io;
 use Shim\TestSuite\ConsoleOutput;
 use TestApp\Model\Table\FoosTable;
 
-class ModelAnnotatorTest extends TestCase {
+class ModelAnnotatorSpecificTest extends TestCase {
 
 	use DiffHelperTrait;
 
@@ -44,6 +44,7 @@ class ModelAnnotatorTest extends TestCase {
 		$this->io = new Io($consoleIo);
 
 		Configure::write('IdeHelper.assocsAsGenerics', true);
+		Configure::write('IdeHelper.useConcreteEntities', true);
 
 		$x = TableRegistry::getTableLocator()->get('IdeHelper.Foos', ['className' => FoosTable::class]);
 		$columns = [
@@ -100,6 +101,7 @@ class ModelAnnotatorTest extends TestCase {
 		parent::tearDown();
 
 		Configure::delete('IdeHelper.assocsAsGenerics');
+		Configure::delete('IdeHelper.useConcreteEntities');
 	}
 
 	/**
@@ -119,10 +121,10 @@ class ModelAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testAnnotate() {
+	public function testAnnotateSpecific() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/BarBarsTable.php'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/Specific/BarBarsTable.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -133,7 +135,7 @@ class ModelAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = APP . 'Model/Table/BarBarsTable.php';
+		$path = APP . 'Model/Table/Specific/BarBarsTable.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -144,10 +146,10 @@ class ModelAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testAnnotateExistingMerge() {
+	public function testAnnotateSpecificExistingMerge() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/WheelsTable.php'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/Specific/WheelsTable.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -158,7 +160,7 @@ class ModelAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = APP . 'Model/Table/WheelsTable.php';
+		$path = APP . 'Model/Table/Specific/WheelsTable.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -169,10 +171,10 @@ class ModelAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testAnnotateExistingReplace() {
+	public function testAnnotateSpecificExistingReplace() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/WheelsExtraTable.php'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/Specific/WheelsExtraTable.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -183,7 +185,7 @@ class ModelAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = APP . 'Model/Table/WheelsExtraTable.php';
+		$path = APP . 'Model/Table/Specific/WheelsExtraTable.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -194,10 +196,10 @@ class ModelAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testAnnotateSkip() {
+	public function testAnnotateSpecificSkip() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/SkipSomeTable.php'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/Specific/SkipSomeTable.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -208,7 +210,7 @@ class ModelAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->never())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = APP . 'Model/Table/SkipSomeTable.php';
+		$path = APP . 'Model/Table/Specific/SkipSomeTable.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -218,10 +220,10 @@ class ModelAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testAnnotateSkipAll() {
+	public function testAnnotateSpecificSkipAll() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/SkipMeTable.php'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/Specific/SkipMeTable.php'));
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -232,7 +234,7 @@ class ModelAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->never())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = APP . 'Model/Table/SkipMeTable.php';
+		$path = APP . 'Model/Table/Specific/SkipMeTable.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -242,10 +244,10 @@ class ModelAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testAnnotateCatchExceptions() {
+	public function testAnnotateSpecificCatchExceptions() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$path = APP . 'Model/Table/ExceptionsTable.php';
+		$path = APP . 'Model/Table/Specific/ExceptionsTable.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -255,10 +257,10 @@ class ModelAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testAnnotateProtectedParent() {
+	public function testAnnotateSpecificProtectedParent() {
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/BarBarsAbstractTable.php'));
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/Specific/BarBarsAbstractTable.php'));
 		$callback = function ($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -271,11 +273,10 @@ class ModelAnnotatorTest extends TestCase {
 			->method('storeFile')
 			->with($this->anything(), $this->callback($callback));
 
-		$path = APP . 'Model/Table/BarBarsAbstractTable.php';
+		$path = APP . 'Model/Table/Specific/BarBarsAbstractTable.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
 		$this->assertTextContains('  -> 17 annotations added', $output);
 	}
-
 }
