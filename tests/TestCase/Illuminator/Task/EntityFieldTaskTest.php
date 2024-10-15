@@ -50,7 +50,7 @@ class EntityFieldTaskTest extends TestCase {
 			'visibility' => false,
 		]);
 
-		$path = TEST_FILES . 'Model/Entity/Wheel.php';
+		$path = TEST_FILES . 'Model/Entity/Complex/Wheel.php';
 		$result = $task->run(file_get_contents($path), $path);
 
 		$this->assertTextContains('const FIELD_ID = \'id\';', $result);
