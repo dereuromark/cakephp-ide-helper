@@ -90,7 +90,7 @@ class EntityFieldTaskTest extends TestCase {
 		$result = $task->run(file_get_contents($path), $path);
 
 		$result = str_replace('    ', "\t", $result);
-		$expected = file_get_contents(TEST_FILES . 'Model/Entity/Constants/WheelComplex2.php');
+		$expected = file_get_contents(TEST_FILES . 'Model/Entity/Constants/WheelComplex.php');
 		$this->assertTextEquals($expected, $result);
 	}
 
