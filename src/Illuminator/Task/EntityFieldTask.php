@@ -111,7 +111,7 @@ class EntityFieldTask extends AbstractTask {
 			$pieces = explode(' ', $varName);
 			$field = $pieces[0];
 
-			if (str_starts_with($field, ' ') || str_starts_with($field, '_')) {
+			if (str_starts_with($field, '_')) {
 				continue;
 			}
 			// We also skip camelCase as those are not the convention
@@ -208,7 +208,7 @@ class EntityFieldTask extends AbstractTask {
 	 * @param int $endIndex
 	 * @return array<string, array<string, mixed>>
 	 */
-	protected function getFieldConstants(array $tokens, $startIndex, $endIndex) {
+	protected function getFieldConstants(array $tokens, int $startIndex, int $endIndex) {
 		$constants = [];
 
 		for ($i = $startIndex + 1; $i < $endIndex; $i++) {

@@ -498,7 +498,7 @@ class EntityAnnotatorTest extends TestCase {
 
 		$output = $this->out->output();
 
-		$this->assertSame('', $output);
+		$this->assertTextContains('   -> 1 annotation skipped', $output);
 	}
 
 	/**
