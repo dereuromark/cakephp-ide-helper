@@ -101,7 +101,7 @@ class EntityFieldTask extends AbstractTask {
 				continue;
 			}
 
-			/** @var \PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode|\PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode $valueNode */
+			/** @var \PHPStan\PhpDocParser\Ast\PhpDoc\PropertyTagValueNode $valueNode */
 			$valueNode = static::getValueNode($tokens[$i]['content'], $tokens[$i + 2]['content']);
 			$returnTypes = $this->valueNodeParts($valueNode);
 			$typeString = $this->renderUnionTypes($returnTypes);
