@@ -43,7 +43,7 @@ class IlluminatorTest extends TestCase {
 		$path = TEST_FILES;
 		$count = $this->illuminator->illuminate($path, null);
 
-		$this->assertSame(13, $count);
+		$this->assertSame(12, $count);
 
 		$out = $this->out->output();
 

@@ -4,7 +4,7 @@ namespace TestApp\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * @property array{user?: int, account?: int|string, newContacts?: array<mixed>}|null $params !
+ * @property array{utm_tags: array<mixed>|null}|null $params !
  * @property int $id
  * @property string $name
  * @property string $content
@@ -27,15 +27,5 @@ class Wheel extends Entity {
 	protected function _getVirtualOne() {
 		return 'Virtual One';
 	}
-
-	const FIELD_PARAMS = 'params';
-	const FIELD_ID = 'id';
-	const FIELD_NAME = 'name';
-	const FIELD_CONTENT = 'content';
-	const FIELD_OFFER_DATE = 'offer_date';
-	const FIELD_CREATED = 'created';
-	const FIELD_MODIFIED = 'modified';
-	const FIELD_WHEELS = 'wheels';
-	const FIELD_VIRTUAL_ONE = 'virtual_one';
 
 }
