@@ -11,6 +11,7 @@ class FoosTable extends Table {
 		'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'autoIncrement' => true],
 		'name' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => null],
 		'user_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null],
+		'params' => ['type' => 'json', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
 	];
 
 	/**

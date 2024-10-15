@@ -14,7 +14,7 @@ class VariableExtractor {
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @return array<string, mixed>
 	 */
-	public function extract(File $file) {
+	public function extract(File $file): array {
 		$vars = $this->collect($file);
 
 		$result = [];
@@ -47,7 +47,7 @@ class VariableExtractor {
 	 *
 	 * @return array<array<string, mixed>>
 	 */
-	protected function collect(File $file) {
+	protected function collect(File $file): array {
 		$tokens = $file->getTokens();
 
 		$vars = [];
@@ -76,7 +76,7 @@ class VariableExtractor {
 	 * @param int $index
 	 * @return array<string, mixed>
 	 */
-	protected function getVar(File $file, array $token, $index) {
+	protected function getVar(File $file, array $token, int $index): array {
 		$variable = substr($token['content'], 1);
 
 		$result = [
@@ -101,7 +101,7 @@ class VariableExtractor {
 	 * @param array<string, mixed> $result
 	 * @return string|null
 	 */
-	protected function getVarType(File $file, array $result) {
+	protected function getVarType(File $file, array $result): ?string {
 		$tokens = $file->getTokens();
 
 		$nextIndex = $file->findNext(Tokens::$emptyTokens, $result['index'] + 1, $result['index'] + 3, true, null, true);
@@ -128,7 +128,7 @@ class VariableExtractor {
 	 * @param array<string, mixed> $result
 	 * @return string|null
 	 */
-	protected function getExcludeReason(File $file, array $result) {
+	protected function getExcludeReason(File $file, array $result): ?string {
 		if ($this->isLoopVar($file, $result)) {
 			return 'Declared in loop';
 		}
@@ -148,7 +148,7 @@ class VariableExtractor {
 	 * @param array<string, mixed> $result
 	 * @return bool
 	 */
-	protected function isLoopVar(File $file, array $result) {
+	protected function isLoopVar(File $file, array $result): bool {
 		$tokens = $file->getTokens();
 
 		$prevIndex = $file->findPrevious(Tokens::$emptyTokens, $result['index'] - 1, $result['index'] - 3, true, null, true);
@@ -170,7 +170,7 @@ class VariableExtractor {
 	 *
 	 * @return bool
 	 */
-	protected function isInLoop(File $file, array $result, $assignmentIndex) {
+	protected function isInLoop(File $file, array $result, int $assignmentIndex): bool {
 		if (empty($result['context']['nested_parenthesis'])) {
 			return false;
 		}
@@ -190,7 +190,7 @@ class VariableExtractor {
 	 * @param array<string, mixed> $result
 	 * @return bool
 	 */
-	protected function isTryCatchVar(File $file, array $result) {
+	protected function isTryCatchVar(File $file, array $result): bool {
 		if (empty($result['context']['nested_parenthesis'])) {
 			return false;
 		}
@@ -214,7 +214,7 @@ class VariableExtractor {
 	 * @param array<string, mixed> $result
 	 * @return bool
 	 */
-	protected function isAssignment(File $file, array $result) {
+	protected function isAssignment(File $file, array $result): bool {
 		$tokens = $file->getTokens();
 
 		$nextIndex = $file->findNext(Tokens::$emptyTokens, $result['index'] + 1, $result['index'] + 3, true, null, true);

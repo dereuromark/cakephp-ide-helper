@@ -61,7 +61,7 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 	 * @param int $index
 	 * @return array<string, mixed>
 	 */
-	protected function parseMethod(File $file, $index) {
+	protected function parseMethod(File $file, int $index) {
 		$tokens = $file->getTokens();
 		$nameIndex = $file->findNext(Tokens::$emptyTokens, $index + 1, null, true);
 

@@ -4,7 +4,7 @@ namespace TestApp\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * @property array{user?: int, account?: int|string, newContacts?: array<mixed>}|null $params !
+ * @property array{utm_tags: array<mixed>|null}|null $params !
  * @property int $id
  * @property string $name
  * @property string $content

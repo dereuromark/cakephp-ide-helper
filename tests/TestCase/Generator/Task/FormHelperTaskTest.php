@@ -63,6 +63,7 @@ class FormHelperTaskTest extends TestCase {
 			'id' => "'id'",
 			'modified' => "'modified'",
 			'name' => "'name'",
+			'params' => "'params'",
 			'status' => "'status'",
 			'user_id' => "'user_id'",
 		];

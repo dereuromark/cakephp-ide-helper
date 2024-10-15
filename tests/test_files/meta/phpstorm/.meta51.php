@@ -639,6 +639,7 @@ namespace PHPSTORM_META {
 		'id',
 		'modified',
 		'name',
+		'params',
 		'status',
 		'user_id',
 	);
@@ -1372,6 +1373,7 @@ namespace PHPSTORM_META {
 		'entityFields:Relations\Model\Entity\Foo',
 		'id',
 		'name',
+		'params',
 		'user',
 		'user_id',
 	);
@@ -1421,6 +1423,7 @@ namespace PHPSTORM_META {
 		'created',
 		'id',
 		'name',
+		'params',
 	);
 
 	registerArgumentsSet(

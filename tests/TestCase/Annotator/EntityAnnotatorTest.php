@@ -100,6 +100,14 @@ class EntityAnnotatorTest extends TestCase {
 				'baseType' => null,
 				'precision' => null,
 			],
+			'params' => [
+				'type' => 'json',
+				'length' => null,
+				'null' => true,
+				'default' => null,
+				'comment' => '',
+				'precision' => null,
+			],
 		];
 		$schema = new TableSchema('Foos', $columns);
 		$x->setSchema($schema);
@@ -215,6 +223,36 @@ class EntityAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testAnnotateWithExistingDocBlockComplex() {
+		/** @var \TestApp\Model\Table\WheelsTable $Table */
+		$Table = TableRegistry::getTableLocator()->get('Wheels');
+
+		$schema = $Table->getSchema();
+		$associations = $Table->associations();
+		$annotator = $this->_getAnnotatorMock(['schema' => $schema, 'associations' => $associations]);
+
+		$expectedContent = str_replace(["\r\n", "\r"], "\n", file_get_contents(TEST_FILES . 'Model/Entity/Complex/Wheel.php'));
+		$callback = function ($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->_displayDiff($expectedContent, $value);
+			}
+
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP . 'Model/Entity/Complex/Wheel.php';
+		$annotator->annotate($path);
+
+		$output = $this->out->output();
+
+		$this->assertTextContains('   -> 1 annotation added, 3 annotations removed, 1 annotation skipped.', $output);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testAnnotateWithVirtualProperties() {
 		/** @var \TestApp\Model\Table\FoosTable $Table */
 		$Table = TableRegistry::getTableLocator()->get('Foos');
@@ -240,7 +278,7 @@ class EntityAnnotatorTest extends TestCase {
 
 		$output = $this->out->output();
 
-		$this->assertTextContains('   -> 8 annotations added', $output);
+		$this->assertTextContains('   -> 9 annotations added', $output);
 	}
 
 	/**
@@ -271,7 +309,7 @@ class EntityAnnotatorTest extends TestCase {
 
 		$output = $this->out->output();
 
-		$this->assertTextContains('   -> 9 annotations added', $output);
+		$this->assertTextContains('   -> 10 annotations added', $output);
 	}
 
 	/**
@@ -302,7 +340,7 @@ class EntityAnnotatorTest extends TestCase {
 
 		$output = $this->out->output();
 
-		$this->assertTextContains('   -> 9 annotations added', $output);
+		$this->assertTextContains('   -> 10 annotations added', $output);
 	}
 
 	/**
@@ -362,7 +400,7 @@ class EntityAnnotatorTest extends TestCase {
 
 		$output = (string)$this->out->output();
 
-		$this->assertTextContains('   -> 4 annotations added', $output);
+		$this->assertTextContains('   -> 5 annotations added', $output);
 	}
 
 	/**
@@ -460,6 +498,37 @@ class EntityAnnotatorTest extends TestCase {
 		$output = $this->out->output();
 
 		$this->assertTextContains('   -> 1 annotation removed', $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAnnotateWithComplexType() {
+		/** @var \TestApp\Model\Table\FoosTable $Table */
+		$Table = TableRegistry::getTableLocator()->get('Foos');
+
+		$schema = $Table->getSchema();
+		$associations = $Table->associations();
+		$annotator = $this->_getAnnotatorMock(['schema' => $schema, 'associations' => $associations]);
+
+		$expectedContent = str_replace(["\r\n", "\r"], "\n", file_get_contents(TEST_FILES . 'Model/Entity/PHP/ComplexType.php'));
+		$callback = function ($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->_displayDiff($expectedContent, $value);
+			}
+
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->never())->method('storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP . 'Model/Entity/PHP/ComplexType.php';
+
+		$annotator->annotate($path);
+
+		$output = $this->out->output();
+
+		$this->assertTextContains('   -> 1 annotation skipped', $output);
 	}
 
 	/**
