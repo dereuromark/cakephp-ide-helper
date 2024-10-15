@@ -185,16 +185,18 @@ trait DocBlockTrait {
 				'/\(<([^()]+)>\)/', // Remove unnecessary parentheses around union types (int|string)
 				'/<\(/', // Replaces `(<` with `<`
 				'/\)>/', // Replaces `)>` with `>`
-				'/\), /', // Replaces `), ` with `, `
+				'/\)}/', // Replaces `)}` with `}`
+				'/\),/', // Replaces `), ` with `,`
 				'/[:,] \(/', // Replaces `: (` with `: ` and `, (` with `, `
 			],
 			[
-				'${1}', // Keeps the union type pipe `|`
-				'${1}', // Remove parentheses around union types
-				'<', // Replaces `(<` with `<`
-				'>', // Replaces `)>` with `>`
-				', ', // Replace `), ` with `, `
-				', ', // Replace `, (` with `, `
+				'${1}',
+				'${1}',
+				'<',
+				'>',
+				'}',
+				',',
+				', ',
 			],
 			implode('|', $typeNodes),
 		);

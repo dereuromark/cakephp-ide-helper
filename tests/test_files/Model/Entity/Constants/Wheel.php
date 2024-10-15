@@ -5,6 +5,7 @@ use Cake\ORM\Entity;
 
 /**
  * @property array{user?: int, account?: int|string, newContacts?: array<mixed>}|null $params !
+ * @property array{utm_tags: array<mixed>|null}|null $data !
  * @property int $id
  * @property string $name
  * @property string $content
@@ -29,6 +30,7 @@ class Wheel extends Entity {
 	}
 
 	const FIELD_PARAMS = 'params';
+	const FIELD_DATA = 'data';
 	const FIELD_ID = 'id';
 	const FIELD_NAME = 'name';
 	const FIELD_CONTENT = 'content';
