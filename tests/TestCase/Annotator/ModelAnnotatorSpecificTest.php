@@ -44,8 +44,8 @@ class ModelAnnotatorSpecificTest extends TestCase {
 		$this->io = new Io($consoleIo);
 
 		Configure::write('IdeHelper.assocsAsGenerics', true);
-		Configure::write('IdeHelper.useConcreteEntities', true);
-		Configure::write('IdeHelper.genericsInInputs', true);
+		Configure::write('IdeHelper.concreteEntitiesinParam', true);
+		Configure::write('IdeHelper.genericsInParam', true);
 
 		$x = TableRegistry::getTableLocator()->get('IdeHelper.Foos', ['className' => FoosTable::class]);
 		$columns = [
@@ -102,8 +102,8 @@ class ModelAnnotatorSpecificTest extends TestCase {
 		parent::tearDown();
 
 		Configure::delete('IdeHelper.assocsAsGenerics');
-		Configure::delete('IdeHelper.useConcreteEntities');
-		Configure::delete('IdeHelper.genericsInInputs');
+		Configure::delete('IdeHelper.concreteEntitiesinParam');
+		Configure::delete('IdeHelper.genericsInParam');
 	}
 
 	/**

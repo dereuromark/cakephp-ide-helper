@@ -149,14 +149,14 @@ class ModelAnnotator extends AbstractAnnotator {
 			$entityInterface = '\\' . EntityInterface::class;
 			$resultSetInterfaceCollection = GenericString::generate($fullClassName, '\\' . ResultSetInterface::class);
 
-			if (Configure::read('IdeHelper.useConcreteEntities')) {
+			if (Configure::read('IdeHelper.concreteEntitiesinParam')) {
 				$entityInterface = $fullClassName;
 			}
 
 			$dataType = 'mixed[]';
 			$optionsType = 'mixed[]';
 			$itterable = 'iterable';
-			if (Configure::read('IdeHelper.genericsInInputs')) {
+			if (Configure::read('IdeHelper.genericsInParam')) {
 				$dataType = 'array<mixed>';
 				$optionsType = 'array<string, mixed>';
 				$itterable = "iterable<{$entityInterface}>";

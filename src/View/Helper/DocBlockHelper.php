@@ -155,14 +155,14 @@ class DocBlockHelper extends BakeDocBlockHelper {
 		$class = "\\{$namespace}\\Model\\Entity\\{$entity}";
 		$classes = GenericString::generate($class);
 		$classInterface = '\\Cake\\Datasource\\EntityInterface';
-		if (Configure::read('IdeHelper.useConcreteEntities')) {
+		if (Configure::read('IdeHelper.concreteEntitiesinParam')) {
 			$classInterface = $class;
 		}
 
 		$dataType = 'mixed[]';
 		$optionsType = 'mixed[]';
 		$itterable = 'iterable';
-		if (Configure::read('IdeHelper.genericsInInputs')) {
+		if (Configure::read('IdeHelper.genericsInParam')) {
 			$dataType = 'array<mixed>';
 			$optionsType = 'array<string, mixed>';
 			$itterable = "iterable<{$classInterface}>";
