@@ -6,18 +6,18 @@ namespace TestApp\Model\Table;
  * @property \Cake\ORM\Association\BelongsToMany<\Awesome\Model\Table\HousesTable> $Houses
  *
  * @method \TestApp\Model\Entity\BarBarsAbstract newEmptyEntity()
- * @method \TestApp\Model\Entity\BarBarsAbstract newEntity(array<mixed> $data, array<string, mixed> $options = [])
- * @method \TestApp\Model\Entity\BarBarsAbstract[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
+ * @method \TestApp\Model\Entity\BarBarsAbstract newEntity(mixed[] $data, mixed[] $options = [])
+ * @method \TestApp\Model\Entity\BarBarsAbstract[] newEntities(mixed[] $data, mixed[] $options = [])
  * @method \TestApp\Model\Entity\BarBarsAbstract get(mixed $primaryKey, string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \TestApp\Model\Entity\BarBarsAbstract findOrCreate($search, ?callable $callback = null, array<string, mixed> $options = [])
- * @method \TestApp\Model\Entity\BarBarsAbstract patchEntity(\Cake\Datasource\EntityInterface $entity, array<mixed> $data, array<string, mixed> $options = [])
- * @method \TestApp\Model\Entity\BarBarsAbstract[] patchEntities(iterable<\Cake\Datasource\EntityInterface> $entities, array<mixed> $data, array<string, mixed> $options = [])
- * @method \TestApp\Model\Entity\BarBarsAbstract|false save(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
- * @method \TestApp\Model\Entity\BarBarsAbstract saveOrFail(\Cake\Datasource\EntityInterface $entity, array<string, mixed> $options = [])
- * @method \TestApp\Model\Entity\BarBarsAbstract[]|\Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\BarBarsAbstract>|false saveMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \TestApp\Model\Entity\BarBarsAbstract[]|\Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\BarBarsAbstract> saveManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \TestApp\Model\Entity\BarBarsAbstract[]|\Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\BarBarsAbstract>|false deleteMany(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
- * @method \TestApp\Model\Entity\BarBarsAbstract[]|\Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\BarBarsAbstract> deleteManyOrFail(iterable<\Cake\Datasource\EntityInterface> $entities, array<string, mixed> $options = [])
+ * @method \TestApp\Model\Entity\BarBarsAbstract findOrCreate($search, ?callable $callback = null, mixed[] $options = [])
+ * @method \TestApp\Model\Entity\BarBarsAbstract patchEntity(\Cake\Datasource\EntityInterface $entity, mixed[] $data, mixed[] $options = [])
+ * @method \TestApp\Model\Entity\BarBarsAbstract[] patchEntities(iterable $entities, mixed[] $data, mixed[] $options = [])
+ * @method \TestApp\Model\Entity\BarBarsAbstract|false save(\Cake\Datasource\EntityInterface $entity, mixed[] $options = [])
+ * @method \TestApp\Model\Entity\BarBarsAbstract saveOrFail(\Cake\Datasource\EntityInterface $entity, mixed[] $options = [])
+ * @method \TestApp\Model\Entity\BarBarsAbstract[]|\Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\BarBarsAbstract>|false saveMany(iterable $entities, mixed[] $options = [])
+ * @method \TestApp\Model\Entity\BarBarsAbstract[]|\Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\BarBarsAbstract> saveManyOrFail(iterable $entities, mixed[] $options = [])
+ * @method \TestApp\Model\Entity\BarBarsAbstract[]|\Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\BarBarsAbstract>|false deleteMany(iterable $entities, mixed[] $options = [])
+ * @method \TestApp\Model\Entity\BarBarsAbstract[]|\Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\BarBarsAbstract> deleteManyOrFail(iterable $entities, mixed[] $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @mixin \MyNamespace\MyPlugin\Model\Behavior\MyBehavior

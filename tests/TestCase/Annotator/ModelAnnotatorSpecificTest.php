@@ -45,6 +45,7 @@ class ModelAnnotatorSpecificTest extends TestCase {
 
 		Configure::write('IdeHelper.assocsAsGenerics', true);
 		Configure::write('IdeHelper.useConcreteEntities', true);
+		Configure::write('IdeHelper.genericsInInputs', true);
 
 		$x = TableRegistry::getTableLocator()->get('IdeHelper.Foos', ['className' => FoosTable::class]);
 		$columns = [
@@ -102,6 +103,7 @@ class ModelAnnotatorSpecificTest extends TestCase {
 
 		Configure::delete('IdeHelper.assocsAsGenerics');
 		Configure::delete('IdeHelper.useConcreteEntities');
+		Configure::delete('IdeHelper.genericsInInputs');
 	}
 
 	/**
