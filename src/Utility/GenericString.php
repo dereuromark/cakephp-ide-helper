@@ -28,7 +28,7 @@ class GenericString {
 		}
 
 		if ($typeCheck === ResultSetInterface::class) {
-			if (Configure::read('IdeHelper.concreteEntitiesinParam')) {
+			if (Configure::read('IdeHelper.concreteEntitiesInParam')) {
 				return sprintf($type . '<%s>', $value);
 			}
 

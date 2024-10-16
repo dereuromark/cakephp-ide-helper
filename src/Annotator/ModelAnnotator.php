@@ -149,7 +149,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			$entityInterface = '\\' . EntityInterface::class;
 			$resultSetInterfaceCollection = GenericString::generate($fullClassName, '\\' . ResultSetInterface::class);
 
-			if (Configure::read('IdeHelper.concreteEntitiesinParam')) {
+			if (Configure::read('IdeHelper.concreteEntitiesInParam')) {
 				$entityInterface = $fullClassName;
 			}
 

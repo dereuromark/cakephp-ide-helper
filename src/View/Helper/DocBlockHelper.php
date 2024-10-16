@@ -155,7 +155,7 @@ class DocBlockHelper extends BakeDocBlockHelper {
 		$class = "\\{$namespace}\\Model\\Entity\\{$entity}";
 		$classes = GenericString::generate($class);
 		$classInterface = '\\Cake\\Datasource\\EntityInterface';
-		if (Configure::read('IdeHelper.concreteEntitiesinParam')) {
+		if (Configure::read('IdeHelper.concreteEntitiesInParam')) {
 			$classInterface = $class;
 		}
 
