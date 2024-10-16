@@ -3,6 +3,7 @@
 namespace IdeHelper\Utility;
 
 use Cake\Core\Configure;
+use Cake\Datasource\ResultSetInterface;
 
 class GenericString {
 
@@ -18,6 +19,20 @@ class GenericString {
 		}
 		if (Configure::read('IdeHelper.objectAsGenerics') && $type !== null) {
 			return sprintf($type . '<%s>', $value);
+		}
+
+		if ($type !== null && str_starts_with($type, '\\')) {
+			$typeCheck = substr($type, 1);
+		} else {
+			$typeCheck = $type;
+		}
+
+		if ($typeCheck === ResultSetInterface::class) {
+			if (Configure::read('IdeHelper.concreteEntitiesinParam')) {
+				return sprintf($type . '<%s>', $value);
+			}
+
+			return $value . '[]|' . $type . '<' . $value . '>';
 		}
 
 		$value .= '[]';
