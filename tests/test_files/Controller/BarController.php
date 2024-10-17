@@ -6,7 +6,7 @@ namespace TestApp\Controller;
  * @property \TestApp\Model\Table\BarBarsTable $BarBars
  * @property \MyNamespace\MyPlugin\Controller\Component\MyComponent $My
  *
- * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\BarBar> paginate($object = null, array $settings = [])
+ * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\BarBar> paginate(\Cake\Datasource\RepositoryInterface|\Cake\Datasource\QueryInterface|string|null $object = null, array $settings = [])
  */
 class BarController extends AppController {
 
