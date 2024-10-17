@@ -8,7 +8,7 @@ namespace TestApp\Model\Table;
  * @method \TestApp\Model\Entity\BarBarsAbstract newEmptyEntity()
  * @method \TestApp\Model\Entity\BarBarsAbstract newEntity(array<mixed> $data, array<string, mixed> $options = [])
  * @method \TestApp\Model\Entity\BarBarsAbstract[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
- * @method \TestApp\Model\Entity\BarBarsAbstract get(mixed $primaryKey, string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
+ * @method \TestApp\Model\Entity\BarBarsAbstract get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \TestApp\Model\Entity\BarBarsAbstract findOrCreate($search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \TestApp\Model\Entity\BarBarsAbstract patchEntity(\TestApp\Model\Entity\BarBarsAbstract $entity, array<mixed> $data, array<string, mixed> $options = [])
  * @method \TestApp\Model\Entity\BarBarsAbstract[] patchEntities(iterable<\TestApp\Model\Entity\BarBarsAbstract> $entities, array<mixed> $data, array<string, mixed> $options = [])
