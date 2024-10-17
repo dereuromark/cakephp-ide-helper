@@ -183,7 +183,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 		$resultSetInterfaceCollection = GenericString::generate(implode('|', $entities), '\\' . ResultSetInterface::class);
 
 		$settingsType = 'array';
-		if (Configure::read('IdeHelper.concreteEntitiesInParam')) {
+		if (Configure::read('IdeHelper.genericsInParam')) {
 			$settingsType = 'array<string, mixed> ';
 		}
 
