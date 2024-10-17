@@ -159,8 +159,8 @@ class DocBlockHelper extends BakeDocBlockHelper {
 			$classInterface = $class;
 		}
 
-		$dataType = 'mixed[]';
-		$optionsType = 'mixed[]';
+		$dataType = 'array';
+		$optionsType = 'array';
 		$itterable = 'iterable';
 		if (Configure::read('IdeHelper.genericsInParam')) {
 			$dataType = 'array<mixed>';
