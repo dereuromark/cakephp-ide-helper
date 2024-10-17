@@ -180,7 +180,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 			return [];
 		}
 
-		$resultSetInterfaceCollection = GenericString::generate(implode('|', $entities), '\\' . ResultSetInterface::class . '<' . implode('|', $entities) . '>');
+		$resultSetInterfaceCollection = GenericString::generate(implode('|', $entities), '\\' . ResultSetInterface::class);
 
 		$annotations = [AnnotationFactory::createOrFail(MethodAnnotation::TAG, $resultSetInterfaceCollection, 'paginate($object = null, array $settings = [])')];
 
