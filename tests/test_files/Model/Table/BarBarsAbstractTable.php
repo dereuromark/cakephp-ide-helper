@@ -9,7 +9,7 @@ namespace TestApp\Model\Table;
  * @method \TestApp\Model\Entity\BarBarsAbstract newEntity(array $data, array $options = [])
  * @method \TestApp\Model\Entity\BarBarsAbstract[] newEntities(array $data, array $options = [])
  * @method \TestApp\Model\Entity\BarBarsAbstract get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \TestApp\Model\Entity\BarBarsAbstract findOrCreate($search, ?callable $callback = null, array $options = [])
+ * @method \TestApp\Model\Entity\BarBarsAbstract findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array $options = [])
  * @method \TestApp\Model\Entity\BarBarsAbstract patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \TestApp\Model\Entity\BarBarsAbstract[] patchEntities(iterable $entities, array $data, array $options = [])
  * @method \TestApp\Model\Entity\BarBarsAbstract|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
