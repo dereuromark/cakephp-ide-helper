@@ -11,7 +11,7 @@ use Cake\ORM\Table;
  * @method \TestApp\Model\Entity\BarBar newEntity(array $data, array $options = [])
  * @method \TestApp\Model\Entity\BarBar[] newEntities(array $data, array $options = [])
  * @method \TestApp\Model\Entity\BarBar get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \TestApp\Model\Entity\BarBar findOrCreate($search, ?callable $callback = null, array $options = [])
+ * @method \TestApp\Model\Entity\BarBar findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array $options = [])
  * @method \TestApp\Model\Entity\BarBar patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \TestApp\Model\Entity\BarBar[] patchEntities(iterable $entities, array $data, array $options = [])
  * @method \TestApp\Model\Entity\BarBar|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])

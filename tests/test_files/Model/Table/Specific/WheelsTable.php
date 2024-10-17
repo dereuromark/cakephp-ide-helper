@@ -9,7 +9,7 @@ use Cake\ORM\Table;
  * @method \TestApp\Model\Entity\Wheel newEmptyEntity()
  * @method \TestApp\Model\Entity\Wheel[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
  * @method \TestApp\Model\Entity\Wheel get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \TestApp\Model\Entity\Wheel findOrCreate($search, ?callable $callback = null, array<string, mixed> $options = [])
+ * @method \TestApp\Model\Entity\Wheel findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \TestApp\Model\Entity\Wheel patchEntity(\TestApp\Model\Entity\Wheel $entity, array<mixed> $data, array<string, mixed> $options = [])
  * @method \TestApp\Model\Entity\Wheel[] patchEntities(iterable<\TestApp\Model\Entity\Wheel> $entities, array<mixed> $data, array<string, mixed> $options = [])
  * @method \TestApp\Model\Entity\Wheel|false save(\TestApp\Model\Entity\Wheel $entity, array<string, mixed> $options = [])

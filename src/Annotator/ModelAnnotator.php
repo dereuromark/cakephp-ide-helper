@@ -172,7 +172,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			$annotations[] = "@method {$fullClassNameCollection} newEntities({$dataType} \$data, {$optionsType} \$options = [])";
 
 			$annotations[] = "@method {$fullClassName} get(mixed \$primaryKey, array|string \$finder = 'all', \Psr\SimpleCache\CacheInterface|string|null \$cache = null, \Closure|string|null \$cacheKey = null, mixed ...\$args)";
-			$annotations[] = "@method {$fullClassName} findOrCreate(\$search, ?callable \$callback = null, {$optionsType} \$options = [])";
+			$annotations[] = "@method {$fullClassName} findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array \$search, ?callable \$callback = null, {$optionsType} \$options = [])";
 
 			$annotations[] = "@method {$fullClassName} patchEntity({$entityInterface} \$entity, {$dataType} \$data, {$optionsType} \$options = [])";
 			$annotations[] = "@method {$fullClassNameCollection} patchEntities({$itterable} \$entities, {$dataType} \$data, {$optionsType} \$options = [])";

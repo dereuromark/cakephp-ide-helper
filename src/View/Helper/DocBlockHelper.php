@@ -172,7 +172,7 @@ class DocBlockHelper extends BakeDocBlockHelper {
 		$annotations[] = "@method {$class} newEntity({$dataType} \$data, {$optionsType} \$options = [])";
 		$annotations[] = "@method {$classes} newEntities({$dataType} \$data, {$optionsType} \$options = [])";
 		$annotations[] = "@method {$class} get(mixed \$primaryKey, array|string \$finder = 'all', \Psr\SimpleCache\CacheInterface|string|null \$cache = null, \Closure|string|null \$cacheKey = null, mixed ...\$args)";
-		$annotations[] = "@method {$class} findOrCreate(\$search, ?callable \$callback = null, {$optionsType} \$options = [])";
+		$annotations[] = "@method {$class} findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array \$search, ?callable \$callback = null, {$optionsType} \$options = [])";
 		$annotations[] = "@method {$class} patchEntity({$classInterface} \$entity, {$dataType} \$data, {$optionsType} \$options = [])";
 		$annotations[] = "@method {$classes} patchEntities({$itterable} \$entities, {$dataType} \$data, {$optionsType} \$options = [])";
 		$annotations[] = "@method {$class}|false save({$classInterface} \$entity, {$optionsType} \$options = [])";

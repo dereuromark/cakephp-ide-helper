@@ -11,7 +11,7 @@ use Cake\ORM\Table;
  * @method \TestApp\Model\Entity\Foo saveOrFail(\TestApp\Model\Entity\Foo $entity, array $options = [])
  * @method \TestApp\Model\Entity\Foo patchEntity(\TestApp\Model\Entity\Foo $entity, array $data, array $options = [])
  * @method \TestApp\Model\Entity\Foo[] patchEntities($entities, array $data, array $options = [])
- * @method \TestApp\Model\Entity\Foo findOrCreate($search, callable $callback = null, array $options = [])
+ * @method \TestApp\Model\Entity\Foo findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, callable $callback = null, array $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @mixin \MyNamespace\MyPlugin\Model\Behavior\MyBehavior

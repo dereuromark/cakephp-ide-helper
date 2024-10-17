@@ -72,15 +72,15 @@ Tables should annotate their entity related methods, their relations and behavio
 A LocationsTable class would then get the following doc block annotations added if not already present:
 ```php
 /**
- * @method \App\Model\Entity\Location get($primaryKey, array $options = [])
  * @method \App\Model\Entity\Location newEmptyEntity()
  * @method \App\Model\Entity\Location newEntity(array $data, array $options = [])
  * @method array<\App\Model\Entity\Location> newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Location get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \App\Model\Entity\Location|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
  * @method \App\Model\Entity\Location saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
  * @method \App\Model\Entity\Location patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method array<\App\Model\Entity\Location> patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Location findOrCreate($search, ?callable $callback = null, array $options = [])
+ * @method \App\Model\Entity\Location findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array $options = [])
  * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Location>|false saveMany(iterable $entities, array $options = [])
  * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Location> saveManyOrFail(iterable $entities, array $options = [])
  * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Location>|false deleteMany(iterable $entities, array $options = [])

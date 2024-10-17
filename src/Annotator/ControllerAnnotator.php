@@ -182,7 +182,12 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 		$resultSetInterfaceCollection = GenericString::generate(implode('|', $entities), '\\' . ResultSetInterface::class);
 
-		$annotations = [AnnotationFactory::createOrFail(MethodAnnotation::TAG, $resultSetInterfaceCollection, 'paginate($object = null, array $settings = [])')];
+		$settingsType = 'array';
+		if (Configure::read('IdeHelper.concreteEntitiesInParam')) {
+			$settingsType = 'array<string, mixed> ';
+		}
+
+		$annotations = [AnnotationFactory::createOrFail(MethodAnnotation::TAG, $resultSetInterfaceCollection, 'paginate(\Cake\Datasource\RepositoryInterface|\Cake\Datasource\QueryInterface|string|null $object = null, ' . $settingsType . ' $settings = [])')];
 
 		return $annotations;
 	}
