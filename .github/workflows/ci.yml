@@ -13,6 +13,7 @@ jobs:
       matrix:
         php-version: ['8.1', '8.3', '8.4']
         db-type: [sqlite, mysql, pgsql]
+        prefer-lowest: ['']
         include:
           - php-version: '8.1'
             db-type: 'sqlite'
