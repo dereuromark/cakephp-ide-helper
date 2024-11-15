@@ -33,13 +33,12 @@
 	"require": {
 		"php": ">=8.1",
 		"cakephp/bake": "^3.0.4",
-		"cakephp/cakephp": "^5.0.0",
-		"phpstan/phpdoc-parser": "^1.7",
+		"cakephp/cakephp": "^5.0.7",
+		"phpstan/phpdoc-parser": "^1.23.1",
 		"sebastian/diff": "^5.0 || ^6.0",
-		"squizlabs/php_codesniffer": "^3.7"
+		"squizlabs/php_codesniffer": "^3.8"
 	},
 	"require-dev": {
-		"cakephp/cakephp": "^5.1.0",
 		"dereuromark/cakephp-shim": "^3.3.0",
 		"cakephp/migrations": "^4.0.1",
 		"cakephp/plugin-installer": "^2.0.1",
