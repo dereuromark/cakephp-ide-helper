@@ -13,7 +13,6 @@ jobs:
       matrix:
         php-version: ['8.1', '8.3', '8.4']
         db-type: [sqlite, mysql, pgsql]
-        prefer-lowest: ['']
         include:
           - php-version: '8.1'
             db-type: 'sqlite'
@@ -57,13 +56,13 @@ jobs:
       - name: Composer install
         run: |
           composer --version
-          if ${{ matrix.prefer-lowest == 'prefer-lowest' }}
+          if [[ "${{ matrix.prefer-lowest }}" == 'prefer-lowest' ]]
           then
             composer update --prefer-lowest --prefer-stable
+            composer lowest-setup
           else
             composer install --no-progress --prefer-dist --optimize-autoloader
           fi
-          if ${{ matrix.prefer-lowest == 'prefer-lowest' }}; then composer lowest-setup; fi
 
       - name: Run PHPUnit
         run: |
@@ -77,7 +76,8 @@ jobs:
           fi
 
       - name: Validate prefer-lowest
-        run: if ${{ matrix.prefer-lowest == 'prefer-lowest' }}; then vendor/bin/validate-prefer-lowest -m; fi
+        if: matrix.prefer-lowest == 'prefer-lowest'
+        run: vendor/bin/validate-prefer-lowest -m
 
       - name: Upload coverage reports to Codecov
         if: success() && matrix.php-version == '8.1'
