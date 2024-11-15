@@ -71,7 +71,7 @@ class TranslationKeyTaskTest extends TestCase {
 			return (string)$className;
 		}, $list);
 
-		// 'my_plugin' is now superseeded by 'my_namespace/my_plugin'
+		// 'my_plugin' is now superseded by 'my_namespace/my_plugin'
 		$expected = [
 			'awesome' => '\'awesome\'',
 			'cake' => '\'cake\'',
@@ -81,6 +81,21 @@ class TranslationKeyTaskTest extends TestCase {
 			'relations' => '\'relations\'',
 			'shim' => '\'shim\'',
 		];
+		if (version_compare(Configure::version(), '5.1.0', '<')) {
+			$expected = [
+				'awesome' => '\'awesome\'',
+				'bake' => '\'bake\'',
+				'cake' => '\'cake\'',
+				'cake/twig_view' => '\'cake/twig_view\'',
+				'controllers' => '\'controllers\'',
+				'ide_helper' => '\'ide_helper\'',
+				'migrations' => '\'migrations\'',
+				'my_namespace/my_plugin' => '\'my_namespace/my_plugin\'',
+				'relations' => '\'relations\'',
+				'shim' => '\'shim\'',
+			];
+		}
+
 		$this->assertSame($expected, $list);
 	}
 

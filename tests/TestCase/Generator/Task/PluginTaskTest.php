@@ -2,6 +2,7 @@
 
 namespace IdeHelper\Test\TestCase\Generator\Task;
 
+use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
 use IdeHelper\Generator\Task\PluginTask;
 
@@ -42,6 +43,9 @@ class PluginTaskTest extends TestCase {
 			'Migrations' => '\Cake\Http\BaseApplication::class',
 			'Shim' => '\Cake\Http\BaseApplication::class',
 		];
+		if (version_compare(Configure::version(), '5.1.0', '<')) {
+			$expected = [];
+		}
 		$this->assertSame($expected, $map);
 	}
 

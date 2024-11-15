@@ -73,7 +73,6 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\Console\ConsoleIo::helper(0),
 		map([
-			'Banner' => \Cake\Command\Helper\BannerHelper::class,
 			'Progress' => \Cake\Command\Helper\ProgressHelper::class,
 			'Table' => \Cake\Command\Helper\TableHelper::class,
 		]),
@@ -88,6 +87,7 @@ namespace PHPSTORM_META {
 		'My',
 		'MyController',
 		'MyOther',
+		'RequestHandler',
 	);
 
 	override(
@@ -100,6 +100,7 @@ namespace PHPSTORM_META {
 			'MyController' => \TestApp\Controller\Component\MyControllerComponent::class,
 			'MyNamespace/MyPlugin.My' => \MyNamespace\MyPlugin\Controller\Component\MyComponent::class,
 			'MyOther' => \TestApp\Controller\Component\MyOtherComponent::class,
+			'Shim.RequestHandler' => \Shim\Controller\Component\RequestHandlerComponent::class,
 		]),
 	);
 
@@ -148,10 +149,7 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\Core\PluginApplicationInterface::addPlugin(0),
 		map([
-			'Bake' => \Cake\Http\BaseApplication::class,
-			'Cake/TwigView' => \Cake\Http\BaseApplication::class,
-			'Migrations' => \Cake\Http\BaseApplication::class,
-			'Shim' => \Cake\Http\BaseApplication::class,
+
 		]),
 	);
 
@@ -1346,11 +1344,6 @@ namespace PHPSTORM_META {
 		'Shim',
 		'Shim.deprecations',
 		'debug',
-		'plugins',
-		'plugins.Bake',
-		'plugins.Cake/TwigView',
-		'plugins.Migrations',
-		'plugins.Shim',
 	);
 
 	registerArgumentsSet(
@@ -1421,6 +1414,7 @@ namespace PHPSTORM_META {
 		'created',
 		'id',
 		'name',
+		'params',
 	);
 
 	registerArgumentsSet(
