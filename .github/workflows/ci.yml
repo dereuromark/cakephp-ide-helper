@@ -57,7 +57,7 @@ jobs:
       - name: Composer install
         run: |
           composer --version
-          if [[ "${{ matrix.prefer-lowest }}" == 'prefer-lowest' ]]
+          if ${{ matrix.prefer-lowest == 'prefer-lowest' }}
           then
             composer update --prefer-lowest --prefer-stable
             composer lowest-setup
