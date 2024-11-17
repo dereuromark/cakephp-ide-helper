@@ -7,7 +7,7 @@ use IdeHelper\ValueObject\ValueObjectInterface;
 
 /**
  * @see https://blog.jetbrains.com/phpstorm/2019/02/new-phpstorm-meta-php-features/
- * @method array toArray()
+ * @method array<mixed> toArray()
  */
 abstract class BaseDirective {
 

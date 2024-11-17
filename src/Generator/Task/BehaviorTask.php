@@ -100,7 +100,6 @@ class BehaviorTask implements TaskInterface {
 			if (!$matches) {
 				continue;
 			}
-			/** @var string $name */
 			$name = $matches[1];
 			if ($plugin) {
 				$name = $plugin . '.' . $name;
