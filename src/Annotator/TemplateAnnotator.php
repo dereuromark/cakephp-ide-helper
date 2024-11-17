@@ -337,7 +337,6 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		$result = [];
 
-		/** @var array<string> $entities */
 		$entities = $matches[2];
 		foreach ($entities as $key => $entity) {
 			if (Inflector::pluralize($entity) !== $matches[1][$key]) {
@@ -355,7 +354,6 @@ class TemplateAnnotator extends AbstractAnnotator {
 			$annotation = GenericString::generate('\\' . $className);
 			if (Configure::read('IdeHelper.templateCollectionObject') !== false) {
 				$collectionClass = CollectionClass::name('\\' . CollectionInterface::class);
-				/** @var string|bool|null $collectionType */
 				$collectionType = Configure::read('IdeHelper.templateCollectionObject');
 				if (Configure::read('IdeHelper.objectAsGenerics') === true && $collectionType !== 'iterable') {
 					$annotation .= '|' . GenericString::generate('\\' . $className, $collectionClass);

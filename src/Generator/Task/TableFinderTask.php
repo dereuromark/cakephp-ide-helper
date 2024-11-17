@@ -113,7 +113,7 @@ class TableFinderTask extends ModelTask {
 				$modelObject = TableRegistry::getTableLocator()->get($model);
 				$behaviors = $modelObject->behaviors();
 
-				/** @var array<\Cake\ORM\Behavior> $iterator */
+				/** @var iterable<\Cake\ORM\Behavior> $iterator */
 				$iterator = $behaviors->getIterator();
 				foreach ($iterator as $behavior) {
 					$behaviorClass = get_class($behavior);

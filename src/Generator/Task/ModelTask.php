@@ -105,7 +105,6 @@ class ModelTask implements TaskInterface {
 			if (!$matches) {
 				continue;
 			}
-			/** @var string $model */
 			$model = $matches[1];
 			if ($plugin) {
 				$model = $plugin . '.' . $model;
