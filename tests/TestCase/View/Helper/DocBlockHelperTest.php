@@ -30,8 +30,8 @@ class DocBlockHelperTest extends TestCase {
 
 		$request = new Request();
 		$response = new Response();
-		$this->View = new BakeView($request, $response);
-		$this->DocBlockHelper = new DocBlockHelper($this->View);
+		$View = new BakeView($request, $response);
+		$this->DocBlockHelper = new DocBlockHelper($View);
 	}
 
 	/**

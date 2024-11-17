@@ -4,12 +4,8 @@ parameters:
 		- TestCase/
 	bootstrapFiles:
 		- bootstrap.php
-		- ../phpunit.phar
 		- shim.php
 	checkMissingIterableValueType: false
 	earlyTerminatingMethodCalls:
 		Cake\Console\Shell:
 			- abort
-	ignoreErrors:
-	excludePaths:
-		- src/Shell/*
