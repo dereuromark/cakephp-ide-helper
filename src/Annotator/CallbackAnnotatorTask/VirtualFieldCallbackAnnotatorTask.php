@@ -90,7 +90,7 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 			}
 
 			/** @var \IdeHelper\Annotation\LinkAnnotation|null $addingAnnotation */
-			$addingAnnotation = $method['annotation'] ?? [];
+			$addingAnnotation = $method['annotation'] ?? null;
 			if ($addingAnnotation) {
 				$endIndex = $method['docBlockEnd'];
 
