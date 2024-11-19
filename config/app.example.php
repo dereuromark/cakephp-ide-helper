@@ -39,6 +39,9 @@ return [
 		],
 		// Always add annotations/meta even if not yet needed
 		'preemptive' => false,
+		// Annotator task customization
+		'annotators' => [
+		],
 		// For meta file generator
 		'generatorTasks' => [
 		],
