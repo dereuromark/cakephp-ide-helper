@@ -32,14 +32,7 @@ class ClassAnnotatorTaskCollection {
 	public function __construct(array $tasks = []) {
 		$defaultTasks = $this->defaultTasks();
 		$tasks += $defaultTasks;
-
-		foreach ($tasks as $task) {
-			if (!$task) {
-				continue;
-			}
-
-			$this->tasks = $tasks;
-		}
+		$this->tasks = $tasks;
 	}
 
 	/**
@@ -51,6 +44,12 @@ class ClassAnnotatorTaskCollection {
 		foreach ($tasks as $k => $v) {
 			if (is_numeric($k)) {
 				$tasks[$v] = $v;
+				unset($tasks[$k]);
+
+				continue;
+			}
+
+			if (!$v) {
 				unset($tasks[$k]);
 			}
 		}
