@@ -409,10 +409,17 @@ class ModelAnnotator extends AbstractAnnotator {
 			return '';
 		}
 
-		preg_match('#^(.+)\\\\Model\\\\Behavior\\\\' . $name . 'Behavior$#', $className, $matches);
-		if (!$matches) {
-			return null;
-		}
+        if (strpos($name, '\\') !== false) {
+            preg_match('#^(.+)\\\\Model\\\\Behavior\\\\#', $className, $matches);
+            if (!$matches) {
+                return null;
+            }
+        } else {
+            preg_match('#^(.+)\\\\Model\\\\Behavior\\\\' . $name . 'Behavior$#', $className, $matches);
+            if (!$matches) {
+                return null;
+            }
+        }
 
 		return str_replace('\\', '/', $matches[1]);
 	}
