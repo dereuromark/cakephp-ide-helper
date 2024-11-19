@@ -5,7 +5,7 @@ use Cake\Cache\Cache;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
-use Cake\Database\Type;
+use Cake\Database\TypeFactory;
 use Cake\Datasource\ConnectionManager;
 use Controllers\Plugin as ControllersPlugin;
 use IdeHelper\Plugin as IdeHelperPlugin;
@@ -73,10 +73,10 @@ $cache = [
 
 Cache::setConfig($cache);
 
-Type::build('time');
-Type::build('date');
-Type::build('datetime');
-Type::build('timestamp');
+TypeFactory::build('time');
+TypeFactory::build('date');
+TypeFactory::build('datetime');
+TypeFactory::build('timestamp');
 
 class_alias(Controller::class, 'App\Controller\AppController');
 

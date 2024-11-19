@@ -42,6 +42,10 @@ class FormClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 	 */
 	public function annotate(string $path): bool {
 		preg_match('#\buse (\w+)\\\\Form\\\\(.+)Form\b#', $this->content, $matches);
+		if (empty($matches[1]) || empty($matches[2])) {
+			return false;
+		}
+
 		$appNamespace = $matches[1];
 		$name = $matches[2] . 'Form';
 
