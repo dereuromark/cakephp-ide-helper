@@ -807,7 +807,7 @@ class AnnotationsShell extends Shell {
 	 */
 	protected function getPaths(?string $type = null): array {
 		$plugin = (string)$this->param('plugin') ?: null;
-		if (!$plugin || strpos($plugin, '*') === false) {
+		if (!$plugin) {
 			if (!$type) {
 				return [ROOT . DS . APP_DIR . DS];
 			}
@@ -838,6 +838,10 @@ class AnnotationsShell extends Shell {
 	 * @return array<string>
 	 */
 	protected function getPlugins(string $plugin): array {
+		if (strpos($plugin, '*') === false) {
+			return [$plugin];
+		}
+
 		return $this->filterPlugins(Plugin::loaded(), $plugin);
 	}
 
