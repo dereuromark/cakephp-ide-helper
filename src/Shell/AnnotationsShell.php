@@ -81,16 +81,18 @@ class AnnotationsShell extends Shell {
 	 * @return int
 	 */
 	public function callbacks() {
-		$plugin = (string)$this->param('plugin') ?: null;
+		$paths = $this->getPaths();
+		foreach ($paths as $path) {
+			if (!is_dir($path)) {
+				continue;
+			}
 
-		$path = $plugin ? PluginPath::classPath($plugin) : ROOT . DS . APP_DIR . DS;
+			$folder = new Folder($path);
 
-		$folder = new Folder($path);
-
-		$folders = $folder->subdirectories();
-
-		foreach ($folders as $folder) {
-			$this->_callbacks($folder . DS);
+			$folders = $folder->subdirectories();
+			foreach ($folders as $folder) {
+				$this->_callbacks($folder . DS);
+			}
 		}
 
 		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
@@ -205,11 +207,9 @@ class AnnotationsShell extends Shell {
 	 * @return int
 	 */
 	public function models() {
-		$plugin = (string)$this->param('plugin') ?: null;
-		$folders = AppPath::get('Model/Table', $plugin);
-
-		foreach ($folders as $folder) {
-			$this->_models($folder);
+		$paths = $this->getPaths('Model/Table');
+		foreach ($paths as $path) {
+			$this->_models($path);
 		}
 
 		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
@@ -245,14 +245,17 @@ class AnnotationsShell extends Shell {
 	 * @return int
 	 */
 	public function classes() {
-		$plugin = (string)$this->param('plugin') ?: null;
+		$paths = $this->getPaths('Model/Table');
+		foreach ($paths as $path) {
+			if (!is_dir($path)) {
+				continue;
+			}
 
-		$path = $plugin ? PluginPath::classPath($plugin) : ROOT . DS . APP_DIR . DS;
-
-		$folder = new Folder($path);
-		$folders = $folder->subdirectories();
-		foreach ($folders as $folder) {
-			$this->_classes($folder . DS);
+			$folder = new Folder($path);
+			$folders = $folder->subdirectories();
+			foreach ($folders as $folder) {
+				$this->_classes($folder . DS);
+			}
 		}
 
 		$collection = new ClassAnnotatorTaskCollection();
@@ -261,16 +264,18 @@ class AnnotationsShell extends Shell {
 			return static::CODE_SUCCESS;
 		}
 
-		$path = $plugin ? PluginPath::get($plugin) : ROOT . DS;
-		$path .= 'tests' . DS . 'TestCase' . DS;
-		if (!is_dir($path)) {
-			return static::CODE_SUCCESS;
-		}
+		$paths = $this->getPaths();
+		foreach ($paths as $path) {
+			$path .= 'tests' . DS . 'TestCase' . DS;
+			if (!is_dir($path)) {
+				continue;
+			}
 
-		$folder = new Folder($path);
-		$folders = $folder->subdirectories();
-		foreach ($folders as $folder) {
-			$this->_classes($folder . DS);
+			$folder = new Folder($path);
+			$folders = $folder->subdirectories();
+			foreach ($folders as $folder) {
+				$this->_classes($folder . DS);
+			}
 		}
 
 		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
@@ -321,11 +326,10 @@ class AnnotationsShell extends Shell {
 	 * @return int
 	 */
 	public function controllers() {
-		$plugin = (string)$this->param('plugin') ?: null;
-		$folders = AppPath::get('Controller', $plugin);
+		$paths = $this->getPaths('Controller');
 
-		foreach ($folders as $folder) {
-			$this->_controllers($folder);
+		foreach ($paths as $path) {
+			$this->_controllers($path);
 		}
 
 		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
@@ -375,18 +379,19 @@ class AnnotationsShell extends Shell {
 	 * @return int
 	 */
 	public function routes() {
-		$plugin = (string)$this->param('plugin') ?: null;
-		$path = $plugin ? Plugin::path($plugin) : ROOT . DS;
+		$paths = $this->getPaths();
 
-		$name = 'routes.php';
-		$path .= 'config' . DS . $name;
-		if (!file_exists($path)) {
-			return static::CODE_SUCCESS;
+		foreach ($paths as $path) {
+			$name = 'routes.php';
+			$path .= 'config' . DS . $name;
+			if (!file_exists($path)) {
+				continue;
+			}
+
+			$this->out('-> ' . $name, 1, Shell::VERBOSE);
+			$annotator = $this->getAnnotator(RoutesAnnotator::class);
+			$annotator->annotate($path);
 		}
-
-		$this->out('-> ' . $name, 1, Shell::VERBOSE);
-		$annotator = $this->getAnnotator(RoutesAnnotator::class);
-		$annotator->annotate($path);
 
 		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
 			return static::CODE_CHANGES;
@@ -399,11 +404,10 @@ class AnnotationsShell extends Shell {
 	 * @return int
 	 */
 	public function templates() {
-		$plugin = (string)$this->param('plugin') ?: null;
-		$folders = App::path('templates', $plugin);
+		$paths = $this->getPaths('templates');
 
-		foreach ($folders as $folder) {
-			$this->_templates($folder);
+		foreach ($paths as $path) {
+			$this->_templates($path);
 		}
 
 		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
@@ -463,11 +467,10 @@ class AnnotationsShell extends Shell {
 	 * @return int
 	 */
 	public function helpers() {
-		$plugin = (string)$this->param('plugin') ?: null;
-		$folders = AppPath::get('View/Helper', $plugin);
+		$paths = $this->getPaths('View/Helper');
 
-		foreach ($folders as $folder) {
-			$this->_helpers($folder);
+		foreach ($paths as $path) {
+			$this->_helpers($path);
 		}
 
 		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
@@ -505,11 +508,10 @@ class AnnotationsShell extends Shell {
 	 * @return int
 	 */
 	public function components() {
-		$plugin = (string)$this->param('plugin') ?: null;
-		$folders = AppPath::get('Controller/Component', $plugin);
+		$paths = $this->getPaths('Controller/Component');
 
-		foreach ($folders as $folder) {
-			$this->_components($folder);
+		foreach ($paths as $path) {
+			$this->_components($path);
 		}
 
 		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
@@ -547,29 +549,10 @@ class AnnotationsShell extends Shell {
 	 * @return int
 	 */
 	public function commands() {
-		$plugin = (string)$this->param('plugin') ?: null;
-		$folders = AppPath::get('Command', $plugin);
+		$paths = $this->getPaths('Command');
 
-		foreach ($folders as $folder) {
-			$this->_commands($folder);
-		}
-
-		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
-			return static::CODE_CHANGES;
-		}
-
-		return static::CODE_SUCCESS;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function shells() {
-		$plugin = (string)$this->param('plugin') ?: null;
-		$folders = AppPath::get('Shell', $plugin);
-
-		foreach ($folders as $folder) {
-			$this->_shells($folder);
+		foreach ($paths as $path) {
+			$this->_commands($path);
 		}
 
 		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
@@ -597,6 +580,23 @@ class AnnotationsShell extends Shell {
 			$annotator = $this->getAnnotator(CommandAnnotator::class);
 			$annotator->annotate($file);
 		}
+	}
+
+	/**
+	 * @return int
+	 */
+	public function shells() {
+		$paths = $this->getPaths('Shell');
+
+		foreach ($paths as $path) {
+			$this->_shells($path);
+		}
+
+		if ($this->param('ci') && $this->_annotatorMadeChanges()) {
+			return static::CODE_CHANGES;
+		}
+
+		return static::CODE_SUCCESS;
 	}
 
 	/**
@@ -669,7 +669,7 @@ class AnnotationsShell extends Shell {
 				],
 				'plugin' => [
 					'short' => 'p',
-					'help' => 'The plugin to run. Defaults to the application otherwise.',
+					'help' => 'The plugin to run. Defaults to the application otherwise. Supports wildcard `*` for partial match.',
 					'default' => null,
 				],
 				'remove' => [
@@ -799,6 +799,57 @@ class AnnotationsShell extends Shell {
 	 */
 	protected function _annotatorMadeChanges(): bool {
 		return AbstractAnnotator::$output !== false;
+	}
+
+	/**
+	 * @param string|null $type
+	 * @return array<string>
+	 */
+	protected function getPaths(?string $type = null): array {
+		$plugin = (string)$this->param('plugin') ?: null;
+		if (!$plugin || strpos($plugin, '*') === false) {
+			if (!$type) {
+				return [ROOT . DS . APP_DIR . DS];
+			}
+
+			return $type === 'templates' ? App::path('templates') : AppPath::get($type);
+		}
+
+		$plugins = $this->getPlugins($plugin);
+
+		$paths = [];
+		foreach ($plugins as $plugin) {
+			if (!$type) {
+				$pluginPaths = [PluginPath::classPath($plugin)];
+			} else {
+				$pluginPaths = $type === 'templates' ? App::path('templates', $plugin) : AppPath::get($type, $plugin);
+			}
+			foreach ($pluginPaths as $pluginPath) {
+				$paths[] = $pluginPath;
+			}
+		}
+
+		return $paths;
+	}
+
+	/**
+	 * @param string $plugin
+	 *
+	 * @return array<string>
+	 */
+	protected function getPlugins(string $plugin): array {
+		return $this->filterPlugins(Plugin::loaded(), $plugin);
+	}
+
+	/**
+	 * @param array<string> $plugins
+	 * @param string $pattern
+	 * @return array<string>
+	 */
+	protected function filterPlugins(array $plugins, string $pattern): array {
+		return array_filter($plugins, function($plugin) use ($pattern) {
+			return fnmatch($pattern, $plugin);
+		});
 	}
 
 }
