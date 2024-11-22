@@ -81,7 +81,7 @@ class AnnotationsShell extends Shell {
 	 * @return int
 	 */
 	public function callbacks() {
-		$paths = $this->getPaths();
+		$paths = $this->getPaths('classes');
 		foreach ($paths as $path) {
 			if (!is_dir($path)) {
 				continue;
@@ -809,6 +809,10 @@ class AnnotationsShell extends Shell {
 		$plugin = (string)$this->param('plugin') ?: null;
 		if (!$plugin) {
 			if (!$type) {
+				return [ROOT . DS];
+			}
+
+			if ($type === 'classes') {
 				return [ROOT . DS . APP_DIR . DS];
 			}
 
@@ -820,9 +824,13 @@ class AnnotationsShell extends Shell {
 		$paths = [];
 		foreach ($plugins as $plugin) {
 			if (!$type) {
-				$pluginPaths = [PluginPath::classPath($plugin)];
+				$pluginPaths = [Plugin::path($plugin)];
 			} else {
-				$pluginPaths = $type === 'templates' ? App::path('templates', $plugin) : AppPath::get($type, $plugin);
+				if ($type === 'classes') {
+					$pluginPaths = [PluginPath::classPath($plugin)];
+				} else {
+					$pluginPaths = $type === 'templates' ? App::path('templates', $plugin) : AppPath::get($type, $plugin);
+				}
 			}
 			foreach ($pluginPaths as $pluginPath) {
 				$paths[] = $pluginPath;
@@ -839,10 +847,25 @@ class AnnotationsShell extends Shell {
 	 */
 	protected function getPlugins(string $plugin): array {
 		if (strpos($plugin, '*') === false) {
-			return [$plugin];
+			return [Plugin::path($plugin) => $plugin];
 		}
 
-		return $this->filterPlugins(Plugin::loaded(), $plugin);
+		$loaded = Plugin::loaded();
+		$plugins = [];
+		foreach ($loaded as $name) {
+			$path = Plugin::path($name);
+			$rootPath = str_replace(ROOT . DS, '', $path);
+			if (strpos($rootPath, 'vendor' . DS) === 0) {
+				continue;
+			}
+			$plugins[$path] = $name;
+		}
+
+		if ($plugin === 'all') {
+			return $plugins;
+		}
+
+		return $this->filterPlugins($loaded, $plugin);
 	}
 
 	/**
