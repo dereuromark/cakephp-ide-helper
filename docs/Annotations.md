@@ -39,8 +39,12 @@ You get autocompletion on any `$this->Apples->...()` usage in your controllers t
 
 Use `-p PluginName` to annotate inside a plugin. It will then use the plugin name as namespace.
 
-Tip: Use `*` wildcard to refer to a group of plugins. Make sure to only touch internal plugins (in version control), however.
-E.g. `-p SomePrefix/*` which are all inside your own `plugins/` directory - and not in `vendor/`.
+Tip: Use `*` wildcard to refer to a group of plugins.
+E.g. `-p SomePrefix/*` which are all inside your own `plugins/` directory.
+You can also use `-p all` for all such app plugins.
+
+For more than one plugin the command will not run into `vendor/` plugins, to avoid accidental
+modification there.
 
 ### Primary model via $modelClass definition
 When defining `$modelClass` it will be used instead:
