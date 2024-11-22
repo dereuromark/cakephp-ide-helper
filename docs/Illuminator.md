@@ -7,7 +7,16 @@ Note: Instead of meta modifications (doc blocks, annotations) like the Annotator
 Make sure to backup/commit your changes before running it.
 
 Each task has its own scope defined, based on path or filename.
-If that doesnt match, it will be skipped.
+If that doesn't match, it will be skipped.
+
+Use `-p PluginName` to annotate inside a plugin.
+
+Tip: Use `*` wildcard to refer to a group of plugins.
+E.g. `-p SomePrefix/*` which are all inside your own `plugins/` directory.
+You can also use `all` for all app plugins.
+
+For more than one plugin the command will not run into `vendor/` plugins, to avoid accidental
+modification there.
 
 ### Available tasks
 
@@ -52,7 +61,7 @@ $query->orderDesc(Post::FIELD_PUBLISH_DATE);
 This allows for less typing as autocomplete finds it immediately - and for usage display (IDE => rightclick => get usage).
 That also means refactoring on those is much easier this way (via IDE usually a clean one-modification-refactor across the whole project).
 
-Note: For PHP 7.1+ it will also add the visibility flag `public` if you don't configure it otherwise.
+Note: Since PHP 7.1+ it will also add the visibility flag `public` if you don't configure it otherwise.
 
 This task will not clean out removed or renamed fields.
 You should quickly check for usage of this constant if unused it can be safely removed.

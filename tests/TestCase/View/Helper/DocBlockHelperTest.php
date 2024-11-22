@@ -12,7 +12,7 @@ use IdeHelper\View\Helper\DocBlockHelper;
 /**
  * DocBlockHelper Test
  */
-#[\PHPUnit\Framework\Attributes\CoversClass(\IdeHelper\View\Helper\DocBlockHelper::class)]
+#[\PHPUnit\Framework\Attributes\CoversClass(DocBlockHelper::class)]
 class DocBlockHelperTest extends TestCase {
 
 	/**

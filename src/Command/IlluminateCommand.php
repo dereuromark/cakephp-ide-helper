@@ -2,15 +2,12 @@
 
 namespace IdeHelper\Command;
 
-use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
-use Cake\Core\Plugin;
 use IdeHelper\Console\Io;
 use IdeHelper\Illuminator\Illuminator;
 use IdeHelper\Illuminator\TaskCollection;
-use InvalidArgumentException;
 
 class IlluminateCommand extends Command {
 
@@ -18,11 +15,6 @@ class IlluminateCommand extends Command {
 	 * @var int
 	 */
 	public const CODE_CHANGES = 2;
-
-	/**
-	 * @var \Cake\Console\ConsoleIo
-	 */
-	protected ConsoleIo $io;
 
 	/**
 	 * @return string
@@ -42,26 +34,26 @@ class IlluminateCommand extends Command {
 	 * @return int The exit code or null for success
 	 */
 	public function execute(Arguments $args, ConsoleIo $io): int {
-		$this->io = $io;
-
 		parent::execute($args, $io);
 
-		$path = $args->getArgument('path');
-		if (!$path) {
-			$path = ($args->getOption('plugin') ? 'src' : APP_DIR) . DS;
+		$paths = $this->getPaths();
+
+		$pathElement = $args->getArgument('path');
+		if (!$pathElement) {
+			$pathElement = ($args->getOption('plugin') ? 'src' : APP_DIR) . DS;
 		}
 
-		$root = ROOT . DS;
-		if ($args->getOption('plugin')) {
-			$root = Plugin::path((string)$args->getOption('plugin'));
-		}
-		$path = $root . $path;
-		if (!is_dir($path)) {
-			throw new InvalidArgumentException('Path does not exist: ' . $path);
+		$filesChanged = 0;
+		foreach ($paths as $path) {
+			$path .= $pathElement;
+			if (!is_dir($path)) {
+				continue;
+			}
+
+			$illuminator = $this->getIlluminator($args);
+			$filesChanged += $illuminator->illuminate($path, (string)$args->getOption('filter') ?: null);
 		}
 
-		$illuminator = $this->getIlluminator($args);
-		$filesChanged = $illuminator->illuminate($path, (string)$args->getOption('filter') ?: null);
 		if (!$filesChanged) {
 			return static::CODE_SUCCESS;
 		}
@@ -88,7 +80,7 @@ class IlluminateCommand extends Command {
 		$subcommandParser = [
 			'plugin' => [
 				'short' => 'p',
-				'help' => 'The plugin to run. Defaults to the application otherwise.',
+				'help' => 'The plugin(s) to run. Defaults to the application otherwise. Supports wildcard `*` for partial match, `all` for all app plugins.',
 				'default' => null,
 			],
 			'dry-run' => [
