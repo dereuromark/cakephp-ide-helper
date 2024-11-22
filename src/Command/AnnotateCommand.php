@@ -100,7 +100,7 @@ abstract class AnnotateCommand extends Command {
 			],
 			'plugin' => [
 				'short' => 'p',
-				'help' => 'The plugin(s) to run. Defaults to the application otherwise. Supports wildcard `*` for partial match.',
+				'help' => 'The plugin(s) to run. Defaults to the application otherwise. Supports wildcard `*` for partial match, `all` for all app plugins.',
 				'default' => null,
 			],
 			'remove' => [
@@ -202,6 +202,10 @@ abstract class AnnotateCommand extends Command {
 		$plugin = (string)$this->args->getOption('plugin') ?: null;
 		if (!$plugin) {
 			if (!$type) {
+				return [ROOT . DS];
+			}
+
+			if ($type === 'classes') {
 				return [ROOT . DS . APP_DIR . DS];
 			}
 
@@ -213,10 +217,15 @@ abstract class AnnotateCommand extends Command {
 		$paths = [];
 		foreach ($plugins as $plugin) {
 			if (!$type) {
-				$pluginPaths = [PluginPath::classPath($plugin)];
+				$pluginPaths = [Plugin::path($plugin)];
 			} else {
-				$pluginPaths = $type === 'templates' ? App::path('templates', $plugin) : AppPath::get($type, $plugin);
+				if ($type === 'classes') {
+					$pluginPaths = [PluginPath::classPath($plugin)];
+				} else {
+					$pluginPaths = $type === 'templates' ? App::path('templates', $plugin) : AppPath::get($type, $plugin);
+				}
 			}
+
 			foreach ($pluginPaths as $pluginPath) {
 				$paths[] = $pluginPath;
 			}

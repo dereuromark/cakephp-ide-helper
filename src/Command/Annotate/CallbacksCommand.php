@@ -37,7 +37,7 @@ class CallbacksCommand extends AnnotateCommand {
 	public function execute(Arguments $args, ConsoleIo $io): int {
 		parent::execute($args, $io);
 
-		$paths = $this->getPaths();
+		$paths = $this->getPaths('classes');
 		foreach ($paths as $path) {
 			$folders = glob($path . '*', GLOB_ONLYDIR) ?: [];
 			foreach ($folders as $folder) {

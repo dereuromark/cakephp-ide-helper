@@ -39,7 +39,7 @@ class ClassesCommand extends AnnotateCommand {
 	public function execute(Arguments $args, ConsoleIo $io): int {
 		parent::execute($args, $io);
 
-		$paths = $this->getPaths();
+		$paths = $this->getPaths('classes');
 		foreach ($paths as $path) {
 			$folders = glob($path . '*', GLOB_ONLYDIR) ?: [];
 			foreach ($folders as $folder) {
@@ -53,6 +53,7 @@ class ClassesCommand extends AnnotateCommand {
 			return static::CODE_SUCCESS;
 		}
 
+		$paths = $this->getPaths();
 		foreach ($paths as $path) {
 			$path .= 'tests' . DS . 'TestCase' . DS;
 			if (!is_dir($path)) {
