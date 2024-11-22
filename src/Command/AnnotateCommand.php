@@ -231,14 +231,24 @@ abstract class AnnotateCommand extends Command {
 	 * @return array<string>
 	 */
 	protected function getPlugins(string $plugin): array {
-		if (!str_contains($plugin, '*')) {
-			return [$plugin];
+		if ($plugin !== 'all' && !str_contains($plugin, '*')) {
+			return [Plugin::path($plugin) => $plugin];
 		}
 
 		$loaded = Plugin::loaded();
 		$plugins = [];
 		foreach ($loaded as $name) {
-			$plugins[Plugin::path($name)] = $name;
+			$path = Plugin::path($name);
+			$rootPath = str_replace(ROOT . DS, '', $path);
+			if (str_starts_with($rootPath, 'vendor' . DS)) {
+				continue;
+			}
+
+			$plugins[$path] = $name;
+		}
+
+		if ($plugin === 'all') {
+			return $plugins;
 		}
 
 		return $this->filterPlugins($plugins, $plugin);
@@ -250,9 +260,9 @@ abstract class AnnotateCommand extends Command {
 	 * @return array<string>
 	 */
 	protected function filterPlugins(array $plugins, string $pattern): array {
-		return array_filter($plugins, function($plugin, $path) use ($pattern) {
+		return array_filter($plugins, function($plugin) use ($pattern) {
 			return fnmatch($pattern, $plugin);
-		}, ARRAY_FILTER_USE_BOTH);
+		});
 	}
 
 }
