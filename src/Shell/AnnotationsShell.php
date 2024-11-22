@@ -669,7 +669,7 @@ class AnnotationsShell extends Shell {
 				],
 				'plugin' => [
 					'short' => 'p',
-					'help' => 'The plugin to run. Defaults to the application otherwise. Supports wildcard `*` for partial match.',
+					'help' => 'The plugin(s) to run. Defaults to the application otherwise. Supports wildcard `*` for partial match, `all` for all app plugins.',
 					'default' => null,
 				],
 				'remove' => [
@@ -758,7 +758,7 @@ class AnnotationsShell extends Shell {
 			return false;
 		}
 
-		return !(bool)preg_match('/' . preg_quote($filter, '/') . '/i', $fileName);
+		return !preg_match('/' . preg_quote($filter, '/') . '/i', $fileName);
 	}
 
 	/**
