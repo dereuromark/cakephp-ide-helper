@@ -6,7 +6,6 @@ use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
-use Cake\Core\Plugin;
 use IdeHelper\Annotator\CallbackAnnotator;
 use IdeHelper\Command\AnnotateCommand;
 
@@ -38,13 +37,12 @@ class CallbacksCommand extends AnnotateCommand {
 	public function execute(Arguments $args, ConsoleIo $io): int {
 		parent::execute($args, $io);
 
-		$plugin = (string)$args->getOption('plugin') ?: null;
-
-		$path = $plugin ? Plugin::classPath($plugin) : ROOT . DS . APP_DIR . DS;
-
-		$folders = glob($path . '*', GLOB_ONLYDIR) ?: [];
-		foreach ($folders as $folder) {
-			$this->_callbacks($folder . DS);
+		$paths = $this->getPaths('classes');
+		foreach ($paths as $path) {
+			$folders = glob($path . '*', GLOB_ONLYDIR) ?: [];
+			foreach ($folders as $folder) {
+				$this->_callbacks($folder . DS);
+			}
 		}
 
 		if ($args->getOption('ci') && $this->_annotatorMadeChanges()) {

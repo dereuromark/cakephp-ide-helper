@@ -4,7 +4,6 @@ namespace IdeHelper\Command\Annotate;
 
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
-use Cake\Core\App;
 use IdeHelper\Annotator\CommandAnnotator;
 use IdeHelper\Command\AnnotateCommand;
 
@@ -25,11 +24,10 @@ class CommandsCommand extends AnnotateCommand {
 	public function execute(Arguments $args, ConsoleIo $io): int {
 		parent::execute($args, $io);
 
-		$plugin = (string)$args->getOption('plugin') ?: null;
-		$folders = App::classPath('Command', $plugin);
+		$paths = $this->getPaths('Command');
 
-		foreach ($folders as $folder) {
-			$this->_commands($folder);
+		foreach ($paths as $path) {
+			$this->_commands($path);
 		}
 
 		if ($args->getOption('ci') && $this->_annotatorMadeChanges()) {

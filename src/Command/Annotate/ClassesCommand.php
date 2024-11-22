@@ -6,7 +6,6 @@ use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
-use Cake\Core\Plugin;
 use IdeHelper\Annotator\ClassAnnotator;
 use IdeHelper\Annotator\ClassAnnotatorTask\TestClassAnnotatorTask;
 use IdeHelper\Annotator\ClassAnnotatorTaskCollection;
@@ -40,13 +39,12 @@ class ClassesCommand extends AnnotateCommand {
 	public function execute(Arguments $args, ConsoleIo $io): int {
 		parent::execute($args, $io);
 
-		$plugin = (string)$args->getOption('plugin') ?: null;
-
-		$path = $plugin ? Plugin::classPath($plugin) : ROOT . DS . APP_DIR . DS;
-
-		$folders = glob($path . '*', GLOB_ONLYDIR) ?: [];
-		foreach ($folders as $folder) {
-			$this->_classes($folder . DS);
+		$paths = $this->getPaths('classes');
+		foreach ($paths as $path) {
+			$folders = glob($path . '*', GLOB_ONLYDIR) ?: [];
+			foreach ($folders as $folder) {
+				$this->_classes($folder . DS);
+			}
 		}
 
 		$collection = new ClassAnnotatorTaskCollection();
@@ -55,15 +53,17 @@ class ClassesCommand extends AnnotateCommand {
 			return static::CODE_SUCCESS;
 		}
 
-		$path = $plugin ? Plugin::path($plugin) : ROOT . DS;
-		$path .= 'tests' . DS . 'TestCase' . DS;
-		if (!is_dir($path)) {
-			return static::CODE_SUCCESS;
-		}
+		$paths = $this->getPaths();
+		foreach ($paths as $path) {
+			$path .= 'tests' . DS . 'TestCase' . DS;
+			if (!is_dir($path)) {
+				continue;
+			}
 
-		$folders = glob($path . '*', GLOB_ONLYDIR) ?: [];
-		foreach ($folders as $folder) {
-			$this->_classes($folder . DS);
+			$folders = glob($path . '*', GLOB_ONLYDIR) ?: [];
+			foreach ($folders as $folder) {
+				$this->_classes($folder . DS);
+			}
 		}
 
 		if ($args->getOption('ci') && $this->_annotatorMadeChanges()) {

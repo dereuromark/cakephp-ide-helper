@@ -4,7 +4,6 @@ namespace IdeHelper\Command\Annotate;
 
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
-use Cake\Core\App;
 use IdeHelper\Annotator\TemplateAnnotator;
 use IdeHelper\Command\AnnotateCommand;
 
@@ -25,11 +24,10 @@ class TemplatesCommand extends AnnotateCommand {
 	public function execute(Arguments $args, ConsoleIo $io): int {
 		parent::execute($args, $io);
 
-		$plugin = (string)$args->getOption('plugin') ?: null;
-		$folders = App::path('templates', $plugin);
+		$paths = $this->getPaths('templates');
 
-		foreach ($folders as $folder) {
-			$this->_templates($folder);
+		foreach ($paths as $path) {
+			$this->_templates($path);
 		}
 
 		if ($args->getOption('ci') && $this->_annotatorMadeChanges()) {
