@@ -41,7 +41,7 @@ Use `-p PluginName` to annotate inside a plugin.
 
 Tip: Use `*` wildcard to refer to a group of plugins.
 E.g. `-p SomePrefix/*` which are all inside your own `plugins/` directory.
-You can also use `all` for all such app plugins.
+You can also use `all` for all app plugins.
 
 For more than one plugin the command will not run into `vendor/` plugins, to avoid accidental
 modification there.
