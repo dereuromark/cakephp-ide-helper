@@ -26,8 +26,11 @@ class CommandsCommand extends AnnotateCommand {
 
 		$paths = $this->getPaths('Command');
 
-		foreach ($paths as $path) {
-			$this->_commands($path);
+		foreach ($paths as $plugin => $pluginPaths) {
+			$this->setPlugin($plugin);
+			foreach ($pluginPaths as $path) {
+				$this->_commands($path);
+			}
 		}
 
 		if ($args->getOption('ci') && $this->_annotatorMadeChanges()) {

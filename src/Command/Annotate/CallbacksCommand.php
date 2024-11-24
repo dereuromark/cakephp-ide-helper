@@ -38,10 +38,13 @@ class CallbacksCommand extends AnnotateCommand {
 		parent::execute($args, $io);
 
 		$paths = $this->getPaths('classes');
-		foreach ($paths as $path) {
-			$folders = glob($path . '*', GLOB_ONLYDIR) ?: [];
-			foreach ($folders as $folder) {
-				$this->_callbacks($folder . DS);
+		foreach ($paths as $plugin => $pluginPaths) {
+			$this->setPlugin($plugin);
+			foreach ($pluginPaths as $path) {
+				$folders = glob($path . '*', GLOB_ONLYDIR) ?: [];
+				foreach ($folders as $folder) {
+					$this->_callbacks($folder . DS);
+				}
 			}
 		}
 

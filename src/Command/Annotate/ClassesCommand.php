@@ -40,10 +40,13 @@ class ClassesCommand extends AnnotateCommand {
 		parent::execute($args, $io);
 
 		$paths = $this->getPaths('classes');
-		foreach ($paths as $path) {
-			$folders = glob($path . '*', GLOB_ONLYDIR) ?: [];
-			foreach ($folders as $folder) {
-				$this->_classes($folder . DS);
+		foreach ($paths as $plugin => $pluginPaths) {
+			$this->setPlugin($plugin);
+			foreach ($pluginPaths as $path) {
+				$folders = glob($path . '*', GLOB_ONLYDIR) ?: [];
+				foreach ($folders as $folder) {
+					$this->_classes($folder . DS);
+				}
 			}
 		}
 
@@ -54,15 +57,18 @@ class ClassesCommand extends AnnotateCommand {
 		}
 
 		$paths = $this->getPaths();
-		foreach ($paths as $path) {
-			$path .= 'tests' . DS . 'TestCase' . DS;
-			if (!is_dir($path)) {
-				continue;
-			}
+		foreach ($paths as $plugin => $pluginPaths) {
+			$this->setPlugin($plugin);
+			foreach ($pluginPaths as $path) {
+				$path .= 'tests' . DS . 'TestCase' . DS;
+				if (!is_dir($path)) {
+					continue;
+				}
 
-			$folders = glob($path . '*', GLOB_ONLYDIR) ?: [];
-			foreach ($folders as $folder) {
-				$this->_classes($folder . DS);
+				$folders = glob($path . '*', GLOB_ONLYDIR) ?: [];
+				foreach ($folders as $folder) {
+					$this->_classes($folder . DS);
+				}
 			}
 		}
 

@@ -163,7 +163,10 @@ abstract class AnnotateCommand extends Command {
 		if (!isset($this->_instantiatedAnnotators[$class])) {
 			assert($this->args !== null, 'Args not set');
 
-			$this->_instantiatedAnnotators[$class] = new $class($this->_io(), $this->args->getOptions());
+			$options = $this->args->getOptions();
+			$options['plugin'] = $this->plugin;
+
+			$this->_instantiatedAnnotators[$class] = new $class($this->_io(), $options);
 		}
 
 		return $this->_instantiatedAnnotators[$class];

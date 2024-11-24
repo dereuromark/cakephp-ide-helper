@@ -26,8 +26,11 @@ class TemplatesCommand extends AnnotateCommand {
 
 		$paths = $this->getPaths('templates');
 
-		foreach ($paths as $path) {
-			$this->_templates($path);
+		foreach ($paths as $plugin => $pluginPaths) {
+			$this->setPlugin($plugin);
+			foreach ($pluginPaths as $path) {
+				$this->_templates($path);
+			}
 		}
 
 		if ($args->getOption('ci') && $this->_annotatorMadeChanges()) {

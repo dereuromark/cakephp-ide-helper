@@ -44,14 +44,17 @@ class IlluminateCommand extends Command {
 		}
 
 		$filesChanged = 0;
-		foreach ($paths as $path) {
-			$path .= $pathElement;
-			if (!is_dir($path)) {
-				continue;
-			}
+		foreach ($paths as $plugin => $pluginPaths) {
+			$this->setPlugin($plugin);
+			foreach ($pluginPaths as $path) {
+				$path .= $pathElement;
+				if (!is_dir($path)) {
+					continue;
+				}
 
-			$illuminator = $this->getIlluminator($args);
-			$filesChanged += $illuminator->illuminate($path, (string)$args->getOption('filter') ?: null);
+				$illuminator = $this->getIlluminator($args);
+				$filesChanged += $illuminator->illuminate($path, (string)$args->getOption('filter') ?: null);
+			}
 		}
 
 		if (!$filesChanged) {
@@ -121,7 +124,10 @@ class IlluminateCommand extends Command {
 	protected function getIlluminator(Arguments $args): Illuminator {
 		$tasks = $args->getOption('task') ? explode(',', (string)$args->getOption('task')) : [];
 
-		$taskCollection = new TaskCollection($this->io(), $args->getOptions(), $tasks);
+		$options = $args->getOptions();
+		$options['plugin'] = $this->plugin;
+
+		$taskCollection = new TaskCollection($this->io(), $options, $tasks);
 
 		return new Illuminator($taskCollection);
 	}

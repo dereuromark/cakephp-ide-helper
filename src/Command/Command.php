@@ -22,6 +22,8 @@ abstract class Command extends CoreCommand {
 	 */
 	protected ConsoleIo $io;
 
+	protected ?string $plugin = null;
+
 	/**
 	 * @param \Cake\Console\Arguments $args The command arguments.
 	 * @param \Cake\Console\ConsoleIo $io The console io
@@ -37,20 +39,20 @@ abstract class Command extends CoreCommand {
 
 	/**
 	 * @param string|null $type
-	 * @return array<string>
+	 * @return array<string, array<string>>
 	 */
 	protected function getPaths(?string $type = null): array {
 		$plugin = (string)$this->args->getOption('plugin') ?: null;
 		if (!$plugin) {
 			if (!$type) {
-				return [ROOT . DS];
+				$paths = [ROOT . DS];
+			} elseif ($type === 'classes') {
+				$paths = [ROOT . DS . APP_DIR . DS];
+			} else {
+				$paths = $type === 'templates' ? App::path('templates') : AppPath::get($type);
 			}
 
-			if ($type === 'classes') {
-				return [ROOT . DS . APP_DIR . DS];
-			}
-
-			return $type === 'templates' ? App::path('templates') : AppPath::get($type);
+			return ['app' => $paths];
 		}
 
 		$plugins = $this->getPlugins($plugin);
@@ -67,9 +69,7 @@ abstract class Command extends CoreCommand {
 				}
 			}
 
-			foreach ($pluginPaths as $pluginPath) {
-				$paths[] = $pluginPath;
-			}
+			$paths[$plugin] = $pluginPaths;
 		}
 
 		return $paths;
@@ -113,6 +113,20 @@ abstract class Command extends CoreCommand {
 		return array_filter($plugins, function($plugin) use ($pattern) {
 			return fnmatch($pattern, $plugin);
 		});
+	}
+
+	/**
+	 * @param string $plugin
+	 * @return void
+	 */
+	protected function setPlugin(string $plugin): void {
+		if (!$plugin || $plugin === 'app') {
+			$this->plugin = null;
+
+			return;
+		}
+
+		$this->plugin = $plugin;
 	}
 
 }

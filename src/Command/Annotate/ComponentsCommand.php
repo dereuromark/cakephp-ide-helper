@@ -25,8 +25,11 @@ class ComponentsCommand extends AnnotateCommand {
 		parent::execute($args, $io);
 
 		$paths = $this->getPaths('Controller/Component');
-		foreach ($paths as $path) {
-			$this->_components($path);
+		foreach ($paths as $plugin => $pluginPaths) {
+			$this->setPlugin($plugin);
+			foreach ($pluginPaths as $path) {
+				$this->_components($path);
+			}
 		}
 
 		if ($args->getOption('ci') && $this->_annotatorMadeChanges()) {

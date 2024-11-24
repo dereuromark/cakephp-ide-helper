@@ -25,8 +25,11 @@ class ModelsCommand extends AnnotateCommand {
 		parent::execute($args, $io);
 
 		$paths = $this->getPaths('Model/Table');
-		foreach ($paths as $path) {
-			$this->_models($path);
+		foreach ($paths as $plugin => $pluginPaths) {
+			foreach ($pluginPaths as $path) {
+				$this->setPlugin($plugin);
+				$this->_models($path);
+			}
 		}
 
 		if ($args->getOption('ci') && $this->_annotatorMadeChanges()) {

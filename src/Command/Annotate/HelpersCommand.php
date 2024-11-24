@@ -25,8 +25,11 @@ class HelpersCommand extends AnnotateCommand {
 		parent::execute($args, $io);
 
 		$paths = $this->getPaths('View/Helper');
-		foreach ($paths as $path) {
-			$this->_helpers($path);
+		foreach ($paths as $plugin => $pluginPaths) {
+			$this->setPlugin($plugin);
+			foreach ($pluginPaths as $path) {
+				$this->_helpers($path);
+			}
 		}
 
 		if ($args->getOption('ci') && $this->_annotatorMadeChanges()) {

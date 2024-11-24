@@ -27,8 +27,11 @@ class ControllersCommand extends AnnotateCommand {
 
 		$paths = $this->getPaths('Controller');
 
-		foreach ($paths as $path) {
-			$this->_controllers($path);
+		foreach ($paths as $plugin => $pluginPaths) {
+			$this->setPlugin($plugin);
+			foreach ($pluginPaths as $path) {
+				$this->_controllers($path);
+			}
 		}
 
 		if ($args->getOption('ci') && $this->_annotatorMadeChanges()) {
