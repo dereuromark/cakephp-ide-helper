@@ -15,7 +15,7 @@ class CommandAnnotator extends AbstractAnnotator {
 	 */
 	public function annotate(string $path): bool {
 		$className = pathinfo($path, PATHINFO_FILENAME);
-		if ($className === 'Command' || substr($className, -7) !== 'Command') {
+		if ($className === 'Command' || !str_ends_with($className, 'Command')) {
 			return false;
 		}
 

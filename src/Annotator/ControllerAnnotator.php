@@ -29,7 +29,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 */
 	public function annotate(string $path): bool {
 		$className = pathinfo($path, PATHINFO_FILENAME);
-		if (substr($className, -10) !== 'Controller') {
+		if (!str_ends_with($className, 'Controller')) {
 			return false;
 		}
 
@@ -119,7 +119,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 		$annotations = [];
 		foreach ($map as $component => $className) {
-			if (substr($className, 0, 5) === 'Cake\\') {
+			if (str_starts_with($className, 'Cake\\')) {
 				continue;
 			}
 
@@ -267,10 +267,10 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 * @return string|null
 	 */
 	protected function findModelClass(string $className, string $path): ?string {
-		$plugin = $this->getConfig(static::CONFIG_PLUGIN) ? $this->getConfig(static::CONFIG_PLUGIN) . '.' : '';
+		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
 		$prefix = $this->getPrefix($className, $path);
 
-		$fullClassName = App::className($plugin . $className, 'Controller' . $prefix);
+		$fullClassName = App::className(($plugin ? $plugin . '.' : '') . $className, 'Controller' . $prefix);
 		if (!$fullClassName) {
 			return null;
 		}

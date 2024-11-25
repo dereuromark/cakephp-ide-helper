@@ -76,7 +76,7 @@ class FixtureTask implements TaskInterface {
 
 		$fixtures = [];
 		foreach ($content[1] as $file) {
-			if (substr($file, -11) !== 'Fixture.php') {
+			if (!str_ends_with($file, 'Fixture.php')) {
 				continue;
 			}
 			$fixture = substr($file, 0, -11);

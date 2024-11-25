@@ -31,11 +31,6 @@ abstract class AnnotateCommand extends Command {
 	];
 
 	/**
-	 * @var array<string, \IdeHelper\Annotator\AbstractAnnotator>
-	 */
-	protected array $_instantiatedAnnotators = [];
-
-	/**
 	 * @return void
 	 */
 	public function initialize(): void {
@@ -160,16 +155,12 @@ abstract class AnnotateCommand extends Command {
 			$class = $tasks[$class];
 		}
 
-		if (!isset($this->_instantiatedAnnotators[$class])) {
-			assert($this->args !== null, 'Args not set');
+		assert($this->args !== null, 'Args not set');
 
-			$options = $this->args->getOptions();
-			$options['plugin'] = $this->plugin;
+		$options = $this->args->getOptions();
+		$options['plugin'] = $this->plugin;
 
-			$this->_instantiatedAnnotators[$class] = new $class($this->_io(), $options);
-		}
-
-		return $this->_instantiatedAnnotators[$class];
+		return new $class($this->_io(), $options);
 	}
 
 	/**

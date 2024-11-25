@@ -33,7 +33,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	 */
 	public function annotate(string $path): bool {
 		$className = pathinfo($path, PATHINFO_FILENAME);
-		if ($className === 'Table' || substr($className, -5) !== 'Table') {
+		if ($className === 'Table' || !str_ends_with($className, 'Table')) {
 			return false;
 		}
 

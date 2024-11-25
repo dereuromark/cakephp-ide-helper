@@ -24,7 +24,7 @@ class ComponentAnnotator extends AbstractAnnotator {
 	 */
 	public function annotate(string $path): bool {
 		$name = pathinfo($path, PATHINFO_FILENAME);
-		if (substr($name, -9) !== 'Component') {
+		if (!str_ends_with($name, 'Component')) {
 			return false;
 		}
 

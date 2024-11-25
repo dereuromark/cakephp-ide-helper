@@ -129,11 +129,11 @@ trait DocBlockTrait {
 	 * @param \PHP_CodeSniffer\Files\File $phpCsFile
 	 * @param int $docBlockStartIndex
 	 * @param int $docBlockEndIndex
-	 * @param string $needle
+	 * @param string $alias
 	 *
 	 * @return bool
 	 */
-	protected function hasInheritDoc(File $phpCsFile, int $docBlockStartIndex, int $docBlockEndIndex, string $needle = '@inheritDoc'): bool {
+	protected function hasInheritDoc(File $phpCsFile, int $docBlockStartIndex, int $docBlockEndIndex, string $alias = '@inheritDoc'): bool {
 		$tokens = $phpCsFile->getTokens();
 
 		for ($i = $docBlockStartIndex + 1; $i < $docBlockEndIndex; ++$i) {
@@ -141,12 +141,12 @@ trait DocBlockTrait {
 				continue;
 			}
 			$content = $tokens[$i]['content'];
-			$pos = stripos($content, $needle);
+			$pos = stripos($content, $alias);
 			if ($pos === false) {
 				continue;
 			}
 
-			if ($pos && str_starts_with($needle, '@') && substr($content, $pos - 1, $pos) === '{') {
+			if ($pos && str_starts_with($alias, '@') && substr($content, $pos - 1, $pos) === '{') {
 				return false;
 			}
 

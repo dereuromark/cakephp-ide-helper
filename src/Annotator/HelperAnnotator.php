@@ -20,7 +20,7 @@ class HelperAnnotator extends AbstractAnnotator {
 	 */
 	public function annotate(string $path): bool {
 		$name = pathinfo($path, PATHINFO_FILENAME);
-		if (substr($name, -6) !== 'Helper') {
+		if (!str_ends_with($name, 'Helper')) {
 			return false;
 		}
 
