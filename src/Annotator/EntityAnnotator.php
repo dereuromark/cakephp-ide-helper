@@ -13,6 +13,7 @@ use Cake\View\View;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotation\PropertyReadAnnotation;
+use IdeHelper\Annotator\Traits\UseStatementsTrait;
 use IdeHelper\Utility\App;
 use IdeHelper\View\Helper\DocBlockHelper;
 use PHP_CodeSniffer\Files\File;
@@ -20,6 +21,8 @@ use RuntimeException;
 use Throwable;
 
 class EntityAnnotator extends AbstractAnnotator {
+
+	use UseStatementsTrait;
 
 	/**
 	 * @var array<string, string>|null
@@ -308,6 +311,8 @@ class EntityAnnotator extends AbstractAnnotator {
 			return [];
 		}
 
+		$useStatements = null;
+
 		$classEndIndex = $tokens[$classIndex]['scope_closer'];
 
 		$properties = [];
@@ -334,7 +339,13 @@ class EntityAnnotator extends AbstractAnnotator {
 
 			$property = Inflector::underscore($matches[1]);
 
-			$properties[$property] = $this->returnType($file, $tokens, $functionIndex);
+			$type = $this->returnType($file, $tokens, $functionIndex);
+			if ($useStatements === null) {
+				$useStatements = $this->getUseStatements($file);
+			}
+			$type = $this->fqcnIfNeeded($type, $useStatements);
+
+			$properties[$property] = $type;
 		}
 
 		return $properties;
@@ -482,6 +493,29 @@ class EntityAnnotator extends AbstractAnnotator {
 		}
 
 		return $entity->getVirtual();
+	}
+
+	/**
+	 * @param string $type
+	 * @param array<string, array<string, mixed>> $useStatements
+	 * @return string
+	 */
+	protected function fqcnIfNeeded(string $type, array $useStatements): string {
+		$types = explode('|', $type);
+		foreach ($types as $key => $type) {
+			$primitive = ['null', 'true', 'false', 'array', 'iterable', 'string', 'bool', 'float', 'int', 'object', 'callable', 'resource', 'mixed'];
+			if (in_array($type, $primitive, true) || str_starts_with($type, '\\')) {
+				continue;
+			}
+
+			if (!isset($useStatements[$type])) {
+				continue;
+			}
+
+			$types[$key] = '\\' . $useStatements[$type]['fullName'];
+		}
+
+		return implode('|', $types);
 	}
 
 }
