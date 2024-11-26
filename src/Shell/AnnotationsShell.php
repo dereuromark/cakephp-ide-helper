@@ -846,7 +846,7 @@ class AnnotationsShell extends Shell {
 	 * @return array<string>
 	 */
 	protected function getPlugins(string $plugin): array {
-		if (strpos($plugin, '*') === false) {
+		if ($plugin !== 'all' && strpos($plugin, '*') === false) {
 			return [Plugin::path($plugin) => $plugin];
 		}
 
