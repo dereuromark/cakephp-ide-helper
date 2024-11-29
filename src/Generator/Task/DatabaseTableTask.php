@@ -68,17 +68,12 @@ class DatabaseTableTask implements TaskInterface {
 		} else {
 			$db = $this->getConnection();
 			try {
-				$tables = (new TableScanner($db))->listAll();
+				$ignore = Configure::read('IdeHelper.ignoreDatabaseTables');
+				$tables = (new TableScanner($db, $ignore))->listUnskipped();
 			} catch (Throwable $exception) {
 				$tables = [];
 			}
 			static::$tables = $tables;
-		}
-
-		foreach ($tables as $key => $table) {
-			if (stripos($table, 'phinxlog') !== false) {
-				unset($tables[$key]);
-			}
 		}
 
 		$blacklist = (array)Configure::read('IdeHelper.skipDatabaseTables');
