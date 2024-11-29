@@ -45,7 +45,9 @@ return [
 		// For meta file generator
 		'generatorTasks' => [
 		],
-		// For Migrations plugin DatabaseTableTask generator task
+		// A regex pattern - for Migrations plugin DatabaseTableTask generator task
+		'ignoreDatabaseTables' => null,
+		// A list of tables - for Migrations plugin DatabaseTableTask generator task
 		'skipDatabaseTables' => null,
 		// For Illuminator tasks
 		'illuminatorTasks' => [
