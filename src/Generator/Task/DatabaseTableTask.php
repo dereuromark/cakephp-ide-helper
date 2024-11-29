@@ -68,6 +68,7 @@ class DatabaseTableTask implements TaskInterface {
 		} else {
 			$db = $this->getConnection();
 			try {
+				/** @var array<string>|null $ignore */
 				$ignore = Configure::read('IdeHelper.ignoreDatabaseTables');
 				$tables = (new TableScanner($db, $ignore))->listUnskipped();
 			} catch (Throwable $exception) {
