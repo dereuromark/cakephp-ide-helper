@@ -124,8 +124,6 @@ class GeneratePhpStormMetaCommand extends Command {
 	 * @return \IdeHelper\Console\Io
 	 */
 	protected function io(): Io {
-		assert($this->io !== null, 'IO not set');
-
 		return new Io($this->io);
 	}
 

@@ -110,8 +110,6 @@ abstract class AnnotateCommand extends Command {
 	 * @return \IdeHelper\Console\Io
 	 */
 	protected function _io(): Io {
-		assert($this->io !== null, 'IO not set');
-
 		return new Io($this->io);
 	}
 
@@ -121,8 +119,6 @@ abstract class AnnotateCommand extends Command {
 	 * @return bool
 	 */
 	protected function _shouldSkip(string $fileName): bool {
-		assert($this->args !== null, 'Args not set');
-
 		$filter = (string)$this->args->getOption('filter');
 		if (!$filter) {
 			return false;
@@ -154,8 +150,6 @@ abstract class AnnotateCommand extends Command {
 		if (isset($tasks[$class])) {
 			$class = $tasks[$class];
 		}
-
-		assert($this->args !== null, 'Args not set');
 
 		$options = $this->args->getOptions();
 		$options['plugin'] = $this->plugin;
