@@ -25,6 +25,11 @@ class MailerClassAnnotatorTask extends AbstractClassAnnotatorTask implements Cla
 
 		preg_match('#\buse (\w+)\\\\Mailer\\\\(\w+)Mailer\b#', $content, $useMatches);
 		preg_match('#\$\w+\s*=\s*\$this-\>getMailer\(\'([\w\.]+)\'\)#', $content, $callMatches);
+		$singleLine = false;
+		if (!$callMatches) {
+			$singleLine = true;
+			preg_match('#\$this-\>getMailer\(\'([\w\.]+)\'\)->send\(#', $content, $callMatches);
+		}
 		if (!$useMatches && !$callMatches) {
 			return false;
 		}
@@ -32,8 +37,13 @@ class MailerClassAnnotatorTask extends AbstractClassAnnotatorTask implements Cla
 		if ($useMatches) {
 			$varName = lcfirst($useMatches[2]) . 'Mailer';
 		} else {
-			[$plugin, $name] = pluginSplit($callMatches[1]);
+			$class = $callMatches[1];
+			[$plugin, $name] = pluginSplit($class);
 			$varName = lcfirst($name) . 'Mailer';
+		}
+
+		if ($singleLine && !empty($callMatches)) {
+			return true;
 		}
 
 		if (!preg_match('#\$' . $varName . '->send\(\'\w+\'#', $content)) {
@@ -49,10 +59,17 @@ class MailerClassAnnotatorTask extends AbstractClassAnnotatorTask implements Cla
 	 */
 	public function annotate(string $path): bool {
 		preg_match('#\buse (\w+)\\\\Mailer\\\\(\w+)Mailer\b#', $this->content, $useMatches);
+
+		$singleCall = false;
 		if (!$useMatches) {
-			preg_match('#\$\w+\s*=\s*\$this->getMailer\(\'([\w\.]+)\'\)#', $this->content, $callMatches);
+			preg_match('#\$\w+\s*=\s*\$this->getMailer\(\'([\w.]+)\'\)#', $this->content, $callMatches);
 			if (!$callMatches) {
-				return false;
+				preg_match('#\$this->getMailer\(\'([\w.]+)\'\)->send\(\'(\w+)\'#', $this->content, $callMatches);
+				if (!$callMatches) {
+					return false;
+				}
+
+				$singleCall = true;
 			}
 		}
 
@@ -65,24 +82,41 @@ class MailerClassAnnotatorTask extends AbstractClassAnnotatorTask implements Cla
 			$name = $name . 'Mailer';
 		}
 
-		$varName = lcfirst($name);
-		$rows = explode(PHP_EOL, $this->content);
-		$rowToAnnotate = null;
-		$rowMatches = null;
-		foreach ($rows as $i => $row) {
-			if (!preg_match('#\$' . $varName . '->send\(\'(\w+)\'#', $row, $rowMatches)) {
-				continue;
-			}
-			$rowToAnnotate = $i + 1;
+		$action = null;
+		if (!$singleCall) {
+			$varName = lcfirst($name);
+			$rows = explode(PHP_EOL, $this->content);
+			$rowToAnnotate = null;
+			$rowMatches = null;
+			foreach ($rows as $i => $row) {
+				if (!preg_match('#\$' . $varName . '->send\(\'(\w+)\'#', $row, $rowMatches)) {
+					continue;
+				}
+				$rowToAnnotate = $i + 1;
+				$action = $rowMatches[1];
 
-			break;
+				break;
+			}
+		} else {
+			assert(!empty($callMatches));
+			$rows = explode(PHP_EOL, $this->content);
+			$rowToAnnotate = null;
+			$rowMatches = null;
+			foreach ($rows as $i => $row) {
+				if (!preg_match('#\$this->getMailer\(\'' . $callMatches[1] . '\'\)->send\(\'' . $callMatches[2] . '\'#', $row, $rowMatches)) {
+					continue;
+				}
+				$rowToAnnotate = $i + 1;
+				$action = $callMatches[2];
+
+				break;
+			}
 		}
 
 		if (!$rowToAnnotate) {
 			return false;
 		}
 
-		$action = $rowMatches[1];
 		$method = $appNamespace . '\\Mailer\\' . $name . '::' . $action . '()';
 		$annotations = $this->buildUsesAnnotations([$method]);
 

@@ -92,6 +92,24 @@ class MailerClassAnnotatorTaskTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testAnnotateSingleLine() {
+		$content = file_get_contents(TEST_FILES . 'MailerAnnotation' . DS . 'MailerAnnotation.missing2.php');
+		$task = $this->getTask($content);
+		$path = '/src/Foo/Foo.php';
+
+		$result = $task->annotate($path);
+		$this->assertTrue($result);
+
+		$content = $task->getContent();
+		$this->assertTextContains('* @uses \TestApp\Mailer\NotificationMailer::notify()', $content);
+
+		$output = $this->out->output();
+		$this->assertTextContains('  -> 1 annotation added.', $output);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testAnnotateExisting() {
 		$content = file_get_contents(TEST_FILES . 'MailerAnnotation' . DS . 'MailerAnnotation.existing.php');
 		$task = $this->getTask($content);
