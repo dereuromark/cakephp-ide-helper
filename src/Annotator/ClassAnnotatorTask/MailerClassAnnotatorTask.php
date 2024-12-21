@@ -28,7 +28,7 @@ class MailerClassAnnotatorTask extends AbstractClassAnnotatorTask implements Cla
 		$singleLine = false;
 		if (!$callMatches) {
 			$singleLine = true;
-			preg_match('#\$this-\>getMailer\(\'([\w\.]+)\'\)->send\(#', $content, $callMatches);
+			preg_match('#\$this->getMailer\(\s*\'([\w\.]+)\'\s*\)\s*->\s*send\(\s*\'([\w\.]+)\'#msu', $content, $callMatches);
 		}
 		if (!$useMatches && !$callMatches) {
 			return false;
@@ -64,7 +64,7 @@ class MailerClassAnnotatorTask extends AbstractClassAnnotatorTask implements Cla
 		if (!$useMatches) {
 			preg_match('#\$\w+\s*=\s*\$this->getMailer\(\'([\w.]+)\'\)#', $this->content, $callMatches);
 			if (!$callMatches) {
-				preg_match('#\$this->getMailer\(\'([\w.]+)\'\)->send\(\'(\w+)\'#', $this->content, $callMatches);
+				preg_match('#\$this->getMailer\(\s*\'([\w\.]+)\'\s*\)\s*->\s*send\(\s*\'([\w\.]+)\'#msu', $this->content, $callMatches);
 				if (!$callMatches) {
 					return false;
 				}
@@ -102,8 +102,21 @@ class MailerClassAnnotatorTask extends AbstractClassAnnotatorTask implements Cla
 			$rows = explode(PHP_EOL, $this->content);
 			$rowToAnnotate = null;
 			$rowMatches = null;
+			$multiLine = str_contains($callMatches[0], PHP_EOL);
 			foreach ($rows as $i => $row) {
-				if (!preg_match('#\$this->getMailer\(\'' . $callMatches[1] . '\'\)->send\(\'' . $callMatches[2] . '\'#', $row, $rowMatches)) {
+				if (
+					$multiLine
+					&& preg_match('#\$this->getMailer\(\s*\'' . $callMatches[1] . '\'\s*\)#msu', $row, $rowMatches)
+					&& !empty($rows[$i + 1])
+					&& preg_match('#->\s*send\(\s*\'' . $callMatches[2] . '\'#msu', $rows[$i + 1], $rowMatches)
+				) {
+					$rowToAnnotate = $i;
+					$action = $callMatches[2];
+
+					break;
+				}
+
+				if (!preg_match('#\$this->getMailer\(\s*\'' . $callMatches[1] . '\'\s*\)\s*->\s*send\(\s*\'' . $callMatches[2] . '\'#msu', $row, $rowMatches)) {
 					continue;
 				}
 				$rowToAnnotate = $i + 1;
