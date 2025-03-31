@@ -1,6 +1,8 @@
 <?php
 namespace TestApp\Controller;
 
+use TestApp\Model\Table\WheelsTable;
+
 /**
  * @property \TestApp\Model\Table\WheelsTable $Wheels
  * @property \TestApp\Model\Table\BarBarsTable $BarBars
@@ -11,6 +13,8 @@ namespace TestApp\Controller;
 class BarController extends AppController {
 
 	protected ?string $defaultTable = 'BarBars';
+
+	protected WheelsTable $Wheels;
 
 	/**
 	 * @return void

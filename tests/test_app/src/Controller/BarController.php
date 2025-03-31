@@ -1,9 +1,13 @@
 <?php
 namespace TestApp\Controller;
 
+use TestApp\Model\Table\WheelsTable;
+
 class BarController extends AppController {
 
 	protected ?string $defaultTable = 'BarBars';
+
+	protected WheelsTable $Wheels;
 
 	/**
 	 * @return void
