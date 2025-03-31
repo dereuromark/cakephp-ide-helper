@@ -37,27 +37,15 @@ trait DocBlockTrait {
 	protected static function getValueNode(string $tagName, string $tagComment): PhpDocTagValueNode {
 		static $phpDocParser;
 		if (!$phpDocParser) {
-			if (class_exists(ParserConfig::class)) {
-				$config = new ParserConfig(usedAttributes: []);
-				$constExprParser = new ConstExprParser($config);
-				$phpDocParser = new PhpDocParser($config, new TypeParser($config, $constExprParser), $constExprParser);
-			} else {
-				/** @phpstan-ignore-next-line */
-				$constExprParser = new ConstExprParser();
-				/** @phpstan-ignore-next-line */
-				$phpDocParser = new PhpDocParser(new TypeParser($constExprParser), $constExprParser);
-			}
+			$config = new ParserConfig(usedAttributes: []);
+			$constExprParser = new ConstExprParser($config);
+			$phpDocParser = new PhpDocParser($config, new TypeParser($config, $constExprParser), $constExprParser);
 		}
 
 		static $phpDocLexer;
 		if (!$phpDocLexer) {
-			if (class_exists(ParserConfig::class)) {
-				$config = new ParserConfig(usedAttributes: []);
-				$phpDocLexer = new Lexer($config);
-			} else {
-				/** @phpstan-ignore-next-line */
-				$phpDocLexer = new Lexer();
-			}
+			$config = new ParserConfig(usedAttributes: []);
+			$phpDocLexer = new Lexer($config);
 		}
 
 		return $phpDocParser->parseTagValue(new TokenIterator($phpDocLexer->tokenize($tagComment)), $tagName);
