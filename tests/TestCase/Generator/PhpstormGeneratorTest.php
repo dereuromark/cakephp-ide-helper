@@ -64,7 +64,9 @@ class PhpstormGeneratorTest extends TestCase {
 		$result = $this->generator->generate();
 		file_put_contents(TMP . '.meta.php', $result);
 
-		$fileName = version_compare(Configure::version(), '5.1.0', '>=') ? '.meta51.php' : '.meta.php';
+		$is51 = version_compare(Configure::version(), '5.1.0', '>=');
+		$is52 = version_compare(Configure::version(), '5.2.0', '>=');
+		$fileName = $is52 ? '.meta52.php' : ($is51 ? '.meta51.php' : '.meta.php');
 		$file = Plugin::path('IdeHelper') . 'tests' . DS . 'test_files' . DS . 'meta' . DS . 'phpstorm' . DS . $fileName;
 		$expected = file_get_contents($file);
 
