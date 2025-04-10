@@ -80,3 +80,9 @@ More collections of useful tasks can be found in the [IdeHelperExtra plugin](htt
 
 ### Install, Setup, Usage
 See the **[Docs](docs/)** for details.
+
+
+### Powered by
+[![PhpStorm logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/PhpStorm.svg)](https://jb.gg/OpenSourceSupport)
+
+They are sponsoring my IDE for my FOSS work on this repository and beyond.
