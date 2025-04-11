@@ -36,7 +36,7 @@
 		"cakephp/cakephp": "^5.1.5",
 		"phpstan/phpdoc-parser": "^2.1.0",
 		"sebastian/diff": "^5.0 || ^6.0 || ^7.0",
-		"squizlabs/php_codesniffer": "^3.8"
+		"squizlabs/php_codesniffer": "^3.11"
 	},
 	"require-dev": {
 		"dereuromark/cakephp-shim": "^3.3.0",
