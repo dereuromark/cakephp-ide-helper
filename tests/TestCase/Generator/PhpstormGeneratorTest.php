@@ -64,12 +64,13 @@ class PhpstormGeneratorTest extends TestCase {
 		$result = $this->generator->generate();
 		file_put_contents(TMP . '.meta.php', $result);
 
-		$is51 = version_compare(Configure::version(), '5.1.0', '>=');
-		$is52 = version_compare(Configure::version(), '5.2.0', '>=');
-		$fileName = $is52 ? '.meta52.php' : ($is51 ? '.meta51.php' : '.meta.php');
+		$isLowest = version_compare(Configure::version(), '5.1.0', '<');
+		$fileName = $isLowest ? '.meta_lowest.php' : '.meta.php';
 		$file = Plugin::path('IdeHelper') . 'tests' . DS . 'test_files' . DS . 'meta' . DS . 'phpstorm' . DS . $fileName;
 
-		if (!empty($_SERVER['argv']) && in_array('--debug', $_SERVER['argv'], true)) {
+		// Trick to let the test file get updated: --debug is for PHPUnit 11+, --cache-result for PHPUnit 10
+		if (!empty($_SERVER['argv']) && (in_array('--debug', $_SERVER['argv'], true) || in_array('--cache-result', $_SERVER['argv'], true))) {
+			debug('Adding results to ' . $fileName);
 			file_put_contents($file, $result);
 		}
 

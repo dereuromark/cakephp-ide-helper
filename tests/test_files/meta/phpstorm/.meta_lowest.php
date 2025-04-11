@@ -73,7 +73,6 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\Console\ConsoleIo::helper(0),
 		map([
-			'Banner' => \Cake\Command\Helper\BannerHelper::class,
 			'Progress' => \Cake\Command\Helper\ProgressHelper::class,
 			'Table' => \Cake\Command\Helper\TableHelper::class,
 		]),
@@ -170,12 +169,8 @@ namespace PHPSTORM_META {
 			'datetimefractional' => \Cake\Database\Type\DateTimeFractionalType::class,
 			'decimal' => \Cake\Database\Type\DecimalType::class,
 			'float' => \Cake\Database\Type\FloatType::class,
-			'geometry' => \Cake\Database\Type\StringType::class,
 			'integer' => \Cake\Database\Type\IntegerType::class,
 			'json' => \Cake\Database\Type\JsonType::class,
-			'linestring' => \Cake\Database\Type\StringType::class,
-			'point' => \Cake\Database\Type\StringType::class,
-			'polygon' => \Cake\Database\Type\StringType::class,
 			'smallinteger' => \Cake\Database\Type\IntegerType::class,
 			'string' => \Cake\Database\Type\StringType::class,
 			'text' => \Cake\Database\Type\StringType::class,
@@ -201,12 +196,8 @@ namespace PHPSTORM_META {
 		'datetimefractional',
 		'decimal',
 		'float',
-		'geometry',
 		'integer',
 		'json',
-		'linestring',
-		'point',
-		'polygon',
 		'smallinteger',
 		'string',
 		'text',
@@ -471,6 +462,29 @@ namespace PHPSTORM_META {
 			'threaded' => \Cake\ORM\Query::class,
 			'treeList' => \Cake\ORM\Query::class,
 		]),
+	);
+
+	override(
+		\Cake\ORM\Table::getBehavior(),
+		map([
+			'CounterCache' => \Cake\ORM\Table::class,
+			'My' => \Cake\ORM\Table::class,
+			'Nullable' => \Cake\ORM\Table::class,
+			'Timestamp' => \Cake\ORM\Table::class,
+			'Translate' => \Cake\ORM\Table::class,
+			'Tree' => \Cake\ORM\Table::class,
+		]),
+	);
+
+	expectedArguments(
+		\Cake\ORM\Table::hasBehavior(),
+		0,
+		'CounterCache',
+		'My',
+		'Nullable',
+		'Timestamp',
+		'Translate',
+		'Tree',
 	);
 
 	override(
