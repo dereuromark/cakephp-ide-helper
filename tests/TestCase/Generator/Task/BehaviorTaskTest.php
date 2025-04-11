@@ -25,7 +25,7 @@ class BehaviorTaskTest extends TestCase {
 	public function testCollect() {
 		$result = $this->task->collect();
 
-		$this->assertCount(2, $result);
+		$this->assertCount(4, $result);
 
 		/** @var \IdeHelper\Generator\Directive\Override $directive */
 		$directive = array_shift($result);

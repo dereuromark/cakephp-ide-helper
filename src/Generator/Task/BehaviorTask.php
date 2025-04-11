@@ -2,12 +2,14 @@
 
 namespace IdeHelper\Generator\Task;
 
-use Cake\Core\App;
 use Cake\ORM\Table;
 use IdeHelper\Filesystem\Folder;
 use IdeHelper\Generator\Directive\ExpectedArguments;
+use IdeHelper\Generator\Directive\Override;
+use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
 use IdeHelper\Utility\Plugin;
+use IdeHelper\ValueObject\ClassName;
 use IdeHelper\ValueObject\StringName;
 
 class BehaviorTask implements TaskInterface {
@@ -15,43 +17,75 @@ class BehaviorTask implements TaskInterface {
 	public const CLASS_TABLE = Table::class;
 
 	/**
-	 * @var array<int>
+	 * @var array<string, int>
 	 */
 	protected array $addAliases = [
 		'\\' . self::CLASS_TABLE . '::addBehavior()' => 0,
 	];
 
 	/**
-	 * @var array<int>
+	 * @var array<string, int>
 	 */
 	protected array $removeAliases = [
 		'\\' . self::CLASS_TABLE . '::removeBehavior()' => 0,
 	];
 
 	/**
+	 * @var array<string, int>
+	 */
+	protected array $hasAliases = [
+		'\\' . self::CLASS_TABLE . '::hasBehavior()' => 0,
+	];
+
+	/**
+	 * @var array<string>
+	 */
+	protected array $getAliases = [
+		'\\' . self::CLASS_TABLE . '::getBehavior()',
+	];
+
+	/**
 	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
-		$addList = $removeList = [];
+		$prefixedList = $nonPrefixedList = [];
 		$behaviors = $this->collectBehaviors();
 		foreach ($behaviors as $name => $className) {
-			$addList[$name] = StringName::create($name);
+			$prefixedList[$name] = StringName::create($name);
 			if (str_contains($name, '.')) {
 				[, $name] = pluginSplit($name);
 			}
-			$removeList[$name] = StringName::create($name);
+			$nonPrefixedList[$name] = StringName::create($name);
 		}
 
-		ksort($addList);
-		ksort($removeList);
+		ksort($prefixedList);
+		ksort($nonPrefixedList);
 
 		$result = [];
 		foreach ($this->addAliases as $alias => $position) {
-			$directive = new ExpectedArguments($alias, $position, $addList);
+			$directive = new ExpectedArguments($alias, $position, $prefixedList);
 			$result[$directive->key()] = $directive;
 		}
 		foreach ($this->removeAliases as $alias => $position) {
-			$directive = new ExpectedArguments($alias, $position, $removeList);
+			$directive = new ExpectedArguments($alias, $position, $nonPrefixedList);
+			$result[$directive->key()] = $directive;
+		}
+		foreach ($this->hasAliases as $alias => $position) {
+			$directive = new ExpectedArguments($alias, $position, $nonPrefixedList);
+			$result[$directive->key()] = $directive;
+		}
+		foreach ($this->getAliases as $alias) {
+			$map = [];
+			foreach ($behaviors as $name => $className) {
+				if (str_contains($name, '.')) {
+					[, $name] = pluginSplit($name);
+				}
+				$map[$name] = ClassName::create($className);
+			}
+
+			ksort($map);
+
+			$directive = new Override($alias, $map);
 			$result[$directive->key()] = $directive;
 		}
 
@@ -100,12 +134,19 @@ class BehaviorTask implements TaskInterface {
 			if (!$matches) {
 				continue;
 			}
-			$name = $matches[1];
+			$fullName = $matches[1];
+			$name = $fullName;
 			if ($plugin) {
-				$name = $plugin . '.' . $name;
+				$name = $plugin . '.' . $fullName;
+			}
+
+			$className = App::className($name, 'Model/Behavior', 'Behavior');
+			if (!$className) {
+				$className = "Cake\ORM\Behavior\\{$name}Behavior";
 			}
 
 			$behaviors[$name] = $className;
+
 		}
 
 		return $behaviors;

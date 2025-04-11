@@ -73,6 +73,7 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\Console\ConsoleIo::helper(0),
 		map([
+			'Banner' => \Cake\Command\Helper\BannerHelper::class,
 			'Progress' => \Cake\Command\Helper\ProgressHelper::class,
 			'Table' => \Cake\Command\Helper\TableHelper::class,
 		]),
@@ -149,7 +150,10 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\Core\PluginApplicationInterface::addPlugin(0),
 		map([
-
+			'Bake' => \Cake\Http\BaseApplication::class,
+			'Cake/TwigView' => \Cake\Http\BaseApplication::class,
+			'Migrations' => \Cake\Http\BaseApplication::class,
+			'Shim' => \Cake\Http\BaseApplication::class,
 		]),
 	);
 
@@ -166,8 +170,13 @@ namespace PHPSTORM_META {
 			'datetimefractional' => \Cake\Database\Type\DateTimeFractionalType::class,
 			'decimal' => \Cake\Database\Type\DecimalType::class,
 			'float' => \Cake\Database\Type\FloatType::class,
+			'geometry' => \Cake\Database\Type\StringType::class,
 			'integer' => \Cake\Database\Type\IntegerType::class,
 			'json' => \Cake\Database\Type\JsonType::class,
+			'linestring' => \Cake\Database\Type\StringType::class,
+			'nativeuuid' => \Cake\Database\Type\UuidType::class,
+			'point' => \Cake\Database\Type\StringType::class,
+			'polygon' => \Cake\Database\Type\StringType::class,
 			'smallinteger' => \Cake\Database\Type\IntegerType::class,
 			'string' => \Cake\Database\Type\StringType::class,
 			'text' => \Cake\Database\Type\StringType::class,
@@ -193,8 +202,13 @@ namespace PHPSTORM_META {
 		'datetimefractional',
 		'decimal',
 		'float',
+		'geometry',
 		'integer',
 		'json',
+		'linestring',
+		'nativeuuid',
+		'point',
+		'polygon',
 		'smallinteger',
 		'string',
 		'text',
@@ -462,6 +476,29 @@ namespace PHPSTORM_META {
 	);
 
 	override(
+		\Cake\ORM\Table::getBehavior(),
+		map([
+			'CounterCache' => \Cake\ORM\Behavior\CounterCacheBehavior::class,
+			'My' => \MyNamespace\MyPlugin\Model\Behavior\MyBehavior::class,
+			'Nullable' => \Shim\Model\Behavior\NullableBehavior::class,
+			'Timestamp' => \Cake\ORM\Behavior\TimestampBehavior::class,
+			'Translate' => \Cake\ORM\Behavior\TranslateBehavior::class,
+			'Tree' => \Cake\ORM\Behavior\TreeBehavior::class,
+		]),
+	);
+
+	expectedArguments(
+		\Cake\ORM\Table::hasBehavior(),
+		0,
+		'CounterCache',
+		'My',
+		'Nullable',
+		'Timestamp',
+		'Translate',
+		'Tree',
+	);
+
+	override(
 		\Cake\ORM\Table::hasMany(0),
 		map([
 			'Awesome.Houses' => \Cake\ORM\Association\HasMany::class,
@@ -665,6 +702,7 @@ namespace PHPSTORM_META {
 			'Paginator' => \Cake\View\Helper\PaginatorHelper::class,
 			'Shim.Configure' => \Shim\View\Helper\ConfigureHelper::class,
 			'Shim.Cookie' => \Shim\View\Helper\CookieHelper::class,
+			'Shim.Number' => \Shim\View\Helper\NumberHelper::class,
 			'Text' => \Cake\View\Helper\TextHelper::class,
 			'Time' => \Cake\View\Helper\TimeHelper::class,
 			'Url' => \Cake\View\Helper\UrlHelper::class,
@@ -692,6 +730,7 @@ namespace PHPSTORM_META {
 			'Paginator' => \Cake\View\Helper\PaginatorHelper::class,
 			'Shim.Configure' => \Shim\View\Helper\ConfigureHelper::class,
 			'Shim.Cookie' => \Shim\View\Helper\CookieHelper::class,
+			'Shim.Number' => \Shim\View\Helper\NumberHelper::class,
 			'Text' => \Cake\View\Helper\TextHelper::class,
 			'Time' => \Cake\View\Helper\TimeHelper::class,
 			'Url' => \Cake\View\Helper\UrlHelper::class,
@@ -711,6 +750,7 @@ namespace PHPSTORM_META {
 		'Paginator',
 		'Shim.Configure',
 		'Shim.Cookie',
+		'Shim.Number',
 		'Text',
 		'Time',
 		'Url',
@@ -1344,6 +1384,11 @@ namespace PHPSTORM_META {
 		'Shim',
 		'Shim.deprecations',
 		'debug',
+		'plugins',
+		'plugins.Bake',
+		'plugins.Cake/TwigView',
+		'plugins.Migrations',
+		'plugins.Shim',
 	);
 
 	registerArgumentsSet(
