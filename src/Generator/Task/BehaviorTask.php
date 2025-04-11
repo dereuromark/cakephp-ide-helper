@@ -17,28 +17,28 @@ class BehaviorTask implements TaskInterface {
 	public const CLASS_TABLE = Table::class;
 
 	/**
-	 * @var array<int>
+	 * @var array<string, int>
 	 */
 	protected array $addAliases = [
 		'\\' . self::CLASS_TABLE . '::addBehavior()' => 0,
 	];
 
 	/**
-	 * @var array<int>
+	 * @var array<string, int>
 	 */
 	protected array $removeAliases = [
 		'\\' . self::CLASS_TABLE . '::removeBehavior()' => 0,
 	];
 
 	/**
-	 * @var array<int>
+	 * @var array<string, int>
 	 */
 	protected array $hasAliases = [
 		'\\' . self::CLASS_TABLE . '::hasBehavior()' => 0,
 	];
 
 	/**
-	 * @var array<int>
+	 * @var array<string>
 	 */
 	protected array $getAliases = [
 		'\\' . self::CLASS_TABLE . '::getBehavior()',
