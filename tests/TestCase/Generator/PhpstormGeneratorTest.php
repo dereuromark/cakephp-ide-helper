@@ -68,6 +68,11 @@ class PhpstormGeneratorTest extends TestCase {
 		$is52 = version_compare(Configure::version(), '5.2.0', '>=');
 		$fileName = $is52 ? '.meta52.php' : ($is51 ? '.meta51.php' : '.meta.php');
 		$file = Plugin::path('IdeHelper') . 'tests' . DS . 'test_files' . DS . 'meta' . DS . 'phpstorm' . DS . $fileName;
+
+		if (!empty($_SERVER['argv']) && in_array('--debug', $_SERVER['argv'], true)) {
+			file_put_contents($file, $result);
+		}
+
 		$expected = file_get_contents($file);
 
 		$this->assertTextEquals($expected, $result);

@@ -6,8 +6,10 @@ use Cake\Core\App;
 use Cake\ORM\Table;
 use IdeHelper\Filesystem\Folder;
 use IdeHelper\Generator\Directive\ExpectedArguments;
+use IdeHelper\Generator\Directive\Override;
 use IdeHelper\Utility\AppPath;
 use IdeHelper\Utility\Plugin;
+use IdeHelper\ValueObject\ClassName;
 use IdeHelper\ValueObject\StringName;
 
 class BehaviorTask implements TaskInterface {
@@ -29,29 +31,61 @@ class BehaviorTask implements TaskInterface {
 	];
 
 	/**
+	 * @var array<int>
+	 */
+	protected array $hasAliases = [
+		'\\' . self::CLASS_TABLE . '::hasBehavior()' => 0,
+	];
+
+	/**
+	 * @var array<int>
+	 */
+	protected array $getAliases = [
+		'\\' . self::CLASS_TABLE . '::getBehavior()',
+	];
+
+	/**
 	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
-		$addList = $removeList = [];
+		$prefixedList = $nonPrefixedList = [];
 		$behaviors = $this->collectBehaviors();
 		foreach ($behaviors as $name => $className) {
-			$addList[$name] = StringName::create($name);
+			$prefixedList[$name] = StringName::create($name);
 			if (str_contains($name, '.')) {
 				[, $name] = pluginSplit($name);
 			}
-			$removeList[$name] = StringName::create($name);
+			$nonPrefixedList[$name] = StringName::create($name);
 		}
 
-		ksort($addList);
-		ksort($removeList);
+		ksort($prefixedList);
+		ksort($nonPrefixedList);
 
 		$result = [];
 		foreach ($this->addAliases as $alias => $position) {
-			$directive = new ExpectedArguments($alias, $position, $addList);
+			$directive = new ExpectedArguments($alias, $position, $prefixedList);
 			$result[$directive->key()] = $directive;
 		}
 		foreach ($this->removeAliases as $alias => $position) {
-			$directive = new ExpectedArguments($alias, $position, $removeList);
+			$directive = new ExpectedArguments($alias, $position, $nonPrefixedList);
+			$result[$directive->key()] = $directive;
+		}
+		foreach ($this->hasAliases as $alias => $position) {
+			$directive = new ExpectedArguments($alias, $position, $nonPrefixedList);
+			$result[$directive->key()] = $directive;
+		}
+		foreach ($this->getAliases as $alias) {
+			$map = [];
+			foreach ($behaviors as $name => $className) {
+				if (str_contains($name, '.')) {
+					[, $name] = pluginSplit($name);
+				}
+				$map[$name] = ClassName::create($className);
+			}
+
+			ksort($map);
+
+			$directive = new Override($alias, $map);
 			$result[$directive->key()] = $directive;
 		}
 

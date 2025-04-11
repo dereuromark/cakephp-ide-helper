@@ -476,6 +476,29 @@ namespace PHPSTORM_META {
 	);
 
 	override(
+		\Cake\ORM\Table::getBehavior(),
+		map([
+			'CounterCache' => \Cake\ORM\Table::class,
+			'My' => \Cake\ORM\Table::class,
+			'Nullable' => \Cake\ORM\Table::class,
+			'Timestamp' => \Cake\ORM\Table::class,
+			'Translate' => \Cake\ORM\Table::class,
+			'Tree' => \Cake\ORM\Table::class,
+		]),
+	);
+
+	expectedArguments(
+		\Cake\ORM\Table::hasBehavior(),
+		0,
+		'CounterCache',
+		'My',
+		'Nullable',
+		'Timestamp',
+		'Translate',
+		'Tree',
+	);
+
+	override(
 		\Cake\ORM\Table::hasMany(0),
 		map([
 			'Awesome.Houses' => \Cake\ORM\Association\HasMany::class,
