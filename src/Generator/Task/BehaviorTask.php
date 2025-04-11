@@ -126,9 +126,6 @@ class BehaviorTask implements TaskInterface {
 	protected function addBehaviors(array $behaviors, string $folder, ?string $plugin = null): array {
 		$folderContent = (new Folder($folder))->read(Folder::SORT_NAME, true);
 
-		// This suffices as the return value is $this (calling Table class) anyway for chaining.
-		$className = Table::class;
-
 		foreach ($folderContent[1] as $file) {
 			preg_match('/^(.+)Behavior\.php$/', $file, $matches);
 			if (!$matches) {
