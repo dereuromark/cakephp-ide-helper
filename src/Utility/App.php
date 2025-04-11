@@ -24,25 +24,25 @@ class App extends CoreApp {
 			}
 
 			[$plugin, $name] = pluginSplit($class);
-			$fullname = '\\' . str_replace('/', '\\', $type . '\\' . $name) . $suffix;
+			$fullName = '\\' . str_replace('/', '\\', $type . '\\' . $name) . $suffix;
 
 			$appNamespace = $includeApp ? Configure::read('App.namespace') : null;
 			$base = $plugin ?: $appNamespace;
 			if ($base !== null) {
 				$base = str_replace('/', '\\', rtrim($base, '\\'));
 
-				if (static::_classExistsInBase($fullname, $base)) {
+				if (static::_classExistsInBase($fullName, $base)) {
 					/** @var class-string */
-					return $base . $fullname;
+					return $base . $fullName;
 				}
 			}
 
-			if ($plugin || !static::_classExistsInBase($fullname, 'Cake')) {
+			if ($plugin || !static::_classExistsInBase($fullName, 'Cake')) {
 				return null;
 			}
 
 			/** @var class-string */
-			return 'Cake' . $fullname;
+			return 'Cake' . $fullName;
 		} catch (Throwable $e) {
 			// Do nothing
 		}

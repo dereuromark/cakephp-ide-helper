@@ -2,11 +2,11 @@
 
 namespace IdeHelper\Generator\Task;
 
-use Cake\Core\App;
 use Cake\ORM\Table;
 use IdeHelper\Filesystem\Folder;
 use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Generator\Directive\Override;
+use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
 use IdeHelper\Utility\Plugin;
 use IdeHelper\ValueObject\ClassName;
@@ -134,12 +134,19 @@ class BehaviorTask implements TaskInterface {
 			if (!$matches) {
 				continue;
 			}
-			$name = $matches[1];
+			$fullName = $matches[1];
+			$name = $fullName;
 			if ($plugin) {
-				$name = $plugin . '.' . $name;
+				$name = $plugin . '.' . $fullName;
+			}
+
+			$className = App::className($name, 'Model/Behavior', 'Behavior');
+			if (!$className) {
+				$className = "Cake\ORM\Behavior\\{$name}Behavior";
 			}
 
 			$behaviors[$name] = $className;
+
 		}
 
 		return $behaviors;

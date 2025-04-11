@@ -478,12 +478,12 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\ORM\Table::getBehavior(),
 		map([
-			'CounterCache' => \Cake\ORM\Table::class,
-			'My' => \Cake\ORM\Table::class,
-			'Nullable' => \Cake\ORM\Table::class,
-			'Timestamp' => \Cake\ORM\Table::class,
-			'Translate' => \Cake\ORM\Table::class,
-			'Tree' => \Cake\ORM\Table::class,
+			'CounterCache' => \Cake\ORM\Behavior\CounterCacheBehavior::class,
+			'My' => \MyNamespace\MyPlugin\Model\Behavior\MyBehavior::class,
+			'Nullable' => \Shim\Model\Behavior\NullableBehavior::class,
+			'Timestamp' => \Cake\ORM\Behavior\TimestampBehavior::class,
+			'Translate' => \Cake\ORM\Behavior\TranslateBehavior::class,
+			'Tree' => \Cake\ORM\Behavior\TreeBehavior::class,
 		]),
 	);
 
