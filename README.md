@@ -12,7 +12,7 @@ IdeHelper plugin for CakePHP applications.
 
 > Boost your productivity. Avoid mistakes.
 
-This branch is for use with **CakePHP 5.0+**. For details see [version map](https://github.com/dereuromark/cakephp-ide-helper/wiki#cakephp-version-map).
+This branch is for use with **CakePHP 5.1+**. For details see [version map](https://github.com/dereuromark/cakephp-ide-helper/wiki#cakephp-version-map).
 
 ## Features
 

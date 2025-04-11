@@ -33,7 +33,7 @@
 	"require": {
 		"php": ">=8.1",
 		"cakephp/bake": "^3.0.4",
-		"cakephp/cakephp": "^5.0.7",
+		"cakephp/cakephp": "^5.1.5",
 		"phpstan/phpdoc-parser": "^2.1.0",
 		"sebastian/diff": "^5.0 || ^6.0 || ^7.0",
 		"squizlabs/php_codesniffer": "^3.8"
