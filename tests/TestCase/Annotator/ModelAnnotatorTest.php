@@ -146,7 +146,7 @@ class ModelAnnotatorTest extends TestCase {
 
 		$output = $this->out->output();
 
-		$this->assertTextContains('  -> 17 annotations added', $output);
+		$this->assertTextContains('  -> 18 annotations added', $output);
 	}
 
 	/**
@@ -171,7 +171,7 @@ class ModelAnnotatorTest extends TestCase {
 
 		$output = $this->out->output();
 
-		$this->assertTextContains('  -> 14 annotations added, 1 annotation updated', $output);
+		$this->assertTextContains('  -> 15 annotations added, 1 annotation updated', $output);
 	}
 
 	/**
@@ -283,7 +283,7 @@ class ModelAnnotatorTest extends TestCase {
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
-		$this->assertTextContains('  -> 17 annotations added', $output);
+		$this->assertTextContains('  -> 18 annotations added', $output);
 	}
 
 }

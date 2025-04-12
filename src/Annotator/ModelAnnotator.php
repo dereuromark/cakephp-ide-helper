@@ -10,6 +10,7 @@ use Cake\ORM\AssociationCollection;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\ExtendsAnnotation;
 use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
@@ -198,17 +199,8 @@ class ModelAnnotator extends AbstractAnnotator {
 			$result[] = $annotationObject;
 		}
 
-		foreach ($behaviors as $behavior) {
-			$className = App::className($behavior, 'Model/Behavior', 'Behavior');
-			if (!$className) {
-				$className = App::className($behavior, 'ORM/Behavior', 'Behavior');
-			}
-			if (!$className) {
-				continue;
-			}
-
-			$result[] = AnnotationFactory::createOrFail(MixinAnnotation::TAG, "\\{$className}");
-		}
+		$result = $this->addBehaviorMixins($result, $behaviors);
+		$result = $this->addBehaviorExtends($result, $behaviors);
 
 		return $result;
 	}
@@ -392,6 +384,57 @@ class ModelAnnotator extends AbstractAnnotator {
 		}
 
 		return new $class($this->_io, ['class' => $entityClass, 'schema' => $schema, 'associations' => $associations] + $this->getConfig());
+	}
+
+	/**
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $result
+	 * @param array<string> $behaviors
+	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
+	 */
+	protected function addBehaviorMixins(array $result, array $behaviors): array {
+		foreach ($behaviors as $behavior) {
+			$className = App::className($behavior, 'Model/Behavior', 'Behavior');
+			if (!$className) {
+				$className = App::className($behavior, 'ORM/Behavior', 'Behavior');
+			}
+			if (!$className) {
+				continue;
+			}
+
+			$result[] = AnnotationFactory::createOrFail(MixinAnnotation::TAG, "\\{$className}");
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $result
+	 * @param array<string> $behaviors
+	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
+	 */
+	protected function addBehaviorExtends(array $result, array $behaviors): array {
+		$list = [];
+		foreach ($behaviors as $name => $fullName) {
+			$className = App::className($fullName, 'Model/Behavior', 'Behavior');
+			if (!$className) {
+				$className = App::className($fullName, 'ORM/Behavior', 'Behavior');
+			}
+			if (!$className) {
+				continue;
+			}
+
+			$list[] = $name . ': \\' . $className;
+		}
+
+		if (!$list) {
+			return $result;
+		}
+
+		$list = implode(', ', $list);
+
+		$result[] = AnnotationFactory::createOrFail(ExtendsAnnotation::TAG, "\\Cake\\ORM\\Table<{$list}>");
+
+		return $result;
 	}
 
 }
