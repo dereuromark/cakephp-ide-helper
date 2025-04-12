@@ -143,7 +143,6 @@ class BehaviorTask implements TaskInterface {
 			}
 
 			$behaviors[$name] = $className;
-
 		}
 
 		return $behaviors;
