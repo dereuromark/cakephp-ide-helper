@@ -9,6 +9,7 @@ use Cake\Core\InstanceConfigTrait;
 use Cake\View\View;
 use IdeHelper\Annotation\AbstractAnnotation;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\ExtendsAnnotation;
 use IdeHelper\Annotation\MethodAnnotation;
 use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
@@ -100,6 +101,7 @@ abstract class AbstractAnnotator {
 		MethodAnnotation::TAG,
 		MixinAnnotation::TAG,
 		UsesAnnotation::TAG,
+		ExtendsAnnotation::TAG,
 	];
 
 	public static bool $output = false;

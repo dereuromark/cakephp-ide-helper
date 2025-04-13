@@ -156,11 +156,11 @@ class ModelAnnotator extends AbstractAnnotator {
 
 			$dataType = 'array';
 			$optionsType = 'array';
-			$itterable = 'iterable';
+			$iterable = 'iterable';
 			if (Configure::read('IdeHelper.genericsInParam')) {
 				$dataType = 'array<mixed>';
 				$optionsType = 'array<string, mixed>';
-				$itterable = "iterable<{$entityInterface}>";
+				$iterable = "iterable<{$entityInterface}>";
 			}
 
 			/**
@@ -176,16 +176,16 @@ class ModelAnnotator extends AbstractAnnotator {
 			$annotations[] = "@method {$fullClassName} findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array \$search, ?callable \$callback = null, {$optionsType} \$options = [])";
 
 			$annotations[] = "@method {$fullClassName} patchEntity({$entityInterface} \$entity, {$dataType} \$data, {$optionsType} \$options = [])";
-			$annotations[] = "@method {$fullClassNameCollection} patchEntities({$itterable} \$entities, {$dataType} \$data, {$optionsType} \$options = [])";
+			$annotations[] = "@method {$fullClassNameCollection} patchEntities({$iterable} \$entities, {$dataType} \$data, {$optionsType} \$options = [])";
 
 			$annotations[] = "@method {$fullClassName}|false save({$entityInterface} \$entity, {$optionsType} \$options = [])";
 			$annotations[] = "@method {$fullClassName} saveOrFail({$entityInterface} \$entity, {$optionsType} \$options = [])";
 
-			$annotations[] = "@method {$resultSetInterfaceCollection}|false saveMany({$itterable} \$entities, {$optionsType} \$options = [])";
-			$annotations[] = "@method {$resultSetInterfaceCollection} saveManyOrFail({$itterable} \$entities, {$optionsType} \$options = [])";
+			$annotations[] = "@method {$resultSetInterfaceCollection}|false saveMany({$iterable} \$entities, {$optionsType} \$options = [])";
+			$annotations[] = "@method {$resultSetInterfaceCollection} saveManyOrFail({$iterable} \$entities, {$optionsType} \$options = [])";
 
-			$annotations[] = "@method {$resultSetInterfaceCollection}|false deleteMany({$itterable} \$entities, {$optionsType} \$options = [])";
-			$annotations[] = "@method {$resultSetInterfaceCollection} deleteManyOrFail({$itterable} \$entities, {$optionsType} \$options = [])";
+			$annotations[] = "@method {$resultSetInterfaceCollection}|false deleteMany({$iterable} \$entities, {$optionsType} \$options = [])";
+			$annotations[] = "@method {$resultSetInterfaceCollection} deleteManyOrFail({$iterable} \$entities, {$optionsType} \$options = [])";
 		}
 
 		// Make replaceable via parsed object
@@ -429,6 +429,8 @@ class ModelAnnotator extends AbstractAnnotator {
 		if (!$list) {
 			return $result;
 		}
+
+		sort($list);
 
 		$list = implode(', ', $list);
 
