@@ -10,7 +10,9 @@ use Cake\ORM\AssociationCollection;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\ExtendsAnnotation;
 use IdeHelper\Annotation\MixinAnnotation;
+use IdeHelper\Console\Io;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
 use IdeHelper\Utility\GenericString;
@@ -23,9 +25,52 @@ class ModelAnnotator extends AbstractAnnotator {
 	public const CLASS_TABLE = Table::class;
 
 	/**
+	 * @var string
+	 */
+	public const TABLE_BEHAVIORS = 'tableBehaviors';
+
+	/**
+	 * @var string
+	 */
+	public const BEHAVIOR_MIXIN = 'mixin';
+
+	/**
+	 * @var string
+	 */
+	public const BEHAVIOR_EXTENDS = 'extends';
+
+	/**
 	 * @var array<string, array<string, string>>
 	 */
 	protected array $_cache = [];
+
+	/**
+	 * @param \IdeHelper\Console\Io $io
+	 * @param array<string, mixed> $config
+	 */
+	public function __construct(Io $io, array $config) {
+		parent::__construct($io, $config);
+
+		/** @var string|bool|null $tableBehaviors */
+		$tableBehaviors = Configure::read('IdeHelper.tableBehaviors');
+		if ($tableBehaviors === true) {
+			$tableBehaviors = [
+				static::BEHAVIOR_MIXIN,
+				static::BEHAVIOR_EXTENDS,
+			];
+		} elseif ($tableBehaviors === false) {
+			$tableBehaviors = [];
+		} elseif ($tableBehaviors === null) {
+			$tableBehaviors = [
+				static::BEHAVIOR_MIXIN,
+			];
+			if (version_compare(Configure::version(), '5.2.2', '>=')) {
+				$tableBehaviors[] = static::BEHAVIOR_EXTENDS;
+			}
+		}
+
+		$this->setConfig(static::TABLE_BEHAVIORS, (array)$tableBehaviors);
+	}
 
 	/**
 	 * @param string $path Path to file.
@@ -155,11 +200,11 @@ class ModelAnnotator extends AbstractAnnotator {
 
 			$dataType = 'array';
 			$optionsType = 'array';
-			$itterable = 'iterable';
+			$iterable = 'iterable';
 			if (Configure::read('IdeHelper.genericsInParam')) {
 				$dataType = 'array<mixed>';
 				$optionsType = 'array<string, mixed>';
-				$itterable = "iterable<{$entityInterface}>";
+				$iterable = "iterable<{$entityInterface}>";
 			}
 
 			/**
@@ -175,16 +220,16 @@ class ModelAnnotator extends AbstractAnnotator {
 			$annotations[] = "@method {$fullClassName} findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array \$search, ?callable \$callback = null, {$optionsType} \$options = [])";
 
 			$annotations[] = "@method {$fullClassName} patchEntity({$entityInterface} \$entity, {$dataType} \$data, {$optionsType} \$options = [])";
-			$annotations[] = "@method {$fullClassNameCollection} patchEntities({$itterable} \$entities, {$dataType} \$data, {$optionsType} \$options = [])";
+			$annotations[] = "@method {$fullClassNameCollection} patchEntities({$iterable} \$entities, {$dataType} \$data, {$optionsType} \$options = [])";
 
 			$annotations[] = "@method {$fullClassName}|false save({$entityInterface} \$entity, {$optionsType} \$options = [])";
 			$annotations[] = "@method {$fullClassName} saveOrFail({$entityInterface} \$entity, {$optionsType} \$options = [])";
 
-			$annotations[] = "@method {$resultSetInterfaceCollection}|false saveMany({$itterable} \$entities, {$optionsType} \$options = [])";
-			$annotations[] = "@method {$resultSetInterfaceCollection} saveManyOrFail({$itterable} \$entities, {$optionsType} \$options = [])";
+			$annotations[] = "@method {$resultSetInterfaceCollection}|false saveMany({$iterable} \$entities, {$optionsType} \$options = [])";
+			$annotations[] = "@method {$resultSetInterfaceCollection} saveManyOrFail({$iterable} \$entities, {$optionsType} \$options = [])";
 
-			$annotations[] = "@method {$resultSetInterfaceCollection}|false deleteMany({$itterable} \$entities, {$optionsType} \$options = [])";
-			$annotations[] = "@method {$resultSetInterfaceCollection} deleteManyOrFail({$itterable} \$entities, {$optionsType} \$options = [])";
+			$annotations[] = "@method {$resultSetInterfaceCollection}|false deleteMany({$iterable} \$entities, {$optionsType} \$options = [])";
+			$annotations[] = "@method {$resultSetInterfaceCollection} deleteManyOrFail({$iterable} \$entities, {$optionsType} \$options = [])";
 		}
 
 		// Make replaceable via parsed object
@@ -198,17 +243,8 @@ class ModelAnnotator extends AbstractAnnotator {
 			$result[] = $annotationObject;
 		}
 
-		foreach ($behaviors as $behavior) {
-			$className = App::className($behavior, 'Model/Behavior', 'Behavior');
-			if (!$className) {
-				$className = App::className($behavior, 'ORM/Behavior', 'Behavior');
-			}
-			if (!$className) {
-				continue;
-			}
-
-			$result[] = AnnotationFactory::createOrFail(MixinAnnotation::TAG, "\\{$className}");
-		}
+		$result = $this->addBehaviorMixins($result, $behaviors);
+		$result = $this->addBehaviorExtends($result, $behaviors);
 
 		return $result;
 	}
@@ -300,7 +336,6 @@ class ModelAnnotator extends AbstractAnnotator {
 		$map = $this->invokeProperty($object, '_loaded');
 
 		$behaviors = $this->extractBehaviors($map);
-
 		/** @phpstan-var class-string<object>|false $parentClass */
 		$parentClass = get_parent_class($table);
 		if (!$parentClass) {
@@ -330,22 +365,34 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param array<string> $map
 	 * @return array<string>
 	 */
-	protected function extractBehaviors(array $map) {
+	protected function extractBehaviors(array $map): array {
 		$result = [];
 		/** @var object|string $behavior */
 		foreach ($map as $name => $behavior) {
 			$behaviorClassName = get_class($behavior) ?: '';
+			$behaviorName = $this->resolveBehaviorName($behaviorClassName, $name);
 			$pluginName = $this->resolvePluginName($behaviorClassName, $name);
-			if ($pluginName === null) {
-				continue;
-			}
 			if ($pluginName) {
 				$pluginName .= '.';
 			}
-			$result[$name] = $pluginName . $name;
+			$result[$name] = $pluginName . $behaviorName;
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @param string $className
+	 * @param string $name
+	 * @return string|null
+	 */
+	protected function resolveBehaviorName(string $className, string $name): ?string {
+		preg_match('#\\\\(?:Model|ORM)\\\\Behavior\\\\(.+)Behavior$#', $className, $matches);
+		if (!$matches) {
+			return null;
+		}
+
+		return str_replace('\\', '/', $matches[1]);
 	}
 
 	/**
@@ -363,12 +410,12 @@ class ModelAnnotator extends AbstractAnnotator {
 		}
 
 		if (str_contains($name, '\\')) {
-			preg_match('#^(.+)\\\\Model\\\\Behavior\\\\#', $className, $matches);
+			preg_match('#^(.+?)\\\\Model\\\\Behavior\\\\#', $className, $matches);
 			if (!$matches) {
 				return null;
 			}
 		} else {
-			preg_match('#^(.+)\\\\Model\\\\Behavior\\\\' . $name . 'Behavior$#', $className, $matches);
+			preg_match('#^(.+?)\\\\Model\\\\Behavior\\\\(.+)Behavior$#', $className, $matches);
 			if (!$matches) {
 				return null;
 			}
@@ -392,6 +439,67 @@ class ModelAnnotator extends AbstractAnnotator {
 		}
 
 		return new $class($this->_io, ['class' => $entityClass, 'schema' => $schema, 'associations' => $associations] + $this->getConfig());
+	}
+
+	/**
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $result
+	 * @param array<string> $behaviors
+	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
+	 */
+	protected function addBehaviorMixins(array $result, array $behaviors): array {
+		if (!in_array(static::BEHAVIOR_MIXIN, $this->_config[static::TABLE_BEHAVIORS], true)) {
+			return $result;
+		}
+
+		foreach ($behaviors as $behavior) {
+			$className = App::className($behavior, 'Model/Behavior', 'Behavior');
+			if (!$className) {
+				$className = App::className($behavior, 'ORM/Behavior', 'Behavior');
+			}
+			if (!$className) {
+				continue;
+			}
+
+			$result[] = AnnotationFactory::createOrFail(MixinAnnotation::TAG, "\\{$className}");
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $result
+	 * @param array<string> $behaviors
+	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
+	 */
+	protected function addBehaviorExtends(array $result, array $behaviors): array {
+		if (!in_array(static::BEHAVIOR_EXTENDS, $this->_config[static::TABLE_BEHAVIORS], true)) {
+			return $result;
+		}
+
+		$list = [];
+		foreach ($behaviors as $name => $fullName) {
+			$className = App::className($fullName, 'Model/Behavior', 'Behavior');
+			if (!$className) {
+				$className = App::className($fullName, 'ORM/Behavior', 'Behavior');
+			}
+			if (!$className) {
+				continue;
+			}
+
+			$list[] = $name . ': \\' . $className;
+		}
+
+		if (!$list) {
+			return $result;
+		}
+
+		sort($list);
+
+		$list = implode(', ', $list);
+
+		$result[] = AnnotationFactory::createOrFail(ExtendsAnnotation::TAG, '\\Cake\\ORM\\Table<array{' . $list . '}>');
+
+		return $result;
 	}
 
 }

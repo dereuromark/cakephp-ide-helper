@@ -21,6 +21,8 @@ namespace TestApp\Model\Table;
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @mixin \MyNamespace\MyPlugin\Model\Behavior\MyBehavior
+ *
+ * @extends \Cake\ORM\Table<array{MyMy: \MyNamespace\MyPlugin\Model\Behavior\MyBehavior, Timestamp: \Cake\ORM\Behavior\TimestampBehavior}>
  */
 class BarBarsAbstractTable extends AbstractTable {
 
@@ -37,7 +39,9 @@ class BarBarsAbstractTable extends AbstractTable {
 			'className' => 'Awesome.Houses',
 			'through' => 'Awesome.Windows',
 		]);
-		$this->addBehavior('MyNamespace/MyPlugin.My');
+		$this->addBehavior('MyMy', [
+			'className' => 'MyNamespace/MyPlugin.My',
+		]);
 	}
 
 }

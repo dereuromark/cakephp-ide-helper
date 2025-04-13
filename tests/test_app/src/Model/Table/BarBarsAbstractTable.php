@@ -16,7 +16,9 @@ class BarBarsAbstractTable extends AbstractTable {
 			'className' => 'Awesome.Houses',
 			'through' => 'Awesome.Windows',
 		]);
-		$this->addBehavior('MyNamespace/MyPlugin.My');
+		$this->addBehavior('MyMy', [
+			'className' => 'MyNamespace/MyPlugin.My',
+		]);
 	}
 
 }

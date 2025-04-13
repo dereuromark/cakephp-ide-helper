@@ -7,9 +7,9 @@ use Cake\ORM\Table;
 class CustomFinderTable extends Table {
 
 	/**
-	 * @param \Cake\ORM\Query $query
+	 * @param \Cake\ORM\Query\SelectQuery $query
 	 *
-	 * @return \Cake\ORM\Query
+	 * @return \Cake\ORM\Query\SelectQuery
 	 */
 	public function findSomethingCustom(SelectQuery $query): SelectQuery {
 		return $query;

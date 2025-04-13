@@ -13,6 +13,9 @@ use IdeHelper\Console\Io;
 use Shim\TestSuite\ConsoleOutput;
 use TestApp\Model\Table\FoosTable;
 
+/**
+ * Test with concreteEntitiesInParam config on.
+ */
 class ModelAnnotatorSpecificTest extends TestCase {
 
 	use DiffHelperTrait;
