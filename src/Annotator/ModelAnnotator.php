@@ -432,7 +432,7 @@ class ModelAnnotator extends AbstractAnnotator {
 
 		$list = implode(', ', $list);
 
-		$result[] = AnnotationFactory::createOrFail(ExtendsAnnotation::TAG, "\\Cake\\ORM\\Table<{$list}>");
+		$result[] = AnnotationFactory::createOrFail(ExtendsAnnotation::TAG, '\\Cake\\ORM\\Table<array{' . $list . '}>');
 
 		return $result;
 	}

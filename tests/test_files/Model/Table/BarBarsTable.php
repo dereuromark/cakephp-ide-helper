@@ -24,7 +24,7 @@ use Cake\ORM\Table;
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @mixin \MyNamespace\MyPlugin\Model\Behavior\MyBehavior
  *
- * @extends \Cake\ORM\Table<Timestamp: \Cake\ORM\Behavior\TimestampBehavior, My: \MyNamespace\MyPlugin\Model\Behavior\MyBehavior>
+ * @extends \Cake\ORM\Table<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior, My: \MyNamespace\MyPlugin\Model\Behavior\MyBehavior}>
  */
 class BarBarsTable extends Table {
 

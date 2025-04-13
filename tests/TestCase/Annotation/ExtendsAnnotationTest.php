@@ -42,14 +42,14 @@ class ExtendsAnnotationTest extends TestCase {
 		$this->assertTrue($result);
 
 		$annotation = new ExtendsAnnotation('\Table<array{Sluggable: \Plugin\Model\Behavior\SluggableBehavior>');
-		$comparisonAnnotation = new ExtendsAnnotation('\Table<array{Sluggable: \Plugin\Model\Behavior\XyzBehavior>');
+		$comparisonAnnotation = new PropertyAnnotation('\\Foo\\Model\\Entity\\Bar', '$bar');
 		$result = $annotation->matches($comparisonAnnotation);
 		$this->assertFalse($result);
 
 		$annotation = new ExtendsAnnotation('\Table<array{Sluggable: \Plugin\Model\Behavior\SluggableBehavior>');
-		$comparisonAnnotation = new PropertyAnnotation('\\Foo\\Model\\Entity\\Bar', '$bar');
+		$comparisonAnnotation = new ExtendsAnnotation('\Table<array{Xyz: \Plugin\Model\Behavior\XyzBehavior>');
 		$result = $annotation->matches($comparisonAnnotation);
-		$this->assertFalse($result);
+		$this->assertTrue($result);
 	}
 
 	/**

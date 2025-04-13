@@ -19,7 +19,7 @@ use Cake\ORM\Table;
  * @method \TestApp\Model\Entity\Wheel[]|\Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\Wheel>|false deleteMany(iterable $entities, array $options = [])
  * @method \TestApp\Model\Entity\Wheel[]|\Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\Wheel> deleteManyOrFail(iterable $entities, array $options = [])
  * @mixin \Cake\ORM\Behavior\TreeBehavior
- * @extends \Cake\ORM\Table<Tree: \Cake\ORM\Behavior\TreeBehavior>
+ * @extends \Cake\ORM\Table<array{Tree: \Cake\ORM\Behavior\TreeBehavior}>
  */
 class WheelsTable extends Table {
 

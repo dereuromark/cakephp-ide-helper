@@ -48,10 +48,8 @@ class ExtendsAnnotation extends AbstractAnnotation {
 		if (!$annotation instanceof self) {
 			return false;
 		}
-		if ($annotation->getType() !== $this->type) {
-			return false;
-		}
 
+		// Always matches as there can only be one per docblock
 		return true;
 	}
 
