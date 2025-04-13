@@ -18,7 +18,7 @@ return [
 			'php',
 		],
 		// How behaviors are annotated into tables: ['mixin', 'extends', true, false, null]
-		'tableBehaviors' => null, // null auto-detects based CakePHP version (> 5.2.2 for extends) and always adds mixins.
+		'tableBehaviors' => null, // null auto-detects based CakePHP version (>= 5.2.2 for extends) and always adds mixins.
 		'arrayAsGenerics' => false, // Enable to have modern generics syntax (recommended) in doc blocks
 		'objectAsGenerics' => false, // Enable to have modern generics syntax (recommended) in doc blocks
 		'assocsAsGenerics' => false, // Enable to have modern generics syntax (NOT recommended yet) in doc blocks
