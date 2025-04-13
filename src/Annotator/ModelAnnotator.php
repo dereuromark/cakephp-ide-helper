@@ -12,6 +12,7 @@ use Cake\ORM\TableRegistry;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\ExtendsAnnotation;
 use IdeHelper\Annotation\MixinAnnotation;
+use IdeHelper\Console\Io;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
 use IdeHelper\Utility\GenericString;
@@ -24,9 +25,52 @@ class ModelAnnotator extends AbstractAnnotator {
 	public const CLASS_TABLE = Table::class;
 
 	/**
+	 * @var string
+	 */
+	public const TABLE_BEHAVIORS = 'tableBehaviors';
+
+	/**
+	 * @var string
+	 */
+	public const BEHAVIOR_MIXIN = 'mixin';
+
+	/**
+	 * @var string
+	 */
+	public const BEHAVIOR_EXTENDS = 'extends';
+
+	/**
 	 * @var array<string, array<string, string>>
 	 */
 	protected array $_cache = [];
+
+	/**
+	 * @param \IdeHelper\Console\Io $io
+	 * @param array<string, mixed> $config
+	 */
+	public function __construct(Io $io, array $config) {
+		parent::__construct($io, $config);
+
+		/** @var string|bool|null $tableBehaviors */
+		$tableBehaviors = Configure::read('IdeHelper.tableBehaviors');
+		if ($tableBehaviors === true) {
+			$tableBehaviors = [
+				static::BEHAVIOR_MIXIN,
+				static::BEHAVIOR_EXTENDS,
+			];
+		} elseif ($tableBehaviors === false) {
+			$tableBehaviors = [];
+		} elseif ($tableBehaviors === null) {
+			$tableBehaviors = [
+				static::BEHAVIOR_MIXIN,
+			];
+			if (version_compare(Configure::version(), '5.2.2', '>=')) {
+				$tableBehaviors[] = static::BEHAVIOR_EXTENDS;
+			}
+		}
+
+		$this->setConfig(static::TABLE_BEHAVIORS, (array)$tableBehaviors);
+	}
 
 	/**
 	 * @param string $path Path to file.
@@ -403,6 +447,10 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
 	protected function addBehaviorMixins(array $result, array $behaviors): array {
+		if ($this->_config) {
+
+		}
+
 		foreach ($behaviors as $behavior) {
 			$className = App::className($behavior, 'Model/Behavior', 'Behavior');
 			if (!$className) {
