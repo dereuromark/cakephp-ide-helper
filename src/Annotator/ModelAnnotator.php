@@ -447,8 +447,8 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
 	protected function addBehaviorMixins(array $result, array $behaviors): array {
-		if ($this->_config) {
-
+		if (!in_array(static::BEHAVIOR_MIXIN, $this->_config[static::TABLE_BEHAVIORS], true)) {
+			return $result;
 		}
 
 		foreach ($behaviors as $behavior) {
@@ -472,6 +472,10 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
 	protected function addBehaviorExtends(array $result, array $behaviors): array {
+		if (!in_array(static::BEHAVIOR_EXTENDS, $this->_config[static::TABLE_BEHAVIORS], true)) {
+			return $result;
+		}
+
 		$list = [];
 		foreach ($behaviors as $name => $fullName) {
 			$className = App::className($fullName, 'Model/Behavior', 'Behavior');
