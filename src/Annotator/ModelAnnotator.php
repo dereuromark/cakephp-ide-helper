@@ -292,7 +292,6 @@ class ModelAnnotator extends AbstractAnnotator {
 		$map = $this->invokeProperty($object, '_loaded');
 
 		$behaviors = $this->extractBehaviors($map);
-
 		/** @phpstan-var class-string<object>|false $parentClass */
 		$parentClass = get_parent_class($table);
 		if (!$parentClass) {
@@ -327,17 +326,29 @@ class ModelAnnotator extends AbstractAnnotator {
 		/** @var object|string $behavior */
 		foreach ($map as $name => $behavior) {
 			$behaviorClassName = get_class($behavior) ?: '';
+			$behaviorName = $this->resolveBehaviorName($behaviorClassName, $name);
 			$pluginName = $this->resolvePluginName($behaviorClassName, $name);
-			if ($pluginName === null) {
-				continue;
-			}
 			if ($pluginName) {
 				$pluginName .= '.';
 			}
-			$result[$name] = $pluginName . $name;
+			$result[$name] = $pluginName . $behaviorName;
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @param string $className
+	 * @param string $name
+	 * @return string|null
+	 */
+	protected function resolveBehaviorName(string $className, string $name): ?string {
+		preg_match('#\\\\(?:Model|ORM)\\\\Behavior\\\\(.+)Behavior$#', $className, $matches);
+		if (!$matches) {
+			return null;
+		}
+
+		return str_replace('\\', '/', $matches[1]);
 	}
 
 	/**
@@ -355,12 +366,12 @@ class ModelAnnotator extends AbstractAnnotator {
 		}
 
 		if (str_contains($name, '\\')) {
-			preg_match('#^(.+)\\\\Model\\\\Behavior\\\\#', $className, $matches);
+			preg_match('#^(.+?)\\\\Model\\\\Behavior\\\\#', $className, $matches);
 			if (!$matches) {
 				return null;
 			}
 		} else {
-			preg_match('#^(.+)\\\\Model\\\\Behavior\\\\' . $name . 'Behavior$#', $className, $matches);
+			preg_match('#^(.+?)\\\\Model\\\\Behavior\\\\(.+)Behavior$#', $className, $matches);
 			if (!$matches) {
 				return null;
 			}
