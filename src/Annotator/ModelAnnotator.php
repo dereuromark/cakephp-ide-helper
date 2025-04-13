@@ -321,7 +321,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param array<string> $map
 	 * @return array<string>
 	 */
-	protected function extractBehaviors(array $map) {
+	protected function extractBehaviors(array $map): array {
 		$result = [];
 		/** @var object|string $behavior */
 		foreach ($map as $name => $behavior) {
