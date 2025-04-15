@@ -64,7 +64,7 @@ class DatabaseTableColumnTypeTaskTest extends TestCase {
 		/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */
 		$directive = array_shift($result);
 		$this->assertInstanceOf(ExpectedArguments::class, $directive);
-		$this->assertSame('\Migrations\Table::addColumn()', $directive->toArray()['method']);
+		$this->assertSame('\Migrations\Db\Table::addColumn()', $directive->toArray()['method']);
 
 		$list = array_map(function ($value) {
 			return (string)$value;
@@ -81,7 +81,7 @@ class DatabaseTableColumnTypeTaskTest extends TestCase {
 
 		/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */
 		$directive = array_shift($result);
-		$this->assertSame('\Migrations\Table::changeColumn()', $directive->toArray()['method']);
+		$this->assertSame('\Migrations\Db\Table::changeColumn()', $directive->toArray()['method']);
 
 		$list = $directive->toArray()['list'];
 		$list = array_map(function ($className) {
@@ -132,7 +132,7 @@ class DatabaseTableColumnTypeTaskTest extends TestCase {
 
 		/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */
 		$directive = array_shift($result);
-		$this->assertSame('\Migrations\Table::addColumn()', $directive->toArray()['method']);
+		$this->assertSame('\Migrations\Db\Table::addColumn()', $directive->toArray()['method']);
 
 		$list = $directive->toArray()['list'];
 		$list = array_map(function ($className) {
@@ -146,7 +146,7 @@ class DatabaseTableColumnTypeTaskTest extends TestCase {
 
 		/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */
 		$directive = array_shift($result);
-		$this->assertSame('\Migrations\Table::changeColumn()', $directive->toArray()['method']);
+		$this->assertSame('\Migrations\Db\Table::changeColumn()', $directive->toArray()['method']);
 
 		Plugin::getCollection()->remove('Migrations');
 		$this->assertFalse(Plugin::isLoaded('Migrations'));
