@@ -22,8 +22,8 @@ class DatabaseTableColumnTypeTask implements TaskInterface {
 	 * @var array<string>
 	 */
 	protected array $aliases = [
-		'\Migrations\Table::addColumn()',
-		'\Migrations\Table::changeColumn()',
+		'\Migrations\Db\Table::addColumn()',
+		'\Migrations\Db\Table::changeColumn()',
 	];
 
 	/**

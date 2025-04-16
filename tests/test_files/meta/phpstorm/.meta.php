@@ -775,49 +775,49 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
-		\Migrations\Table::addColumn(),
+		\Migrations\Db\Table::addColumn(),
 		0,
 		argumentsSet('columnNames'),
 	);
 
 	expectedArguments(
-		\Migrations\Table::addColumn(),
+		\Migrations\Db\Table::addColumn(),
 		1,
 		argumentsSet('columnTypes'),
 	);
 
 	expectedArguments(
-		\Migrations\Table::changeColumn(),
+		\Migrations\Db\Table::changeColumn(),
 		0,
 		argumentsSet('columnNames'),
 	);
 
 	expectedArguments(
-		\Migrations\Table::changeColumn(),
+		\Migrations\Db\Table::changeColumn(),
 		1,
 		argumentsSet('columnTypes'),
 	);
 
 	expectedArguments(
-		\Migrations\Table::hasColumn(),
+		\Migrations\Db\Table::hasColumn(),
 		0,
 		argumentsSet('columnNames'),
 	);
 
 	expectedArguments(
-		\Migrations\Table::removeColumn(),
+		\Migrations\Db\Table::removeColumn(),
 		0,
 		argumentsSet('columnNames'),
 	);
 
 	expectedArguments(
-		\Migrations\Table::renameColumn(),
+		\Migrations\Db\Table::renameColumn(),
 		0,
 		argumentsSet('columnNames'),
 	);
 
 	expectedArguments(
-		\Migrations\Table::renameColumn(),
+		\Migrations\Db\Table::renameColumn(),
 		1,
 		argumentsSet('columnNames'),
 	);

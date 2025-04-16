@@ -21,11 +21,11 @@ class DatabaseTableColumnNameTask extends DatabaseTableTask {
 	 * @var array<string>
 	 */
 	protected array $aliases = [
-		'\Migrations\Table::addColumn()',
-		'\Migrations\Table::changeColumn()',
-		'\Migrations\Table::removeColumn()',
-		'\Migrations\Table::renameColumn()',
-		'\Migrations\Table::hasColumn()',
+		'\Migrations\Db\Table::addColumn()',
+		'\Migrations\Db\Table::changeColumn()',
+		'\Migrations\Db\Table::removeColumn()',
+		'\Migrations\Db\Table::renameColumn()',
+		'\Migrations\Db\Table::hasColumn()',
 	];
 
 	/**
@@ -50,7 +50,7 @@ class DatabaseTableColumnNameTask extends DatabaseTableTask {
 			$result[$directive->key()] = $directive;
 		}
 
-		$directive = new ExpectedArguments('\Migrations\Table::renameColumn()', 1, [$registerArgumentsSet]);
+		$directive = new ExpectedArguments('\Migrations\Db\Table::renameColumn()', 1, [$registerArgumentsSet]);
 		$result[$directive->key()] = $directive;
 
 		return $result;
