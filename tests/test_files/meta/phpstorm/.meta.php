@@ -763,13 +763,13 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
-		\Migrations\AbstractMigration::table(),
+		\Migrations\BaseMigration::table(),
 		0,
 		argumentsSet('tableNames'),
 	);
 
 	expectedArguments(
-		\Migrations\AbstractSeed::table(),
+		\Migrations\BaseSeed::table(),
 		0,
 		argumentsSet('tableNames'),
 	);
@@ -820,12 +820,6 @@ namespace PHPSTORM_META {
 		\Migrations\Db\Table::renameColumn(),
 		1,
 		argumentsSet('columnNames'),
-	);
-
-	expectedArguments(
-		\Phinx\Seed\AbstractSeed::table(),
-		0,
-		argumentsSet('tableNames'),
 	);
 
 	expectedArguments(
