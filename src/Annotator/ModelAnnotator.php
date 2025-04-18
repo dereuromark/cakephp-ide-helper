@@ -139,7 +139,8 @@ class ModelAnnotator extends AbstractAnnotator {
 		$entityClassName = $table->getEntityClass();
 		$entityName = substr($entityClassName, strrpos($entityClassName, '\\') + 1);
 
-		$resTable = $this->table($path, $entityName, $associations, $behaviors);
+		$parentClass = (string)get_parent_class($table);
+		$resTable = $this->table($path, $entityName, $associations, $behaviors, $parentClass);
 		$resEntity = $this->entity($entityClassName, $entityName, $schema, $tableAssociations);
 
 		return $resTable || $resEntity;
@@ -150,17 +151,17 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param string $entityName
 	 * @param array<string, mixed> $associations
 	 * @param array<string> $behaviors
-	 *
+	 * @param string $parentClass
 	 * @return bool
 	 */
-	protected function table(string $path, string $entityName, array $associations, array $behaviors): bool {
+	protected function table(string $path, string $entityName, array $associations, array $behaviors, string $parentClass): bool {
 		$content = file_get_contents($path);
 		if ($content === false) {
 			throw new RuntimeException('Cannot read file');
 		}
 
 		$behaviors += $this->parseLoadedBehaviors($content);
-		$annotations = $this->buildAnnotations($associations, $entityName, $behaviors);
+		$annotations = $this->buildAnnotations($associations, $entityName, $behaviors, $parentClass);
 
 		return $this->annotateContent($path, $content, $annotations);
 	}
@@ -169,12 +170,10 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param array<string, mixed> $associations
 	 * @param string $entity
 	 * @param array<string> $behaviors
-	 *
-	 * @throws \RuntimeException
-	 *
+	 * @param string $parentClass
 	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
-	protected function buildAnnotations(array $associations, string $entity, array $behaviors): array {
+	protected function buildAnnotations(array $associations, string $entity, array $behaviors, string $parentClass): array {
 		$namespace = $this->getConfig(static::CONFIG_NAMESPACE);
 		$annotations = [];
 		foreach ($associations as $type => $assocs) {
@@ -244,7 +243,7 @@ class ModelAnnotator extends AbstractAnnotator {
 		}
 
 		$result = $this->addBehaviorMixins($result, $behaviors);
-		$result = $this->addBehaviorExtends($result, $behaviors);
+		$result = $this->addBehaviorExtends($result, $behaviors, $parentClass);
 
 		return $result;
 	}
@@ -469,9 +468,10 @@ class ModelAnnotator extends AbstractAnnotator {
 	/**
 	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $result
 	 * @param array<string> $behaviors
+	 * @param string $parentClass
 	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
-	protected function addBehaviorExtends(array $result, array $behaviors): array {
+	protected function addBehaviorExtends(array $result, array $behaviors, string $parentClass): array {
 		if (!in_array(static::BEHAVIOR_EXTENDS, $this->_config[static::TABLE_BEHAVIORS], true)) {
 			return $result;
 		}
@@ -497,7 +497,10 @@ class ModelAnnotator extends AbstractAnnotator {
 
 		$list = implode(', ', $list);
 
-		$result[] = AnnotationFactory::createOrFail(ExtendsAnnotation::TAG, '\\Cake\\ORM\\Table<array{' . $list . '}>');
+		if (!$parentClass) {
+			$parentClass = '\\Cake\\ORM\\Table';
+		}
+		$result[] = AnnotationFactory::createOrFail(ExtendsAnnotation::TAG, '\\' . $parentClass . '<array{' . $list . '}>');
 
 		return $result;
 	}
