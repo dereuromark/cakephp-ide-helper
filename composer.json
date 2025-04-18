@@ -8,10 +8,10 @@
 		"IDE",
 		"autocomplete",
 		"annotations",
-		"plugin",
 		"phpstorm",
 		"phpdoc",
-		"dev"
+		"dev",
+		"cli"
 	],
 	"authors": [
 		{
