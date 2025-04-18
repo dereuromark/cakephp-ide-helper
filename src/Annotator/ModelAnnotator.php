@@ -64,7 +64,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			$tableBehaviors = [
 				static::BEHAVIOR_MIXIN,
 			];
-			if (version_compare(Configure::version(), '5.2.2', '>=')) {
+			if (version_compare(Configure::version(), '5.2.3', '>=')) {
 				$tableBehaviors[] = static::BEHAVIOR_EXTENDS;
 			}
 		}
