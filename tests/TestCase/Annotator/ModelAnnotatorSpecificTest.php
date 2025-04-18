@@ -49,6 +49,7 @@ class ModelAnnotatorSpecificTest extends TestCase {
 		Configure::write('IdeHelper.assocsAsGenerics', true);
 		Configure::write('IdeHelper.concreteEntitiesInParam', true);
 		Configure::write('IdeHelper.genericsInParam', true);
+		Configure::write('IdeHelper.tableBehaviors', 'mixin');
 
 		$x = TableRegistry::getTableLocator()->get('IdeHelper.Foos', ['className' => FoosTable::class]);
 		$columns = [
@@ -107,6 +108,7 @@ class ModelAnnotatorSpecificTest extends TestCase {
 		Configure::delete('IdeHelper.assocsAsGenerics');
 		Configure::delete('IdeHelper.concreteEntitiesInParam');
 		Configure::delete('IdeHelper.genericsInParam');
+		Configure::delete('IdeHelper.tableBehaviors');
 	}
 
 	/**
@@ -145,7 +147,7 @@ class ModelAnnotatorSpecificTest extends TestCase {
 
 		$output = $this->out->output();
 
-		$this->assertTextContains('  -> 17 annotations added', $output);
+		$this->assertTextContains('  -> 7 annotations added', $output);
 	}
 
 	/**
