@@ -63,7 +63,7 @@ class EntityTask extends ModelTask {
 			$fields = [];
 			$tableObject = null;
 			try {
-				/** @var \Cake\ORM\Table $tableObject */
+				/** @var \Cake\ORM\Table<array{}> $tableObject */
 				$tableObject = new $className();
 				$fields = $tableObject->getSchema()->columns();
 
@@ -111,7 +111,7 @@ class EntityTask extends ModelTask {
 	}
 
 	/**
-	 * @param \Cake\ORM\Table $table
+	 * @param \Cake\ORM\Table<array{}> $table
 	 *
 	 * @return array<string>
 	 */
