@@ -5,7 +5,8 @@ parameters:
 	bootstrapFiles:
 		- bootstrap.php
 		- shim.php
-	checkMissingIterableValueType: false
 	earlyTerminatingMethodCalls:
-		Cake\Console\Shell:
+		Cake\Console\BaseCommand:
 			- abort
+	ignoreErrors:
+		- identifier: missingType.iterableValue
