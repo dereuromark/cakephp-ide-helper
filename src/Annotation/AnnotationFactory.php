@@ -26,16 +26,36 @@ class AnnotationFactory {
 			case VariableAnnotation::TAG:
 				return new VariableAnnotation($type, (string)$content, $index);
 			case MixinAnnotation::TAG:
+				if ($content) {
+					$type .= ' ' . $content;
+				}
+
 				return new MixinAnnotation($type, $index);
 			case ParamAnnotation::TAG:
 				return new ParamAnnotation($type, (string)$content, $index);
 			case UsesAnnotation::TAG:
+				if ($content) {
+					$type .= ' ' . $content;
+				}
+
 				return new UsesAnnotation($type, $index);
 			case ExtendsAnnotation::TAG:
+				if ($content) {
+					$type .= ' ' . $content;
+				}
+
 				return new ExtendsAnnotation($type, $index);
 			case LinkAnnotation::TAG:
+				if ($content) {
+					$type .= ' ' . $content;
+				}
+
 				return new LinkAnnotation($type, $index);
 			case SeeAnnotation::TAG:
+				if ($content) {
+					$type .= ' ' . $content;
+				}
+
 				return new SeeAnnotation($type, $index);
 		}
 
@@ -55,6 +75,12 @@ class AnnotationFactory {
 		preg_match('/^@uses (.+)\s*(.+)?$/', $annotation, $matches);
 		if ($matches) {
 			return static::create(UsesAnnotation::TAG, $matches[1]);
+		}
+		preg_match('/^@extends ([^\s!]+<.*?>)(?:\s*([!]))?/', $annotation, $matches);
+		if ($matches) {
+			$string = implode(' ', $matches);
+
+			return static::create(ExtendsAnnotation::TAG, $string);
 		}
 
 		preg_match('/^(@property|@property-read|@method|@var|@param) ([^ ]+) (.+)$/', $annotation, $matches);

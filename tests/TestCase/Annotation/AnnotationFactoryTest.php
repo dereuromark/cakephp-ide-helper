@@ -4,6 +4,7 @@ namespace IdeHelper\Test\TestCase\Annotation;
 
 use Cake\TestSuite\TestCase;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\ExtendsAnnotation;
 use IdeHelper\Annotation\MethodAnnotation;
 use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
@@ -36,6 +37,14 @@ class AnnotationFactoryTest extends TestCase {
 
 		$annotation = AnnotationFactory::create('@foooo', '\\Foo', '$foo');
 		$this->assertNull($annotation);
+
+		$annotation = AnnotationFactory::create('@mixin', '\\Foo', '!');
+		$this->assertInstanceOf(MixinAnnotation::class, $annotation);
+		$this->assertSame('!', $annotation->getDescription());
+
+		$annotation = AnnotationFactory::create('@extends', '\\Foo<array{Bar: \Bar}>', '!');
+		$this->assertInstanceOf(ExtendsAnnotation::class, $annotation);
+		$this->assertSame('!', $annotation->getDescription());
 	}
 
 	/**
@@ -94,6 +103,16 @@ class AnnotationFactoryTest extends TestCase {
 		$annotation = AnnotationFactory::createFromString('@uses \\Foo\\Model\\Entity\\Bar');
 		$this->assertInstanceOf(UsesAnnotation::class, $annotation);
 		$this->assertSame('', $annotation->getDescription());
+
+		/** @var \IdeHelper\Annotation\UsesAnnotation $annotation */
+		$annotation = AnnotationFactory::createFromString('@extends \App\Model\Table\Table<array{Typographic: \Tools\Model\Behavior\TypographicBehavior>');
+		$this->assertInstanceOf(ExtendsAnnotation::class, $annotation);
+		$this->assertSame('', $annotation->getDescription());
+
+		/** @var \IdeHelper\Annotation\UsesAnnotation $annotation */
+		$annotation = AnnotationFactory::createFromString('@extends \App\Model\Table\Table<array{Typographic: \Tools\Model\Behavior\TypographicBehavior, Rating: \Ratings\Model\Behavior\RatableBehavior> !');
+		$this->assertInstanceOf(ExtendsAnnotation::class, $annotation);
+		$this->assertSame('!', $annotation->getDescription());
 	}
 
 }
