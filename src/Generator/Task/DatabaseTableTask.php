@@ -79,7 +79,7 @@ class DatabaseTableTask implements TaskInterface {
 		$blacklist = (array)Configure::read('IdeHelper.skipDatabaseTables');
 		foreach ($tables as $key => $table) {
 			foreach ($blacklist as $regex) {
-				if ((bool)preg_match($regex, $table)) {
+				if (preg_match($regex, $table)) {
 					unset($tables[$key]);
 				}
 			}

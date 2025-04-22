@@ -18,6 +18,13 @@ class ExtendsAnnotation extends AbstractAnnotation {
 	public function __construct(string $type, ?int $index = null) {
 		$description = '';
 
+		$closingBracket = strrpos($type, '>');
+		if ($closingBracket) {
+			$description = substr($type, $closingBracket + 1);
+			$description = trim($description);
+			$type = substr($type, 0, $closingBracket + 1);
+		}
+
 		parent::__construct($type, $index);
 
 		$this->description = $description;

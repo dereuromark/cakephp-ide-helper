@@ -51,7 +51,7 @@ class Illuminator {
 			return false;
 		}
 
-		return !(bool)preg_match('/' . preg_quote($filter, '/') . '/i', $fileName);
+		return !preg_match('/' . preg_quote($filter, '/') . '/i', $fileName);
 	}
 
 	/**

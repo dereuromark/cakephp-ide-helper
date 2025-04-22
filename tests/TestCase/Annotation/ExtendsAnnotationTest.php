@@ -3,6 +3,7 @@
 namespace IdeHelper\Test\TestCase\Annotation;
 
 use IdeHelper\Annotation\ExtendsAnnotation;
+use IdeHelper\Annotation\MethodAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
 use RuntimeException;
 use Shim\TestSuite\TestCase;
@@ -50,6 +51,19 @@ class ExtendsAnnotationTest extends TestCase {
 		$comparisonAnnotation = new ExtendsAnnotation('\Table<array{Xyz: \Plugin\Model\Behavior\XyzBehavior>');
 		$result = $annotation->matches($comparisonAnnotation);
 		$this->assertTrue($result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testMatchesWithDescription() {
+		$annotation = new ExtendsAnnotation('\Table<array{Sluggable: \Plugin\Model\Behavior\SluggableBehavior> !');
+		$comparisonAnnotation = new ExtendsAnnotation('\Table<array{Sluggable: \Plugin\Model\Behavior\SluggableBehavior>');
+		$result = $annotation->matches($comparisonAnnotation);
+
+		$this->assertTrue($result);
+		$this->assertSame('!', $annotation->getDescription());
+		$this->assertSame('', $comparisonAnnotation->getDescription());
 	}
 
 	/**
