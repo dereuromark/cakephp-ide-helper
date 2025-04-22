@@ -3,7 +3,6 @@
 namespace IdeHelper\Test\TestCase\Annotation;
 
 use IdeHelper\Annotation\ExtendsAnnotation;
-use IdeHelper\Annotation\MethodAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
 use RuntimeException;
 use Shim\TestSuite\TestCase;
