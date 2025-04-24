@@ -138,7 +138,7 @@ class EntityAnnotator extends AbstractAnnotator {
 					continue;
 				}
 
-				/** @var \Cake\ORM\Association\BelongsToMany<\Cake\ORM\Table<array{}>> $association */
+				/** @var \Cake\ORM\Association\BelongsToMany<\Cake\ORM\Table> $association */
 				$table = $this->getThrough($association);
 				if (!$table) {
 					$table = new Table();
@@ -173,9 +173,9 @@ class EntityAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param \Cake\ORM\Association\BelongsToMany<\Cake\ORM\Table<array{}>> $association
+	 * @param \Cake\ORM\Association\BelongsToMany<\Cake\ORM\Table> $association
 	 *
-	 * @return \Cake\ORM\Table<array{}>|null
+	 * @return \Cake\ORM\Table|null
 	 */
 	protected function getThrough(BelongsToMany $association): ?Table {
 		try {
@@ -197,7 +197,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	/**
 	 * @uses \Cake\ORM\Association\BelongsToMany::_junctionTableName()
 	 *
-	 * @param \Cake\ORM\Association\BelongsToMany<\Cake\ORM\Table<array{}>> $association
+	 * @param \Cake\ORM\Association\BelongsToMany<\Cake\ORM\Table> $association
 	 * @return string
 	 */
 	protected function junctionTableName(BelongsToMany $association): string {
