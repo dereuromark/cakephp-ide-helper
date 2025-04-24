@@ -327,10 +327,10 @@ class ModelAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * @param \Cake\ORM\Table<array{}> $table
+	 * @param \Cake\ORM\Table $table
 	 * @return array<string>
 	 */
-	protected function getBehaviors(Table $table): array {
+	protected function getBehaviors($table): array {
 		$object = $table->behaviors();
 		$map = $this->invokeProperty($object, '_loaded');
 
@@ -349,7 +349,7 @@ class ModelAnnotator extends AbstractAnnotator {
 				return $behaviors;
 			}
 
-			/** @var \Cake\ORM\Table<array{}> $parent */
+			/** @var \Cake\ORM\Table $parent */
 			$parent = new $parentClass();
 
 			$object = $parent->behaviors();
