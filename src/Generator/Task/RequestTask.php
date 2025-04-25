@@ -66,7 +66,7 @@ class RequestTask implements TaskInterface {
 	}
 
 	/**
-	 * @return array<string>
+	 * @return array<string, \IdeHelper\ValueObject\StringName>
 	 */
 	protected function collectParamKeys(): array {
 		$keys = [];
@@ -80,7 +80,7 @@ class RequestTask implements TaskInterface {
 	}
 
 	/**
-	 * @return array<string, string>
+	 * @return array<string, mixed>
 	 */
 	protected function collectAttributes(): array {
 		$request = Router::getRequest() ?: new ServerRequest();
@@ -94,15 +94,7 @@ class RequestTask implements TaskInterface {
 			$attributes[$key] = StringName::create($type);
 		}
 
-		if (Plugin::isLoaded('Authorization')) {
-			$attributes['identity'] = '\Authorization\IdentityInterface::class';
-		} elseif (Plugin::isLoaded('Authentication')) {
-			$attributes['identity'] = '\Authentication\IdentityInterface::class';
-		}
-		if (Plugin::isLoaded('Authentication')) {
-			$attributes['authentication'] = ClassName::create('Authentication\AuthenticationService');
-			$attributes['authenticationResult'] = ClassName::create('Authentication\Authenticator\Result');
-		}
+		$attributes = $this->addAttributesFromPlugins($attributes);
 
 		foreach ($defaults as $default) {
 			if (isset($attributes[$default])) {
@@ -113,6 +105,24 @@ class RequestTask implements TaskInterface {
 		}
 
 		ksort($attributes);
+
+		return $attributes;
+	}
+
+	/**
+	 * @param array<string, mixed> $attributes
+	 * @return array<string, mixed>
+	 */
+	protected function addAttributesFromPlugins(array $attributes): array {
+		if (Plugin::isLoaded('Authorization')) {
+			$attributes['identity'] = '\Authorization\IdentityInterface::class';
+		} elseif (Plugin::isLoaded('Authentication')) {
+			$attributes['identity'] = '\Authentication\IdentityInterface::class';
+		}
+		if (Plugin::isLoaded('Authentication')) {
+			$attributes['authentication'] = ClassName::create('Authentication\AuthenticationService');
+			$attributes['authenticationResult'] = ClassName::create('Authentication\Authenticator\Result');
+		}
 
 		return $attributes;
 	}
