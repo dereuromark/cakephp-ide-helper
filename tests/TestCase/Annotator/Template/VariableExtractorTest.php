@@ -14,14 +14,11 @@ if (!class_exists(Config::class) && file_exists($manualAutoload)) {
 	require $manualAutoload;
 }
 
-/**
- * @property \IdeHelper\Annotator\Template\VariableExtractor $variableExtractor
- */
 class VariableExtractorTest extends TestCase {
 
 	use FileTrait;
 
-	protected ?VariableExtractor $variableExtractor = null;
+	protected VariableExtractor $variableExtractor;
 
 	/**
 	 * @return void
@@ -195,6 +192,20 @@ PHP;
 		foreach ($expected as $name => $data) {
 			$this->assertSame($data['type'], $result[$name]['type'], print_r($result[$name], true));
 		}
+	}
+	/**
+	 * @return void
+	 */
+	public function testExtractFromStrings(): void {
+		$content = <<<'PHP'
+<?php
+echo "<strong>'{$url}'</strong>: $title.";
+PHP;
+		$file = $this->getFile('', $content);
+
+		$result = $this->variableExtractor->extract($file);
+
+		$this->assertSame(['title', 'url'], array_keys($result));
 	}
 
 }

@@ -6,7 +6,7 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Util\Tokens;
 
 /**
- * Extracts variables from CakePHP php/ctp templates using token list of CS File object.
+ * Extracts variables from CakePHP PHP templates using token list of CS File object.
  */
 class VariableExtractor {
 
@@ -65,6 +65,17 @@ class VariableExtractor {
 			}
 
 			$vars[$i] = $var;
+		}
+
+		foreach ($tokens as $i => $token) {
+			if ($token['code'] !== T_DOUBLE_QUOTED_STRING) {
+				continue;
+			}
+
+			$varsFound = $this->getVarsFromString($file, $token, $i);
+			foreach ($varsFound as $var) {
+				$vars[] = $var;
+			}
 		}
 
 		return $vars;
@@ -255,6 +266,33 @@ class VariableExtractor {
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param array<string, mixed> $token
+	 * @param int $i
+	 * @return array<array<string, mixed>>
+	 */
+	protected function getVarsFromString(File $file, array $token, int $i): array {
+
+		preg_match_all('/\$(\{)?([a-zA-Z_][a-zA-Z0-9_]*)\}?/', $token['content'], $matches);
+		if (empty($matches[2])) {
+			return [];
+		}
+
+		$result = [];
+		foreach ($matches[2] as $variable) {
+			$result[] = [
+				'name' => $variable,
+				'index' => $i,
+				'type' => null,
+				'excludeReason' => null,
+				'context' => $token,
+			];
+		}
+
+		return $result;
 	}
 
 }
