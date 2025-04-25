@@ -261,6 +261,23 @@ namespace PHPSTORM_META {
 		]),
 	);
 
+	override(
+		\Cake\Http\ServerRequest::getAttribute(0),
+		map([
+			'base' => 'string',
+			'cspScriptNonce' => 'string',
+			'cspStyleNonce' => 'string',
+			'csrfToken' => 'string',
+			'formTokenData' => 'array',
+			'here' => 'string',
+			'paging' => 'array',
+			'params' => 'array',
+			'route' => \Cake\Routing\Route\Route::class,
+			'session' => \Cake\Http\Session::class,
+			'webroot' => 'string',
+		]),
+	);
+
 	expectedArguments(
 		\Cake\Http\ServerRequest::getParam(),
 		0,
