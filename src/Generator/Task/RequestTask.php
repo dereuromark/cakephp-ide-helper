@@ -3,7 +3,13 @@
 namespace IdeHelper\Generator\Task;
 
 use Cake\Http\ServerRequest;
+use Cake\Http\Session;
+use Cake\Routing\Route\Route;
+use Cake\Routing\Router;
 use IdeHelper\Generator\Directive\ExpectedArguments;
+use IdeHelper\Generator\Directive\Override;
+use IdeHelper\Utility\Plugin;
+use IdeHelper\ValueObject\ClassName;
 use IdeHelper\ValueObject\StringName;
 
 class RequestTask implements TaskInterface {
@@ -24,6 +30,21 @@ class RequestTask implements TaskInterface {
 	];
 
 	/**
+	 * @var array<string, string>
+	 */
+	protected static array $attributeKeys = [
+		'csrfToken' => 'string',
+		'params' => 'array',
+		'webroot' => 'string',
+		'base' => 'string',
+		'here' => 'string',
+		'cspScriptNonce' => 'string',
+		'cspStyleNonce' => 'string',
+		'formTokenData' => 'array',
+		'paging' => 'array',
+	];
+
+	/**
 	 * @return array<string, \IdeHelper\Generator\Directive\BaseDirective>
 	 */
 	public function collect(): array {
@@ -33,6 +54,12 @@ class RequestTask implements TaskInterface {
 
 		$method = '\\' . static::CLASS_REQUEST . '::getParam()';
 		$directive = new ExpectedArguments($method, 0, $list);
+		$result[$directive->key()] = $directive;
+
+		$map = $this->collectAttributes();
+
+		$method = '\\' . static::CLASS_REQUEST . '::getAttribute(0)';
+		$directive = new Override($method, $map);
 		$result[$directive->key()] = $directive;
 
 		return $result;
@@ -50,6 +77,44 @@ class RequestTask implements TaskInterface {
 		ksort($keys);
 
 		return $keys;
+	}
+
+	/**
+	 * @return array<string, string>
+	 */
+	protected function collectAttributes(): array {
+		$request = Router::getRequest() ?: new ServerRequest();
+		$defaults = array_keys($request->getAttributes());
+
+		$attributes = [
+			'route' => ClassName::create(Route::class),
+			'session' => ClassName::create(Session::class),
+		];
+		foreach (static::$attributeKeys as $key => $type) {
+			$attributes[$key] = StringName::create($type);
+		}
+
+		if (Plugin::isLoaded('Authorization')) {
+			$attributes['identity'] = '\Authorization\IdentityInterface::class';
+		} elseif (Plugin::isLoaded('Authentication')) {
+			$attributes['identity'] = '\Authentication\IdentityInterface::class';
+		}
+		if (Plugin::isLoaded('Authentication')) {
+			$attributes['authentication'] = ClassName::create('Authentication\AuthenticationService');
+			$attributes['authenticationResult'] = ClassName::create('Authentication\Authenticator\Result');
+		}
+
+		foreach ($defaults as $default) {
+			if (isset($attributes[$default])) {
+				continue;
+			}
+
+			$attributes[$default] = StringName::create('');
+		}
+
+		ksort($attributes);
+
+		return $attributes;
 	}
 
 }

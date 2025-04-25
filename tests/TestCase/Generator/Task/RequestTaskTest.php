@@ -24,7 +24,7 @@ class RequestTaskTest extends TestCase {
 	public function testCollect() {
 		$result = $this->task->collect();
 
-		$this->assertCount(1, $result);
+		$this->assertCount(2, $result);
 
 		/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */
 		$directive = array_shift($result);
@@ -45,6 +45,15 @@ class RequestTaskTest extends TestCase {
 			'prefix' => "'prefix'",
 		];
 		$this->assertSame($expected, $list);
+
+		/** @var \IdeHelper\Generator\Directive\Override $directive */
+		$directive = array_shift($result);
+		$this->assertSame('\Cake\Http\ServerRequest::getAttribute(0)', $directive->toArray()['method']);
+
+		$map = $directive->toArray()['map'];
+
+		$expected = '\Cake\Http\Session::class';
+		$this->assertSame($expected, (string)$map['session']);
 	}
 
 }
