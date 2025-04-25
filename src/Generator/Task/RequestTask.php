@@ -115,9 +115,9 @@ class RequestTask implements TaskInterface {
 	 */
 	protected function addAttributesFromPlugins(array $attributes): array {
 		if (Plugin::isLoaded('Authorization')) {
-			$attributes['identity'] = '\Authorization\IdentityInterface::class';
+			$attributes['identity'] = ClassName::create('Authorization\IdentityInterface');
 		} elseif (Plugin::isLoaded('Authentication')) {
-			$attributes['identity'] = '\Authentication\IdentityInterface::class';
+			$attributes['identity'] = ClassName::create('Authentication\IdentityInterface');
 		}
 		if (Plugin::isLoaded('Authentication')) {
 			$attributes['authentication'] = ClassName::create('Authentication\AuthenticationService');
