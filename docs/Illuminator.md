@@ -52,10 +52,10 @@ $carEntity->setDirty($carEntity::FIELD_WHEELS);
 or
 ```php
 // old
-$query->orderDesc('publish_date');
+$query->orderByDesc('publish_date');
 
 // new
-$query->orderDesc(Post::FIELD_PUBLISH_DATE);
+$query->orderByDesc(Post::FIELD_PUBLISH_DATE);
 ```
 
 This allows for less typing as autocomplete finds it immediately - and for usage display (IDE => rightclick => get usage).
