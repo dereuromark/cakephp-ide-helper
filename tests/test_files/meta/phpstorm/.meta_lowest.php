@@ -1340,8 +1340,8 @@ namespace PHPSTORM_META {
 
 	registerArgumentsSet(
 		'cacheEngines',
-		'_cake_core_',
 		'_cake_model_',
+		'_cake_translations_',
 		'default',
 	);
 
