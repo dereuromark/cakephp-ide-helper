@@ -2,6 +2,7 @@
 
 namespace IdeHelper\Test\TestCase\CodeCompletion\Task;
 
+use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
 use IdeHelper\CodeCompletion\Task\ControllerEventsTask;
 
@@ -21,7 +22,9 @@ class ControllerEventsTaskTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testCollect() {
+	public function testCollectLegacy(): void {
+		Configure::write('IdeHelper.codeCompletionReturnType', false);
+
 		$result = $this->task->create();
 
 		$expected = <<<'TXT'
@@ -32,73 +35,178 @@ use Cake\Http\Response;
 if (false) {
 	class Controller {
 		/**
-         * @param \Cake\Event\EventInterface $event
-         *
-         * @return \Cake\Http\Response|null|void
-         */
+		 * @param \Cake\Event\EventInterface $event
+		 *
+		 * @return void
+		 */
 		public function startup(EventInterface $event) {
-			return null;
 		}
+
 		/**
-         * @param \Cake\Event\EventInterface $event
-         *
-         * @return \Cake\Http\Response|null|void
-         */
+		 * @param \Cake\Event\EventInterface $event
+		 *
+		 * @return void
+		 */
 		public function beforeFilter(EventInterface $event) {
-			return null;
 		}
+
 		/**
-         * @param \Cake\Event\EventInterface $event
-         *
-         * @return \Cake\Http\Response|null|void
-         */
+		 * @param \Cake\Event\EventInterface $event
+		 *
+		 * @return void
+		 */
 		public function beforeRender(EventInterface $event) {
-			return null;
 		}
+
 		/**
-         * @param \Cake\Event\EventInterface $event
-         *
-         * @return \Cake\Http\Response|null|void
-         */
+		 * @param \Cake\Event\EventInterface $event
+		 *
+		 * @return void
+		 */
 		public function afterFilter(EventInterface $event) {
-			return null;
 		}
+
 		/**
-         * @param \Cake\Event\EventInterface $event
-         *
-         * @return \Cake\Http\Response|null|void
-         */
+		 * @param \Cake\Event\EventInterface $event
+		 *
+		 * @return void
+		 */
 		public function shutdown(EventInterface $event) {
-			return null;
 		}
+
 		/**
-         * @param \Cake\Event\EventInterface $event
-         *
-         * @return \Cake\Http\Response|null|void
-         */
+		 * @param \Cake\Event\EventInterface $event
+		 * @param array|string $url
+		 * @param \Cake\Http\Response $response
+		 *
+		 * @return void
+		 */
 		public function beforeRedirect(EventInterface $event, $url, Response $response) {
-			return null;
 		}
 	}
 
 	class Component {
-		public function startup(EventInterface $event): \Cake\Http\Response|null {
-			return null;
+		/**
+		 * @param \Cake\Event\EventInterface $event
+		 *
+		 * @return void
+		 */
+		public function startup(EventInterface $event) {
 		}
-		public function beforeFilter(EventInterface $event): \Cake\Http\Response|null {
-			return null;
+
+		/**
+		 * @param \Cake\Event\EventInterface $event
+		 *
+		 * @return void
+		 */
+		public function beforeFilter(EventInterface $event) {
 		}
-		public function beforeRender(EventInterface $event): \Cake\Http\Response|null {
-			return null;
+
+		/**
+		 * @param \Cake\Event\EventInterface $event
+		 *
+		 * @return void
+		 */
+		public function beforeRender(EventInterface $event) {
 		}
-		public function afterFilter(EventInterface $event): \Cake\Http\Response|null {
-			return null;
+
+		/**
+		 * @param \Cake\Event\EventInterface $event
+		 *
+		 * @return void
+		 */
+		public function afterFilter(EventInterface $event) {
 		}
-		public function shutdown(EventInterface $event): \Cake\Http\Response|null {
-			return null;
+
+		/**
+		 * @param \Cake\Event\EventInterface $event
+		 *
+		 * @return void
+		 */
+		public function shutdown(EventInterface $event) {
 		}
-		public function beforeRedirect(EventInterface $event, $url, Response $response): \Cake\Http\Response|null {
-			return null;
+
+		/**
+		 * @param \Cake\Event\EventInterface $event
+		 * @param array|string $url
+		 * @param \Cake\Http\Response $response
+		 *
+		 * @return void
+		 */
+		public function beforeRedirect(EventInterface $event, $url, Response $response) {
+		}
+	}
+}
+
+TXT;
+		$this->assertTextEquals($expected, $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testCollect() {
+		Configure::write('IdeHelper.codeCompletionReturnType', true);
+
+		$result = $this->task->create();
+
+		$expected = <<<'TXT'
+
+use Cake\Event\EventInterface;
+use Cake\Http\Response;
+
+if (false) {
+	class Controller {
+		public function startup(EventInterface $event): void {
+		}
+
+		public function beforeFilter(EventInterface $event): void {
+		}
+
+		public function beforeRender(EventInterface $event): void {
+		}
+
+		public function afterFilter(EventInterface $event): void {
+		}
+
+		public function shutdown(EventInterface $event): void {
+		}
+
+		/**
+		 * @param \Cake\Event\EventInterface $event
+		 * @param array|string $url
+		 * @param \Cake\Http\Response $response
+		 *
+		 * @return void
+		 */
+		public function beforeRedirect(EventInterface $event, $url, Response $response): void {
+		}
+	}
+
+	class Component {
+		public function startup(EventInterface $event): void {
+		}
+
+		public function beforeFilter(EventInterface $event): void {
+		}
+
+		public function beforeRender(EventInterface $event): void {
+		}
+
+		public function afterFilter(EventInterface $event): void {
+		}
+
+		public function shutdown(EventInterface $event): void {
+		}
+
+		/**
+		 * @param \Cake\Event\EventInterface $event
+		 * @param array|string $url
+		 * @param \Cake\Http\Response $response
+		 *
+		 * @return void
+		 */
+		public function beforeRedirect(EventInterface $event, $url, Response $response): void {
 		}
 	}
 }

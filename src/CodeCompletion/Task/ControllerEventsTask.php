@@ -55,36 +55,45 @@ CODE;
 		$type = null;
 		$docBlock = null;
 		if ($returnType) {
-			$type = ': ' . '\Cake\Http\Response|null';
+			$type = ': ' . 'void';
 		} else {
 			$docBlock = <<<TXT
-        /**
-         * @param \Cake\Event\EventInterface \$event
-         *
-         * @return \Cake\Http\Response|null|void
-         */
+		/**
+		 * @param \Cake\Event\EventInterface \$event
+		 *
+		 * @return void
+		 */
 TXT;
 			$docBlock = trim($docBlock) . PHP_EOL . str_repeat("\t", 2);
 		}
+		$docBlockRedirect = <<<TXT
+		/**
+		 * @param \Cake\Event\EventInterface \$event
+		 * @param array|string \$url
+		 * @param \Cake\Http\Response \$response
+		 *
+		 * @return void
+		 */
+TXT;
+		$docBlockRedirect = trim($docBlockRedirect) . PHP_EOL . str_repeat("\t", 2);
 
 		$events = <<<TXT
 		{$docBlock}public function startup(EventInterface \$event)$type {
-			return null;
 		}
+
 		{$docBlock}public function beforeFilter(EventInterface \$event)$type {
-			return null;
 		}
+
 		{$docBlock}public function beforeRender(EventInterface \$event)$type {
-			return null;
 		}
+
 		{$docBlock}public function afterFilter(EventInterface \$event)$type {
-			return null;
 		}
+
 		{$docBlock}public function shutdown(EventInterface \$event)$type {
-			return null;
 		}
-		{$docBlock}public function beforeRedirect(EventInterface \$event, \$url, Response \$response)$type {
-			return null;
+
+		{$docBlockRedirect}public function beforeRedirect(EventInterface \$event, \$url, Response \$response)$type {
 		}
 TXT;
 
