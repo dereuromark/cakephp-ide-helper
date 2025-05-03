@@ -23,6 +23,10 @@ class MailerClassAnnotatorTask extends AbstractClassAnnotatorTask implements Cla
 			return false;
 		}
 
+		if (preg_match('#namespace \w+\\\\Mailer;#', $content)) {
+			return false;
+		}
+
 		preg_match('#\buse (\w+)\\\\Mailer\\\\(\w+)Mailer\b#', $content, $useMatches);
 		preg_match('#\$\w+\s*=\s*\$this-\>getMailer\(\'([\w\.]+)\'\)#', $content, $callMatches);
 		$singleLine = false;

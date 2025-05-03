@@ -145,6 +145,18 @@ class MailerClassAnnotatorTaskTest extends TestCase {
 	}
 
 	/**
+	 * @return void
+	 */
+	public function testShouldRunInvalid() {
+		$content = file_get_contents(TEST_FILES . 'MailerAnnotation' . DS . 'MailerAnnotation.invalid.php');
+		$task = $this->getTask($content);
+		$path = '/src/Foo/Foo.php';
+
+		$result = $task->shouldRun($path, $content);
+		$this->assertFalse($result);
+	}
+
+	/**
 	 * @param string $content
 	 * @param array $params
 	 *
