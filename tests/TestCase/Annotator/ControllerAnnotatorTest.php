@@ -143,7 +143,7 @@ class ControllerAnnotatorTest extends TestCase {
 			->method('storeFile')
 			->with($this->anything(), $this->callback($callback));
 
-		$path = TEST_ROOT . '/plugins/Controllers/src/Controller/HousesController.php';
+		$path = ROOT . '/plugins/Controllers/src/Controller/HousesController.php';
 		$annotator->setConfig(ControllerAnnotator::CONFIG_PLUGIN, 'Controllers');
 		$annotator->annotate($path);
 
@@ -171,7 +171,7 @@ class ControllerAnnotatorTest extends TestCase {
 			->method('storeFile')
 			->with($this->anything(), $this->callback($callback));
 
-		$path = TEST_ROOT . '/plugins/Controllers/src/Controller/WindowsController.php';
+		$path = ROOT . '/plugins/Controllers/src/Controller/WindowsController.php';
 		$annotator->setConfig(ControllerAnnotator::CONFIG_PLUGIN, 'Controllers');
 		$annotator->annotate($path);
 
@@ -189,7 +189,7 @@ class ControllerAnnotatorTest extends TestCase {
 		$annotator->expects($this->never())
 			->method('storeFile');
 
-		$path = TEST_ROOT . '/plugins/Controllers/src/Controller/GenericController.php';
+		$path = ROOT . '/plugins/Controllers/src/Controller/GenericController.php';
 		$annotator->setConfig(ControllerAnnotator::CONFIG_PLUGIN, 'Awesome');
 		$annotator->annotate($path);
 

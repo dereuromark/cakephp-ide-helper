@@ -80,6 +80,16 @@ class AnnotateCommandTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testTemplatesSkipFiles(): void {
+		$this->exec('annotate templates -d -v --file templates/element/deeply/nested.php');
+		$this->assertExitSuccess();
+		$this->assertOutputContains('-> nested');
+		$this->assertOutputNotContains('-> example');
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testControllers() {
 		$this->exec('annotate controllers -d -v -r');
 		$this->assertExitSuccess();

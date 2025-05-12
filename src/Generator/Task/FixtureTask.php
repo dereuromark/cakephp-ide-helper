@@ -37,7 +37,7 @@ class FixtureTask implements TaskInterface {
 		$list = [];
 
 		$fixtures = [];
-		$fixtureFolder = ROOT . DS . 'tests' . DS . 'Fixture' . DS;
+		$fixtureFolder = PLUGIN_ROOT . DS . 'tests' . DS . 'Fixture' . DS;
 		$fixtures += $this->parseFixtures($fixtureFolder, 'app');
 
 		$plugins = Plugin::all();
@@ -47,7 +47,7 @@ class FixtureTask implements TaskInterface {
 			$fixtures += $this->parseFixtures($fixtureFolder, 'plugin.' . $plugin);
 		}
 
-		$fixtureFolder = ROOT . DS . 'vendor' . DS . 'cakephp' . DS . 'cakephp' . DS . 'tests' . DS . 'Fixture' . DS;
+		$fixtureFolder = PLUGIN_ROOT . DS . 'vendor' . DS . 'cakephp' . DS . 'cakephp' . DS . 'tests' . DS . 'Fixture' . DS;
 		$fixtures += $this->parseFixtures($fixtureFolder, 'core');
 
 		foreach ($fixtures as $fixture) {
