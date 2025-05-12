@@ -110,7 +110,7 @@ class ClassesCommand extends AnnotateCommand {
 				}
 
 				$name = pathinfo($path, PATHINFO_FILENAME);
-				if ($this->_shouldSkip($name)) {
+				if ($this->_shouldSkip($name, $path)) {
 					continue;
 				}
 

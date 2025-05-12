@@ -66,7 +66,7 @@ class ControllersCommand extends AnnotateCommand {
 				$this->_controllers($folder . $subFolder . DS);
 			} else {
 				$name = pathinfo($path, PATHINFO_FILENAME);
-				if ($this->_shouldSkip($name)) {
+				if ($this->_shouldSkip($name, $path)) {
 					continue;
 				}
 
