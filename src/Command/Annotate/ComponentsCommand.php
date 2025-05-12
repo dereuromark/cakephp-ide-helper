@@ -52,7 +52,7 @@ class ComponentsCommand extends AnnotateCommand {
 				$this->_components($path);
 			} else {
 				$name = pathinfo($path, PATHINFO_FILENAME);
-				if ($this->_shouldSkip($name)) {
+				if ($this->_shouldSkip($name, $path)) {
 					continue;
 				}
 

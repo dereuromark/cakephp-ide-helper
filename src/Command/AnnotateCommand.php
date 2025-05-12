@@ -8,6 +8,7 @@ use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Console\Io;
+use RuntimeException;
 
 abstract class AnnotateCommand extends Command {
 
@@ -90,6 +91,10 @@ abstract class AnnotateCommand extends Command {
 				'help' => 'Filter by search string in file name. For templates also in path.',
 				'default' => null,
 			],
+			'file' => [
+				'help' => 'Pass file(s) to run for, comma separated. Can be absolute or ROOT relative.',
+				'default' => null,
+			],
 			'ci' => [
 				'help' => 'Enable CI mode (requires dry-run). This will return an error code ' . static::CODE_CHANGES . ' if changes are necessary.',
 				'boolean' => true,
@@ -115,16 +120,47 @@ abstract class AnnotateCommand extends Command {
 
 	/**
 	 * @param string $fileName
+	 * @param string|null $path
 	 *
 	 * @return bool
 	 */
-	protected function _shouldSkip(string $fileName): bool {
+	protected function _shouldSkip(string $fileName, ?string $path = null): bool {
+		$files = $this->_files();
+		if ($files) {
+			return !in_array($path, $files, true);
+		}
+
 		$filter = (string)$this->args->getOption('filter');
 		if (!$filter) {
 			return false;
 		}
 
 		return !preg_match('/' . preg_quote($filter, '/') . '/i', $fileName);
+	}
+
+	/**
+	 * @return array<string>
+	 */
+	protected function _files(): array {
+		$file = (string)$this->args->getOption('file');
+		if (!$file) {
+			return [];
+		}
+
+		$files = explode(',', $file);
+		foreach ($files as $k => $file) {
+			if (!str_starts_with($file, ROOT . DS)) {
+				$file = ROOT . DS . $file;
+			}
+
+			if (!file_exists($file)) {
+				throw new RuntimeException('Cannot find file: ' . $file);
+			}
+
+			$files[$k] = $file;
+		}
+
+		return $files;
 	}
 
 	/**

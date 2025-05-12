@@ -629,6 +629,17 @@ Tip: Use it together with `-v` (verbose) to get more information on what files g
 With the `-f`/`--filter` option you can quickly annotate only specific files. It will apply the filter to the file name.
 For templates it will also look in the folder name.
 
+## Specific files only
+With `--files` and a comma separated list of ROOT relative or absolute paths to files you can limit the run to those specific.
+This can be useful for programmatic tooling-based runs or file watchers to be implemented.
+
+If this option is set, it will take precedence over `filter` (ignore it).
+
+Example:
+```
+--files src/View/AppView.php,plugins/My/src/View/Helper/MyHelper.php
+```
+
 ## Removing outdated annotations
 NEW: With `-r`/`--remove` there is now basic support for finding and removing outdated annotations.
 Please use this only after normally running and committing your annotation changes to be sure you can review and

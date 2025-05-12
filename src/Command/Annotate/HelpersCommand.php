@@ -52,7 +52,7 @@ class HelpersCommand extends AnnotateCommand {
 				$this->_helpers($path);
 			} else {
 				$name = pathinfo($path, PATHINFO_FILENAME);
-				if ($this->_shouldSkip($name)) {
+				if ($this->_shouldSkip($name, $path)) {
 					continue;
 				}
 

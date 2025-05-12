@@ -48,18 +48,18 @@ class CommandsCommand extends AnnotateCommand {
 		$this->io->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
 
 		$folderContent = glob($folder . '*') ?: [];
-		foreach ($folderContent as $file) {
-			if (is_dir($file)) {
+		foreach ($folderContent as $path) {
+			if (is_dir($path)) {
 				continue;
 			}
-			$name = pathinfo($file, PATHINFO_FILENAME);
-			if ($this->_shouldSkip($name)) {
+			$name = pathinfo($path, PATHINFO_FILENAME);
+			if ($this->_shouldSkip($name, $path)) {
 				continue;
 			}
 
 			$this->io->out('-> ' . $name, 1, ConsoleIo::VERBOSE);
 			$annotator = $this->getAnnotator(CommandAnnotator::class);
-			$annotator->annotate($file);
+			$annotator->annotate($path);
 		}
 	}
 
