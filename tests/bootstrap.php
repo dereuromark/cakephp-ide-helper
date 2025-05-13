@@ -15,9 +15,10 @@ define('PLUGIN_ROOT', dirname(__DIR__));
 define('APP_DIR', 'src');
 
 // Point app constants to the test app.
-define('ROOT', PLUGIN_ROOT . DS . 'tests' . DS . 'test_app');
-define('APP', ROOT . DS . APP_DIR . DS);
-define('PLUGINS', ROOT . DS . 'plugins' . DS);
+define('APP_ROOT', PLUGIN_ROOT . DS . 'tests' . DS . 'test_app');
+define('ROOT', APP_ROOT);
+define('APP', APP_ROOT . DS . APP_DIR . DS);
+define('PLUGINS', APP_ROOT . DS . 'plugins' . DS);
 define('TEST_FILES', PLUGIN_ROOT . DS . 'tests' . DS . 'test_files' . DS);
 
 define('TMP', PLUGIN_ROOT . DS . 'tmp' . DS);
@@ -41,7 +42,7 @@ Configure::write('App', [
 	'namespace' => 'TestApp',
 	'encoding' => 'utf-8',
 	'paths' => [
-		'templates' => [ROOT . DS . 'templates' . DS],
+		'templates' => [APP_ROOT . DS . 'templates' . DS],
 	],
 ]);
 Configure::write('debug', true);

@@ -138,7 +138,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = ROOT . DS . 'templates/Foos/edit.php';
+		$path = APP_ROOT . DS . 'templates/Foos/edit.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -165,7 +165,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = ROOT . DS . 'templates/Foos/loop.php';
+		$path = APP_ROOT . DS . 'templates/Foos/loop.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -192,7 +192,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = ROOT . DS . 'templates/Foos/phpline.php';
+		$path = APP_ROOT . DS . 'templates/Foos/phpline.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -219,7 +219,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = ROOT . DS . 'templates/Foos/existing.php';
+		$path = APP_ROOT . DS . 'templates/Foos/existing.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -246,7 +246,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = ROOT . DS . 'templates/Foos/outdated.php';
+		$path = APP_ROOT . DS . 'templates/Foos/outdated.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -273,7 +273,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = ROOT . DS . 'templates/Foos/existing_strict.php';
+		$path = APP_ROOT . DS . 'templates/Foos/existing_strict.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -300,7 +300,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = ROOT . DS . 'templates/Foos/empty.php';
+		$path = APP_ROOT . DS . 'templates/Foos/empty.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -327,7 +327,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = ROOT . DS . 'templates/Foos/vars.php';
+		$path = APP_ROOT . DS . 'templates/Foos/vars.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -349,7 +349,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->never())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = ROOT . DS . 'templates/Foos/empty.php';
+		$path = APP_ROOT . DS . 'templates/Foos/empty.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -376,7 +376,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = ROOT . DS . 'templates/Foos/inline.php';
+		$path = APP_ROOT . DS . 'templates/Foos/inline.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -403,7 +403,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = ROOT . DS . 'templates/Foos/following_inline.php';
+		$path = APP_ROOT . DS . 'templates/Foos/following_inline.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -430,7 +430,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = ROOT . DS . 'templates/Foos/array.php';
+		$path = APP_ROOT . DS . 'templates/Foos/array.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
@@ -457,7 +457,7 @@ class TemplateAnnotatorTest extends TestCase {
 		};
 		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
 
-		$path = ROOT . DS . 'templates/Foos/multiline.php';
+		$path = APP_ROOT . DS . 'templates/Foos/multiline.php';
 		$annotator->annotate($path);
 
 		$output = $this->out->output();

@@ -70,10 +70,10 @@ class LayoutTask implements TaskInterface {
 				continue;
 			}
 
-			$Directory = new DirectoryIterator($path);
-			$Regex = new RegexIterator($Directory, '/^.+\.php$/i', RecursiveRegexIterator::GET_MATCH);
+			$directory = new DirectoryIterator($path);
+			$regexIterator = new RegexIterator($directory, '/^.+\.php$/i', RecursiveRegexIterator::GET_MATCH);
 
-			foreach ($Regex as $file) {
+			foreach ($regexIterator as $file) {
 				$name = str_replace($path, '', $file[0]);
 				$name = substr($name, 0, -4);
 				$name = str_replace(DS, '/', $name);

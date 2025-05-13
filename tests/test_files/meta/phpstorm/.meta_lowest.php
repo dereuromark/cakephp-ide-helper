@@ -581,7 +581,7 @@ namespace PHPSTORM_META {
 	expectedArguments(
 		\Cake\TestSuite\TestCase::addFixture(),
 		0,
-		'app.Houses',
+		'app.SmallWindows',
 		'core.Posts',
 		'plugin.IdeHelper.Cars',
 		'plugin.MyNamespace/MyPlugin.Sub/My',

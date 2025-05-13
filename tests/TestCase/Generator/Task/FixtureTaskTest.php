@@ -37,7 +37,7 @@ class FixtureTaskTest extends TestCase {
 		}, $list);
 
 		$expected = [
-			'app.Houses' => '\'app.Houses\'',
+			'app.SmallWindows' => '\'app.SmallWindows\'',
 			'core.Posts' => '\'core.Posts\'',
 			'plugin.IdeHelper.Windows' => '\'plugin.IdeHelper.Windows\'',
 			'plugin.MyNamespace/MyPlugin.Sub/My' => '\'plugin.MyNamespace/MyPlugin.Sub/My\'',
