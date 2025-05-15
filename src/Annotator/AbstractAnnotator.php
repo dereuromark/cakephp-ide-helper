@@ -195,6 +195,11 @@ abstract class AbstractAnnotator {
 		if ($this->getConfig(static::CONFIG_DRY_RUN)) {
 			return;
 		}
+
+		if (file_exists($path) && md5_file($path) === md5($contents)) {
+			return;
+		}
+
 		file_put_contents($path, $contents);
 	}
 

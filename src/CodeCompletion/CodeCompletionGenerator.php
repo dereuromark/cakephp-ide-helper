@@ -37,7 +37,9 @@ CODE;
 			$path = $this->path();
 			$filename = $path . 'CodeCompletion' . $this->type($namespace) . '.php';
 
-			file_put_contents($filename, $template);
+			if (!file_exists($filename) || md5_file($filename) !== md5($template)) {
+				file_put_contents($filename, $template);
+			}
 		}
 
 		return array_keys($map);

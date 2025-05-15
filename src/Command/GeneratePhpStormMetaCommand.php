@@ -45,10 +45,10 @@ class GeneratePhpStormMetaCommand extends Command {
 		$phpstormGenerator = $this->getGenerator();
 		$content = $phpstormGenerator->generate();
 
-		$file = $this->getMetaFilePath();
+		$filePath = $this->getMetaFilePath();
 
-		$currentContent = file_exists($file) ? file_get_contents($file) : null;
-		if ($content === $currentContent) {
+		$unchanged = file_exists($filePath) && md5_file($filePath) === md5($content);
+		if ($unchanged) {
 			$io->out('Meta file `/.phpstorm.meta.php/.ide-helper.meta.php` still up to date.');
 
 			return parent::CODE_SUCCESS;
@@ -61,7 +61,8 @@ class GeneratePhpStormMetaCommand extends Command {
 		}
 
 		$this->ensureDir();
-		file_put_contents($file, $content);
+
+		file_put_contents($filePath, $content);
 
 		$io->out('Meta file `/.phpstorm.meta.php/.ide-helper.meta.php` generated.');
 
