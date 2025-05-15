@@ -27,13 +27,14 @@ Those can then follow the code easier and provide more valuable help.
 - It can also replace or remove outdated annotations.
 - Works with your application as well as any loaded plugin.
 - CI check support, hook it up just like the coding standards check.
+- Set up as watcher and have live in-real-time annotations added/updated.
 
 Supports annotations for:
 - Models (Tables and Entities)
 - Controllers (including prefixes like `Admin`) and Components
 - View (AppView) and Helpers
 - Templates (`.php` PHP template files including elements)
-- Commands, Shells and Tasks
+- Commands and Tasks
 - ... and more
 
 ![Screenshot](docs/screenshot.jpg)

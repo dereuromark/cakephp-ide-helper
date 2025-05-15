@@ -667,6 +667,39 @@ In this case this table extend the Images table, but use the same `protected $_e
 class CustomImagesTable extends ImagesTable ...
 ```
 
+## File watcher setup
+You can set up a file watcher to run the annotation tool on every file change.
+This way you can have a live annotation update while coding.
+
+### Using Node + Chokidar
+Install using
+```
+npm init -y
+npm install chokidar --save
+```
+in your project root.
+
+Run for example:
+```
+node vendor/dereuromark/cakephp-ide-helper/annotate-watcher.cjs
+```
+If necessary, you can also customize the paths using ` --path=src/,templates/`, for example.
+
+You can also copy the annotate-watcher.cjs to your app and customize it.
+
+Since this is a cross-platform tool, this is currently the recommended approach, as it is also
+the most performant (only touches the files directly modified).
+It might miss a few related templates that are not modified but would get updates.
+This is the tradeoff.
+
+### Using watchexec
+See [github.com/watchexec/watchexec](https://github.com/watchexec/watchexec).
+
+```
+watchexec -e php 'bin/cake annotate all'
+```
+With this, you would usually run it over all files. Still usually quite performant.
+
 ## Continuous integration support
 The tool can also be run like the coding standards check in your CI.
 This way no annotation can be forgotten, when making PRs for your project.
