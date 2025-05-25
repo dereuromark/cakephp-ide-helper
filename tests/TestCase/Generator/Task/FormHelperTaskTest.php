@@ -25,8 +25,8 @@ class FormHelperTaskTest extends TestCase {
 		parent::setUp();
 
 		$this->loadPlugins(['Awesome', 'Controllers', 'MyNamespace/MyPlugin', 'Relations', 'Shim', 'IdeHelper']);
-		$this->getTableLocator()->get('Cars');
-		$this->getTableLocator()->get('Wheels');
+		$this->fetchTable('Cars');
+		$this->fetchTable('Wheels');
 
 		$this->task = new FormHelperTask();
 	}

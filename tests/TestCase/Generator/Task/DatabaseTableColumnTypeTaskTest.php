@@ -29,8 +29,8 @@ class DatabaseTableColumnTypeTaskTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->getTableLocator()->get('Cars');
-		$this->getTableLocator()->get('Wheels');
+		$this->fetchTable('Cars');
+		$this->fetchTable('Wheels');
 
 		$this->task = new DatabaseTableColumnTypeTask();
 	}
