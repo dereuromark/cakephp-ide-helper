@@ -31,6 +31,7 @@ return [
 		// Can be strings or `/regex/` (e.g. `'/^\_.+$/i'` for underscore prefixed variables)
 		'autoCollectBlacklist' => [
 		],
+		'preferLinkOverUsesInTests' => false, // Prefer `@link` annotations over `@uses` in test files, prevents PHPUnit to replace with annotations
 		// Custom Entity field type mapping
 		'typeMap' => [
 		],

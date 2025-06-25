@@ -10,6 +10,7 @@ use Cake\View\View;
 use IdeHelper\Annotation\AbstractAnnotation;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\ExtendsAnnotation;
+use IdeHelper\Annotation\LinkAnnotation;
 use IdeHelper\Annotation\MethodAnnotation;
 use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
@@ -101,6 +102,7 @@ abstract class AbstractAnnotator {
 		MethodAnnotation::TAG,
 		MixinAnnotation::TAG,
 		UsesAnnotation::TAG,
+		LinkAnnotation::TAG,
 		ExtendsAnnotation::TAG,
 	];
 

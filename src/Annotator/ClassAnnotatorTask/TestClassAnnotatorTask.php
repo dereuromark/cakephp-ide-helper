@@ -4,6 +4,7 @@ namespace IdeHelper\Annotator\ClassAnnotatorTask;
 
 use Cake\Core\Configure;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\LinkAnnotation;
 use IdeHelper\Annotation\UsesAnnotation;
 
 /**
@@ -70,7 +71,7 @@ class TestClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 			return false;
 		}
 
-		$annotations = $this->buildUsesAnnotations([$class]);
+		$annotations = $this->buildLinkAnnotations([$class]);
 
 		return $this->annotateContent($path, $this->content, $annotations);
 	}
@@ -106,11 +107,17 @@ class TestClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 	 * @param array<string> $classes
 	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
-	protected function buildUsesAnnotations(array $classes): array {
+	protected function buildLinkAnnotations(array $classes): array {
 		$annotations = [];
 
+		$tag = LinkAnnotation::TAG;
+		//BC
+		if (!Configure::read('IdeHelper.preferLinkOverUsesInTests')) {
+			$tag = UsesAnnotation::TAG;
+		}
+
 		foreach ($classes as $className) {
-			$annotations[] = AnnotationFactory::createOrFail(UsesAnnotation::TAG, '\\' . $className);
+			$annotations[] = AnnotationFactory::createOrFail($tag, '\\' . $className);
 		}
 
 		return $annotations;

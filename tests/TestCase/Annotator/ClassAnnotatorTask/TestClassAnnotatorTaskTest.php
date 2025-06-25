@@ -3,6 +3,7 @@
 namespace IdeHelper\Test\TestCase\Annotator\ClassAnnotatorTask;
 
 use Cake\Console\ConsoleIo;
+use Cake\Core\Configure;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\ClassAnnotatorTask\TestClassAnnotatorTask;
 use IdeHelper\Console\Io;
@@ -85,6 +86,26 @@ class TestClassAnnotatorTaskTest extends TestCase {
 
 		$output = $this->out->output();
 		$this->assertSame('', $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAnnotatePreferLink() {
+		Configure::write('IdeHelper.preferLinkOverUsesInTests', true);
+
+		$content = file_get_contents(TEST_FILES . 'tests' . DS . 'BarControllerTest.missing.php');
+		$task = $this->getTask($content);
+		$path = '/tests/TestCase/Controller/BarControllerTest.php';
+
+		$result = $task->annotate($path);
+		$this->assertTrue($result);
+
+		$content = $task->getContent();
+		$this->assertTextContains('* @link \TestApp\Controller\BarController', $content);
+
+		$output = $this->out->output();
+		$this->assertTextContains('  -> 1 annotation added.', $output);
 	}
 
 	/**
