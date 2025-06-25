@@ -52,7 +52,13 @@ abstract class AbstractClassAnnotatorTask extends AbstractAnnotator {
 		}
 		$beginningOfLineIndex = $this->beginningOfLine($file, $classOrTraitIndex);
 
-		$prevCode = $file->findPrevious(Tokens::$emptyTokens, $beginningOfLineIndex - 1, null, true);
+		$attributeTokens = [
+			T_ATTRIBUTE => T_ATTRIBUTE,
+			T_ATTRIBUTE_END => T_ATTRIBUTE_END,
+			T_NS_SEPARATOR => T_NS_SEPARATOR,
+			T_STRING => T_STRING,
+		];
+		$prevCode = $file->findPrevious(Tokens::$emptyTokens + $attributeTokens, $beginningOfLineIndex - 1, null, true);
 		if ($prevCode === false) {
 			return false;
 		}
