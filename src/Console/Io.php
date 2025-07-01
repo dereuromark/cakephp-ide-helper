@@ -71,13 +71,21 @@ class Io {
 	 * @param int $newlines Number of newlines to append
 	 * @return int|null The number of bytes returned from writing to stderr.
 	 */
-	public function err(array|string $message = '', int $newlines = 1): ?int {
-		$messages = (array)$message;
-		foreach ($messages as $key => $message) {
-			$messages[$key] = '<error>' . $message . '</error>';
-		}
+	public function error(array|string $message = '', int $newlines = 1): ?int {
+		return $this->_io->error($message, $newlines);
+	}
 
-		return $this->_io->err($messages, $newlines);
+	/**
+	 * Outputs a single or multiple error messages to stderr. If no parameters
+	 * are passed outputs just a newline.
+	 *
+	 * @deprecated Use error() instead.
+	 * @param array<string>|string $message A string or an array of strings to output
+	 * @param int $newlines Number of newlines to append
+	 * @return int|null The number of bytes returned from writing to stderr.
+	 */
+	public function err(array|string $message = '', int $newlines = 1): ?int {
+		return $this->_io->error($message, $newlines);
 	}
 
 	/**
@@ -90,12 +98,7 @@ class Io {
 	 * @return int|null The number of bytes returned from writing to stdout.
 	 */
 	public function info(array|string $message = '', int $newlines = 1, int $level = ConsoleIo::NORMAL): ?int {
-		$messages = (array)$message;
-		foreach ($messages as $key => $message) {
-			$messages[$key] = '<info>' . $message . '</info>';
-		}
-
-		return $this->out($messages, $newlines, $level);
+		return $this->_io->info($message, $newlines, $level);
 	}
 
 	/**
@@ -108,12 +111,7 @@ class Io {
 	 * @return int|null The number of bytes returned from writing to stdout.
 	 */
 	public function comment(array|string $message = '', int $newlines = 1, int $level = ConsoleIo::NORMAL): ?int {
-		$messages = (array)$message;
-		foreach ($messages as $key => $message) {
-			$messages[$key] = '<comment>' . $message . '</comment>';
-		}
-
-		return $this->out($messages, $newlines, $level);
+		return $this->_io->comment($message, $newlines, $level);
 	}
 
 	/**
@@ -125,12 +123,7 @@ class Io {
 	 * @return int|null The number of bytes returned from writing to stderr.
 	 */
 	public function warn(array|string $message = '', int $newlines = 1): ?int {
-		$messages = (array)$message;
-		foreach ($messages as $key => $message) {
-			$messages[$key] = '<warning>' . $message . '</warning>';
-		}
-
-		return $this->_io->err($messages, $newlines);
+		return $this->_io->warning($message, $newlines);
 	}
 
 	/**
@@ -143,12 +136,7 @@ class Io {
 	 * @return int|null The number of bytes returned from writing to stdout.
 	 */
 	public function success(array|string $message = '', int $newlines = 1, int $level = ConsoleIo::NORMAL): ?int {
-		$messages = (array)$message;
-		foreach ($messages as $key => $message) {
-			$messages[$key] = '<success>' . $message . '</success>';
-		}
-
-		return $this->out($messages, $newlines, $level);
+		return $this->_io->success($message, $newlines, $level);
 	}
 
 	/**
@@ -185,7 +173,7 @@ class Io {
 	 * @return void
 	 */
 	public function abort(string $message, int $exitCode = Command::CODE_ERROR): void {
-		$this->_io->err('<error>' . $message . '</error>');
+		$this->_io->error($message);
 
 		throw new StopException($message, $exitCode);
 	}

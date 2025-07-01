@@ -85,6 +85,16 @@ class IoTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testError() {
+		$this->io->error('Foos');
+
+		$output = $this->err->output();
+		$this->assertTextContains('Foos', $output);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testErr() {
 		$this->io->err('Foos');
 
