@@ -74,7 +74,7 @@ class VirtualFieldCallbackAnnotatorTaskTest extends TestCase {
 		$this->assertSame(3, $count, 'Count is ' . $count);
 
 		$output = $this->out->output();
-		$this->assertSame('', $output);
+		$this->assertTextContains('@see \TestApp\Model\Entity\Foo::$something', $output);
 	}
 
 	/**
