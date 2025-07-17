@@ -6,6 +6,7 @@ use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
+use Cake\TestSuite\ConnectionHelper;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Console\Io;
 use RuntimeException;
@@ -61,6 +62,7 @@ abstract class AnnotateCommand extends Command {
 				$io->error('Continuous Integration mode requires -d param as well as no -i param!');
 				$this->abort();
 			}
+			ConnectionHelper::addTestAliases();
 		}
 	}
 
