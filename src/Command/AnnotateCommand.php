@@ -64,6 +64,8 @@ abstract class AnnotateCommand extends Command {
 			}
 			ConnectionHelper::addTestAliases();
 		}
+
+		AbstractAnnotator::$output = false;
 	}
 
 	/**
