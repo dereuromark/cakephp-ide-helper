@@ -103,7 +103,7 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 		$newContent = $fixer->getContents();
 
 		if ($newContent === $this->content) {
-			$this->reportSkipped();
+			$this->reportSkipped($path);
 
 			return false;
 		}

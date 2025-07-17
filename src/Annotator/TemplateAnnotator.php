@@ -72,9 +72,13 @@ class TemplateAnnotator extends AbstractAnnotator {
 		}
 
 		if ($newContent === $content) {
-			$this->reportSkipped();
+			$this->reportSkipped($path);
 
 			return false;
+		}
+
+		if (!$this->getConfig('verbose')) {
+			$this->_io->out('-> ' . str_replace(ROOT . DS, '', $path));
 		}
 
 		$this->displayDiff($content, $newContent);

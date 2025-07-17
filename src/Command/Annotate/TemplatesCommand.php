@@ -79,7 +79,7 @@ class TemplatesCommand extends AnnotateCommand {
 				$dir = $name;
 				$templatePathPos = strpos($folder, DS . 'templates' . DS);
 				if ($templatePathPos) {
-					$dir = substr($folder, $templatePathPos + 13) . DS . $name;
+					$dir = substr($folder, $templatePathPos + strlen(DS . 'templates' . DS)) . $name;
 				}
 				if ($this->_shouldSkip($dir, $path)) {
 					continue;

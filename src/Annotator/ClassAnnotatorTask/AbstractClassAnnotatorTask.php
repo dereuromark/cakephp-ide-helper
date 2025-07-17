@@ -75,7 +75,7 @@ abstract class AbstractClassAnnotatorTask extends AbstractAnnotator {
 		}
 
 		if ($newContent === $content) {
-			$this->reportSkipped();
+			$this->reportSkipped($path);
 
 			return false;
 		}
@@ -127,7 +127,7 @@ abstract class AbstractClassAnnotatorTask extends AbstractAnnotator {
 		}
 
 		if ($newContent === $content) {
-			$this->reportSkipped();
+			$this->reportSkipped($path);
 
 			return false;
 		}

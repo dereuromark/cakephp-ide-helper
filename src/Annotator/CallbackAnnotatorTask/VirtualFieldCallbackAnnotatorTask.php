@@ -104,7 +104,7 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 		$newContent = $fixer->getContents();
 
 		if ($newContent === $this->content) {
-			$this->reportSkipped();
+			$this->reportSkipped($path);
 
 			return false;
 		}

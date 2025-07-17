@@ -242,7 +242,7 @@ abstract class AbstractAnnotator {
 		}
 
 		if ($newContent === $content) {
-			$this->reportSkipped();
+			$this->reportSkipped($path);
 
 			return false;
 		}
@@ -861,9 +861,10 @@ abstract class AbstractAnnotator {
 	}
 
 	/**
+	 * @param string $path
 	 * @return void
 	 */
-	protected function reportSkipped(): void {
+	protected function reportSkipped(string $path): void {
 		$out = [];
 
 		$skipped = !empty($this->_counter[static::COUNT_SKIPPED]) ? $this->_counter[static::COUNT_SKIPPED] : 0;
@@ -873,6 +874,10 @@ abstract class AbstractAnnotator {
 
 		if (!$out) {
 			return;
+		}
+
+		if (!$this->getConfig('verbose')) {
+			$this->_io->out('-> ' . str_replace(ROOT . DS, '', $path));
 		}
 
 		$this->_io->out('   -> ' . implode(', ', $out));
