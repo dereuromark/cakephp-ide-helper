@@ -3,7 +3,6 @@
 namespace IdeHelper\Annotator;
 
 use Bake\View\Helper\DocBlockHelper;
-use Cake\Console\ConsoleIo;
 use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
 use Cake\View\View;
