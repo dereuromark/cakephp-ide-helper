@@ -45,7 +45,7 @@ class TemplatesCommand extends AnnotateCommand {
 	 * @return void
 	 */
 	protected function _templates($folder) {
-		$this->io->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
+		$this->io->out(str_replace(ROOT . DS, '', $folder), 1, ConsoleIo::VERBOSE);
 
 		$folderContent = glob($folder . '*') ?: [];
 		foreach ($folderContent as $path) {
@@ -63,7 +63,7 @@ class TemplatesCommand extends AnnotateCommand {
 					}
 
 					if ($this->args->getOption('verbose')) {
-						$this->io->warning(sprintf('Skipped template folder `%s`', str_replace(ROOT, '', $subFolder)));
+						$this->io->warning(sprintf('Skipped template folder `%s`', str_replace(ROOT . DS, '', $subFolder)));
 					}
 
 					break;

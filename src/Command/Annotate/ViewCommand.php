@@ -39,7 +39,7 @@ class ViewCommand extends AnnotateCommand {
 		}
 
 		$folder = pathinfo($file, PATHINFO_DIRNAME);
-		$io->out(str_replace(ROOT, '', $folder));
+		$io->out(str_replace(ROOT . DS, '', $folder));
 		$io->out(' -> ' . pathinfo($file, PATHINFO_BASENAME));
 
 		$annotator = $this->getAnnotator(ViewAnnotator::class);

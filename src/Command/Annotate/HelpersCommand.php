@@ -44,7 +44,7 @@ class HelpersCommand extends AnnotateCommand {
 	 * @return void
 	 */
 	protected function _helpers($folder) {
-		$this->io->out(str_replace(ROOT, '', $folder), 1, ConsoleIo::VERBOSE);
+		$this->io->out(str_replace(ROOT . DS, '', $folder), 1, ConsoleIo::VERBOSE);
 
 		$folderContent = glob($folder . '*') ?: [];
 		foreach ($folderContent as $path) {

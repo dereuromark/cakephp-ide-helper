@@ -176,12 +176,12 @@ abstract class AbstractAnnotator {
 
 			if ($row[1] === 1) {
 				$char = '+';
-				$this->_io->info('   | ' . $char . $output, 1, ConsoleIo::VERBOSE);
+				$this->_io->info('   | ' . $char . $output);
 			} elseif ($row[1] === 2) {
 				$char = '-';
-				$this->_io->out('<warning>' . '   | ' . $char . $output . '</warning>', 1, ConsoleIo::VERBOSE);
+				$this->_io->out('<warning>' . '   | ' . $char . $output . '</warning>');
 			} else {
-				$this->_io->out('   | ' . $char . $output, 1, ConsoleIo::VERBOSE);
+				$this->_io->out('   | ' . $char . $output);
 			}
 		}
 	}
@@ -247,6 +247,10 @@ abstract class AbstractAnnotator {
 			$this->reportSkipped();
 
 			return false;
+		}
+
+		if (!$this->getConfig('verbose')) {
+			$this->_io->out('-> ' . str_replace(ROOT . DS, '', $path));
 		}
 
 		$this->displayDiff($content, $newContent);
