@@ -2,7 +2,7 @@
 
 namespace IdeHelper\Annotator\ClassAnnotatorTask;
 
-use Brick\VarExporter\Internal\ObjectExporter\ClosureExporter\PrettyPrinter;
+use Cake\Utility\Inflector;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\UsesAnnotation;
 use PhpParser\Comment\Doc;
@@ -11,6 +11,7 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
 use PhpParser\ParserFactory;
+use PhpParser\PrettyPrinter\Standard;
 use Throwable;
 
 /**
@@ -41,15 +42,32 @@ class TableFindAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 		$parser = (new ParserFactory())->createForHostVersion();
 		try {
 			$ast = $parser->parse($this->content);
+			$tokens = $parser->getTokens();
+			$originalAst = $ast;
 		} catch (Throwable $e) {
-			echo "Parse error: {$e->getMessage()}\n";
-			exit(1);
+			trigger_error($e);
+
+			return false;
 		}
 
-		$traverser = new NodeTraverser();
+		$array = [];
 
-		$traverser->addVisitor(new class extends NodeVisitorAbstract {
-			public function enterNode(Node $node): void {
+		$traverser = new NodeTraverser();
+		$traverser->addVisitor(new class($array) extends NodeVisitorAbstract {
+			private array $array;
+
+			/**
+			 * @param array $array
+			 */
+			public function __construct(array &$array) {
+				$this->array = &$array;
+			}
+
+			/**
+			 * @param \PhpParser\Node $node
+			 * @return \PhpParser\Node|null
+			 */
+			public function enterNode(Node $node): ?Node {
 				if ($node instanceof Assign && $node->expr instanceof Node\Expr\MethodCall) {
 					$methodCall = $node->expr;
 
@@ -73,26 +91,43 @@ class TableFindAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 							$callChain->name instanceof Node\Identifier
 						) {
 							$tableName = $callChain->name->toString(); // e.g., "Residents"
-							$varName = is_string($node->var->name) ? $node->var->name : 'unknown';
+							$varName = ($node->var instanceof Node\Expr\Variable && is_string($node->var->name))
+								                ? $node->var->name
+							                : 'unknown';
 
-							$entityClass = '\\App\\Model\\Entity\\' . rtrim($tableName, 's'); // crude singular
+							$entityName = Inflector::singularize($tableName);
+							$entityClass = '\\App\\Model\\Entity\\' . $entityName;
 							$nullable = $method === 'first' ? '|null' : '';
 							$doc = new Doc("/** @var {$entityClass}{$nullable} \${$varName} */");
-
 							$node->setDocComment($doc);
+
+							$this->array[] = [
+								'line' => $node->getStartLine(),
+								'content' => $doc->getText(),
+								'varName' => $varName,
+								'tableName' => $tableName,
+								'entityName' => $entityName,
+							];
 						}
 					}
 				}
+
+				return null;
 			}
 		});
 
 		$modifiedAst = $traverser->traverse($ast);
-		$prettyPrinter = new PrettyPrinter();
-		$modifiedCode = $prettyPrinter->prettyPrintFile($modifiedAst);
+		$printer = new Standard();
+		$modifiedCode = $printer->printFormatPreserving(
+			$modifiedAst,
+			$originalAst,
+			$tokens,
+		);
 
+		debug($array);
 		dd($modifiedCode);
 
-		return $this->annotateInlineContent($path, $this->content, $annotations, $rowToAnnotate);
+		//return $this->annotateInlineContent($path, $this->content, $annotations, $rowToAnnotate);
 	}
 
 	/**

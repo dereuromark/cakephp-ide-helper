@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controlller;
+namespace App\Controller;
 
 use Cake\ORM\Locator\LocatorAwareTrait;
 

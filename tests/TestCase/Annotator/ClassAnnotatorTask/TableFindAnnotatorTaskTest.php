@@ -3,10 +3,8 @@
 namespace IdeHelper\Test\TestCase\Annotator\ClassAnnotatorTask;
 
 use Cake\Console\ConsoleIo;
-use Cake\Core\Configure;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\ClassAnnotatorTask\TableFindAnnotatorTask;
-use IdeHelper\Annotator\ClassAnnotatorTask\TestClassAnnotatorTask;
 use IdeHelper\Console\Io;
 use Shim\TestSuite\ConsoleOutput;
 use Shim\TestSuite\TestCase;
@@ -54,7 +52,7 @@ class TableFindAnnotatorTaskTest extends TestCase {
 
 		$content = $task->getContent();
 		dd($content);
-		$this->assertTextContains('* @uses \TestApp\Controller\BarController', $content);
+		$this->assertTextContains('/** @var \App\Model\Entity\Resident $resident */', $content);
 
 		$output = $this->out->output();
 		$this->assertTextContains('  -> 1 annotation added.', $output);
