@@ -590,7 +590,6 @@ abstract class AbstractAnnotator {
 	 * @return bool
 	 */
 	protected function propertyInUse(array $tokens, int $closeTagIndex, string $variable): bool {
-		/** @var string $property */
 		$property = substr($variable, 1);
 
 		$i = $closeTagIndex + 1;

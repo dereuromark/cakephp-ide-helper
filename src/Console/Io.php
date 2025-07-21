@@ -48,7 +48,7 @@ class Io {
 	 *
 	 * ### Output levels
 	 *
-	 * There are 3 built-in output level. ConsoleIo::QUIET, ConsoleIo::NORMAL, ConsoleIo::VERBOSE.
+	 * There are 3 built-in output levels: ConsoleIo::QUIET, ConsoleIo::NORMAL, ConsoleIo::VERBOSE.
 	 * The verbose and quiet output levels, map to the `verbose` and `quiet` output switches
 	 * present in most shells. Using ConsoleIo::QUIET for a message means it will always display.
 	 * While using ConsoleIo::VERBOSE means it will only display when verbose output is toggled.

@@ -69,7 +69,7 @@ You should quickly check for usage of this constant if unused it can be safely r
 ![Fields Autocomplete](img/fields_autocomplete.png)
 
 ### Adding your own tasks
-Just create your own Task class:
+Create your own Task class:
 ```php
 namespace App\Illuminator\Task;
 
@@ -105,10 +105,10 @@ Then add it to the config:
     ],
 ],
 ```
-The key `'MyTask'` can be any string but it must be unique across all existing tasks.
+The key `'MyTask'` can be any string, but it must be unique across all existing tasks.
 
 #### Replacing native tasks
-Using associative arrays you can even exchange any native task with your own implementation:
+Using associative arrays, you can even exchange any native task with your own implementation:
 ```php
 'IdeHelper' => [
     'IlluminatorTasks' => [

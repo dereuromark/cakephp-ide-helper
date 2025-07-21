@@ -2,7 +2,7 @@
 
 Note that freshly [baking](https://github.com/cakephp/bake) your code will result in similar results,
 but often times there is already existing code, and re-baking it is not an option then usually.
-And of course it also keeps your manually added or modified code annotated.
+And of course, it also keeps your manually added or modified code annotated.
 
 ## Important options to start with
 The following will be defined under `IdeHelper` key of `app.php` config:
@@ -470,7 +470,7 @@ foreach ($role->users as $rolUser) {}
 ```
 
 You can use `'IdeHelper.autoCollectBlacklist'` config to exclude certain variables.
-The array accepts both strings or regexp patterns like `'/^\_.+$/i'` for underscore prefixed variables).
+The array accepts both strings or regexp patterns like `'/^\_.+$/i'` for underscore prefixed variables.
 
 ### Entity collections
 Usually, all collections (pagination, find) are object collections when being passed to the view layer.
