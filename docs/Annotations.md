@@ -606,6 +606,8 @@ The key `'MyCallbackAnnotatorTask'` can be any string.
 
 Overwriting the existing tasks works the same way as above for classes.
 
+You want more examples?
+- [Custom Class Annotators](Annotations/Class.md)
 
 ## Dry-Run and Diff
 If you want to check if it would be modifying any files, you can run it with `-d` (dry-run) param.
@@ -706,14 +708,10 @@ This way no annotation can be forgotten, when making PRs for your project.
 
 For this, use the `--ci` option along with `-d` (dry run):
 ```
-bin/cake annotate all -v -d --ci
+bin/cake annotate all -d --ci
 ```
 It will return an error code 2 if any modification has to be done.
 
-It is advised to hook it in along with your cs check, e.g. for travis:
-```
-- if [[ $PHPCS == 1 ]]; then bin/cake annotate all -v -d --ci ; fi
-```
 Note: This will need some additional setup, like migrations to be run prior to the call.
 The database must exist and replicate the actual DB.
 
