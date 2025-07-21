@@ -366,6 +366,9 @@ Then add it to the config:
 ```
 The key `'MyClassAnnotatorTask'` can be any string.
 
+You want more examples?
+- [Custom Class Annotators](Annotations/Class.md)
+
 #### Replacing native tasks
 Using associative arrays you can even exchange any native task with your own implementation:
 ```php
@@ -605,9 +608,6 @@ Then add it to the config:
 The key `'MyCallbackAnnotatorTask'` can be any string.
 
 Overwriting the existing tasks works the same way as above for classes.
-
-You want more examples?
-- [Custom Class Annotators](Annotations/Class.md)
 
 ## Dry-Run and Diff
 If you want to check if it would be modifying any files, you can run it with `-d` (dry-run) param.
