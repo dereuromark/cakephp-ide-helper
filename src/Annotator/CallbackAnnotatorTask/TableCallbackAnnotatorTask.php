@@ -16,6 +16,7 @@ class TableCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implement
 	 * @var array<string, string>
 	 */
 	protected array $callbacks = [
+		'afterMarshal' => 'afterMarshal',
 		'beforeRules' => 'beforeRules',
 		'afterRules' => 'afterRules',
 		'beforeSave' => 'beforeSave',
