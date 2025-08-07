@@ -66,8 +66,8 @@ class ControllerAnnotator extends AbstractAnnotator {
 	 *
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $closeTagIndex
-	 * @param array $types
-	 * @return \IdeHelper\Annotation\AbstractAnnotation[]
+	 * @param array<string> $types
+	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
 	protected function parseExistingAnnotations(File $file, int $closeTagIndex, array $types = self::TYPES): array {
 		$annotations = parent::parseExistingAnnotations($file, $closeTagIndex, $types);
