@@ -73,7 +73,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 		$annotations = parent::parseExistingAnnotations($file, $closeTagIndex, $types);
 
 		foreach ($annotations as &$annotation) {
-			if (!preg_match('#\\\\Model\\\\Table\\\\#', $annotation->getType())) {
+			if (!preg_match('#\\\\Model\\\\Table\\\\#', $annotation->getType()) && !preg_match('#\\\\Controller\\\\Component\\\\#', $annotation->getType())) {
 				continue;
 			}
 
