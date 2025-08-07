@@ -247,4 +247,29 @@ class ControllerAnnotatorTest extends TestCase {
 		$this->assertTextContains('   -> 1 annotation added.', $output);
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testAnnotateWithSwitchedDefaultTable(): void {
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Controller/SwitchTableController.php'));
+		$callback = function($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->_displayDiff($expectedContent, $value);
+			}
+
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP . 'Controller/SwitchTableController.php';
+		$annotator->annotate($path);
+
+		$output = $this->out->output();
+
+		$this->assertTextContains('   -> 2 annotations added, 1 annotation removed.', $output);
+	}
+
 }
