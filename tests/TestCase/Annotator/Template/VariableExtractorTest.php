@@ -208,4 +208,51 @@ PHP;
 		$this->assertSame(['title', 'url'], array_keys($result));
 	}
 
+	/**
+	 * Test that anonymous function parameters are excluded
+	 *
+	 * @return void
+	 */
+	public function testExtractExcludesAnonymousFunctionParameters() {
+		$content = <<<'PHP'
+<?php
+$yourMoodIds = array_map(function($m) { return $m->mood_id; }, $participantMoods ?? []);
+$filtered = array_filter($items, function($item) {
+	return $item->active;
+});
+usort($data, function($a, $b) {
+	return $a->sort_order <=> $b->sort_order;
+});
+$doubled = array_map(fn($x) => $x * 2, $numbers);
+
+// Test with 'use' clause
+$multiplier = 5;
+$result = array_map(function($n) use ($multiplier) {
+	return $n * $multiplier;
+}, $values);
+PHP;
+
+		$file = $this->getFile('', $content);
+
+		$result = $this->variableExtractor->extract($file);
+
+		// Check that regular variables are found with correct exclusion reason
+		$regularVars = ['yourMoodIds', 'participantMoods', 'filtered', 'items', 'data', 'doubled', 'numbers', 'multiplier', 'result', 'values'];
+		foreach ($regularVars as $var) {
+			$this->assertArrayHasKey($var, $result, "Variable \$$var should be found");
+			if (in_array($var, ['yourMoodIds', 'filtered', 'doubled', 'multiplier', 'result'])) {
+				$this->assertEquals('Assignment', $result[$var]['excludeReason'], "Variable \$$var should be excluded as assignment");
+			} else {
+				$this->assertNull($result[$var]['excludeReason'], "Variable \$$var should not be excluded");
+			}
+		}
+
+		// Check that anonymous function parameters are excluded
+		$functionParams = ['m', 'item', 'a', 'b', 'x', 'n'];
+		foreach ($functionParams as $param) {
+			$this->assertArrayHasKey($param, $result, "Parameter \$$param should be found");
+			$this->assertEquals('Anonymous function parameter', $result[$param]['excludeReason'], "Parameter \$$param should be excluded as anonymous function parameter");
+		}
+	}
+
 }
