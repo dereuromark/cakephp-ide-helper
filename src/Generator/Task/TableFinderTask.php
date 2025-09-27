@@ -152,8 +152,10 @@ class TableFinderTask extends ModelTask {
 	 */
 	protected function invokeProperty(&$object, string $name) {
 		$reflection = new ReflectionClass(get_class($object));
+		if (!$reflection->hasProperty($name)) {
+			return null;
+		}
 		$property = $reflection->getProperty($name);
-		$property->setAccessible(true);
 
 		return $property->getValue($object);
 	}
