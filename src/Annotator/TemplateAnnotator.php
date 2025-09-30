@@ -54,14 +54,22 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		$needsPhpTag = $phpOpenTagIndex === null || $this->needsPhpTag($file, $phpOpenTagIndex);
 
-		$phpOpenTagIndex = $this->checkForDeclareStatement($file, $phpOpenTagIndex);
+		// Adjust position after declare statement for searching and adding new content
+		$phpOpenTagIndexAdjusted = $this->checkForDeclareStatement($file, $phpOpenTagIndex);
 
 		$docBlockCloseTagIndex = null;
 		if ($needsPhpTag) {
-			$phpOpenTagIndex = null;
+			$phpOpenTagIndexForSearch = null;
+		} else {
+			$phpOpenTagIndexForSearch = $phpOpenTagIndexAdjusted;
 		}
-		if ($phpOpenTagIndex !== null) {
-			$docBlockCloseTagIndex = $this->findExistingDocBlock($file, $phpOpenTagIndex);
+		if ($phpOpenTagIndexForSearch !== null) {
+			$docBlockCloseTagIndex = $this->findExistingDocBlock($file, $phpOpenTagIndexForSearch);
+		}
+
+		$phpOpenTagIndex = $phpOpenTagIndexAdjusted;
+		if ($needsPhpTag) {
+			$phpOpenTagIndex = null;
 		}
 
 		$this->resetCounter();
@@ -170,7 +178,13 @@ class TemplateAnnotator extends AbstractAnnotator {
 		if ($phpOpenTagIndex === null) {
 			$fixer->addContentBefore(0, $docBlock);
 		} else {
-			$fixer->addContent($phpOpenTagIndex, $docBlock);
+			// PHPCS v4 requires a blank line after <?php tag for PSR12 compliance
+			// PHPCS v3 does not have this requirement
+			if ($this->isV4()) {
+				$fixer->addContent($phpOpenTagIndex, PHP_EOL . $annotationString);
+			} else {
+				$fixer->addContent($phpOpenTagIndex, $docBlock);
+			}
 		}
 
 		$this->_counter[static::COUNT_ADDED] = count($annotations);
@@ -535,6 +549,29 @@ class TemplateAnnotator extends AbstractAnnotator {
 	}
 
 	/**
+	 * @return bool
+	 */
+	protected function isV4(): bool {
+		static $isV4 = null;
+
+		if ($isV4 !== null) {
+			return $isV4;
+		}
+
+		// PHPCS v4+ requires blank line after <?php for PSR12 compliance
+		// Check version from Config class constant
+		if (class_exists(\PHP_CodeSniffer\Config::class)) {
+			$version = \PHP_CodeSniffer\Config::VERSION;
+			$isV4 = version_compare($version, '4.0.0', '>=');
+		} else {
+			// Fallback: assume v4+ if class doesn't exist
+			$isV4 = true;
+		}
+
+		return $isV4;
+	}
+
+	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int|null $phpOpenTagIndex
 	 *
@@ -545,14 +582,20 @@ class TemplateAnnotator extends AbstractAnnotator {
 			return $phpOpenTagIndex;
 		}
 
-		$nextIndex = $file->findNext(T_DECLARE, $phpOpenTagIndex, $phpOpenTagIndex + 2);
-		if (!$nextIndex) {
+		$tokens = $file->getTokens();
+
+		// Check if there's a declare statement right after the php open tag (on same or next line)
+		$nextNonWhitespace = $file->findNext(T_WHITESPACE, $phpOpenTagIndex + 1, null, true);
+		if ($nextNonWhitespace === false || $tokens[$nextNonWhitespace]['code'] !== T_DECLARE) {
 			return $phpOpenTagIndex;
 		}
 
-		$tokens = $file->getTokens();
+		// Check if declare is on the same line or immediately after php tag
+		if ($tokens[$nextNonWhitespace]['line'] > $tokens[$phpOpenTagIndex]['line'] + 1) {
+			return $phpOpenTagIndex;
+		}
 
-		$lastIndexOfRow = $tokens[$nextIndex]['parenthesis_closer'];
+		$lastIndexOfRow = $tokens[$nextNonWhitespace]['parenthesis_closer'];
 		while (!empty($tokens[$lastIndexOfRow + 1]) && $tokens[$lastIndexOfRow + 1]['line'] === $tokens[$lastIndexOfRow]['line']) {
 			$lastIndexOfRow++;
 		}
