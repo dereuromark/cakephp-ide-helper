@@ -178,7 +178,10 @@ class TemplateAnnotator extends AbstractAnnotator {
 		if ($phpOpenTagIndex === null) {
 			$fixer->addContentBefore(0, $docBlock);
 		} else {
-			$fixer->addContent($phpOpenTagIndex, PHP_EOL . $annotationString);
+			// PHPCS v4 requires a blank line after <?php tag for PSR12 compliance
+			// PHPCS v3 does not have this requirement
+			$separator = $this->requiresBlankLineAfterPhpTag() ? PHP_EOL : '';
+			$fixer->addContent($phpOpenTagIndex, $separator . $annotationString);
 		}
 
 		$this->_counter[static::COUNT_ADDED] = count($annotations);
@@ -540,6 +543,31 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		/** @return \IdeHelper\Annotator\AbstractAnnotator */
 		return $annotation;
+	}
+
+	/**
+	 * Check if PHPCS version requires blank line after <?php tag
+	 *
+	 * @return bool
+	 */
+	protected function requiresBlankLineAfterPhpTag(): bool {
+		static $requires = null;
+
+		if ($requires !== null) {
+			return $requires;
+		}
+
+		// PHPCS v4+ requires blank line after <?php for PSR12 compliance
+		// Check version from Config class constant
+		if (class_exists(\PHP_CodeSniffer\Config::class)) {
+			$version = \PHP_CodeSniffer\Config::VERSION;
+			$requires = version_compare($version, '4.0.0', '>=');
+		} else {
+			// Fallback: assume v4+ if class doesn't exist
+			$requires = true;
+		}
+
+		return $requires;
 	}
 
 	/**
