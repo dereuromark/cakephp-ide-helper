@@ -6,6 +6,7 @@ use Cake\Console\ConsoleIo;
 use Cake\Core\Configure;
 use IdeHelper\Console\Io;
 use IdeHelper\Illuminator\Task\AbstractTask;
+use IdeHelper\Illuminator\Task\ControllerDefaultTableTask;
 use IdeHelper\Illuminator\Task\EntityFieldTask;
 use InvalidArgumentException;
 use RuntimeException;
@@ -30,6 +31,7 @@ class TaskCollection {
 	 * @var array<class-string<\IdeHelper\Illuminator\Task\AbstractTask>, class-string<\IdeHelper\Illuminator\Task\AbstractTask>>
 	 */
 	protected array $defaultTasks = [
+		ControllerDefaultTableTask::class => ControllerDefaultTableTask::class,
 		EntityFieldTask::class => EntityFieldTask::class,
 	];
 
