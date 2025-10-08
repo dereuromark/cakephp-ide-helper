@@ -132,6 +132,7 @@ use Cake\Controller\Controller;
 class CustomController extends Controller {
 
 	protected ?string $defaultTable = 'CustomTable';
+
 }
 
 PHP;
