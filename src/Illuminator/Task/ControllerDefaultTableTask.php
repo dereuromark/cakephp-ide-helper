@@ -16,6 +16,13 @@ class ControllerDefaultTableTask extends AbstractTask {
 	use DocBlockTrait;
 
 	/**
+	 * @var array<string, mixed>
+	 */
+	protected array $_defaultConfig = [
+		'fastPropertyCheck' => false,
+	];
+
+	/**
 	 * @param string $path
 	 * @return bool
 	 */
@@ -48,7 +55,7 @@ class ControllerDefaultTableTask extends AbstractTask {
 			return $content;
 		}
 
-		if ($this->hasDefaultTableProperty($file, $classIndex)) {
+		if ($this->hasDefaultTableProperty($file, $classIndex, $content)) {
 			return $content;
 		}
 
@@ -73,9 +80,20 @@ class ControllerDefaultTableTask extends AbstractTask {
 	/**
 	 * @param \PHP_CodeSniffer\Files\File $file
 	 * @param int $classIndex
+	 * @param string $content
 	 * @return bool
 	 */
-	protected function hasDefaultTableProperty(File $file, int $classIndex): bool {
+	protected function hasDefaultTableProperty(File $file, int $classIndex, string $content): bool {
+		// Fast regex check for performance (optional, can be enabled via config)
+		if ($this->getConfig('fastPropertyCheck')) {
+			if (preg_match('/\bprotected \?string \$defaultTable\b/', $content)) {
+				return true;
+			}
+
+			return false;
+		}
+
+		// Robust token-based check within class scope
 		$tokens = $file->getTokens();
 
 		$openBraceIndex = $tokens[$classIndex]['scope_opener'];

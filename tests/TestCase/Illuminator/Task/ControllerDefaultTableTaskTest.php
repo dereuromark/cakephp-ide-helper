@@ -263,6 +263,110 @@ PHP;
 	}
 
 	/**
+	 * @return void
+	 */
+	public function testRunWithFastPropertyCheck() {
+		$task = $this->_getTask([
+			'fastPropertyCheck' => true,
+		]);
+
+		$content = <<<'PHP'
+<?php
+namespace App\Controller;
+
+use Cake\Controller\Controller;
+
+class ExistingController extends Controller {
+
+	protected ?string $defaultTable = '';
+}
+
+PHP;
+
+		$path = 'src/Controller/ExistingController.php';
+		$result = $task->run($content, $path);
+
+		// Should not add if property already exists (using fast regex check)
+		$this->assertSame($content, $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testRunWithPropertyInCommentDefaultCheck() {
+		$task = $this->_getTask();
+
+		$content = <<<'PHP'
+<?php
+namespace App\Controller;
+
+use Cake\Controller\Controller;
+
+/**
+ * Controller with defaultTable in comment
+ * protected ?string $defaultTable = '';
+ */
+class CommentController extends Controller {
+}
+
+PHP;
+
+		$expected = <<<'PHP'
+<?php
+namespace App\Controller;
+
+use Cake\Controller\Controller;
+
+/**
+ * Controller with defaultTable in comment
+ * protected ?string $defaultTable = '';
+ */
+class CommentController extends Controller {
+
+	protected ?string $defaultTable = '';
+}
+
+PHP;
+
+		$path = 'src/Controller/CommentController.php';
+		$result = $task->run($content, $path);
+
+		// Token-based check correctly identifies no actual property exists
+		$this->assertTextEquals($expected, $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testRunWithPropertyInCommentFastCheck() {
+		$task = $this->_getTask([
+			'fastPropertyCheck' => true,
+		]);
+
+		$content = <<<'PHP'
+<?php
+namespace App\Controller;
+
+use Cake\Controller\Controller;
+
+/**
+ * Controller with defaultTable in comment
+ * protected ?string $defaultTable = '';
+ */
+class CommentController extends Controller {
+}
+
+PHP;
+
+		$path = 'src/Controller/CommentController.php';
+		$result = $task->run($content, $path);
+
+		// Fast regex check has false-positive on comment (acceptable trade-off for speed)
+		// If you need 100% accuracy, don't enable fastPropertyCheck
+		$this->assertSame($content, $result);
+	}
+
+	/**
 	 * @param array $params
 	 * @return \IdeHelper\Illuminator\Task\ControllerDefaultTableTask
 	 */
