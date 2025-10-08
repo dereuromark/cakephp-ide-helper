@@ -48,6 +48,25 @@ class ControllerDefaultTableTaskTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testShouldRunWithDifferentPathSeparators() {
+		$task = $this->_getTask();
+
+		// Forward slashes
+		$result = $task->shouldRun('src/Controller/TestController.php');
+		$this->assertTrue($result);
+
+		// Backslashes (Windows-style)
+		$result = $task->shouldRun('src\\Controller\\TestController.php');
+		$this->assertTrue($result);
+
+		// Should fail without Controller in path
+		$result = $task->shouldRun('src/TestController.php');
+		$this->assertFalse($result);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testRunWithExistingTable() {
 		$task = $this->_getTask();
 
@@ -122,6 +141,125 @@ PHP;
 
 		// Should not add if property already exists
 		$this->assertSame($content, $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testRunWithOtherProperties() {
+		$task = $this->_getTask();
+
+		$content = <<<'PHP'
+<?php
+namespace App\Controller;
+
+use Cake\Controller\Controller;
+
+class PropertiesController extends Controller {
+
+	protected string $myProperty = 'test';
+
+	public function index() {
+	}
+}
+
+PHP;
+
+		$expected = <<<'PHP'
+<?php
+namespace App\Controller;
+
+use Cake\Controller\Controller;
+
+class PropertiesController extends Controller {
+
+	protected ?string $defaultTable = '';
+
+	protected string $myProperty = 'test';
+
+	public function index() {
+	}
+}
+
+PHP;
+
+		$path = 'src/Controller/PropertiesController.php';
+		$result = $task->run($content, $path);
+
+		$this->assertTextEquals($expected, $result);
+		$this->assertStringContainsString("protected ?string \$defaultTable = '';", $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testRunWithPluginController() {
+		$task = $this->_getTask();
+
+		$content = <<<'PHP'
+<?php
+namespace MyPlugin\Controller;
+
+use Cake\Controller\Controller;
+
+class CustomController extends Controller {
+}
+
+PHP;
+
+		$expected = <<<'PHP'
+<?php
+namespace MyPlugin\Controller;
+
+use Cake\Controller\Controller;
+
+class CustomController extends Controller {
+
+	protected ?string $defaultTable = '';
+}
+
+PHP;
+
+		$path = 'plugins/MyPlugin/src/Controller/CustomController.php';
+		$result = $task->run($content, $path);
+
+		$this->assertTextEquals($expected, $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testRunWithNestedPluginNamespace() {
+		$task = $this->_getTask();
+
+		$content = <<<'PHP'
+<?php
+namespace Vendor\MyPlugin\Controller;
+
+use Cake\Controller\Controller;
+
+class CustomController extends Controller {
+}
+
+PHP;
+
+		$expected = <<<'PHP'
+<?php
+namespace Vendor\MyPlugin\Controller;
+
+use Cake\Controller\Controller;
+
+class CustomController extends Controller {
+
+	protected ?string $defaultTable = '';
+}
+
+PHP;
+
+		$path = 'plugins/Vendor/MyPlugin/src/Controller/CustomController.php';
+		$result = $task->run($content, $path);
+
+		$this->assertTextEquals($expected, $result);
 	}
 
 	/**

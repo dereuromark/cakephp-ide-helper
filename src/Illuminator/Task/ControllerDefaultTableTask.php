@@ -25,11 +25,11 @@ class ControllerDefaultTableTask extends AbstractTask {
 			return false;
 		}
 
-		if ($className === 'AppController' || preg_match('#[a-z0-9]AppController$#', $className)) {
+		if ($className === 'AppController' || preg_match('#[A-Za-z0-9]AppController$#', $className)) {
 			return false;
 		}
 
-		if (!str_contains($path, DS . 'Controller' . DS)) {
+		if (!preg_match('#[\\\/]Controller[\\\/]#', $path)) {
 			return false;
 		}
 
@@ -42,7 +42,13 @@ class ControllerDefaultTableTask extends AbstractTask {
 	 * @return string
 	 */
 	public function run(string $content, string $path): string {
-		if (preg_match('/\bprotected \?string \$defaultTable\b/', $content)) {
+		$file = $this->getFile('', $content);
+		$classIndex = $file->findNext(T_CLASS, 0);
+		if (!$classIndex) {
+			return $content;
+		}
+
+		if ($this->hasDefaultTableProperty($file, $classIndex)) {
 			return $content;
 		}
 
@@ -61,13 +67,34 @@ class ControllerDefaultTableTask extends AbstractTask {
 			return $content;
 		}
 
-		$file = $this->getFile('', $content);
-		$classIndex = $file->findNext(T_CLASS, 0);
-		if (!$classIndex) {
-			return $content;
+		return $this->addDefaultTableProperty($file, $classIndex, $content);
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param int $classIndex
+	 * @return bool
+	 */
+	protected function hasDefaultTableProperty(File $file, int $classIndex): bool {
+		$tokens = $file->getTokens();
+
+		$openBraceIndex = $tokens[$classIndex]['scope_opener'];
+		$closeBraceIndex = $tokens[$classIndex]['scope_closer'];
+		if (!$openBraceIndex || !$closeBraceIndex) {
+			return false;
 		}
 
-		return $this->addDefaultTableProperty($file, $classIndex, $content);
+		for ($i = $openBraceIndex + 1; $i < $closeBraceIndex; $i++) {
+			if ($tokens[$i]['code'] !== T_VARIABLE) {
+				continue;
+			}
+
+			if ($tokens[$i]['content'] === '$defaultTable') {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -143,8 +170,9 @@ class ControllerDefaultTableTask extends AbstractTask {
 		}
 
 		$parts = explode('\\', $namespace);
-		if (count($parts) >= 2 && $parts[1] === 'Controller') {
-			return $parts[0];
+		$controllerIndex = array_search('Controller', $parts, true);
+		if ($controllerIndex !== false && $controllerIndex > 0) {
+			return implode('\\', array_slice($parts, 0, $controllerIndex));
 		}
 
 		return Configure::read('App.namespace', 'App');
