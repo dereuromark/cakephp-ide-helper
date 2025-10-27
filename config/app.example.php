@@ -1,7 +1,7 @@
 <?php
 
 return [
-	 // Copy the following over to your project one in ROOT/config/
+	// Copy the following over to your project one in ROOT/config/
 	'IdeHelper' => [
 		// Additional plugins that are not loaded, but should be included, use `-` prefix to exclude
 		'plugins' => [],

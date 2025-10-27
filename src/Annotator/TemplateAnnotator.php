@@ -13,6 +13,7 @@ use IdeHelper\Annotator\Template\VariableExtractor;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\CollectionClass;
 use IdeHelper\Utility\GenericString;
+use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Files\File;
 use RuntimeException;
 
@@ -239,17 +240,17 @@ class TemplateAnnotator extends AbstractAnnotator {
 	protected function needsViewAnnotation(string $content): bool {
 		if (Configure::read('IdeHelper.preemptive')) {
 			return true;
- 		}
+		}
 
 		if (preg_match('/\$this->/', $content)) {
 			return true;
- 		}
+		}
 
 		if (preg_match('/<\?/', $content)) {
 			return true;
 		}
 
- 		return false;
+		return false;
 	}
 
 	/**
@@ -560,8 +561,8 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		// PHPCS v4+ requires blank line after <?php for PSR12 compliance
 		// Check version from Config class constant
-		if (class_exists(\PHP_CodeSniffer\Config::class)) {
-			$version = \PHP_CodeSniffer\Config::VERSION;
+		if (class_exists(Config::class)) {
+			$version = Config::VERSION;
 			$isV4 = version_compare($version, '4.0.0', '>=');
 		} else {
 			// Fallback: assume v4+ if class doesn't exist
