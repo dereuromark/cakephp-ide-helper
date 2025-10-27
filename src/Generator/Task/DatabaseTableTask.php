@@ -30,7 +30,9 @@ class DatabaseTableTask implements TaskInterface {
 	 */
 	protected array $aliases = [
 		'\Migrations\BaseMigration::table()',
+		'\Migrations\BaseMigration::hasTable()',
 		'\Migrations\BaseSeed::table()',
+		'\Migrations\BaseSeed::hasTable()',
 	];
 
 	/**
