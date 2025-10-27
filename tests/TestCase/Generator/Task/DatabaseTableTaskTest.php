@@ -45,7 +45,7 @@ class DatabaseTableTaskTest extends TestCase {
 	public function testCollect() {
 		$result = $this->task->collect();
 
-		$this->assertCount(3, $result);
+		$this->assertCount(6, $result);
 
 		/** @var \IdeHelper\Generator\Directive\RegisterArgumentsSet $directive */
 		$directive = array_shift($result);
@@ -62,19 +62,29 @@ class DatabaseTableTaskTest extends TestCase {
 			$this->assertSame($value, (string)$list[$key]);
 		}
 
-		/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */
-		$directive = array_shift($result);
-		$this->assertSame('\Migrations\BaseMigration::table()', $directive->toArray()['method']);
-
-		$list = $directive->toArray()['list'];
-		$list = array_map(function ($className) {
-			return (string)$className;
-		}, $list);
-
-		$expectedList = [
-			'argumentsSet(\'tableNames\')',
+		$expectedMethods = [
+			'\Migrations\BaseMigration::table()',
+			'\Migrations\BaseMigration::hasTable()',
+			'\Migrations\BaseSeed::table()',
+			'\Migrations\BaseSeed::hasTable()',
+			'\Migrations\BaseSeed::insert()',
 		];
-		$this->assertSame($expectedList, $list);
+
+		foreach ($expectedMethods as $expectedMethod) {
+			/** @var \IdeHelper\Generator\Directive\ExpectedArguments $directive */
+			$directive = array_shift($result);
+			$this->assertSame($expectedMethod, $directive->toArray()['method']);
+
+			$list = $directive->toArray()['list'];
+			$list = array_map(function ($className) {
+				return (string)$className;
+			}, $list);
+
+			$expectedList = [
+				'argumentsSet(\'tableNames\')',
+			];
+			$this->assertSame($expectedList, $list);
+		}
 	}
 
 }
