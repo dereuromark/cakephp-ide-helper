@@ -775,7 +775,19 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
+		\Migrations\BaseMigration::hasTable(),
+		0,
+		argumentsSet('tableNames'),
+	);
+
+	expectedArguments(
 		\Migrations\BaseMigration::table(),
+		0,
+		argumentsSet('tableNames'),
+	);
+
+	expectedArguments(
+		\Migrations\BaseSeed::hasTable(),
 		0,
 		argumentsSet('tableNames'),
 	);
