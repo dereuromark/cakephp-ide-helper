@@ -253,13 +253,13 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\Datasource\QueryInterface::find(0),
 		map([
-			'all' => \Cake\ORM\Query::class,
-			'children' => \Cake\ORM\Query::class,
-			'list' => \Cake\ORM\Query::class,
-			'path' => \Cake\ORM\Query::class,
-			'somethingCustom' => \Cake\ORM\Query::class,
-			'threaded' => \Cake\ORM\Query::class,
-			'treeList' => \Cake\ORM\Query::class,
+			'all' => \Cake\ORM\Query\SelectQuery::class,
+			'children' => \Cake\ORM\Query\SelectQuery::class,
+			'list' => \Cake\ORM\Query\SelectQuery::class,
+			'path' => \Cake\ORM\Query\SelectQuery::class,
+			'somethingCustom' => \Cake\ORM\Query\SelectQuery::class,
+			'threaded' => \Cake\ORM\Query\SelectQuery::class,
+			'treeList' => \Cake\ORM\Query\SelectQuery::class,
 		]),
 	);
 
@@ -302,13 +302,13 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\ORM\Association::find(0),
 		map([
-			'all' => \Cake\ORM\Query::class,
-			'children' => \Cake\ORM\Query::class,
-			'list' => \Cake\ORM\Query::class,
-			'path' => \Cake\ORM\Query::class,
-			'somethingCustom' => \Cake\ORM\Query::class,
-			'threaded' => \Cake\ORM\Query::class,
-			'treeList' => \Cake\ORM\Query::class,
+			'all' => \Cake\ORM\Query\SelectQuery::class,
+			'children' => \Cake\ORM\Query\SelectQuery::class,
+			'list' => \Cake\ORM\Query\SelectQuery::class,
+			'path' => \Cake\ORM\Query\SelectQuery::class,
+			'somethingCustom' => \Cake\ORM\Query\SelectQuery::class,
+			'threaded' => \Cake\ORM\Query\SelectQuery::class,
+			'treeList' => \Cake\ORM\Query\SelectQuery::class,
 		]),
 	);
 
@@ -482,13 +482,13 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\ORM\Table::find(0),
 		map([
-			'all' => \Cake\ORM\Query::class,
-			'children' => \Cake\ORM\Query::class,
-			'list' => \Cake\ORM\Query::class,
-			'path' => \Cake\ORM\Query::class,
-			'somethingCustom' => \Cake\ORM\Query::class,
-			'threaded' => \Cake\ORM\Query::class,
-			'treeList' => \Cake\ORM\Query::class,
+			'all' => \Cake\ORM\Query\SelectQuery::class,
+			'children' => \Cake\ORM\Query\SelectQuery::class,
+			'list' => \Cake\ORM\Query\SelectQuery::class,
+			'path' => \Cake\ORM\Query\SelectQuery::class,
+			'somethingCustom' => \Cake\ORM\Query\SelectQuery::class,
+			'threaded' => \Cake\ORM\Query\SelectQuery::class,
+			'treeList' => \Cake\ORM\Query\SelectQuery::class,
 		]),
 	);
 
