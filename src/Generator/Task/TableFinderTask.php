@@ -4,7 +4,6 @@ namespace IdeHelper\Generator\Task;
 
 use Cake\Datasource\QueryInterface;
 use Cake\ORM\Association;
-use Cake\ORM\Query;
 use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
@@ -36,7 +35,7 @@ class TableFinderTask extends ModelTask {
 	/**
 	 * @var string
 	 */
-	public const CLASS_QUERY = Query::class;
+	public const CLASS_QUERY = SelectQuery::class;
 
 	/**
 	 * @var array<string>
