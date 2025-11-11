@@ -24,7 +24,13 @@ class PhpstormGenerator implements GeneratorInterface {
 	 * @return string
 	 */
 	public function generate(): string {
-		$map = $this->taskCollection->getMapped();
+		if (method_exists($this->taskCollection, 'getMapped')) {
+			$map = $this->taskCollection->getMapped();
+		} else {
+			// @codeCoverageIgnoreStart
+			$map = $this->taskCollection->getMap();
+			// @codeCoverageIgnoreEnd
+		}
 
 		$this->outputSetInfo($map);
 
