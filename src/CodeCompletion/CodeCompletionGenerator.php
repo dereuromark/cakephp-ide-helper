@@ -19,7 +19,7 @@ class CodeCompletionGenerator {
 	 * @return array<string>
 	 */
 	public function generate(): array {
-		$map = $this->taskCollection->getMap();
+		$map = $this->taskCollection->getMapped();
 
 		foreach ($map as $namespace => $array) {
 			$content = $this->buildContent($array);
