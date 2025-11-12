@@ -14,7 +14,7 @@ use RecursiveRegexIterator;
 use RegexIterator;
 
 /**
- * @link https://book.cakephp.org/4/en/core-libraries/global-constants-and-functions.html#global-functions
+ * @link https://book.cakephp.org/5/en/core-libraries/global-constants-and-functions.html#global-functions
  */
 class TranslationKeyTask implements TaskInterface {
 
