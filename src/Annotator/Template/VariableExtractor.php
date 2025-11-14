@@ -313,6 +313,11 @@ class VariableExtractor {
 
 		$result = [];
 		foreach ($matches[2] as $variable) {
+			// Skip $this variable as it's handled separately
+			if ($variable === 'this') {
+				continue;
+			}
+
 			$result[] = [
 				'name' => $variable,
 				'index' => $i,
