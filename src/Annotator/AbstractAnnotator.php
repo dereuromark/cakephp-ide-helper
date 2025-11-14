@@ -416,8 +416,8 @@ abstract class AbstractAnnotator {
 
 					return true;
 				}
-				// Special case: $this variable should not be duplicated even if types differ
-				if ($annotation->getVariable() === '$this' && $existingAnnotation->getVariable() === '$this') {
+				// Special case: $this variable should not be duplicated if types also match
+				if ($annotation->getVariable() === '$this' && $existingAnnotation->getVariable() === '$this' && $annotation->getType() === $existingAnnotation->getType()) {
 					unset($existingAnnotations[$key]);
 
 					return true;
