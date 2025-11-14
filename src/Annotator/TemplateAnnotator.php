@@ -492,7 +492,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 	 *
 	 * @return array<string, mixed>
 	 */
-	protected function getTemplateVariables($path, $content) {
+	protected function getTemplateVariables(string $path, string $content): array {
 		$file = $this->getFile($path, $content);
 
 		$class = Configure::read('IdeHelper.variableExtractor') ?: VariableExtractor::class;
