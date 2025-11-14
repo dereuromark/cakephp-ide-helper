@@ -416,6 +416,12 @@ abstract class AbstractAnnotator {
 
 					return true;
 				}
+				// Special case: $this variable should not be duplicated even if types differ
+				if ($annotation->getVariable() === '$this' && $existingAnnotation->getVariable() === '$this') {
+					unset($existingAnnotations[$key]);
+
+					return true;
+				}
 			}
 		}
 
