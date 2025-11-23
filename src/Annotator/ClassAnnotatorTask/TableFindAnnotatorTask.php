@@ -2,20 +2,19 @@
 
 namespace IdeHelper\Annotator\ClassAnnotatorTask;
 
-use Cake\Utility\Inflector;
+use Cake\Core\Configure;
 use IdeHelper\Annotation\AnnotationFactory;
-use IdeHelper\Annotation\UsesAnnotation;
-use PhpParser\Comment\Doc;
-use PhpParser\Node;
-use PhpParser\Node\Expr\Assign;
+use IdeHelper\Annotation\VariableAnnotation;
 use PhpParser\NodeTraverser;
-use PhpParser\NodeVisitorAbstract;
 use PhpParser\ParserFactory;
-use PhpParser\PrettyPrinter\Standard;
 use Throwable;
 
 /**
- * Usage of find() or findOrFail() should have inline annotations added.
+ * Usage of first() or firstOrFail() on table finders should have inline @var annotations added.
+ *
+ * Detects patterns like:
+ * - $entity = $this->TableName->find()->first();
+ * - $entity = $this->TableName->find()->firstOrFail();
  */
 class TableFindAnnotatorTask extends AbstractClassAnnotatorTask implements ClassAnnotatorTaskInterface {
 
@@ -31,6 +30,10 @@ class TableFindAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 			return false;
 		}
 
+		if (!preg_match('#->(first|firstOrFail)\(\)#', $content)) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -39,109 +42,66 @@ class TableFindAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 	 * @return bool
 	 */
 	public function annotate(string $path): bool {
-		$parser = (new ParserFactory())->createForHostVersion();
-		try {
-			$ast = $parser->parse($this->content);
-			$tokens = $parser->getTokens();
-			$originalAst = $ast;
-		} catch (Throwable $e) {
-			trigger_error($e);
-
+		$findings = $this->findTableFinderCalls();
+		if (!$findings) {
 			return false;
 		}
 
-		$array = [];
+		// Process from bottom to top to avoid line number shifts
+		usort($findings, fn ($a, $b) => $b['line'] <=> $a['line']);
 
-		$traverser = new NodeTraverser();
-		$traverser->addVisitor(new class($array) extends NodeVisitorAbstract {
-			private array $array;
-
-			/**
-			 * @param array $array
-			 */
-			public function __construct(array &$array) {
-				$this->array = &$array;
+		$annotated = false;
+		foreach ($findings as $finding) {
+			$annotation = $this->buildVarAnnotation($finding['entityClass'], $finding['varName'], $finding['nullable']);
+			$result = $this->annotateInlineContent($path, $this->content, [$annotation], $finding['line']);
+			if ($result) {
+				$annotated = true;
 			}
+		}
 
-			/**
-			 * @param \PhpParser\Node $node
-			 * @return \PhpParser\Node|null
-			 */
-			public function enterNode(Node $node): ?Node {
-				if ($node instanceof Assign && $node->expr instanceof Node\Expr\MethodCall) {
-					$methodCall = $node->expr;
-
-					// Check for ->first() or ->firstOrFail()
-					if (
-						$methodCall->name instanceof Node\Identifier &&
-						in_array($methodCall->name->toString(), ['first', 'firstOrFail'])
-					) {
-						$method = $methodCall->name->toString();
-
-						// Traverse back to $this->TableName->find()
-						$callChain = $methodCall->var;
-						while ($callChain instanceof Node\Expr\MethodCall) {
-							$callChain = $callChain->var;
-						}
-
-						if (
-							$callChain instanceof Node\Expr\PropertyFetch &&
-							$callChain->var instanceof Node\Expr\Variable &&
-							$callChain->var->name === 'this' &&
-							$callChain->name instanceof Node\Identifier
-						) {
-							$tableName = $callChain->name->toString(); // e.g., "Residents"
-							$varName = ($node->var instanceof Node\Expr\Variable && is_string($node->var->name))
-								                ? $node->var->name
-							                : 'unknown';
-
-							$entityName = Inflector::singularize($tableName);
-							$entityClass = '\\App\\Model\\Entity\\' . $entityName;
-							$nullable = $method === 'first' ? '|null' : '';
-							$doc = new Doc("/** @var {$entityClass}{$nullable} \${$varName} */");
-							$node->setDocComment($doc);
-
-							$this->array[] = [
-								'line' => $node->getStartLine(),
-								'content' => $doc->getText(),
-								'varName' => $varName,
-								'tableName' => $tableName,
-								'entityName' => $entityName,
-							];
-						}
-					}
-				}
-
-				return null;
-			}
-		});
-
-		$modifiedAst = $traverser->traverse($ast);
-		$printer = new Standard();
-		$modifiedCode = $printer->printFormatPreserving(
-			$modifiedAst,
-			$originalAst,
-			$tokens,
-		);
-
-		debug($array);
-		dd($modifiedCode);
-
-		//return $this->annotateInlineContent($path, $this->content, $annotations, $rowToAnnotate);
+		return $annotated;
 	}
 
 	/**
-	 * @param array<string> $classes
-	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
+	 * Find all table finder calls that end with first() or firstOrFail().
+	 *
+	 * @return array<array{line: int, varName: string, tableName: string, entityClass: string, nullable: bool}>
 	 */
-	protected function buildUsesAnnotations(array $classes): array {
-		$annotations = [];
-
-		foreach ($classes as $className) {
-			$annotations[] = AnnotationFactory::createOrFail(UsesAnnotation::TAG, '\\' . $className);
+	protected function findTableFinderCalls(): array {
+		$parser = (new ParserFactory())->createForHostVersion();
+		try {
+			$ast = $parser->parse($this->content);
+		} catch (Throwable $e) {
+			return [];
 		}
 
-		return $annotations;
+		if ($ast === null) {
+			return [];
+		}
+
+		$appNamespace = Configure::read('App.namespace') ?: 'App';
+
+		$visitor = new TableFindNodeVisitor($appNamespace);
+		$traverser = new NodeTraverser();
+		$traverser->addVisitor($visitor);
+		$traverser->traverse($ast);
+
+		return $visitor->getFindings();
+	}
+
+	/**
+	 * Build a @var annotation for the entity type.
+	 *
+	 * @param string $entityClass
+	 * @param string $varName
+	 * @param bool $nullable
+	 * @return \IdeHelper\Annotation\VariableAnnotation
+	 */
+	protected function buildVarAnnotation(string $entityClass, string $varName, bool $nullable): VariableAnnotation {
+		$type = $entityClass . ($nullable ? '|null' : '');
+
+		/** @var \IdeHelper\Annotation\VariableAnnotation */
+		return AnnotationFactory::createOrFail(VariableAnnotation::TAG, $type, '$' . $varName);
 	}
 
 }
