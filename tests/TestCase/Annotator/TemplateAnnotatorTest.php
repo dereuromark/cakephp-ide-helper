@@ -466,10 +466,88 @@ class TemplateAnnotatorTest extends TestCase {
 	}
 
 	/**
+	 * Tests that anonymous function parameters are excluded from annotations.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateWithAnonymousFunctions() {
+		Configure::write('IdeHelper.autoCollect', 'mixed');
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$expectedVariables = [
+			'$this',
+			'$participantMoods',
+			'$yourMoodIds',
+			'$items',
+			'$filtered',
+			'$data',
+			'$numbers',
+			'$doubled',
+			'$multiplier',
+			'$values',
+			'$result',
+		];
+
+		// Variables that should NOT get annotations (anonymous function parameters)
+		$excludedVariables = ['$m', '$item', '$a', '$b', '$x', '$n'];
+		// Note: $id is excluded too, but it's a foreach loop variable, not an anonymous function parameter
+
+		$callback = function($value) use ($expectedVariables, $excludedVariables) {
+			// Extract just the PHPDoc block
+			if (preg_match('/\/\*\*(.*?)\*\//s', $value, $matches)) {
+				$docBlock = $matches[1];
+
+				foreach ($excludedVariables as $var) {
+					// Check if the variable appears in an @var annotation in the doc block
+					if (preg_match('/@var\s+[^\s]+\s+\\' . preg_quote($var, '/') . '/', $docBlock)) {
+						$this->fail("Variable {$var} should not have an annotation (it's an anonymous function parameter)");
+					}
+				}
+			}
+
+			return true;
+		};
+
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP_ROOT . DS . 'templates/Foos/anonymous.php';
+		$annotator->annotate($path);
+	}
+
+	/**
+	 * Tests that $this inside string interpolation doesn't create duplicate annotations.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateWithStringInterpolation() {
+		Configure::write('IdeHelper.autoCollect', 'mixed');
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'templates/string_interpolation.php'));
+		$callback = function($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->_displayDiff($expectedContent, $value);
+			}
+
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP_ROOT . DS . 'templates/Foos/string_interpolation.php';
+		$annotator->annotate($path);
+
+		$output = $this->out->output();
+
+		// Should only add 1 annotation: $name (not a duplicate $this)
+		$this->assertTextContains('   -> 1 annotation added.', $output);
+	}
+
+	/**
 	 * @param array $params
 	 * @return \IdeHelper\Annotator\TemplateAnnotator|\PHPUnit\Framework\MockObject\MockObject
 	 */
-	protected function _getAnnotatorMock(array $params) {
+	protected function _getAnnotatorMock(array $params): TemplateAnnotator {
 		$params += [
 			AbstractAnnotator::CONFIG_REMOVE => true,
 			AbstractAnnotator::CONFIG_DRY_RUN => true,

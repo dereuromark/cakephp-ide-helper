@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['8.1', '8.4']
+        php-version: ['8.1', '8.5']
         db-type: [sqlite, mysql, pgsql]
         prefer-lowest: ['']
         include:
@@ -28,7 +28,7 @@ jobs:
           POSTGRES_PASSWORD: postgres
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup Service
         if: matrix.db-type == 'mysql'
@@ -82,7 +82,7 @@ jobs:
 
       - name: Upload coverage reports to Codecov
         if: success() && matrix.php-version == '8.1'
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
@@ -91,7 +91,7 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2

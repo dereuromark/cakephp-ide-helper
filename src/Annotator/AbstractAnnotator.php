@@ -416,6 +416,12 @@ abstract class AbstractAnnotator {
 
 					return true;
 				}
+				// Special case: $this variable should not be duplicated if types also match
+				if ($annotation->getVariable() === '$this' && $existingAnnotation->getVariable() === '$this' && $annotation->getType() === $existingAnnotation->getType()) {
+					unset($existingAnnotations[$key]);
+
+					return true;
+				}
 			}
 		}
 
@@ -590,7 +596,6 @@ abstract class AbstractAnnotator {
 	 * @return bool
 	 */
 	protected function propertyInUse(array $tokens, int $closeTagIndex, string $variable): bool {
-		/** @var string $property */
 		$property = substr($variable, 1);
 
 		$i = $closeTagIndex + 1;
@@ -824,8 +829,10 @@ abstract class AbstractAnnotator {
 	 */
 	protected function invokeProperty(&$object, string $name) {
 		$reflection = new ReflectionClass(get_class($object));
+		if (!$reflection->hasProperty($name)) {
+			return null;
+		}
 		$property = $reflection->getProperty($name);
-		$property->setAccessible(true);
 
 		return $property->getValue($object);
 	}

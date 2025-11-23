@@ -15,6 +15,7 @@ use IdeHelper\Annotator\Traits\ComponentTrait;
 use IdeHelper\Annotator\Traits\ModelTrait;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\GenericString;
+use PHP_CodeSniffer\Files\File;
 use RuntimeException;
 use Throwable;
 
@@ -58,6 +59,28 @@ class ControllerAnnotator extends AbstractAnnotator {
 		}
 
 		return $this->annotateContent($path, $content, $annotations);
+	}
+
+	/**
+	 * Set annotations to be removable. Fixes false positives with PHPStan thinking it's all good.
+	 *
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param int $closeTagIndex
+	 * @param array<string> $types
+	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
+	 */
+	protected function parseExistingAnnotations(File $file, int $closeTagIndex, array $types = self::TYPES): array {
+		$annotations = parent::parseExistingAnnotations($file, $closeTagIndex, $types);
+
+		foreach ($annotations as &$annotation) {
+			if (!preg_match('#\\\\Model\\\\Table\\\\#', $annotation->getType()) && !preg_match('#\\\\Controller\\\\Component\\\\#', $annotation->getType())) {
+				continue;
+			}
+
+			$annotation->setInUse(false);
+		}
+
+		return $annotations;
 	}
 
 	/**

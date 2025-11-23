@@ -48,12 +48,11 @@ class Io {
 	 *
 	 * ### Output levels
 	 *
-	 * There are 3 built-in output level. ConsoleIo::QUIET, ConsoleIo::NORMAL, ConsoleIo::VERBOSE.
+	 * There are 3 built-in output levels: ConsoleIo::QUIET, ConsoleIo::NORMAL, ConsoleIo::VERBOSE.
 	 * The verbose and quiet output levels, map to the `verbose` and `quiet` output switches
 	 * present in most shells. Using ConsoleIo::QUIET for a message means it will always display.
 	 * While using ConsoleIo::VERBOSE means it will only display when verbose output is toggled.
 	 *
-	 * @link http://book.cakephp.org/3.0/en/console-and-shells.html#ConsoleIo::out
 	 * @param array<string>|string $message A string or an array of strings to output
 	 * @param int $newlines Number of newlines to append
 	 * @param int $level The message's output level, see above.
@@ -142,7 +141,6 @@ class Io {
 	/**
 	 * Returns a single or multiple linefeeds sequences.
 	 *
-	 * @link http://book.cakephp.org/3.0/en/console-and-shells.html#ConsoleIo::nl
 	 * @param int $multiplier Number of times the linefeed sequence should be repeated
 	 * @return string
 	 */
@@ -153,7 +151,6 @@ class Io {
 	/**
 	 * Outputs a series of minus characters to the standard output, acts as a visual separator.
 	 *
-	 * @link http://book.cakephp.org/3.0/en/console-and-shells.html#ConsoleIo::hr
 	 * @param int $newlines Number of newlines to pre- and append
 	 * @param int $width Width of the line, defaults to 63
 	 * @return void
@@ -166,7 +163,6 @@ class Io {
 	 * Displays a formatted error message
 	 * and exits the application with status code 1
 	 *
-	 * @link http://book.cakephp.org/3.0/en/console-and-shells.html#styling-output
 	 * @param string $message The error message
 	 * @param int $exitCode The exit code for the shell task.
 	 * @throws \Cake\Console\Exception\StopException

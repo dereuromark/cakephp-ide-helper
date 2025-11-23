@@ -23,6 +23,10 @@ class LinkAnnotation extends AbstractAnnotation {
 
 		parent::__construct($type, $index);
 
+		if (preg_match('/^(http|https):/', $type)) {
+			$this->isInUse = true;
+		}
+
 		$this->description = $description;
 	}
 

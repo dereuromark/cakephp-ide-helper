@@ -89,7 +89,7 @@ class ComponentAnnotatorTest extends TestCase {
 	 * @param array $params
 	 * @return \IdeHelper\Annotator\ComponentAnnotator|\PHPUnit\Framework\MockObject\MockObject
 	 */
-	protected function _getAnnotatorMock(array $params) {
+	protected function _getAnnotatorMock(array $params): ComponentAnnotator {
 		$params += [
 			AbstractAnnotator::CONFIG_REMOVE => true,
 			AbstractAnnotator::CONFIG_DRY_RUN => true,

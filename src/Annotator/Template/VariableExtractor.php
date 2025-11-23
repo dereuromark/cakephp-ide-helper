@@ -146,6 +146,9 @@ class VariableExtractor {
 		if ($this->isTryCatchVar($file, $result)) {
 			return 'Try catch';
 		}
+		if ($this->isAnonymousFunctionParameter($file, $result)) {
+			return 'Anonymous function parameter';
+		}
 
 		if ($this->isAssignment($file, $result)) {
 			return 'Assignment';
@@ -225,6 +228,33 @@ class VariableExtractor {
 	 * @param array<string, mixed> $result
 	 * @return bool
 	 */
+	protected function isAnonymousFunctionParameter(File $file, array $result): bool {
+		if (empty($result['context']['nested_parenthesis'])) {
+			return false;
+		}
+
+		$tokens = $file->getTokens();
+
+		// Check each level of nested parenthesis
+		foreach ($result['context']['nested_parenthesis'] as $openParen => $closeParen) {
+			// Check if this is immediately preceded by 'function' or 'fn' keyword
+			if ($openParen > 0) {
+				$prevToken = $file->findPrevious(T_WHITESPACE, $openParen - 1, (int)max(0, $openParen - 2), true);
+				if ($prevToken !== false && in_array($tokens[$prevToken]['code'], [T_CLOSURE, T_FN], true)) {
+					// This variable is inside an anonymous function's parameter list
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param array<string, mixed> $result
+	 * @return bool
+	 */
 	protected function isAssignment(File $file, array $result): bool {
 		$tokens = $file->getTokens();
 
@@ -283,6 +313,11 @@ class VariableExtractor {
 
 		$result = [];
 		foreach ($matches[2] as $variable) {
+			// Skip $this variable as it's handled separately
+			if ($variable === 'this') {
+				continue;
+			}
+
 			$result[] = [
 				'name' => $variable,
 				'index' => $i,

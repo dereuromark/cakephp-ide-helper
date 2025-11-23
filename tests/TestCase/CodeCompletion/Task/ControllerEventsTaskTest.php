@@ -31,6 +31,7 @@ class ControllerEventsTaskTest extends TestCase {
 
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
+use Psr\Http\Message\UriInterface;
 
 if (false) {
 	class Controller {
@@ -76,12 +77,12 @@ if (false) {
 
 		/**
 		 * @param \Cake\Event\EventInterface $event
-		 * @param array|string $url
+		 * @param \Psr\Http\Message\UriInterface|array|string $url
 		 * @param \Cake\Http\Response $response
 		 *
 		 * @return void
 		 */
-		public function beforeRedirect(EventInterface $event, $url, Response $response) {
+		public function beforeRedirect(EventInterface $event, UriInterface|array|string $url, Response $response) {
 		}
 	}
 
@@ -128,12 +129,12 @@ if (false) {
 
 		/**
 		 * @param \Cake\Event\EventInterface $event
-		 * @param array|string $url
+		 * @param \Psr\Http\Message\UriInterface|array|string $url
 		 * @param \Cake\Http\Response $response
 		 *
 		 * @return void
 		 */
-		public function beforeRedirect(EventInterface $event, $url, Response $response) {
+		public function beforeRedirect(EventInterface $event, UriInterface|array|string $url, Response $response) {
 		}
 	}
 }
@@ -154,6 +155,7 @@ TXT;
 
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
+use Psr\Http\Message\UriInterface;
 
 if (false) {
 	class Controller {
@@ -174,12 +176,12 @@ if (false) {
 
 		/**
 		 * @param \Cake\Event\EventInterface $event
-		 * @param array|string $url
+		 * @param \Psr\Http\Message\UriInterface|array|string $url
 		 * @param \Cake\Http\Response $response
 		 *
 		 * @return void
 		 */
-		public function beforeRedirect(EventInterface $event, $url, Response $response): void {
+		public function beforeRedirect(EventInterface $event, UriInterface|array|string $url, Response $response): void {
 		}
 	}
 
@@ -201,12 +203,12 @@ if (false) {
 
 		/**
 		 * @param \Cake\Event\EventInterface $event
-		 * @param array|string $url
+		 * @param \Psr\Http\Message\UriInterface|array|string $url
 		 * @param \Cake\Http\Response $response
 		 *
 		 * @return void
 		 */
-		public function beforeRedirect(EventInterface $event, $url, Response $response): void {
+		public function beforeRedirect(EventInterface $event, UriInterface|array|string $url, Response $response): void {
 		}
 	}
 }

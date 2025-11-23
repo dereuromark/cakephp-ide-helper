@@ -2,7 +2,7 @@
 
 Note that freshly [baking](https://github.com/cakephp/bake) your code will result in similar results,
 but often times there is already existing code, and re-baking it is not an option then usually.
-And of course it also keeps your manually added or modified code annotated.
+And of course, it also keeps your manually added or modified code annotated.
 
 ## Important options to start with
 The following will be defined under `IdeHelper` key of `app.php` config:
@@ -366,6 +366,9 @@ Then add it to the config:
 ```
 The key `'MyClassAnnotatorTask'` can be any string.
 
+You want more examples?
+- [Custom Class Annotators](Annotations/Class.md)
+
 #### Replacing native tasks
 Using associative arrays you can even exchange any native task with your own implementation:
 ```php
@@ -467,7 +470,7 @@ foreach ($role->users as $rolUser) {}
 ```
 
 You can use `'IdeHelper.autoCollectBlacklist'` config to exclude certain variables.
-The array accepts both strings or regexp patterns like `'/^\_.+$/i'` for underscore prefixed variables).
+The array accepts both strings or regexp patterns like `'/^\_.+$/i'` for underscore prefixed variables.
 
 ### Entity collections
 Usually, all collections (pagination, find) are object collections when being passed to the view layer.
@@ -606,7 +609,6 @@ The key `'MyCallbackAnnotatorTask'` can be any string.
 
 Overwriting the existing tasks works the same way as above for classes.
 
-
 ## Dry-Run and Diff
 If you want to check if it would be modifying any files, you can run it with `-d` (dry-run) param.
 
@@ -706,14 +708,10 @@ This way no annotation can be forgotten, when making PRs for your project.
 
 For this, use the `--ci` option along with `-d` (dry run):
 ```
-bin/cake annotate all -v -d --ci
+bin/cake annotate all -d --ci
 ```
 It will return an error code 2 if any modification has to be done.
 
-It is advised to hook it in along with your cs check, e.g. for travis:
-```
-- if [[ $PHPCS == 1 ]]; then bin/cake annotate all -v -d --ci ; fi
-```
 Note: This will need some additional setup, like migrations to be run prior to the call.
 The database must exist and replicate the actual DB.
 

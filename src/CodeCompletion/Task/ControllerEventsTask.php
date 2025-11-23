@@ -32,6 +32,7 @@ class ControllerEventsTask implements TaskInterface {
 
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
+use Psr\Http\Message\UriInterface;
 
 if (false) {
 	class Controller {
@@ -69,7 +70,7 @@ TXT;
 		$docBlockRedirect = <<<TXT
 		/**
 		 * @param \Cake\Event\EventInterface \$event
-		 * @param array|string \$url
+		 * @param \Psr\Http\Message\UriInterface|array|string \$url
 		 * @param \Cake\Http\Response \$response
 		 *
 		 * @return void
@@ -93,7 +94,7 @@ TXT;
 		{$docBlock}public function shutdown(EventInterface \$event)$type {
 		}
 
-		{$docBlockRedirect}public function beforeRedirect(EventInterface \$event, \$url, Response \$response)$type {
+		{$docBlockRedirect}public function beforeRedirect(EventInterface \$event, UriInterface|array|string \$url, Response \$response)$type {
 		}
 TXT;
 

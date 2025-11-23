@@ -65,7 +65,7 @@ class CommandAnnotatorTest extends TestCase {
 	 * @param array $params
 	 * @return \IdeHelper\Annotator\CommandAnnotator|\PHPUnit\Framework\MockObject\MockObject
 	 */
-	protected function _getAnnotatorMock(array $params) {
+	protected function _getAnnotatorMock(array $params): CommandAnnotator {
 		$params += [
 			AbstractAnnotator::CONFIG_REMOVE => true,
 			AbstractAnnotator::CONFIG_DRY_RUN => true,

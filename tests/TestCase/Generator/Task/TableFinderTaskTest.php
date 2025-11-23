@@ -52,13 +52,13 @@ class TableFinderTaskTest extends TestCase {
 		}, $map);
 
 		$expectedMap = [
-			'all' => '\Cake\ORM\Query::class',
-			'children' => '\Cake\ORM\Query::class',
-			'list' => '\Cake\ORM\Query::class',
-			'path' => '\Cake\ORM\Query::class',
-			'somethingCustom' => '\Cake\ORM\Query::class',
-			'threaded' => '\Cake\ORM\Query::class',
-			'treeList' => '\Cake\ORM\Query::class',
+			'all' => '\Cake\ORM\Query\SelectQuery::class',
+			'children' => '\Cake\ORM\Query\SelectQuery::class',
+			'list' => '\Cake\ORM\Query\SelectQuery::class',
+			'path' => '\Cake\ORM\Query\SelectQuery::class',
+			'somethingCustom' => '\Cake\ORM\Query\SelectQuery::class',
+			'threaded' => '\Cake\ORM\Query\SelectQuery::class',
+			'treeList' => '\Cake\ORM\Query\SelectQuery::class',
 		];
 		$this->assertSame($expectedMap, $map);
 	}
