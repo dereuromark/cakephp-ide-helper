@@ -29,12 +29,15 @@ trait UseStatementsTrait {
 			$useStatementStartIndex = $phpcsFile->findNext(Tokens::$emptyTokens, $index + 1, null, true);
 
 			// Ignore function () use ($foo) {}
-			if ($tokens[$useStatementStartIndex]['content'] === '(') {
+			if (!$useStatementStartIndex || $tokens[$useStatementStartIndex]['content'] === '(') {
 				continue;
 			}
 
 			$semicolonIndex = $phpcsFile->findNext(T_SEMICOLON, $useStatementStartIndex + 1);
 			$useStatementEndIndex = $phpcsFile->findPrevious(Tokens::$emptyTokens, $semicolonIndex - 1, null, true);
+			if (!$useStatementEndIndex) {
+				continue;
+			}
 
 			$statement = '';
 			for ($i = $useStatementStartIndex; $i <= $useStatementEndIndex; $i++) {

@@ -179,7 +179,7 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 		$startIndex = $file->findNext(T_WHITESPACE, $namespaceIndex + 1, null, true);
 		$endIndex = $file->findNext(T_SEMICOLON, $namespaceIndex + 1);
 
-		if (!$namespaceIndex || !$endIndex) {
+		if (!$namespaceIndex || !$startIndex || !$endIndex) {
 			throw new CakeException('File does not seem to be a valid entity class');
 		}
 

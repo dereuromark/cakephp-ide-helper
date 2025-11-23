@@ -8,10 +8,11 @@ use PhpParser\NodeVisitorAbstract;
 use PhpParser\ParserFactory;
 
 /**
- * Adds @link annotations above validator->add() calls that reference table provider methods.
+ * Adds @link annotations above 'rule' definitions that reference table provider methods.
  *
  * When validation rules use 'provider' => 'table' with a method reference,
- * this task adds a @link annotation to help IDEs recognize the method usage.
+ * this task adds a @link annotation directly above the 'rule' line to help
+ * IDEs recognize the method usage.
  */
 class TableValidationLinkTask extends AbstractTask {
 
@@ -43,7 +44,7 @@ class TableValidationLinkTask extends AbstractTask {
 	 * Find all ->add() calls with 'provider' => 'table' and extract the method names.
 	 *
 	 * @param string $content
-	 * @return array<int, string> Map of line number => method name
+	 * @return array<int, string> Map of line number (of 'rule' key) => method name
 	 */
 	protected function findTableProviderMethods(string $content): array {
 		$parser = (new ParserFactory())->createForNewestSupportedVersion();
@@ -92,9 +93,9 @@ class TableValidationLinkTask extends AbstractTask {
 					return null;
 				}
 
-				$methodName = $this->extractTableProviderMethod($options);
-				if ($methodName !== null) {
-					$this->links[$node->getStartLine()] = $methodName;
+				$result = $this->extractTableProviderMethod($options);
+				if ($result !== null) {
+					$this->links[$result['ruleLine']] = $result['methodName'];
 				}
 
 				return null;
@@ -102,11 +103,12 @@ class TableValidationLinkTask extends AbstractTask {
 
 			/**
 			 * @param \PhpParser\Node\Expr\Array_ $options
-			 * @return string|null
+			 * @return array{ruleLine: int, methodName: string}|null
 			 */
-			protected function extractTableProviderMethod(Node\Expr\Array_ $options): ?string {
+			protected function extractTableProviderMethod(Node\Expr\Array_ $options): ?array {
 				$hasTableProvider = false;
 				$methodName = null;
+				$ruleLine = null;
 
 				foreach ($options->items as $item) {
 					if (!$item instanceof Node\Expr\ArrayItem || $item->key === null) {
@@ -127,11 +129,12 @@ class TableValidationLinkTask extends AbstractTask {
 
 					if ($key === 'rule') {
 						$methodName = $this->extractMethodFromRule($item->value);
+						$ruleLine = $item->getStartLine();
 					}
 				}
 
-				if ($hasTableProvider && $methodName !== null) {
-					return $methodName;
+				if ($hasTableProvider && $methodName !== null && $ruleLine !== null) {
+					return ['ruleLine' => $ruleLine, 'methodName' => $methodName];
 				}
 
 				return null;

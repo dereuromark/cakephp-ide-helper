@@ -12,15 +12,15 @@ class IpRulesTable extends Table {
 	 * @return \Cake\Validation\Validator
 	 */
 	public function validationDefault(Validator $validator): Validator {
-		/** @link verifyIpRanges() */
 		$validator->add('allow', 'range', [
+			/** @link verifyIpRanges() */
 			'rule' => ['verifyIpRanges', 'allow'],
 			'provider' => 'table',
 			'message' => 'Please provide valid ip ranges',
 		]);
 
-		/** @link verifyDenyRanges() */
 		$validator->add('deny', 'range', [
+			/** @link verifyDenyRanges() */
 			'rule' => 'verifyDenyRanges',
 			'provider' => 'table',
 		]);
