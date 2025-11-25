@@ -25,103 +25,111 @@ use ReflectionException;
 class FieldConstantUsageTask extends AbstractTask {
 
 	/**
-	 * Query builder methods that accept field names.
+	 * Methods grouped by class that accept field names as arguments.
 	 *
-	 * @var array<string, array<int>>
+	 * Structure: [ClassName => [methodName => [argPositions]]]
+	 *
+	 * @var array<string, array<string, array<int>>>
 	 */
-	protected const QUERY_METHODS = [
-		'select' => [0],
-		'where' => [0],
-		'andWhere' => [0],
-		'orWhere' => [0],
-		'orderBy' => [0],
-		'orderByAsc' => [0],
-		'orderByDesc' => [0],
-		'groupBy' => [0],
-		'distinct' => [0],
-		'hasField' => [0],
-		'add' => [0],
-		'addNested' => [0],
-		'addNestedMany' => [0],
-		'remove' => [0],
-		'requirePresence' => [0],
-		'allowEmptyFor' => [0],
-		'allowEmptyString' => [0],
-		'notEmptyString' => [0],
-		'allowEmptyArray' => [0],
-		'notEmptyArray' => [0],
-		'allowEmptyFile' => [0],
-		'notEmptyFile' => [0],
-		'allowEmptyDate' => [0],
-		'notEmptyDate' => [0],
-		'allowEmptyTime' => [0],
-		'notEmptyTime' => [0],
-		'allowEmptyDateTime' => [0],
-		'notEmptyDateTime' => [0],
-		'notBlank' => [0],
-		'alphaNumeric' => [0],
-		'notAlphaNumeric' => [0],
-		'asciiAlphaNumeric' => [0],
-		'notAsciiAlphaNumeric' => [0],
-		'lengthBetween' => [0],
-		'creditCard' => [0],
-		'greaterThan' => [0],
-		'greaterThanOrEqual' => [0],
-		'lessThan' => [0],
-		'lessThanOrEqual' => [0],
-		'equals' => [0],
-		'notEquals' => [0],
-		'sameAs' => [0],
-		'notSameAs' => [0],
-		'equalToField' => [0],
-		'notEqualToField' => [0],
-		'greaterThanField' => [0],
-		'greaterThanOrEqualToField' => [0],
-		'lessThanField' => [0],
-		'lessThanOrEqualToField' => [0],
-		'date' => [0],
-		'dateTime' => [0],
-		'time' => [0],
-		'localizedTime' => [0],
-		'boolean' => [0],
-		'decimal' => [0],
-		'email' => [0],
-		'enum' => [0],
-		'ip' => [0],
-		'ipv4' => [0],
-		'ipv6' => [0],
-		'minLength' => [0],
-		'minLengthBytes' => [0],
-		'maxLength' => [0],
-		'maxLengthBytes' => [0],
-		'numeric' => [0],
-		'naturalNumber' => [0],
-		'nonNegativeInteger' => [0],
-		'range' => [0],
-		'url' => [0],
-		'urlWithProtocol' => [0],
-		'inList' => [0],
-		'uuid' => [0],
-		'uploadedFile' => [0],
-		'latLong' => [0],
-		'latitude' => [0],
-		'longitude' => [0],
-		'ascii' => [0],
-		'utf8' => [0],
-		'utf8Extended' => [0],
-		'integer' => [0],
-		'array' => [0],
-		'scalar' => [0],
-		'hexColor' => [0],
-		'multipleOptions' => [0],
-		'hasAtLeast' => [0],
-		'hasAtMost' => [0],
-		'isEmptyAllowed' => [0],
-		'isPresenceRequired' => [0],
-		'getRequiredMessage' => [0],
-		'getNotEmptyMessage' => [0],
-		'existsIn' => [0],
-		'isUnique' => [0],
+	protected const CLASS_METHODS = [
+		// Query builder methods (SelectQuery, UpdateQuery, DeleteQuery)
+		'Cake\ORM\Query\SelectQuery' => [
+			'select' => [0],
+			'where' => [0],
+			'andWhere' => [0],
+			'orWhere' => [0],
+			'orderBy' => [0],
+			'orderByAsc' => [0],
+			'orderByDesc' => [0],
+			'groupBy' => [0],
+			'distinct' => [0],
+			'contain' => [0],
+		],
+		// Validator methods
+		'Cake\Validation\Validator' => [
+			'add' => [0],
+			'addNested' => [0],
+			'addNestedMany' => [0],
+			'remove' => [0],
+			'hasField' => [0],
+			'requirePresence' => [0],
+			'allowEmptyFor' => [0],
+			'allowEmptyString' => [0],
+			'notEmptyString' => [0],
+			'allowEmptyArray' => [0],
+			'notEmptyArray' => [0],
+			'allowEmptyFile' => [0],
+			'notEmptyFile' => [0],
+			'allowEmptyDate' => [0],
+			'notEmptyDate' => [0],
+			'allowEmptyTime' => [0],
+			'notEmptyTime' => [0],
+			'allowEmptyDateTime' => [0],
+			'notEmptyDateTime' => [0],
+			'notBlank' => [0],
+			'alphaNumeric' => [0],
+			'notAlphaNumeric' => [0],
+			'asciiAlphaNumeric' => [0],
+			'notAsciiAlphaNumeric' => [0],
+			'lengthBetween' => [0],
+			'creditCard' => [0],
+			'greaterThan' => [0],
+			'greaterThanOrEqual' => [0],
+			'lessThan' => [0],
+			'lessThanOrEqual' => [0],
+			'equals' => [0],
+			'notEquals' => [0],
+			'sameAs' => [0],
+			'notSameAs' => [0],
+			'equalToField' => [0],
+			'notEqualToField' => [0],
+			'greaterThanField' => [0],
+			'greaterThanOrEqualToField' => [0],
+			'lessThanField' => [0],
+			'lessThanOrEqualToField' => [0],
+			'date' => [0],
+			'dateTime' => [0],
+			'time' => [0],
+			'localizedTime' => [0],
+			'boolean' => [0],
+			'decimal' => [0],
+			'email' => [0],
+			'enum' => [0],
+			'ip' => [0],
+			'ipv4' => [0],
+			'ipv6' => [0],
+			'minLength' => [0],
+			'minLengthBytes' => [0],
+			'maxLength' => [0],
+			'maxLengthBytes' => [0],
+			'numeric' => [0],
+			'naturalNumber' => [0],
+			'nonNegativeInteger' => [0],
+			'range' => [0],
+			'url' => [0],
+			'urlWithProtocol' => [0],
+			'inList' => [0],
+			'uuid' => [0],
+			'uploadedFile' => [0],
+			'latLong' => [0],
+			'latitude' => [0],
+			'longitude' => [0],
+			'ascii' => [0],
+			'utf8' => [0],
+			'utf8Extended' => [0],
+			'integer' => [0],
+			'array' => [0],
+			'scalar' => [0],
+			'hexColor' => [0],
+			'multipleOptions' => [0],
+			'hasAtLeast' => [0],
+			'hasAtMost' => [0],
+		],
+		// Rules checker methods
+		'Cake\ORM\RulesChecker' => [
+			'existsIn' => [0],
+			'isUnique' => [0],
+		],
 	];
 
 	/**
@@ -257,6 +265,31 @@ class FieldConstantUsageTask extends AbstractTask {
 	}
 
 	/**
+	 * Build a flat method lookup from the nested CLASS_METHODS structure.
+	 *
+	 * @return array<string, array{class: string, positions: array<int>}>
+	 */
+	protected function buildMethodLookup(): array {
+		$classMethods = $this->getConfig('classMethods') ?? static::CLASS_METHODS;
+		$lookup = [];
+
+		foreach ($classMethods as $className => $methods) {
+			foreach ($methods as $methodName => $positions) {
+				// If method exists in multiple classes, prefer the first one
+				// This is fine since we also do context-based matching
+				if (!isset($lookup[$methodName])) {
+					$lookup[$methodName] = [
+						'class' => $className,
+						'positions' => $positions,
+					];
+				}
+			}
+		}
+
+		return $lookup;
+	}
+
+	/**
 	 * Find all string literals that should be replaced with constants.
 	 *
 	 * @param string $content
@@ -277,18 +310,18 @@ class FieldConstantUsageTask extends AbstractTask {
 			return [];
 		}
 
-		$methods = $this->getConfig('methods') ?? static::QUERY_METHODS;
+		$methodLookup = $this->buildMethodLookup();
 
-		$visitor = new class ($fieldConstants, $methods) extends NodeVisitorAbstract {
+		$visitor = new class ($fieldConstants, $methodLookup) extends NodeVisitorAbstract {
 			/**
 			 * @var array<string, string>
 			 */
 			private array $fieldConstants;
 
 			/**
-			 * @var array<string, array<int>>
+			 * @var array<string, array{class: string, positions: array<int>}>
 			 */
-			private array $methods;
+			private array $methodLookup;
 
 			/**
 			 * @var array<int, array{line: int, startPos: int, endPos: int, field: string, constant: string, position: string}>
@@ -296,12 +329,19 @@ class FieldConstantUsageTask extends AbstractTask {
 			public array $replacements = [];
 
 			/**
-			 * @param array<string, string> $fieldConstants
-			 * @param array<string, array<int>> $methods
+			 * Track variable types from method parameters.
+			 *
+			 * @var array<string, string>
 			 */
-			public function __construct(array $fieldConstants, array $methods) {
+			private array $variableTypes = [];
+
+			/**
+			 * @param array<string, string> $fieldConstants
+			 * @param array<string, array{class: string, positions: array<int>}> $methodLookup
+			 */
+			public function __construct(array $fieldConstants, array $methodLookup) {
 				$this->fieldConstants = $fieldConstants;
-				$this->methods = $methods;
+				$this->methodLookup = $methodLookup;
 			}
 
 			/**
@@ -309,6 +349,23 @@ class FieldConstantUsageTask extends AbstractTask {
 			 * @return int|null
 			 */
 			public function enterNode(Node $node): ?int {
+				// Track method parameters with type hints
+				if ($node instanceof Node\Stmt\ClassMethod) {
+					$this->variableTypes = [];
+					foreach ($node->params as $param) {
+						if ($param->type instanceof Node\Name && $param->var instanceof Node\Expr\Variable) {
+							$varName = $param->var->name;
+							if (is_string($varName)) {
+								$typeName = $param->type->toString();
+								// Store full class name for matching
+								$this->variableTypes[$varName] = $typeName;
+							}
+						}
+					}
+
+					return null;
+				}
+
 				if (!$node instanceof Node\Expr\MethodCall) {
 					return null;
 				}
@@ -318,11 +375,17 @@ class FieldConstantUsageTask extends AbstractTask {
 				}
 
 				$methodName = $node->name->name;
-				if (!isset($this->methods[$methodName])) {
+				if (!isset($this->methodLookup[$methodName])) {
 					return null;
 				}
 
-				$argPositions = $this->methods[$methodName];
+				// Check if we can determine the class context
+				$expectedClass = $this->methodLookup[$methodName]['class'];
+				if (!$this->isValidContext($node, $expectedClass, $methodName)) {
+					return null;
+				}
+
+				$argPositions = $this->methodLookup[$methodName]['positions'];
 				foreach ($argPositions as $position) {
 					if (!isset($node->args[$position])) {
 						continue;
@@ -337,6 +400,49 @@ class FieldConstantUsageTask extends AbstractTask {
 				}
 
 				return null;
+			}
+
+			/**
+			 * Check if the method call is in a valid context for the expected class.
+			 *
+			 * @param \PhpParser\Node\Expr\MethodCall $node
+			 * @param string $expectedClass
+			 * @param string $methodName
+			 * @return bool
+			 */
+			protected function isValidContext(Node\Expr\MethodCall $node, string $expectedClass, string $methodName): bool {
+				$var = $node->var;
+
+				// Check if it's a variable we know the type of
+				if ($var instanceof Node\Expr\Variable && is_string($var->name)) {
+					$varType = $this->variableTypes[$var->name] ?? null;
+					if ($varType !== null) {
+						// Check if the variable type matches the expected class
+						$shortExpected = substr($expectedClass, (int)strrpos($expectedClass, '\\') + 1);
+						$shortVar = substr($varType, (int)strrpos($varType, '\\') + 1);
+
+						return $shortVar === $shortExpected || str_ends_with($varType, $shortExpected);
+					}
+				}
+
+				// For chained method calls (like $this->find()->where()), allow query methods
+				if ($var instanceof Node\Expr\MethodCall) {
+					// If the expected class is SelectQuery and we're in a chain, allow it
+					if (str_contains($expectedClass, 'Query')) {
+						return true;
+					}
+				}
+
+				// For $this-> calls in Table classes, allow query methods
+				if ($var instanceof Node\Expr\Variable && $var->name === 'this') {
+					if (str_contains($expectedClass, 'Query')) {
+						return true;
+					}
+				}
+
+				// If we can't determine context and the method is in our lookup, allow it
+				// This is more permissive but avoids false negatives
+				return true;
 			}
 
 			/**
