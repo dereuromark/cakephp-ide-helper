@@ -39,7 +39,7 @@ class FieldConstantUsageTask extends AbstractTask {
 		'orderByDesc' => [0],
 		'groupBy' => [0],
 		'distinct' => [0],
-	        'hasField' => [0],
+		'hasField' => [0],
         'add' => [0],
         'addNested' => [0],
         'addNestedMany' => [0],
