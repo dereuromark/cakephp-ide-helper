@@ -101,20 +101,25 @@ The task will also automatically add the `use` statement for the entity class if
 - Only replaces strings when a matching `FIELD_*` constant exists in the entity
 - Does not handle related table queries or associations
 
-**Supported methods** (by default):
+**Supported methods** (grouped by class for better context detection):
 
-Query builder methods:
+`Cake\ORM\Query\SelectQuery`:
 - `select()`, `where()`, `andWhere()`, `orWhere()`
 - `orderBy()`, `orderByAsc()`, `orderByDesc()`
-- `groupBy()`, `distinct()`, `hasField()`
+- `groupBy()`, `distinct()`, `contain()`
 
-Validator methods:
-- `add()`, `addNested()`, `addNestedMany()`, `remove()`
+`Cake\Validation\Validator`:
+- `add()`, `addNested()`, `addNestedMany()`, `remove()`, `hasField()`
 - `requirePresence()`, `allowEmptyString()`, `notEmptyString()`, `notBlank()`
 - `scalar()`, `integer()`, `numeric()`, `boolean()`, `array()`
 - `minLength()`, `maxLength()`, `lengthBetween()`
 - `email()`, `url()`, `uuid()`, `ip()`, `date()`, `dateTime()`, `time()`
 - And many more validation rules...
+
+`Cake\ORM\RulesChecker`:
+- `existsIn()`, `isUnique()`
+
+The task tracks method parameter types (e.g., `Validator $validator`) to match methods with their expected classes, reducing false positives.
 
 ### Adding your own tasks
 Create your own Task class:
