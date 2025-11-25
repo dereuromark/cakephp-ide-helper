@@ -102,9 +102,19 @@ The task will also automatically add the `use` statement for the entity class if
 - Does not handle related table queries or associations
 
 **Supported methods** (by default):
+
+Query builder methods:
 - `select()`, `where()`, `andWhere()`, `orWhere()`
 - `orderBy()`, `orderByAsc()`, `orderByDesc()`
-- `groupBy()`, `distinct()`
+- `groupBy()`, `distinct()`, `hasField()`
+
+Validator methods:
+- `add()`, `addNested()`, `addNestedMany()`, `remove()`
+- `requirePresence()`, `allowEmptyString()`, `notEmptyString()`, `notBlank()`
+- `scalar()`, `integer()`, `numeric()`, `boolean()`, `array()`
+- `minLength()`, `maxLength()`, `lengthBetween()`
+- `email()`, `url()`, `uuid()`, `ip()`, `date()`, `dateTime()`, `time()`
+- And many more validation rules...
 
 ### Adding your own tasks
 Create your own Task class:
