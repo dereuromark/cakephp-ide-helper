@@ -129,7 +129,7 @@ You can specify specific settings via `app.php` config:
 Some tasks may be based on the results of the Annotator. So make sure you run that first, e.g.
 
 ```
-bin/cake annotate all && bin/cake illuminate <path>
+bin/cake annotate all && bin/cake illuminate code <path>
 ```
 
 ### CI or pre-commit check

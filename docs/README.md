@@ -91,12 +91,12 @@ bin/cake generate phpstorm
 ### Using the illuminator shell
 Improve your PHP files:
 ```
-bin/cake illuminate <path>
+bin/cake illuminate code <path>
 ```
 
 Use `-v` for verbose and detailed output:
 ```
-bin/cake illuminate <path> -v
+bin/cake illuminate code <path> -v
 ```
 
 Use `-t` (`--task`) to only run specific task(s), can be a comma separated list.
@@ -112,7 +112,7 @@ Group them for your project as composer.json script commands:
     ...
     "setup": "bin/cake generate code_completion && bin/cake generate phpstorm",
     "annotate": "bin/cake annotate all && bin/cake annotate all -p Sandbox && ...",
-    "illuminate": "bin/cake illuminate",
+    "illuminate": "bin/cake illuminate code",
 ```
 
 This way you only need to remember these high level ones:
@@ -124,4 +124,4 @@ This way you only need to remember these high level ones:
 
 - `bin/cake code_completion generate` is now `bin/cake generate code_completion`.
 - `bin/cake phpstorm generate` is now `bin/cake generate phpstorm`.
-- `bin/cake illuminator` is now `bin/cake illuminate`.
+- `bin/cake illuminator` is now `bin/cake illuminate code`.

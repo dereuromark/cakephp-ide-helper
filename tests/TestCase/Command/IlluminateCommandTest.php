@@ -14,7 +14,7 @@ class IlluminateCommandTest extends TestCase {
 	 */
 	public function testIlluminateDryRun() {
 		$this->loadPlugins(['IdeHelper']);
-		$this->exec('illuminate -d -v');
+		$this->exec('illuminate code -d -v');
 
 		$this->assertExitCode(2);
 		$this->assertOutputContains('# /src/Model/Entity/Foo.php');

@@ -43,7 +43,7 @@ class IdeHelperPlugin extends BasePlugin {
 
 		$commands->add('generate code_completion', GenerateCodeCompletionCommand::class);
 		$commands->add('generate phpstorm', GeneratePhpStormMetaCommand::class);
-		$commands->add('illuminate', IlluminateCommand::class);
+		$commands->add('illuminate code', IlluminateCommand::class);
 
 		return $commands;
 	}
