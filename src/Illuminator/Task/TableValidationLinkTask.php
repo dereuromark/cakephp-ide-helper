@@ -6,6 +6,7 @@ use PhpParser\Node;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
 use PhpParser\ParserFactory;
+use Throwable;
 
 /**
  * Adds @link annotations above 'rule' definitions that reference table provider methods.
@@ -51,7 +52,7 @@ class TableValidationLinkTask extends AbstractTask {
 
 		try {
 			$ast = $parser->parse($content);
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			return [];
 		}
 

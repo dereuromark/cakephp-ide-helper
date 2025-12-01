@@ -6,6 +6,7 @@ use Cake\Console\TestSuite\ConsoleIntegrationTestTrait;
 use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
 use IdeHelper\Command\AnnotateCommand;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class AnnotateCommandTest extends TestCase {
 
@@ -176,7 +177,7 @@ class AnnotateCommandTest extends TestCase {
 	 * @param string $subcommand The subcommand to be tested
 	 * @return void
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('provideSubcommandsForCiModeTest')]
+	#[DataProvider('provideSubcommandsForCiModeTest')]
 	public function testIndividualSubcommandCiModeNoChanges(string $subcommand): void {
 		$this->skipIf($subcommand === 'view', 'View does not support the plugin parameter');
 
@@ -189,7 +190,7 @@ class AnnotateCommandTest extends TestCase {
 	 * @param string $subcommand The subcommand to be tested
 	 * @return void
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('provideSubcommandsForCiModeTest')]
+	#[DataProvider('provideSubcommandsForCiModeTest')]
 	public function testIndividualSubcommandCiModeChanges(string $subcommand): void {
 		$this->exec('annotate ' . $subcommand . ' -d -v --ci');
 

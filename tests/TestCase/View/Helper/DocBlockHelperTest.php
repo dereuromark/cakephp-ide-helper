@@ -8,11 +8,12 @@ use Cake\Http\Response;
 use Cake\Http\ServerRequest as Request;
 use Cake\TestSuite\TestCase;
 use IdeHelper\View\Helper\DocBlockHelper;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * DocBlockHelper Test
  */
-#[\PHPUnit\Framework\Attributes\CoversClass(DocBlockHelper::class)]
+#[CoversClass(DocBlockHelper::class)]
 class DocBlockHelperTest extends TestCase {
 
 	/**
