@@ -83,7 +83,13 @@ class VariableExtractor {
 				continue;
 			}
 
-			$varsFound = $this->getVarsFromCompact($file, $token, $i);
+			// Skip method calls like $obj->compact() or Class::compact()
+			$prevIndex = $file->findPrevious(Tokens::$emptyTokens, $i - 1, null, true, null, true);
+			if ($prevIndex !== false && in_array($tokens[$prevIndex]['code'], [T_OBJECT_OPERATOR, T_DOUBLE_COLON], true)) {
+				continue;
+			}
+
+			$varsFound = $this->getVarsFromCompact($file, $i);
 			foreach ($varsFound as $var) {
 				$vars[] = $var;
 			}
@@ -345,15 +351,14 @@ class VariableExtractor {
 	 * Extracts variable names from compact() function calls.
 	 *
 	 * @param \PHP_CodeSniffer\Files\File $file
-	 * @param array<string, mixed> $token
 	 * @param int $index
 	 * @return array<array<string, mixed>>
 	 */
-	protected function getVarsFromCompact(File $file, array $token, int $index): array {
+	protected function getVarsFromCompact(File $file, int $index): array {
 		$tokens = $file->getTokens();
 
 		// Find the opening parenthesis
-		$openParen = $file->findNext(Tokens::$emptyTokens, $index + 1, $index + 3, true, null, true);
+		$openParen = $file->findNext(Tokens::$emptyTokens, $index + 1, null, true, null, true);
 		if ($openParen === false || $tokens[$openParen]['code'] !== T_OPEN_PARENTHESIS) {
 			return [];
 		}
