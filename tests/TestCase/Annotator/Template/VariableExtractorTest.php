@@ -273,6 +273,10 @@ $result = compact('foo', "bar");
 // Method calls should be ignored
 $obj->compact('ignored1');
 SomeClass::compact('ignored2');
+
+// Edge cases: array keys and concatenation should be ignored
+compact(['key' => 'arrayValue']);
+compact('concat' . 'enated');
 PHP;
 
 		$file = $this->getFile('', $content);
@@ -280,7 +284,7 @@ PHP;
 		$result = $this->variableExtractor->extract($file);
 
 		// All variables from compact() calls should be found
-		$expected = ['accounts', 'unit_options', 'homes', 'units', 'includeSubmit', 'foo', 'bar', 'result', 'obj'];
+		$expected = ['accounts', 'unit_options', 'homes', 'units', 'includeSubmit', 'foo', 'bar', 'result', 'obj', 'arrayValue'];
 		foreach ($expected as $var) {
 			$this->assertArrayHasKey($var, $result, "Variable \$$var should be found from compact()");
 		}
@@ -288,6 +292,13 @@ PHP;
 		// Method call arguments should NOT be found
 		$this->assertArrayNotHasKey('ignored1', $result, 'Method call arguments should not be extracted');
 		$this->assertArrayNotHasKey('ignored2', $result, 'Static method call arguments should not be extracted');
+
+		// Array keys should NOT be found (only values)
+		$this->assertArrayNotHasKey('key', $result, 'Array keys should not be extracted');
+
+		// Concatenated strings should NOT be found
+		$this->assertArrayNotHasKey('concat', $result, 'Concatenated strings should not be extracted');
+		$this->assertArrayNotHasKey('enated', $result, 'Concatenated strings should not be extracted');
 
 		// result is assigned, so should be excluded
 		$this->assertEquals('Assignment', $result['result']['excludeReason']);

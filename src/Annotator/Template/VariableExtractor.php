@@ -374,6 +374,21 @@ class VariableExtractor {
 				continue;
 			}
 
+			// Skip array keys (string followed by =>)
+			$nextIndex = $file->findNext(Tokens::$emptyTokens, $i + 1, $closeParen, true, null, true);
+			if ($nextIndex !== false && $tokens[$nextIndex]['code'] === T_DOUBLE_ARROW) {
+				continue;
+			}
+
+			// Skip strings in concatenation (preceded or followed by .)
+			if ($nextIndex !== false && $tokens[$nextIndex]['code'] === T_STRING_CONCAT) {
+				continue;
+			}
+			$prevIndex = $file->findPrevious(Tokens::$emptyTokens, $i - 1, $openParen, true, null, true);
+			if ($prevIndex !== false && $tokens[$prevIndex]['code'] === T_STRING_CONCAT) {
+				continue;
+			}
+
 			// Strip quotes from the string
 			$variable = trim($tokens[$i]['content'], '\'"');
 			if ($variable === '' || $variable === 'this') {
