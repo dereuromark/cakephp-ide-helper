@@ -7,7 +7,7 @@ use IdeHelper\Annotator\Traits\FileTrait;
 use PHP_CodeSniffer\Config;
 use Shim\TestSuite\TestCase;
 
-$composerVendorDir = ROOT . DS . 'vendor';
+$composerVendorDir = PLUGIN_ROOT . DS . 'vendor';
 $codesnifferDir = 'squizlabs' . DS . 'php_codesniffer';
 $manualAutoload = $composerVendorDir . DS . $codesnifferDir . DS . 'autoload.php';
 if (!class_exists(Config::class) && file_exists($manualAutoload)) {
@@ -252,6 +252,42 @@ PHP;
 		foreach ($functionParams as $param) {
 			$this->assertArrayHasKey($param, $result, "Parameter \$$param should be found");
 			$this->assertEquals('Anonymous function parameter', $result[$param]['excludeReason'], "Parameter \$$param should be excluded as anonymous function parameter");
+		}
+	}
+
+	/**
+	 * Test that variables passed to compact() are extracted
+	 *
+	 * @return void
+	 */
+	public function testExtractFromCompact(): void {
+		$content = <<<'PHP'
+<?php
+echo $this->element(
+    'residents/dropdowns', compact(
+        'accounts', 'unit_options', 'homes', 'units', 'includeSubmit'
+    )
+);
+$result = compact('foo', "bar");
+PHP;
+
+		$file = $this->getFile('', $content);
+
+		$result = $this->variableExtractor->extract($file);
+
+		// All variables from compact() calls should be found
+		$expected = ['accounts', 'unit_options', 'homes', 'units', 'includeSubmit', 'foo', 'bar', 'result'];
+		foreach ($expected as $var) {
+			$this->assertArrayHasKey($var, $result, "Variable \$$var should be found from compact()");
+		}
+
+		// result is assigned, so should be excluded
+		$this->assertEquals('Assignment', $result['result']['excludeReason']);
+
+		// Variables from compact should not have an exclude reason
+		$compactVars = ['accounts', 'unit_options', 'homes', 'units', 'includeSubmit', 'foo', 'bar'];
+		foreach ($compactVars as $var) {
+			$this->assertNull($result[$var]['excludeReason'], "Variable \$$var from compact() should not be excluded");
 		}
 	}
 

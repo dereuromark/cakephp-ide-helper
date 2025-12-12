@@ -78,6 +78,17 @@ class VariableExtractor {
 			}
 		}
 
+		foreach ($tokens as $i => $token) {
+			if ($token['code'] !== T_STRING || strtolower($token['content']) !== 'compact') {
+				continue;
+			}
+
+			$varsFound = $this->getVarsFromCompact($file, $token, $i);
+			foreach ($varsFound as $var) {
+				$vars[] = $var;
+			}
+		}
+
 		return $vars;
 	}
 
@@ -324,6 +335,52 @@ class VariableExtractor {
 				'type' => null,
 				'excludeReason' => null,
 				'context' => $token,
+			];
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Extracts variable names from compact() function calls.
+	 *
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param array<string, mixed> $token
+	 * @param int $index
+	 * @return array<array<string, mixed>>
+	 */
+	protected function getVarsFromCompact(File $file, array $token, int $index): array {
+		$tokens = $file->getTokens();
+
+		// Find the opening parenthesis
+		$openParen = $file->findNext(Tokens::$emptyTokens, $index + 1, $index + 3, true, null, true);
+		if ($openParen === false || $tokens[$openParen]['code'] !== T_OPEN_PARENTHESIS) {
+			return [];
+		}
+
+		$closeParen = $tokens[$openParen]['parenthesis_closer'] ?? null;
+		if ($closeParen === null) {
+			return [];
+		}
+
+		$result = [];
+		for ($i = $openParen + 1; $i < $closeParen; $i++) {
+			if ($tokens[$i]['code'] !== T_CONSTANT_ENCAPSED_STRING) {
+				continue;
+			}
+
+			// Strip quotes from the string
+			$variable = trim($tokens[$i]['content'], '\'"');
+			if ($variable === '' || $variable === 'this') {
+				continue;
+			}
+
+			$result[] = [
+				'name' => $variable,
+				'index' => $i,
+				'type' => null,
+				'excludeReason' => null,
+				'context' => $tokens[$i],
 			];
 		}
 
