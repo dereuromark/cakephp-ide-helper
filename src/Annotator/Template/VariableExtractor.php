@@ -78,6 +78,23 @@ class VariableExtractor {
 			}
 		}
 
+		foreach ($tokens as $i => $token) {
+			if ($token['code'] !== T_STRING || strtolower($token['content']) !== 'compact') {
+				continue;
+			}
+
+			// Skip method calls like $obj->compact() or Class::compact()
+			$prevIndex = $file->findPrevious(Tokens::$emptyTokens, $i - 1, null, true, null, true);
+			if ($prevIndex !== false && in_array($tokens[$prevIndex]['code'], [T_OBJECT_OPERATOR, T_DOUBLE_COLON], true)) {
+				continue;
+			}
+
+			$varsFound = $this->getVarsFromCompact($file, $i);
+			foreach ($varsFound as $var) {
+				$vars[] = $var;
+			}
+		}
+
 		return $vars;
 	}
 
@@ -324,6 +341,66 @@ class VariableExtractor {
 				'type' => null,
 				'excludeReason' => null,
 				'context' => $token,
+			];
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Extracts variable names from compact() function calls.
+	 *
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param int $index
+	 * @return array<array<string, mixed>>
+	 */
+	protected function getVarsFromCompact(File $file, int $index): array {
+		$tokens = $file->getTokens();
+
+		// Find the opening parenthesis
+		$openParen = $file->findNext(Tokens::$emptyTokens, $index + 1, null, true, null, true);
+		if ($openParen === false || $tokens[$openParen]['code'] !== T_OPEN_PARENTHESIS) {
+			return [];
+		}
+
+		$closeParen = $tokens[$openParen]['parenthesis_closer'] ?? null;
+		if ($closeParen === null) {
+			return [];
+		}
+
+		$result = [];
+		for ($i = $openParen + 1; $i < $closeParen; $i++) {
+			if ($tokens[$i]['code'] !== T_CONSTANT_ENCAPSED_STRING) {
+				continue;
+			}
+
+			// Skip array keys (string followed by =>)
+			$nextIndex = $file->findNext(Tokens::$emptyTokens, $i + 1, $closeParen, true, null, true);
+			if ($nextIndex !== false && $tokens[$nextIndex]['code'] === T_DOUBLE_ARROW) {
+				continue;
+			}
+
+			// Skip strings in concatenation (preceded or followed by .)
+			if ($nextIndex !== false && $tokens[$nextIndex]['code'] === T_STRING_CONCAT) {
+				continue;
+			}
+			$prevIndex = $file->findPrevious(Tokens::$emptyTokens, $i - 1, $openParen, true, null, true);
+			if ($prevIndex !== false && $tokens[$prevIndex]['code'] === T_STRING_CONCAT) {
+				continue;
+			}
+
+			// Strip quotes from the string
+			$variable = trim($tokens[$i]['content'], '\'"');
+			if ($variable === '' || $variable === 'this') {
+				continue;
+			}
+
+			$result[] = [
+				'name' => $variable,
+				'index' => $i,
+				'type' => null,
+				'excludeReason' => null,
+				'context' => $tokens[$i],
 			];
 		}
 
