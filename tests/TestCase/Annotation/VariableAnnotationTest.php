@@ -64,4 +64,57 @@ class VariableAnnotationTest extends TestCase {
 		$this->assertSame('', $comparisonAnnotation->getDescription());
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testReplaceWithPreservesNullableForGuessed() {
+		// Existing annotation has |null
+		$annotation = new VariableAnnotation('\\App\\Model\\Entity\\Home|null', '$homeData');
+
+		// New guessed annotation without null
+		$replacementAnnotation = new VariableAnnotation('mixed', '$homeData');
+		$replacementAnnotation->setGuessed(true);
+
+		$annotation->replaceWith($replacementAnnotation);
+
+		// Should preserve |null
+		$result = (string)$annotation;
+		$this->assertSame('@var mixed|null $homeData', $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testReplaceWithDoesNotAddNullForNonGuessed() {
+		// Existing annotation has |null
+		$annotation = new VariableAnnotation('\\App\\Model\\Entity\\Home|null', '$homeData');
+
+		// New non-guessed annotation without null
+		$replacementAnnotation = new VariableAnnotation('\\App\\Model\\Entity\\User', '$homeData');
+
+		$annotation->replaceWith($replacementAnnotation);
+
+		// Should NOT preserve |null for non-guessed
+		$result = (string)$annotation;
+		$this->assertSame('@var \\App\\Model\\Entity\\User $homeData', $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testReplaceWithDoesNotDuplicateNull() {
+		// Existing annotation has |null
+		$annotation = new VariableAnnotation('\\App\\Model\\Entity\\Home|null', '$homeData');
+
+		// New guessed annotation already has null
+		$replacementAnnotation = new VariableAnnotation('object|null', '$homeData');
+		$replacementAnnotation->setGuessed(true);
+
+		$annotation->replaceWith($replacementAnnotation);
+
+		// Should NOT duplicate |null
+		$result = (string)$annotation;
+		$this->assertSame('@var object|null $homeData', $result);
+	}
+
 }
