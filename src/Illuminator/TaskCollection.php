@@ -8,6 +8,7 @@ use IdeHelper\Console\Io;
 use IdeHelper\Illuminator\Task\AbstractTask;
 use IdeHelper\Illuminator\Task\ControllerDefaultTableTask;
 use IdeHelper\Illuminator\Task\EntityFieldTask;
+use IdeHelper\Illuminator\Task\FieldConstantUsageTask;
 use IdeHelper\Illuminator\Task\TableValidationLinkTask;
 use InvalidArgumentException;
 use RuntimeException;
@@ -34,6 +35,7 @@ class TaskCollection {
 	protected array $defaultTasks = [
 		ControllerDefaultTableTask::class => ControllerDefaultTableTask::class,
 		EntityFieldTask::class => EntityFieldTask::class,
+		FieldConstantUsageTask::class => FieldConstantUsageTask::class,
 		TableValidationLinkTask::class => TableValidationLinkTask::class,
 	];
 

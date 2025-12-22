@@ -68,6 +68,59 @@ You should quickly check for usage of this constant if unused it can be safely r
 
 ![Fields Autocomplete](img/fields_autocomplete.png)
 
+#### FieldConstantUsage
+This task automatically replaces string field names with entity `FIELD_*` constants in your Table classes.
+It targets query builder method calls like `select()`, `where()`, `orderBy()`, `groupBy()`, etc.
+
+**Important**: Run the `EntityField` task first to generate the constants in your entity classes.
+
+Example transformation in a Table class:
+```php
+// Before
+public function findActive($query) {
+    return $query
+        ->select(['id', 'name', 'content'])
+        ->where(['name' => 'test'])
+        ->orderBy(['created' => 'ASC']);
+}
+
+// After
+public function findActive($query) {
+    return $query
+        ->select([Car::FIELD_ID, Car::FIELD_NAME, Car::FIELD_CONTENT])
+        ->where([Car::FIELD_NAME => 'test'])
+        ->orderBy([Car::FIELD_CREATED => 'ASC']);
+}
+```
+
+The task will also automatically add the `use` statement for the entity class if not present.
+
+**Scope and limitations**:
+- Only processes Table classes (derives entity from table naming convention)
+- Skips dotted field names (e.g., `Cars.name`) to avoid false positives with joins
+- Only replaces strings when a matching `FIELD_*` constant exists in the entity
+- Does not handle related table queries or associations
+
+**Supported methods** (grouped by class for better context detection):
+
+`Cake\ORM\Query\SelectQuery`:
+- `select()`, `where()`, `andWhere()`, `orWhere()`
+- `orderBy()`, `orderByAsc()`, `orderByDesc()`
+- `groupBy()`, `distinct()`, `contain()`
+
+`Cake\Validation\Validator`:
+- `add()`, `addNested()`, `addNestedMany()`, `remove()`, `hasField()`
+- `requirePresence()`, `allowEmptyString()`, `notEmptyString()`, `notBlank()`
+- `scalar()`, `integer()`, `numeric()`, `boolean()`, `array()`
+- `minLength()`, `maxLength()`, `lengthBetween()`
+- `email()`, `url()`, `uuid()`, `ip()`, `date()`, `dateTime()`, `time()`
+- And many more validation rules...
+
+`Cake\ORM\RulesChecker`:
+- `existsIn()`, `isUnique()`
+
+The task tracks method parameter types (e.g., `Validator $validator`) to match methods with their expected classes, reducing false positives.
+
 ### Adding your own tasks
 Create your own Task class:
 ```php
