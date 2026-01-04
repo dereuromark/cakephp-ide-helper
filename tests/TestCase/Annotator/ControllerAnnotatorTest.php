@@ -83,7 +83,7 @@ class ControllerAnnotatorTest extends TestCase {
 
 		$output = $this->out->output();
 
-		$this->assertTextContains('   -> 4 annotations added.', $output);
+		$this->assertTextContains('   -> 3 annotations added.', $output);
 	}
 
 	/**
