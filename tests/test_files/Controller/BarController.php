@@ -4,7 +4,6 @@ namespace TestApp\Controller;
 use TestApp\Model\Table\WheelsTable;
 
 /**
- * @property \TestApp\Model\Table\WheelsTable $Wheels
  * @property \TestApp\Model\Table\BarBarsTable $BarBars
  * @property \MyNamespace\MyPlugin\Controller\Component\MyComponent $My
  *
