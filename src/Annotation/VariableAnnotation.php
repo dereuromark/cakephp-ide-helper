@@ -95,8 +95,8 @@ class VariableAnnotation extends AbstractAnnotation {
 	public function replaceWith(AbstractAnnotation $annotation): void {
 		$newType = $annotation->getType();
 
-		// Preserve |null from existing type when replacing with a guessed type
-		if ($annotation->getGuessed() && $this->hasNull() && !$this->typeHasNull($newType)) {
+		// Preserve |null from existing type when the new type doesn't have it
+		if ($this->hasNull() && !$this->typeHasNull($newType)) {
 			$newType .= '|null';
 		}
 

@@ -85,7 +85,7 @@ class VariableAnnotationTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testReplaceWithDoesNotAddNullForNonGuessed() {
+	public function testReplaceWithPreservesNullForNonGuessed() {
 		// Existing annotation has |null
 		$annotation = new VariableAnnotation('\\App\\Model\\Entity\\Home|null', '$homeData');
 
@@ -94,9 +94,9 @@ class VariableAnnotationTest extends TestCase {
 
 		$annotation->replaceWith($replacementAnnotation);
 
-		// Should NOT preserve |null for non-guessed
+		// Should preserve |null since user explicitly added it
 		$result = (string)$annotation;
-		$this->assertSame('@var \\App\\Model\\Entity\\User $homeData', $result);
+		$this->assertSame('@var \\App\\Model\\Entity\\User|null $homeData', $result);
 	}
 
 	/**
