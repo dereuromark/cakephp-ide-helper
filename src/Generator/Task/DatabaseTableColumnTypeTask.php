@@ -3,9 +3,12 @@
 namespace IdeHelper\Generator\Task;
 
 use Cake\Core\Plugin;
+use Cake\Datasource\ConnectionManager;
 use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Generator\Directive\RegisterArgumentsSet;
 use IdeHelper\ValueObject\StringName;
+use Migrations\Db\Adapter\AdapterFactory;
+use Migrations\Db\Adapter\AdapterInterface;
 use Migrations\Migrations;
 
 /**
@@ -96,9 +99,43 @@ class DatabaseTableColumnTypeTask implements TaskInterface {
 	/**
 	 * @param string $name
 	 *
-	 * @return \Phinx\Db\Adapter\AdapterInterface
+	 * @return \Phinx\Db\Adapter\AdapterInterface|\Migrations\Db\Adapter\AdapterInterface
 	 */
 	protected function getAdapter(string $name = 'default') {
+		// Migrations v5+ (no Phinx)
+		if (class_exists('Migrations\Db\Adapter\AdapterFactory')) {
+			return $this->getAdapterV5($name);
+		}
+
+		// Migrations v4 (Phinx-based)
+		return $this->getAdapterV4($name);
+	}
+
+	/**
+	 * @param string $name
+	 *
+	 * @return \Migrations\Db\Adapter\AdapterInterface
+	 */
+	protected function getAdapterV5(string $name): AdapterInterface {
+		/** @var \Cake\Database\Connection $connection */
+		$connection = ConnectionManager::get($name);
+		$driver = $connection->getDriver();
+		$driverClass = get_class($driver);
+		$driverName = strtolower(substr((string)strrchr($driverClass, '\\'), 1));
+
+		$factory = AdapterFactory::instance();
+
+		return $factory->getAdapter($driverName, ['connection' => $connection]);
+	}
+
+	/**
+	 * @deprecated Will be removed in a future version
+	 *
+	 * @param string $name
+	 *
+	 * @return \Phinx\Db\Adapter\AdapterInterface
+	 */
+	protected function getAdapterV4(string $name): AdapterAdapterInterface {
 		$params = [
 			'connection' => $name,
 		];

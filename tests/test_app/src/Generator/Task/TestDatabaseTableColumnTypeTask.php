@@ -9,7 +9,7 @@ class TestDatabaseTableColumnTypeTask extends DatabaseTableColumnTypeTask
 	/**
 	 * @param string $name
 	 *
-	 * @return \Phinx\Db\Adapter\AdapterInterface
+	 * @return \Phinx\Db\Adapter\AdapterInterface|\Migrations\Db\Adapter\AdapterInterface
 	 */
 	protected function getAdapter(string $name = 'test') {
 		return parent::getAdapter($name);
