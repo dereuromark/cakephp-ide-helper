@@ -10,6 +10,7 @@ use IdeHelper\ValueObject\StringName;
 use Migrations\Db\Adapter\AdapterFactory;
 use Migrations\Db\Adapter\AdapterInterface;
 use Migrations\Migrations;
+use Phinx\Db\Adapter\AdapterInterface as PhinxAdapterInterface;
 
 /**
  * This task is useful when using Migrations plugin and creating Migration files.
@@ -123,9 +124,15 @@ class DatabaseTableColumnTypeTask implements TaskInterface {
 		$driverClass = get_class($driver);
 		$driverName = strtolower(substr((string)strrchr($driverClass, '\\'), 1));
 
+		$config = $connection->config();
+		$database = $config['database'] ?? null;
+
 		$factory = AdapterFactory::instance();
 
-		return $factory->getAdapter($driverName, ['connection' => $connection]);
+		return $factory->getAdapter($driverName, [
+			'connection' => $connection,
+			'database' => $database,
+		]);
 	}
 
 	/**
@@ -135,7 +142,7 @@ class DatabaseTableColumnTypeTask implements TaskInterface {
 	 *
 	 * @return \Phinx\Db\Adapter\AdapterInterface
 	 */
-	protected function getAdapterV4(string $name): AdapterAdapterInterface {
+	protected function getAdapterV4(string $name): PhinxAdapterInterface {
 		$params = [
 			'connection' => $name,
 		];
