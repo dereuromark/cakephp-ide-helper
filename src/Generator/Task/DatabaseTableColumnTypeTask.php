@@ -130,6 +130,7 @@ class DatabaseTableColumnTypeTask implements TaskInterface {
 		$factory = AdapterFactory::instance();
 
 		return $factory->getAdapter($driverName, [
+			'adapter' => $driverName,
 			'connection' => $connection,
 			'database' => $database,
 		]);
