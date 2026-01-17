@@ -171,9 +171,11 @@ namespace PHPSTORM_META {
 			'decimal' => \Cake\Database\Type\DecimalType::class,
 			'float' => \Cake\Database\Type\FloatType::class,
 			'geometry' => \Cake\Database\Type\StringType::class,
+			'inet' => \Cake\Database\Type\StringType::class,
 			'integer' => \Cake\Database\Type\IntegerType::class,
 			'json' => \Cake\Database\Type\JsonType::class,
 			'linestring' => \Cake\Database\Type\StringType::class,
+			'macaddr' => \Cake\Database\Type\StringType::class,
 			'nativeuuid' => \Cake\Database\Type\UuidType::class,
 			'point' => \Cake\Database\Type\StringType::class,
 			'polygon' => \Cake\Database\Type\StringType::class,
@@ -186,6 +188,7 @@ namespace PHPSTORM_META {
 			'timestamptimezone' => \Cake\Database\Type\DateTimeTimezoneType::class,
 			'tinyinteger' => \Cake\Database\Type\IntegerType::class,
 			'uuid' => \Cake\Database\Type\UuidType::class,
+			'year' => \Cake\Database\Type\IntegerType::class,
 		]),
 	);
 
@@ -203,9 +206,11 @@ namespace PHPSTORM_META {
 		'decimal',
 		'float',
 		'geometry',
+		'inet',
 		'integer',
 		'json',
 		'linestring',
+		'macaddr',
 		'nativeuuid',
 		'point',
 		'polygon',
@@ -218,6 +223,7 @@ namespace PHPSTORM_META {
 		'timestamptimezone',
 		'tinyinteger',
 		'uuid',
+		'year',
 	);
 
 	expectedArguments(
