@@ -76,6 +76,7 @@ namespace PHPSTORM_META {
 			'Banner' => \Cake\Command\Helper\BannerHelper::class,
 			'Progress' => \Cake\Command\Helper\ProgressHelper::class,
 			'Table' => \Cake\Command\Helper\TableHelper::class,
+			'Tree' => \Cake\Command\Helper\TreeHelper::class,
 		]),
 	);
 
@@ -165,6 +166,8 @@ namespace PHPSTORM_META {
 			'binaryuuid' => \Cake\Database\Type\BinaryUuidType::class,
 			'boolean' => \Cake\Database\Type\BoolType::class,
 			'char' => \Cake\Database\Type\StringType::class,
+			'cidr' => \Cake\Database\Type\StringType::class,
+			'citext' => \Cake\Database\Type\StringType::class,
 			'date' => \Cake\Database\Type\DateType::class,
 			'datetime' => \Cake\Database\Type\DateTimeType::class,
 			'datetimefractional' => \Cake\Database\Type\DateTimeFractionalType::class,
@@ -200,6 +203,8 @@ namespace PHPSTORM_META {
 		'binaryuuid',
 		'boolean',
 		'char',
+		'cidr',
+		'citext',
 		'date',
 		'datetime',
 		'datetimefractional',
