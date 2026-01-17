@@ -76,7 +76,6 @@ namespace PHPSTORM_META {
 			'Banner' => \Cake\Command\Helper\BannerHelper::class,
 			'Progress' => \Cake\Command\Helper\ProgressHelper::class,
 			'Table' => \Cake\Command\Helper\TableHelper::class,
-			'Tree' => \Cake\Command\Helper\TreeHelper::class,
 		]),
 	);
 
@@ -166,19 +165,15 @@ namespace PHPSTORM_META {
 			'binaryuuid' => \Cake\Database\Type\BinaryUuidType::class,
 			'boolean' => \Cake\Database\Type\BoolType::class,
 			'char' => \Cake\Database\Type\StringType::class,
-			'cidr' => \Cake\Database\Type\StringType::class,
-			'citext' => \Cake\Database\Type\StringType::class,
 			'date' => \Cake\Database\Type\DateType::class,
 			'datetime' => \Cake\Database\Type\DateTimeType::class,
 			'datetimefractional' => \Cake\Database\Type\DateTimeFractionalType::class,
 			'decimal' => \Cake\Database\Type\DecimalType::class,
 			'float' => \Cake\Database\Type\FloatType::class,
 			'geometry' => \Cake\Database\Type\StringType::class,
-			'inet' => \Cake\Database\Type\StringType::class,
 			'integer' => \Cake\Database\Type\IntegerType::class,
 			'json' => \Cake\Database\Type\JsonType::class,
 			'linestring' => \Cake\Database\Type\StringType::class,
-			'macaddr' => \Cake\Database\Type\StringType::class,
 			'nativeuuid' => \Cake\Database\Type\UuidType::class,
 			'point' => \Cake\Database\Type\StringType::class,
 			'polygon' => \Cake\Database\Type\StringType::class,
@@ -191,7 +186,6 @@ namespace PHPSTORM_META {
 			'timestamptimezone' => \Cake\Database\Type\DateTimeTimezoneType::class,
 			'tinyinteger' => \Cake\Database\Type\IntegerType::class,
 			'uuid' => \Cake\Database\Type\UuidType::class,
-			'year' => \Cake\Database\Type\IntegerType::class,
 		]),
 	);
 
@@ -203,19 +197,15 @@ namespace PHPSTORM_META {
 		'binaryuuid',
 		'boolean',
 		'char',
-		'cidr',
-		'citext',
 		'date',
 		'datetime',
 		'datetimefractional',
 		'decimal',
 		'float',
 		'geometry',
-		'inet',
 		'integer',
 		'json',
 		'linestring',
-		'macaddr',
 		'nativeuuid',
 		'point',
 		'polygon',
@@ -228,7 +218,6 @@ namespace PHPSTORM_META {
 		'timestamptimezone',
 		'tinyinteger',
 		'uuid',
-		'year',
 	);
 
 	expectedArguments(

@@ -64,8 +64,14 @@ class PhpstormGeneratorTest extends TestCase {
 		$result = $this->generator->generate();
 		file_put_contents(TMP . '.meta.php', $result);
 
-		$isLowest = version_compare(Configure::version(), '5.2.0', '<');
-		$fileName = $isLowest ? '.meta_lowest.php' : '.meta.php';
+		$cakeVersion = Configure::version();
+		if (version_compare($cakeVersion, '5.2.0', '<')) {
+			$fileName = '.meta_lowest.php';
+		} elseif (version_compare($cakeVersion, '5.3.0', '<')) {
+			$fileName = '.meta_52.php';
+		} else {
+			$fileName = '.meta.php';
+		}
 		$file = Plugin::path('IdeHelper') . 'tests' . DS . 'test_files' . DS . 'meta' . DS . 'phpstorm' . DS . $fileName;
 
 		// Trick to let the test file get updated: --debug is for PHPUnit 11+, --cache-result for PHPUnit 10
