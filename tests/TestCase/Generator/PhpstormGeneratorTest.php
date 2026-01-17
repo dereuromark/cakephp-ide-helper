@@ -64,7 +64,7 @@ class PhpstormGeneratorTest extends TestCase {
 		$result = $this->generator->generate();
 		file_put_contents(TMP . '.meta.php', $result);
 
-		$isLowest = version_compare(Configure::version(), '5.2.0', '<');
+		$isLowest = version_compare(Configure::version(), '5.3.0', '<');
 		$fileName = $isLowest ? '.meta_lowest.php' : '.meta.php';
 		$file = Plugin::path('IdeHelper') . 'tests' . DS . 'test_files' . DS . 'meta' . DS . 'phpstorm' . DS . $fileName;
 
