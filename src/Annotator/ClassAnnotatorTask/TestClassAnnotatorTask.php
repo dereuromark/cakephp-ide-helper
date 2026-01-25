@@ -8,7 +8,7 @@ use IdeHelper\Annotation\LinkAnnotation;
 use IdeHelper\Annotation\UsesAnnotation;
 
 /**
- * Classes that test a class in a magic-call way should automatically have `@uses` annotated.
+ * Classes that test a class in a magic-call way should automatically have `@link` annotated.
  * By default:
  * - Controller tests
  * - Command tests
@@ -71,6 +71,14 @@ class TestClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 			return false;
 		}
 
+		if ($this->hasUsesClassAttribute($this->content, $class)) {
+			return false;
+		}
+
+		if ($this->hasLinkAnnotation($this->content, $class)) {
+			return false;
+		}
+
 		$annotations = $this->buildLinkAnnotations([$class]);
 
 		return $this->annotateContent($path, $this->content, $annotations);
@@ -111,8 +119,7 @@ class TestClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 		$annotations = [];
 
 		$tag = LinkAnnotation::TAG;
-		//BC
-		if (!Configure::read('IdeHelper.preferLinkOverUsesInTests')) {
+		if (Configure::read('IdeHelper.preferUsesOverLinkInTests')) {
 			$tag = UsesAnnotation::TAG;
 		}
 
@@ -121,6 +128,29 @@ class TestClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 		}
 
 		return $annotations;
+	}
+
+	/**
+	 * @param string $content
+	 * @param string $class
+	 * @return bool
+	 */
+	protected function hasUsesClassAttribute(string $content, string $class): bool {
+		$shortClassName = substr(strrchr($class, '\\') ?: $class, 1);
+		$pattern = '#\#\[UsesClass\(\s*' . preg_quote($shortClassName, '#') . '::class\s*\)\]#';
+
+		return (bool)preg_match($pattern, $content);
+	}
+
+	/**
+	 * @param string $content
+	 * @param string $class
+	 * @return bool
+	 */
+	protected function hasLinkAnnotation(string $content, string $class): bool {
+		$pattern = '#@(uses|link)\s+\\\\' . preg_quote($class, '#') . '\b#';
+
+		return (bool)preg_match($pattern, $content);
 	}
 
 }

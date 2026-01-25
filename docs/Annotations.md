@@ -323,7 +323,10 @@ This is mainly useful for the following types, as they are invoked indirectly vi
 - Controller
 - Command
 
-Here the `@uses` statements added help to quick-jump to the class if needed.
+Here the `@link` statements added help to quick-jump to the class if needed.
+If your test class already has a `#[UsesClass(...)]` attribute, no annotation will be added.
+
+Note: Use `IdeHelper.preferUsesOverLinkInTests` config key to use `@uses` instead of `@link`.
 
 ### Custom Tasks
 
