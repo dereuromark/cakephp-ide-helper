@@ -63,7 +63,7 @@ class TestClassAnnotatorTaskTest extends TestCase {
 		$this->assertTrue($result);
 
 		$content = $task->getContent();
-		$this->assertTextContains('* @uses \TestApp\Controller\BarController', $content);
+		$this->assertTextContains('* @link \TestApp\Controller\BarController', $content);
 
 		$output = $this->out->output();
 		$this->assertTextContains('  -> 1 annotation added.', $output);
@@ -91,8 +91,8 @@ class TestClassAnnotatorTaskTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testAnnotatePreferLink() {
-		Configure::write('IdeHelper.preferLinkOverUsesInTests', true);
+	public function testAnnotatePreferUses() {
+		Configure::write('IdeHelper.preferLinkOverUsesInTests', false);
 
 		$content = file_get_contents(TEST_FILES . 'tests' . DS . 'BarControllerTest.missing.php');
 		$task = $this->getTask($content);
@@ -102,10 +102,44 @@ class TestClassAnnotatorTaskTest extends TestCase {
 		$this->assertTrue($result);
 
 		$content = $task->getContent();
-		$this->assertTextContains('* @link \TestApp\Controller\BarController', $content);
+		$this->assertTextContains('* @uses \TestApp\Controller\BarController', $content);
 
 		$output = $this->out->output();
 		$this->assertTextContains('  -> 1 annotation added.', $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAnnotateSkipsWhenUsesClassAttribute() {
+		$content = file_get_contents(TEST_FILES . 'tests' . DS . 'BarControllerTest.attribute.php');
+		$task = $this->getTask($content);
+		$path = '/tests/TestCase/Controller/BarControllerTest.php';
+
+		$result = $task->annotate($path);
+		$this->assertFalse($result);
+
+		$output = $this->out->output();
+		$this->assertSame('', $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAnnotateExistingLink() {
+		$content = file_get_contents(TEST_FILES . 'tests' . DS . 'BarControllerTest.link.php');
+		$task = $this->getTask($content);
+		$path = '/tests/TestCase/Controller/BarControllerTest.php';
+
+		$result = $task->annotate($path);
+		$this->assertFalse($result);
+
+		$content = $task->getContent();
+		$count = substr_count($content, '@link');
+		$this->assertSame(1, $count);
+
+		$output = $this->out->output();
+		$this->assertSame('', $output);
 	}
 
 	/**

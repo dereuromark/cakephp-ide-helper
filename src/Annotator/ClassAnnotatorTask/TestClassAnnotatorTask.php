@@ -8,7 +8,7 @@ use IdeHelper\Annotation\LinkAnnotation;
 use IdeHelper\Annotation\UsesAnnotation;
 
 /**
- * Classes that test a class in a magic-call way should automatically have `@uses` annotated.
+ * Classes that test a class in a magic-call way should automatically have `@link` annotated.
  * By default:
  * - Controller tests
  * - Command tests
@@ -71,6 +71,14 @@ class TestClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 			return false;
 		}
 
+		if ($this->hasUsesClassAttribute($this->content, $class)) {
+			return false;
+		}
+
+		if ($this->hasLinkAnnotation($this->content, $class)) {
+			return false;
+		}
+
 		$annotations = $this->buildLinkAnnotations([$class]);
 
 		return $this->annotateContent($path, $this->content, $annotations);
@@ -110,10 +118,9 @@ class TestClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 	protected function buildLinkAnnotations(array $classes): array {
 		$annotations = [];
 
-		$tag = LinkAnnotation::TAG;
-		//BC
-		if (!Configure::read('IdeHelper.preferLinkOverUsesInTests')) {
-			$tag = UsesAnnotation::TAG;
+		$tag = UsesAnnotation::TAG;
+		if (Configure::read('IdeHelper.preferLinkOverUsesInTests') ?? true) {
+			$tag = LinkAnnotation::TAG;
 		}
 
 		foreach ($classes as $className) {
@@ -121,6 +128,34 @@ class TestClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 		}
 
 		return $annotations;
+	}
+
+	/**
+	 * @param string $content
+	 * @param string $class
+	 * @return bool
+	 */
+	protected function hasUsesClassAttribute(string $content, string $class): bool {
+		$shortClassName = substr(strrchr($class, '\\') ?: $class, 1);
+		$full = preg_quote($class, '#');
+		$short = preg_quote($shortClassName, '#');
+		$pattern = '#\#\[UsesClass\(\s*\\\\?(?:' . $full . '|' . $short . ')::class\s*\)\]#';
+
+		return (bool)preg_match($pattern, $content);
+	}
+
+	/**
+	 * @param string $content
+	 * @param string $class
+	 * @return bool
+	 */
+	protected function hasLinkAnnotation(string $content, string $class): bool {
+		$shortClassName = substr(strrchr($class, '\\') ?: $class, 1);
+		$full = preg_quote($class, '#');
+		$short = preg_quote($shortClassName, '#');
+		$pattern = '#@(uses|link)\s+\\\\?(?:' . $full . '|' . $short . ')\b#';
+
+		return (bool)preg_match($pattern, $content);
 	}
 
 }
