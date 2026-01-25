@@ -7,6 +7,7 @@ use Cake\Collection\CollectionInterface;
 use Cake\Core\Configure;
 use Cake\Utility\Inflector;
 use Cake\View\View;
+use IdeHelper\Annotation\AbstractAnnotation;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\VariableAnnotation;
 use IdeHelper\Annotator\Template\VariableExtractor;
@@ -269,6 +270,43 @@ class TemplateAnnotator extends AbstractAnnotator {
 		$annotation = AnnotationFactory::createOrFail(VariableAnnotation::TAG, '\\' . $className, '$this');
 
 		return $annotation;
+	}
+
+	/**
+	 * Preserves existing view annotations if they reference a valid View subclass.
+	 *
+	 * @param \IdeHelper\Annotation\AbstractAnnotation $annotation
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $existingAnnotations
+	 * @return bool
+	 */
+	protected function allowsReplacing(AbstractAnnotation $annotation, array &$existingAnnotations): bool {
+		foreach ($existingAnnotations as $key => $existingAnnotation) {
+			if (!$existingAnnotation->matches($annotation)) {
+				continue;
+			}
+
+			// Check if this is a $this view annotation with a valid View class
+			if (
+				$existingAnnotation instanceof VariableAnnotation
+				&& $existingAnnotation->getVariable() === '$this'
+			) {
+				$existingType = ltrim($existingAnnotation->getType(), '\\');
+				if (class_exists($existingType) && is_subclass_of($existingType, View::class)) {
+					unset($existingAnnotations[$key]);
+
+					return false;
+				}
+			}
+
+			// Fall back to parent behavior for description check
+			if ($existingAnnotation->getDescription() !== '') {
+				unset($existingAnnotations[$key]);
+
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
