@@ -118,9 +118,9 @@ class TestClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 	protected function buildLinkAnnotations(array $classes): array {
 		$annotations = [];
 
-		$tag = LinkAnnotation::TAG;
-		if (Configure::read('IdeHelper.preferUsesOverLinkInTests')) {
-			$tag = UsesAnnotation::TAG;
+		$tag = UsesAnnotation::TAG;
+		if (Configure::read('IdeHelper.preferLinkOverUsesInTests') ?? true) {
+			$tag = LinkAnnotation::TAG;
 		}
 
 		foreach ($classes as $className) {

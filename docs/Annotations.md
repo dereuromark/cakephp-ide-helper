@@ -326,7 +326,7 @@ This is mainly useful for the following types, as they are invoked indirectly vi
 Here the `@link` statements added help to quick-jump to the class if needed.
 If your test class already has a `#[UsesClass(...)]` attribute, no annotation will be added.
 
-Note: Use `IdeHelper.preferUsesOverLinkInTests` config key to use `@uses` instead of `@link`.
+Note: Set `IdeHelper.preferLinkOverUsesInTests` config key to `false` to use `@uses` instead of `@link`.
 
 ### Custom Tasks
 

@@ -29,7 +29,7 @@ return [
 		'autoCollect' => true,
 		// Can be strings or `/regex/` (e.g. `'/^\_.+$/i'` for underscore prefixed variables)
 		'autoCollectBlacklist' => [],
-		'preferUsesOverLinkInTests' => false, // Use `@uses` annotations over `@link` (default) in test files. Not recommended as it can cause PHPUnit to replace them with attributes.
+		'preferLinkOverUsesInTests' => true, // Prefer `@link` annotations over `@uses` in test files, prevents PHPUnit/Rector to replace them with attributes.
 		// Custom Entity field type mapping
 		'typeMap' => [],
 		// Default View class to use

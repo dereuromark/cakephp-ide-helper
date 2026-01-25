@@ -92,7 +92,7 @@ class TestClassAnnotatorTaskTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotatePreferUses() {
-		Configure::write('IdeHelper.preferUsesOverLinkInTests', true);
+		Configure::write('IdeHelper.preferLinkOverUsesInTests', false);
 
 		$content = file_get_contents(TEST_FILES . 'tests' . DS . 'BarControllerTest.missing.php');
 		$task = $this->getTask($content);
