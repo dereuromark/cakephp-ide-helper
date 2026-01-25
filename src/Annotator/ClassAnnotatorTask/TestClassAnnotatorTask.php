@@ -137,7 +137,9 @@ class TestClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 	 */
 	protected function hasUsesClassAttribute(string $content, string $class): bool {
 		$shortClassName = substr(strrchr($class, '\\') ?: $class, 1);
-		$pattern = '#\#\[UsesClass\(\s*' . preg_quote($shortClassName, '#') . '::class\s*\)\]#';
+		$full = preg_quote($class, '#');
+		$short = preg_quote($shortClassName, '#');
+		$pattern = '#\#\[UsesClass\(\s*\\\\?(?:' . $full . '|' . $short . ')::class\s*\)\]#';
 
 		return (bool)preg_match($pattern, $content);
 	}
@@ -148,7 +150,10 @@ class TestClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 	 * @return bool
 	 */
 	protected function hasLinkAnnotation(string $content, string $class): bool {
-		$pattern = '#@(uses|link)\s+\\\\' . preg_quote($class, '#') . '\b#';
+		$shortClassName = substr(strrchr($class, '\\') ?: $class, 1);
+		$full = preg_quote($class, '#');
+		$short = preg_quote($shortClassName, '#');
+		$pattern = '#@(uses|link)\s+\\\\?(?:' . $full . '|' . $short . ')\b#';
 
 		return (bool)preg_match($pattern, $content);
 	}
