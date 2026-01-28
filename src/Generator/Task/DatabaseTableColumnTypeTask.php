@@ -9,6 +9,8 @@ use IdeHelper\Generator\Directive\RegisterArgumentsSet;
 use IdeHelper\ValueObject\StringName;
 use Migrations\Db\Adapter\AdapterFactory;
 use Migrations\Db\Adapter\AdapterInterface;
+use Migrations\Migrations;
+use Phinx\Db\Adapter\AdapterInterface as PhinxAdapterInterface;
 
 /**
  * This task is useful when using Migrations plugin and creating Migration files.
@@ -98,9 +100,24 @@ class DatabaseTableColumnTypeTask implements TaskInterface {
 	/**
 	 * @param string $name
 	 *
+	 * @return \Phinx\Db\Adapter\AdapterInterface|\Migrations\Db\Adapter\AdapterInterface
+	 */
+	protected function getAdapter(string $name = 'default') {
+		// Migrations v5+ (no Phinx)
+		if (class_exists('Migrations\Db\Adapter\AdapterFactory')) {
+			return $this->getAdapterV5($name);
+		}
+
+		// Migrations v4 (Phinx-based)
+		return $this->getAdapterV4($name);
+	}
+
+	/**
+	 * @param string $name
+	 *
 	 * @return \Migrations\Db\Adapter\AdapterInterface
 	 */
-	protected function getAdapter(string $name = 'default'): AdapterInterface {
+	protected function getAdapterV5(string $name): AdapterInterface {
 		/** @var \Cake\Database\Connection $connection */
 		$connection = ConnectionManager::get($name);
 		$driver = $connection->getDriver();
@@ -117,6 +134,28 @@ class DatabaseTableColumnTypeTask implements TaskInterface {
 			'connection' => $connection,
 			'database' => $database,
 		]);
+	}
+
+	/**
+	 * @deprecated Will be removed in a future version
+	 *
+	 * @param string $name
+	 *
+	 * @return \Phinx\Db\Adapter\AdapterInterface
+	 */
+	protected function getAdapterV4(string $name): PhinxAdapterInterface {
+		$params = [
+			'connection' => $name,
+		];
+
+		$migrations = new Migrations();
+		$input = $migrations->getInput('Migrate', [], $params);
+		$migrations->setInput($input);
+		$manager = $migrations->getManager($migrations->getConfig());
+
+		$env = $manager->getEnvironment('default');
+
+		return $env->getAdapter();
 	}
 
 }
