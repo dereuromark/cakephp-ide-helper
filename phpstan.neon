@@ -10,3 +10,6 @@ parameters:
 	ignoreErrors:
 		- '#Unsafe usage of new static\(\).+#'
 		- '#Parameter \#1 \$object of function get_class expects object, object\|string given.#'
+		-
+			message: '#(unknown class Phinx\\|invalid return type Phinx\\|undefined method Migrations\\Migrations)#'
+			path: src/Generator/Task/DatabaseTableColumnTypeTask.php
