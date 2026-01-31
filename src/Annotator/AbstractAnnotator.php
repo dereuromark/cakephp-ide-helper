@@ -286,6 +286,10 @@ abstract class AbstractAnnotator {
 	protected function appendToExistingDocBlock(File $file, int $docBlockCloseIndex, array &$annotations): string {
 		$existingAnnotations = $this->parseExistingAnnotations($file, $docBlockCloseIndex);
 
+		$generatedTags = array_unique(array_map(static function ($annotation) {
+			return $annotation::TAG;
+		}, $annotations));
+
 		$replacingAnnotations = [];
 		$addingAnnotations = [];
 		foreach ($annotations as $key => $annotation) {
@@ -352,6 +356,12 @@ abstract class AbstractAnnotator {
 
 				if ($existingAnnotation->getDescription() !== '') {
 					$this->_counter[static::COUNT_SKIPPED]++;
+					unset($existingAnnotations[$key]);
+
+					continue;
+				}
+
+				if ($generatedTags && !in_array($existingAnnotation::TAG, $generatedTags, true)) {
 					unset($existingAnnotations[$key]);
 				}
 			}
