@@ -277,8 +277,7 @@ class ModelAnnotatorTest extends TestCase {
 
 			return $value === $expectedContent;
 		};
-		$annotator->expects($this->any())
-			->method('storeFile')
+		$annotator->method('storeFile')
 			->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'Model/Table/BarBarsAbstractTable.php';
