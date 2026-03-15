@@ -11,3 +11,4 @@
 /.idea/
 /.phpstorm.meta.php
 /tests/test_app/.phpstorm.meta.php/.ide-helper.meta.php
+.phpcs.cache
