@@ -150,24 +150,26 @@ return type hint (e.g. `: ?string`). Only if that is also not present it will us
 
 Note: You can also use `@property-read` tag here if it is a pure virtual field getter.
 
-## Shells
-Shells and Tasks should annotate their primary model as well as all manually loaded models.
+## Commands
+Commands should annotate their primary model as well as all manually loaded models.
 
-```
-bin/cake annotate shells
+```bash
+bin/cake annotate commands
 ```
 
 ```php
     /**
-     * @var string
+     * @var string|null
      */
-    protected ?string $modelClass = 'Cars';
+    protected ?string $defaultTable = 'Cars';
 
     /**
-     * @return void
+     * @return int
      */
-    public function main() {
-        $this->loadModel('MyPlugin.Wheels');
+    public function execute(Arguments $args, ConsoleIo $io): int {
+        $this->fetchTable('MyPlugin.Wheels');
+
+        return static::CODE_SUCCESS;
     }
 ```
 will result in the following annotation:
@@ -178,8 +180,6 @@ will result in the following annotation:
  * @property \App\Model\Table\CarsTable $Cars
  */
 ```
-
-They also should annotate any Tasks they use.
 
 ## View
 The AppView class should annotate the helpers of the plugins and the app.
@@ -722,7 +722,7 @@ You can definitely add this into a pre-commit hook, though, for local developmen
 This way your VCS would not commit before those annotations are all in line.
 
 ## Writing your own annotators
-Just extend the shell on application level, add your command and create your own Annotator class:
+Extend `IdeHelper\Command\AnnotateCommand` on application level, add your command and create your own Annotator class:
 ```php
 class MyAnnotator extends AbstractAnnotator {
 
@@ -735,7 +735,7 @@ class MyAnnotator extends AbstractAnnotator {
     }
 }
 ```
-Then read a folder, iterate over it and invoke your annotator from the shell command with a specific path.
+Then read a folder, iterate over it and invoke your annotator from the command with a specific path.
 
 ## Configure options
 You have a full list of possible Configure options, please see the `app.example.php` file in `/config/` directory.
