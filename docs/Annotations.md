@@ -153,21 +153,23 @@ Note: You can also use `@property-read` tag here if it is a pure virtual field g
 ## Commands
 Commands should annotate their primary model as well as all manually loaded models.
 
-```
+```bash
 bin/cake annotate commands
 ```
 
 ```php
     /**
-     * @var string
+     * @var string|null
      */
-    protected ?string $modelClass = 'Cars';
+    protected ?string $defaultTable = 'Cars';
 
     /**
-     * @return void
+     * @return int
      */
-    public function main() {
-        $this->loadModel('MyPlugin.Wheels');
+    public function execute(Arguments $args, ConsoleIo $io): int {
+        $this->fetchTable('MyPlugin.Wheels');
+
+        return static::CODE_SUCCESS;
     }
 ```
 will result in the following annotation:
@@ -720,7 +722,7 @@ You can definitely add this into a pre-commit hook, though, for local developmen
 This way your VCS would not commit before those annotations are all in line.
 
 ## Writing your own annotators
-Just extend the command on application level, add your command and create your own Annotator class:
+Extend `IdeHelper\Command\AnnotateCommand` on application level, add your command and create your own Annotator class:
 ```php
 class MyAnnotator extends AbstractAnnotator {
 
