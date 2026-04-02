@@ -29,7 +29,7 @@ class FormClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 		}
 
 		$varName = lcfirst($matches[2]) . 'Form';
-		if (!preg_match('#\$' . $varName . '->execute\(#', $content)) {
+		if (!preg_match('#\$' . preg_quote($varName, '#') . '->execute\(#', $content)) {
 			return false;
 		}
 
@@ -53,7 +53,7 @@ class FormClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 		$rows = explode(PHP_EOL, $this->content);
 		$rowToAnnotate = null;
 		foreach ($rows as $i => $row) {
-			if (!preg_match('#\$' . $varName . '->execute\(#', $row)) {
+			if (!preg_match('#\$' . preg_quote($varName, '#') . '->execute\(#', $row)) {
 				continue;
 			}
 			$rowToAnnotate = $i + 1;

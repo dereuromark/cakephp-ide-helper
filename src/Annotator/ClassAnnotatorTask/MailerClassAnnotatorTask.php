@@ -50,7 +50,7 @@ class MailerClassAnnotatorTask extends AbstractClassAnnotatorTask implements Cla
 			return true;
 		}
 
-		if (!preg_match('#\$' . $varName . '->send\(\'\w+\'#', $content)) {
+		if (!preg_match('#\$' . preg_quote($varName, '#') . '->send\(\'\w+\'#', $content)) {
 			return false;
 		}
 
@@ -95,7 +95,7 @@ class MailerClassAnnotatorTask extends AbstractClassAnnotatorTask implements Cla
 			$rowToAnnotate = null;
 			$rowMatches = null;
 			foreach ($rows as $i => $row) {
-				if (!preg_match('#\$' . $varName . '->send\(\'(\w+)\'#', $row, $rowMatches)) {
+				if (!preg_match('#\$' . preg_quote($varName, '#') . '->send\(\'(\w+)\'#', $row, $rowMatches)) {
 					continue;
 				}
 				$rowToAnnotate = $i + 1;
@@ -104,7 +104,6 @@ class MailerClassAnnotatorTask extends AbstractClassAnnotatorTask implements Cla
 				break;
 			}
 		} else {
-			assert(!empty($callMatches));
 			assert($singleCallAction !== null);
 			$rows = explode(PHP_EOL, $this->content);
 			$rowToAnnotate = null;
