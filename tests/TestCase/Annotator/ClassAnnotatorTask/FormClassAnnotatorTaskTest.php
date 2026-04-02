@@ -44,6 +44,29 @@ class FormClassAnnotatorTaskTest extends TestCase {
 	}
 
 	/**
+	 * Test that nested namespace Forms (e.g. App\Form\Admin\ContactForm) don't cause regex errors.
+	 *
+	 * Without preg_quote(), the backslash in "Admin\Contact" would cause:
+	 * "preg_match(): Compilation failed: unrecognized character follows \"
+	 *
+	 * @return void
+	 */
+	public function testShouldRunNestedNamespace() {
+		$task = $this->getTask('');
+
+		// Nested namespace Form class with matching variable name (contains backslash)
+		// lcfirst('Admin\Contact') = 'admin\Contact', + 'Form' = 'admin\ContactForm'
+		$content = 'namespace TestApp\\Foo' . PHP_EOL . 'use TestApp\\Form\\Admin\\ContactForm' . PHP_EOL . '$admin\\ContactForm->execute()';
+		$result = $task->shouldRun('/src/Foo.php', $content);
+		$this->assertTrue($result);
+
+		// Without the execute() call, should return false
+		$content = 'namespace TestApp\\Foo' . PHP_EOL . 'use TestApp\\Form\\Admin\\ContactForm' . PHP_EOL . '$admin\\ContactForm->something()';
+		$result = $task->shouldRun('/src/Foo.php', $content);
+		$this->assertFalse($result);
+	}
+
+	/**
 	 * @return void
 	 */
 	public function testAnnotate() {
