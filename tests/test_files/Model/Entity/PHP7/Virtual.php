@@ -12,6 +12,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime|null $modified
  * @property string $virtual_two
+ * @property array<int, array<string>> $nested_generic
  * @property \TestApp\Model\Entity\Wheel[] $wheels
  *
  * @property-read string|null $virtual_one
@@ -24,6 +25,13 @@ class Virtual extends Entity {
 
 	protected function _getVirtualTwo(): string {
 		return 'Virtual Two';
+	}
+
+	/**
+	 * @return array<int, array<string>>
+	 */
+	protected function _getNestedGeneric(): array {
+		return [[1 => ['a', 'b']]];
 	}
 
 }

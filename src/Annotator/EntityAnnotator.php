@@ -428,9 +428,26 @@ class EntityAnnotator extends AbstractAnnotator {
 
 			$content = $tokens[$classNameIndex]['content'];
 
-			$spaceIndex = strpos($content, ' ');
-			if ($spaceIndex) {
-				$content = substr($content, 0, $spaceIndex);
+			// Find the end of the type, accounting for nested generics
+			// Spaces inside <> brackets should not be treated as type boundaries
+			$bracketDepth = 0;
+			$typeEnd = null;
+			$length = strlen($content);
+			for ($j = 0; $j < $length; $j++) {
+				$char = $content[$j];
+				if ($char === '<') {
+					$bracketDepth++;
+				} elseif ($char === '>') {
+					$bracketDepth--;
+				} elseif ($char === ' ' && $bracketDepth === 0) {
+					$typeEnd = $j;
+
+					break;
+				}
+			}
+
+			if ($typeEnd !== null) {
+				$content = substr($content, 0, $typeEnd);
 			}
 
 			return $content;

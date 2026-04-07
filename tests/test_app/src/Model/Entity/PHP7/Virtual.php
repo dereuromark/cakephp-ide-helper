@@ -13,4 +13,11 @@ class Virtual extends Entity {
 		return 'Virtual Two';
 	}
 
+	/**
+	 * @return array<int, array<string>>
+	 */
+	protected function _getNestedGeneric(): array {
+		return [[1 => ['a', 'b']]];
+	}
+
 }
