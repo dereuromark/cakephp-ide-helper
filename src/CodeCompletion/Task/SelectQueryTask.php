@@ -24,6 +24,7 @@ class SelectQueryTask implements TaskInterface {
 use Cake\Database\ExpressionInterface;
 use Cake\Datasource\ResultSetInterface;
 use Closure;
+use Psr\SimpleCache\CacheInterface;
 
 if (false) {
 	/**
@@ -31,12 +32,12 @@ if (false) {
 	 */
 	class SelectQuery {
 		/**
-		 * @return static
+		 * @return static<TSubject>
 		 */
 		public function find(string $finder, mixed ...$args) {}
 
 		/**
-		 * @return static
+		 * @return static<TSubject>
 		 */
 		public function where(
 			ExpressionInterface|Closure|array|string|null $conditions = null,
@@ -45,24 +46,69 @@ if (false) {
 		) {}
 
 		/**
-		 * @return static
+		 * @return static<TSubject>
 		 */
 		public function andWhere($conditions, array $types = []) {}
 
 		/**
-		 * @return static
+		 * @return static<TSubject>
+		 */
+		public function matching(string $assoc, ?Closure $builder = null) {}
+
+		/**
+		 * @return static<TSubject>
+		 */
+		public function leftJoinWith(string $assoc, ?Closure $builder = null) {}
+
+		/**
+		 * @return static<TSubject>
+		 */
+		public function innerJoinWith(string $assoc, ?Closure $builder = null) {}
+
+		/**
+		 * @return static<TSubject>
+		 */
+		public function notMatching(string $assoc, ?Closure $builder = null) {}
+
+		/**
+		 * @return static<TSubject>
 		 */
 		public function contain(mixed $associations, Closure|bool $override = false) {}
 
 		/**
-		 * @return static
+		 * @return static<TSubject>
+		 */
+		public function clearContain() {}
+
+		/**
+		 * @return static<TSubject>
+		 */
+		public function cache(Closure|string|false $key, CacheInterface|string $config = 'default') {}
+
+		/**
+		 * @return static<TSubject>
 		 */
 		public function groupBy(ExpressionInterface|array|string $fields, bool $overwrite = false) {}
 
 		/**
-		 * @return static
+		 * @return static<TSubject>
 		 */
 		public function orderBy(ExpressionInterface|Closure|array|string $fields, bool $overwrite = false) {}
+
+		/**
+		 * @return static<TSubject>
+		 */
+		public function enableAutoFields(bool $value = true) {}
+
+		/**
+		 * @return static<TSubject>
+		 */
+		public function disableAutoFields() {}
+
+		/**
+		 * @return static<array<string,mixed>>
+		 */
+		public function disableHydration() {}
 
 		/**
 		 * @return ResultSetInterface<array-key, TSubject>
