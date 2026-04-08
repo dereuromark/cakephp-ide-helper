@@ -83,6 +83,7 @@ A LocationsTable class would then get the following doc block annotations added 
  * @method \App\Model\Entity\Location newEntity(array $data, array $options = [])
  * @method array<\App\Model\Entity\Location> newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Location get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
+ * @method \Cake\ORM\Query\SelectQuery<\App\Model\Entity\Location> find(string $type = 'all', mixed ...$args)
  * @method \App\Model\Entity\Location|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
  * @method \App\Model\Entity\Location saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
  * @method \App\Model\Entity\Location patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
@@ -97,7 +98,16 @@ A LocationsTable class would then get the following doc block annotations added 
  * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\UsersTable> $Users
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ ```
+
+If you want the table annotations to also expose the entity-aware `find()` return type for IDEs, enable:
+```php
+'IdeHelper' => [
+    'tableEntityQuery' => true,
+],
 ```
+
+This is intentionally optional, because finder result shapes can still widen beyond plain entities.
 
 ### Entities
 Entities should annotate their properties and relations.

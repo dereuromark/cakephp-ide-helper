@@ -23,6 +23,7 @@ return [
 		'assocsAsGenerics' => false, // Enable to have modern generics syntax (NOT recommended yet) in doc blocks
 		'genericsInParam' => false, // Enable to have generics in generated method param doc blocks (NOT recommended yet)
 		'concreteEntitiesInParam' => false, // Enable to have specific entities in generated method param doc blocks (NOT recommended)
+		'tableEntityQuery' => false, // Enable to annotate `Table::find()` as returning `SelectQuery<TEntity>` for IDEs
 		// Set to `false` to disable, or string if you have a custom FQCN to be used
 		'templateCollectionObject' => true,
 		// Set to `false` to disable, defaults to `mixed` if enabled, you can also pass callable for logic

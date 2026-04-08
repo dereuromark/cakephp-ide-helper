@@ -24,6 +24,10 @@ class CodeCompletionGeneratorTest extends TestCase {
 		if (file_exists($file)) {
 			unlink($file);
 		}
+		$file = TMP . 'CodeCompletionCakeORMQuery.php';
+		if (file_exists($file)) {
+			unlink($file);
+		}
 	}
 
 	/**
@@ -35,11 +39,13 @@ class CodeCompletionGeneratorTest extends TestCase {
 		$expected = [
 			'Cake\Controller',
 			'Cake\ORM',
+			'Cake\ORM\Query',
 			'Cake\View',
 		];
 
 		$this->assertSame($expected, $result);
 		$this->assertFileExists(TMP . 'CodeCompletionCakeORM.php');
+		$this->assertFileExists(TMP . 'CodeCompletionCakeORMQuery.php');
 
 		$result = file_get_contents(TMP . 'CodeCompletionCakeORM.php');
 
@@ -106,6 +112,84 @@ if (false) {
 		public function beforeDelete(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {}
 		public function afterDelete(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {}
 		public function afterDeleteCommit(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {}
+	}
+}
+
+TXT;
+
+		$this->assertTextEquals($expected, $result);
+
+		$result = file_get_contents(TMP . 'CodeCompletionCakeORMQuery.php');
+
+		$expected = <<<'TXT'
+<?php
+namespace Cake\ORM\Query;
+
+/**
+ * Only for code completion - regenerate using `bin/cake code_completion generate`.
+ */
+use Cake\Database\ExpressionInterface;
+use Cake\Datasource\ResultSetInterface;
+use Closure;
+
+if (false) {
+	/**
+	 * @template TSubject
+	 */
+	class SelectQuery {
+		/**
+		 * @return static
+		 */
+		public function find(string $finder, mixed ...$args) {}
+
+		/**
+		 * @return static
+		 */
+		public function where(
+			ExpressionInterface|Closure|array|string|null $conditions = null,
+			array $types = [],
+			bool $overwrite = false,
+		) {}
+
+		/**
+		 * @return static
+		 */
+		public function andWhere($conditions, array $types = []) {}
+
+		/**
+		 * @return static
+		 */
+		public function contain(mixed $associations, Closure|bool $override = false) {}
+
+		/**
+		 * @return static
+		 */
+		public function groupBy(ExpressionInterface|array|string $fields, bool $overwrite = false) {}
+
+		/**
+		 * @return static
+		 */
+		public function orderBy(ExpressionInterface|Closure|array|string $fields, bool $overwrite = false) {}
+
+		/**
+		 * @return ResultSetInterface<array-key, TSubject>
+		 */
+		public function all() {}
+
+		/**
+		 * @return TSubject|null
+		 */
+		public function first() {}
+
+		/**
+		 * @return TSubject
+		 */
+		public function firstOrFail() {}
+
+		/**
+		 * @return array<TSubject>
+		 */
+		public function toArray() {}
 	}
 }
 

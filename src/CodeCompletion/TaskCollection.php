@@ -6,6 +6,7 @@ use Cake\Core\Configure;
 use IdeHelper\CodeCompletion\Task\BehaviorTask;
 use IdeHelper\CodeCompletion\Task\ControllerEventsTask;
 use IdeHelper\CodeCompletion\Task\ModelEventsTask;
+use IdeHelper\CodeCompletion\Task\SelectQueryTask;
 use IdeHelper\CodeCompletion\Task\TaskInterface;
 use IdeHelper\CodeCompletion\Task\ViewEventsTask;
 use InvalidArgumentException;
@@ -18,6 +19,7 @@ class TaskCollection {
 	protected array $defaultTasks = [
 		BehaviorTask::class => BehaviorTask::class,
 		ModelEventsTask::class => ModelEventsTask::class,
+		SelectQueryTask::class => SelectQueryTask::class,
 		ControllerEventsTask::class => ControllerEventsTask::class,
 		ViewEventsTask::class => ViewEventsTask::class,
 	];

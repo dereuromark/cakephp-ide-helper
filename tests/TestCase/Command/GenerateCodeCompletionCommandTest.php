@@ -12,6 +12,7 @@ class GenerateCodeCompletionCommandTest extends TestCase {
 	protected array $files = [
 		TMP . 'CodeCompletionCakeController.php',
 		TMP . 'CodeCompletionCakeORM.php',
+		TMP . 'CodeCompletionCakeORMQuery.php',
 		TMP . 'CodeCompletionCakeView.php',
 	];
 
@@ -47,7 +48,7 @@ class GenerateCodeCompletionCommandTest extends TestCase {
 	 */
 	public function testGenerate() {
 		$this->exec('generate code_completion');
-		$this->assertOutputContains('CodeCompletion files generated: Cake\Controller, Cake\ORM, Cake\View');
+		$this->assertOutputContains('CodeCompletion files generated: Cake\Controller, Cake\ORM, Cake\ORM\Query, Cake\View');
 		$this->assertExitSuccess();
 	}
 

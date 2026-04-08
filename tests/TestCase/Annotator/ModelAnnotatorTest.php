@@ -109,6 +109,7 @@ class ModelAnnotatorTest extends TestCase {
 		parent::tearDown();
 
 		Configure::delete('IdeHelper.assocsAsGenerics');
+		Configure::delete('IdeHelper.tableEntityQuery');
 		Configure::delete('IdeHelper.tableBehaviors');
 	}
 
@@ -285,6 +286,38 @@ class ModelAnnotatorTest extends TestCase {
 
 		$output = $this->out->output();
 		$this->assertTextContains('  -> 18 annotations added', $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAnnotateWithEntityFindQuery() {
+		Configure::write('IdeHelper.tableEntityQuery', true);
+
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/BarBarsTable.php'));
+		$expectedContent = str_replace(
+			" * @method \\TestApp\\Model\\Entity\\BarBar get(mixed \$primaryKey, array|string \$finder = 'all', \\Psr\\SimpleCache\\CacheInterface|string|null \$cache = null, \\Closure|string|null \$cacheKey = null, mixed ...\$args)\n * @method \\TestApp\\Model\\Entity\\BarBar findOrCreate(\\Cake\\ORM\\Query\\SelectQuery|callable|array \$search, ?callable \$callback = null, array \$options = [])",
+			" * @method \\TestApp\\Model\\Entity\\BarBar get(mixed \$primaryKey, array|string \$finder = 'all', \\Psr\\SimpleCache\\CacheInterface|string|null \$cache = null, \\Closure|string|null \$cacheKey = null, mixed ...\$args)\n * @method \\Cake\\ORM\\Query\\SelectQuery<\\TestApp\\Model\\Entity\\BarBar> find(string \$type = 'all', mixed ...\$args)\n * @method \\TestApp\\Model\\Entity\\BarBar findOrCreate(\\Cake\\ORM\\Query\\SelectQuery|callable|array \$search, ?callable \$callback = null, array \$options = [])",
+			$expectedContent,
+		);
+
+		$callback = function ($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->_displayDiff($expectedContent, $value);
+			}
+
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP . 'Model/Table/BarBarsTable.php';
+		$annotator->annotate($path);
+
+		$output = $this->out->output();
+		$this->assertTextContains('  -> 19 annotations added', $output);
 	}
 
 }

@@ -24,6 +24,38 @@ With the generated code completion file this becomes not necessary anymore.
 It will automatically detect this property as the right behavior class hint `Search` as `\Search\Model\Behavior\SearchBehavior`, making
 `searchManager()` available in the IDE for method argument checking and following.
 
+### SelectQuery generics
+The code completion generator also ships a `Cake\ORM\Query\SelectQuery` helper stub for fluent query chains.
+This is especially useful together with the model annotation option:
+
+```php
+'IdeHelper' => [
+    'tableEntityQuery' => true,
+],
+```
+
+That combination lets IDEs preserve the concrete entity type through calls such as:
+
+```php
+$query = $this->Users->find();
+$query->where(['active' => true])->all();
+```
+
+For PhpStorm projects you can point the generated code completion files into `.phpstorm.meta.php/`
+so they are indexed as local project helpers:
+
+```php
+'IdeHelper' => [
+    'codeCompletionPath' => ROOT . DS . '.phpstorm.meta.php' . DS,
+],
+```
+
+Then regenerate the files with:
+
+```php
+bin/cake generate code_completion
+```
+
 
 ### Adding your own tasks
 Just create your own Task class:

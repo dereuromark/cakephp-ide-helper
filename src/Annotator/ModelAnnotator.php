@@ -216,6 +216,9 @@ class ModelAnnotator extends AbstractAnnotator {
 			$annotations[] = "@method {$fullClassNameCollection} newEntities({$dataType} \$data, {$optionsType} \$options = [])";
 
 			$annotations[] = "@method {$fullClassName} get(mixed \$primaryKey, array|string \$finder = 'all', \Psr\SimpleCache\CacheInterface|string|null \$cache = null, \Closure|string|null \$cacheKey = null, mixed ...\$args)";
+			if (Configure::read('IdeHelper.tableEntityQuery')) {
+				$annotations[] = "@method \Cake\ORM\Query\SelectQuery<{$fullClassName}> find(string \$type = 'all', mixed ...\$args)";
+			}
 			$annotations[] = "@method {$fullClassName} findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array \$search, ?callable \$callback = null, {$optionsType} \$options = [])";
 
 			$annotations[] = "@method {$fullClassName} patchEntity({$entityInterface} \$entity, {$dataType} \$data, {$optionsType} \$options = [])";
