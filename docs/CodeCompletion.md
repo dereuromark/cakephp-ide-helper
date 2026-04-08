@@ -41,6 +41,19 @@ $query = $this->Users->find();
 $query->where(['active' => true])->all();
 ```
 
+The generated stub intentionally focuses on methods where the subject type is stable or where Cake already has a clear subject transition, for example:
+
+| Flow | Semantic result | ide-helper support |
+| --- | --- | --- |
+| `$this->Users->find()->where(...)->all()` | `User` entities | Covered via `tableEntityQuery` + `SelectQuery<TSubject>` stub |
+| `$this->Users->find('active')->matching('Roles')->contain('Profiles')->all()` | `User` entities | Covered; these fluent methods preserve `TSubject` |
+| `$this->Users->find()->disableHydration()->all()` | `array<string, mixed>` rows | Covered; `disableHydration()` switches the query stub to array results |
+| `$this->Users->find('list')->all()` | non-entity shaped result | Not forced by default; keep this outside the entity-query assumption |
+| `$this->Users->find()->formatResults(...)` | depends on formatter | Not modeled; formatter callbacks can reshape results arbitrarily |
+| `$this->Users->find()->mapReduce(...)` | depends on mapper/reducer | Not modeled; map/reduce can reshape results arbitrarily |
+
+This keeps the default helper honest: preserve the type where the query stays subject-compatible, and avoid pretending that formatter-driven or list-style flows are still plain entity queries.
+
 For PhpStorm projects you can point the generated code completion files into `.phpstorm.meta.php/`
 so they are indexed as local project helpers:
 
