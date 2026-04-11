@@ -14,6 +14,17 @@ class GenericString {
 	 * @return string
 	 */
 	public static function generate(string $value, ?string $type = null): string {
+		if ($type !== null && str_starts_with($type, '\\')) {
+			$typeCheck = substr($type, 1);
+		} else {
+			$typeCheck = $type;
+		}
+
+		$detailed = Configure::read('IdeHelper.genericsInParam') === 'detailed';
+		if ($detailed && $typeCheck === ResultSetInterface::class) {
+			return sprintf($type . '<int, %s>', $value);
+		}
+
 		if (Configure::read('IdeHelper.arrayAsGenerics') && ($type === null || in_array($type, ['array', 'iterable'], true))) {
 			return sprintf(($type ?: 'array' ) . '<%s>', $value);
 		}
@@ -21,16 +32,7 @@ class GenericString {
 			return sprintf($type . '<%s>', $value);
 		}
 
-		if ($type !== null && str_starts_with($type, '\\')) {
-			$typeCheck = substr($type, 1);
-		} else {
-			$typeCheck = $type;
-		}
-
 		if ($typeCheck === ResultSetInterface::class) {
-			if (Configure::read('IdeHelper.genericsInParam') === 'detailed') {
-				return sprintf($type . '<int, %s>', $value);
-			}
 			if (Configure::read('IdeHelper.concreteEntitiesInParam')) {
 				return sprintf($type . '<%s>', $value);
 			}

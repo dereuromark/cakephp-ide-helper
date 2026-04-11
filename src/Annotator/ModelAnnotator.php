@@ -209,11 +209,13 @@ class ModelAnnotator extends AbstractAnnotator {
 				$dataType = $detailed ? 'array<string, mixed>' : 'array<mixed>';
 				$dataListType = $detailed ? 'array<array<string, mixed>>' : 'array<mixed>';
 				$optionsType = 'array<string, mixed>';
-				$iterable = "iterable<{$entityInterface}>";
+				// Detailed mode always narrows iterables to the concrete entity — a UsersTable only ever handles User entities.
+				$iterableEntity = $detailed ? $fullClassName : $entityInterface;
+				$iterable = "iterable<{$iterableEntity}>";
 			}
 			if ($detailed) {
 				$finderType = 'array<string, mixed>|string';
-				$findOrCreateSearchType = "\Cake\ORM\Query\SelectQuery<{$entityInterface}>|callable|array<string, mixed>";
+				$findOrCreateSearchType = "\Cake\ORM\Query\SelectQuery<{$fullClassName}>|callable|array<string, mixed>";
 			}
 
 			/**
