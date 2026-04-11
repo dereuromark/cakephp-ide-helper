@@ -159,28 +159,39 @@ class DocBlockHelper extends BakeDocBlockHelper {
 			$classInterface = $class;
 		}
 
+		$generics = Configure::read('IdeHelper.genericsInParam');
+		$detailed = $generics === 'detailed';
 		$dataType = 'array';
+		$dataListType = 'array';
 		$optionsType = 'array';
 		$itterable = 'iterable';
-		if (Configure::read('IdeHelper.genericsInParam')) {
-			$dataType = 'array<mixed>';
+		$finderType = 'array|string';
+		$findOrCreateSearchType = '\Cake\ORM\Query\SelectQuery|callable|array';
+		if ($generics) {
+			$dataType = $detailed ? 'array<string, mixed>' : 'array<mixed>';
+			$dataListType = $detailed ? 'array<array<string, mixed>>' : 'array<mixed>';
 			$optionsType = 'array<string, mixed>';
 			$itterable = "iterable<{$classInterface}>";
+		}
+		if ($detailed) {
+			$finderType = 'array<string, mixed>|string';
+			$findOrCreateSearchType = "\Cake\ORM\Query\SelectQuery<{$classInterface}>|callable|array<string, mixed>";
 		}
 
 		$annotations[] = "@method {$class} newEmptyEntity()";
 		$annotations[] = "@method {$class} newEntity({$dataType} \$data, {$optionsType} \$options = [])";
-		$annotations[] = "@method {$classes} newEntities({$dataType} \$data, {$optionsType} \$options = [])";
-		$annotations[] = "@method {$class} get(mixed \$primaryKey, array|string \$finder = 'all', \Psr\SimpleCache\CacheInterface|string|null \$cache = null, \Closure|string|null \$cacheKey = null, mixed ...\$args)";
-		$annotations[] = "@method {$class} findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array \$search, ?callable \$callback = null, {$optionsType} \$options = [])";
+		$annotations[] = "@method {$classes} newEntities({$dataListType} \$data, {$optionsType} \$options = [])";
+		$annotations[] = "@method {$class} get(mixed \$primaryKey, {$finderType} \$finder = 'all', \Psr\SimpleCache\CacheInterface|string|null \$cache = null, \Closure|string|null \$cacheKey = null, mixed ...\$args)";
+		$annotations[] = "@method {$class} findOrCreate({$findOrCreateSearchType} \$search, ?callable \$callback = null, {$optionsType} \$options = [])";
 		$annotations[] = "@method {$class} patchEntity({$classInterface} \$entity, {$dataType} \$data, {$optionsType} \$options = [])";
-		$annotations[] = "@method {$classes} patchEntities({$itterable} \$entities, {$dataType} \$data, {$optionsType} \$options = [])";
+		$annotations[] = "@method {$classes} patchEntities({$itterable} \$entities, {$dataListType} \$data, {$optionsType} \$options = [])";
 		$annotations[] = "@method {$class}|false save({$classInterface} \$entity, {$optionsType} \$options = [])";
 		$annotations[] = "@method {$class} saveOrFail({$classInterface} \$entity, {$optionsType} \$options = [])";
-		$annotations[] = "@method {$classes}|\Cake\Datasource\ResultSetInterface<{$class}>|false saveMany({$itterable} \$entities, {$optionsType} \$options = [])";
-		$annotations[] = "@method {$classes}|\Cake\Datasource\ResultSetInterface<{$class}> saveManyOrFail({$itterable} \$entities, {$optionsType} \$options = [])";
-		$annotations[] = "@method {$classes}|\Cake\Datasource\ResultSetInterface<{$class}>|false deleteMany({$itterable} \$entities, {$optionsType} \$options = [])";
-		$annotations[] = "@method {$classes}|\Cake\Datasource\ResultSetInterface<{$class}> deleteManyOrFail({$itterable} \$entities, {$optionsType} \$options = [])";
+		$resultSet = $detailed ? "\Cake\Datasource\ResultSetInterface<int, {$class}>" : "{$classes}|\Cake\Datasource\ResultSetInterface<{$class}>";
+		$annotations[] = "@method {$resultSet}|false saveMany({$itterable} \$entities, {$optionsType} \$options = [])";
+		$annotations[] = "@method {$resultSet} saveManyOrFail({$itterable} \$entities, {$optionsType} \$options = [])";
+		$annotations[] = "@method {$resultSet}|false deleteMany({$itterable} \$entities, {$optionsType} \$options = [])";
+		$annotations[] = "@method {$resultSet} deleteManyOrFail({$itterable} \$entities, {$optionsType} \$options = [])";
 
 		foreach ($behaviors as $behavior => $behaviorData) {
 			$className = App::className($behavior, 'Model/Behavior', 'Behavior');

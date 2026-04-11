@@ -21,7 +21,7 @@ return [
 		'arrayAsGenerics' => false, // Enable to have modern generics syntax (recommended) in doc blocks
 		'objectAsGenerics' => false, // Enable to have modern generics syntax (recommended) in doc blocks
 		'assocsAsGenerics' => false, // Enable to have modern generics syntax (NOT recommended yet) in doc blocks
-		'genericsInParam' => false, // Enable to have generics in generated method param doc blocks (NOT recommended yet)
+		'genericsInParam' => false, // true for basic generics, 'detailed' for fully detailed types (array<string, mixed>, ResultSetInterface<int, TEntity>, ...)
 		'concreteEntitiesInParam' => false, // Enable to have specific entities in generated method param doc blocks (NOT recommended)
 		'tableEntityQuery' => false, // Enable to annotate `Table::find()` as returning `SelectQuery<TEntity>` for IDEs
 		// Set to `false` to disable, or string if you have a custom FQCN to be used
