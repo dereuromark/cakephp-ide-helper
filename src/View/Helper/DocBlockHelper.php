@@ -171,11 +171,12 @@ class DocBlockHelper extends BakeDocBlockHelper {
 			$dataType = $detailed ? 'array<string, mixed>' : 'array<mixed>';
 			$dataListType = $detailed ? 'array<array<string, mixed>>' : 'array<mixed>';
 			$optionsType = 'array<string, mixed>';
-			$itterable = "iterable<{$classInterface}>";
+			$iterableEntity = $detailed ? $class : $classInterface;
+			$itterable = "iterable<{$iterableEntity}>";
 		}
 		if ($detailed) {
 			$finderType = 'array<string, mixed>|string';
-			$findOrCreateSearchType = "\Cake\ORM\Query\SelectQuery<{$classInterface}>|callable|array<string, mixed>";
+			$findOrCreateSearchType = "\Cake\ORM\Query\SelectQuery<{$class}>|callable|array<string, mixed>";
 		}
 
 		$annotations[] = "@method {$class} newEmptyEntity()";
