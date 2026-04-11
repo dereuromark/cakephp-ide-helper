@@ -197,13 +197,23 @@ class ModelAnnotator extends AbstractAnnotator {
 				$entityInterface = $fullClassName;
 			}
 
+			$generics = Configure::read('IdeHelper.genericsInParam');
+			$detailed = $generics === 'detailed';
 			$dataType = 'array';
+			$dataListType = 'array';
 			$optionsType = 'array';
 			$iterable = 'iterable';
-			if (Configure::read('IdeHelper.genericsInParam')) {
-				$dataType = 'array<mixed>';
+			$finderType = 'array|string';
+			$findOrCreateSearchType = '\Cake\ORM\Query\SelectQuery|callable|array';
+			if ($generics) {
+				$dataType = $detailed ? 'array<string, mixed>' : 'array<mixed>';
+				$dataListType = $detailed ? 'array<array<string, mixed>>' : 'array<mixed>';
 				$optionsType = 'array<string, mixed>';
 				$iterable = "iterable<{$entityInterface}>";
+			}
+			if ($detailed) {
+				$finderType = 'array<string, mixed>|string';
+				$findOrCreateSearchType = "\Cake\ORM\Query\SelectQuery<{$entityInterface}>|callable|array<string, mixed>";
 			}
 
 			/**
@@ -213,16 +223,16 @@ class ModelAnnotator extends AbstractAnnotator {
 			 */
 			$annotations[] = "@method {$fullClassName} newEmptyEntity()";
 			$annotations[] = "@method {$fullClassName} newEntity({$dataType} \$data, {$optionsType} \$options = [])";
-			$annotations[] = "@method {$fullClassNameCollection} newEntities({$dataType} \$data, {$optionsType} \$options = [])";
+			$annotations[] = "@method {$fullClassNameCollection} newEntities({$dataListType} \$data, {$optionsType} \$options = [])";
 
-			$annotations[] = "@method {$fullClassName} get(mixed \$primaryKey, array|string \$finder = 'all', \Psr\SimpleCache\CacheInterface|string|null \$cache = null, \Closure|string|null \$cacheKey = null, mixed ...\$args)";
+			$annotations[] = "@method {$fullClassName} get(mixed \$primaryKey, {$finderType} \$finder = 'all', \Psr\SimpleCache\CacheInterface|string|null \$cache = null, \Closure|string|null \$cacheKey = null, mixed ...\$args)";
 			if (Configure::read('IdeHelper.tableEntityQuery')) {
 				$annotations[] = "@method \Cake\ORM\Query\SelectQuery<{$fullClassName}> find(string \$type = 'all', mixed ...\$args)";
 			}
-			$annotations[] = "@method {$fullClassName} findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array \$search, ?callable \$callback = null, {$optionsType} \$options = [])";
+			$annotations[] = "@method {$fullClassName} findOrCreate({$findOrCreateSearchType} \$search, ?callable \$callback = null, {$optionsType} \$options = [])";
 
 			$annotations[] = "@method {$fullClassName} patchEntity({$entityInterface} \$entity, {$dataType} \$data, {$optionsType} \$options = [])";
-			$annotations[] = "@method {$fullClassNameCollection} patchEntities({$iterable} \$entities, {$dataType} \$data, {$optionsType} \$options = [])";
+			$annotations[] = "@method {$fullClassNameCollection} patchEntities({$iterable} \$entities, {$dataListType} \$data, {$optionsType} \$options = [])";
 
 			$annotations[] = "@method {$fullClassName}|false save({$entityInterface} \$entity, {$optionsType} \$options = [])";
 			$annotations[] = "@method {$fullClassName} saveOrFail({$entityInterface} \$entity, {$optionsType} \$options = [])";

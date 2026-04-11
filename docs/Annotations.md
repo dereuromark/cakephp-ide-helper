@@ -109,6 +109,25 @@ If you want the table annotations to also expose the entity-aware `find()` retur
 
 This is intentionally optional, because finder result shapes can still widen beyond plain entities.
 
+#### Detailed param types
+
+The `IdeHelper.genericsInParam` option is tri-state:
+
+- `false` (default): bare `array` params, legacy behavior.
+- `true`: basic generics — `array<mixed>` / `array<string, mixed>` / `iterable<TEntity>`.
+- `'detailed'`: fully detailed types throughout, matching the richer form PHPStan and Psalm understand best.
+
+With `'detailed'`, the generated method annotations look like:
+```php
+ * @method \App\Model\Entity\User newEntity(array<string, mixed> $data, array<string, mixed> $options = [])
+ * @method array<\App\Model\Entity\User> newEntities(array<array<string, mixed>> $data, array<string, mixed> $options = [])
+ * @method \App\Model\Entity\User get(mixed $primaryKey, array<string, mixed>|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
+ * @method \App\Model\Entity\User findOrCreate(\Cake\ORM\Query\SelectQuery<\App\Model\Entity\User>|callable|array<string, mixed> $search, ?callable $callback = null, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\User>|false saveMany(iterable<\App\Model\Entity\User> $entities, array<string, mixed> $options = [])
+```
+
+Switching the value is additive — existing `true` users keep their current output, and the new `'detailed'` opt-in can be enabled at any time.
+
 ### Entities
 Entities should annotate their properties and relations.
 
