@@ -83,12 +83,38 @@ class AnnotationFactory {
 			return static::create(ExtendsAnnotation::TAG, $string);
 		}
 
-		preg_match('/^(@property|@property-read|@method|@var|@param) ([^ ]+) (.+)$/', $annotation, $matches);
-		if (!$matches) {
-			return null;
+		// Split `@tag <type> <rest>`: the type may contain spaces inside generic
+		// brackets (e.g. `Foo<int, Bar>`), so naive `[^ ]+` would cut it short.
+		// Walk the type char-by-char, tracking `<>` depth, and stop at the first
+		// top-level space.
+		if (preg_match('/^(@property|@property-read|@method|@var|@param) (.+)$/', $annotation, $matches)) {
+			$tag = $matches[1];
+			$rest = $matches[2];
+			$depth = 0;
+			$len = strlen($rest);
+			$split = -1;
+			for ($i = 0; $i < $len; $i++) {
+				$c = $rest[$i];
+				if ($c === '<') {
+					$depth++;
+				} elseif ($c === '>') {
+					$depth = max(0, $depth - 1);
+				} elseif ($c === ' ' && $depth === 0) {
+					$split = $i;
+
+					break;
+				}
+			}
+			if ($split <= 0) {
+				return null;
+			}
+			$type = substr($rest, 0, $split);
+			$content = substr($rest, $split + 1);
+
+			return static::create($tag, $type, $content);
 		}
 
-		return static::create($matches[1], $matches[2], $matches[3]);
+		return null;
 	}
 
 	/**

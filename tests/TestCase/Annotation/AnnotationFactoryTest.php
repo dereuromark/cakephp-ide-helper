@@ -115,4 +115,26 @@ class AnnotationFactoryTest extends TestCase {
 		$this->assertSame('!', $annotation->getDescription());
 	}
 
+	/**
+	 * Regression: types with spaces inside generic brackets (e.g. `ResultSetInterface<int, \Entity>`)
+	 * used to be split at the first space, putting part of the type into the method name.
+	 * That caused `matches()` to fail and annotations to be duplicated on subsequent runs
+	 * when `genericsInParam: 'detailed'` was enabled.
+	 *
+	 * @return void
+	 */
+	public function testCreateFromStringWithSpaceInsideGenericType() {
+		/** @var \IdeHelper\Annotation\MethodAnnotation $annotation */
+		$annotation = AnnotationFactory::createFromString('@method \Cake\Datasource\ResultSetInterface<int, \Foo\Model\Entity\Bar>|false saveMany(iterable<\Foo\Model\Entity\Bar> $entities, array<string, mixed> $options = [])');
+		$this->assertInstanceOf(MethodAnnotation::class, $annotation);
+		$this->assertSame('\Cake\Datasource\ResultSetInterface<int, \Foo\Model\Entity\Bar>|false', $annotation->getType());
+		$this->assertSame('saveMany(iterable<\Foo\Model\Entity\Bar> $entities, array<string, mixed> $options = [])', $annotation->getMethod());
+
+		/** @var \IdeHelper\Annotation\PropertyAnnotation $annotation */
+		$annotation = AnnotationFactory::createFromString('@property \Cake\ORM\Association\BelongsTo<\Foo\Model\Table\BarsTable> $Bar');
+		$this->assertInstanceOf(PropertyAnnotation::class, $annotation);
+		$this->assertSame('\Cake\ORM\Association\BelongsTo<\Foo\Model\Table\BarsTable>', $annotation->getType());
+		$this->assertSame('$Bar', $annotation->getProperty());
+	}
+
 }
