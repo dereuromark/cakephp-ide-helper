@@ -209,7 +209,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 
 		$settingsType = 'array';
 		if (Configure::read('IdeHelper.genericsInParam')) {
-			$settingsType = 'array<string, mixed> ';
+			$settingsType = 'array<string, mixed>';
 		}
 
 		$annotations = [AnnotationFactory::createOrFail(MethodAnnotation::TAG, $resultSetInterfaceCollection, 'paginate(\Cake\Datasource\RepositoryInterface|\Cake\Datasource\QueryInterface|string|null $object = null, ' . $settingsType . ' $settings = [])')];
