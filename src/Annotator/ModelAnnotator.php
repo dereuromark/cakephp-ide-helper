@@ -140,7 +140,7 @@ class ModelAnnotator extends AbstractAnnotator {
 		$entityName = substr($entityClassName, strrpos($entityClassName, '\\') + 1);
 
 		$parentClass = (string)get_parent_class($table);
-		$resTable = $this->table($path, $entityName, $associations, $behaviors, $parentClass);
+		$resTable = $this->table($path, $entityName, $associations, $behaviors, $parentClass, $entityClassName);
 		$resEntity = $this->entity($entityClassName, $entityName, $schema, $tableAssociations);
 
 		return $resTable || $resEntity;
@@ -152,16 +152,17 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param array<string, mixed> $associations
 	 * @param array<string> $behaviors
 	 * @param string $parentClass
+	 * @param string $entityClass
 	 * @return bool
 	 */
-	protected function table(string $path, string $entityName, array $associations, array $behaviors, string $parentClass): bool {
+	protected function table(string $path, string $entityName, array $associations, array $behaviors, string $parentClass, string $entityClass = ''): bool {
 		$content = file_get_contents($path);
 		if ($content === false) {
 			throw new RuntimeException('Cannot read file');
 		}
 
 		$behaviors += $this->parseLoadedBehaviors($content);
-		$annotations = $this->buildAnnotations($associations, $entityName, $behaviors, $parentClass);
+		$annotations = $this->buildAnnotations($associations, $entityName, $behaviors, $parentClass, $entityClass);
 
 		return $this->annotateContent($path, $content, $annotations);
 	}
@@ -171,9 +172,10 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param string $entity
 	 * @param array<string> $behaviors
 	 * @param string $parentClass
+	 * @param string $entityClass
 	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
-	protected function buildAnnotations(array $associations, string $entity, array $behaviors, string $parentClass): array {
+	protected function buildAnnotations(array $associations, string $entity, array $behaviors, string $parentClass, string $entityClass = ''): array {
 		$namespace = $this->getConfig(static::CONFIG_NAMESPACE);
 		$annotations = [];
 		foreach ($associations as $type => $assocs) {
@@ -258,7 +260,7 @@ class ModelAnnotator extends AbstractAnnotator {
 		}
 
 		$result = $this->addBehaviorMixins($result, $behaviors);
-		$result = $this->addBehaviorExtends($result, $behaviors, $parentClass);
+		$result = $this->addBehaviorExtends($result, $behaviors, $parentClass, $entityClass);
 
 		return $result;
 	}
@@ -484,9 +486,10 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $result
 	 * @param array<string> $behaviors
 	 * @param string $parentClass
+	 * @param string $entityClass
 	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
-	protected function addBehaviorExtends(array $result, array $behaviors, string $parentClass): array {
+	protected function addBehaviorExtends(array $result, array $behaviors, string $parentClass, string $entityClass = ''): array {
 		if (!in_array(static::BEHAVIOR_EXTENDS, $this->_config[static::TABLE_BEHAVIORS], true)) {
 			return $result;
 		}
@@ -504,7 +507,9 @@ class ModelAnnotator extends AbstractAnnotator {
 			$list[] = $name . ': \\' . $className;
 		}
 
-		if (!$list) {
+		$entityTemplate = $this->supportsEntityTemplate() && $entityClass ? ', \\' . ltrim($entityClass, '\\') : '';
+
+		if (!$list && !$entityTemplate) {
 			return $result;
 		}
 
@@ -515,9 +520,18 @@ class ModelAnnotator extends AbstractAnnotator {
 		if (!$parentClass) {
 			$parentClass = '\\Cake\\ORM\\Table';
 		}
-		$result[] = AnnotationFactory::createOrFail(ExtendsAnnotation::TAG, '\\' . $parentClass . '<array{' . $list . '}>');
+		$result[] = AnnotationFactory::createOrFail(ExtendsAnnotation::TAG, '\\' . $parentClass . '<array{' . $list . '}' . $entityTemplate . '>');
 
 		return $result;
+	}
+
+	/**
+	 * Whether `\Cake\ORM\Table` declares a second `TEntity` template parameter (CakePHP 5.4+).
+	 *
+	 * @return bool
+	 */
+	protected function supportsEntityTemplate(): bool {
+		return version_compare(Configure::version(), '5.4.0', '>=');
 	}
 
 }
