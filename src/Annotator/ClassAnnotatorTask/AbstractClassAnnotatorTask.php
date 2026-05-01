@@ -151,18 +151,12 @@ abstract class AbstractClassAnnotatorTask extends AbstractAnnotator {
 	protected function addNewInlineDocBlock(File $file, int $index, array $annotations) {
 		$tokens = $file->getTokens();
 
-		foreach ($annotations as $key => $annotation) {
-			if (is_string($annotation)) {
-				continue;
-			}
-			$annotations[$key] = (string)$annotation;
-		}
-
 		if (count($annotations) !== 1) {
 			throw new RuntimeException('Cannot work with annotation count != 1 right now');
 		}
 
-		$annotationString = '/** ' . $annotation . ' */';
+		$annotation = reset($annotations);
+		$annotationString = '/** ' . (string)$annotation . ' */';
 		if (PHP_EOL !== "\n") {
 			$annotationString = str_replace("\n", PHP_EOL, $annotationString);
 		}
