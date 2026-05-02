@@ -187,6 +187,7 @@ abstract class AbstractAnnotator {
 	/**
 	 * @param string $path
 	 * @param string $contents
+	 * @throws \RuntimeException When the file cannot be written.
 	 * @return void
 	 */
 	protected function storeFile(string $path, string $contents): void {
@@ -200,7 +201,9 @@ abstract class AbstractAnnotator {
 			return;
 		}
 
-		file_put_contents($path, $contents);
+		if (file_put_contents($path, $contents) === false) {
+			throw new RuntimeException(sprintf('Failed to write file `%s`.', $path));
+		}
 	}
 
 	/**
