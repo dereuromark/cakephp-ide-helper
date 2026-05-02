@@ -62,7 +62,9 @@ class GeneratePhpStormMetaCommand extends Command {
 
 		$this->ensureDir();
 
-		file_put_contents($filePath, $content);
+		if (file_put_contents($filePath, $content) === false) {
+			throw new RuntimeException(sprintf('Failed to write meta file `%s`.', $filePath));
+		}
 
 		$io->out('Meta file `/.phpstorm.meta.php/.ide-helper.meta.php` generated.');
 
@@ -113,11 +115,13 @@ class GeneratePhpStormMetaCommand extends Command {
 	}
 
 	/**
+	 * @throws \RuntimeException When the directory cannot be created.
 	 * @return void
 	 */
 	protected function ensureDir(): void {
-		if (!file_exists(dirname($this->getMetaFilePath()))) {
-			mkdir(dirname($this->getMetaFilePath()), 0775, true);
+		$dir = dirname($this->getMetaFilePath());
+		if (!is_dir($dir) && !mkdir($dir, 0775, true) && !is_dir($dir)) {
+			throw new RuntimeException(sprintf('Cannot create directory `%s`.', $dir));
 		}
 	}
 

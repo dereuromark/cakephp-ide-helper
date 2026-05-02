@@ -3,6 +3,7 @@
 namespace IdeHelper\CodeCompletion;
 
 use Cake\Core\Configure;
+use RuntimeException;
 
 class CodeCompletionGenerator {
 
@@ -38,7 +39,9 @@ CODE;
 			$filename = $path . 'CodeCompletion' . $this->type($namespace) . '.php';
 
 			if (!file_exists($filename) || md5_file($filename) !== md5($template)) {
-				file_put_contents($filename, $template);
+				if (file_put_contents($filename, $template) === false) {
+					throw new RuntimeException(sprintf('Failed to write file `%s`.', $filename));
+				}
 			}
 		}
 
@@ -64,12 +67,13 @@ CODE;
 	}
 
 	/**
+	 * @throws \RuntimeException When the directory cannot be created.
 	 * @return string
 	 */
 	protected function path(): string {
 		$path = Configure::read('IdeHelper.codeCompletionPath') ?: TMP;
-		if (!is_dir($path)) {
-			mkdir($path, 0770, true);
+		if (!is_dir($path) && !mkdir($path, 0770, true) && !is_dir($path)) {
+			throw new RuntimeException(sprintf('Cannot create directory `%s`.', $path));
 		}
 
 		return $path;

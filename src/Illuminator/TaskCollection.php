@@ -231,6 +231,7 @@ class TaskCollection {
 	 * @param string $path
 	 * @param string $contents
 	 * @param bool $dryRun
+	 * @throws \RuntimeException When the file cannot be written.
 	 * @return void
 	 */
 	protected function storeFile(string $path, string $contents, bool $dryRun): void {
@@ -238,7 +239,9 @@ class TaskCollection {
 			return;
 		}
 
-		file_put_contents($path, $contents);
+		if (file_put_contents($path, $contents) === false) {
+			throw new RuntimeException(sprintf('Failed to write file `%s`.', $path));
+		}
 	}
 
 }
