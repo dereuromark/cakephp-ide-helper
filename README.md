@@ -37,7 +37,7 @@ Supports annotations for:
 - Commands and Tasks
 - ... and more
 
-![Screenshot](docs/screenshot.jpg)
+![Screenshot](docs/public/screenshot.jpg)
 
 Supports code completion help for:
 - Behaviors (property access on the BehaviorRegistry)
@@ -83,7 +83,7 @@ The following plugins use this plugin to improve IDE compatibility around factor
 More collections of useful tasks can be found in the [IdeHelperExtra plugin](https://github.com/dereuromark/cakephp-ide-helper-extra).
 
 ### Install, Setup, Usage
-See the **[Docs](docs/)** for details.
+See the **[Documentation](https://dereuromark.github.io/cakephp-ide-helper/)** for details.
 
 
 ### Powered by
