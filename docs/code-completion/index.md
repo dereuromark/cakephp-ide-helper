@@ -1,32 +1,47 @@
-#  Code Completion File Generator
+# Code Completion File Generator
 
-In contrast to the PhpStorm meta file generator this one is supposed to be more generic and IDE agnostic.
+In contrast to the [PhpStorm meta file generator](/generator/), this tool is
+intentionally generic and IDE agnostic.
 
-![Behavior Code Completion](img/code_completion.png)
+![Behavior Code Completion](/img/code_completion.png)
 
 ## Usage
-This command will generate your CodeCompletion `php` files in your app's `TMP/` directory:
-```
+
+This command will generate the CodeCompletion `php` files into your app's
+`TMP/` directory:
+
+```bash
 bin/cake generate code_completion
 ```
 
-Those should not be persisted and will just always be regenerated or updated locally if needed.
+The files should not be persisted — they will always be regenerated or
+updated locally if needed.
 
-Pro-tip: Set up a post-install-cmd hook for composer to be up to date always!
+::: tip composer hook
+Set up a `post-install-cmd` hook for composer to keep them up to date
+automatically.
+:::
 
-### Behaviors
+## Behaviors
+
 ```php
 /** @var \Search\Manager $searchManager */
 $searchManager = $this->behaviors()->Search->searchManager();
 ```
-So far `$searchManager` required the annotation above to be typehinted and clickable, because the magic property access is not resolvable on its own.
-With the generated code completion file this becomes not necessary anymore.
-It will automatically detect this property as the right behavior class hint `Search` as `\Search\Model\Behavior\SearchBehavior`, making
-`searchManager()` available in the IDE for method argument checking and following.
 
-### SelectQuery generics
-The code completion generator also ships a `Cake\ORM\Query\SelectQuery` helper stub for fluent query chains.
-This is especially useful together with the model annotation option:
+So far `$searchManager` required the annotation above to be type-hinted and
+clickable, because the magic property access is not resolvable on its own.
+
+With the generated code completion file this is no longer necessary. The
+property `Search` is detected as `\Search\Model\Behavior\SearchBehavior`,
+making `searchManager()` available in the IDE for method argument checking
+and following.
+
+## SelectQuery generics
+
+The code completion generator also ships a `Cake\ORM\Query\SelectQuery`
+helper stub for fluent query chains. This is especially useful together with
+the model annotation option:
 
 ```php
 'IdeHelper' => [
@@ -34,14 +49,16 @@ This is especially useful together with the model annotation option:
 ],
 ```
 
-That combination lets IDEs preserve the concrete entity type through calls such as:
+That combination lets IDEs preserve the concrete entity type through calls
+such as:
 
 ```php
 $query = $this->Users->find();
 $query->where(['active' => true])->all();
 ```
 
-The generated stub intentionally focuses on methods where the subject type is stable or where Cake already has a clear subject transition, for example:
+The generated stub intentionally focuses on methods where the subject type is
+stable or where Cake already has a clear subject transition:
 
 | Flow | Semantic result | ide-helper support |
 | --- | --- | --- |
@@ -52,10 +69,12 @@ The generated stub intentionally focuses on methods where the subject type is st
 | `$this->Users->find()->formatResults(...)` | depends on formatter | Not modeled; formatter callbacks can reshape results arbitrarily |
 | `$this->Users->find()->mapReduce(...)` | depends on mapper/reducer | Not modeled; map/reduce can reshape results arbitrarily |
 
-This keeps the default helper honest: preserve the type where the query stays subject-compatible, and avoid pretending that formatter-driven or list-style flows are still plain entity queries.
+This keeps the default helper honest: preserve the type where the query
+stays subject-compatible, and avoid pretending that formatter-driven or
+list-style flows are still plain entity queries.
 
-For PhpStorm projects you can point the generated code completion files into `.phpstorm.meta.php/`
-so they are indexed as local project helpers:
+For PhpStorm projects you can point the generated code completion files into
+`.phpstorm.meta.php/` so they are indexed as local project helpers:
 
 ```php
 'IdeHelper' => [
@@ -65,13 +84,14 @@ so they are indexed as local project helpers:
 
 Then regenerate the files with:
 
-```php
+```bash
 bin/cake generate code_completion
 ```
 
+## Adding Your Own Tasks
 
-### Adding your own tasks
-Just create your own Task class:
+Create your own task class:
+
 ```php
 namespace App\CodeCompletion\Task;
 
@@ -92,13 +112,14 @@ class MyTask implements TaskInterface {
      * @return string
      */
     public function create(): string {
-        ...
+        // ...
     }
 
 }
 ```
 
 Then add it to the config:
+
 ```php
 'IdeHelper' => [
     'codeCompletionTasks' => [
@@ -106,10 +127,14 @@ Then add it to the config:
     ],
 ],
 ```
+
 The key `'MyTask'` can be any string.
 
-#### Replacing native tasks
-Using associative arrays you can even exchange any native task with your own implementation:
+### Replacing native tasks
+
+Using associative arrays you can swap any native task with your own
+implementation:
+
 ```php
 'IdeHelper' => [
     'codeCompletionTasks' => [
@@ -117,16 +142,21 @@ Using associative arrays you can even exchange any native task with your own imp
     ],
 ],
 ```
-The native class name is the key then, your replacement the value.
-Setting the value to `null` completely disables a native task.
 
-#### Property example
+The native class name is the key, your replacement the value. Setting the
+value to `null` disables a native task entirely.
+
+### Property example
+
 So let's imagine you have the following magic properties you want to annotate:
+
 ```php
 $alpha = $someObject->Alpha; // Returns \My\Cool\Alpha class
 $beta = $someObject->Beta; // Returns \My\Cool\Beta class
 ```
-Then make sure your Task's `create()` method returns something like:
+
+Then make sure your task's `create()` method returns something like:
+
 ```php
 abstract class SomeObject extends SomeObjectInterface {
 
@@ -147,15 +177,19 @@ abstract class SomeObject extends SomeObjectInterface {
 }
 ```
 
-We can use `abstract` keyword to avoid direct implementation hinting.
+We use the `abstract` keyword to avoid direct implementation hinting.
 
-#### Method example
+### Method example
+
 Let's imagine you have the following magic methods you want to annotate:
+
 ```php
 $alpha = $someObject->alpha(); // Returns \My\Cool\Alpha class
 $beta = $someObject->beta(); // Returns \My\Cool\Beta class
 ```
-Then make sure your Task's `create()` method returns something like:
+
+Then make sure your task's `create()` method returns something like:
+
 ```php
 abstract class SomeObject extends SomeObjectInterface {
 
@@ -166,7 +200,7 @@ abstract class SomeObject extends SomeObjectInterface {
      */
     protected $alpha;
 
-    ...
+    // ...
 
     /**
      * @return \My\Cool\Alpha
@@ -175,12 +209,12 @@ abstract class SomeObject extends SomeObjectInterface {
         return $this->alpha;
     }
 
-    ...
+    // ...
 
 }
 ```
 
-### Custom path for files
+## Custom Path for Files
 
-Using Configure key `'IdeHelper.codeCompletionPath'` you can use a custom path in your project if needed.
-This way the files can be added to version control.
+Using the Configure key `'IdeHelper.codeCompletionPath'` you can use a custom
+path in your project. This way the files can be added to version control.

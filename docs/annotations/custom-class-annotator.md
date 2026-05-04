@@ -1,21 +1,24 @@
-## Custom Class Annotators
+# Custom Class Annotators
 
-The following examples are showcasing how to write custom class annotators
-in your CakePHP application.
+Worked examples of writing custom class annotators in your CakePHP application.
 
-### GetByUuid()
-Imagine you have a method `getByUuid()` for all your tables to look up
-records not by their AIID, but by their UUID.
-The returned result would then be "known" by IDE/PHPStan as `EntityInterface`.
+## `getByUuid()` — Concrete Entity Inline Annotation
 
-You can create a custom annotator to add a concrete entity annotation automatically.
-It adds an inline `@var` annotation above each `getByUuid()` method assignment.
+Imagine you have a method `getByUuid()` for all your tables to look up records
+by their UUID instead of the AIID. The returned result would be "known" by
+the IDE / PHPStan as `EntityInterface`.
 
-The following example uses PHP AST to parse the class files and find the relevant method calls.
-This is more exact than using regex or PHPCS tokenizing, with less false positives.
+You can create a custom annotator to add a concrete entity annotation
+automatically. It adds an inline `@var` annotation above each `getByUuid()`
+method assignment.
 
-It then uses the existing IdeHelper code modifier that leverages the PHPCS tokenizing to
-add the inline annotation to the class file using `annotateInlineContent()`.
+The example below uses PHP-AST to parse the class files and find the relevant
+method calls. This is more exact than using a regex or PHPCS tokenizing, with
+fewer false positives.
+
+It then uses the existing IdeHelper code modifier that leverages PHPCS
+tokenizing to add the inline annotation to the class file via
+`annotateInlineContent()`.
 
 ```php
 <?php
@@ -144,4 +147,3 @@ class TableGetAnnotatorTask extends AbstractClassAnnotatorTask implements ClassA
     }
 }
 ```
-

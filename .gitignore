@@ -12,3 +12,8 @@
 /.phpstorm.meta.php
 /tests/test_app/.phpstorm.meta.php/.ide-helper.meta.php
 .phpcs.cache
+
+# Docs
+/docs/node_modules/
+/docs/.vitepress/dist/
+/docs/.vitepress/cache/
