@@ -7,6 +7,7 @@ use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
 use IdeHelper\Annotator\ClassAnnotator;
+use IdeHelper\Annotator\ClassAnnotatorTask\PathAwareClassAnnotatorTaskInterface;
 use IdeHelper\Annotator\ClassAnnotatorTask\TestClassAnnotatorTask;
 use IdeHelper\Annotator\ClassAnnotatorTaskCollection;
 use IdeHelper\Command\AnnotateCommand;
@@ -52,31 +53,69 @@ class ClassesCommand extends AnnotateCommand {
 
 		$collection = new ClassAnnotatorTaskCollection();
 		$tasks = $collection->defaultTasks();
-		if (!in_array(TestClassAnnotatorTask::class, $tasks, true)) {
-			return static::CODE_SUCCESS;
-		}
 
-		$paths = $this->getPaths();
-		foreach ($paths as $plugin => $pluginPaths) {
-			$this->setPlugin($plugin);
-			foreach ($pluginPaths as $path) {
-				$path .= 'tests' . DS . 'TestCase' . DS;
-				if (!is_dir($path)) {
-					continue;
-				}
+		if (in_array(TestClassAnnotatorTask::class, $tasks, true)) {
+			$paths = $this->getPaths();
+			foreach ($paths as $plugin => $pluginPaths) {
+				$this->setPlugin($plugin);
+				foreach ($pluginPaths as $path) {
+					$path .= 'tests' . DS . 'TestCase' . DS;
+					if (!is_dir($path)) {
+						continue;
+					}
 
-				$folders = glob($path . '*', GLOB_ONLYDIR) ?: [];
-				foreach ($folders as $folder) {
-					$this->_classes($folder . DS);
+					$folders = glob($path . '*', GLOB_ONLYDIR) ?: [];
+					foreach ($folders as $folder) {
+						$this->_classes($folder . DS);
+					}
 				}
 			}
 		}
+
+		$this->_walkPathAwareTasks($tasks);
 
 		if ($args->getOption('ci') && $this->_annotatorMadeChanges()) {
 			return static::CODE_CHANGES;
 		}
 
 		return static::CODE_SUCCESS;
+	}
+
+	/**
+	 * Walk every directory declared by a path-aware annotator task, in app
+	 * context and (when `-p <plugin>` is used) per-plugin. The standard
+	 * ClassAnnotator runs over each *.php it finds; tasks gate themselves
+	 * via shouldRun(), so unrelated tasks self-skip these paths.
+	 *
+	 * @param array<class-string<\IdeHelper\Annotator\ClassAnnotatorTask\ClassAnnotatorTaskInterface>> $tasks
+	 * @return void
+	 */
+	protected function _walkPathAwareTasks(array $tasks): void {
+		$pathAware = array_filter(
+			$tasks,
+			fn (string $cls): bool => is_a($cls, PathAwareClassAnnotatorTaskInterface::class, true),
+		);
+		if (!$pathAware) {
+			return;
+		}
+
+		$paths = $this->getPaths();
+		$walked = [];
+		foreach ($paths as $plugin => $pluginPaths) {
+			$this->setPlugin($plugin);
+			foreach ($pluginPaths as $rootPath) {
+				foreach ($pathAware as $taskClass) {
+					foreach ($taskClass::scanPaths() as $relPath) {
+						$folder = $rootPath . trim($relPath, '/' . DS) . DS;
+						if (isset($walked[$folder]) || !is_dir($folder)) {
+							continue;
+						}
+						$walked[$folder] = true;
+						$this->_classes($folder);
+					}
+				}
+			}
+		}
 	}
 
 	/**
