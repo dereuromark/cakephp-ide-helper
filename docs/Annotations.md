@@ -401,6 +401,43 @@ The key `'MyClassAnnotatorTask'` can be any string.
 You want more examples?
 - [Custom Class Annotators](Annotations/Class.md)
 
+#### Targeting custom directories
+
+By default `bin/cake annotate classes` walks `src/` (app + plugin classpaths) and
+`tests/TestCase/` (when `TestClassAnnotatorTask` is registered). A custom task whose
+subjects live elsewhere — for example test-fixture factories under `tests/Factory/`,
+scenario classes, generated stubs — can opt into having those directories walked
+by also implementing `PathAwareClassAnnotatorTaskInterface`:
+
+```php
+namespace App\Annotator\ClassAnnotatorTask;
+
+use IdeHelper\Annotator\ClassAnnotatorTask\AbstractClassAnnotatorTask;
+use IdeHelper\Annotator\ClassAnnotatorTask\PathAwareClassAnnotatorTaskInterface;
+
+class MyClassAnnotatorTask extends AbstractClassAnnotatorTask implements PathAwareClassAnnotatorTaskInterface {
+
+    /**
+     * @return array<string>
+     */
+    public static function scanPaths(): array {
+        return ['tests/Factory/'];
+    }
+
+    public function shouldRun(string $path, string $content): bool { /* ... */ }
+    public function annotate(string $path): bool { /* ... */ }
+
+}
+```
+
+Paths are project-root relative for app context, plugin-root relative when run with `-p`.
+They are walked recursively. Paths that do not exist on disk are silently skipped, and a
+path declared by multiple tasks is walked only once.
+
+The interface is optional and additive — existing tasks that do not implement it behave
+unchanged. The feature is opt-in: a path-aware task is only consulted when it is registered
+in `IdeHelper.classAnnotatorTasks`.
+
 #### Replacing native tasks
 Using associative arrays you can even exchange any native task with your own implementation:
 ```php
