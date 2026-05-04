@@ -70,6 +70,7 @@ The following plugins use this plugin to improve IDE compatibility around factor
 - [Migrations](https://github.com/cakephp/migrations) for migration file writing (included in IdeHelper directly).
 - [Queue](https://github.com/dereuromark/cakephp-queue) for `QueuedJobsTable::createJob()` usage.
 - [Burzum/CakeServiceLayer](https://github.com/burzum/cakephp-service-layer) for `loadService()` usage.
+- [CakephpFixtureFactories](https://github.com/dereuromark/cakephp-fixture-factories) for Factory class usage through `@extends`.
 - ... (add yours here)
 
 ### Plugins with Illuminator tasks
