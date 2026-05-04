@@ -434,6 +434,10 @@ Paths are project-root relative for app context, plugin-root relative when run w
 They are walked recursively. Paths that do not exist on disk are silently skipped, and a
 path declared by multiple tasks is walked only once.
 
+Convention: return paths with forward slashes and a trailing slash (e.g. `'tests/Factory/'`),
+independent of OS. The command normalizes to the OS-native separator before walking, so the
+dedup key stays stable across Windows / *nix and across tasks that disagree on style.
+
 The interface is optional and additive — existing tasks that do not implement it behave
 unchanged. The feature is opt-in: a path-aware task is only consulted when it is registered
 in `IdeHelper.classAnnotatorTasks`.

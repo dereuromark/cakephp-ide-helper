@@ -21,7 +21,7 @@ class TestClassAnnotatorTask extends AbstractClassAnnotatorTask implements PathA
 	 * @return array<string>
 	 */
 	public static function scanPaths(): array {
-		return ['tests' . DIRECTORY_SEPARATOR . 'TestCase'];
+		return ['tests/TestCase/'];
 	}
 
 	/**

@@ -87,7 +87,7 @@ class ClassesCommand extends AnnotateCommand {
 			foreach ($pluginPaths as $rootPath) {
 				foreach ($pathAware as $taskClass) {
 					foreach ($taskClass::scanPaths() as $relPath) {
-						$folder = $rootPath . trim($relPath, '/' . DS) . DS;
+						$folder = $rootPath . $this->_normalizeScanPath($relPath);
 						if (isset($walked[$folder]) || !is_dir($folder)) {
 							continue;
 						}
@@ -97,6 +97,23 @@ class ClassesCommand extends AnnotateCommand {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Normalize a scan path declared by a path-aware task to the OS-native
+	 * separator with exactly one trailing separator, regardless of whether
+	 * the task author used forward slashes, backslashes, or no trailing
+	 * separator. This keeps the `$walked[$folder]` dedup key stable across
+	 * portability quirks.
+	 *
+	 * @param string $relPath
+	 * @return string
+	 */
+	protected function _normalizeScanPath(string $relPath): string {
+		$forward = str_replace('\\', '/', $relPath);
+		$trimmed = rtrim($forward, '/');
+
+		return str_replace('/', DS, $trimmed) . DS;
 	}
 
 	/**
