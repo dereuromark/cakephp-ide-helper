@@ -65,12 +65,14 @@ IDEs tested so far for 100% compatibility:
 
 See [Wiki](https://github.com/dereuromark/cakephp-ide-helper/wiki) for details and tips/settings.
 
+### Plugin with Annotator tasks
+- [CakephpFixtureFactories](https://github.com/dereuromark/cakephp-fixture-factories) for Factory class usage through `@extends`.
+
 ### Plugins with meta file generator tasks
 The following plugins use this plugin to improve IDE compatibility around factory and magic string usage:
 - [Migrations](https://github.com/cakephp/migrations) for migration file writing (included in IdeHelper directly).
 - [Queue](https://github.com/dereuromark/cakephp-queue) for `QueuedJobsTable::createJob()` usage.
 - [Burzum/CakeServiceLayer](https://github.com/burzum/cakephp-service-layer) for `loadService()` usage.
-- [CakephpFixtureFactories](https://github.com/dereuromark/cakephp-fixture-factories) for Factory class usage through `@extends`.
 - ... (add yours here)
 
 ### Plugins with Illuminator tasks
