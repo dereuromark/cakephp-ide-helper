@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/docs"
+    schedule:
+      interval: "weekly"
+    ignore:
+      # vite is a transitive dep of vitepress; vitepress 1.x pins vite ^5.4.x
+      # and security fixes for vite require >= 6.4.2. Drop this ignore once
+      # vitepress 2.x ships stable (currently alpha) and we can upgrade.
+      - dependency-name: "vite"
