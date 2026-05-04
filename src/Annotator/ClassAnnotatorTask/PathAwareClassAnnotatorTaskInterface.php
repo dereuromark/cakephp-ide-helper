@@ -19,7 +19,12 @@ namespace IdeHelper\Annotator\ClassAnnotatorTask;
  * without first instantiating it with an `Io` and per-file content. Paths
  * are project-root relative for app context, and plugin-root relative
  * when the command is run with `-p <plugin>` (or `-p all`). Paths are
- * walked recursively. Trailing slashes are optional.
+ * walked recursively.
+ *
+ * Convention: return paths with forward slashes and a trailing slash
+ * (e.g. `'tests/Factory/'`), independent of OS. The command normalizes
+ * to the OS-native separator before walking, so the dedup key is stable
+ * when two tasks declare the same path.
  */
 interface PathAwareClassAnnotatorTaskInterface extends ClassAnnotatorTaskInterface {
 

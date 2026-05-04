@@ -7,7 +7,10 @@ use IdeHelper\Annotator\ClassAnnotatorTask\PathAwareClassAnnotatorTaskInterface;
 
 /**
  * Second test fixture: declares the same scan path as TestPathAwareAnnotatorTask
- * to exercise the dedup branch in ClassesCommand::_walkPathAwareTasks().
+ * but in a deliberately different shape — backslash separators and no trailing
+ * slash — to exercise both the dedup branch in
+ * ClassesCommand::_walkPathAwareTasks() and the path normalization that makes
+ * the dedup key stable across separator / trailing-slash style variations.
  */
 class SecondTestPathAwareAnnotatorTask extends AbstractClassAnnotatorTask implements PathAwareClassAnnotatorTaskInterface {
 
@@ -15,7 +18,7 @@ class SecondTestPathAwareAnnotatorTask extends AbstractClassAnnotatorTask implem
 	 * @return array<string>
 	 */
 	public static function scanPaths(): array {
-		return ['tests/fixtures-pathaware/'];
+		return ['tests\\fixtures-pathaware'];
 	}
 
 	/**

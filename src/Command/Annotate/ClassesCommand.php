@@ -8,7 +8,6 @@ use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
 use IdeHelper\Annotator\ClassAnnotator;
 use IdeHelper\Annotator\ClassAnnotatorTask\PathAwareClassAnnotatorTaskInterface;
-use IdeHelper\Annotator\ClassAnnotatorTask\TestClassAnnotatorTask;
 use IdeHelper\Annotator\ClassAnnotatorTaskCollection;
 use IdeHelper\Command\AnnotateCommand;
 
@@ -54,24 +53,6 @@ class ClassesCommand extends AnnotateCommand {
 		$collection = new ClassAnnotatorTaskCollection();
 		$tasks = $collection->defaultTasks();
 
-		if (in_array(TestClassAnnotatorTask::class, $tasks, true)) {
-			$paths = $this->getPaths();
-			foreach ($paths as $plugin => $pluginPaths) {
-				$this->setPlugin($plugin);
-				foreach ($pluginPaths as $path) {
-					$path .= 'tests' . DS . 'TestCase' . DS;
-					if (!is_dir($path)) {
-						continue;
-					}
-
-					$folders = glob($path . '*', GLOB_ONLYDIR) ?: [];
-					foreach ($folders as $folder) {
-						$this->_classes($folder . DS);
-					}
-				}
-			}
-		}
-
 		$this->_walkPathAwareTasks($tasks);
 
 		if ($args->getOption('ci') && $this->_annotatorMadeChanges()) {
@@ -106,7 +87,7 @@ class ClassesCommand extends AnnotateCommand {
 			foreach ($pluginPaths as $rootPath) {
 				foreach ($pathAware as $taskClass) {
 					foreach ($taskClass::scanPaths() as $relPath) {
-						$folder = $rootPath . trim($relPath, '/' . DS) . DS;
+						$folder = $rootPath . $this->_normalizeScanPath($relPath);
 						if (isset($walked[$folder]) || !is_dir($folder)) {
 							continue;
 						}
@@ -116,6 +97,23 @@ class ClassesCommand extends AnnotateCommand {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Normalize a scan path declared by a path-aware task to the OS-native
+	 * separator with exactly one trailing separator, regardless of whether
+	 * the task author used forward slashes, backslashes, or no trailing
+	 * separator. This keeps the `$walked[$folder]` dedup key stable across
+	 * portability quirks.
+	 *
+	 * @param string $relPath
+	 * @return string
+	 */
+	protected function _normalizeScanPath(string $relPath): string {
+		$forward = str_replace('\\', '/', $relPath);
+		$trimmed = rtrim($forward, '/');
+
+		return str_replace('/', DS, $trimmed) . DS;
 	}
 
 	/**

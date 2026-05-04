@@ -15,7 +15,14 @@ use IdeHelper\Annotation\UsesAnnotation;
  *
  * Use Configure key `IdeHelper.testClassPatterns` to add more types and their regex pattern.
  */
-class TestClassAnnotatorTask extends AbstractClassAnnotatorTask implements ClassAnnotatorTaskInterface {
+class TestClassAnnotatorTask extends AbstractClassAnnotatorTask implements PathAwareClassAnnotatorTaskInterface {
+
+	/**
+	 * @return array<string>
+	 */
+	public static function scanPaths(): array {
+		return ['tests/TestCase/'];
+	}
 
 	/**
 	 * Deprecated: $content, use $this->content instead.
