@@ -8,7 +8,6 @@ use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
 use IdeHelper\Annotator\ClassAnnotator;
 use IdeHelper\Annotator\ClassAnnotatorTask\PathAwareClassAnnotatorTaskInterface;
-use IdeHelper\Annotator\ClassAnnotatorTask\TestClassAnnotatorTask;
 use IdeHelper\Annotator\ClassAnnotatorTaskCollection;
 use IdeHelper\Command\AnnotateCommand;
 
@@ -53,24 +52,6 @@ class ClassesCommand extends AnnotateCommand {
 
 		$collection = new ClassAnnotatorTaskCollection();
 		$tasks = $collection->defaultTasks();
-
-		if (in_array(TestClassAnnotatorTask::class, $tasks, true)) {
-			$paths = $this->getPaths();
-			foreach ($paths as $plugin => $pluginPaths) {
-				$this->setPlugin($plugin);
-				foreach ($pluginPaths as $path) {
-					$path .= 'tests' . DS . 'TestCase' . DS;
-					if (!is_dir($path)) {
-						continue;
-					}
-
-					$folders = glob($path . '*', GLOB_ONLYDIR) ?: [];
-					foreach ($folders as $folder) {
-						$this->_classes($folder . DS);
-					}
-				}
-			}
-		}
 
 		$this->_walkPathAwareTasks($tasks);
 
