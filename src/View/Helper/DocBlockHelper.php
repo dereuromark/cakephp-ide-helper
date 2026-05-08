@@ -155,7 +155,9 @@ class DocBlockHelper extends BakeDocBlockHelper {
 		$class = "\\{$namespace}\\Model\\Entity\\{$entity}";
 		$classes = GenericString::generate($class);
 		$classInterface = '\\Cake\\Datasource\\EntityInterface';
-		if (Configure::read('IdeHelper.concreteEntitiesInParam')) {
+		$concrete = Configure::read('IdeHelper.concreteEntitiesInParam');
+		$strict = $concrete === 'strict';
+		if ($concrete) {
 			$classInterface = $class;
 		}
 
@@ -173,6 +175,8 @@ class DocBlockHelper extends BakeDocBlockHelper {
 			$optionsType = 'array<string, mixed>';
 			$iterableEntity = $detailed ? $class : $classInterface;
 			$itterable = "iterable<{$iterableEntity}>";
+		} elseif ($strict) {
+			$itterable = "iterable<{$class}>";
 		}
 		if ($detailed) {
 			$finderType = 'array<string, mixed>|string';
@@ -193,6 +197,12 @@ class DocBlockHelper extends BakeDocBlockHelper {
 		$annotations[] = "@method {$resultSet} saveManyOrFail({$itterable} \$entities, {$optionsType} \$options = [])";
 		$annotations[] = "@method {$resultSet}|false deleteMany({$itterable} \$entities, {$optionsType} \$options = [])";
 		$annotations[] = "@method {$resultSet} deleteManyOrFail({$itterable} \$entities, {$optionsType} \$options = [])";
+
+		if ($strict) {
+			$annotations[] = "@method bool delete({$class} \$entity, {$optionsType} \$options = [])";
+			$annotations[] = "@method bool deleteOrFail({$class} \$entity, {$optionsType} \$options = [])";
+			$annotations[] = "@method {$class}|array<{$class}> loadInto({$class}|array<{$class}> \$entities, array \$contain)";
+		}
 
 		foreach ($behaviors as $behavior => $behaviorData) {
 			$className = App::className($behavior, 'Model/Behavior', 'Behavior');

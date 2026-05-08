@@ -153,6 +153,61 @@ class ModelAnnotatorSpecificTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testAnnotateSpecificStrict() {
+		Configure::write('IdeHelper.concreteEntitiesInParam', 'strict');
+
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/Specific/BarBarsStrictTable.php'));
+		$callback = function($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->_displayDiff($expectedContent, $value);
+			}
+
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP . 'Model/Table/Specific/BarBarsTable.php';
+		$annotator->annotate($path);
+
+		$output = $this->out->output();
+
+		$this->assertTextContains('annotations added', $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAnnotateSpecificStrictBare() {
+		Configure::write('IdeHelper.concreteEntitiesInParam', 'strict');
+		Configure::write('IdeHelper.genericsInParam', false);
+
+		$annotator = $this->_getAnnotatorMock([]);
+
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/Specific/BarBarsStrictBareTable.php'));
+		$callback = function($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->_displayDiff($expectedContent, $value);
+			}
+
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP . 'Model/Table/Specific/BarBarsTable.php';
+		$annotator->annotate($path);
+
+		$output = $this->out->output();
+
+		$this->assertTextContains('annotations added', $output);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testAnnotateSpecificDetailed() {
 		Configure::write('IdeHelper.genericsInParam', 'detailed');
 

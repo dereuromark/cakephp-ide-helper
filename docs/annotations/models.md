@@ -73,6 +73,41 @@ With `'detailed'`, the generated method annotations look like:
 Switching the value is additive — existing `true` users keep their current
 output, and the new `'detailed'` opt-in can be enabled at any time.
 
+### Concrete entity types in params
+
+The `IdeHelper.concreteEntitiesInParam` option is tri-state:
+
+- `false` (default) — entity params accept `\Cake\Datasource\EntityInterface`.
+- `true` — `patchEntity()`, `save()`, and `saveOrFail()` declare the concrete
+  entity class for their `$entity` parameter, so PHPStan can catch a mismatched
+  entity passed to the wrong table.
+- `'strict'` — same as `true`, plus:
+  - iterable params on `patchEntities` / `saveMany` / `saveManyOrFail` /
+    `deleteMany` / `deleteManyOrFail` are narrowed to
+    `iterable<\App\Model\Entity\X>` even when `genericsInParam` is `false`.
+  - `delete()`, `deleteOrFail()`, and `loadInto()` get explicit `@method` lines
+    typed with the concrete entity class.
+
+This mirrors the runtime check proposed upstream in
+[cakephp/cakephp#19428](https://github.com/cakephp/cakephp/pull/19428): a
+`Table::delete($order)` call against an `InvoicesTable` is rejected at
+static-analysis time instead of silently deleting from the wrong table.
+
+With `'strict'` (and `genericsInParam` left at default `false`), the generated
+method block adds:
+
+```php
+ * @method \App\Model\Entity\User patchEntity(\App\Model\Entity\User $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\User[] patchEntities(iterable<\App\Model\Entity\User> $entities, array $data, array $options = [])
+ * @method bool delete(\App\Model\Entity\User $entity, array $options = [])
+ * @method bool deleteOrFail(\App\Model\Entity\User $entity, array $options = [])
+ * @method \App\Model\Entity\User|array<\App\Model\Entity\User> loadInto(\App\Model\Entity\User|array<\App\Model\Entity\User> $entities, array $contain)
+```
+
+Switching is additive — existing `true` users keep their current output, and
+`'strict'` can be enabled at any time. Pair with `genericsInParam` at `true` or
+`'detailed'` for fully typed params throughout.
+
 ## Entities
 
 Entities annotate their properties and relations.
