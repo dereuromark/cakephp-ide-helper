@@ -531,7 +531,9 @@ class ModelAnnotator extends AbstractAnnotator {
 		if (!$parentClass) {
 			$parentClass = '\\Cake\\ORM\\Table';
 		}
-		$result[] = AnnotationFactory::createOrFail(ExtendsAnnotation::TAG, '\\' . $parentClass . '<array{' . $list . '}' . $entityTemplate . '>');
+		// Prepend so @extends sits at the top of the class doc-block, matching the
+		// classOrder defined by php-collective/code-sniffer DocBlockTagOrderSniff.
+		array_unshift($result, AnnotationFactory::createOrFail(ExtendsAnnotation::TAG, '\\' . $parentClass . '<array{' . $list . '}' . $entityTemplate . '>'));
 
 		return $result;
 	}

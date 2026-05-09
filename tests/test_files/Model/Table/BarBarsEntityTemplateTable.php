@@ -4,6 +4,8 @@ namespace TestApp\Model\Table;
 use Cake\ORM\Table;
 
 /**
+ * @extends \Cake\ORM\Table<array{My: \MyNamespace\MyPlugin\Model\Behavior\MyBehavior, Timestamp: \Cake\ORM\Behavior\TimestampBehavior}, \TestApp\Model\Entity\BarBar>
+ *
  * @property \Cake\ORM\Association\BelongsTo<\TestApp\Model\Table\FoosTable> $Foos
  * @property \Cake\ORM\Association\BelongsToMany<\Awesome\Model\Table\HousesTable> $Houses
  *
@@ -23,8 +25,6 @@ use Cake\ORM\Table;
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @mixin \MyNamespace\MyPlugin\Model\Behavior\MyBehavior
- *
- * @extends \Cake\ORM\Table<array{My: \MyNamespace\MyPlugin\Model\Behavior\MyBehavior, Timestamp: \Cake\ORM\Behavior\TimestampBehavior}, \TestApp\Model\Entity\BarBar>
  */
 class BarBarsTable extends Table {
 
