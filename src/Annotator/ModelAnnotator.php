@@ -195,7 +195,9 @@ class ModelAnnotator extends AbstractAnnotator {
 			$entityInterface = '\\' . EntityInterface::class;
 			$resultSetInterfaceCollection = GenericString::generate($fullClassName, '\\' . ResultSetInterface::class);
 
-			if (Configure::read('IdeHelper.concreteEntitiesInParam')) {
+			$concrete = Configure::read('IdeHelper.concreteEntitiesInParam');
+			$strict = $concrete === 'strict';
+			if ($concrete) {
 				$entityInterface = $fullClassName;
 			}
 
@@ -214,6 +216,9 @@ class ModelAnnotator extends AbstractAnnotator {
 				// Detailed mode always narrows iterables to the concrete entity — a UsersTable only ever handles User entities.
 				$iterableEntity = $detailed ? $fullClassName : $entityInterface;
 				$iterable = "iterable<{$iterableEntity}>";
+			} elseif ($strict) {
+				// Strict mode narrows the iterable to the concrete entity even without genericsInParam.
+				$iterable = "iterable<{$fullClassName}>";
 			}
 			if ($detailed) {
 				$finderType = 'array<string, mixed>|string';
@@ -246,6 +251,12 @@ class ModelAnnotator extends AbstractAnnotator {
 
 			$annotations[] = "@method {$resultSetInterfaceCollection}|false deleteMany({$iterable} \$entities, {$optionsType} \$options = [])";
 			$annotations[] = "@method {$resultSetInterfaceCollection} deleteManyOrFail({$iterable} \$entities, {$optionsType} \$options = [])";
+
+			if ($strict) {
+				$annotations[] = "@method bool delete({$fullClassName} \$entity, {$optionsType} \$options = [])";
+				$annotations[] = "@method bool deleteOrFail({$fullClassName} \$entity, {$optionsType} \$options = [])";
+				$annotations[] = "@method {$fullClassName}|array<{$fullClassName}> loadInto({$fullClassName}|array<{$fullClassName}> \$entities, array \$contain)";
+			}
 		}
 
 		// Make replaceable via parsed object
