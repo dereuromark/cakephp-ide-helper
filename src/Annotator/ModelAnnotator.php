@@ -249,12 +249,14 @@ class ModelAnnotator extends AbstractAnnotator {
 			$annotations[] = "@method {$resultSetInterfaceCollection}|false saveMany({$iterable} \$entities, {$optionsType} \$options = [])";
 			$annotations[] = "@method {$resultSetInterfaceCollection} saveManyOrFail({$iterable} \$entities, {$optionsType} \$options = [])";
 
+			if ($strict) {
+				$annotations[] = "@method bool delete({$fullClassName} \$entity, {$optionsType} \$options = [])";
+				$annotations[] = "@method bool deleteOrFail({$fullClassName} \$entity, {$optionsType} \$options = [])";
+			}
 			$annotations[] = "@method {$resultSetInterfaceCollection}|false deleteMany({$iterable} \$entities, {$optionsType} \$options = [])";
 			$annotations[] = "@method {$resultSetInterfaceCollection} deleteManyOrFail({$iterable} \$entities, {$optionsType} \$options = [])";
 
 			if ($strict) {
-				$annotations[] = "@method bool delete({$fullClassName} \$entity, {$optionsType} \$options = [])";
-				$annotations[] = "@method bool deleteOrFail({$fullClassName} \$entity, {$optionsType} \$options = [])";
 				$annotations[] = "@method {$fullClassName}|array<{$fullClassName}> loadInto({$fullClassName}|array<{$fullClassName}> \$entities, array \$contain)";
 			}
 		}
