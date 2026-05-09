@@ -5,6 +5,7 @@ use Cake\ORM\Table;
 
 /**
  * @method \TestApp\Model\Entity\Wheel newEntity(array $data, array $options = [])
+ * @extends \Cake\ORM\Table<array{Tree: \Cake\ORM\Behavior\TreeBehavior}>
  * @property \Cake\ORM\Association\BelongsTo<\TestApp\Model\Table\CarsTable> $Cars
  * @method \TestApp\Model\Entity\Wheel newEmptyEntity()
  * @method \TestApp\Model\Entity\Wheel[] newEntities(array $data, array $options = [])
@@ -19,7 +20,6 @@ use Cake\ORM\Table;
  * @method \TestApp\Model\Entity\Wheel[]|\Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\Wheel>|false deleteMany(iterable $entities, array $options = [])
  * @method \TestApp\Model\Entity\Wheel[]|\Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\Wheel> deleteManyOrFail(iterable $entities, array $options = [])
  * @mixin \Cake\ORM\Behavior\TreeBehavior
- * @extends \Cake\ORM\Table<array{Tree: \Cake\ORM\Behavior\TreeBehavior}>
  */
 class WheelsTable extends Table {
 
