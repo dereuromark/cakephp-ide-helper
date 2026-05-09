@@ -18,10 +18,10 @@ use Cake\ORM\Table;
  * @method \TestApp\Model\Entity\BarBar saveOrFail(\TestApp\Model\Entity\BarBar $entity, array $options = [])
  * @method \Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\BarBar>|false saveMany(iterable<\TestApp\Model\Entity\BarBar> $entities, array $options = [])
  * @method \Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\BarBar> saveManyOrFail(iterable<\TestApp\Model\Entity\BarBar> $entities, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\BarBar>|false deleteMany(iterable<\TestApp\Model\Entity\BarBar> $entities, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\BarBar> deleteManyOrFail(iterable<\TestApp\Model\Entity\BarBar> $entities, array $options = [])
  * @method bool delete(\TestApp\Model\Entity\BarBar $entity, array $options = [])
  * @method bool deleteOrFail(\TestApp\Model\Entity\BarBar $entity, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\BarBar>|false deleteMany(iterable<\TestApp\Model\Entity\BarBar> $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\BarBar> deleteManyOrFail(iterable<\TestApp\Model\Entity\BarBar> $entities, array $options = [])
  * @method \TestApp\Model\Entity\BarBar|array<\TestApp\Model\Entity\BarBar> loadInto(\TestApp\Model\Entity\BarBar|array<\TestApp\Model\Entity\BarBar> $entities, array $contain)
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior

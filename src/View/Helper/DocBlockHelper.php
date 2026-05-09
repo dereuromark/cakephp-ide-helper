@@ -195,12 +195,14 @@ class DocBlockHelper extends BakeDocBlockHelper {
 		$resultSet = $detailed ? "\Cake\Datasource\ResultSetInterface<int, {$class}>" : "{$classes}|\Cake\Datasource\ResultSetInterface<{$class}>";
 		$annotations[] = "@method {$resultSet}|false saveMany({$itterable} \$entities, {$optionsType} \$options = [])";
 		$annotations[] = "@method {$resultSet} saveManyOrFail({$itterable} \$entities, {$optionsType} \$options = [])";
+		if ($strict) {
+			$annotations[] = "@method bool delete({$class} \$entity, {$optionsType} \$options = [])";
+			$annotations[] = "@method bool deleteOrFail({$class} \$entity, {$optionsType} \$options = [])";
+		}
 		$annotations[] = "@method {$resultSet}|false deleteMany({$itterable} \$entities, {$optionsType} \$options = [])";
 		$annotations[] = "@method {$resultSet} deleteManyOrFail({$itterable} \$entities, {$optionsType} \$options = [])";
 
 		if ($strict) {
-			$annotations[] = "@method bool delete({$class} \$entity, {$optionsType} \$options = [])";
-			$annotations[] = "@method bool deleteOrFail({$class} \$entity, {$optionsType} \$options = [])";
 			$annotations[] = "@method {$class}|array<{$class}> loadInto({$class}|array<{$class}> \$entities, array \$contain)";
 		}
 
