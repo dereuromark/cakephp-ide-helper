@@ -322,7 +322,6 @@ class VariableExtractor {
 	 * @return array<array<string, mixed>>
 	 */
 	protected function getVarsFromString(File $file, array $token, int $i): array {
-
 		preg_match_all('/\$(\{)?([a-zA-Z_][a-zA-Z0-9_]*)\}?/', $token['content'], $matches);
 		if (empty($matches[2])) {
 			return [];
