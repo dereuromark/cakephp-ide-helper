@@ -16,6 +16,7 @@ use TestApp\Model\Entity\Traits\DatePrecisionEntityTrait;
  * @property-read string $in_class_virtual
  * @property-read bool $is_date_approximate
  * @property-read string|null $date_precision_string
+ * @property-read array<int, string> $date_precision_labels
  */
 class VirtualWithTrait extends Entity {
 
@@ -24,6 +25,7 @@ class VirtualWithTrait extends Entity {
 	protected array $_virtual = [
 		'is_date_approximate',
 		'date_precision_string',
+		'date_precision_labels',
 		'in_class_virtual',
 	];
 

@@ -75,7 +75,7 @@ class EntityAnnotator extends AbstractAnnotator {
 	 * @param string $content
 	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
 	 * @param string $name Entity short name; used to resolve the class via reflection.
-	 * @return array<string>
+	 * @return array<string, string>
 	 */
 	protected function propertyHintMap(string $content, DocBlockHelper $helper, string $name = ''): array {
 		/** @var \Cake\Database\Schema\TableSchemaInterface $tableSchema */
@@ -424,20 +424,17 @@ class EntityAnnotator extends AbstractAnnotator {
 	 */
 	protected function reflectionReturnType(ReflectionMethod $method): string {
 		$doc = $method->getDocComment();
-		if ($doc !== false && preg_match('/@return\s+([^\s\*]+)/', $doc, $matches)) {
-			return $matches[1];
+		if ($doc !== false) {
+			$type = $this->extractReturnTagFromDocBlock($doc);
+			if ($type !== null) {
+				return $type;
+			}
 		}
 
 		$returnType = $method->getReturnType();
 		if ($returnType instanceof ReflectionNamedType) {
-			$type = $returnType->getName();
-			if ($type === 'mixed' || $type === 'null' || $type === 'void' || $type === 'never') {
-				return $type === 'void' || $type === 'never' ? 'mixed' : $type;
-			}
-			if (!$returnType->isBuiltin() && strpos($type, '\\') !== 0) {
-				$type = '\\' . $type;
-			}
-			if ($returnType->allowsNull()) {
+			$type = $this->stringifyReflectionType($returnType);
+			if ($returnType->allowsNull() && !str_contains($type, '|null') && $type !== 'mixed' && $type !== 'null') {
 				$type .= '|null';
 			}
 
@@ -450,11 +447,7 @@ class EntityAnnotator extends AbstractAnnotator {
 				if (!$part instanceof ReflectionNamedType) {
 					continue;
 				}
-				$piece = $part->getName();
-				if (!$part->isBuiltin() && strpos($piece, '\\') !== 0) {
-					$piece = '\\' . $piece;
-				}
-				$parts[] = $piece;
+				$parts[] = $this->stringifyReflectionType($part);
 			}
 			if ($parts) {
 				return implode('|', $parts);
@@ -462,6 +455,70 @@ class EntityAnnotator extends AbstractAnnotator {
 		}
 
 		return 'mixed';
+	}
+
+	/**
+	 * Pulls the `@return` payload out of a raw docblock string,
+	 * tracking `<>` bracket depth so generics with spaces (e.g.
+	 * `array<int, \Foo\Bar>`) are kept intact instead of being
+	 * truncated at the first inner space.
+	 *
+	 * @param string $docComment Raw docblock contents
+	 * @return string|null The captured type expression, or null if no `@return` tag.
+	 */
+	protected function extractReturnTagFromDocBlock(string $docComment): ?string {
+		if (!preg_match('/@return\s+(.+)$/m', $docComment, $matches)) {
+			return null;
+		}
+
+		$payload = $matches[1];
+		$bracketDepth = 0;
+		$end = null;
+		$length = strlen($payload);
+		for ($i = 0; $i < $length; $i++) {
+			$char = $payload[$i];
+			if ($char === '<') {
+				$bracketDepth++;
+
+				continue;
+			}
+			if ($char === '>') {
+				$bracketDepth--;
+
+				continue;
+			}
+			if ($bracketDepth === 0 && ($char === ' ' || $char === "\t" || $char === '*' || $char === "\n" || $char === "\r")) {
+				$end = $i;
+
+				break;
+			}
+		}
+
+		$type = $end !== null ? substr($payload, 0, $end) : $payload;
+
+		return rtrim($type) !== '' ? rtrim($type) : null;
+	}
+
+	/**
+	 * Render a single `ReflectionNamedType` as a docblock-friendly string.
+	 *
+	 * Builtins (`int`, `string`, `array`, …) and the relative-class keywords
+	 * `self` / `static` / `parent` are returned as-is; class names get a
+	 * leading backslash so they're unambiguous in `@property-read` docblocks.
+	 *
+	 * @param \ReflectionNamedType $type
+	 * @return string
+	 */
+	protected function stringifyReflectionType(ReflectionNamedType $type): string {
+		$name = $type->getName();
+		if ($type->isBuiltin()) {
+			return $name === 'void' || $name === 'never' ? 'mixed' : $name;
+		}
+		if (in_array($name, ['self', 'static', 'parent'], true)) {
+			return $name;
+		}
+
+		return strpos($name, '\\') === 0 ? $name : '\\' . $name;
 	}
 
 	/**

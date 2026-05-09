@@ -23,4 +23,14 @@ trait DatePrecisionEntityTrait {
 		};
 	}
 
+	/**
+	 * Generic return type with internal whitespace — exercises the
+	 * bracket-depth-aware `@return` parser.
+	 *
+	 * @return array<int, string>
+	 */
+	protected function _getDatePrecisionLabels(): array {
+		return ['exact', 'week', 'month', 'quarter'];
+	}
+
 }

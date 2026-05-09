@@ -11,6 +11,7 @@ class VirtualWithTrait extends Entity {
 	protected array $_virtual = [
 		'is_date_approximate',
 		'date_precision_string',
+		'date_precision_labels',
 		'in_class_virtual',
 	];
 
