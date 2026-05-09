@@ -17,6 +17,10 @@ use IdeHelper\Annotator\Traits\UseStatementsTrait;
 use IdeHelper\Utility\App;
 use IdeHelper\View\Helper\DocBlockHelper;
 use PHP_CodeSniffer\Files\File;
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionNamedType;
+use ReflectionUnionType;
 use RuntimeException;
 use Throwable;
 
@@ -57,7 +61,7 @@ class EntityAnnotator extends AbstractAnnotator {
 		}
 
 		$helper = new DocBlockHelper(new View());
-		$propertyHintMap = $this->propertyHintMap($content, $helper);
+		$propertyHintMap = $this->propertyHintMap($content, $helper, $name);
 
 		$virtualFields = $this->virtualFields($name);
 		// For BC reasons we cannot pass it as 3rd param, so we transport it on the helper as setter/getter
@@ -70,9 +74,10 @@ class EntityAnnotator extends AbstractAnnotator {
 	/**
 	 * @param string $content
 	 * @param \IdeHelper\View\Helper\DocBlockHelper $helper
+	 * @param string $name Entity short name; used to resolve the class via reflection.
 	 * @return array<string>
 	 */
-	protected function propertyHintMap(string $content, DocBlockHelper $helper): array {
+	protected function propertyHintMap(string $content, DocBlockHelper $helper, string $name = ''): array {
 		/** @var \Cake\Database\Schema\TableSchemaInterface $tableSchema */
 		$tableSchema = $this->getConfig('schema');
 		$columns = $tableSchema->columns();
@@ -89,6 +94,13 @@ class EntityAnnotator extends AbstractAnnotator {
 		$propertyHintMap = $helper->buildEntityPropertyHintTypeMap($schema);
 		$propertyHintMap = $this->buildExtendedEntityPropertyHintTypeMap($schema, $helper) + $propertyHintMap;
 		$propertyHintMap += $this->buildVirtualPropertyHintTypeMap($content);
+		// Reflection scan picks up `_get*` methods inherited from traits, parent
+		// classes, or abstract bases — the file-content tokenizer scan above
+		// can only see methods declared in the entity's own file body.
+		// Existing keys win, so this only fills gaps the file scan missed.
+		if ($name !== '') {
+			$propertyHintMap += $this->buildInheritedVirtualPropertyHintTypeMap($name);
+		}
 		$propertyHintMap += $helper->buildEntityAssociationHintTypeMap($schema);
 
 		return array_filter($propertyHintMap);
@@ -349,6 +361,107 @@ class EntityAnnotator extends AbstractAnnotator {
 		}
 
 		return $properties;
+	}
+
+	/**
+	 * Resolve `_get*` methods that are inherited into the entity class
+	 * from a trait, parent class, or abstract base. The tokenizer-based
+	 * `buildVirtualPropertyHintTypeMap()` only sees methods declared in
+	 * the entity's own file body and therefore misses these — leading
+	 * to manual `@property-read` lines being stripped on `--remove`.
+	 *
+	 * Methods declared directly on the entity class are intentionally
+	 * skipped here so the file-scan path stays the source of truth for
+	 * them; this method only fills in the inheritance gap.
+	 *
+	 * @param string $name Entity short name (filename without extension)
+	 * @return array<string, string>
+	 */
+	protected function buildInheritedVirtualPropertyHintTypeMap(string $name): array {
+		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
+		$className = App::className(($plugin ? $plugin . '.' : '') . $name, 'Model/Entity');
+		if (!$className || !class_exists($className)) {
+			return [];
+		}
+
+		$reflection = new ReflectionClass($className);
+		$entityFile = $reflection->getFileName();
+
+		$properties = [];
+		foreach ($reflection->getMethods(ReflectionMethod::IS_PROTECTED) as $method) {
+			if (!preg_match('#^_get([A-Z][a-zA-Z0-9]+)$#', $method->getName(), $matches)) {
+				continue;
+			}
+
+			// Skip methods physically written in the entity's own file —
+			// the file-scan path already handles those. We only want
+			// trait / parent / abstract-default inheritance here.
+			//
+			// `getDeclaringClass()` is unreliable for traits: PHP reports
+			// trait methods as declared on the using class, so a name
+			// equality check would incorrectly skip them. Compare file
+			// paths instead — a trait method's `getFileName()` points at
+			// the trait file, not the entity file.
+			$methodFile = $method->getFileName();
+			if ($methodFile === false || $methodFile === $entityFile) {
+				continue;
+			}
+
+			$property = Inflector::underscore($matches[1]);
+			$properties[$property] = $this->reflectionReturnType($method);
+		}
+
+		return $properties;
+	}
+
+	/**
+	 * Pulls a docblock-friendly type out of a `_get*` method via reflection.
+	 * Prefers a `@return` docblock entry (richer types — generics, unions,
+	 * fully-qualified class refs); falls back to the PHP return type hint.
+	 *
+	 * @param \ReflectionMethod $method
+	 * @return string
+	 */
+	protected function reflectionReturnType(ReflectionMethod $method): string {
+		$doc = $method->getDocComment();
+		if ($doc !== false && preg_match('/@return\s+([^\s\*]+)/', $doc, $matches)) {
+			return $matches[1];
+		}
+
+		$returnType = $method->getReturnType();
+		if ($returnType instanceof ReflectionNamedType) {
+			$type = $returnType->getName();
+			if ($type === 'mixed' || $type === 'null' || $type === 'void' || $type === 'never') {
+				return $type === 'void' || $type === 'never' ? 'mixed' : $type;
+			}
+			if (!$returnType->isBuiltin() && strpos($type, '\\') !== 0) {
+				$type = '\\' . $type;
+			}
+			if ($returnType->allowsNull()) {
+				$type .= '|null';
+			}
+
+			return $type;
+		}
+
+		if ($returnType instanceof ReflectionUnionType) {
+			$parts = [];
+			foreach ($returnType->getTypes() as $part) {
+				if (!$part instanceof ReflectionNamedType) {
+					continue;
+				}
+				$piece = $part->getName();
+				if (!$part->isBuiltin() && strpos($piece, '\\') !== 0) {
+					$piece = '\\' . $piece;
+				}
+				$parts[] = $piece;
+			}
+			if ($parts) {
+				return implode('|', $parts);
+			}
+		}
+
+		return 'mixed';
 	}
 
 	/**

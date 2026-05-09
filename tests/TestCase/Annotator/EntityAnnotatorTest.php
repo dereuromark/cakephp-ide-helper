@@ -313,6 +313,46 @@ class EntityAnnotatorTest extends TestCase {
 	}
 
 	/**
+	 * Regression test for trait-backed virtual properties: the
+	 * tokenizer-based scan only sees `_get*` methods declared in
+	 * the entity's own file body, so trait-imported `_get*` methods
+	 * used to be invisible — and `--remove` would strip the manual
+	 * `@property-read` lines for them.
+	 *
+	 * The reflection fallback in buildInheritedVirtualPropertyHintTypeMap()
+	 * picks them up. Verifies trait-virtuals AND in-class virtuals
+	 * both end up in the generated docblock.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateWithTraitBackedVirtualProperties() {
+		/** @var \TestApp\Model\Table\FoosTable $Table */
+		$Table = TableRegistry::getTableLocator()->get('Foos');
+
+		$schema = $Table->getSchema();
+		$associations = $Table->associations();
+		$annotator = $this->_getAnnotatorMock(['schema' => $schema, 'associations' => $associations]);
+
+		$expectedContent = str_replace(["\r\n", "\r"], "\n", file_get_contents(TEST_FILES . 'Model/Entity/VirtualWithTrait.php'));
+		$callback = function ($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->_displayDiff($expectedContent, $value);
+			}
+
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = APP . 'Model/Entity/VirtualWithTrait.php';
+		$annotator->annotate($path);
+
+		$output = $this->out->output();
+
+		$this->assertTextContains('annotations added', $output);
+	}
+
+	/**
 	 * @return void
 	 */
 	public function testAnnotateWithVirtualPropertiesAndReturnTypes() {
