@@ -233,10 +233,6 @@ class EntityAnnotator extends AbstractAnnotator {
 			return true;
 		}
 
-		if (in_array($association->type(), [Association::ONE_TO_MANY, Association::MANY_TO_MANY], true)) {
-			return true;
-		}
-
 		if ($association->type() === Association::MANY_TO_ONE) {
 			/** @var array<string>|string $field */
 			$field = $association->getForeignKey();
