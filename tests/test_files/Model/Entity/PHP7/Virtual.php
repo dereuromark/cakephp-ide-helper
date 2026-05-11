@@ -13,7 +13,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\DateTime|null $modified
  * @property string $virtual_two
  * @property array<int, array<string>> $nested_generic
- * @property \TestApp\Model\Entity\Wheel[] $wheels
+ * @property \TestApp\Model\Entity\Wheel[]|null $wheels
  *
  * @property-read string|null $virtual_one
  */

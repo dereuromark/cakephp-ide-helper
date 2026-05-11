@@ -22,14 +22,64 @@ class MethodAnnotation extends AbstractAnnotation {
 		parent::__construct($type, $index);
 
 		$description = '';
-		$closingBrace = strrpos($method, ') ');
-		if ($closingBrace !== false && $closingBrace !== strlen($method) - 1) {
+		$closingBrace = $this->findSignatureClosingParenthesis($method);
+		if ($closingBrace !== null && isset($method[$closingBrace + 1]) && $method[$closingBrace + 1] === ' ') {
 			$description = substr($method, $closingBrace + 2);
 			$method = substr($method, 0, $closingBrace + 1);
 		}
 
 		$this->method = $method;
 		$this->description = $description;
+	}
+
+	/**
+	 * @param string $method
+	 * @return int|null
+	 */
+	protected function findSignatureClosingParenthesis(string $method): ?int {
+		$openingParenthesis = strpos($method, '(');
+		if ($openingParenthesis === false) {
+			return null;
+		}
+
+		$depth = 0;
+		$quote = null;
+		$length = strlen($method);
+		for ($i = $openingParenthesis; $i < $length; $i++) {
+			$char = $method[$i];
+			if ($quote !== null) {
+				if ($char === '\\') {
+					$i++;
+
+					continue;
+				}
+				if ($char === $quote) {
+					$quote = null;
+				}
+
+				continue;
+			}
+			if ($char === '\'' || $char === '"') {
+				$quote = $char;
+
+				continue;
+			}
+			if ($char === '(') {
+				$depth++;
+
+				continue;
+			}
+			if ($char !== ')') {
+				continue;
+			}
+
+			$depth--;
+			if ($depth === 0) {
+				return $i;
+			}
+		}
+
+		return null;
 	}
 
 	/**

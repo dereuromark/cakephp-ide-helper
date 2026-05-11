@@ -11,7 +11,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\Date $offer_date
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime|null $modified
- * @property \TestApp\Model\Entity\Wheel[] $wheels
+ * @property \TestApp\Model\Entity\Wheel[]|null $wheels
  *
  * @property-read string|null $virtual_one
  */
