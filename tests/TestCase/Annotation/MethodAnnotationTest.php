@@ -68,6 +68,19 @@ class MethodAnnotationTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testBuildWithQuotedParenthesisInDefaultValue() {
+		$annotation = new MethodAnnotation('\\Foo\\Model\\Entity\\Bar', 'doSth(string $label = "foo) bar") details');
+
+		$result = (string)$annotation;
+
+		$this->assertSame('@method \\Foo\\Model\\Entity\\Bar doSth(string $label = "foo) bar") details', $result);
+		$this->assertSame('details', $annotation->getDescription());
+		$this->assertSame('doSth(string $label = "foo) bar")', $annotation->getMethod());
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testIndex() {
 		$annotation = new MethodAnnotation('', '', 1);
 
