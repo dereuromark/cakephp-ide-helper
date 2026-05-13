@@ -427,7 +427,7 @@ class ModelAnnotatorTest extends TestCase {
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
-		$this->assertTextContains('  -> 13 annotations added', $output);
+		$this->assertTextContains('  -> 9 annotations added', $output);
 	}
 
 	/**
@@ -459,6 +459,10 @@ class ModelAnnotatorTest extends TestCase {
 		$this->assertStringContainsString('newEmptyEntity()', $capture);
 		$this->assertStringContainsString(' get(mixed $primaryKey', $capture);
 		$this->assertStringContainsString('findOrCreate(', $capture);
+		$this->assertStringContainsString('newEntity(', $capture);
+		$this->assertStringContainsString('newEntities(', $capture);
+		$this->assertStringContainsString('patchEntity(', $capture);
+		$this->assertStringContainsString('patchEntities(', $capture);
 	}
 
 	/**
@@ -486,6 +490,8 @@ class ModelAnnotatorTest extends TestCase {
 		$this->assertStringContainsString('newEmptyEntity()', $capture);
 		$this->assertStringContainsString(' get(mixed $primaryKey', $capture);
 		$this->assertStringContainsString('findOrCreate(', $capture);
+		$this->assertStringContainsString('newEntity(', $capture);
+		$this->assertStringContainsString('patchEntity(', $capture);
 	}
 
 	/**
@@ -514,8 +520,14 @@ class ModelAnnotatorTest extends TestCase {
 
 		$this->assertStringContainsString('save(\TestApp\Model\Entity\BarBar $entity', $capture);
 		$this->assertStringContainsString('saveOrFail(\TestApp\Model\Entity\BarBar $entity', $capture);
+		// `patchEntity()` and `patchEntities()` are also kept under `concreteEntitiesInParam`.
+		$this->assertStringContainsString('patchEntity(\TestApp\Model\Entity\BarBar $entity', $capture);
+		$this->assertStringContainsString('patchEntities(', $capture);
 		// `newEmptyEntity` remains suppressed because it has no parameters to narrow.
 		$this->assertStringNotContainsString('newEmptyEntity()', $capture);
+		// `newEntity` / `newEntities` aren't entity-typed in their parameters, so they
+		// remain suppressed in non-detailed mode.
+		$this->assertStringNotContainsString('newEntity(', $capture);
 	}
 
 	/**
@@ -544,6 +556,11 @@ class ModelAnnotatorTest extends TestCase {
 		$this->assertStringContainsString('get(mixed $primaryKey, array<string, mixed>|string', $capture);
 		// detailed mode also narrows `$search` on `findOrCreate()`, so its override stays.
 		$this->assertStringContainsString('findOrCreate(\Cake\ORM\Query\SelectQuery<\TestApp\Model\Entity\BarBar>|callable|array<string, mixed>', $capture);
+		// detailed mode narrows `$data` on the marshalling family, so their overrides stay.
+		$this->assertStringContainsString('newEntity(array<string, mixed> $data', $capture);
+		$this->assertStringContainsString('newEntities(array<array<string, mixed>> $data', $capture);
+		$this->assertStringContainsString('patchEntity(', $capture);
+		$this->assertStringContainsString('patchEntities(', $capture);
 	}
 
 	/**

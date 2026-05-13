@@ -262,8 +262,10 @@ class ModelAnnotator extends AbstractAnnotator {
 			if (!$entityTemplateEmitted) {
 				$annotations[] = "@method {$fullClassName} newEmptyEntity()";
 			}
-			$annotations[] = "@method {$fullClassName} newEntity({$dataType} \$data, {$optionsType} \$options = [])";
-			$annotations[] = "@method {$fullClassNameCollection} newEntities({$dataListType} \$data, {$optionsType} \$options = [])";
+			if (!$entityTemplateEmitted || $detailed) {
+				$annotations[] = "@method {$fullClassName} newEntity({$dataType} \$data, {$optionsType} \$options = [])";
+				$annotations[] = "@method {$fullClassNameCollection} newEntities({$dataListType} \$data, {$optionsType} \$options = [])";
+			}
 
 			if (!$entityTemplateEmitted || $detailed) {
 				$annotations[] = "@method {$fullClassName} get(mixed \$primaryKey, {$finderType} \$finder = 'all', \Psr\SimpleCache\CacheInterface|string|null \$cache = null, \Closure|string|null \$cacheKey = null, mixed ...\$args)";
@@ -275,8 +277,12 @@ class ModelAnnotator extends AbstractAnnotator {
 				$annotations[] = "@method {$fullClassName} findOrCreate({$findOrCreateSearchType} \$search, ?callable \$callback = null, {$optionsType} \$options = [])";
 			}
 
-			$annotations[] = "@method {$fullClassName} patchEntity({$entityInterface} \$entity, {$dataType} \$data, {$optionsType} \$options = [])";
-			$annotations[] = "@method {$fullClassNameCollection} patchEntities({$iterable} \$entities, {$dataListType} \$data, {$optionsType} \$options = [])";
+			if (!$entityTemplateEmitted || $detailed || $concrete) {
+				$annotations[] = "@method {$fullClassName} patchEntity({$entityInterface} \$entity, {$dataType} \$data, {$optionsType} \$options = [])";
+			}
+			if (!$entityTemplateEmitted || $detailed || $concrete) {
+				$annotations[] = "@method {$fullClassNameCollection} patchEntities({$iterable} \$entities, {$dataListType} \$data, {$optionsType} \$options = [])";
+			}
 
 			if (!$entityTemplateEmitted || $concrete) {
 				$annotations[] = "@method {$fullClassName}|false save({$entityInterface} \$entity, {$optionsType} \$options = [])";
