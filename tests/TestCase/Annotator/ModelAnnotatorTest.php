@@ -111,6 +111,8 @@ class ModelAnnotatorTest extends TestCase {
 		Configure::delete('IdeHelper.assocsAsGenerics');
 		Configure::delete('IdeHelper.tableEntityQuery');
 		Configure::delete('IdeHelper.tableBehaviors');
+		Configure::delete('IdeHelper.concreteEntitiesInParam');
+		Configure::delete('IdeHelper.genericsInParam');
 	}
 
 	/**
@@ -393,7 +395,119 @@ class ModelAnnotatorTest extends TestCase {
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
-		$this->assertTextContains('  -> 18 annotations added', $output);
+		$this->assertTextContains('  -> 14 annotations added', $output);
+	}
+
+	/**
+	 * Regression: even when CakePHP supports `TEntity`, the @method overrides must
+	 * still be emitted if `IdeHelper.tableBehaviors` excludes `extends`. Without an
+	 * `@extends Table<..., TEntity>` annotation there is no parent generic for PHPStan
+	 * to resolve from, so suppressing the overrides would lose the concrete types.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateWithEntityTemplateKeepsOverridesWhenExtendsDisabled() {
+		Configure::write('IdeHelper.tableBehaviors', 'mixin');
+
+		$annotator = $this->_getEntityTemplateAnnotatorMock([]);
+
+		$capture = '';
+		$annotator->expects($this->once())
+			->method('storeFile')
+			->with($this->anything(), $this->callback(function ($value) use (&$capture) {
+				$capture = $value;
+
+				return true;
+			}));
+
+		$annotator->annotate(APP . 'Model/Table/BarBarsTable.php');
+
+		$this->assertStringContainsString('save(', $capture);
+		$this->assertStringContainsString('saveOrFail(', $capture);
+		$this->assertStringContainsString('newEmptyEntity()', $capture);
+		$this->assertStringContainsString(' get(mixed $primaryKey', $capture);
+	}
+
+	/**
+	 * Regression: when the immediate parent is a custom base table (not `\Cake\ORM\Table`),
+	 * we cannot assume the parent re-declares the entity template, so the @method
+	 * overrides must still be emitted even on CakePHP 5.4+.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateWithEntityTemplateKeepsOverridesForCustomParent() {
+		$annotator = $this->_getEntityTemplateAnnotatorMock([]);
+
+		$capture = '';
+		$annotator->method('storeFile')
+			->with($this->anything(), $this->callback(function ($value) use (&$capture) {
+				$capture = $value;
+
+				return true;
+			}));
+
+		$annotator->annotate(APP . 'Model/Table/BarBarsAbstractTable.php');
+
+		$this->assertStringContainsString('save(', $capture);
+		$this->assertStringContainsString('saveOrFail(', $capture);
+		$this->assertStringContainsString('newEmptyEntity()', $capture);
+		$this->assertStringContainsString(' get(mixed $primaryKey', $capture);
+	}
+
+	/**
+	 * Regression: in `concreteEntitiesInParam` mode the `save()` and `saveOrFail()`
+	 * overrides narrow `$entity` to the concrete entity class, which the parent's
+	 * `EntityInterface` param does not provide. Keep the overrides when this
+	 * narrowing is requested.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateWithEntityTemplateKeepsSaveOverridesWhenConcreteEntitiesInParam() {
+		Configure::write('IdeHelper.concreteEntitiesInParam', true);
+
+		$annotator = $this->_getEntityTemplateAnnotatorMock([]);
+
+		$capture = '';
+		$annotator->expects($this->once())
+			->method('storeFile')
+			->with($this->anything(), $this->callback(function ($value) use (&$capture) {
+				$capture = $value;
+
+				return true;
+			}));
+
+		$annotator->annotate(APP . 'Model/Table/BarBarsTable.php');
+
+		$this->assertStringContainsString('save(\TestApp\Model\Entity\BarBar $entity', $capture);
+		$this->assertStringContainsString('saveOrFail(\TestApp\Model\Entity\BarBar $entity', $capture);
+		// `newEmptyEntity` remains suppressed because it has no parameters to narrow.
+		$this->assertStringNotContainsString('newEmptyEntity()', $capture);
+	}
+
+	/**
+	 * Regression: in `genericsInParam=detailed` mode the `get()` override narrows
+	 * `$finder` to `array<string, mixed>|string`, narrower than the parent's
+	 * `array|string`. Keep the override when this narrowing is requested.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateWithEntityTemplateKeepsGetWhenDetailedGenerics() {
+		Configure::write('IdeHelper.genericsInParam', 'detailed');
+
+		$annotator = $this->_getEntityTemplateAnnotatorMock([]);
+
+		$capture = '';
+		$annotator->expects($this->once())
+			->method('storeFile')
+			->with($this->anything(), $this->callback(function ($value) use (&$capture) {
+				$capture = $value;
+
+				return true;
+			}));
+
+		$annotator->annotate(APP . 'Model/Table/BarBarsTable.php');
+
+		$this->assertStringContainsString('get(mixed $primaryKey, array<string, mixed>|string', $capture);
 	}
 
 }
