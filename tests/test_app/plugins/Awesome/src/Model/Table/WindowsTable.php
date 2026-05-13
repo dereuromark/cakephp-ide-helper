@@ -4,6 +4,8 @@ namespace Awesome\Model\Table;
 use Cake\ORM\Table;
 
 /**
+ * @extends \Cake\ORM\Table<array{}, \Cake\ORM\Entity>
+ *
  * @property \Cake\ORM\Association\BelongsTo<\Awesome\Model\Table\HousesTable> $Houses
  */
 class WindowsTable extends Table {

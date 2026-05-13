@@ -578,12 +578,14 @@ class ModelAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * Whether `\Cake\ORM\Table` declares a second `TEntity` template parameter (CakePHP 5.4+).
+	 * Whether `\Cake\ORM\Table` declares a second `TEntity` template parameter.
+	 *
+	 * Introduced via cakephp/cakephp#19388, first released in CakePHP 5.3.4.
 	 *
 	 * @return bool
 	 */
 	protected function supportsEntityTemplate(): bool {
-		return version_compare(Configure::version(), '5.4.0', '>=');
+		return version_compare(Configure::version(), '5.3.4', '>=');
 	}
 
 	/**

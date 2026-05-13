@@ -126,7 +126,17 @@ class ModelAnnotatorTest extends TestCase {
 			AbstractAnnotator::CONFIG_VERBOSE => true,
 		];
 
-		return $this->getMockBuilder(ModelAnnotator::class)->onlyMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
+		// Force the legacy (no-entity-template) path so fixture-comparison tests stay
+		// stable regardless of which CakePHP version is installed. The entity-template
+		// path is exercised separately via _getEntityTemplateAnnotatorMock().
+		$mock = $this->getMockBuilder(ModelAnnotator::class)
+			->onlyMethods(['storeFile', 'supportsEntityTemplate', 'supportsEntityTemplateFindFamily'])
+			->setConstructorArgs([$this->io, $params])
+			->getMock();
+		$mock->method('supportsEntityTemplate')->willReturn(false);
+		$mock->method('supportsEntityTemplateFindFamily')->willReturn(false);
+
+		return $mock;
 	}
 
 	/**
