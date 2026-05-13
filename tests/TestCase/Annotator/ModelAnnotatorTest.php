@@ -141,10 +141,32 @@ class ModelAnnotatorTest extends TestCase {
 		];
 
 		$mock = $this->getMockBuilder(ModelAnnotator::class)
-			->onlyMethods(['storeFile', 'supportsEntityTemplate'])
+			->onlyMethods(['storeFile', 'supportsEntityTemplate', 'supportsEntityTemplateFindFamily'])
 			->setConstructorArgs([$this->io, $params])
 			->getMock();
 		$mock->method('supportsEntityTemplate')->willReturn(true);
+		$mock->method('supportsEntityTemplateFindFamily')->willReturn(true);
+
+		return $mock;
+	}
+
+	/**
+	 * @param array $params
+	 * @return \IdeHelper\Annotator\ModelAnnotator|\PHPUnit\Framework\MockObject\MockObject
+	 */
+	protected function _getEntityTemplateWithoutFindFamilyAnnotatorMock(array $params): ModelAnnotator {
+		$params += [
+			AbstractAnnotator::CONFIG_REMOVE => true,
+			AbstractAnnotator::CONFIG_DRY_RUN => true,
+			AbstractAnnotator::CONFIG_VERBOSE => true,
+		];
+
+		$mock = $this->getMockBuilder(ModelAnnotator::class)
+			->onlyMethods(['storeFile', 'supportsEntityTemplate', 'supportsEntityTemplateFindFamily'])
+			->setConstructorArgs([$this->io, $params])
+			->getMock();
+		$mock->method('supportsEntityTemplate')->willReturn(true);
+		$mock->method('supportsEntityTemplateFindFamily')->willReturn(false);
 
 		return $mock;
 	}
@@ -395,7 +417,7 @@ class ModelAnnotatorTest extends TestCase {
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
-		$this->assertTextContains('  -> 14 annotations added', $output);
+		$this->assertTextContains('  -> 13 annotations added', $output);
 	}
 
 	/**
@@ -426,6 +448,7 @@ class ModelAnnotatorTest extends TestCase {
 		$this->assertStringContainsString('saveOrFail(', $capture);
 		$this->assertStringContainsString('newEmptyEntity()', $capture);
 		$this->assertStringContainsString(' get(mixed $primaryKey', $capture);
+		$this->assertStringContainsString('findOrCreate(', $capture);
 	}
 
 	/**
@@ -452,6 +475,7 @@ class ModelAnnotatorTest extends TestCase {
 		$this->assertStringContainsString('saveOrFail(', $capture);
 		$this->assertStringContainsString('newEmptyEntity()', $capture);
 		$this->assertStringContainsString(' get(mixed $primaryKey', $capture);
+		$this->assertStringContainsString('findOrCreate(', $capture);
 	}
 
 	/**
@@ -508,6 +532,171 @@ class ModelAnnotatorTest extends TestCase {
 		$annotator->annotate(APP . 'Model/Table/BarBarsTable.php');
 
 		$this->assertStringContainsString('get(mixed $primaryKey, array<string, mixed>|string', $capture);
+		// detailed mode also narrows `$search` on `findOrCreate()`, so its override stays.
+		$this->assertStringContainsString('findOrCreate(\Cake\ORM\Query\SelectQuery<\TestApp\Model\Entity\BarBar>|callable|array<string, mixed>', $capture);
+	}
+
+	/**
+	 * `IdeHelper.tableEntityQuery` historically emits a `find()` @method override
+	 * narrowed to `SelectQuery<Entity>`. With the entity-template emitted, the
+	 * parent's `find()` already returns `SelectQuery<TEntity|array>` — so we drop
+	 * the override on Cake 5.4+ (the `|array` fallback is actually more truthful
+	 * since `find()` can be hydration-disabled).
+	 *
+	 * @return void
+	 */
+	public function testAnnotateWithEntityTemplateSuppressesTableEntityQueryFindOverride() {
+		Configure::write('IdeHelper.tableEntityQuery', true);
+
+		$annotator = $this->_getEntityTemplateAnnotatorMock([]);
+
+		$capture = '';
+		$annotator->expects($this->once())
+			->method('storeFile')
+			->with($this->anything(), $this->callback(function ($value) use (&$capture) {
+				$capture = $value;
+
+				return true;
+			}));
+
+		$annotator->annotate(APP . 'Model/Table/BarBarsTable.php');
+
+		$this->assertStringNotContainsString('SelectQuery<\TestApp\Model\Entity\BarBar> find(', $capture);
+	}
+
+	/**
+	 * Regression: when the entity-template guards do NOT hold (e.g. `tableBehaviors=mixin`
+	 * so no @extends is emitted), the `find()` override under `tableEntityQuery` must
+	 * still be emitted — the parent generic isn't available to resolve from.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateWithEntityTemplateKeepsTableEntityQueryFindOverrideWhenExtendsDisabled() {
+		Configure::write('IdeHelper.tableEntityQuery', true);
+		Configure::write('IdeHelper.tableBehaviors', 'mixin');
+
+		$annotator = $this->_getEntityTemplateAnnotatorMock([]);
+
+		$capture = '';
+		$annotator->expects($this->once())
+			->method('storeFile')
+			->with($this->anything(), $this->callback(function ($value) use (&$capture) {
+				$capture = $value;
+
+				return true;
+			}));
+
+		$annotator->annotate(APP . 'Model/Table/BarBarsTable.php');
+
+		$this->assertStringContainsString('SelectQuery<\TestApp\Model\Entity\BarBar> find(', $capture);
+	}
+
+	/**
+	 * `loadInto()` is only emitted in `concreteEntitiesInParam=strict` mode. With
+	 * the entity-template emitted, the parent's `loadInto()` already declares
+	 * `TEntity|array<TEntity>` for both param and return, so the override is
+	 * redundant on Cake 5.4+ (after cakephp/cakephp#19438).
+	 *
+	 * @return void
+	 */
+	public function testAnnotateWithEntityTemplateSuppressesStrictLoadIntoOverride() {
+		Configure::write('IdeHelper.concreteEntitiesInParam', 'strict');
+
+		$annotator = $this->_getEntityTemplateAnnotatorMock([]);
+
+		$capture = '';
+		$annotator->expects($this->once())
+			->method('storeFile')
+			->with($this->anything(), $this->callback(function ($value) use (&$capture) {
+				$capture = $value;
+
+				return true;
+			}));
+
+		$annotator->annotate(APP . 'Model/Table/BarBarsTable.php');
+
+		$this->assertStringNotContainsString('loadInto(', $capture);
+	}
+
+	/**
+	 * Regression: on CakePHP versions that have the entity template (5.3.4+) but
+	 * NOT the find-family TEntity propagation (pre-#19438), the find/findOrCreate/
+	 * loadInto overrides must still be emitted even though the entity template
+	 * is otherwise present. The other entity-returning methods (`get`/`saveOrFail`
+	 * etc.) remain suppressed because their TEntity propagation landed earlier.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateWithEntityTemplateKeepsFindAndFindOrCreateWithoutFindFamilySupport() {
+		Configure::write('IdeHelper.tableEntityQuery', true);
+
+		$annotator = $this->_getEntityTemplateWithoutFindFamilyAnnotatorMock([]);
+
+		$capture = '';
+		$annotator->expects($this->once())
+			->method('storeFile')
+			->with($this->anything(), $this->callback(function ($value) use (&$capture) {
+				$capture = $value;
+
+				return true;
+			}));
+
+		$annotator->annotate(APP . 'Model/Table/BarBarsTable.php');
+
+		$this->assertStringContainsString('SelectQuery<\TestApp\Model\Entity\BarBar> find(', $capture);
+		$this->assertStringContainsString('findOrCreate(', $capture);
+		// Non-find-family methods are still suppressed because the entity template
+		// itself IS present and their parent annotations already carry TEntity.
+		$this->assertStringNotContainsString('newEmptyEntity()', $capture);
+		$this->assertStringNotContainsString('saveOrFail(', $capture);
+	}
+
+	/**
+	 * Mirrors the previous test for `loadInto()`, which only emits in strict mode.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateWithEntityTemplateKeepsStrictLoadIntoWithoutFindFamilySupport() {
+		Configure::write('IdeHelper.concreteEntitiesInParam', 'strict');
+
+		$annotator = $this->_getEntityTemplateWithoutFindFamilyAnnotatorMock([]);
+
+		$capture = '';
+		$annotator->expects($this->once())
+			->method('storeFile')
+			->with($this->anything(), $this->callback(function ($value) use (&$capture) {
+				$capture = $value;
+
+				return true;
+			}));
+
+		$annotator->annotate(APP . 'Model/Table/BarBarsTable.php');
+
+		$this->assertStringContainsString('loadInto(', $capture);
+	}
+
+	/**
+	 * Regression: in strict mode without the entity-template guards (e.g. on a
+	 * custom-parent table), the `loadInto()` override is still needed.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateWithEntityTemplateKeepsStrictLoadIntoOverrideForCustomParent() {
+		Configure::write('IdeHelper.concreteEntitiesInParam', 'strict');
+
+		$annotator = $this->_getEntityTemplateAnnotatorMock([]);
+
+		$capture = '';
+		$annotator->method('storeFile')
+			->with($this->anything(), $this->callback(function ($value) use (&$capture) {
+				$capture = $value;
+
+				return true;
+			}));
+
+		$annotator->annotate(APP . 'Model/Table/BarBarsAbstractTable.php');
+
+		$this->assertStringContainsString('loadInto(', $capture);
 	}
 
 }

@@ -246,11 +246,18 @@ class ModelAnnotator extends AbstractAnnotator {
 			//    `TEntity` unless they re-declare it themselves).
 			//
 			// Per-method gates also account for parameter narrowing the parent doesn't
-			// provide (detailed `$finder` on `get()`, concrete `$entity` on `saveOrFail()`),
-			// so we keep those overrides when the user has opted into narrowing.
+			// provide (detailed `$finder` on `get()`, detailed `$search` on `findOrCreate()`,
+			// concrete `$entity` on `save()`/`saveOrFail()`), so we keep those overrides
+			// when the user has opted into narrowing.
+			//
+			// `find()`/`findOrCreate()`/`loadInto()` were only updated to flow `TEntity`
+			// in cakephp/cakephp#19438 — a strictly later change than the class template
+			// itself — so they have their own feature gate via
+			// `supportsEntityTemplateFindFamily()`.
 			$entityTemplateEmitted = $this->supportsEntityTemplate()
 				&& in_array(static::BEHAVIOR_EXTENDS, $this->_config[static::TABLE_BEHAVIORS], true)
 				&& ($parentClass === '' || ltrim($parentClass, '\\') === 'Cake\\ORM\\Table');
+			$entityTemplateFindFamily = $entityTemplateEmitted && $this->supportsEntityTemplateFindFamily();
 
 			if (!$entityTemplateEmitted) {
 				$annotations[] = "@method {$fullClassName} newEmptyEntity()";
@@ -261,10 +268,12 @@ class ModelAnnotator extends AbstractAnnotator {
 			if (!$entityTemplateEmitted || $detailed) {
 				$annotations[] = "@method {$fullClassName} get(mixed \$primaryKey, {$finderType} \$finder = 'all', \Psr\SimpleCache\CacheInterface|string|null \$cache = null, \Closure|string|null \$cacheKey = null, mixed ...\$args)";
 			}
-			if (Configure::read('IdeHelper.tableEntityQuery')) {
+			if (Configure::read('IdeHelper.tableEntityQuery') && !$entityTemplateFindFamily) {
 				$annotations[] = "@method \Cake\ORM\Query\SelectQuery<{$fullClassName}> find(string \$type = 'all', mixed ...\$args)";
 			}
-			$annotations[] = "@method {$fullClassName} findOrCreate({$findOrCreateSearchType} \$search, ?callable \$callback = null, {$optionsType} \$options = [])";
+			if (!$entityTemplateFindFamily || $detailed) {
+				$annotations[] = "@method {$fullClassName} findOrCreate({$findOrCreateSearchType} \$search, ?callable \$callback = null, {$optionsType} \$options = [])";
+			}
 
 			$annotations[] = "@method {$fullClassName} patchEntity({$entityInterface} \$entity, {$dataType} \$data, {$optionsType} \$options = [])";
 			$annotations[] = "@method {$fullClassNameCollection} patchEntities({$iterable} \$entities, {$dataListType} \$data, {$optionsType} \$options = [])";
@@ -284,7 +293,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			$annotations[] = "@method {$resultSetInterfaceCollection}|false deleteMany({$iterable} \$entities, {$optionsType} \$options = [])";
 			$annotations[] = "@method {$resultSetInterfaceCollection} deleteManyOrFail({$iterable} \$entities, {$optionsType} \$options = [])";
 
-			if ($strict) {
+			if ($strict && !$entityTemplateFindFamily) {
 				$annotations[] = "@method {$fullClassName}|array<{$fullClassName}> loadInto({$fullClassName}|array<{$fullClassName}> \$entities, array \$contain)";
 			}
 		}
@@ -569,12 +578,31 @@ class ModelAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * Whether `\Cake\ORM\Table` declares a second `TEntity` template parameter (CakePHP 5.4+).
+	 * Whether `\Cake\ORM\Table` declares a second `TEntity` template parameter.
+	 *
+	 * Introduced via cakephp/cakephp#19388, first released in CakePHP 5.3.4.
 	 *
 	 * @return bool
 	 */
 	protected function supportsEntityTemplate(): bool {
-		return version_compare(Configure::version(), '5.4.0', '>=');
+		return version_compare(Configure::version(), '5.3.4', '>=');
+	}
+
+	/**
+	 * Whether `\Cake\ORM\Table::find()` / `findOrCreate()` / `loadInto()` propagate
+	 * the entity template `TEntity` through their `@return`.
+	 *
+	 * This is a strictly later change than {@see static::supportsEntityTemplate()} —
+	 * the class-level template was added separately from the find-family annotations.
+	 *
+	 * Requires cakephp/cakephp#19438, currently milestoned for CakePHP 5.3.6. The
+	 * version gate below MUST be set to the actual release containing that change
+	 * before this is mark-able as non-draft.
+	 *
+	 * @return bool
+	 */
+	protected function supportsEntityTemplateFindFamily(): bool {
+		return version_compare(Configure::version(), '5.3.6', '>=');
 	}
 
 }
