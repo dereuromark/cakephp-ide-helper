@@ -230,11 +230,37 @@ class ModelAnnotator extends AbstractAnnotator {
 			 *
 			 * @link \Bake\View\Helper\DocBlockHelper::buildTableAnnotations()
 			 */
-			$annotations[] = "@method {$fullClassName} newEmptyEntity()";
+			// On CakePHP 5.4+, `\Cake\ORM\Table` declares an entity template
+			// (`@template TEntity`). When we emit `@extends \Cake\ORM\Table<..., TEntity>`,
+			// PHPStan resolves entity-returning methods from the parent on its own AND
+			// preserves the parent's `@throws` declarations — so re-emitting `@method`
+			// overrides for those methods would only strip `@throws`, producing false
+			// `catch.neverThrown` errors.
+			//
+			// Gates (all must hold to consider an override redundant):
+			//  - Cake supports the entity template;
+			//  - `IdeHelper.tableBehaviors` includes `extends` (otherwise `@extends`
+			//    isn't emitted by addBehaviorExtends() and the parent generic is absent);
+			//  - the table's direct parent is `\Cake\ORM\Table` (intermediate base
+			//    classes such as `AbstractTable extends Table` don't propagate
+			//    `TEntity` unless they re-declare it themselves).
+			//
+			// Per-method gates also account for parameter narrowing the parent doesn't
+			// provide (detailed `$finder` on `get()`, concrete `$entity` on `saveOrFail()`),
+			// so we keep those overrides when the user has opted into narrowing.
+			$entityTemplateEmitted = $this->supportsEntityTemplate()
+				&& in_array(static::BEHAVIOR_EXTENDS, $this->_config[static::TABLE_BEHAVIORS], true)
+				&& ($parentClass === '' || ltrim($parentClass, '\\') === 'Cake\\ORM\\Table');
+
+			if (!$entityTemplateEmitted) {
+				$annotations[] = "@method {$fullClassName} newEmptyEntity()";
+			}
 			$annotations[] = "@method {$fullClassName} newEntity({$dataType} \$data, {$optionsType} \$options = [])";
 			$annotations[] = "@method {$fullClassNameCollection} newEntities({$dataListType} \$data, {$optionsType} \$options = [])";
 
-			$annotations[] = "@method {$fullClassName} get(mixed \$primaryKey, {$finderType} \$finder = 'all', \Psr\SimpleCache\CacheInterface|string|null \$cache = null, \Closure|string|null \$cacheKey = null, mixed ...\$args)";
+			if (!$entityTemplateEmitted || $detailed) {
+				$annotations[] = "@method {$fullClassName} get(mixed \$primaryKey, {$finderType} \$finder = 'all', \Psr\SimpleCache\CacheInterface|string|null \$cache = null, \Closure|string|null \$cacheKey = null, mixed ...\$args)";
+			}
 			if (Configure::read('IdeHelper.tableEntityQuery')) {
 				$annotations[] = "@method \Cake\ORM\Query\SelectQuery<{$fullClassName}> find(string \$type = 'all', mixed ...\$args)";
 			}
@@ -243,8 +269,10 @@ class ModelAnnotator extends AbstractAnnotator {
 			$annotations[] = "@method {$fullClassName} patchEntity({$entityInterface} \$entity, {$dataType} \$data, {$optionsType} \$options = [])";
 			$annotations[] = "@method {$fullClassNameCollection} patchEntities({$iterable} \$entities, {$dataListType} \$data, {$optionsType} \$options = [])";
 
-			$annotations[] = "@method {$fullClassName}|false save({$entityInterface} \$entity, {$optionsType} \$options = [])";
-			$annotations[] = "@method {$fullClassName} saveOrFail({$entityInterface} \$entity, {$optionsType} \$options = [])";
+			if (!$entityTemplateEmitted || $concrete) {
+				$annotations[] = "@method {$fullClassName}|false save({$entityInterface} \$entity, {$optionsType} \$options = [])";
+				$annotations[] = "@method {$fullClassName} saveOrFail({$entityInterface} \$entity, {$optionsType} \$options = [])";
+			}
 
 			$annotations[] = "@method {$resultSetInterfaceCollection}|false saveMany({$iterable} \$entities, {$optionsType} \$options = [])";
 			$annotations[] = "@method {$resultSetInterfaceCollection} saveManyOrFail({$iterable} \$entities, {$optionsType} \$options = [])";
