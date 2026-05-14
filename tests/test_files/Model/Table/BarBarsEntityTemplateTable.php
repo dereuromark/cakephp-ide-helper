@@ -9,11 +9,6 @@ use Cake\ORM\Table;
  * @property \Cake\ORM\Association\BelongsTo<\TestApp\Model\Table\FoosTable> $Foos
  * @property \Cake\ORM\Association\BelongsToMany<\Awesome\Model\Table\HousesTable> $Houses
  *
- * @method \TestApp\Model\Entity\BarBar newEntity(array $data, array $options = [])
- * @method \TestApp\Model\Entity\BarBar[] newEntities(array $data, array $options = [])
- * @method \TestApp\Model\Entity\BarBar findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array $options = [])
- * @method \TestApp\Model\Entity\BarBar patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \TestApp\Model\Entity\BarBar[] patchEntities(iterable $entities, array $data, array $options = [])
  * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\BarBar>|false saveMany(iterable $entities, array $options = [])
  * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\BarBar> saveManyOrFail(iterable $entities, array $options = [])
  * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\BarBar>|false deleteMany(iterable $entities, array $options = [])

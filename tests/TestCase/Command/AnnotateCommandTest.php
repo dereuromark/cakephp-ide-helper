@@ -145,6 +145,11 @@ class AnnotateCommandTest extends TestCase {
 	 * @return void
 	 */
 	public function testAllCiModeNoChanges() {
+		// The Awesome plugin's tables are pre-annotated with `@extends Table<..., TEntity>`,
+		// which only the CakePHP 5.3.4+ annotator emits. On older Cake versions the annotator
+		// would want to remove those annotations, breaking the no-changes check.
+		$this->skipIf(version_compare(Configure::version(), '5.3.4', '<'), 'Requires CakePHP 5.3.4+ (entity-template support).');
+
 		$this->exec('annotate all -d -v --ci -p Awesome');
 		$this->assertExitSuccess($this->_out->output());
 	}
@@ -180,6 +185,9 @@ class AnnotateCommandTest extends TestCase {
 	#[DataProvider('provideSubcommandsForCiModeTest')]
 	public function testIndividualSubcommandCiModeNoChanges(string $subcommand): void {
 		$this->skipIf($subcommand === 'view', 'View does not support the plugin parameter');
+		// See testAllCiModeNoChanges() — the Awesome plugin tables are pre-annotated for the
+		// CakePHP 5.3.4+ annotator output.
+		$this->skipIf($subcommand === 'models' && version_compare(Configure::version(), '5.3.4', '<'), 'Models pre-annotation requires CakePHP 5.3.4+.');
 
 		$this->exec('annotate ' . $subcommand . ' -d -v --ci -p Awesome');
 		$this->assertExitSuccess($this->_out->output());
