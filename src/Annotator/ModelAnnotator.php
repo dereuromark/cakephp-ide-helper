@@ -259,6 +259,23 @@ class ModelAnnotator extends AbstractAnnotator {
 				&& ($parentClass === '' || ltrim($parentClass, '\\') === 'Cake\\ORM\\Table');
 			$entityTemplateFindFamily = $entityTemplateEmitted && $this->supportsEntityTemplateFindFamily();
 
+			// Methods the parent Table generic now fully covers (return type
+			// + throws). Publishing them lets --remove prune a stale override
+			// even when the table self-calls the method. Narrowing overrides
+			// for detailed/concrete are still emitted and matched before the
+			// removal pass, so this only ever affects orphaned leftovers.
+			$supersededMethods = [];
+			if ($entityTemplateEmitted) {
+				$supersededMethods = [
+					'newEmptyEntity', 'newEntity', 'newEntities', 'get',
+					'patchEntity', 'patchEntities', 'save', 'saveOrFail',
+				];
+			}
+			if ($entityTemplateFindFamily) {
+				$supersededMethods = array_merge($supersededMethods, ['find', 'findOrCreate', 'loadInto']);
+			}
+			$this->setConfig(static::CONFIG_SUPERSEDED_METHODS, $supersededMethods);
+
 			if (!$entityTemplateEmitted) {
 				$annotations[] = "@method {$fullClassName} newEmptyEntity()";
 			}
@@ -601,9 +618,11 @@ class ModelAnnotator extends AbstractAnnotator {
 	 * This is a strictly later change than {@see static::supportsEntityTemplate()} —
 	 * the class-level template was added separately from the find-family annotations.
 	 *
-	 * Requires cakephp/cakephp#19438, currently milestoned for CakePHP 5.3.6. The
-	 * version gate below MUST be set to the actual release containing that change
-	 * before this is mark-able as non-draft.
+	 * Requires cakephp/cakephp#19438 (find/findOrCreate/loadInto propagation),
+	 * #19439 (SelectQuery::first/firstOrFail typed via TSubject) and #19440
+	 * (Table::find() narrowed to SelectQuery<TEntity>). All three are merged
+	 * to cakephp 5.x under milestone 5.3.6, so the 5.3.6 gate below is the
+	 * confirmed first release that carries the complete find-family typing.
 	 *
 	 * @return bool
 	 */
