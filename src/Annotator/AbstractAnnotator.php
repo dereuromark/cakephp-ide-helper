@@ -72,6 +72,16 @@ abstract class AbstractAnnotator {
 	public const CONFIG_REMOVE = 'remove';
 
 	/**
+	 * Config: method names a parent generic already covers. For these the
+	 * methodInUse() keep-heuristic is skipped so --remove can prune the
+	 * redundant override even when the class self-calls the method.
+	 * Populated by ModelAnnotator; empty elsewhere.
+	 *
+	 * @var string
+	 */
+	public const CONFIG_SUPERSEDED_METHODS = 'supersededMethods';
+
+	/**
 	 * @var string
 	 */
 	public const COUNT_REMOVED = 'removed';
@@ -557,7 +567,12 @@ abstract class AbstractAnnotator {
 			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === PropertyReadAnnotation::TAG && $this->propertyInUse($tokens, $closeTagIndex, $content)) {
 				$annotation->setInUse();
 			}
-			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === MethodAnnotation::TAG && $this->methodInUse($tokens, $closeTagIndex, $content)) {
+			if (
+				$this->getConfig(static::CONFIG_REMOVE)
+				&& $tag === MethodAnnotation::TAG
+				&& !$this->methodSupersededByParent($content)
+				&& $this->methodInUse($tokens, $closeTagIndex, $content)
+			) {
 				$annotation->setInUse();
 			}
 
@@ -711,6 +726,24 @@ abstract class AbstractAnnotator {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Whether the method is one a parent generic already covers (see
+	 * {@see static::CONFIG_SUPERSEDED_METHODS}), making its override
+	 * redundant and removable regardless of self-calls.
+	 *
+	 * @param string $method The method annotation content, e.g. `saveOrFail(... $entity, array $options = [])`.
+	 *
+	 * @return bool
+	 */
+	protected function methodSupersededByParent(string $method): bool {
+		$superseded = $this->getConfig(static::CONFIG_SUPERSEDED_METHODS);
+		if (!$superseded || !preg_match('#^(\w+)\(#', $method, $matches)) {
+			return false;
+		}
+
+		return in_array($matches[1], (array)$superseded, true);
 	}
 
 	/**

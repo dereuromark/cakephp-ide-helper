@@ -53,7 +53,7 @@ class EntityTask extends ModelTask {
 	}
 
 	/**
-	 * @return array<array<string>>
+	 * @return array<string, array<string, \IdeHelper\ValueObject\StringName>>
 	 */
 	protected function getEntityFields(): array {
 		$modelFields = [];
