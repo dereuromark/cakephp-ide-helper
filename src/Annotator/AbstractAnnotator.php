@@ -89,6 +89,11 @@ abstract class AbstractAnnotator {
 	/**
 	 * @var string
 	 */
+	public const COUNT_REMOVABLE = 'removable';
+
+	/**
+	 * @var string
+	 */
 	public const COUNT_UPDATED = 'updated';
 
 	/**
@@ -359,35 +364,47 @@ abstract class AbstractAnnotator {
 			$fixer->addContent($lastTagIndexOfPreviousLine, $annotationString);
 		}
 
-		if ($this->getConfig(static::CONFIG_REMOVE)) {
-			foreach ($existingAnnotations as $key => $existingAnnotation) {
-				if ($existingAnnotation->isInUse()) {
-					unset($existingAnnotations[$key]);
+		// Outdated-annotation detection always runs: --remove deletes them,
+		// a plain run just reports the count so cruft is discoverable
+		// without the destructive flag.
+		foreach ($existingAnnotations as $key => $existingAnnotation) {
+			if ($existingAnnotation->isInUse()) {
+				unset($existingAnnotations[$key]);
 
-					continue;
-				}
-
-				if ($existingAnnotation->getDescription() !== '') {
-					$this->_counter[static::COUNT_SKIPPED]++;
-					unset($existingAnnotations[$key]);
-
-					continue;
-				}
-
-				if ($generatedTags && !in_array($existingAnnotation::TAG, $generatedTags, true)) {
-					unset($existingAnnotations[$key]);
-				}
+				continue;
 			}
 
-			$removingAnnotations = $existingAnnotations;
-			foreach ($removingAnnotations as $annotation) {
-				$lastWhitespaceOfPreviousLine = $this->getLastWhitespaceOfPreviousLine($tokens, $annotation->getIndex());
-				$index = $annotation->getIndex();
-				for ($i = $lastWhitespaceOfPreviousLine; $i <= $index; $i++) {
-					$fixer->replaceToken($i, '');
-				}
-				$this->_counter[static::COUNT_REMOVED]++;
+			if ($existingAnnotation->getDescription() !== '') {
+				$this->_counter[static::COUNT_SKIPPED]++;
+				unset($existingAnnotations[$key]);
+
+				continue;
 			}
+
+			if ($generatedTags && !in_array($existingAnnotation::TAG, $generatedTags, true)) {
+				unset($existingAnnotations[$key]);
+			}
+		}
+
+		$removingAnnotations = $existingAnnotations;
+		$remove = (bool)$this->getConfig(static::CONFIG_REMOVE);
+		foreach ($removingAnnotations as $annotation) {
+			if (!$remove) {
+				// Report-only: count and (verbose) name what `-r` would prune.
+				$this->_counter[static::COUNT_REMOVABLE]++;
+				if ($this->getConfig(static::CONFIG_VERBOSE)) {
+					$this->_io->warn('   Outdated annotation (run with -r to remove): ' . (string)$annotation);
+				}
+
+				continue;
+			}
+
+			$lastWhitespaceOfPreviousLine = $this->getLastWhitespaceOfPreviousLine($tokens, $annotation->getIndex());
+			$index = $annotation->getIndex();
+			for ($i = $lastWhitespaceOfPreviousLine; $i <= $index; $i++) {
+				$fixer->replaceToken($i, '');
+			}
+			$this->_counter[static::COUNT_REMOVED]++;
 		}
 
 		$fixer->endChangeset();
@@ -558,18 +575,17 @@ abstract class AbstractAnnotator {
 			}
 
 			$annotation = AnnotationFactory::createOrFail($tag, $typeString, $content, $classNameIndex);
-			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === VariableAnnotation::TAG && $this->varInUse($tokens, $closeTagIndex, $content)) {
+			if ($tag === VariableAnnotation::TAG && $this->varInUse($tokens, $closeTagIndex, $content)) {
 				$annotation->setInUse();
 			}
-			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === PropertyAnnotation::TAG && $this->propertyInUse($tokens, $closeTagIndex, $content)) {
+			if ($tag === PropertyAnnotation::TAG && $this->propertyInUse($tokens, $closeTagIndex, $content)) {
 				$annotation->setInUse();
 			}
-			if ($this->getConfig(static::CONFIG_REMOVE) && $tag === PropertyReadAnnotation::TAG && $this->propertyInUse($tokens, $closeTagIndex, $content)) {
+			if ($tag === PropertyReadAnnotation::TAG && $this->propertyInUse($tokens, $closeTagIndex, $content)) {
 				$annotation->setInUse();
 			}
 			if (
-				$this->getConfig(static::CONFIG_REMOVE)
-				&& $tag === MethodAnnotation::TAG
+				$tag === MethodAnnotation::TAG
 				&& !$this->methodSupersededByParent($content)
 				&& $this->methodInUse($tokens, $closeTagIndex, $content)
 			) {
@@ -905,6 +921,10 @@ abstract class AbstractAnnotator {
 		if ($skipped) {
 			$out[] = $skipped . ' ' . ($skipped === 1 ? 'annotation' : 'annotations') . ' skipped';
 		}
+		$removable = !empty($this->_counter[static::COUNT_REMOVABLE]) ? $this->_counter[static::COUNT_REMOVABLE] : 0;
+		if ($removable) {
+			$out[] = $removable . ' ' . ($removable === 1 ? 'annotation' : 'annotations') . ' outdated (run with -r to remove)';
+		}
 
 		if (!$out) {
 			return;
@@ -923,6 +943,10 @@ abstract class AbstractAnnotator {
 		$skipped = !empty($this->_counter[static::COUNT_SKIPPED]) ? $this->_counter[static::COUNT_SKIPPED] : 0;
 		if ($skipped) {
 			$out[] = $skipped . ' ' . ($skipped === 1 ? 'annotation' : 'annotations') . ' skipped';
+		}
+		$removable = !empty($this->_counter[static::COUNT_REMOVABLE]) ? $this->_counter[static::COUNT_REMOVABLE] : 0;
+		if ($removable) {
+			$out[] = $removable . ' ' . ($removable === 1 ? 'annotation' : 'annotations') . ' outdated (run with -r to remove)';
 		}
 
 		if (!$out) {
@@ -944,6 +968,7 @@ abstract class AbstractAnnotator {
 			static::COUNT_ADDED => 0,
 			static::COUNT_UPDATED => 0,
 			static::COUNT_REMOVED => 0,
+			static::COUNT_REMOVABLE => 0,
 			static::COUNT_SKIPPED => 0,
 		];
 	}

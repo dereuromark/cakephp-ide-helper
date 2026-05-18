@@ -9,6 +9,7 @@ use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\ModelAnnotator;
 use IdeHelper\Console\Io;
 use ReflectionMethod;
+use ReflectionProperty;
 use Shim\TestSuite\ConsoleOutput;
 
 class AbstractAnnotatorTest extends TestCase {
@@ -21,6 +22,46 @@ class AbstractAnnotatorTest extends TestCase {
 		$io = new Io(new ConsoleIo(new ConsoleOutput(), new ConsoleOutput()));
 
 		return new ModelAnnotator($io, $params);
+	}
+
+	/**
+	 * Build an annotator together with the ConsoleOutput it writes to, so
+	 * report() output can be asserted.
+	 *
+	 * @param array<string, mixed> $params
+	 * @return array{0: \IdeHelper\Annotator\ModelAnnotator, 1: \Shim\TestSuite\ConsoleOutput}
+	 */
+	protected function annotatorWithOutput(array $params): array {
+		$out = new ConsoleOutput();
+		$annotator = new ModelAnnotator(new Io(new ConsoleIo($out, $out)), $params);
+
+		return [$annotator, $out];
+	}
+
+	/**
+	 * report() surfaces the removable count so a plain run (no -r) makes
+	 * outdated annotations discoverable instead of silently ignoring them.
+	 *
+	 * @return void
+	 */
+	public function testReportSurfacesRemovableCount() {
+		[$annotator, $out] = $this->annotatorWithOutput([]);
+
+		$counter = new ReflectionProperty($annotator, '_counter');
+		$counter->setAccessible(true);
+		$counter->setValue($annotator, [
+			AbstractAnnotator::COUNT_ADDED => 0,
+			AbstractAnnotator::COUNT_UPDATED => 0,
+			AbstractAnnotator::COUNT_REMOVED => 0,
+			AbstractAnnotator::COUNT_REMOVABLE => 3,
+			AbstractAnnotator::COUNT_SKIPPED => 0,
+		]);
+
+		$report = new ReflectionMethod($annotator, 'report');
+		$report->setAccessible(true);
+		$report->invoke($annotator);
+
+		$this->assertStringContainsString('3 annotations outdated (run with -r to remove)', $out->output());
 	}
 
 	/**
