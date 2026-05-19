@@ -122,6 +122,15 @@ abstract class AbstractAnnotator {
 
 	public static bool $output = false;
 
+	/**
+	 * True once any run detected outdated (removable) annotations, even when
+	 * nothing was written. Lets CI mode fail on stale docblocks without
+	 * requiring --remove. Reset per command run alongside $output.
+	 *
+	 * @var bool
+	 */
+	public static bool $stale = false;
+
 	protected Io $_io;
 
 	/**
@@ -392,6 +401,7 @@ abstract class AbstractAnnotator {
 			if (!$remove) {
 				// Report-only: count and (verbose) name what `-r` would prune.
 				$this->_counter[static::COUNT_REMOVABLE]++;
+				static::$stale = true;
 				if ($this->getConfig(static::CONFIG_VERBOSE)) {
 					$this->_io->warn('   Outdated annotation (run with -r to remove): ' . (string)$annotation);
 				}
