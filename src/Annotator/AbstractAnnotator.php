@@ -122,6 +122,15 @@ abstract class AbstractAnnotator {
 
 	public static bool $output = false;
 
+	/**
+	 * True once any run detected outdated (removable) annotations, even when
+	 * nothing was written. Lets CI mode fail on stale docblocks without
+	 * requiring --remove. Reset per command run alongside $output.
+	 *
+	 * @var bool
+	 */
+	public static bool $stale = false;
+
 	protected Io $_io;
 
 	/**
@@ -392,6 +401,7 @@ abstract class AbstractAnnotator {
 			if (!$remove) {
 				// Report-only: count and (verbose) name what `-r` would prune.
 				$this->_counter[static::COUNT_REMOVABLE]++;
+				static::$stale = true;
 				if ($this->getConfig(static::CONFIG_VERBOSE)) {
 					$this->_io->warn('   Outdated annotation (run with -r to remove): ' . (string)$annotation);
 				}
@@ -921,16 +931,19 @@ abstract class AbstractAnnotator {
 		if ($skipped) {
 			$out[] = $skipped . ' ' . ($skipped === 1 ? 'annotation' : 'annotations') . ' skipped';
 		}
+
+		if ($out) {
+			$this->_io->success('   -> ' . implode(', ', $out) . '.');
+		}
+
+		// Outdated lines signal "action recommended", not success — emit
+		// them on their own attention-coloured line (matches the verbose
+		// per-annotation warn() above), never folded into the green
+		// success summary.
 		$removable = !empty($this->_counter[static::COUNT_REMOVABLE]) ? $this->_counter[static::COUNT_REMOVABLE] : 0;
 		if ($removable) {
-			$out[] = $removable . ' ' . ($removable === 1 ? 'annotation' : 'annotations') . ' outdated (run with -r to remove)';
+			$this->_io->warn('   -> ' . $removable . ' ' . ($removable === 1 ? 'annotation' : 'annotations') . ' outdated (run with -r to remove)');
 		}
-
-		if (!$out) {
-			return;
-		}
-
-		$this->_io->success('   -> ' . implode(', ', $out) . '.');
 	}
 
 	/**
@@ -945,11 +958,8 @@ abstract class AbstractAnnotator {
 			$out[] = $skipped . ' ' . ($skipped === 1 ? 'annotation' : 'annotations') . ' skipped';
 		}
 		$removable = !empty($this->_counter[static::COUNT_REMOVABLE]) ? $this->_counter[static::COUNT_REMOVABLE] : 0;
-		if ($removable) {
-			$out[] = $removable . ' ' . ($removable === 1 ? 'annotation' : 'annotations') . ' outdated (run with -r to remove)';
-		}
 
-		if (!$out) {
+		if (!$out && !$removable) {
 			return;
 		}
 
@@ -957,7 +967,12 @@ abstract class AbstractAnnotator {
 			$this->_io->out('-> ' . str_replace(ROOT . DS, '', $path));
 		}
 
-		$this->_io->out('   -> ' . implode(', ', $out));
+		if ($out) {
+			$this->_io->out('   -> ' . implode(', ', $out));
+		}
+		if ($removable) {
+			$this->_io->warn('   -> ' . $removable . ' ' . ($removable === 1 ? 'annotation' : 'annotations') . ' outdated (run with -r to remove)');
+		}
 	}
 
 	/**

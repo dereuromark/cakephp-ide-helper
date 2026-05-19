@@ -66,6 +66,7 @@ abstract class AnnotateCommand extends Command {
 		}
 
 		AbstractAnnotator::$output = false;
+		AbstractAnnotator::$stale = false;
 	}
 
 	/**
@@ -100,7 +101,7 @@ abstract class AnnotateCommand extends Command {
 				'default' => null,
 			],
 			'ci' => [
-				'help' => 'Enable CI mode (requires dry-run). This will return an error code ' . static::CODE_CHANGES . ' if changes are necessary.',
+				'help' => 'Enable CI mode (requires dry-run). This will return an error code ' . static::CODE_CHANGES . ' if changes are necessary or outdated annotations are present.',
 				'boolean' => true,
 			],
 			'interactive' => [
@@ -198,10 +199,15 @@ abstract class AnnotateCommand extends Command {
 	}
 
 	/**
+	 * CI predicate: true when the codebase is not in the annotator's desired
+	 * state — either files were (would be) changed, or outdated/removable
+	 * annotations were detected. The latter makes `--ci` fail on stale
+	 * docblocks without needing the destructive `-r`.
+	 *
 	 * @return bool
 	 */
 	protected function _annotatorMadeChanges(): bool {
-		return AbstractAnnotator::$output !== false;
+		return AbstractAnnotator::$output !== false || AbstractAnnotator::$stale;
 	}
 
 }

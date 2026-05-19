@@ -5,8 +5,11 @@ namespace IdeHelper\Test\TestCase\Command;
 use Cake\Console\TestSuite\ConsoleIntegrationTestTrait;
 use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
+use IdeHelper\Annotator\AbstractAnnotator;
+use IdeHelper\Command\Annotate\ModelsCommand;
 use IdeHelper\Command\AnnotateCommand;
 use PHPUnit\Framework\Attributes\DataProvider;
+use ReflectionMethod;
 
 class AnnotateCommandTest extends TestCase {
 
@@ -203,6 +206,28 @@ class AnnotateCommandTest extends TestCase {
 		$this->exec('annotate ' . $subcommand . ' -d -v --ci');
 
 		$this->assertExitCode(AnnotateCommand::CODE_CHANGES, $this->_out->output());
+	}
+
+	/**
+	 * The CI predicate must fail when only outdated (removable) annotations
+	 * were detected, even though nothing was written and `-r` was not used.
+	 *
+	 * @return void
+	 */
+	public function testCiPredicateFailsOnStaleWithoutRemove(): void {
+		$command = new ModelsCommand();
+		$method = new ReflectionMethod($command, '_annotatorMadeChanges');
+		$method->setAccessible(true);
+
+		AbstractAnnotator::$output = false;
+		AbstractAnnotator::$stale = false;
+		$this->assertFalse($method->invoke($command));
+
+		AbstractAnnotator::$stale = true;
+		$this->assertTrue($method->invoke($command));
+
+		AbstractAnnotator::$output = false;
+		AbstractAnnotator::$stale = false;
 	}
 
 }
