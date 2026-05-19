@@ -74,6 +74,10 @@ bin/cake annotate all --file src/View/AppView.php,plugins/My/src/View/Helper/MyH
 With `-r` / `--remove` there is basic support for finding and removing
 outdated annotations.
 
+Even without `-r`, a normal run reports them as a warning
+(`N annotations outdated (run with -r to remove)`; `-v` lists each line)
+without modifying any file, so cruft stays discoverable on every run.
+
 ::: warning Alpha-quality feature
 Only use this after running the normal annotation flow and committing the
 result, so you can review and verify the changes. This feature is still in a
@@ -159,7 +163,9 @@ Use the `--ci` option along with `-d` (dry run):
 bin/cake annotate all -d --ci
 ```
 
-It will return error code `2` if any modification has to be done.
+It will return error code `2` if any modification has to be done — this
+includes outdated/removable annotations, which fail CI even without
+`-r` (no destructive flag required to enforce a clean state).
 
 ::: info Database setup
 This needs some additional setup, like running migrations prior to the call.
