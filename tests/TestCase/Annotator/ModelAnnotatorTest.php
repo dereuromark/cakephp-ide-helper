@@ -521,6 +521,61 @@ class ModelAnnotatorTest extends TestCase {
 	}
 
 	/**
+	 * Regression: an orphan extends-annotation left in a consumer file by a previous
+	 * run (e.g. before the parent-genericness gate was added) must get pruned on the
+	 * next `-r` run, not silently outlive the annotator's own emission gate.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateRemovesOrphanExtendsForNonGenericParent() {
+		$tmpPath = TMP . 'BarBarsAbstractTableOrphanExtends.php';
+		$orphan = <<<'PHP'
+			<?php
+			namespace TestApp\Model\Table;
+
+			/**
+			 * @extends \TestApp\Model\Table\AbstractTable<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior}, \TestApp\Model\Entity\BarBarsAbstract>
+			 */
+			class BarBarsAbstractTable extends AbstractTable {
+
+				/**
+				 * @param array $config
+				 * @return void
+				 */
+				public function initialize(array $config): void {
+					parent::initialize($config);
+
+					$this->setTable('bar_bars');
+					$this->belongsTo('Foos');
+					$this->addBehavior('MyMy', [
+						'className' => 'MyNamespace/MyPlugin.My',
+					]);
+				}
+
+			}
+			PHP;
+		file_put_contents($tmpPath, $orphan);
+
+		try {
+			$annotator = $this->_getAnnotatorMock([]);
+
+			$capture = '';
+			$annotator->method('storeFile')
+				->with($this->anything(), $this->callback(function ($value) use (&$capture) {
+					$capture = $value;
+
+					return true;
+				}));
+
+			$annotator->annotate($tmpPath);
+
+			$this->assertStringNotContainsString('@extends', $capture, 'Orphan extends line was not pruned.');
+		} finally {
+			@unlink($tmpPath);
+		}
+	}
+
+	/**
 	 * Regression: when the parent IS `\Cake\ORM\Table` (the canonical generic parent),
 	 * `@extends Cake\ORM\Table<...>` must still be emitted so consumers benefit from
 	 * the parent's template propagation. Guards against an over-eager skip in
