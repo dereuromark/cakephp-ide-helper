@@ -607,6 +607,24 @@ class ModelAnnotator extends AbstractAnnotator {
 	}
 
 	/**
+	 * Treat the extends tag as managed whenever the extends behavior is configured,
+	 * so an orphan line left over from a previous run (e.g. before the parent-genericness
+	 * gate was added) gets pruned by `-r` even when the current pass emits no extends.
+	 *
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $annotations
+	 * @return array<string>
+	 */
+	protected function managedTags(array $annotations): array {
+		$tags = parent::managedTags($annotations);
+
+		if (in_array(static::BEHAVIOR_EXTENDS, $this->_config[static::TABLE_BEHAVIORS], true) && !in_array(ExtendsAnnotation::TAG, $tags, true)) {
+			$tags[] = ExtendsAnnotation::TAG;
+		}
+
+		return $tags;
+	}
+
+	/**
 	 * Whether the given parent class declares template parameters and can therefore
 	 * be parameterized via `@extends`.
 	 *

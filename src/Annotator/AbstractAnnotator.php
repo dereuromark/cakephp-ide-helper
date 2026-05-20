@@ -313,9 +313,7 @@ abstract class AbstractAnnotator {
 	protected function appendToExistingDocBlock(File $file, int $docBlockCloseIndex, array &$annotations): string {
 		$existingAnnotations = $this->parseExistingAnnotations($file, $docBlockCloseIndex);
 
-		$generatedTags = array_unique(array_map(static function ($annotation) {
-			return $annotation::TAG;
-		}, $annotations));
+		$generatedTags = $this->managedTags($annotations);
 
 		$replacingAnnotations = [];
 		$addingAnnotations = [];
@@ -436,6 +434,27 @@ abstract class AbstractAnnotator {
 		}
 
 		return $index;
+	}
+
+	/**
+	 * Tag types this run considers managed for orphan-pruning purposes.
+	 *
+	 * Defaults to the set of tags actually generated this pass — a tag type that
+	 * appears in an existing doc-block but not in the generated set is left
+	 * alone (we assume the human added it deliberately). Subclasses can widen
+	 * this when a tag type is conceptually owned by the annotator regardless
+	 * of whether the current run emitted one — e.g. ModelAnnotator owns the
+	 * extends tag whenever the extends behavior is configured, so an orphan
+	 * line left over from a previous configuration gets pruned even when this
+	 * pass emits none.
+	 *
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $annotations
+	 * @return array<string>
+	 */
+	protected function managedTags(array $annotations): array {
+		return array_unique(array_map(static function ($annotation) {
+			return $annotation::TAG;
+		}, $annotations));
 	}
 
 	/**
