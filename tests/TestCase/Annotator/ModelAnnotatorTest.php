@@ -339,7 +339,7 @@ class ModelAnnotatorTest extends TestCase {
 		$annotator->annotate($path);
 
 		$output = $this->out->output();
-		$this->assertTextContains('  -> 18 annotations added', $output);
+		$this->assertTextContains('  -> 17 annotations added', $output);
 	}
 
 	/**
@@ -492,6 +492,56 @@ class ModelAnnotatorTest extends TestCase {
 		$this->assertStringContainsString('findOrCreate(', $capture);
 		$this->assertStringContainsString('newEntity(', $capture);
 		$this->assertStringContainsString('patchEntity(', $capture);
+	}
+
+	/**
+	 * Regression: when the parent base table declares no `@template` of its own
+	 * (i.e. is not a generic class), emitting `@extends Parent<...>` would trigger
+	 * PHPStan's `generics.notGeneric` error in every consumer. The annotation must
+	 * be skipped entirely for non-generic parents — the PHP `extends` clause is
+	 * sufficient and a bare `@extends` adds no information.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateSkipsExtendsForNonGenericParent() {
+		$annotator = $this->_getEntityTemplateAnnotatorMock([]);
+
+		$capture = '';
+		$annotator->method('storeFile')
+			->with($this->anything(), $this->callback(function ($value) use (&$capture) {
+				$capture = $value;
+
+				return true;
+			}));
+
+		$annotator->annotate(APP . 'Model/Table/BarBarsAbstractTable.php');
+
+		$this->assertStringNotContainsString('@extends \TestApp\Model\Table\AbstractTable', $capture);
+		$this->assertStringNotContainsString('@extends', $capture);
+	}
+
+	/**
+	 * Regression: when the parent IS `\Cake\ORM\Table` (the canonical generic parent),
+	 * `@extends Cake\ORM\Table<...>` must still be emitted so consumers benefit from
+	 * the parent's template propagation. Guards against an over-eager skip in
+	 * `parentSupportsGenerics()`.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateEmitsExtendsForGenericCakeTableParent() {
+		$annotator = $this->_getEntityTemplateAnnotatorMock([]);
+
+		$capture = '';
+		$annotator->method('storeFile')
+			->with($this->anything(), $this->callback(function ($value) use (&$capture) {
+				$capture = $value;
+
+				return true;
+			}));
+
+		$annotator->annotate(APP . 'Model/Table/BarBarsTable.php');
+
+		$this->assertStringContainsString('@extends \Cake\ORM\Table<', $capture);
 	}
 
 	/**

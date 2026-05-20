@@ -2,8 +2,6 @@
 namespace TestApp\Model\Table;
 
 /**
- * @extends \TestApp\Model\Table\AbstractTable<array{MyMy: \MyNamespace\MyPlugin\Model\Behavior\MyBehavior, Timestamp: \Cake\ORM\Behavior\TimestampBehavior}>
- *
  * @property \Cake\ORM\Association\BelongsTo<\TestApp\Model\Table\FoosTable> $Foos
  * @property \Cake\ORM\Association\BelongsToMany<\Awesome\Model\Table\HousesTable> $Houses
  *

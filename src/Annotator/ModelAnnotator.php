@@ -593,11 +593,49 @@ class ModelAnnotator extends AbstractAnnotator {
 		if (!$parentClass) {
 			$parentClass = '\\Cake\\ORM\\Table';
 		}
+		if (!$this->parentSupportsGenerics($parentClass)) {
+			// A bare `@extends` adds no information beyond PHP's own `extends` clause,
+			// and emitting `@extends NonGenericParent<...>` would trigger PHPStan's
+			// `generics.notGeneric` error on every consumer.
+			return $result;
+		}
 		// Prepend so @extends sits at the top of the class doc-block, matching the
 		// classOrder defined by php-collective/code-sniffer DocBlockTagOrderSniff.
 		array_unshift($result, AnnotationFactory::createOrFail(ExtendsAnnotation::TAG, '\\' . $parentClass . '<array{' . $list . '}' . $entityTemplate . '>'));
 
 		return $result;
+	}
+
+	/**
+	 * Whether the given parent class declares template parameters and can therefore
+	 * be parameterized via `@extends`.
+	 *
+	 * A class is generic iff its own docblock contains an `@template` tag — inheriting
+	 * from a generic parent without declaring `@template` on the subclass does NOT
+	 * make the subclass generic (PHPStan would report `generics.notGeneric` for any
+	 * `@extends Subclass<...>` annotation in consumers).
+	 *
+	 * @param string $parentClass
+	 * @return bool
+	 */
+	protected function parentSupportsGenerics(string $parentClass): bool {
+		if ($parentClass === '' || ltrim($parentClass, '\\') === Table::class) {
+			// `\Cake\ORM\Table` declares `@template TBehaviors` (long-standing) and
+			// `@template TEntity` (from 5.3.4). Either makes the parent generic.
+			return true;
+		}
+
+		$fqcn = ltrim($parentClass, '\\');
+		if (!class_exists($fqcn)) {
+			return false;
+		}
+
+		$doc = (new ReflectionClass($fqcn))->getDocComment();
+		if ($doc === false) {
+			return false;
+		}
+
+		return preg_match('/^\s*\*\s*@template\s/m', $doc) === 1;
 	}
 
 	/**
