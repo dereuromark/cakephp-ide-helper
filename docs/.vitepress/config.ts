@@ -4,6 +4,7 @@ export default defineConfig({
   title: 'cakephp-ide-helper',
   description: 'Annotations, meta files, code-completion, and Illuminator tasks for CakePHP — boost IDE and static analyzer support.',
   base: '/cakephp-ide-helper/',
+  cleanUrls: true,
   head: [
     ['link', { rel: 'icon', href: '/cakephp-ide-helper/favicon.svg', type: 'image/svg+xml' }],
   ],
