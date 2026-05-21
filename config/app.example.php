@@ -30,9 +30,15 @@ return [
 		'autoCollect' => true,
 		// Can be strings or `/regex/` (e.g. `'/^\_.+$/i'` for underscore prefixed variables)
 		'autoCollectBlacklist' => [],
+		// Class used to extract variables from templates (must extend the default); FQCN string. Defaults to IdeHelper\Annotator\Template\VariableExtractor.
+		'variableExtractor' => \IdeHelper\Annotator\Template\VariableExtractor::class,
 		'preferLinkOverUsesInTests' => true, // Prefer `@link` annotations over `@uses` in test files, prevents PHPUnit/Rector to replace them with attributes.
+		// Additional test class type => regex patterns for TestClassAnnotatorTask, merged onto the built-in Controller/Command patterns. Default [].
+		'testClassPatterns' => [],
 		// Custom Entity field type mapping
 		'typeMap' => [],
+		// Per-type override map for nullable column annotations: set `'someType' => false` to suppress the `|null` suffix. Default [].
+		'nullableMap' => [],
 		// Default View class to use
 		'viewClass' => null,
 		// Plugins to include for View annotations
@@ -41,6 +47,10 @@ return [
 		'preemptive' => false,
 		// Annotator task customization
 		'annotators' => [],
+		// Extra class annotator tasks (FQCNs implementing ClassAnnotatorTaskInterface), merged with the built-in defaults; prefix a value with `-` to exclude a default. Default [].
+		'classAnnotatorTasks' => [],
+		// Extra callback annotator tasks (FQCNs implementing CallbackAnnotatorTaskInterface), merged with the built-in defaults. Default [].
+		'callbackAnnotatorTasks' => [],
 		// For meta file generator
 		'generatorTasks' => [],
 		// A regex pattern - for Migrations plugin DatabaseTableTask generator task
