@@ -1,5 +1,7 @@
 <?php
 
+use IdeHelper\Annotator\Template\VariableExtractor;
+
 return [
 	// Copy the following over to your project one in ROOT/config/
 	'IdeHelper' => [
@@ -31,7 +33,7 @@ return [
 		// Can be strings or `/regex/` (e.g. `'/^\_.+$/i'` for underscore prefixed variables)
 		'autoCollectBlacklist' => [],
 		// Class used to extract variables from templates (must extend the default); FQCN string. Defaults to IdeHelper\Annotator\Template\VariableExtractor.
-		'variableExtractor' => \IdeHelper\Annotator\Template\VariableExtractor::class,
+		'variableExtractor' => VariableExtractor::class,
 		'preferLinkOverUsesInTests' => true, // Prefer `@link` annotations over `@uses` in test files, prevents PHPUnit/Rector to replace them with attributes.
 		// Additional test class type => regex patterns for TestClassAnnotatorTask, merged onto the built-in Controller/Command patterns. Default [].
 		'testClassPatterns' => [],
