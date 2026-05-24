@@ -180,7 +180,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 			// PHPCS v3 does not have this requirement
 			$fixer->addContent($phpOpenTagIndex, PHP_EOL . $annotationString);
 		} else {
-				$fixer->addContent($phpOpenTagIndex, $docBlock);
+			$fixer->addContent($phpOpenTagIndex, $docBlock);
 		}
 
 		$this->_counter[static::COUNT_ADDED] = count($annotations);

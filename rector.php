@@ -13,6 +13,7 @@ use Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUselessReturnTagRector;
 use Rector\DeadCode\Rector\Node\RemoveNonExistingVarAnnotationRector;
 use Rector\DeadCode\Rector\Property\RemoveUselessVarTagRector;
+use Rector\DeadCode\Rector\Ternary\RemoveUselessTernaryRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector;
 use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
@@ -65,6 +66,9 @@ return RectorConfig::configure()
 		RecastingRemovalRector::class,
 		// Strips an unused assignment but leaves the call as a dead bare statement; cake core skips it.
 		RemoveUnusedVariableAssignRector::class,
+		// Removes defensive `expr ?: []` fallbacks; can change behavior on undefined/empty
+		// values (e.g. `$_SESSION ?: []`). Skipped on cakephp core's 2.4 bump too.
+		RemoveUselessTernaryRector::class,
 	])
 	->withPhpSets(php82: true)
 	->withPreparedSets(

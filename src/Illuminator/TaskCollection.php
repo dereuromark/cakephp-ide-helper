@@ -131,7 +131,7 @@ class TaskCollection {
 		}
 
 		$keys = array_keys($tasks);
-		$keyMap = array_combine($keys, $keys);
+		$keyMap = array_combine($keys, $keys) ?: [];
 		foreach ($keyMap as $k => $v) {
 			preg_match('#\bTask\\\\([A-Za-z0-9]+)Task$#', (string)$v, $matches);
 			if (!$matches) {
