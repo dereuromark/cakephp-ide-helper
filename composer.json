@@ -85,7 +85,7 @@
 		"stan-tests": "phpstan analyze -c tests/phpstan.neon",
 		"rector": "rector process --dry-run",
 		"rector-fix": "rector process",
-		"rector-setup": "cp composer.json composer.backup && composer require --dev rector/rector:^2.0 && mv composer.backup composer.json",
+		"rector-setup": "cp composer.json composer.backup && composer require --dev rector/rector:~2.4.0 && mv composer.backup composer.json",
 		"test": "phpunit",
 		"test-coverage": "phpunit --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml"
 	}

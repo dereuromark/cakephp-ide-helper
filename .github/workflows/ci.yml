@@ -119,3 +119,6 @@ jobs:
 
       - name: Run phpcs
         run: composer cs-check
+
+      - name: Run rector
+        run: composer rector-setup && composer rector
