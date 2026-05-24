@@ -23,12 +23,12 @@ class FormClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 			return false;
 		}
 
-		Configure::read('App.namespace') ?: 'App';
-		if (!preg_match('#\buse (\w+)\\\\Form\\\\(.+)Form\b#', $content, $matches)) {
+		$appNamespace = Configure::read('App.namespace') ?: 'App';
+		if (!preg_match('#\buse ' . preg_quote($appNamespace, '#') . '\\\\Form\\\\(.+)Form\b#', $content, $matches)) {
 			return false;
 		}
 
-		$varName = lcfirst($matches[2]) . 'Form';
+		$varName = lcfirst($matches[1]) . 'Form';
 
 		return (bool)preg_match('#\$' . preg_quote($varName, '#') . '->execute\(#', $content);
 	}
@@ -38,13 +38,12 @@ class FormClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 	 * @return bool
 	 */
 	public function annotate(string $path): bool {
-		preg_match('#\buse (\w+)\\\\Form\\\\(.+)Form\b#', $this->content, $matches);
-		if (empty($matches[1]) || empty($matches[2])) {
+		$appNamespace = Configure::read('App.namespace') ?: 'App';
+		if (!preg_match('#\buse ' . preg_quote($appNamespace, '#') . '\\\\Form\\\\(.+)Form\b#', $this->content, $matches)) {
 			return false;
 		}
 
-		$appNamespace = $matches[1];
-		$name = $matches[2] . 'Form';
+		$name = $matches[1] . 'Form';
 
 		$varName = lcfirst($name);
 		$rows = explode(PHP_EOL, $this->content);

@@ -408,7 +408,7 @@ class EntityAnnotatorTest extends TestCase {
 		$path = PLUGINS . 'Relations/src/Model/Entity/User.php';
 		$annotator->annotate($path);
 
-		$output = $this->out->output();
+		$output = (string)$this->out->output();
 
 		$this->assertTextContains('   -> 4 annotations added', $output);
 	}
@@ -438,7 +438,7 @@ class EntityAnnotatorTest extends TestCase {
 		$path = PLUGINS . 'Relations/src/Model/Entity/Foo.php';
 		$annotator->annotate($path);
 
-		$output = $this->out->output();
+		$output = (string)$this->out->output();
 
 		$this->assertTextContains('   -> 5 annotations added', $output);
 	}
@@ -468,7 +468,7 @@ class EntityAnnotatorTest extends TestCase {
 		$path = PLUGINS . 'Relations/src/Model/Entity/Bar.php';
 		$annotator->annotate($path);
 
-		$output = $this->out->output();
+		$output = (string)$this->out->output();
 
 		$this->assertTextContains('   -> 4 annotations added', $output);
 	}

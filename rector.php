@@ -7,6 +7,8 @@ use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
 use Rector\CodeQuality\Rector\Empty_\SimplifyEmptyCheckOnEmptyArrayRector;
 use Rector\CodingStyle\Rector\FuncCall\FunctionFirstClassCallableRector;
 use Rector\Config\RectorConfig;
+use Rector\DeadCode\Rector\Assign\RemoveUnusedVariableAssignRector;
+use Rector\DeadCode\Rector\Cast\RecastingRemovalRector;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUselessReturnTagRector;
 use Rector\DeadCode\Rector\Node\RemoveNonExistingVarAnnotationRector;
@@ -58,6 +60,11 @@ return RectorConfig::configure()
 		StringClassNameToClassConstantRector::class,
 		// get_class() -> ::class invalidates existing phpstan ignore patterns; opt in per plugin.
 		ClassOnObjectRector::class,
+		// Removes intentional/defensive (string) casts that coerce Stringable/mixed values
+		// to real strings, relying on phpstan's optimistic inference; cake core skips it too.
+		RecastingRemovalRector::class,
+		// Strips an unused assignment but leaves the call as a dead bare statement; cake core skips it.
+		RemoveUnusedVariableAssignRector::class,
 	])
 	->withPhpSets(php82: true)
 	->withPreparedSets(

@@ -67,7 +67,7 @@ class DatabaseTableColumnTypeTaskTest extends TestCase {
 		$this->assertSame('\Migrations\Db\Table::addColumn()', $directive->toArray()['method']);
 
 		$list = array_map(function ($value) {
-			return $value;
+			return (string)$value;
 		}, $list);
 
 		$expectedList = [
