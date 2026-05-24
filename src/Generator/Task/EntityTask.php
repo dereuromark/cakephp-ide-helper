@@ -67,7 +67,7 @@ class EntityTask extends ModelTask {
 				$tableObject = new $className();
 				$fields = $tableObject->getSchema()->columns();
 
-			} catch (Throwable $exception) {
+			} catch (Throwable) {
 				// Do nothing
 			}
 

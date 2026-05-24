@@ -293,8 +293,6 @@ class ModelAnnotator extends AbstractAnnotator {
 
 			if (!$entityTemplateEmitted || $detailed || $concrete) {
 				$annotations[] = "@method {$fullClassName} patchEntity({$entityInterface} \$entity, {$dataType} \$data, {$optionsType} \$options = [])";
-			}
-			if (!$entityTemplateEmitted || $detailed || $concrete) {
 				$annotations[] = "@method {$fullClassNameCollection} patchEntities({$iterable} \$entities, {$dataListType} \$data, {$optionsType} \$options = [])";
 			}
 
