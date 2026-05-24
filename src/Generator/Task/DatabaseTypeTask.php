@@ -35,7 +35,7 @@ class DatabaseTypeTask implements TaskInterface {
 		$result[$directive->key()] = $directive;
 
 		$list = [];
-		foreach ($types as $type => $className) {
+		foreach (array_keys($types) as $type) {
 			$list[$type] = StringName::create($type);
 		}
 		ksort($list);
@@ -55,12 +55,12 @@ class DatabaseTypeTask implements TaskInterface {
 
 		try {
 			$allTypes = TypeFactory::buildAll();
-		} catch (Throwable $exception) {
+		} catch (Throwable) {
 			return $types;
 		}
 
 		foreach ($allTypes as $key => $type) {
-			if (str_starts_with($key, 'enum-')) {
+			if (str_starts_with((string)$key, 'enum-')) {
 				continue;
 			}
 

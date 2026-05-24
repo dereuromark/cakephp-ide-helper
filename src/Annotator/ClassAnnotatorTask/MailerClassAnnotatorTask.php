@@ -43,18 +43,14 @@ class MailerClassAnnotatorTask extends AbstractClassAnnotatorTask implements Cla
 		} else {
 			$class = $callMatches[1];
 			[$plugin, $name] = pluginSplit($class);
-			$varName = lcfirst($name) . 'Mailer';
+			$varName = lcfirst((string)$name) . 'Mailer';
 		}
 
 		if ($singleLine && !empty($callMatches)) {
 			return true;
 		}
 
-		if (!preg_match('#\$' . preg_quote($varName, '#') . '->send\(\'\w+\'#', $content)) {
-			return false;
-		}
-
-		return true;
+		return (bool)preg_match('#\$' . preg_quote($varName, '#') . '->send\(\'\w+\'#', $content);
 	}
 
 	/**
@@ -85,7 +81,7 @@ class MailerClassAnnotatorTask extends AbstractClassAnnotatorTask implements Cla
 		} else {
 			[$plugin, $name] = pluginSplit($callMatches[1]);
 			$appNamespace = $plugin ?: (Configure::read('App.namespace') ?: 'App');
-			$name = $name . 'Mailer';
+			$name .= 'Mailer';
 		}
 
 		$action = null;

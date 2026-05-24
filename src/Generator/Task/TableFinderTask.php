@@ -126,7 +126,7 @@ class TableFinderTask extends ModelTask {
 						$customFinders = array_merge($customFinders, array_keys($behavior->implementedFinders()));
 					}
 				}
-			} catch (Throwable $exception) {
+			} catch (Throwable) {
 			}
 
 			$allFinders = array_merge($allFinders, $customFinders);
@@ -195,7 +195,7 @@ class TableFinderTask extends ModelTask {
 
 		try {
 			$methodReflection = new ReflectionMethod($className, $method);
-		} catch (ReflectionException $e) {
+		} catch (ReflectionException) {
 			return $result;
 		}
 

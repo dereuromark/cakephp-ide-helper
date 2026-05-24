@@ -67,6 +67,19 @@ class FormClassAnnotatorTaskTest extends TestCase {
 	}
 
 	/**
+	 * A Form class from a different (non-app) namespace must not be detected.
+	 *
+	 * @return void
+	 */
+	public function testShouldRunIgnoresForeignNamespace() {
+		$task = $this->getTask('');
+
+		$content = 'namespace TestApp\\Foo' . PHP_EOL . 'use Vendor\\Form\\WidgetForm' . PHP_EOL . '$widgetForm->execute()';
+		$result = $task->shouldRun('/src/Foo.php', $content);
+		$this->assertFalse($result);
+	}
+
+	/**
 	 * @return void
 	 */
 	public function testAnnotate() {

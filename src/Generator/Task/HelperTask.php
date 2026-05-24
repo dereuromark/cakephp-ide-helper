@@ -50,7 +50,7 @@ class HelperTask implements TaskInterface {
 		}
 
 		$list = [];
-		foreach ($helpers as $name => $className) {
+		foreach (array_keys($helpers) as $name) {
 			$list[$name] = "'$name'";
 		}
 		ksort($list);

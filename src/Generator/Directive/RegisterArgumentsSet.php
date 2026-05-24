@@ -2,6 +2,8 @@
 
 namespace IdeHelper\Generator\Directive;
 
+use Stringable;
+
 /**
  * Helps to register an argument set to be used in other directives for DRY code.
  *
@@ -17,7 +19,7 @@ namespace IdeHelper\Generator\Directive;
  *
  * @see https://www.jetbrains.com/help/phpstorm/ide-advanced-metadata.html#arguments-set
  */
-class RegisterArgumentsSet extends BaseDirective {
+class RegisterArgumentsSet extends BaseDirective implements Stringable {
 
 	/**
 	 * @var string
@@ -66,20 +68,18 @@ class RegisterArgumentsSet extends BaseDirective {
 		$set = "'" . $this->set . "'";
 		$list = $this->buildList($this->list);
 
-		$result = <<<TXT
+		return <<<TXT
 	registerArgumentsSet(
 		$set,
 $list
 	);
 TXT;
-
-		return $result;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function __toString() {
+	public function __toString(): string {
 		return 'argumentsSet(\'' . $this->set . '\')';
 	}
 

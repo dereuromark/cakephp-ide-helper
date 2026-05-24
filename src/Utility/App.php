@@ -43,7 +43,7 @@ class App extends CoreApp {
 
 			/** @var class-string */
 			return 'Cake' . $fullName;
-		} catch (Throwable $e) {
+		} catch (Throwable) {
 			// Do nothing
 		}
 

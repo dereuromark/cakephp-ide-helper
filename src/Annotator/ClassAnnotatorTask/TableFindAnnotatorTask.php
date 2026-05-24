@@ -30,11 +30,7 @@ class TableFindAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 			return false;
 		}
 
-		if (!preg_match('#->(first|firstOrFail)\(\)#', $content)) {
-			return false;
-		}
-
-		return true;
+		return (bool)preg_match('#->(first|firstOrFail)\(\)#', $content);
 	}
 
 	/**
@@ -71,7 +67,7 @@ class TableFindAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 		$parser = (new ParserFactory())->createForHostVersion();
 		try {
 			$ast = $parser->parse($this->content);
-		} catch (Throwable $e) {
+		} catch (Throwable) {
 			return [];
 		}
 

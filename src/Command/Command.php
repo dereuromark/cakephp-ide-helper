@@ -61,12 +61,10 @@ abstract class Command extends CoreCommand {
 		foreach ($plugins as $plugin) {
 			if (!$type) {
 				$pluginPaths = [Plugin::path($plugin)];
+			} elseif ($type === 'classes') {
+				$pluginPaths = [PluginPath::classPath($plugin)];
 			} else {
-				if ($type === 'classes') {
-					$pluginPaths = [PluginPath::classPath($plugin)];
-				} else {
 					$pluginPaths = $type === 'templates' ? App::path('templates', $plugin) : AppPath::get($type, $plugin);
-				}
 			}
 
 			$paths[$plugin] = $pluginPaths;

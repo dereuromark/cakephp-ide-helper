@@ -19,6 +19,7 @@ namespace IdeHelper\Filesystem;
 
 use DirectoryIterator;
 use Exception;
+use FilesystemIterator;
 use InvalidArgumentException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -124,7 +125,7 @@ class Folder {
 			$this->mode = $mode;
 		}
 
-		if (!file_exists($path) && $create === true) {
+		if (!file_exists($path) && $create) {
 			$this->create($path, $this->mode);
 		}
 		if (!static::isAbsolute($path)) {
@@ -182,7 +183,7 @@ class Folder {
 
 		try {
 			$iterator = new DirectoryIterator((string)$this->path);
-		} catch (Exception $e) {
+		} catch (Exception) {
 			return [$dirs, $files];
 		}
 
@@ -431,7 +432,7 @@ class Folder {
 
 			foreach ($paths as $type) {
 				foreach ($type as $fullpath) {
-					$check = explode(DIRECTORY_SEPARATOR, $fullpath);
+					$check = explode(DIRECTORY_SEPARATOR, (string)$fullpath);
 					$count = count($check);
 
 					if (in_array($check[$count - 1], $exceptions, true)) {
@@ -471,7 +472,7 @@ class Folder {
 
 		try {
 			$iterator = new DirectoryIterator($path);
-		} catch (Exception $e) {
+		} catch (Exception) {
 			return [];
 		}
 
@@ -517,10 +518,10 @@ class Folder {
 		try {
 			$directory = new RecursiveDirectoryIterator(
 				$path,
-				RecursiveDirectoryIterator::KEY_AS_PATHNAME | RecursiveDirectoryIterator::CURRENT_AS_SELF,
+				RecursiveDirectoryIterator::KEY_AS_PATHNAME | RecursiveDirectoryIterator::CURRENT_AS_SELF | FilesystemIterator::SKIP_DOTS,
 			);
 			$iterator = new RecursiveIteratorIterator($directory, RecursiveIteratorIterator::SELF_FIRST);
-		} catch (Exception $e) {
+		} catch (Exception) {
 			unset($directory, $iterator);
 
 			if ($type === null) {
@@ -607,20 +608,18 @@ class Folder {
 		$pathname = rtrim($pathname, DIRECTORY_SEPARATOR);
 		$nextPathname = substr($pathname, 0, (int)strrpos($pathname, DIRECTORY_SEPARATOR));
 
-		if ($this->create($nextPathname, $mode)) {
-			if (!file_exists($pathname)) {
-				$old = umask(0);
-				if (mkdir($pathname, $mode, true)) {
+		if ($this->create($nextPathname, $mode) && !file_exists($pathname)) {
+			$old = umask(0);
+			if (mkdir($pathname, $mode, true)) {
 					$this->_messages[] = sprintf('%s created', $pathname);
 					umask($old);
 
 					return true;
-				}
-				$this->_errors[] = sprintf('%s NOT created', $pathname);
-				umask($old);
-
-				return false;
 			}
+			$this->_errors[] = sprintf('%s NOT created', $pathname);
+			umask($old);
+
+			return false;
 		}
 
 		return false;
@@ -679,9 +678,9 @@ class Folder {
 		if (is_dir($path)) {
 			$directory = $iterator = null;
 			try {
-				$directory = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::CURRENT_AS_SELF);
+				$directory = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::CURRENT_AS_SELF | FilesystemIterator::SKIP_DOTS);
 				$iterator = new RecursiveIteratorIterator($directory, RecursiveIteratorIterator::CHILD_FIRST);
-			} catch (Exception $e) {
+			} catch (Exception) {
 				unset($directory, $iterator);
 
 				return false;

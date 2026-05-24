@@ -55,11 +55,8 @@ class LinkAnnotation extends AbstractAnnotation {
 		if (!$annotation instanceof self) {
 			return false;
 		}
-		if ($annotation->getType() !== $this->type) {
-			return false;
-		}
 
-		return true;
+		return $annotation->getType() === $this->type;
 	}
 
 	/**

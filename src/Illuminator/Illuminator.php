@@ -60,9 +60,8 @@ class Illuminator {
 	 */
 	protected function getFiles($path) {
 		$folder = new Folder($path);
-		$result = $folder->findRecursive('.*\.php', true);
 
-		return $result;
+		return $folder->findRecursive('.*\.php', true);
 	}
 
 }

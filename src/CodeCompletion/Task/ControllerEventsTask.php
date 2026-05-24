@@ -56,7 +56,7 @@ CODE;
 		$type = null;
 		$docBlock = null;
 		if ($returnType) {
-			$type = ': ' . 'void';
+			$type = ': void';
 		} else {
 			$docBlock = <<<TXT
 		/**
@@ -78,7 +78,7 @@ TXT;
 TXT;
 		$docBlockRedirect = trim($docBlockRedirect) . PHP_EOL . str_repeat("\t", 2);
 
-		$events = <<<TXT
+		return <<<TXT
 		{$docBlock}public function startup(EventInterface \$event)$type {
 		}
 
@@ -97,8 +97,6 @@ TXT;
 		{$docBlockRedirect}public function beforeRedirect(EventInterface \$event, UriInterface|array|string \$url, Response \$response)$type {
 		}
 TXT;
-
-		return $events;
 	}
 
 }

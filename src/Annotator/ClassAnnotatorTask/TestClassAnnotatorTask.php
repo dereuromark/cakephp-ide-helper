@@ -46,11 +46,8 @@ class TestClassAnnotatorTask extends AbstractClassAnnotatorTask implements PathA
 		if (!preg_match('#^namespace .+\\\\Test\\\\TestCase\\\\(' . $typeList . ')\b#m', $content)) {
 			return false;
 		}
-		if (!$this->matchesType($content, $types)) {
-			return false;
-		}
 
-		return true;
+		return $this->matchesType($content, $types);
 	}
 
 	/**
@@ -59,7 +56,7 @@ class TestClassAnnotatorTask extends AbstractClassAnnotatorTask implements PathA
 	 * @return bool
 	 */
 	protected function matchesType(string $content, array $types): bool {
-		foreach ($types as $type => $pattern) {
+		foreach ($types as $pattern) {
 			if (preg_match($pattern, $content)) {
 				return true;
 			}

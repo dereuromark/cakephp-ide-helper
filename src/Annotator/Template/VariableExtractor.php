@@ -79,7 +79,7 @@ class VariableExtractor {
 		}
 
 		foreach ($tokens as $i => $token) {
-			if ($token['code'] !== T_STRING || strtolower($token['content']) !== 'compact') {
+			if ($token['code'] !== T_STRING || strtolower((string)$token['content']) !== 'compact') {
 				continue;
 			}
 
@@ -105,7 +105,7 @@ class VariableExtractor {
 	 * @return array<string, mixed>
 	 */
 	protected function getVar(File $file, array $token, int $index): array {
-		$variable = substr($token['content'], 1);
+		$variable = substr((string)$token['content'], 1);
 
 		$result = [
 			'name' => $variable,
@@ -142,10 +142,8 @@ class VariableExtractor {
 		}
 
 		$prevIndex = $file->findPrevious(Tokens::$emptyTokens, $result['index'] - 1, $result['index'] - 3, true, null, true);
-		if ($prevIndex && in_array($tokens[$prevIndex]['code'], [T_ECHO, T_OPEN_TAG_WITH_ECHO, T_STRING_CONCAT], true)) {
-			if ($nextIndex && in_array($tokens[$nextIndex]['code'], [T_SEMICOLON, T_STRING_CONCAT, T_CLOSE_TAG], true)) {
-				return 'string';
-			}
+		if ($prevIndex && in_array($tokens[$prevIndex]['code'], [T_ECHO, T_OPEN_TAG_WITH_ECHO, T_STRING_CONCAT], true) && ($nextIndex && in_array($tokens[$nextIndex]['code'], [T_SEMICOLON, T_STRING_CONCAT, T_CLOSE_TAG], true))) {
+			return 'string';
 		}
 
 		return null;
@@ -187,11 +185,7 @@ class VariableExtractor {
 			return true;
 		}
 
-		if ($prevIndex && $tokens[$prevIndex]['code'] === T_DOUBLE_ARROW && $this->isInLoop($file, $result, $prevIndex)) {
-			return true;
-		}
-
-		return false;
+		return $prevIndex && $tokens[$prevIndex]['code'] === T_DOUBLE_ARROW && $this->isInLoop($file, $result, $prevIndex);
 	}
 
 	/**
@@ -322,7 +316,7 @@ class VariableExtractor {
 	 * @return array<array<string, mixed>>
 	 */
 	protected function getVarsFromString(File $file, array $token, int $i): array {
-		preg_match_all('/\$(\{)?([a-zA-Z_][a-zA-Z0-9_]*)\}?/', $token['content'], $matches);
+		preg_match_all('/\$(\{)?([a-zA-Z_]\w*)\}?/', (string)$token['content'], $matches);
 		if (empty($matches[2])) {
 			return [];
 		}
@@ -389,7 +383,7 @@ class VariableExtractor {
 			}
 
 			// Strip quotes from the string
-			$variable = trim($tokens[$i]['content'], '\'"');
+			$variable = trim((string)$tokens[$i]['content'], '\'"');
 			if ($variable === '' || $variable === 'this') {
 				continue;
 			}

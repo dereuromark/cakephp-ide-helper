@@ -66,7 +66,7 @@ class Override extends BaseDirective {
 		$method = $this->method;
 		$mapDefinitions = $this->buildKeyValueMap($this->map);
 
-		$result = <<<TXT
+		return <<<TXT
 	override(
 		$method,
 		map([
@@ -74,8 +74,6 @@ $mapDefinitions
 		]),
 	);
 TXT;
-
-		return $result;
 	}
 
 }

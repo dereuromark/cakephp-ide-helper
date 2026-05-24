@@ -60,11 +60,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 		$phpOpenTagIndexAdjusted = $this->checkForDeclareStatement($file, $phpOpenTagIndex);
 
 		$docBlockCloseTagIndex = null;
-		if ($needsPhpTag) {
-			$phpOpenTagIndexForSearch = null;
-		} else {
-			$phpOpenTagIndexForSearch = $phpOpenTagIndexAdjusted;
-		}
+		$phpOpenTagIndexForSearch = $needsPhpTag ? null : $phpOpenTagIndexAdjusted;
 		if ($phpOpenTagIndexForSearch !== null) {
 			$docBlockCloseTagIndex = $this->findExistingDocBlock($file, $phpOpenTagIndexForSearch);
 		}
@@ -179,14 +175,12 @@ class TemplateAnnotator extends AbstractAnnotator {
 		$fixer = $this->getFixer($file);
 		if ($phpOpenTagIndex === null) {
 			$fixer->addContentBefore(0, $docBlock);
-		} else {
+		} elseif ($this->isV4()) {
 			// PHPCS v4 requires a blank line after <?php tag for PSR12 compliance
 			// PHPCS v3 does not have this requirement
-			if ($this->isV4()) {
-				$fixer->addContent($phpOpenTagIndex, PHP_EOL . $annotationString);
-			} else {
-				$fixer->addContent($phpOpenTagIndex, $docBlock);
-			}
+			$fixer->addContent($phpOpenTagIndex, PHP_EOL . $annotationString);
+		} else {
+			$fixer->addContent($phpOpenTagIndex, $docBlock);
 		}
 
 		$this->_counter[static::COUNT_ADDED] = count($annotations);
@@ -247,11 +241,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 			return true;
 		}
 
-		if (preg_match('/<\?/', $content)) {
-			return true;
-		}
-
-		return false;
+		return (bool)preg_match('/<\?/', $content);
 	}
 
 	/**
@@ -320,7 +310,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 			if ($tokens[$i]['type'] !== T_INLINE_HTML) {
 				return false;
 			}
-			if (trim($tokens[$i]['content']) !== '') {
+			if (trim((string)$tokens[$i]['content']) !== '') {
 				return false;
 			}
 		}
@@ -341,7 +331,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 
 		$entityAnnotations = $loopEntityAnnotations + $formEntityAnnotations + $entityAnnotations;
 
-		foreach ($entityAnnotations as $name => $entityAnnotation) {
+		foreach (array_keys($entityAnnotations) as $name) {
 			if (!empty($variables[$name]) && $variables[$name]['excludeReason']) {
 				unset($entityAnnotations[$name]);
 			}

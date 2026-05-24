@@ -115,11 +115,8 @@ class MethodAnnotation extends AbstractAnnotation {
 			return false;
 		}
 		$methodName = substr($annotation->getMethod(), 0, strpos($annotation->getMethod(), '(') ?: 0);
-		if ($methodName !== substr($this->method, 0, strpos($this->method, '(') ?: 0)) {
-			return false;
-		}
 
-		return true;
+		return $methodName === substr($this->method, 0, strpos($this->method, '(') ?: 0);
 	}
 
 	/**

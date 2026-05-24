@@ -133,7 +133,7 @@ class TaskCollection {
 		$keys = array_keys($tasks);
 		$keyMap = array_combine($keys, $keys) ?: [];
 		foreach ($keyMap as $k => $v) {
-			preg_match('#\bTask\\\\([A-Za-z0-9]+)Task$#', $v, $matches);
+			preg_match('#\bTask\\\\([A-Za-z0-9]+)Task$#', (string)$v, $matches);
 			if (!$matches) {
 				throw new RuntimeException('Invalid task name: ' . $v);
 			}
@@ -213,14 +213,14 @@ class TaskCollection {
 			$row = $array[$i];
 
 			$char = ' ';
-			$output = trim($row[0], "\n\r\0\x0B");
+			$output = trim((string)$row[0], "\n\r\0\x0B");
 
 			if ($row[1] === 1) {
 				$char = '+';
 				$this->_io->info('   | ' . $char . $output, 1, ConsoleIo::VERBOSE);
 			} elseif ($row[1] === 2) {
 				$char = '-';
-				$this->_io->out('<warning>' . '   | ' . $char . $output . '</warning>', 1, ConsoleIo::VERBOSE);
+				$this->_io->out('<warning>   | ' . $char . $output . '</warning>', 1, ConsoleIo::VERBOSE);
 			} else {
 				$this->_io->out('   | ' . $char . $output, 1, ConsoleIo::VERBOSE);
 			}

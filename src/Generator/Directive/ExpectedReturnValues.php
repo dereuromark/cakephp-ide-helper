@@ -71,14 +71,12 @@ class ExpectedReturnValues extends BaseDirective {
 		$method = $this->method;
 		$list = $this->buildList($this->list);
 
-		$result = <<<TXT
+		return <<<TXT
 	expectedReturnValues(
 		$method,
 $list
 	);
 TXT;
-
-		return $result;
 	}
 
 }

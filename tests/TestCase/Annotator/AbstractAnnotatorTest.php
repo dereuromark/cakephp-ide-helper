@@ -48,7 +48,6 @@ class AbstractAnnotatorTest extends TestCase {
 		[$annotator, $out] = $this->annotatorWithOutput([]);
 
 		$counter = new ReflectionProperty($annotator, '_counter');
-		$counter->setAccessible(true);
 		$counter->setValue($annotator, [
 			AbstractAnnotator::COUNT_ADDED => 0,
 			AbstractAnnotator::COUNT_UPDATED => 0,
@@ -58,7 +57,6 @@ class AbstractAnnotatorTest extends TestCase {
 		]);
 
 		$report = new ReflectionMethod($annotator, 'report');
-		$report->setAccessible(true);
 		$report->invoke($annotator);
 
 		$this->assertStringContainsString('3 annotations outdated (run with -r to remove)', $out->output());
@@ -71,7 +69,6 @@ class AbstractAnnotatorTest extends TestCase {
 	 */
 	protected function isSuperseded(ModelAnnotator $annotator, string $content): bool {
 		$method = new ReflectionMethod($annotator, 'methodSupersededByParent');
-		$method->setAccessible(true);
 
 		return $method->invoke($annotator, $content);
 	}

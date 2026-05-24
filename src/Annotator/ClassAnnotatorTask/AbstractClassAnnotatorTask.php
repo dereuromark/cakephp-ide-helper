@@ -156,7 +156,7 @@ abstract class AbstractClassAnnotatorTask extends AbstractAnnotator {
 		}
 
 		$annotation = reset($annotations);
-		$annotationString = '/** ' . (string)$annotation . ' */';
+		$annotationString = '/** ' . $annotation . ' */';
 		if (PHP_EOL !== "\n") {
 			$annotationString = str_replace("\n", PHP_EOL, $annotationString);
 		}

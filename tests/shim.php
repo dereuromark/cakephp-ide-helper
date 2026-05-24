@@ -21,5 +21,5 @@ if (!defined('T_SEMICOLON')) {
 }
 
 if (!class_exists(TestCase::class)) {
-	require 'TestCase.php';
+	require __DIR__ . '/TestCase.php';
 }

@@ -492,7 +492,7 @@ class TemplateAnnotatorTest extends TestCase {
 		$excludedVariables = ['$m', '$item', '$a', '$b', '$x', '$n'];
 		// Note: $id is excluded too, but it's a foreach loop variable, not an anonymous function parameter
 
-		$callback = function($value) use ($expectedVariables, $excludedVariables) {
+		$callback = function($value) use ($excludedVariables) {
 			// Extract just the PHPDoc block
 			if (preg_match('/\/\*\*(.*?)\*\//s', $value, $matches)) {
 				$docBlock = $matches[1];

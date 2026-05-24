@@ -64,9 +64,7 @@ class DocBlockHelper extends BakeDocBlockHelper {
 			return $type;
 		}
 
-		$type .= '|null';
-
-		return $type;
+		return $type . '|null';
 	}
 
 	/**
@@ -206,7 +204,7 @@ class DocBlockHelper extends BakeDocBlockHelper {
 			$annotations[] = "@method {$class}|array<{$class}> loadInto({$class}|array<{$class}> \$entities, array \$contain)";
 		}
 
-		foreach ($behaviors as $behavior => $behaviorData) {
+		foreach (array_keys($behaviors) as $behavior) {
 			$className = App::className($behavior, 'Model/Behavior', 'Behavior');
 			if (!$className) {
 				$className = "Cake\ORM\Behavior\\{$behavior}Behavior";

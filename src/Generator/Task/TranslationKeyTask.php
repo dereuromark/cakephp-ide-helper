@@ -127,7 +127,7 @@ class TranslationKeyTask implements TaskInterface {
 
 					$domainKeys = $this->translationParser->parse($file);
 
-					$domain = pathinfo($file, PATHINFO_FILENAME);
+					$domain = pathinfo((string)$file, PATHINFO_FILENAME);
 					if (!isset($keys[$domain])) {
 						$keys[$domain] = [];
 					}
@@ -155,7 +155,7 @@ class TranslationKeyTask implements TaskInterface {
 
 						$domainKeys = $this->translationParser->parse($file);
 
-						$domain = pathinfo($file, PATHINFO_FILENAME);
+						$domain = pathinfo((string)$file, PATHINFO_FILENAME);
 						if (!isset($keys[$domain])) {
 							$keys[$domain] = [];
 						}

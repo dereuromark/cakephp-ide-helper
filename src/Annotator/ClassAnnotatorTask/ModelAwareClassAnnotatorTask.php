@@ -33,7 +33,7 @@ class ModelAwareClassAnnotatorTask extends AbstractClassAnnotatorTask implements
 
 		try {
 			return (new ReflectionClass($className))->hasMethod('fetchModel');
-		} catch (Throwable $exception) {
+		} catch (Throwable) {
 			return false;
 		}
 	}

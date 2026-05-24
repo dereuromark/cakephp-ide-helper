@@ -38,10 +38,8 @@ CODE;
 			$path = $this->path();
 			$filename = $path . 'CodeCompletion' . $this->type($namespace) . '.php';
 
-			if (!file_exists($filename) || md5_file($filename) !== md5($template)) {
-				if (file_put_contents($filename, $template) === false) {
-					throw new RuntimeException(sprintf('Failed to write file `%s`.', $filename));
-				}
+			if ((!file_exists($filename) || md5_file($filename) !== md5($template)) && file_put_contents($filename, $template) === false) {
+				throw new RuntimeException(sprintf('Failed to write file `%s`.', $filename));
 			}
 		}
 

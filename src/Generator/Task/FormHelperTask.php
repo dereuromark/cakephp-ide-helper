@@ -38,7 +38,7 @@ class FormHelperTask extends ModelTask {
 		$models = $this->collectModels();
 
 		$allFields = [];
-		foreach ($models as $model => $className) {
+		foreach (array_keys($models) as $model) {
 			/** @phpstan-var class-string<object>|null $tableClass */
 			$tableClass = App::className($model, 'Model/Table', 'Table');
 			if (!$tableClass) {
@@ -54,7 +54,7 @@ class FormHelperTask extends ModelTask {
 				$modelObject = TableRegistry::getTableLocator()->get($model);
 				$fields = $modelObject->getSchema()->columns();
 
-			} catch (Throwable $exception) {
+			} catch (Throwable) {
 				continue;
 			}
 

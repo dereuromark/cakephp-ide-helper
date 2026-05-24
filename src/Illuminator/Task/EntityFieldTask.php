@@ -106,7 +106,7 @@ class EntityFieldTask extends AbstractTask {
 			$returnTypes = $this->valueNodeParts($valueNode);
 			$typeString = $this->renderUnionTypes($returnTypes);
 
-			$varAndComment = substr($tokens[$i + 2]['content'], strlen($typeString) + 1);
+			$varAndComment = substr((string)$tokens[$i + 2]['content'], strlen($typeString) + 1);
 			$varName = mb_substr($varAndComment, 1);
 			$pieces = explode(' ', $varName);
 			$field = $pieces[0];
@@ -225,13 +225,13 @@ class EntityFieldTask extends AbstractTask {
 
 			$constant = $tokens[$index]['content'];
 
-			$pos = strpos($constant, '_') ?: 0;
-			$prefix = substr($constant, 0, $pos) ?: '';
+			$pos = strpos((string)$constant, '_') ?: 0;
+			$prefix = substr((string)$constant, 0, $pos) ?: '';
 			if ($prefix . '_' !== static::PREFIX) {
 				continue;
 			}
 
-			$field = substr($constant, $pos + 1);
+			$field = substr((string)$constant, $pos + 1);
 			$field = strtolower($field);
 
 			$constants[$field] = [

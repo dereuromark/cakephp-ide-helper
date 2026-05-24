@@ -14,11 +14,7 @@ class GenericString {
 	 * @return string
 	 */
 	public static function generate(string $value, ?string $type = null): string {
-		if ($type !== null && str_starts_with($type, '\\')) {
-			$typeCheck = substr($type, 1);
-		} else {
-			$typeCheck = $type;
-		}
+		$typeCheck = $type !== null && str_starts_with($type, '\\') ? substr($type, 1) : $type;
 
 		$detailed = Configure::read('IdeHelper.genericsInParam') === 'detailed';
 		if ($detailed && $typeCheck === ResultSetInterface::class) {

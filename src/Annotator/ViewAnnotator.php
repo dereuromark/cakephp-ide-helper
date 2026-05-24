@@ -45,9 +45,8 @@ class ViewAnnotator extends AbstractAnnotator {
 		$helperArray = $this->parseViewClass();
 
 		$helperArray = $this->addAppHelpers($helperArray);
-		$helperArray = $this->addExtractedHelpers($helperArray);
 
-		return $helperArray;
+		return $this->addExtractedHelpers($helperArray);
 	}
 
 	/**
@@ -112,9 +111,7 @@ class ViewAnnotator extends AbstractAnnotator {
 			return [];
 		}
 
-		$helpers = array_unique($matches[1]);
-
-		return $helpers;
+		return array_unique($matches[1]);
 	}
 
 	/**

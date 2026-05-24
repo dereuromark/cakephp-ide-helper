@@ -99,7 +99,7 @@ class DatabaseTableColumnTypeTaskTest extends TestCase {
 	 */
 	public function testCollectPluginLoaded() {
 		$driver = ConnectionManager::get('test')->getDriver();
-		$this->skipIf(!($driver instanceof Mysql || $driver instanceof Postgres), 'Only for Postgres/Mysql');
+		$this->skipIf(!$driver instanceof Mysql && !$driver instanceof Postgres, 'Only for Postgres/Mysql');
 
 		$this->assertFalse(Plugin::isLoaded('Migrations'));
 

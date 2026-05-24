@@ -52,7 +52,7 @@ class BehaviorTask implements TaskInterface {
 		$behaviors = $this->collectBehaviors();
 		foreach ($behaviors as $name => $className) {
 			$prefixedList[$name] = StringName::create($name);
-			if (str_contains($name, '.')) {
+			if (str_contains((string)$name, '.')) {
 				[, $name] = pluginSplit($name);
 			}
 			$nonPrefixedList[$name] = StringName::create($name);
@@ -77,7 +77,7 @@ class BehaviorTask implements TaskInterface {
 		foreach ($this->getAliases as $alias) {
 			$map = [];
 			foreach ($behaviors as $name => $className) {
-				if (str_contains($name, '.')) {
+				if (str_contains((string)$name, '.')) {
 					[, $name] = pluginSplit($name);
 				}
 				$map[$name] = ClassName::create($className);

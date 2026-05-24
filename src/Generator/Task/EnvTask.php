@@ -10,7 +10,7 @@ class EnvTask implements TaskInterface {
 	/**
 	 * @var string
 	 */
-	protected const METHOD_ENV = '\\' . 'env()';
+	protected const METHOD_ENV = '\env()';
 
 	/**
 	 * Keys from Web based request, will be merged with CLI ones.
@@ -77,7 +77,7 @@ class EnvTask implements TaskInterface {
 		$list = [];
 
 		foreach ($keys as $key) {
-			if (str_starts_with($key, '_')) {
+			if (str_starts_with((string)$key, '_')) {
 				continue;
 			}
 

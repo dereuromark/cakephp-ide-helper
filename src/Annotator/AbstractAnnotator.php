@@ -194,14 +194,14 @@ abstract class AbstractAnnotator {
 			$row = $array[$i];
 
 			$char = ' ';
-			$output = trim($row[0], "\n\r\0\x0B");
+			$output = trim((string)$row[0], "\n\r\0\x0B");
 
 			if ($row[1] === 1) {
 				$char = '+';
 				$this->_io->info('   | ' . $char . $output);
 			} elseif ($row[1] === 2) {
 				$char = '-';
-				$this->_io->out('<warning>' . '   | ' . $char . $output . '</warning>');
+				$this->_io->out('<warning>   | ' . $char . $output . '</warning>');
 			} else {
 				$this->_io->out('   | ' . $char . $output);
 			}
@@ -401,7 +401,7 @@ abstract class AbstractAnnotator {
 				$this->_counter[static::COUNT_REMOVABLE]++;
 				static::$stale = true;
 				if ($this->getConfig(static::CONFIG_VERBOSE)) {
-					$this->_io->warn('   Outdated annotation (run with -r to remove): ' . (string)$annotation);
+					$this->_io->warn('   Outdated annotation (run with -r to remove): ' . $annotation);
 				}
 
 				continue;
@@ -470,12 +470,10 @@ abstract class AbstractAnnotator {
 				return true;
 			}
 
-			if ($annotation instanceof PropertyAnnotation && $existingAnnotation instanceof PropertyAnnotation) {
-				if ($annotation->getProperty() === $existingAnnotation->getProperty() && $annotation->getType() === $existingAnnotation->getType()) {
-					unset($existingAnnotations[$key]);
+			if ($annotation instanceof PropertyAnnotation && $existingAnnotation instanceof PropertyAnnotation && ($annotation->getProperty() === $existingAnnotation->getProperty() && $annotation->getType() === $existingAnnotation->getType())) {
+				unset($existingAnnotations[$key]);
 
-					return true;
-				}
+				return true;
 			}
 
 			// Let's skip on existing ones that are only guessed.
@@ -596,11 +594,11 @@ abstract class AbstractAnnotator {
 			$typeString = $this->renderUnionTypes($returnTypes);
 
 			$tag = $tokens[$i]['content'];
-			$variablePos = strpos($content, ' $');
+			$variablePos = strpos((string)$content, ' $');
 			if (in_array($tag, [VariableAnnotation::TAG, PropertyAnnotation::TAG]) && $variablePos) {
-				$content = mb_substr($content, $variablePos + 1);
+				$content = mb_substr((string)$content, $variablePos + 1);
 			} else {
-				$content = mb_substr($content, mb_strlen($typeString) + 1);
+				$content = mb_substr((string)$content, mb_strlen($typeString) + 1);
 			}
 
 			$annotation = AnnotationFactory::createOrFail($tag, $typeString, $content, $classNameIndex);
@@ -875,7 +873,7 @@ abstract class AbstractAnnotator {
 			if ($tokens[$i]['code'] !== T_DOC_COMMENT_TAG) {
 				continue;
 			}
-			if (mb_strtolower($tokens[$i]['content']) === '@inheritdoc') {
+			if (mb_strtolower((string)$tokens[$i]['content']) === '@inheritdoc') {
 				return true;
 			}
 		}
@@ -934,19 +932,19 @@ abstract class AbstractAnnotator {
 	protected function report(): void {
 		$out = [];
 
-		$added = !empty($this->_counter[static::COUNT_ADDED]) ? $this->_counter[static::COUNT_ADDED] : 0;
+		$added = empty($this->_counter[static::COUNT_ADDED]) ? 0 : $this->_counter[static::COUNT_ADDED];
 		if ($added) {
 			$out[] = $added . ' ' . ($added === 1 ? 'annotation' : 'annotations') . ' added';
 		}
-		$updated = !empty($this->_counter[static::COUNT_UPDATED]) ? $this->_counter[static::COUNT_UPDATED] : 0;
+		$updated = empty($this->_counter[static::COUNT_UPDATED]) ? 0 : $this->_counter[static::COUNT_UPDATED];
 		if ($updated) {
 			$out[] = $updated . ' ' . ($updated === 1 ? 'annotation' : 'annotations') . ' updated';
 		}
-		$removed = !empty($this->_counter[static::COUNT_REMOVED]) ? $this->_counter[static::COUNT_REMOVED] : 0;
+		$removed = empty($this->_counter[static::COUNT_REMOVED]) ? 0 : $this->_counter[static::COUNT_REMOVED];
 		if ($removed) {
 			$out[] = $removed . ' ' . ($removed === 1 ? 'annotation' : 'annotations') . ' removed';
 		}
-		$skipped = !empty($this->_counter[static::COUNT_SKIPPED]) ? $this->_counter[static::COUNT_SKIPPED] : 0;
+		$skipped = empty($this->_counter[static::COUNT_SKIPPED]) ? 0 : $this->_counter[static::COUNT_SKIPPED];
 		if ($skipped) {
 			$out[] = $skipped . ' ' . ($skipped === 1 ? 'annotation' : 'annotations') . ' skipped';
 		}
@@ -959,7 +957,7 @@ abstract class AbstractAnnotator {
 		// them on their own attention-coloured line (matches the verbose
 		// per-annotation warn() above), never folded into the green
 		// success summary.
-		$removable = !empty($this->_counter[static::COUNT_REMOVABLE]) ? $this->_counter[static::COUNT_REMOVABLE] : 0;
+		$removable = empty($this->_counter[static::COUNT_REMOVABLE]) ? 0 : $this->_counter[static::COUNT_REMOVABLE];
 		if ($removable) {
 			$this->_io->warn('   -> ' . $removable . ' ' . ($removable === 1 ? 'annotation' : 'annotations') . ' outdated (run with -r to remove)');
 		}
@@ -972,11 +970,11 @@ abstract class AbstractAnnotator {
 	protected function reportSkipped(string $path): void {
 		$out = [];
 
-		$skipped = !empty($this->_counter[static::COUNT_SKIPPED]) ? $this->_counter[static::COUNT_SKIPPED] : 0;
+		$skipped = empty($this->_counter[static::COUNT_SKIPPED]) ? 0 : $this->_counter[static::COUNT_SKIPPED];
 		if ($skipped) {
 			$out[] = $skipped . ' ' . ($skipped === 1 ? 'annotation' : 'annotations') . ' skipped';
 		}
-		$removable = !empty($this->_counter[static::COUNT_REMOVABLE]) ? $this->_counter[static::COUNT_REMOVABLE] : 0;
+		$removable = empty($this->_counter[static::COUNT_REMOVABLE]) ? 0 : $this->_counter[static::COUNT_REMOVABLE];
 
 		if (!$out && !$removable) {
 			return;
