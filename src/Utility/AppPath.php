@@ -16,7 +16,7 @@ class AppPath {
 	public static function get(string $type, ?string $plugin = null): array {
 		try {
 			return App::classPath($type, $plugin);
-		} catch (MissingPluginException $exception) {
+		} catch (MissingPluginException) {
 		}
 
 		return App::classPath($type, $plugin);

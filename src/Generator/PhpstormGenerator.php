@@ -43,7 +43,7 @@ class PhpstormGenerator implements GeneratorInterface {
 		}
 		$overrides = implode(PHP_EOL . PHP_EOL, $overrides);
 
-		$template = <<<TXT
+		return <<<TXT
 <?php
 // @link https://confluence.jetbrains.com/display/PhpStorm/PhpStorm+Advanced+Metadata
 namespace PHPSTORM_META {
@@ -53,8 +53,6 @@ $overrides
 }
 
 TXT;
-
-		return $template;
 	}
 
 	/**

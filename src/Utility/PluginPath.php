@@ -14,7 +14,7 @@ class PluginPath {
 	public static function get(string $plugin): string {
 		try {
 			return Plugin::path($plugin);
-		} catch (MissingPluginException $exception) {
+		} catch (MissingPluginException) {
 		}
 
 		return Plugin::path($plugin);
@@ -28,7 +28,7 @@ class PluginPath {
 	public static function classPath(string $plugin): string {
 		try {
 			return Plugin::classPath($plugin);
-		} catch (MissingPluginException $exception) {
+		} catch (MissingPluginException) {
 		}
 
 		return Plugin::classPath($plugin);

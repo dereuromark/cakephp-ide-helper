@@ -34,11 +34,7 @@ abstract class BaseDirective {
 	protected function buildList(array $array, int $indentation = 2): string {
 		$result = [];
 		foreach ($array as $value) {
-			if ($value instanceof ValueObjectInterface) {
-				$element = (string)$value;
-			} else {
-				$element = $value;
-			}
+			$element = $value instanceof ValueObjectInterface ? (string)$value : $value;
 			$result[] = str_repeat("\t", $indentation) . $element;
 		}
 

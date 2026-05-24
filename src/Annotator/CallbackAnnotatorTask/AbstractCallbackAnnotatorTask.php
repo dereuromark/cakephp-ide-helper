@@ -67,13 +67,11 @@ abstract class AbstractCallbackAnnotatorTask extends AbstractAnnotator {
 
 		$closeTagIndex = $this->findCloseTagIndex($file, $index);
 
-		$result = [
+		return [
 			'name' => $tokens[$nameIndex]['content'],
 			'docBlockStart' => $closeTagIndex ? $tokens[$closeTagIndex]['comment_opener'] : null,
 			'docBlockEnd' => $closeTagIndex ?: null,
 		];
-
-		return $result;
 	}
 
 	/**

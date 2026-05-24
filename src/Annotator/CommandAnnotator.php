@@ -45,9 +45,7 @@ class CommandAnnotator extends AbstractAnnotator {
 			return null;
 		}
 
-		$modelName = $matches[1];
-
-		return $modelName;
+		return $matches[1];
 	}
 
 }

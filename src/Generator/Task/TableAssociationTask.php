@@ -33,7 +33,7 @@ class TableAssociationTask extends ModelTask {
 		$result = [];
 		foreach ($this->aliases as $alias => $className) {
 			$map = [];
-			foreach ($models as $model => $modelClassName) {
+			foreach (array_keys($models) as $model) {
 				$map[$model] = ClassName::create($className);
 			}
 

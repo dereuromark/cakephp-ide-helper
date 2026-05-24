@@ -53,11 +53,9 @@ class ExitPoint extends BaseDirective {
 	public function build() {
 		$method = $this->method;
 
-		$result = <<<TXT
+		return <<<TXT
 	exitPoint($method);
 TXT;
-
-		return $result;
 	}
 
 }

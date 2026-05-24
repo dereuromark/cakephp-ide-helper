@@ -217,7 +217,6 @@ class AnnotateCommandTest extends TestCase {
 	public function testCiPredicateFailsOnStaleWithoutRemove(): void {
 		$command = new ModelsCommand();
 		$method = new ReflectionMethod($command, '_annotatorMadeChanges');
-		$method->setAccessible(true);
 
 		AbstractAnnotator::$output = false;
 		AbstractAnnotator::$stale = false;

@@ -3,8 +3,9 @@
 namespace IdeHelper\Annotation;
 
 use RuntimeException;
+use Stringable;
 
-abstract class AbstractAnnotation implements AnnotationInterface, ReplacableAnnotationInterface {
+abstract class AbstractAnnotation implements AnnotationInterface, ReplacableAnnotationInterface, Stringable {
 
 	/**
 	 * @var string

@@ -282,9 +282,6 @@ class ModelAnnotator extends AbstractAnnotator {
 			if (!$entityTemplateEmitted || $detailed) {
 				$annotations[] = "@method {$fullClassName} newEntity({$dataType} \$data, {$optionsType} \$options = [])";
 				$annotations[] = "@method {$fullClassNameCollection} newEntities({$dataListType} \$data, {$optionsType} \$options = [])";
-			}
-
-			if (!$entityTemplateEmitted || $detailed) {
 				$annotations[] = "@method {$fullClassName} get(mixed \$primaryKey, {$finderType} \$finder = 'all', \Psr\SimpleCache\CacheInterface|string|null \$cache = null, \Closure|string|null \$cacheKey = null, mixed ...\$args)";
 			}
 			if (Configure::read('IdeHelper.tableEntityQuery') && !$entityTemplateFindFamily) {
@@ -333,9 +330,8 @@ class ModelAnnotator extends AbstractAnnotator {
 		}
 
 		$result = $this->addBehaviorMixins($result, $behaviors);
-		$result = $this->addBehaviorExtends($result, $behaviors, $parentClass, $entityClass);
 
-		return $result;
+		return $this->addBehaviorExtends($result, $behaviors, $parentClass, $entityClass);
 	}
 
 	/**

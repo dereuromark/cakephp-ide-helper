@@ -36,11 +36,7 @@ class ControllerDefaultTableTask extends AbstractTask {
 			return false;
 		}
 
-		if (!preg_match('#[\\\/]Controller[\\\/]#', $path)) {
-			return false;
-		}
-
-		return true;
+		return (bool)preg_match('#[\\\/]Controller[\\\/]#', $path);
 	}
 
 	/**
@@ -86,11 +82,7 @@ class ControllerDefaultTableTask extends AbstractTask {
 	protected function hasDefaultTableProperty(File $file, int $classIndex, string $content): bool {
 		// Fast regex check for performance (optional, can be enabled via config)
 		if ($this->getConfig('fastPropertyCheck')) {
-			if (preg_match('/\bprotected \?string \$defaultTable\b/', $content)) {
-				return true;
-			}
-
-			return false;
+			return (bool)preg_match('/\bprotected \?string \$defaultTable\b/', $content);
 		}
 
 		// Robust token-based check within class scope

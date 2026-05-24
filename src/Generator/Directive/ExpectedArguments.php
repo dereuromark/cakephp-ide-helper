@@ -81,15 +81,14 @@ class ExpectedArguments extends BaseDirective {
 		$position = $this->position;
 
 		$list = $this->buildList($this->list);
-		$result = <<<TXT
+
+		return <<<TXT
 	expectedArguments(
 		$method,
 		$position,
 $list
 	);
 TXT;
-
-		return $result;
 	}
 
 }

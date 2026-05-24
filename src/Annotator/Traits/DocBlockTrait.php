@@ -144,16 +144,12 @@ trait DocBlockTrait {
 				continue;
 			}
 			$content = $tokens[$i]['content'];
-			$pos = stripos($content, $alias);
+			$pos = stripos((string)$content, $alias);
 			if ($pos === false) {
 				continue;
 			}
 
-			if ($pos && str_starts_with($alias, '@') && substr($content, $pos - 1, $pos) === '{') {
-				return false;
-			}
-
-			return true;
+			return !($pos && str_starts_with($alias, '@') && substr((string)$content, $pos - 1, $pos) === '{');
 		}
 
 		return false;

@@ -207,7 +207,7 @@ abstract class AnnotateCommand extends Command {
 	 * @return bool
 	 */
 	protected function _annotatorMadeChanges(): bool {
-		return AbstractAnnotator::$output !== false || AbstractAnnotator::$stale;
+		return AbstractAnnotator::$output || AbstractAnnotator::$stale;
 	}
 
 }

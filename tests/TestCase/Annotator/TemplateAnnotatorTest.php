@@ -474,25 +474,11 @@ class TemplateAnnotatorTest extends TestCase {
 		Configure::write('IdeHelper.autoCollect', 'mixed');
 		$annotator = $this->_getAnnotatorMock([]);
 
-		$expectedVariables = [
-			'$this',
-			'$participantMoods',
-			'$yourMoodIds',
-			'$items',
-			'$filtered',
-			'$data',
-			'$numbers',
-			'$doubled',
-			'$multiplier',
-			'$values',
-			'$result',
-		];
-
 		// Variables that should NOT get annotations (anonymous function parameters)
 		$excludedVariables = ['$m', '$item', '$a', '$b', '$x', '$n'];
 		// Note: $id is excluded too, but it's a foreach loop variable, not an anonymous function parameter
 
-		$callback = function($value) use ($expectedVariables, $excludedVariables) {
+		$callback = function($value) use ($excludedVariables) {
 			// Extract just the PHPDoc block
 			if (preg_match('/\/\*\*(.*?)\*\//s', $value, $matches)) {
 				$docBlock = $matches[1];

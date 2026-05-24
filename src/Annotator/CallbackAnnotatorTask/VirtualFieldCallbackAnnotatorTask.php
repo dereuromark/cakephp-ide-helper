@@ -25,11 +25,7 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 	 * @return bool
 	 */
 	public function shouldRun(string $path): bool {
-		if (!preg_match('#/Model/Entity/\w+\.php$#', $path)) {
-			return false;
-		}
-
-		return true;
+		return (bool)preg_match('#/Model/Entity/\w+\.php$#', $path);
 	}
 
 	/**
@@ -50,7 +46,7 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 				continue;
 			}
 
-			$method['see'] = $namespace . '\\' . $class . '::$' . Inflector::underscore(substr($method['name'], 4));
+			$method['see'] = $namespace . '\\' . $class . '::$' . Inflector::underscore(substr((string)$method['name'], 4));
 
 			if (!$this->needsUpdate($file, $index, $method)) {
 				unset($methods[$index]);
@@ -161,7 +157,7 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 	 */
 	protected function isVirtualField(array $method): bool {
 		foreach ($this->methods as $regex) {
-			if (preg_match($regex, $method['name'])) {
+			if (preg_match($regex, (string)$method['name'])) {
 				return true;
 			}
 		}

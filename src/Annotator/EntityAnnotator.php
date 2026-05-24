@@ -129,7 +129,7 @@ class EntityAnnotator extends AbstractAnnotator {
 					if ($plugin !== null) {
 						$namespace = $plugin;
 					}
-					$namespace = str_replace('/', '\\', trim($namespace, '\\'));
+					$namespace = str_replace('/', '\\', trim((string)$namespace, '\\'));
 
 					$entityClass = $this->entityName($association->getTarget()->getAlias());
 					$entityClass = '\\' . $namespace . '\Model\Entity\\' . $entityClass;
@@ -158,7 +158,7 @@ class EntityAnnotator extends AbstractAnnotator {
 
 				try {
 					$className = $table->getEntityClass();
-				} catch (Throwable $e) {
+				} catch (Throwable) {
 					$className = Entity::class;
 				}
 
@@ -295,11 +295,7 @@ class EntityAnnotator extends AbstractAnnotator {
 			static::$typeMap = (array)Configure::read('IdeHelper.typeMap') + static::$typeMapDefaults;
 		}
 
-		if (isset(static::$typeMap[$type])) {
-			return static::$typeMap[$type];
-		}
-
-		return null;
+		return static::$typeMap[$type] ?? null;
 	}
 
 	/**
@@ -345,7 +341,7 @@ class EntityAnnotator extends AbstractAnnotator {
 
 			$startIndex = $methodNameIndex + 1;
 
-			if (!preg_match('#^_get([A-Z][a-zA-Z0-9]+)$#', $methodName, $matches)) {
+			if (!preg_match('#^_get([A-Z][a-zA-Z0-9]+)$#', (string)$methodName, $matches)) {
 				continue;
 			}
 
@@ -487,7 +483,7 @@ class EntityAnnotator extends AbstractAnnotator {
 
 				continue;
 			}
-			if ($bracketDepth === 0 && ($char === ' ' || $char === "\t" || $char === '*' || $char === "\n" || $char === "\r")) {
+			if ($bracketDepth === 0 && (in_array($char, [' ', "\t", '*', "\n", "\r"], true))) {
 				$end = $i;
 
 				break;
@@ -518,7 +514,7 @@ class EntityAnnotator extends AbstractAnnotator {
 			return $name;
 		}
 
-		return strpos($name, '\\') === 0 ? $name : '\\' . $name;
+		return str_starts_with($name, '\\') ? $name : '\\' . $name;
 	}
 
 	/**
@@ -602,7 +598,7 @@ class EntityAnnotator extends AbstractAnnotator {
 			// Spaces inside <> brackets should not be treated as type boundaries
 			$bracketDepth = 0;
 			$typeEnd = null;
-			$length = strlen($content);
+			$length = strlen((string)$content);
 			for ($j = 0; $j < $length; $j++) {
 				$char = $content[$j];
 				if ($char === '<') {
@@ -617,7 +613,7 @@ class EntityAnnotator extends AbstractAnnotator {
 			}
 
 			if ($typeEnd !== null) {
-				$content = substr($content, 0, $typeEnd);
+				$content = substr((string)$content, 0, $typeEnd);
 			}
 
 			return $content;
@@ -675,7 +671,7 @@ class EntityAnnotator extends AbstractAnnotator {
 		try {
 			/** @var \Cake\Datasource\EntityInterface $entity */
 			$entity = new $className();
-		} catch (Throwable $exception) {
+		} catch (Throwable) {
 			return [];
 		}
 

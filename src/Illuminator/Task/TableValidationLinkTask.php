@@ -3,6 +3,7 @@
 namespace IdeHelper\Illuminator\Task;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
 use PhpParser\ParserFactory;
@@ -52,7 +53,7 @@ class TableValidationLinkTask extends AbstractTask {
 
 		try {
 			$ast = $parser->parse($content);
-		} catch (Throwable $e) {
+		} catch (Throwable) {
 			return [];
 		}
 
@@ -112,7 +113,7 @@ class TableValidationLinkTask extends AbstractTask {
 				$ruleLine = null;
 
 				foreach ($options->items as $item) {
-					if (!$item instanceof Node\Expr\ArrayItem || $item->key === null) {
+					if (!$item instanceof Node\Expr\ArrayItem || !$item->key instanceof Expr) {
 						continue;
 					}
 

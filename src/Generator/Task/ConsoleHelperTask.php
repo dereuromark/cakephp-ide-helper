@@ -30,7 +30,7 @@ class ConsoleHelperTask implements TaskInterface {
 		$components = $this->collectHelpers();
 		foreach ($components as $name => $className) {
 			$addMap[$name] = ClassName::create($className);
-			if (str_contains($name, '.')) {
+			if (str_contains((string)$name, '.')) {
 				[, $name] = pluginSplit($name);
 			}
 		}

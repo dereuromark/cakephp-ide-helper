@@ -188,9 +188,8 @@ class ControllerAnnotator extends AbstractAnnotator {
 		}
 
 		$appControllerComponents = $this->getUsedComponents('AppController', $path);
-		$components = array_diff_key($components, $appControllerComponents);
 
-		return $components;
+		return array_diff_key($components, $appControllerComponents);
 	}
 
 	/**
@@ -212,9 +211,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 			$settingsType = 'array<string, mixed>';
 		}
 
-		$annotations = [AnnotationFactory::createOrFail(MethodAnnotation::TAG, $resultSetInterfaceCollection, 'paginate(\Cake\Datasource\RepositoryInterface|\Cake\Datasource\QueryInterface|string|null $object = null, ' . $settingsType . ' $settings = [])')];
-
-		return $annotations;
+		return [AnnotationFactory::createOrFail(MethodAnnotation::TAG, $resultSetInterfaceCollection, 'paginate(\Cake\Datasource\RepositoryInterface|\Cake\Datasource\QueryInterface|string|null $object = null, ' . $settingsType . ' $settings = [])')];
 	}
 
 	/**
@@ -268,7 +265,7 @@ class ControllerAnnotator extends AbstractAnnotator {
 		try {
 			$table = TableRegistry::getTableLocator()->get($modelName);
 			$entityClassName = $table->getEntityClass();
-		} catch (Throwable $exception) {
+		} catch (Throwable) {
 			$plugin = null;
 			if (str_contains($modelName, '.')) {
 				[$plugin, $modelName] = explode('.', $modelName, 2);

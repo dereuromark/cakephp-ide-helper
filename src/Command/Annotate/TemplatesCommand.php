@@ -58,7 +58,7 @@ class TemplatesCommand extends AnnotateCommand {
 			if (is_dir($path)) {
 				foreach ($this->_config['skipTemplatePaths'] as $skip) {
 					$subFolder = pathinfo($path, PATHINFO_BASENAME);
-					if (!str_contains($subFolder, $skip)) {
+					if (!str_contains($subFolder, (string)$skip)) {
 						continue;
 					}
 

@@ -12,7 +12,7 @@ use PhpParser\NodeVisitorAbstract;
  */
 class TableFindNodeVisitor extends NodeVisitorAbstract {
 
-	private string $appNamespace;
+	private readonly string $appNamespace;
 
 	/**
 	 * @var array<array{line: int, varName: string, tableName: string, entityClass: string, nullable: bool}>

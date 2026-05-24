@@ -58,11 +58,7 @@ class TableCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implement
 		$entityClassName = $table->getEntityClass();
 		$this->entityClassName = $entityClassName;
 
-		if (!preg_match('#\bfunction (' . $this->generatePattern() . ')\b#', $this->content)) {
-			return false;
-		}
-
-		return true;
+		return (bool)preg_match('#\bfunction (' . $this->generatePattern() . ')\b#', $this->content);
 	}
 
 	/**
@@ -132,7 +128,7 @@ class TableCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implement
 	 */
 	protected function generatePattern(): string {
 		$pattern = [];
-		foreach ($this->callbacks as $key => $v) {
+		foreach (array_keys($this->callbacks) as $key) {
 			$pattern[] = preg_quote($key . '(');
 		}
 

@@ -67,7 +67,7 @@ class DatabaseTableColumnTypeTaskTest extends TestCase {
 		$this->assertSame('\Migrations\Db\Table::addColumn()', $directive->toArray()['method']);
 
 		$list = array_map(function ($value) {
-			return (string)$value;
+			return $value;
 		}, $list);
 
 		$expectedList = [
@@ -99,7 +99,7 @@ class DatabaseTableColumnTypeTaskTest extends TestCase {
 	 */
 	public function testCollectPluginLoaded() {
 		$driver = ConnectionManager::get('test')->getDriver();
-		$this->skipIf(!($driver instanceof Mysql || $driver instanceof Postgres), 'Only for Postgres/Mysql');
+		$this->skipIf(!$driver instanceof Mysql && !$driver instanceof Postgres, 'Only for Postgres/Mysql');
 
 		$this->assertFalse(Plugin::isLoaded('Migrations'));
 

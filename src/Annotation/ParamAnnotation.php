@@ -62,11 +62,8 @@ class ParamAnnotation extends AbstractAnnotation {
 		if (!$annotation instanceof self) {
 			return false;
 		}
-		if ($annotation->getVariable() !== $this->variable) {
-			return false;
-		}
 
-		return true;
+		return $annotation->getVariable() === $this->variable;
 	}
 
 	/**

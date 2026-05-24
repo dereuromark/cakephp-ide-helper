@@ -59,7 +59,7 @@ class EntityTask extends ModelTask {
 		$modelFields = [];
 
 		$models = $this->collectModels();
-		foreach ($models as $model => $className) {
+		foreach ($models as $className) {
 			$fields = [];
 			$tableObject = null;
 			try {
@@ -76,7 +76,7 @@ class EntityTask extends ModelTask {
 					$fieldsFromRelations = $this->addFromRelations($tableObject);
 					$fields = array_merge($fields, $fieldsFromRelations);
 					$fields = array_unique($fields);
-				} catch (Throwable $exception) {
+				} catch (Throwable) {
 					// Do nothing
 				}
 			}
@@ -89,7 +89,7 @@ class EntityTask extends ModelTask {
 				$virtualFields = $entityObject->getVirtual();
 				$fields = array_merge($fields, $virtualFields, $visibleFields);
 				$fields = array_unique($fields);
-			} catch (Throwable $exception) {
+			} catch (Throwable) {
 				// Do nothing
 			}
 

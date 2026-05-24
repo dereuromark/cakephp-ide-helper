@@ -32,7 +32,7 @@ class BehaviorTask implements TaskInterface {
 
 		$content = $this->build($behaviors);
 
-		$content = <<<CODE
+		return <<<CODE
 abstract class BehaviorRegistry extends \Cake\Core\ObjectRegistry {
 
 $content
@@ -40,8 +40,6 @@ $content
 }
 
 CODE;
-
-		return $content;
 	}
 
 	/**

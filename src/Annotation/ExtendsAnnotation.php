@@ -52,12 +52,8 @@ class ExtendsAnnotation extends AbstractAnnotation {
 	 * @return bool
 	 */
 	public function matches(AbstractAnnotation $annotation): bool {
-		if (!$annotation instanceof self) {
-			return false;
-		}
-
 		// Always matches as there can only be one per docblock
-		return true;
+		return $annotation instanceof self;
 	}
 
 	/**

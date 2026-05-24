@@ -23,17 +23,14 @@ class FormClassAnnotatorTask extends AbstractClassAnnotatorTask implements Class
 			return false;
 		}
 
-		$appNamespace = Configure::read('App.namespace') ?: 'App';
+		Configure::read('App.namespace') ?: 'App';
 		if (!preg_match('#\buse (\w+)\\\\Form\\\\(.+)Form\b#', $content, $matches)) {
 			return false;
 		}
 
 		$varName = lcfirst($matches[2]) . 'Form';
-		if (!preg_match('#\$' . preg_quote($varName, '#') . '->execute\(#', $content)) {
-			return false;
-		}
 
-		return true;
+		return (bool)preg_match('#\$' . preg_quote($varName, '#') . '->execute\(#', $content);
 	}
 
 	/**

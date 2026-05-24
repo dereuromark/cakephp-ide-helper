@@ -65,11 +65,8 @@ class PropertyAnnotation extends AbstractAnnotation {
 		if (!$annotation instanceof self) {
 			return false;
 		}
-		if ($annotation->getProperty() !== $this->property) {
-			return false;
-		}
 
-		return true;
+		return $annotation->getProperty() === $this->property;
 	}
 
 	/**
