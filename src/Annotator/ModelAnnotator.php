@@ -217,11 +217,11 @@ class ModelAnnotator extends AbstractAnnotator {
 				// Detailed mode always narrows iterables to the concrete entity — a UsersTable only ever handles User entities.
 				$iterableEntity = $detailed ? $fullClassName : $entityInterface;
 				$iterable = "iterable<{$iterableEntity}>";
-				// Basic generics still carry the loose `<mixed>` so no bare `array` is emitted; detailed narrows the keys.
-				$finderType = $detailed ? 'array<string, mixed>|string' : 'array<mixed>|string';
-				$findOrCreateSearchType = $detailed
-					? "\Cake\ORM\Query\SelectQuery<{$fullClassName}>|callable|array<string, mixed>"
-					: '\Cake\ORM\Query\SelectQuery|callable|array<mixed>';
+				// Fully type these params so neither bare `array` nor a bare generic class leaks: PHPStan stays
+				// clean on missingType.iterableValue/missingType.generics, and PHPStorm handles both forms.
+				$finderType = 'array<string, mixed>|string';
+				$findOrCreateSearchType = "\Cake\ORM\Query\SelectQuery<{$fullClassName}>|callable|array<string, mixed>";
+				// $contain accepts list form (`['Comments', 'Tags']`) as well as associative, so keep the key type loose.
 				$containType = 'array<mixed>';
 			} elseif ($strict) {
 				// Strict mode narrows the iterable to the concrete entity even without genericsInParam.

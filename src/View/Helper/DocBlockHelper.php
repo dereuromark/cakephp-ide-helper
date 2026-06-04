@@ -174,10 +174,8 @@ class DocBlockHelper extends BakeDocBlockHelper {
 			$optionsType = 'array<string, mixed>';
 			$iterableEntity = $detailed ? $class : $classInterface;
 			$itterable = "iterable<{$iterableEntity}>";
-			$finderType = $detailed ? 'array<string, mixed>|string' : 'array<mixed>|string';
-			$findOrCreateSearchType = $detailed
-				? "\Cake\ORM\Query\SelectQuery<{$class}>|callable|array<string, mixed>"
-				: '\Cake\ORM\Query\SelectQuery|callable|array<mixed>';
+			$finderType = 'array<string, mixed>|string';
+			$findOrCreateSearchType = "\Cake\ORM\Query\SelectQuery<{$class}>|callable|array<string, mixed>";
 			$containType = 'array<mixed>';
 		} elseif ($strict) {
 			$itterable = "iterable<{$class}>";
@@ -192,7 +190,7 @@ class DocBlockHelper extends BakeDocBlockHelper {
 		$annotations[] = "@method {$classes} patchEntities({$itterable} \$entities, {$dataListType} \$data, {$optionsType} \$options = [])";
 		$annotations[] = "@method {$class}|false save({$classInterface} \$entity, {$optionsType} \$options = [])";
 		$annotations[] = "@method {$class} saveOrFail({$classInterface} \$entity, {$optionsType} \$options = [])";
-		$resultSet = $detailed ? "\Cake\Datasource\ResultSetInterface<int, {$class}>" : "{$classes}|\Cake\Datasource\ResultSetInterface<{$class}>";
+		$resultSet = $detailed ? "\Cake\Datasource\ResultSetInterface<int, {$class}>" : "{$classes}|\Cake\Datasource\ResultSetInterface<int, {$class}>";
 		$annotations[] = "@method {$resultSet}|false saveMany({$itterable} \$entities, {$optionsType} \$options = [])";
 		$annotations[] = "@method {$resultSet} saveManyOrFail({$itterable} \$entities, {$optionsType} \$options = [])";
 		if ($strict) {

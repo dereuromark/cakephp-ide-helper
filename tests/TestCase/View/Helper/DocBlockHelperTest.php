@@ -76,10 +76,10 @@ class DocBlockHelperTest extends TestCase {
 			'@method \\Bar\\Model\\Entity\\Foo[] patchEntities(iterable $entities, array $data, array $options = [])',
 			'@method \\Bar\\Model\\Entity\\Foo|false save(\\Cake\\Datasource\\EntityInterface $entity, array $options = [])',
 			'@method \\Bar\\Model\\Entity\\Foo saveOrFail(\\Cake\\Datasource\\EntityInterface $entity, array $options = [])',
-			'@method \\Bar\\Model\\Entity\\Foo[]|\\Cake\\Datasource\\ResultSetInterface<\\Bar\\Model\\Entity\\Foo>|false saveMany(iterable $entities, array $options = [])',
-			'@method \\Bar\\Model\\Entity\\Foo[]|\\Cake\\Datasource\\ResultSetInterface<\\Bar\\Model\\Entity\\Foo> saveManyOrFail(iterable $entities, array $options = [])',
-			'@method \\Bar\\Model\\Entity\\Foo[]|\\Cake\\Datasource\\ResultSetInterface<\\Bar\\Model\\Entity\\Foo>|false deleteMany(iterable $entities, array $options = [])',
-			'@method \\Bar\\Model\\Entity\\Foo[]|\\Cake\\Datasource\\ResultSetInterface<\\Bar\\Model\\Entity\\Foo> deleteManyOrFail(iterable $entities, array $options = [])',
+			'@method \\Bar\\Model\\Entity\\Foo[]|\\Cake\\Datasource\\ResultSetInterface<int, \\Bar\\Model\\Entity\\Foo>|false saveMany(iterable $entities, array $options = [])',
+			'@method \\Bar\\Model\\Entity\\Foo[]|\\Cake\\Datasource\\ResultSetInterface<int, \\Bar\\Model\\Entity\\Foo> saveManyOrFail(iterable $entities, array $options = [])',
+			'@method \\Bar\\Model\\Entity\\Foo[]|\\Cake\\Datasource\\ResultSetInterface<int, \\Bar\\Model\\Entity\\Foo>|false deleteMany(iterable $entities, array $options = [])',
+			'@method \\Bar\\Model\\Entity\\Foo[]|\\Cake\\Datasource\\ResultSetInterface<int, \\Bar\\Model\\Entity\\Foo> deleteManyOrFail(iterable $entities, array $options = [])',
 		];
 		$this->assertEquals($expected, $result);
 	}

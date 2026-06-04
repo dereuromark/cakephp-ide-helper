@@ -16,9 +16,14 @@ class GenericString {
 	public static function generate(string $value, ?string $type = null): string {
 		$typeCheck = $type !== null && str_starts_with($type, '\\') ? substr($type, 1) : $type;
 
-		$detailed = Configure::read('IdeHelper.genericsInParam') === 'detailed';
-		if ($detailed && $typeCheck === ResultSetInterface::class) {
-			return sprintf($type . '<int, %s>', $value);
+		// ResultSetInterface declares two template params (TKey, TValue); always emit both so PHPStan's
+		// missingType.generics stays clean. Keys are int for a result set. PHPStorm handles the object generic.
+		if ($typeCheck === ResultSetInterface::class) {
+			if (Configure::read('IdeHelper.genericsInParam') === 'detailed' || Configure::read('IdeHelper.concreteEntitiesInParam')) {
+				return sprintf($type . '<int, %s>', $value);
+			}
+
+			return $value . '[]|' . $type . '<int, ' . $value . '>';
 		}
 
 		if (Configure::read('IdeHelper.arrayAsGenerics') && ($type === null || in_array($type, ['array', 'iterable'], true))) {
@@ -26,14 +31,6 @@ class GenericString {
 		}
 		if (Configure::read('IdeHelper.objectAsGenerics') && $type !== null) {
 			return sprintf($type . '<%s>', $value);
-		}
-
-		if ($typeCheck === ResultSetInterface::class) {
-			if (Configure::read('IdeHelper.concreteEntitiesInParam')) {
-				return sprintf($type . '<%s>', $value);
-			}
-
-			return $value . '[]|' . $type . '<' . $value . '>';
 		}
 
 		$value .= '[]';
