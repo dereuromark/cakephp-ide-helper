@@ -4,9 +4,11 @@ namespace IdeHelper\Test\TestCase\Annotator;
 
 use Cake\Console\ConsoleIo;
 use Cake\TestSuite\TestCase;
+use Cake\View\Helper;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\HelperAnnotator;
 use IdeHelper\Console\Io;
+use ReflectionClass;
 use Shim\TestSuite\ConsoleOutput;
 
 class HelperAnnotatorTest extends TestCase {
@@ -38,6 +40,11 @@ class HelperAnnotatorTest extends TestCase {
 		$annotator = $this->_getAnnotatorMock([]);
 
 		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'View/Helper/MyHelper.php'));
+		$expectedCount = 4;
+		if (!$this->helperBaseSupportsGenerics()) {
+			$expectedContent = str_replace(" * @extends \\Cake\\View\\Helper<\\Cake\\View\\View>\n *\n", '', $expectedContent);
+			$expectedCount = 3;
+		}
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -53,7 +60,7 @@ class HelperAnnotatorTest extends TestCase {
 
 		$output = $this->out->output();
 
-		$this->assertTextContains('   -> 4 annotations added', $output);
+		$this->assertTextContains('   -> ' . $expectedCount . ' annotations added', $output);
 	}
 
 	/**
@@ -63,6 +70,11 @@ class HelperAnnotatorTest extends TestCase {
 		$annotator = $this->_getAnnotatorMock([]);
 
 		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'View/Helper/MyMethodHelper.php'));
+		$expectedCount = 3;
+		if (!$this->helperBaseSupportsGenerics()) {
+			$expectedContent = str_replace(" * @extends \\Cake\\View\\Helper<\\Cake\\View\\View>\n", '', $expectedContent);
+			$expectedCount = 2;
+		}
 		$callback = function($value) use ($expectedContent) {
 			$value = str_replace(["\r\n", "\r"], "\n", $value);
 			if ($value !== $expectedContent) {
@@ -78,7 +90,19 @@ class HelperAnnotatorTest extends TestCase {
 
 		$output = $this->out->output();
 
-		$this->assertTextContains('   -> 3 annotations added', $output);
+		$this->assertTextContains('   -> ' . $expectedCount . ' annotations added', $output);
+	}
+
+	/**
+	 * Whether the base helper declares a template parameter (CakePHP 5.3+) and
+	 * therefore receives an `@extends` annotation.
+	 *
+	 * @return bool
+	 */
+	protected function helperBaseSupportsGenerics(): bool {
+		$doc = (new ReflectionClass(Helper::class))->getDocComment();
+
+		return $doc !== false && preg_match('/^\s*\*\s*@template\s/m', $doc) === 1;
 	}
 
 	/**
