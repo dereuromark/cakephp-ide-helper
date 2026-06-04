@@ -10,8 +10,8 @@ use Cake\ORM\Table;
  * @method \TestApp\Model\Entity\BarBar newEmptyEntity()
  * @method \TestApp\Model\Entity\BarBar newEntity(array<mixed> $data, array<string, mixed> $options = [])
  * @method \TestApp\Model\Entity\BarBar[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
- * @method \TestApp\Model\Entity\BarBar get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \TestApp\Model\Entity\BarBar findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array<string, mixed> $options = [])
+ * @method \TestApp\Model\Entity\BarBar get(mixed $primaryKey, array<mixed>|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
+ * @method \TestApp\Model\Entity\BarBar findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array<mixed> $search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \TestApp\Model\Entity\BarBar patchEntity(\TestApp\Model\Entity\BarBar $entity, array<mixed> $data, array<string, mixed> $options = [])
  * @method \TestApp\Model\Entity\BarBar[] patchEntities(iterable<\TestApp\Model\Entity\BarBar> $entities, array<mixed> $data, array<string, mixed> $options = [])
  * @method \TestApp\Model\Entity\BarBar|false save(\TestApp\Model\Entity\BarBar $entity, array<string, mixed> $options = [])
@@ -22,7 +22,7 @@ use Cake\ORM\Table;
  * @method bool deleteOrFail(\TestApp\Model\Entity\BarBar $entity, array<string, mixed> $options = [])
  * @method \Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\BarBar>|false deleteMany(iterable<\TestApp\Model\Entity\BarBar> $entities, array<string, mixed> $options = [])
  * @method \Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\BarBar> deleteManyOrFail(iterable<\TestApp\Model\Entity\BarBar> $entities, array<string, mixed> $options = [])
- * @method \TestApp\Model\Entity\BarBar|array<\TestApp\Model\Entity\BarBar> loadInto(\TestApp\Model\Entity\BarBar|array<\TestApp\Model\Entity\BarBar> $entities, array $contain)
+ * @method \TestApp\Model\Entity\BarBar|array<\TestApp\Model\Entity\BarBar> loadInto(\TestApp\Model\Entity\BarBar|array<\TestApp\Model\Entity\BarBar> $entities, array<mixed> $contain)
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @mixin \MyNamespace\MyPlugin\Model\Behavior\MyBehavior
