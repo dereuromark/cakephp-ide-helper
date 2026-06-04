@@ -4,9 +4,11 @@ namespace IdeHelper\Annotator;
 
 use Cake\View\View;
 use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\ExtendsAnnotation;
 use IdeHelper\Annotation\PropertyAnnotation;
 use IdeHelper\Annotator\Traits\HelperTrait;
 use IdeHelper\Utility\App;
+use ReflectionClass;
 use RuntimeException;
 use Throwable;
 
@@ -56,8 +58,58 @@ class HelperAnnotator extends AbstractAnnotator {
 		}
 
 		$annotations = $this->getHelperAnnotations($helperMap);
+		$annotations = $this->addHelperExtends($annotations, $className);
 
 		return $this->annotateContent($path, $content, $annotations);
+	}
+
+	/**
+	 * Emits `@extends \Cake\View\Helper<\Cake\View\View>` so PHPStan's
+	 * `missingType.generics` stays clean on `Cake\View\Helper` (generic via
+	 * `@template TView` since CakePHP 5.3). Gated by a runtime check on the
+	 * parent's doc-block rather than a version constant, so it self-disables on
+	 * older cores and never emits a bare/over-specified generic on a
+	 * non-generic parent (which would trigger `generics.notGeneric`).
+	 *
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $annotations
+	 * @param class-string<object> $className
+	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
+	 */
+	protected function addHelperExtends(array $annotations, string $className): array {
+		$parentClass = get_parent_class($className);
+		if ($parentClass === false || !$this->parentSupportsGenerics($parentClass)) {
+			return $annotations;
+		}
+
+		// Prepend so `@extends` sits at the top of the class doc-block, matching the
+		// tag order enforced by php-collective/code-sniffer DocBlockTagOrderSniff.
+		array_unshift(
+			$annotations,
+			AnnotationFactory::createOrFail(ExtendsAnnotation::TAG, '\\' . ltrim($parentClass, '\\') . '<\\' . View::class . '>'),
+		);
+
+		return $annotations;
+	}
+
+	/**
+	 * Whether the parent helper declares template parameters and can therefore
+	 * be parameterized via `@extends`.
+	 *
+	 * @param string $parentClass
+	 * @return bool
+	 */
+	protected function parentSupportsGenerics(string $parentClass): bool {
+		$fqcn = ltrim($parentClass, '\\');
+		if (!class_exists($fqcn)) {
+			return false;
+		}
+
+		$doc = (new ReflectionClass($fqcn))->getDocComment();
+		if ($doc === false) {
+			return false;
+		}
+
+		return preg_match('/^\s*\*\s*@template\s/m', $doc) === 1;
 	}
 
 	/**

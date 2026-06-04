@@ -7,6 +7,7 @@ use Cake\View\Helper;
  * @property \Cake\View\Helper\FormHelper $Form
  * @method bool isAdmin()
  * @method bool isStaff()
+ * @extends \Cake\View\Helper<\Cake\View\View>
  * @property \TestApp\View\Helper\HtmlHelper $Html
  * @property \Shim\View\Helper\ConfigureHelper $Configure
  */
