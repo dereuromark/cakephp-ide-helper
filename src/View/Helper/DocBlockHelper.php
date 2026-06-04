@@ -167,18 +167,20 @@ class DocBlockHelper extends BakeDocBlockHelper {
 		$itterable = 'iterable';
 		$finderType = 'array|string';
 		$findOrCreateSearchType = '\Cake\ORM\Query\SelectQuery|callable|array';
+		$containType = 'array';
 		if ($generics) {
 			$dataType = $detailed ? 'array<string, mixed>' : 'array<mixed>';
 			$dataListType = $detailed ? 'array<array<string, mixed>>' : 'array<mixed>';
 			$optionsType = 'array<string, mixed>';
 			$iterableEntity = $detailed ? $class : $classInterface;
 			$itterable = "iterable<{$iterableEntity}>";
+			$finderType = $detailed ? 'array<string, mixed>|string' : 'array<mixed>|string';
+			$findOrCreateSearchType = $detailed
+				? "\Cake\ORM\Query\SelectQuery<{$class}>|callable|array<string, mixed>"
+				: '\Cake\ORM\Query\SelectQuery|callable|array<mixed>';
+			$containType = 'array<mixed>';
 		} elseif ($strict) {
 			$itterable = "iterable<{$class}>";
-		}
-		if ($detailed) {
-			$finderType = 'array<string, mixed>|string';
-			$findOrCreateSearchType = "\Cake\ORM\Query\SelectQuery<{$class}>|callable|array<string, mixed>";
 		}
 
 		$annotations[] = "@method {$class} newEmptyEntity()";
@@ -201,7 +203,7 @@ class DocBlockHelper extends BakeDocBlockHelper {
 		$annotations[] = "@method {$resultSet} deleteManyOrFail({$itterable} \$entities, {$optionsType} \$options = [])";
 
 		if ($strict) {
-			$annotations[] = "@method {$class}|array<{$class}> loadInto({$class}|array<{$class}> \$entities, array \$contain)";
+			$annotations[] = "@method {$class}|array<{$class}> loadInto({$class}|array<{$class}> \$entities, {$containType} \$contain)";
 		}
 
 		foreach (array_keys($behaviors) as $behavior) {

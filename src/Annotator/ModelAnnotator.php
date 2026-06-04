@@ -209,6 +209,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			$iterable = 'iterable';
 			$finderType = 'array|string';
 			$findOrCreateSearchType = '\Cake\ORM\Query\SelectQuery|callable|array';
+			$containType = 'array';
 			if ($generics) {
 				$dataType = $detailed ? 'array<string, mixed>' : 'array<mixed>';
 				$dataListType = $detailed ? 'array<array<string, mixed>>' : 'array<mixed>';
@@ -216,13 +217,15 @@ class ModelAnnotator extends AbstractAnnotator {
 				// Detailed mode always narrows iterables to the concrete entity — a UsersTable only ever handles User entities.
 				$iterableEntity = $detailed ? $fullClassName : $entityInterface;
 				$iterable = "iterable<{$iterableEntity}>";
+				// Basic generics still carry the loose `<mixed>` so no bare `array` is emitted; detailed narrows the keys.
+				$finderType = $detailed ? 'array<string, mixed>|string' : 'array<mixed>|string';
+				$findOrCreateSearchType = $detailed
+					? "\Cake\ORM\Query\SelectQuery<{$fullClassName}>|callable|array<string, mixed>"
+					: '\Cake\ORM\Query\SelectQuery|callable|array<mixed>';
+				$containType = 'array<mixed>';
 			} elseif ($strict) {
 				// Strict mode narrows the iterable to the concrete entity even without genericsInParam.
 				$iterable = "iterable<{$fullClassName}>";
-			}
-			if ($detailed) {
-				$finderType = 'array<string, mixed>|string';
-				$findOrCreateSearchType = "\Cake\ORM\Query\SelectQuery<{$fullClassName}>|callable|array<string, mixed>";
 			}
 
 			/**
@@ -312,7 +315,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			$annotations[] = "@method {$resultSetInterfaceCollection} deleteManyOrFail({$iterable} \$entities, {$optionsType} \$options = [])";
 
 			if ($strict && !$entityTemplateFindFamily) {
-				$annotations[] = "@method {$fullClassName}|array<{$fullClassName}> loadInto({$fullClassName}|array<{$fullClassName}> \$entities, array \$contain)";
+				$annotations[] = "@method {$fullClassName}|array<{$fullClassName}> loadInto({$fullClassName}|array<{$fullClassName}> \$entities, {$containType} \$contain)";
 			}
 		}
 
