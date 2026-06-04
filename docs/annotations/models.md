@@ -59,7 +59,7 @@ The `IdeHelper.genericsInParam` option is tri-state:
 - `false` (default) — bare `array` params, legacy behavior.
 - `true` — basic generics: `array<mixed>` / `array<string, mixed>` / `iterable<TEntity>`.
   No param stays a bare `array`; the `$finder`, `$search`, and `$contain` params
-  carry `array<mixed>` so PHPStorm gets the generic info without the detailed
+  carry `array<mixed>` so IDE/tooling gets the generic info without the detailed
   key/value shapes it struggles with.
 - `'detailed'` — fully detailed types throughout, matching the richer form PHPStan and Psalm understand best.
 
