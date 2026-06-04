@@ -8,16 +8,16 @@ use Cake\ORM\Table;
  * @property \Cake\ORM\Association\BelongsTo<\TestApp\Model\Table\CarsTable> $Cars
  * @method \TestApp\Model\Entity\Wheel newEmptyEntity()
  * @method \TestApp\Model\Entity\Wheel[] newEntities(array<mixed> $data, array<string, mixed> $options = [])
- * @method \TestApp\Model\Entity\Wheel get(mixed $primaryKey, array<mixed>|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \TestApp\Model\Entity\Wheel findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array<mixed> $search, ?callable $callback = null, array<string, mixed> $options = [])
+ * @method \TestApp\Model\Entity\Wheel get(mixed $primaryKey, array<string, mixed>|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
+ * @method \TestApp\Model\Entity\Wheel findOrCreate(\Cake\ORM\Query\SelectQuery<\TestApp\Model\Entity\Wheel>|callable|array<string, mixed> $search, ?callable $callback = null, array<string, mixed> $options = [])
  * @method \TestApp\Model\Entity\Wheel patchEntity(\TestApp\Model\Entity\Wheel $entity, array<mixed> $data, array<string, mixed> $options = [])
  * @method \TestApp\Model\Entity\Wheel[] patchEntities(iterable<\TestApp\Model\Entity\Wheel> $entities, array<mixed> $data, array<string, mixed> $options = [])
  * @method \TestApp\Model\Entity\Wheel|false save(\TestApp\Model\Entity\Wheel $entity, array<string, mixed> $options = [])
  * @method \TestApp\Model\Entity\Wheel saveOrFail(\TestApp\Model\Entity\Wheel $entity, array<string, mixed> $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\Wheel>|false saveMany(iterable<\TestApp\Model\Entity\Wheel> $entities, array<string, mixed> $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\Wheel> saveManyOrFail(iterable<\TestApp\Model\Entity\Wheel> $entities, array<string, mixed> $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\Wheel>|false deleteMany(iterable<\TestApp\Model\Entity\Wheel> $entities, array<string, mixed> $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\Wheel> deleteManyOrFail(iterable<\TestApp\Model\Entity\Wheel> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\Wheel>|false saveMany(iterable<\TestApp\Model\Entity\Wheel> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\Wheel> saveManyOrFail(iterable<\TestApp\Model\Entity\Wheel> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\Wheel>|false deleteMany(iterable<\TestApp\Model\Entity\Wheel> $entities, array<string, mixed> $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\Wheel> deleteManyOrFail(iterable<\TestApp\Model\Entity\Wheel> $entities, array<string, mixed> $options = [])
  * @mixin \Cake\ORM\Behavior\TreeBehavior
  */
 class WheelsTable extends Table {

@@ -26,10 +26,10 @@ already present:
  * @method \App\Model\Entity\Location patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method array<\App\Model\Entity\Location> patchEntities(iterable $entities, array $data, array $options = [])
  * @method \App\Model\Entity\Location findOrCreate(\Cake\ORM\Query\SelectQuery|callable|array $search, ?callable $callback = null, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Location>|false saveMany(iterable $entities, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Location> saveManyOrFail(iterable $entities, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Location>|false deleteMany(iterable $entities, array $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\App\Model\Entity\Location> deleteManyOrFail(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Location>|false saveMany(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Location> saveManyOrFail(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Location>|false deleteMany(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\Location> deleteManyOrFail(iterable $entities, array $options = [])
  *
  * @property \Cake\ORM\Association\HasMany<\App\Model\Table\ImagesTable> $Images
  * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\UsersTable> $Users
@@ -56,12 +56,18 @@ beyond plain entities.
 
 The `IdeHelper.genericsInParam` option is tri-state:
 
-- `false` (default) — bare `array` params, legacy behavior.
-- `true` — basic generics: `array<mixed>` / `array<string, mixed>` / `iterable<TEntity>`.
-  No param stays a bare `array`; the `$finder`, `$search`, and `$contain` params
-  carry `array<mixed>` so IDE/tooling gets the generic info without the detailed
-  key/value shapes it struggles with.
-- `'detailed'` — fully detailed types throughout, matching the richer form PHPStan and Psalm understand best.
+- `false` (default) — bare `array` params, legacy behavior. Collection return
+  types still carry `ResultSetInterface<int, TEntity>` (its real two-param arity).
+- `true` — basic generics. Entity-data and `$contain` params use `array<mixed>`
+  (`$contain` also accepts the list form `['Comments', 'Tags']`); the `$finder`,
+  `$search`, and `$options` params use `array<string, mixed>`, alongside
+  `SelectQuery<TEntity>` / `iterable<TEntity>` / `ResultSetInterface<int, TEntity>`.
+  No param stays a bare `array` and no generic class is left unparametrized, so
+  PHPStan's `missingType.iterableValue` and `missingType.generics` stay clean at the
+  strictest level - while IDE/tooling still copes, since there are no nested
+  `array<array<...>>` shapes.
+- `'detailed'` — fully detailed types throughout (nested `array<array<string, mixed>>`
+  for entity lists), matching the richer form PHPStan and Psalm understand best.
 
 With `'detailed'`, the generated method annotations look like:
 
@@ -73,8 +79,9 @@ With `'detailed'`, the generated method annotations look like:
  * @method \Cake\Datasource\ResultSetInterface<int, \App\Model\Entity\User>|false saveMany(iterable<\App\Model\Entity\User> $entities, array<string, mixed> $options = [])
 ```
 
-Switching the value is additive — existing `true` users keep their current
-output, and the new `'detailed'` opt-in can be enabled at any time.
+Switching the value only tightens the generated types; re-running the annotator
+updates the existing `@method` lines in place, and the `'detailed'` opt-in can be
+enabled at any time.
 
 ### Concrete entity types in params
 

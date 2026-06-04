@@ -15,10 +15,10 @@ use Cake\ORM\Table;
  * @method \TestApp\Model\Entity\Wheel[] patchEntities(iterable $entities, array $data, array $options = [])
  * @method \TestApp\Model\Entity\Wheel|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
  * @method \TestApp\Model\Entity\Wheel saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \TestApp\Model\Entity\Wheel[]|\Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\Wheel>|false saveMany(iterable $entities, array $options = [])
- * @method \TestApp\Model\Entity\Wheel[]|\Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\Wheel> saveManyOrFail(iterable $entities, array $options = [])
- * @method \TestApp\Model\Entity\Wheel[]|\Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\Wheel>|false deleteMany(iterable $entities, array $options = [])
- * @method \TestApp\Model\Entity\Wheel[]|\Cake\Datasource\ResultSetInterface<\TestApp\Model\Entity\Wheel> deleteManyOrFail(iterable $entities, array $options = [])
+ * @method \TestApp\Model\Entity\Wheel[]|\Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\Wheel>|false saveMany(iterable $entities, array $options = [])
+ * @method \TestApp\Model\Entity\Wheel[]|\Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\Wheel> saveManyOrFail(iterable $entities, array $options = [])
+ * @method \TestApp\Model\Entity\Wheel[]|\Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\Wheel>|false deleteMany(iterable $entities, array $options = [])
+ * @method \TestApp\Model\Entity\Wheel[]|\Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\Wheel> deleteManyOrFail(iterable $entities, array $options = [])
  * @mixin \Cake\ORM\Behavior\TreeBehavior
  */
 class WheelsTable extends Table {
