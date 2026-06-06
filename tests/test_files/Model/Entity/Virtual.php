@@ -12,9 +12,9 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\Date $offer_date
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime|null $modified
- * @property mixed $virtual_two
  * @property \TestApp\Model\Entity\Wheel[] $wheels
  * @property-read string|null $virtual_one
+ * @property-read mixed $virtual_two
  */
 class Virtual extends Entity {
 

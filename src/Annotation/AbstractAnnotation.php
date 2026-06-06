@@ -65,6 +65,15 @@ abstract class AbstractAnnotation implements AnnotationInterface, ReplacableAnno
 	}
 
 	/**
+	 * @param int $index
+	 *
+	 * @return void
+	 */
+	public function setIndex(int $index): void {
+		$this->index = $index;
+	}
+
+	/**
 	 * @param bool $inUse
 	 *
 	 * @return void

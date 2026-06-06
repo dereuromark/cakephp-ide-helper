@@ -358,6 +358,21 @@ abstract class AbstractAnnotator {
 
 		foreach ($replacingAnnotations as $annotation) {
 			$fixer->replaceToken($annotation->getIndex(), $annotation->build());
+
+			// On a `@property` <-> `@property-read` flip the tag itself lives in
+			// a separate token two positions before the value token, so the
+			// in-place value rewrite above would leave the old tag behind.
+			// Rewrite the tag token too when it no longer matches.
+			$tagIndex = $annotation->getIndex() - 2;
+			if (
+				isset($tokens[$tagIndex])
+				&& $tokens[$tagIndex]['type'] === 'T_DOC_COMMENT_TAG'
+				&& $tokens[$tagIndex]['content'] !== $annotation::TAG
+				&& in_array($tokens[$tagIndex]['content'], [PropertyAnnotation::TAG, PropertyReadAnnotation::TAG], true)
+			) {
+				$fixer->replaceToken($tagIndex, $annotation::TAG);
+			}
+
 			$this->_counter[static::COUNT_UPDATED]++;
 		}
 
@@ -464,6 +479,19 @@ abstract class AbstractAnnotator {
 	 */
 	protected function exists(AbstractAnnotation $annotation, array &$existingAnnotations): bool {
 		foreach ($existingAnnotations as $key => $existingAnnotation) {
+			// A `@property` <-> `@property-read` tag flip for the same property
+			// must not be treated as already existing here: build() ignores the
+			// tag, so the two lines would look identical. Skip it so it falls
+			// through to the replacing path where the tag gets rewritten.
+			if (
+				$annotation instanceof PropertyAnnotation
+				&& $existingAnnotation instanceof PropertyAnnotation
+				&& $annotation->getProperty() === $existingAnnotation->getProperty()
+				&& $annotation::TAG !== $existingAnnotation::TAG
+			) {
+				continue;
+			}
+
 			if ($existingAnnotation->build() === $annotation->build()) {
 				unset($existingAnnotations[$key]);
 
@@ -503,6 +531,21 @@ abstract class AbstractAnnotator {
 	protected function needsReplacing(AbstractAnnotation $annotation, array &$existingAnnotations) {
 		foreach ($existingAnnotations as $key => $existingAnnotation) {
 			if ($existingAnnotation->matches($annotation)) {
+				if (
+					$annotation instanceof PropertyAnnotation
+					&& $existingAnnotation instanceof PropertyAnnotation
+					&& $annotation::TAG !== $existingAnnotation::TAG
+				) {
+					// Tag flip: keep the freshly generated annotation (correct
+					// tag and type) but reuse the existing token position so the
+					// docblock line is rewritten in place.
+					$annotation->setIndex($existingAnnotation->getIndex());
+
+					unset($existingAnnotations[$key]);
+
+					return $annotation;
+				}
+
 				$newAnnotation = clone $existingAnnotation;
 				$newAnnotation->replaceWith($annotation);
 

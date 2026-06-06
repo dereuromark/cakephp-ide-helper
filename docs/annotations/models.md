@@ -133,10 +133,11 @@ A `Location` entity could look like this afterward:
  * @property string $details
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime $modified
- * @property string|null $virtual_property
  *
  * @property \App\Model\Entity\Image[] $images
  * @property \App\Model\Entity\User $user
+ *
+ * @property-read string|null $virtual_property
  */
 class Location extends Entity {
 }
@@ -179,5 +180,8 @@ the documented type in the doc block's `@return`, otherwise (given PHP 7.0+)
 tries to read it from the return type hint (e.g. `: ?string`). Only if that is
 also not present does it fall back to `mixed`.
 
-Note: You can also use the `@property-read` tag if it is a pure virtual field
-getter.
+Pure virtual fields are annotated with the `@property-read` tag instead of
+`@property`: a field counts as read-only when it has a `_get...()` accessor but
+neither a real DB column / association behind it nor a matching `_set...()`
+mutator. If you do add a `_set...()` mutator (or the name also maps to a real
+column), the field stays writable and keeps the plain `@property` tag.
