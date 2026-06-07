@@ -11,11 +11,11 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\Date $offer_date
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime|null $modified
- * @property string $virtual_two
- * @property array<int, array<string>> $nested_generic
  * @property \TestApp\Model\Entity\Wheel[] $wheels
  *
  * @property-read string|null $virtual_one
+ * @property-read string $virtual_two
+ * @property-read array<int, array<string>> $nested_generic
  */
 class Virtual extends Entity {
 

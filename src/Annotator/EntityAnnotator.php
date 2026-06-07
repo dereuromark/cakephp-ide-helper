@@ -63,7 +63,7 @@ class EntityAnnotator extends AbstractAnnotator {
 		$helper = new DocBlockHelper(new View());
 		$propertyHintMap = $this->propertyHintMap($content, $helper, $name);
 
-		$virtualFields = $this->virtualFields($name);
+		$virtualFields = $this->readOnlyVirtualFields($name, $content);
 		// For BC reasons we cannot pass it as 3rd param, so we transport it on the helper as setter/getter
 		$helper->setVirtualFields($virtualFields);
 		$annotations = $this->buildAnnotations($propertyHintMap, $helper);
@@ -655,27 +655,122 @@ class EntityAnnotator extends AbstractAnnotator {
 	}
 
 	/**
-	 * Detect actual virtual fields by them being exposed as such.
+	 * Detect read-only virtual fields: computed `_get*` accessors that have
+	 * neither a real DB column / association backing them nor a `_set*`
+	 * mutator. These are pure derived values and therefore get a
+	 * `@property-read` tag instead of `@property`.
 	 *
-	 * @param string $name
+	 * A `_get*` that shadows a real column or association, or that is paired
+	 * with a `_set*` mutator, stays writable and keeps the plain `@property`.
+	 *
+	 * @param string $name Entity short name (filename without extension).
+	 * @param string $content Entity file content.
 	 *
 	 * @return array<string>
 	 */
-	protected function virtualFields(string $name): array {
+	protected function readOnlyVirtualFields(string $name, string $content): array {
+		$computed = $this->buildVirtualPropertyHintTypeMap($content);
+		if ($name !== '') {
+			$computed += $this->buildInheritedVirtualPropertyHintTypeMap($name);
+		}
+		if (!$computed) {
+			return [];
+		}
+
+		$realFields = $this->realFields();
+		$mutators = $this->mutatorFields($content, $name);
+
+		$readOnly = [];
+		foreach (array_keys($computed) as $field) {
+			if (in_array($field, $realFields, true) || in_array($field, $mutators, true)) {
+				continue;
+			}
+
+			$readOnly[] = $field;
+		}
+
+		return $readOnly;
+	}
+
+	/**
+	 * Real (writable) field names: table columns plus association properties.
+	 *
+	 * @return array<string>
+	 */
+	protected function realFields(): array {
+		/** @var \Cake\Database\Schema\TableSchemaInterface $tableSchema */
+		$tableSchema = $this->getConfig('schema');
+		$fields = $tableSchema->columns();
+
+		/** @var \Cake\ORM\AssociationCollection<\Cake\ORM\Association> $associations */
+		$associations = $this->getConfig('associations');
+		foreach ($associations as $association) {
+			$fields[] = $association->getProperty();
+		}
+
+		return $fields;
+	}
+
+	/**
+	 * Property names that have a `_set*` mutator (own file body or inherited
+	 * from a trait / parent). Used to keep computed fields writable.
+	 *
+	 * @param string $content Entity file content.
+	 * @param string $name Entity short name (filename without extension).
+	 *
+	 * @return array<string>
+	 */
+	protected function mutatorFields(string $content, string $name): array {
+		$fields = [];
+		if (preg_match_all('#\bfunction _set([A-Z][a-zA-Z0-9]+)\s*\(#', $content, $matches)) {
+			foreach ($matches[1] as $suffix) {
+				$fields[Inflector::underscore($suffix)] = true;
+			}
+		}
+
+		if ($name !== '') {
+			foreach ($this->inheritedMutatorFields($name) as $field) {
+				$fields[$field] = true;
+			}
+		}
+
+		return array_keys($fields);
+	}
+
+	/**
+	 * Property names with a `_set*` mutator inherited from a trait or parent
+	 * class (i.e. not declared in the entity's own file body — those are
+	 * picked up by the tokenizer scan in mutatorFields()).
+	 *
+	 * @param string $name Entity short name (filename without extension).
+	 *
+	 * @return array<string>
+	 */
+	protected function inheritedMutatorFields(string $name): array {
 		$plugin = $this->getConfig(static::CONFIG_PLUGIN);
 		$className = App::className(($plugin ? $plugin . '.' : '') . $name, 'Model/Entity');
-		if (!$className) {
+		if (!$className || !class_exists($className)) {
 			return [];
 		}
 
-		try {
-			/** @var \Cake\Datasource\EntityInterface $entity */
-			$entity = new $className();
-		} catch (Throwable) {
-			return [];
+		$reflection = new ReflectionClass($className);
+		$entityFile = $reflection->getFileName();
+
+		$fields = [];
+		foreach ($reflection->getMethods(ReflectionMethod::IS_PROTECTED) as $method) {
+			if (!preg_match('#^_set([A-Z][a-zA-Z0-9]+)$#', $method->getName(), $matches)) {
+				continue;
+			}
+
+			$methodFile = $method->getFileName();
+			if ($methodFile === false || $methodFile === $entityFile) {
+				continue;
+			}
+
+			$fields[] = Inflector::underscore($matches[1]);
 		}
 
-		return $entity->getVirtual();
+		return $fields;
 	}
 
 	/**
