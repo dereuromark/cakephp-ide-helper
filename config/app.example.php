@@ -37,6 +37,8 @@ return [
 		'preferLinkOverUsesInTests' => true, // Prefer `@link` annotations over `@uses` in test files, prevents PHPUnit/Rector to replace them with attributes.
 		// Additional test class type => regex patterns for TestClassAnnotatorTask, merged onto the built-in Controller/Command patterns. Default [].
 		'testClassPatterns' => [],
+		// Inline `@var` annotations for declared properties by property name. Default [].
+		'propertyTypeMap' => [],
 		// Custom Entity field type mapping
 		'typeMap' => [],
 		// Per-type override map for nullable column annotations: set `'someType' => false` to suppress the `|null` suffix. Default [].

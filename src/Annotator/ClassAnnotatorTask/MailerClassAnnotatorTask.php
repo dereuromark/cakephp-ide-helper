@@ -28,6 +28,7 @@ class MailerClassAnnotatorTask extends AbstractClassAnnotatorTask implements Cla
 		}
 
 		preg_match('#\buse (\w+)\\\\Mailer\\\\(\w+)Mailer\b#', $content, $useMatches);
+		$callMatches = [];
 		preg_match('#\$\w+\s*=\s*\$this-\>getMailer\(\'([\w\.]+)\'\)#', $content, $callMatches);
 		$singleLine = false;
 		if (!$callMatches) {
@@ -60,6 +61,7 @@ class MailerClassAnnotatorTask extends AbstractClassAnnotatorTask implements Cla
 	public function annotate(string $path): bool {
 		preg_match('#\buse (\w+)\\\\Mailer\\\\(\w+)Mailer\b#', $this->content, $useMatches);
 
+		$callMatches = [];
 		$singleCall = false;
 		$singleCallAction = null;
 		if (!$useMatches) {
@@ -101,6 +103,9 @@ class MailerClassAnnotatorTask extends AbstractClassAnnotatorTask implements Cla
 			}
 		} else {
 			assert($singleCallAction !== null);
+			if (!isset($callMatches[0], $callMatches[1])) {
+				return false;
+			}
 			$rows = explode(PHP_EOL, $this->content);
 			$rowToAnnotate = null;
 			$rowMatches = null;

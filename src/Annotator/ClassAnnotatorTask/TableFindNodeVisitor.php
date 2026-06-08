@@ -4,6 +4,7 @@ namespace IdeHelper\Annotator\ClassAnnotatorTask;
 
 use Cake\Utility\Inflector;
 use PhpParser\Node;
+use PhpParser\Node\Expr as NodeExpr;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\NodeVisitorAbstract;
 
@@ -87,7 +88,7 @@ class TableFindNodeVisitor extends NodeVisitorAbstract {
 	 * @param \PhpParser\Node\Expr $expr
 	 * @return string|null
 	 */
-	private function extractTableName(Node\Expr $expr): ?string {
+	private function extractTableName(NodeExpr $expr): ?string {
 		// Walk back through the method chain
 		while ($expr instanceof Node\Expr\MethodCall) {
 			$expr = $expr->var;

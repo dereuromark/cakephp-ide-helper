@@ -30,9 +30,37 @@ the full set, defaults, and the most up-to-date options, see
 | `preemptive` | `bool` | Preemptive annotations (e.g. always add `@var \App\View\AppView $this` to templates). |
 | `viewClass` | `string` | Custom AppView FQCN. |
 | `preferLinkOverUsesInTests` | `bool` | Use `@link` (default) vs. `@uses` in test class annotations. |
+| `propertyTypeMap` | `array` | Map declared property names → inline `@var` types for class annotations. |
 | `annotators` | `array` | Replace or disable native annotators. |
 | `classAnnotatorTasks` | `array` | Register or replace class-annotator tasks. |
 | `CallbackAnnotatorTasks` | `array` | Register or replace callback-annotator tasks. |
+
+## Recommended Static Analysis Defaults
+
+For projects that use PHPStan or Psalm, prefer detailed generic annotations so
+generated docblocks do not leave bare `array` types behind:
+
+```php
+'IdeHelper' => [
+    'arrayAsGenerics' => true,
+    'objectAsGenerics' => true,
+    'genericsInParam' => 'detailed',
+    'tableBehaviors' => true,
+    'propertyTypeMap' => [
+        'actsAs' => 'array<string, mixed>',
+        'helpers' => 'array<int|string, string|array<string, mixed>>',
+        'components' => 'array<int|string, string|array<string, mixed>>',
+        'paginate' => 'array<string, mixed>',
+    ],
+],
+```
+
+The `actsAs` property is commonly used by legacy CakePHP apps and plugins to
+declare behaviors. Helper and component declarations can use shorthand strings
+or named config arrays before CakePHP normalizes them. Controller `$paginate`
+settings are associative configuration arrays. Mapping these properties through
+`propertyTypeMap` lets `bin/cake annotate classes` add the missing iterable
+value type without changing the native property type.
 
 ### Generator
 
