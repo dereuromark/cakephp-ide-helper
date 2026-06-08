@@ -8,7 +8,6 @@ use Cake\TestSuite\TestCase;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Command\Annotate\ModelsCommand;
 use IdeHelper\Command\AnnotateCommand;
-use PHPUnit\Framework\Attributes\DataProvider;
 use ReflectionMethod;
 
 class AnnotateCommandTest extends TestCase {
@@ -185,7 +184,7 @@ class AnnotateCommandTest extends TestCase {
 	 * @param string $subcommand The subcommand to be tested
 	 * @return void
 	 */
-	#[DataProvider('provideSubcommandsForCiModeTest')]
+	#[\PHPUnit\Framework\Attributes\DataProvider('provideSubcommandsForCiModeTest')]
 	public function testIndividualSubcommandCiModeNoChanges(string $subcommand): void {
 		$this->skipIf($subcommand === 'view', 'View does not support the plugin parameter');
 		// See testAllCiModeNoChanges() — the Awesome plugin tables are pre-annotated for the
@@ -201,7 +200,7 @@ class AnnotateCommandTest extends TestCase {
 	 * @param string $subcommand The subcommand to be tested
 	 * @return void
 	 */
-	#[DataProvider('provideSubcommandsForCiModeTest')]
+	#[\PHPUnit\Framework\Attributes\DataProvider('provideSubcommandsForCiModeTest')]
 	public function testIndividualSubcommandCiModeChanges(string $subcommand): void {
 		$this->exec('annotate ' . $subcommand . ' -d -v --ci');
 

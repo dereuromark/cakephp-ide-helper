@@ -36,6 +36,44 @@ $notificationMailer = $this->getMailer('Notification');
 $notificationMailer->send('notify', [$user, $details]);
 ```
 
+## Declared Property Types
+
+Declared properties can receive configured inline `@var` annotations through
+`IdeHelper.propertyTypeMap`. This is useful when a native property type must stay
+broad for backward compatibility, but static analysis needs a more specific
+PHPDoc type.
+
+```php
+'IdeHelper' => [
+    'propertyTypeMap' => [
+        'actsAs' => 'array<string, mixed>',
+        'helpers' => 'array<int|string, string|array<string, mixed>>',
+        'components' => 'array<int|string, string|array<string, mixed>>',
+        'paginate' => 'array<string, mixed>',
+    ],
+],
+```
+
+Running `bin/cake annotate classes` can then add:
+
+```php
+/** @var array<string, mixed> $actsAs */
+public array $actsAs = [
+    'Timestamp' => [],
+];
+
+/** @var array<int|string, string|array<string, mixed>> $helpers */
+protected array $helpers = [
+    'Html',
+    'Form' => ['templates' => 'custom'],
+];
+
+/** @var array<string, mixed> $paginate */
+protected array $paginate = [
+    'limit' => 50,
+];
+```
+
 ## Test
 
 Test classes of specific types can be annotated with the corresponding class

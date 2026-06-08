@@ -4,6 +4,8 @@ namespace IdeHelper\Illuminator\Task;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Expr as NodeExpr;
+use PhpParser\Node\Expr\Array_ as NodeArray;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
 use PhpParser\ParserFactory;
@@ -107,7 +109,7 @@ class TableValidationLinkTask extends AbstractTask {
 			 * @param \PhpParser\Node\Expr\Array_ $options
 			 * @return array{ruleLine: int, methodName: string}|null
 			 */
-			protected function extractTableProviderMethod(Node\Expr\Array_ $options): ?array {
+			protected function extractTableProviderMethod(NodeArray $options): ?array {
 				$hasTableProvider = false;
 				$methodName = null;
 				$ruleLine = null;
@@ -146,7 +148,7 @@ class TableValidationLinkTask extends AbstractTask {
 			 * @param \PhpParser\Node\Expr $value
 			 * @return string|null
 			 */
-			protected function extractMethodFromRule(Node\Expr $value): ?string {
+			protected function extractMethodFromRule(NodeExpr $value): ?string {
 				// 'rule' => 'methodName'
 				$stringValue = $this->getStringValue($value);
 				if ($stringValue !== null) {
@@ -168,7 +170,7 @@ class TableValidationLinkTask extends AbstractTask {
 			 * @param \PhpParser\Node\Expr $expr
 			 * @return string|null
 			 */
-			protected function getStringValue(Node\Expr $expr): ?string {
+			protected function getStringValue(NodeExpr $expr): ?string {
 				if ($expr instanceof Node\Scalar\String_) {
 					return $expr->value;
 				}

@@ -6,6 +6,7 @@ use Cake\Core\Configure;
 use IdeHelper\Annotator\ClassAnnotatorTask\FormClassAnnotatorTask;
 use IdeHelper\Annotator\ClassAnnotatorTask\MailerClassAnnotatorTask;
 use IdeHelper\Annotator\ClassAnnotatorTask\ModelAwareClassAnnotatorTask;
+use IdeHelper\Annotator\ClassAnnotatorTask\PropertyTypeAnnotatorTask;
 use IdeHelper\Annotator\ClassAnnotatorTask\TestClassAnnotatorTask;
 use IdeHelper\Console\Io;
 
@@ -18,6 +19,7 @@ class ClassAnnotatorTaskCollection {
 		ModelAwareClassAnnotatorTask::class => ModelAwareClassAnnotatorTask::class,
 		FormClassAnnotatorTask::class => FormClassAnnotatorTask::class,
 		MailerClassAnnotatorTask::class => MailerClassAnnotatorTask::class,
+		PropertyTypeAnnotatorTask::class => PropertyTypeAnnotatorTask::class,
 		TestClassAnnotatorTask::class => TestClassAnnotatorTask::class,
 	];
 

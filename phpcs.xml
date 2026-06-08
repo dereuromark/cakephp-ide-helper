@@ -2,6 +2,9 @@
 <ruleset name="plugin">
 	<arg name="cache" value=".phpcs.cache"/>
 	<rule ref="PSR2R"/>
+	<rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly.ReferenceViaFullyQualifiedName">
+		<exclude-pattern>*/tests/TestCase/*</exclude-pattern>
+	</rule>
 
     <arg value="nps"/>
 
