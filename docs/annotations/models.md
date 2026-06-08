@@ -172,6 +172,39 @@ of types and whether they can be nullable:
 ],
 ```
 
+### Custom enum types
+
+Columns mapped to a backed enum via `EnumType::from(MyEnum::class)` are detected
+automatically and annotated with the concrete enum class, e.g.
+`@property \App\Model\Enum\MyEnum|null $status`.
+
+A **custom `EnumType` subclass** (for example a lenient type that tolerates legacy
+values) registered under its own name is *not* detected out of the box, because the
+annotator only sees the type name from the schema and cannot tell that name maps to
+an enum — it falls back to `string`:
+
+```php
+// config/bootstrap.php
+TypeFactory::map('lenient_status', LenientStatusType::class); // extends EnumType
+
+// Table::initialize()
+$this->getSchema()->setColumnType('status', 'lenient_status');
+// => @property string|null $status   (enum class lost)
+```
+
+Register it under an **`enum-` prefixed name** so the resolver recognises it as an
+enum and reads the backing class via `getEnumClassName()` — no `typeMap` entry needed:
+
+```php
+TypeFactory::map('enum-lenient_status', LenientStatusType::class);
+$this->getSchema()->setColumnType('status', 'enum-lenient_status');
+// => @property \App\Model\Enum\MyStatus|null $status
+```
+
+The only requirement is that the registered type name starts with `enum-` and the
+type resolves to a `\Cake\Database\Type\EnumType` instance. (Alternatively, map the
+custom name to the enum class via `IdeHelper.typeMap`.)
+
 ### Virtual properties
 
 For virtual properties the annotator looks up the respective `_get...()`
