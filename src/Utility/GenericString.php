@@ -19,7 +19,15 @@ class GenericString {
 		// ResultSetInterface declares two template params (TKey, TValue); always emit both so PHPStan's
 		// missingType.generics stays clean. Keys are int for a result set. PHPStorm handles the object generic.
 		if ($typeCheck === ResultSetInterface::class) {
-			if (Configure::read('IdeHelper.genericsInParam') === 'detailed' || Configure::read('IdeHelper.concreteEntitiesInParam')) {
+			// Emit the generic form whenever generics are enabled for objects (`objectAsGenerics`,
+			// mirroring the object handling below) or for params (`genericsInParam` true|'detailed'),
+			// or when concrete entities are requested. Only the all-disabled legacy case keeps the
+			// `Foo[]|...` union fallback.
+			if (
+				Configure::read('IdeHelper.objectAsGenerics')
+				|| Configure::read('IdeHelper.genericsInParam')
+				|| Configure::read('IdeHelper.concreteEntitiesInParam')
+			) {
 				return sprintf($type . '<int, %s>', $value);
 			}
 
