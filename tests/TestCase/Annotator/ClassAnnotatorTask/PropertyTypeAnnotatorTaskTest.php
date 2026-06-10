@@ -87,10 +87,33 @@ PHP;
 		$this->assertTrue($result);
 
 		$content = $task->getContent();
-		$this->assertMatchesRegularExpression('#/\*\* @var array<string, mixed> \$actsAs \*/\R\s+public array \$actsAs = \[\];#', $content);
-		$this->assertMatchesRegularExpression('#/\*\* @var array<int\|string, string\|array<string, mixed>> \$helpers \*/\R\s+protected array \$helpers = \[\];#', $content);
-		$this->assertMatchesRegularExpression('#/\*\* @var array<int\|string, string\|array<string, mixed>> \$components \*/\R\s+public array \$components = \[\];#', $content);
-		$this->assertMatchesRegularExpression('#/\*\* @var array<string, mixed> \$paginate \*/\R\s+protected array \$paginate = \[\];#', $content);
+		$expected = <<<'PHP'
+<?php
+namespace TestApp\Model\Table;
+
+class FooTable {
+	/**
+	 * @var array<string, mixed>
+	 */
+	public array $actsAs = [];
+
+	/**
+	 * @var array<int|string, string|array<string, mixed>>
+	 */
+	protected array $helpers = [];
+
+	/**
+	 * @var array<int|string, string|array<string, mixed>>
+	 */
+	public array $components = [];
+
+	/**
+	 * @var array<string, mixed>
+	 */
+	protected array $paginate = [];
+}
+PHP;
+		$this->assertSame($expected, $content);
 	}
 
 	/**

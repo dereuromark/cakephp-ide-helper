@@ -3,8 +3,6 @@
 namespace IdeHelper\Annotator\ClassAnnotatorTask;
 
 use Cake\Core\Configure;
-use IdeHelper\Annotation\AnnotationFactory;
-use IdeHelper\Annotation\VariableAnnotation;
 
 /**
  * Declared properties can be annotated with configured inline `@var` types.
@@ -50,13 +48,78 @@ class PropertyTypeAnnotatorTask extends AbstractClassAnnotatorTask implements Cl
 
 		$changed = false;
 		foreach ($properties as $property => $line) {
-			$annotation = AnnotationFactory::createOrFail(VariableAnnotation::TAG, $propertyTypeMap[$property], '$' . $property);
-			if ($this->annotateInlineContent($path, $this->content, [$annotation], $line)) {
+			if ($this->annotatePropertyContent($path, $propertyTypeMap[$property], $line)) {
 				$changed = true;
 			}
 		}
 
 		return $changed;
+	}
+
+	/**
+	 * @param string $path
+	 * @param string $type
+	 * @param int $line
+	 * @return bool
+	 */
+	protected function annotatePropertyContent(string $path, string $type, int $line): bool {
+		$lines = explode("\n", $this->content);
+		$index = $line - 1;
+		if (!isset($lines[$index])) {
+			return false;
+		}
+
+		if ($this->hasDocBlockBefore($lines, $index)) {
+			$this->reportSkipped($path);
+
+			return false;
+		}
+
+		if (!preg_match('/^(\s*)/', $lines[$index], $matches)) {
+			return false;
+		}
+
+		$indentation = $matches[1];
+		$docBlock = [
+			$indentation . '/**',
+			$indentation . ' * @var ' . $type,
+			$indentation . ' */',
+		];
+
+		array_splice($lines, $index, 0, $docBlock);
+		$newContent = implode("\n", $lines);
+		if ($newContent === $this->content) {
+			$this->reportSkipped($path);
+
+			return false;
+		}
+
+		$this->_counter[static::COUNT_ADDED] = 1;
+		$this->displayDiff($this->content, $newContent);
+		$this->storeFile($path, $newContent);
+		$this->content = $newContent;
+
+		$this->report();
+
+		return true;
+	}
+
+	/**
+	 * @param array<int, string> $lines
+	 * @param int $index
+	 * @return bool
+	 */
+	protected function hasDocBlockBefore(array $lines, int $index): bool {
+		for ($i = $index - 1; $i >= 0; $i--) {
+			$line = trim($lines[$i]);
+			if ($line === '') {
+				continue;
+			}
+
+			return str_ends_with($line, '*/');
+		}
+
+		return false;
 	}
 
 	/**
