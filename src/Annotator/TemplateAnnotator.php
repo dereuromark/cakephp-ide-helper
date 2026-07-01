@@ -157,15 +157,16 @@ class TemplateAnnotator extends AbstractAnnotator {
 		}
 
 		$annotationString = $helper->classDescription('', '', $annotationStrings);
-		if (PHP_EOL !== "\n") {
-			$annotationString = str_replace("\n", PHP_EOL, $annotationString);
+		$eol = $file->eolChar;
+		if ($eol !== "\n") {
+			$annotationString = str_replace("\n", $eol, $annotationString);
 		}
 
 		if ($phpOpenTagIndex === null) {
-			$annotationString = '<?php' . PHP_EOL . $annotationString . PHP_EOL . '?>';
+			$annotationString = '<?php' . $eol . $annotationString . $eol . '?>';
 		}
 
-		$docBlock = $annotationString . PHP_EOL;
+		$docBlock = $annotationString . $eol;
 		if (!$file->getTokens()) {
 			$this->_counter[static::COUNT_ADDED] = count($annotations);
 
@@ -178,7 +179,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 		} elseif ($this->isV4()) {
 			// PHPCS v4 requires a blank line after <?php tag for PSR12 compliance
 			// PHPCS v3 does not have this requirement
-			$fixer->addContent($phpOpenTagIndex, PHP_EOL . $annotationString);
+			$fixer->addContent($phpOpenTagIndex, $eol . $annotationString);
 		} else {
 			$fixer->addContent($phpOpenTagIndex, $docBlock);
 		}

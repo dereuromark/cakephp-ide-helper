@@ -118,4 +118,44 @@ class HelperAnnotatorTest extends TestCase {
 		return $this->getMockBuilder(HelperAnnotator::class)->onlyMethods(['storeFile'])->setConstructorArgs([$this->io, $params])->getMock();
 	}
 
+	/**
+	 * A CRLF (Windows) source file must annotate idempotently. Repeated runs may
+	 * not stack duplicate doc-blocks or duplicate tags, and the emitted lines must
+	 * keep the file's CRLF endings so no LF/CRLF mix is introduced (the mix is what
+	 * made re-runs fail to recognize existing annotations and re-add them).
+	 *
+	 * @return void
+	 */
+	public function testAnnotateCrlfFileIsIdempotent() {
+		$source = str_replace(["\r\n", "\r"], "\n", (string)file_get_contents(APP . 'View/Helper/MyHelper.php'));
+		$crlf = str_replace("\n", "\r\n", $source);
+
+		$dir = TMP . 'crlf_helper';
+		if (!is_dir($dir)) {
+			mkdir($dir, 0770, true);
+		}
+		$path = $dir . DS . 'MyHelper.php';
+		file_put_contents($path, $crlf);
+
+		$annotator = new HelperAnnotator($this->io, [AbstractAnnotator::CONFIG_REMOVE => true]);
+
+		$annotator->annotate($path);
+		$afterFirst = (string)file_get_contents($path);
+
+		$annotator->annotate($path);
+		$afterSecond = (string)file_get_contents($path);
+
+		unlink($path);
+
+		// Second run must be a no-op - no re-added / stacked annotations.
+		$this->assertSame($afterFirst, $afterSecond);
+
+		// No duplicated tags or doc-blocks.
+		$this->assertSame(1, substr_count($afterSecond, '@property \\TestApp\\View\\Helper\\HtmlHelper $Html'));
+		$this->assertLessThanOrEqual(1, substr_count($afterSecond, '@extends'));
+
+		// Uniform CRLF: every LF belongs to a CRLF pair, no bare LF was introduced.
+		$this->assertSame(substr_count($afterSecond, "\n"), substr_count($afterSecond, "\r\n"));
+	}
+
 }
