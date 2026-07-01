@@ -377,9 +377,10 @@ abstract class AbstractAnnotator {
 		}
 
 		if (count($addingAnnotations)) {
-			$annotationString = $needsNewline ? ' *' . "\n" : '';
+			$eol = $file->eolChar;
+			$annotationString = $needsNewline ? ' *' . $eol : '';
 			foreach ($addingAnnotations as $annotation) {
-				$annotationString .= ' * ' . $annotation . "\n";
+				$annotationString .= ' * ' . $annotation . $eol;
 				$this->_counter[static::COUNT_ADDED]++;
 			}
 
@@ -873,13 +874,14 @@ abstract class AbstractAnnotator {
 
 		$helper = new DocBlockHelper(new View());
 		$annotationString = $helper->classDescription('', '', $annotations);
-		if (PHP_EOL !== "\n") {
-			$annotationString = str_replace("\n", PHP_EOL, $annotationString);
+		$eol = $file->eolChar;
+		if ($eol !== "\n") {
+			$annotationString = str_replace("\n", $eol, $annotationString);
 		}
 
 		$fixer = $this->getFixer($file);
 
-		$docBlock = $annotationString . PHP_EOL;
+		$docBlock = $annotationString . $eol;
 		$fixer->replaceToken($index, $docBlock . $tokens[$index]['content']);
 
 		$contents = $fixer->getContents();

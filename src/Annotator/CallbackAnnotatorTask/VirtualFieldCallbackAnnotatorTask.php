@@ -91,7 +91,7 @@ class VirtualFieldCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask im
 				$endIndex = $method['docBlockEnd'];
 
 				$indentation = $this->indentation($file, $endIndex);
-				$fixer->addContentBefore($endIndex, '* @see ' . $addingAnnotation->build() . PHP_EOL . $indentation);
+				$fixer->addContentBefore($endIndex, '* @see ' . $addingAnnotation->build() . $file->eolChar . $indentation);
 			}
 		}
 

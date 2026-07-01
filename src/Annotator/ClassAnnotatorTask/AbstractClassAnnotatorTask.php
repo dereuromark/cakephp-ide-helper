@@ -157,14 +157,15 @@ abstract class AbstractClassAnnotatorTask extends AbstractAnnotator {
 
 		$annotation = reset($annotations);
 		$annotationString = '/** ' . $annotation . ' */';
-		if (PHP_EOL !== "\n") {
-			$annotationString = str_replace("\n", PHP_EOL, $annotationString);
+		$eol = $file->eolChar;
+		if ($eol !== "\n") {
+			$annotationString = str_replace("\n", $eol, $annotationString);
 		}
 		$indentation = $this->detectIndentation($file, $index);
 
 		$fixer = $this->getFixer($file);
 
-		$docBlock = $indentation . $annotationString . PHP_EOL;
+		$docBlock = $indentation . $annotationString . $eol;
 		$fixer->replaceToken($index, $docBlock . $tokens[$index]['content']);
 
 		$contents = $fixer->getContents();
