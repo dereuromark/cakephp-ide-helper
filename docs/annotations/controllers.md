@@ -61,6 +61,39 @@ class ApplesController extends AppController {
 }
 ```
 
+## Pagination
+
+When a controller action paginates, a `paginate()` return type annotation is added
+so both the IDE and PHPStan know which entity comes back:
+
+```php
+<?php
+namespace App\Controller;
+
+/**
+ * @property \App\Model\Table\ApplesTable $Apples
+ *
+ * @method \Cake\Datasource\Paging\PaginatedInterface<int, \App\Model\Entity\Apple> paginate(\Cake\Datasource\RepositoryInterface|\Cake\Datasource\QueryInterface|string|null $object = null, array $settings = [])
+ */
+class ApplesController extends AppController {
+
+    public function index() {
+        $apples = $this->paginate();
+    }
+
+}
+```
+
+`\Cake\Datasource\Paging\PaginatedInterface` is what `Controller::paginate()` actually
+returns, so the paging API (`currentPage()`, `pageCount()`, `totalCount()`, `items()`, ...)
+resolves as well as the entity type when iterating.
+
+::: warning Re-run the annotator after upgrading
+Older versions annotated `\Cake\Datasource\ResultSetInterface` here, which made PHPStan
+report the paging methods as undefined. Run `bin/cake annotate controllers` once to
+refresh existing annotations.
+:::
+
 ## Custom Prefixes
 
 By default, the annotator supports any prefix for your controllers (as a
