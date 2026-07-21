@@ -3,7 +3,7 @@
 namespace IdeHelper\Annotator;
 
 use Cake\Core\Configure;
-use Cake\Datasource\ResultSetInterface;
+use Cake\Datasource\Paging\PaginatedInterface;
 use Cake\Http\ServerRequest;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
@@ -204,14 +204,16 @@ class ControllerAnnotator extends AbstractAnnotator {
 			return [];
 		}
 
-		$resultSetInterfaceCollection = GenericString::generate(implode('|', $entities), '\\' . ResultSetInterface::class);
+		// Controller::paginate() returns a PaginatedInterface, not a ResultSetInterface. Annotating the latter
+		// makes PHPStan reject the paging API (currentPage(), pageCount(), items(), ...) as undefined methods.
+		$paginatedInterfaceCollection = GenericString::generate(implode('|', $entities), '\\' . PaginatedInterface::class);
 
 		$settingsType = 'array';
 		if (Configure::read('IdeHelper.genericsInParam')) {
 			$settingsType = 'array<string, mixed>';
 		}
 
-		return [AnnotationFactory::createOrFail(MethodAnnotation::TAG, $resultSetInterfaceCollection, 'paginate(\Cake\Datasource\RepositoryInterface|\Cake\Datasource\QueryInterface|string|null $object = null, ' . $settingsType . ' $settings = [])')];
+		return [AnnotationFactory::createOrFail(MethodAnnotation::TAG, $paginatedInterfaceCollection, 'paginate(\Cake\Datasource\RepositoryInterface|\Cake\Datasource\QueryInterface|string|null $object = null, ' . $settingsType . ' $settings = [])')];
 	}
 
 	/**

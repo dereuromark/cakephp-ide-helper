@@ -7,7 +7,7 @@ use TestApp\Model\Table\WheelsTable;
  * @property \TestApp\Model\Table\BarBarsTable $BarBars
  * @property \MyNamespace\MyPlugin\Controller\Component\MyComponent $My
  *
- * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\BarBar> paginate(\Cake\Datasource\RepositoryInterface|\Cake\Datasource\QueryInterface|string|null $object = null, array $settings = [])
+ * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\Paging\PaginatedInterface<int, \TestApp\Model\Entity\BarBar> paginate(\Cake\Datasource\RepositoryInterface|\Cake\Datasource\QueryInterface|string|null $object = null, array $settings = [])
  */
 class BarController extends AppController {
 

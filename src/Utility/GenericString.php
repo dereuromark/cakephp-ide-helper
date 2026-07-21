@@ -3,9 +3,20 @@
 namespace IdeHelper\Utility;
 
 use Cake\Core\Configure;
+use Cake\Datasource\Paging\PaginatedInterface;
 use Cake\Datasource\ResultSetInterface;
 
 class GenericString {
+
+	/**
+	 * Collection types that declare two template params (TKey, TValue).
+	 *
+	 * @var array<string>
+	 */
+	protected const KEY_VALUE_COLLECTIONS = [
+		ResultSetInterface::class,
+		PaginatedInterface::class,
+	];
 
 	/**
 	 * @param string $value
@@ -16,9 +27,10 @@ class GenericString {
 	public static function generate(string $value, ?string $type = null): string {
 		$typeCheck = $type !== null && str_starts_with($type, '\\') ? substr($type, 1) : $type;
 
-		// ResultSetInterface declares two template params (TKey, TValue); always emit both so PHPStan's
-		// missingType.generics stays clean. Keys are int for a result set. PHPStorm handles the object generic.
-		if ($typeCheck === ResultSetInterface::class) {
+		// ResultSetInterface and PaginatedInterface declare two template params (TKey, TValue); always emit
+		// both so PHPStan's missingType.generics stays clean. Keys are int here. PHPStorm handles the object
+		// generic.
+		if (in_array($typeCheck, static::KEY_VALUE_COLLECTIONS, true)) {
 			// Emit the generic form whenever generics are enabled for objects (`objectAsGenerics`,
 			// mirroring the object handling below) or for params (`genericsInParam` true|'detailed'),
 			// or when concrete entities are requested. Only the all-disabled legacy case keeps the

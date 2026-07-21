@@ -3,6 +3,7 @@
 namespace IdeHelper\Test\TestCase\Utility;
 
 use Cake\Core\Configure;
+use Cake\Datasource\Paging\PaginatedInterface;
 use Cake\Datasource\ResultSetInterface;
 use Cake\TestSuite\TestCase;
 use IdeHelper\Utility\GenericString;
@@ -52,6 +53,34 @@ class GenericStringTest extends TestCase {
 	 */
 	public function testClassNameResultSetInterface() {
 		$type = '\\' . ResultSetInterface::class;
+
+		// Legacy fallback (no generics enabled): union, but still both template params.
+		$result = GenericString::generate('\Foo', $type);
+		$this->assertSame('\Foo[]|' . $type . '<int, \Foo>', $result);
+
+		$enablingConfigs = [
+			['objectAsGenerics', true],
+			['genericsInParam', true],
+			['genericsInParam', 'detailed'],
+			['concreteEntitiesInParam', true],
+		];
+		foreach ($enablingConfigs as [$key, $value]) {
+			Configure::write('IdeHelper.' . $key, $value);
+			$result = GenericString::generate('\Foo', $type);
+			Configure::delete('IdeHelper.' . $key);
+
+			$this->assertSame($type . '<int, \Foo>', $result, "Failed for IdeHelper.$key=" . var_export($value, true));
+		}
+	}
+
+	/**
+	 * PaginatedInterface is the return type of Controller::paginate() and declares the same two template
+	 * params (TKey, TValue) as ResultSetInterface, so it must be emitted the same way.
+	 *
+	 * @return void
+	 */
+	public function testClassNamePaginatedInterface() {
+		$type = '\\' . PaginatedInterface::class;
 
 		// Legacy fallback (no generics enabled): union, but still both template params.
 		$result = GenericString::generate('\Foo', $type);
