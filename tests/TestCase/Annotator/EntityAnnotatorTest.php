@@ -117,6 +117,15 @@ class EntityAnnotatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	protected function tearDown(): void {
+		TableRegistry::getTableLocator()->allowFallbackClass(true);
+
+		parent::tearDown();
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testBuildExtendedEntityPropertyHintTypeMap() {
 		$config = [];
 		$annotator = new EntityAnnotator(new Io(new ConsoleIo()), $config);
@@ -540,6 +549,38 @@ class EntityAnnotatorTest extends TestCase {
 		$output = (string)$this->out->output();
 
 		$this->assertTextContains('   -> 4 annotations added', $output);
+	}
+
+	/**
+	 * The `_joinData` association is synthetic, its `{Alias}Join` table class does not exist.
+	 * Apps that ran `allowFallbackClass(false)` (the CakePHP app skeleton default) must not
+	 * run into a MissingTableClassException for that made-up alias.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateBelongsToManyWithoutFallbackClass() {
+		TableRegistry::getTableLocator()->allowFallbackClass(false);
+
+		/** @var \Relations\Model\Table\UsersTable $Table */
+		$Table = TableRegistry::getTableLocator()->get('Relations.Users');
+		$Table->belongsToMany('Tags', ['className' => 'Relations.Bars']);
+
+		$schema = $Table->getSchema();
+		$associations = $Table->associations();
+		$annotator = $this->_getAnnotatorMock(['schema' => $schema, 'associations' => $associations]);
+
+		$content = null;
+		$callback = function ($value) use (&$content) {
+			$content = $value;
+
+			return true;
+		};
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = PLUGINS . 'Relations/src/Model/Entity/User.php';
+		$annotator->annotate($path);
+
+		$this->assertTextContains('@property \Cake\ORM\Entity $_joinData', (string)$content);
 	}
 
 	/**

@@ -164,7 +164,19 @@ class EntityAnnotator extends AbstractAnnotator {
 
 				$entityClass = '\\' . ltrim($className, '\\');
 				$alias = $association->getTarget()->getAlias() . 'Join';
-				$table->addAssociations(['belongsTo' => [$alias]]);
+				// This is a synthetic association that only carries the `_joinData` type info; no such table
+				// class exists. Both `targetTable` and `foreignKey` must be passed explicitly, otherwise
+				// `getForeignKey()` lazily resolves the target through the locator and apps that ran
+				// `allowFallbackClass(false)` (the default in the CakePHP app skeleton) fail with a
+				// MissingTableClassException on the made-up alias.
+				$table->addAssociations([
+					'belongsTo' => [
+						$alias => [
+							'targetTable' => $table,
+							'foreignKey' => $association->getForeignKey(),
+						],
+					],
+				]);
 				$schema['_joinData'] = [
 					'kind' => 'association',
 					'association' => $table->{$alias},
