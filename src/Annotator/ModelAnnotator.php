@@ -403,7 +403,9 @@ class ModelAnnotator extends AbstractAnnotator {
 			}
 			$type = get_class($association);
 
-			[, $name] = pluginSplit($association->getAlias());
+			// Not `getAlias()`, which Association::__call() proxies to the target table. That returns the
+			// target's alias, which differs from the association's own alias whenever one was given.
+			[, $name] = pluginSplit($key);
 			$table = $association->getClassName() ?: $association->getAlias();
 			$className = App::className($table, 'Model/Table', 'Table') ?: static::CLASS_TABLE;
 

@@ -4,6 +4,7 @@ namespace IdeHelper\Annotator;
 
 use Cake\Core\Configure;
 use Cake\ORM\Association;
+use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Association\BelongsToMany;
 use Cake\ORM\Entity;
 use Cake\ORM\Table;
@@ -165,21 +166,21 @@ class EntityAnnotator extends AbstractAnnotator {
 				$entityClass = '\\' . ltrim($className, '\\');
 				$alias = $association->getTarget()->getAlias() . 'Join';
 				// This is a synthetic association that only carries the `_joinData` type info; no such table
-				// class exists. Both `targetTable` and `foreignKey` must be passed explicitly, otherwise
+				// class exists. It must not be registered on the junction table, which is the locator's
+				// shared instance - the extra association would survive into the ModelAnnotator run and
+				// end up as a bogus `@property` in that table's docblock.
+				// Both `targetTable` and `foreignKey` must be passed explicitly, otherwise
 				// `getForeignKey()` lazily resolves the target through the locator and apps that ran
 				// `allowFallbackClass(false)` (the default in the CakePHP app skeleton) fail with a
 				// MissingTableClassException on the made-up alias.
-				$table->addAssociations([
-					'belongsTo' => [
-						$alias => [
-							'targetTable' => $table,
-							'foreignKey' => $association->getForeignKey(),
-						],
-					],
+				$joinAssociation = new BelongsTo($alias, [
+					'sourceTable' => $table,
+					'targetTable' => $table,
+					'foreignKey' => $association->getForeignKey(),
 				]);
 				$schema['_joinData'] = [
 					'kind' => 'association',
-					'association' => $table->{$alias},
+					'association' => $joinAssociation,
 					'type' => $entityClass,
 					'null' => false,
 				];

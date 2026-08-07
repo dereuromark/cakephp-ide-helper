@@ -584,6 +584,41 @@ class EntityAnnotatorTest extends TestCase {
 	}
 
 	/**
+	 * The junction table comes from the locator and is shared. Registering the synthetic
+	 * `{Alias}Join` association on it would survive this run, and the ModelAnnotator would
+	 * later emit it as a `@property` on a table that never declared it.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateBelongsToManyLeavesThroughTableUntouched() {
+		/** @var \Relations\Model\Table\BarsTable $through */
+		$through = TableRegistry::getTableLocator()->get('Relations.Bars');
+		$associationsBefore = $through->associations()->keys();
+
+		/** @var \Relations\Model\Table\UsersTable $Table */
+		$Table = TableRegistry::getTableLocator()->get('Relations.Users');
+		$Table->belongsToMany('Tags', ['className' => 'Relations.Foos', 'through' => 'Relations.Bars']);
+
+		$schema = $Table->getSchema();
+		$associations = $Table->associations();
+		$annotator = $this->_getAnnotatorMock(['schema' => $schema, 'associations' => $associations]);
+
+		$content = null;
+		$callback = function ($value) use (&$content) {
+			$content = $value;
+
+			return true;
+		};
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
+
+		$path = PLUGINS . 'Relations/src/Model/Entity/User.php';
+		$annotator->annotate($path);
+
+		$this->assertTextContains('$_joinData', (string)$content);
+		$this->assertSame($associationsBefore, $through->associations()->keys());
+	}
+
+	/**
 	 * @return void
 	 */
 	public function testAnnotateWithGenericUsage() {

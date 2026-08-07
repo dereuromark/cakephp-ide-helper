@@ -5,17 +5,20 @@ namespace IdeHelper\Test\TestCase\Annotator;
 use Cake\Console\ConsoleIo;
 use Cake\Core\Configure;
 use Cake\Database\Schema\TableSchema;
+use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\ModelAnnotator;
 use IdeHelper\Console\Io;
 use Shim\TestSuite\ConsoleOutput;
+use Shim\TestSuite\TestTrait;
 use TestApp\Model\Table\FoosTable;
 
 class ModelAnnotatorTest extends TestCase {
 
 	use DiffHelperTrait;
+	use TestTrait;
 
 	/**
 	 * @var array<string>
@@ -829,6 +832,27 @@ class ModelAnnotatorTest extends TestCase {
 		$annotator->annotate(APP . 'Model/Table/BarBarsAbstractTable.php');
 
 		$this->assertStringContainsString('loadInto(', $capture);
+	}
+
+	/**
+	 * The property name has to come from the association's own alias. `getAlias()` cannot
+	 * provide it: Association::__call() proxies it to the target table, so an association
+	 * registered under a custom alias would be annotated under the target table's name.
+	 *
+	 * @return void
+	 */
+	public function testGetAssociationsUsesAssociationAliasNotTargetAlias() {
+		$target = TableRegistry::getTableLocator()->get('Relations.Bars');
+		$table = TableRegistry::getTableLocator()->get('Relations.Users');
+		// An explicit target table is what makes the two aliases diverge, and it is what the
+		// EntityAnnotator passes for the synthetic `_joinData` association.
+		$table->belongsTo('Author', ['targetTable' => $target, 'foreignKey' => 'author_id']);
+
+		$annotator = new ModelAnnotator($this->io, [AbstractAnnotator::CONFIG_DRY_RUN => true]);
+		$result = $this->invokeMethod($annotator, 'getAssociations', [$table->associations()]);
+
+		$this->assertArrayHasKey(BelongsTo::class, $result);
+		$this->assertArrayHasKey('Author', $result[BelongsTo::class]);
 	}
 
 }
