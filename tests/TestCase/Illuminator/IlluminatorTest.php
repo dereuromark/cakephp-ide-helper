@@ -4,8 +4,10 @@ namespace IdeHelper\Test\TestCase\Illuminator;
 
 use Cake\Console\ConsoleIo;
 use Cake\TestSuite\TestCase;
+use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Console\Io;
 use IdeHelper\Illuminator\Illuminator;
+use IdeHelper\Illuminator\Task\AbstractTask;
 use IdeHelper\Illuminator\TaskCollection;
 use Shim\TestSuite\ConsoleOutput;
 
@@ -48,6 +50,24 @@ class IlluminatorTest extends TestCase {
 		$out = $this->out->output();
 
 		$this->assertTextContains('public const FIELD_ID = \'id\';', $out);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testPhpParserCompatibilityWithPhpCodeSniffer(): void {
+		$script = TEST_FILES . 'Illuminator/php_parser_compatibility.php';
+		$classes = [
+			AbstractAnnotator::class,
+			AbstractTask::class,
+		];
+
+		foreach ($classes as $class) {
+			$command = escapeshellarg(PHP_BINARY) . ' ' . escapeshellarg($script) . ' ' . escapeshellarg($class);
+			exec($command, $output, $exitCode);
+
+			$this->assertSame(0, $exitCode, implode(PHP_EOL, $output));
+		}
 	}
 
 }

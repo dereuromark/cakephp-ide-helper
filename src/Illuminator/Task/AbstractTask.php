@@ -6,6 +6,10 @@ use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
 use IdeHelper\Annotator\Traits\FileTrait;
 use PHP_CodeSniffer\Config;
+use PhpParser\Lexer;
+
+// Initialize PHP-Parser compatibility tokens before PHPCS defines its custom tokens.
+class_exists(Lexer::class);
 
 $composerVendorDir = getcwd() . DS . 'vendor';
 $codesnifferDir = 'squizlabs' . DS . 'php_codesniffer';
