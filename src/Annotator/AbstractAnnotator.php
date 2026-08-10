@@ -23,11 +23,15 @@ use IdeHelper\Utility\App;
 use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Util\Tokens;
+use PhpParser\Lexer;
 use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use ReflectionClass;
 use RuntimeException;
 use SebastianBergmann\Diff\Differ;
 use SebastianBergmann\Diff\Output\DiffOnlyOutputBuilder;
+
+// Initialize PHP-Parser compatibility tokens before PHPCS defines its custom tokens.
+class_exists(Lexer::class);
 
 $composerVendorDir = getcwd() . DS . 'vendor';
 $codesnifferDir = 'squizlabs' . DS . 'php_codesniffer';
