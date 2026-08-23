@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \TestApp\View\CustomView $this
- * @var \TestApp\Model\Entity\Car[]|\Cake\Collection\CollectionInterface $cars
+ * @var \TestApp\Model\Entity\Car[]|\Cake\Collection\CollectionInterface<int, \TestApp\Model\Entity\Car> $cars
  */
 ?>
 <div>

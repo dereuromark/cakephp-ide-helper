@@ -2,6 +2,7 @@
 
 namespace IdeHelper\Test\TestCase\Utility;
 
+use Cake\Collection\CollectionInterface;
 use Cake\Core\Configure;
 use Cake\Datasource\Paging\PaginatedInterface;
 use Cake\Datasource\ResultSetInterface;
@@ -71,6 +72,24 @@ class GenericStringTest extends TestCase {
 
 			$this->assertSame($type . '<int, \Foo>', $result, "Failed for IdeHelper.$key=" . var_export($value, true));
 		}
+	}
+
+	/**
+	 * CollectionInterface declares both key and value template parameters in CakePHP 5.4.
+	 *
+	 * @return void
+	 */
+	public function testClassNameCollectionInterface() {
+		$type = '\\' . CollectionInterface::class;
+
+		$result = GenericString::generate('\\Foo', $type);
+		$this->assertSame('\\Foo[]|' . $type . '<int, \\Foo>', $result);
+
+		Configure::write('IdeHelper.objectAsGenerics', true);
+		$result = GenericString::generate('\\Foo', $type);
+		Configure::delete('IdeHelper.objectAsGenerics');
+
+		$this->assertSame($type . '<int, \\Foo>', $result);
 	}
 
 	/**
