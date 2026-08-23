@@ -2,6 +2,7 @@
 
 namespace IdeHelper\Utility;
 
+use Cake\Collection\CollectionInterface;
 use Cake\Core\Configure;
 use Cake\Datasource\Paging\PaginatedInterface;
 use Cake\Datasource\ResultSetInterface;
@@ -14,6 +15,7 @@ class GenericString {
 	 * @var array<string>
 	 */
 	protected const KEY_VALUE_COLLECTIONS = [
+		CollectionInterface::class,
 		ResultSetInterface::class,
 		PaginatedInterface::class,
 	];
