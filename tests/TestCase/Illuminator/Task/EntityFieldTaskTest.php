@@ -127,6 +127,24 @@ class EntityFieldTaskTest extends TestCase {
 	}
 
 	/**
+	 * Typed class constants (PHP 8.3+) must be detected as existing.
+	 *
+	 * @return void
+	 */
+	public function testIlluminateExistingPartialTyped() {
+		$task = $this->_getTask([
+			'visibility' => false,
+		]);
+
+		$path = TEST_FILES . 'Model/Entity/ConstantsTypedPartial/Wheel.php';
+		$result = $task->run(file_get_contents($path), $path);
+
+		$result = str_replace('    ', "\t", $result);
+		$expected = file_get_contents(TEST_FILES . 'Model/Entity/ConstantsTypedPartialResult/Wheel.php');
+		$this->assertTextEquals($expected, $result);
+	}
+
+	/**
 	 * @return void
 	 */
 	public function testIlluminateVisibility() {

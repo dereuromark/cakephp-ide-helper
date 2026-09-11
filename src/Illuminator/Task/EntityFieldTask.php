@@ -215,11 +215,17 @@ class EntityFieldTask extends AbstractTask {
 			if ($tokens[$i]['code'] !== T_CONST) {
 				continue;
 			}
-			$index = $i + 1;
-			if ($tokens[$index]['code'] === T_WHITESPACE) {
-				$index++;
+			// The name is the last T_STRING before "=", as typed constants (PHP 8.3+) have the type in between
+			$index = null;
+			for ($j = $i + 1; $j < $endIndex; $j++) {
+				if ($tokens[$j]['code'] === T_EQUAL || $tokens[$j]['code'] === T_SEMICOLON) {
+					break;
+				}
+				if ($tokens[$j]['code'] === T_STRING) {
+					$index = $j;
+				}
 			}
-			if ($tokens[$index]['code'] !== T_STRING) {
+			if ($index === null) {
 				continue;
 			}
 
