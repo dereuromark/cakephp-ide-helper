@@ -21,6 +21,7 @@ use PHPStan\PhpDocParser\Parser\ConstExprParser;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
 use PHPStan\PhpDocParser\Parser\TypeParser;
+use PHPStan\PhpDocParser\ParserConfig;
 
 /**
  * Common functionality around doc block parsing and writing.
@@ -35,14 +36,22 @@ trait DocBlockTrait {
 	 */
 	protected static function getValueNode(string $tagName, string $tagComment): PhpDocTagValueNode {
 		static $phpDocParser;
-		if (!$phpDocParser) {
-			$constExprParser = new ConstExprParser();
-			$phpDocParser = new PhpDocParser(new TypeParser($constExprParser), $constExprParser);
-		}
-
 		static $phpDocLexer;
-		if (!$phpDocLexer) {
-			$phpDocLexer = new Lexer();
+		if (!$phpDocParser) {
+			// phpdoc-parser 2.x requires a config object on lexer and parsers, 1.x does not know it.
+			if (class_exists(ParserConfig::class)) {
+				$config = new ParserConfig([]);
+				$constExprParser = new ConstExprParser($config);
+				$phpDocParser = new PhpDocParser($config, new TypeParser($config, $constExprParser), $constExprParser);
+				$phpDocLexer = new Lexer($config);
+			} else {
+				/** @phpstan-ignore-next-line */
+				$constExprParser = new ConstExprParser();
+				/** @phpstan-ignore-next-line */
+				$phpDocParser = new PhpDocParser(new TypeParser($constExprParser), $constExprParser);
+				/** @phpstan-ignore-next-line */
+				$phpDocLexer = new Lexer();
+			}
 		}
 
 		return $phpDocParser->parseTagValue(new TokenIterator($phpDocLexer->tokenize($tagComment)), $tagName);
