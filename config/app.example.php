@@ -64,6 +64,8 @@ return [
 		// For Illuminator tasks
 		'illuminatorTasks' => [],
 		'illuminatorIndentation' => "\t",
+		// Use typed class constants (`const string FIELD_X`) in EntityField task, requires PHP 8.3+. Default false.
+		'illuminatorTypedConstants' => false,
 		// For code completion file generator
 		'codeCompletionTasks' => [],
 		// If a custom directory should be used, defaults to TMP otherwise

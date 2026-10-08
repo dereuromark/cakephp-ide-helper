@@ -29,12 +29,18 @@ class EntityFieldTask extends AbstractTask {
 	 */
 	protected array $_defaultConfig = [
 		'visibility' => null,
+		'typed' => null,
 	];
 
 	/**
 	 * @var bool|null
 	 */
 	protected $_visibility;
+
+	/**
+	 * @var bool|null
+	 */
+	protected $_typed;
 
 	/**
 	 * @param string $path
@@ -55,6 +61,15 @@ class EntityFieldTask extends AbstractTask {
 		$classIndex = $file->findNext(T_CLASS, 0);
 		if (!$classIndex) {
 			return $content;
+		}
+
+		if ($this->typed()) {
+			$typedContent = $this->addTypeToExistingConstants($file, $classIndex);
+			if ($typedContent !== null) {
+				$content = $typedContent;
+				$file = $this->getFile('', $content);
+				$classIndex = (int)$file->findNext(T_CLASS, 0);
+			}
 		}
 
 		$tokens = $file->getTokens();
@@ -183,6 +198,10 @@ class EntityFieldTask extends AbstractTask {
 		if ($this->visibility()) {
 			$visibility = 'public ';
 		}
+		$type = '';
+		if ($this->typed()) {
+			$type = 'string ';
+		}
 
 		$fixer = $this->getFixer($file);
 
@@ -193,10 +212,60 @@ class EntityFieldTask extends AbstractTask {
 		}
 
 		foreach ($fields as $field) {
-			$fixer->addContent($beginIndex, $whitespace . $visibility . 'const ' . $field['constant'] . ' = \'' . $field['name'] . '\';');
+			$fixer->addContent($beginIndex, $whitespace . $visibility . 'const ' . $type . $field['constant'] . ' = \'' . $field['name'] . '\';');
 			$fixer->addNewline($beginIndex);
 		}
 
+		$fixer->endChangeset();
+
+		return $fixer->getContents();
+	}
+
+	/**
+	 * Adds the `string` type to existing untyped field constants with a string literal value.
+	 *
+	 * @param \PHP_CodeSniffer\Files\File $file
+	 * @param int $classIndex
+	 * @return string|null
+	 */
+	protected function addTypeToExistingConstants(File $file, int $classIndex): ?string {
+		$tokens = $file->getTokens();
+
+		$existingConstants = $this->getFieldConstants($tokens, $tokens[$classIndex]['scope_opener'], $tokens[$classIndex]['scope_closer']);
+
+		$nameIndexes = [];
+		foreach ($existingConstants as $existingConstant) {
+			$nameIndex = (int)$existingConstant['nameIndex'];
+			if ($file->findNext(Tokens::$emptyTokens, $existingConstant['index'] + 1, null, true) !== $nameIndex) {
+				continue;
+			}
+
+			$equalIndex = $file->findNext(Tokens::$emptyTokens, $nameIndex + 1, null, true);
+			if ($equalIndex === false || $tokens[$equalIndex]['code'] !== T_EQUAL) {
+				continue;
+			}
+			$valueIndex = $file->findNext(Tokens::$emptyTokens, $equalIndex + 1, null, true);
+			if ($valueIndex === false || $tokens[$valueIndex]['code'] !== T_CONSTANT_ENCAPSED_STRING) {
+				continue;
+			}
+			$semicolonIndex = $file->findNext(Tokens::$emptyTokens, $valueIndex + 1, null, true);
+			if ($semicolonIndex === false || $tokens[$semicolonIndex]['code'] !== T_SEMICOLON) {
+				continue;
+			}
+
+			$nameIndexes[] = $nameIndex;
+		}
+
+		if (!$nameIndexes) {
+			return null;
+		}
+
+		$fixer = $this->getFixer($file);
+
+		$fixer->beginChangeset();
+		foreach ($nameIndexes as $nameIndex) {
+			$fixer->addContentBefore($nameIndex, 'string ');
+		}
 		$fixer->endChangeset();
 
 		return $fixer->getContents();
@@ -242,6 +311,7 @@ class EntityFieldTask extends AbstractTask {
 
 			$constants[$field] = [
 				'index' => $i,
+				'nameIndex' => $index,
 				'prefix' => $prefix,
 				'name' => $field,
 				'constant' => $constant,
@@ -264,6 +334,22 @@ class EntityFieldTask extends AbstractTask {
 		$visConfig = $this->getConfig('visibility') ?? true;
 
 		return $this->_visibility = $visConfig;
+	}
+
+	/**
+	 * If typed class constants (`const string`) should be used, for PHP 8.3+ only.
+	 * Existing untyped field constants will then also get the type added.
+	 *
+	 * @return bool
+	 */
+	protected function typed(): bool {
+		if ($this->_typed !== null) {
+			return $this->_typed;
+		}
+
+		$typedConfig = $this->getConfig('typed') ?? Configure::read('IdeHelper.illuminatorTypedConstants') ?? false;
+
+		return $this->_typed = (bool)$typedConfig;
 	}
 
 }
