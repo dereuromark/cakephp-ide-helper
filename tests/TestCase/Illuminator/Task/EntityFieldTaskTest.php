@@ -3,6 +3,7 @@
 namespace IdeHelper\Test\TestCase\Illuminator\Task;
 
 use Cake\Console\ConsoleIo;
+use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Console\Io;
@@ -156,6 +157,52 @@ class EntityFieldTaskTest extends TestCase {
 		$result = $task->run(file_get_contents($path), $path);
 
 		$this->assertTextContains('public const FIELD_ID = \'id\';', $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testIlluminateTyped() {
+		$task = $this->_getTask([
+			'visibility' => true,
+			'typed' => true,
+		]);
+
+		$path = TEST_FILES . 'Model/Entity/Wheel.php';
+		$result = $task->run(file_get_contents($path), $path);
+
+		$this->assertTextContains('public const string FIELD_ID = \'id\';', $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testIlluminateTypedViaConfigure() {
+		Configure::write('IdeHelper.illuminatorTypedConstants', true);
+
+		$task = $this->_getTask([
+			'visibility' => false,
+		]);
+
+		$path = TEST_FILES . 'Model/Entity/Wheel.php';
+		$result = $task->run(file_get_contents($path), $path);
+
+		Configure::delete('IdeHelper.illuminatorTypedConstants');
+
+		$this->assertTextContains('const string FIELD_ID = \'id\';', $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testIlluminateNotTypedByDefault() {
+		$task = $this->_getTask();
+
+		$path = TEST_FILES . 'Model/Entity/Wheel.php';
+		$result = $task->run(file_get_contents($path), $path);
+
+		$this->assertTextContains('public const FIELD_ID = \'id\';', $result);
+		$this->assertTextNotContains('const string', $result);
 	}
 
 	/**

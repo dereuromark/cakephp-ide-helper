@@ -29,12 +29,18 @@ class EntityFieldTask extends AbstractTask {
 	 */
 	protected array $_defaultConfig = [
 		'visibility' => null,
+		'typed' => null,
 	];
 
 	/**
 	 * @var bool|null
 	 */
 	protected $_visibility;
+
+	/**
+	 * @var bool|null
+	 */
+	protected $_typed;
 
 	/**
 	 * @param string $path
@@ -183,6 +189,10 @@ class EntityFieldTask extends AbstractTask {
 		if ($this->visibility()) {
 			$visibility = 'public ';
 		}
+		$type = '';
+		if ($this->typed()) {
+			$type = 'string ';
+		}
 
 		$fixer = $this->getFixer($file);
 
@@ -193,7 +203,7 @@ class EntityFieldTask extends AbstractTask {
 		}
 
 		foreach ($fields as $field) {
-			$fixer->addContent($beginIndex, $whitespace . $visibility . 'const ' . $field['constant'] . ' = \'' . $field['name'] . '\';');
+			$fixer->addContent($beginIndex, $whitespace . $visibility . 'const ' . $type . $field['constant'] . ' = \'' . $field['name'] . '\';');
 			$fixer->addNewline($beginIndex);
 		}
 
@@ -264,6 +274,21 @@ class EntityFieldTask extends AbstractTask {
 		$visConfig = $this->getConfig('visibility') ?? true;
 
 		return $this->_visibility = $visConfig;
+	}
+
+	/**
+	 * If typed class constants (`const string`) should be used, for PHP 8.3+ only.
+	 *
+	 * @return bool
+	 */
+	protected function typed(): bool {
+		if ($this->_typed !== null) {
+			return $this->_typed;
+		}
+
+		$typedConfig = $this->getConfig('typed') ?? Configure::read('IdeHelper.illuminatorTypedConstants') ?? false;
+
+		return $this->_typed = (bool)$typedConfig;
 	}
 
 }
