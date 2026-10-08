@@ -84,6 +84,7 @@ configure it otherwise.
 
 If your project runs on PHP 8.3+, you can enable typed class constants
 (`public const string FIELD_X = 'x';`) via `'IdeHelper.illuminatorTypedConstants' => true`.
+Existing untyped field constants with a string value are then upgraded as well.
 
 This task does not clean out removed or renamed fields. You should quickly
 check for usage of the constant — if unused it can be safely removed.

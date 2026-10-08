@@ -175,6 +175,68 @@ class EntityFieldTaskTest extends TestCase {
 	}
 
 	/**
+	 * Existing untyped constants get the type added, new ones are added typed.
+	 *
+	 * @return void
+	 */
+	public function testIlluminateTypedExistingPartial() {
+		$task = $this->_getTask([
+			'visibility' => false,
+			'typed' => true,
+		]);
+
+		$path = TEST_FILES . 'Model/Entity/ConstantsPartial/Wheel.php';
+		$result = $task->run(file_get_contents($path), $path);
+
+		$result = str_replace('    ', "\t", $result);
+		$expected = file_get_contents(TEST_FILES . 'Model/Entity/ConstantsTypedResult/Wheel.php');
+		$this->assertTextEquals($expected, $result);
+	}
+
+	/**
+	 * Already typed constants stay untouched, also when no new fields need to be added.
+	 *
+	 * @return void
+	 */
+	public function testIlluminateTypedExisting() {
+		$task = $this->_getTask([
+			'visibility' => false,
+			'typed' => true,
+		]);
+
+		$path = TEST_FILES . 'Model/Entity/ConstantsTypedResult/Wheel.php';
+		$result = $task->run(file_get_contents($path), $path);
+
+		$result = str_replace('    ', "\t", $result);
+		$expected = file_get_contents(TEST_FILES . 'Model/Entity/ConstantsTypedResult/Wheel.php');
+		$this->assertTextEquals($expected, $result);
+	}
+
+	/**
+	 * Only string literal values get the type added, others would be invalid.
+	 *
+	 * @return void
+	 */
+	public function testIlluminateTypedSkipsNonStringValues() {
+		$task = $this->_getTask([
+			'visibility' => false,
+			'typed' => true,
+		]);
+
+		$path = APP . 'Model/Entity/Complex/Wheel.php';
+		$content = str_replace(
+			'class Wheel extends Entity {',
+			"class Wheel extends Entity {\n\n\tconst FIELD_ID = 1;\n\tconst FIELD_NAME = self::OTHER;\n\tpublic const FIELD_CONTENT = 'content';",
+			(string)file_get_contents($path),
+		);
+		$result = $task->run($content, $path);
+
+		$this->assertTextContains('const FIELD_ID = 1;', $result);
+		$this->assertTextContains('const FIELD_NAME = self::OTHER;', $result);
+		$this->assertTextContains('public const string FIELD_CONTENT = \'content\';', $result);
+	}
+
+	/**
 	 * @return void
 	 */
 	public function testIlluminateTypedViaConfigure() {
