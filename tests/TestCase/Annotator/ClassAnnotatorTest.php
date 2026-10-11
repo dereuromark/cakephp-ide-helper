@@ -87,4 +87,28 @@ class ClassAnnotatorTest extends TestCase {
 		return new ClassAnnotator($this->io, $params);
 	}
 
+	public function testLocatorAwareAssignmentsUseActualPropertyName(): void {
+		$source = <<<'PHP'
+<?php
+namespace TestApp\Custom;
+use Cake\ORM\Locator\LocatorAwareTrait;
+class CustomClass {
+    use LocatorAwareTrait;
+    public function initialize(): void {
+        $this->Articles = $this->fetchTable('Foos');
+        $unused = $this->fetchTable('BarBars');
+    }
+}
+PHP;
+		if (!is_dir(TMP . 'src')) {
+			mkdir(TMP . 'src', 0770, true);
+		}
+		$file = TMP . 'src' . DS . 'CustomClass.php';
+		file_put_contents($file, $source);
+		$this->_getAnnotatorMock([])->annotate($file);
+		$content = file_get_contents($file);
+		$this->assertStringContainsString('@property \TestApp\Model\Table\FoosTable $Articles', $content);
+		$this->assertStringNotContainsString('$BarBars', $content);
+	}
+
 }

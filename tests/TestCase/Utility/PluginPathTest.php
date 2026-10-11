@@ -14,13 +14,13 @@ class PluginPathTest extends TestCase {
 	public function testGet() {
 		$plugin = 'Shim';
 		$result = PluginPath::get($plugin);
-		$this->assertTextContains('cakephp-ide-helper/vendor/dereuromark/cakephp-shim/', $result);
+		$this->assertSame(dirname(__DIR__, 3) . DS . 'vendor' . DS . 'dereuromark' . DS . 'cakephp-shim' . DS, $result);
 
 		Plugin::getCollection()->remove('Awesome');
 
 		$plugin = 'Awesome';
 		$result = PluginPath::get($plugin);
-		$this->assertTextContains('cakephp-ide-helper/tests/test_app/plugins/Awesome/', $result);
+		$this->assertSame(ROOT . DS . 'plugins' . DS . 'Awesome' . DS, $result);
 	}
 
 }

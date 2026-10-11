@@ -82,6 +82,9 @@ class EntityTask extends ModelTask {
 			}
 
 			$entityClass = $tableObject ? $tableObject->getEntityClass() : null;
+			if ($entityClass === null) {
+				continue;
+			}
 			try {
 				/** @var \Cake\Datasource\EntityInterface $entityObject */
 				$entityObject = new $entityClass();

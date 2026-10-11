@@ -1,12 +1,20 @@
 # Classes and ClassAnnotationTasks
 
-In order to run certain "fixers" over all classes, class annotations and their
+To run certain "fixers" over all classes, class annotations and their
 tasks are available. Out of the box the following tasks are run.
 
 ## ModelAware
 
-Any `use ModelAwareTrait` together with `$this->loadModel(...)` calls will add
-the required annotation on top of the class.
+For classes using `LocatorAwareTrait`, assigned `fetchTable()` calls add a
+property annotation using the actual property name:
+
+```php
+$this->Articles = $this->fetchTable('Articles');
+```
+
+A table fetched into a local variable does not create a class property and is
+not annotated as one. Legacy `ModelAwareTrait` classes with `fetchModel()` calls
+are also supported.
 
 ## `Form::execute()`
 
@@ -116,7 +124,8 @@ class MyClassAnnotatorTask extends AbstractClassAnnotatorTask implements ClassAn
      * @return bool
      */
     public function shouldRun(string $path, string $content): bool {
-        // ...
+        // Implement the task-specific condition or update here.
+        return false;
     }
 
     /**
@@ -124,7 +133,8 @@ class MyClassAnnotatorTask extends AbstractClassAnnotatorTask implements ClassAn
      * @return bool
      */
     public function annotate(string $path): bool {
-        // ...
+        // Implement the task-specific condition or update here.
+        return false;
     }
 
 }
@@ -148,8 +158,8 @@ For a fully worked PHP-AST example, see [Custom Class Annotators](./custom-class
 
 By default `bin/cake annotate classes` walks `src/` (app + plugin classpaths)
 and `tests/TestCase/` (when `TestClassAnnotatorTask` is registered). A custom
-task whose subjects live elsewhere — for example test-fixture factories under
-`tests/Factory/`, scenario classes, or generated stubs — can opt into having
+task whose subjects live elsewhere: for example test-fixture factories under
+`tests/Factory/`, scenario classes, or generated stubs: can opt into having
 those directories walked by also implementing
 `PathAwareClassAnnotatorTaskInterface`:
 
@@ -186,7 +196,7 @@ OS-native separator before walking, so the dedup key stays stable across
 Windows / \*nix and across tasks that disagree on style.
 :::
 
-The interface is optional and additive — existing tasks that do not implement
+The interface is optional and additive: existing tasks that do not implement
 it behave unchanged. The feature is opt-in: a path-aware task is only
 consulted when it is registered in `IdeHelper.classAnnotatorTasks`.
 
@@ -198,7 +208,7 @@ implementation:
 ```php
 'IdeHelper' => [
     'classAnnotatorTasks' => [
-        \IdeHelper\Annotator\ClassAnnotatorTask\ModelAwareTask::class => \App\Annotator\ClassAnnotatorTask\MyEnhancedModelAwareTask::class,
+        \IdeHelper\Annotator\ClassAnnotatorTask\ModelAwareClassAnnotatorTask::class => \App\Annotator\ClassAnnotatorTask\MyEnhancedModelAwareTask::class,
     ],
 ],
 ```

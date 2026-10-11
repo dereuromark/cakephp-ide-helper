@@ -14,7 +14,7 @@ This command will generate the CodeCompletion `php` files into your app's
 bin/cake generate code_completion
 ```
 
-The files should not be persisted — they will always be regenerated or
+The files should not be persisted: they will always be regenerated or
 updated locally if needed.
 
 ::: tip composer hook

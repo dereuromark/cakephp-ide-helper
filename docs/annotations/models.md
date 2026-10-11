@@ -56,9 +56,9 @@ beyond plain entities.
 
 The `IdeHelper.genericsInParam` option is tri-state:
 
-- `false` (default) — bare `array` params, legacy behavior. Collection return
+- `false` (default): bare `array` params, legacy behavior. Collection return
   types still carry `ResultSetInterface<int, TEntity>` (its real two-param arity).
-- `true` — basic generics. Entity-data and `$contain` params use `array<mixed>`
+- `true`: basic generics. Entity-data and `$contain` params use `array<mixed>`
   (`$contain` also accepts the list form `['Comments', 'Tags']`); the `$finder`,
   `$search`, and `$options` params use `array<string, mixed>`, alongside
   `SelectQuery<TEntity>` / `iterable<TEntity>` / `ResultSetInterface<int, TEntity>`.
@@ -66,7 +66,7 @@ The `IdeHelper.genericsInParam` option is tri-state:
   PHPStan's `missingType.iterableValue` and `missingType.generics` stay clean at the
   strictest level - while IDE/tooling still copes, since there are no nested
   `array<array<...>>` shapes.
-- `'detailed'` — fully detailed types throughout (nested `array<array<string, mixed>>`
+- `'detailed'`: fully detailed types throughout (nested `array<array<string, mixed>>`
   for entity lists), matching the richer form PHPStan and Psalm understand best.
 
 With `'detailed'`, the generated method annotations look like:
@@ -87,11 +87,11 @@ enabled at any time.
 
 The `IdeHelper.concreteEntitiesInParam` option is tri-state:
 
-- `false` (default) — entity params accept `\Cake\Datasource\EntityInterface`.
-- `true` — `patchEntity()`, `save()`, and `saveOrFail()` declare the concrete
+- `false` (default): entity params accept `\Cake\Datasource\EntityInterface`.
+- `true`: `patchEntity()`, `save()`, and `saveOrFail()` declare the concrete
   entity class for their `$entity` parameter, so PHPStan can catch a mismatched
   entity passed to the wrong table.
-- `'strict'` — same as `true`, plus:
+- `'strict'`: same as `true`, plus:
   - iterable params on `patchEntities` / `saveMany` / `saveManyOrFail` /
     `deleteMany` / `deleteManyOrFail` are narrowed to
     `iterable<\App\Model\Entity\X>` even when `genericsInParam` is `false`.
@@ -114,7 +114,7 @@ method block adds:
  * @method \App\Model\Entity\User|array<\App\Model\Entity\User> loadInto(\App\Model\Entity\User|array<\App\Model\Entity\User> $entities, array $contain)
 ```
 
-Switching is additive — existing `true` users keep their current output, and
+Switching is additive: existing `true` users keep their current output, and
 `'strict'` can be enabled at any time. Pair with `genericsInParam` at `true` or
 `'detailed'` for fully typed params throughout.
 
@@ -147,7 +147,7 @@ class Location extends Entity {
 
 Using the Configure key `'IdeHelper.typeMap'` you can set a custom array of
 types to be used for the field mapping. Overwriting the defaults of this
-plugin is also possible — to skip (reset) just set the value to `null`:
+plugin is also possible: to skip (reset) just set the value to `null`:
 
 ```php
 'IdeHelper' => [
@@ -181,7 +181,7 @@ automatically and annotated with the concrete enum class, e.g.
 A **custom `EnumType` subclass** (for example a lenient type that tolerates legacy
 values) registered under its own name is *not* detected out of the box, because the
 annotator only sees the type name from the schema and cannot tell that name maps to
-an enum — it falls back to `string`:
+an enum: it falls back to `string`:
 
 ```php
 // config/bootstrap.php
@@ -193,7 +193,7 @@ $this->getSchema()->setColumnType('status', 'lenient_status');
 ```
 
 Register it under an **`enum-` prefixed name** so the resolver recognises it as an
-enum and reads the backing class via `getEnumClassName()` — no `typeMap` entry needed:
+enum and reads the backing class via `getEnumClassName()`: no `typeMap` entry needed:
 
 ```php
 TypeFactory::map('enum-lenient_status', LenientStatusType::class);

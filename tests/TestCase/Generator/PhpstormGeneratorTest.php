@@ -81,6 +81,9 @@ class PhpstormGeneratorTest extends TestCase {
 		}
 
 		$expected = file_get_contents($file);
+		if (class_exists('Cake\\Console\\Helper\\ProgressHelper')) {
+			$expected = str_replace('Cake\\Command\\Helper\\', 'Cake\\Console\\Helper\\', $expected);
+		}
 
 		$this->assertTextEquals($expected, $result);
 	}

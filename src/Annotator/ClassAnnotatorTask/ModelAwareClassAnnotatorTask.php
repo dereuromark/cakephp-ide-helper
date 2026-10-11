@@ -2,13 +2,21 @@
 
 namespace IdeHelper\Annotator\ClassAnnotatorTask;
 
+use IdeHelper\Annotation\AnnotationFactory;
+use IdeHelper\Annotation\PropertyAnnotation;
+use IdeHelper\Annotator\Traits\ModelTrait;
+use IdeHelper\Utility\App;
 use ReflectionClass;
 use Throwable;
 
 /**
- * Classes that use ModelAwareTrait should automatically have used tables - via fetchModel() call - annotated.
+ * Annotates table properties assigned through LocatorAwareTrait and legacy ModelAwareTrait calls.
  */
 class ModelAwareClassAnnotatorTask extends AbstractClassAnnotatorTask implements ClassAnnotatorTaskInterface {
+
+	use ModelTrait {
+		getUsedModels as getAssignedModels;
+	}
 
 	/**
 	 * Deprecated: $content, use $this->content instead.
@@ -21,7 +29,7 @@ class ModelAwareClassAnnotatorTask extends AbstractClassAnnotatorTask implements
 		if (!str_contains($path, DS . 'src' . DS)) {
 			return false;
 		}
-		if (preg_match('#\buse ModelAwareTrait\b#', $content)) {
+		if (preg_match('#\buse (?:ModelAwareTrait|LocatorAwareTrait)\b#', $content)) {
 			return true;
 		}
 
@@ -32,7 +40,9 @@ class ModelAwareClassAnnotatorTask extends AbstractClassAnnotatorTask implements
 		}
 
 		try {
-			return (new ReflectionClass($className))->hasMethod('fetchModel');
+			$reflection = new ReflectionClass($className);
+
+			return $reflection->hasMethod('fetchModel') || $reflection->hasMethod('fetchTable');
 		} catch (Throwable) {
 			return false;
 		}
@@ -43,9 +53,17 @@ class ModelAwareClassAnnotatorTask extends AbstractClassAnnotatorTask implements
 	 * @return bool
 	 */
 	public function annotate(string $path): bool {
-		$models = $this->getUsedModels($this->content);
+		$tables = $this->getAssignedModels($this->content);
+		foreach ($this->getUsedModels($this->content) as $table) {
+			[, $property] = pluginSplit($table);
+			$tables[$property] ??= $table;
+		}
 
-		$annotations = $this->getModelAnnotations($models, $this->content);
+		$annotations = [];
+		foreach ($tables as $property => $table) {
+			$className = App::className($table, 'Model/Table', 'Table') ?? 'Cake\\ORM\\Table';
+			$annotations[] = AnnotationFactory::createOrFail(PropertyAnnotation::TAG, '\\' . $className, '$' . $property);
+		}
 
 		return $this->annotateContent($path, $this->content, $annotations);
 	}

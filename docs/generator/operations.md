@@ -4,7 +4,7 @@ Cross-cutting flags and workflows for the meta file generator.
 
 ## Include/Exclude Plugins
 
-Many plugins do not need to be "loaded" — those would normally not be
+Many plugins do not need to be "loaded": those would normally not be
 included in the generator tasks. If you want to add some not-loaded plugins
 into the list of plugins to process, use:
 

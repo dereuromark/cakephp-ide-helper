@@ -41,7 +41,7 @@ To adjust which template extensions are processed, set
 
 ::: info Twig templates
 All template annotating is around PHP templates. Twig templates are not
-supported. Twig usually has its own tooling — but it has serious drawbacks on
+supported. Twig usually has its own tooling: but it has serious drawbacks on
 what this plugin provides: auto-complete and type-hinting as well as IDE
 introspection of variable types.
 :::
@@ -87,7 +87,7 @@ to `'mixed'` where the type cannot be guessed/detected.
 If you need more control, configure a callable to detect or guess:
 
 ```php
-'IdeHelper.autoCollect', function(array $variable) {
+\Cake\Core\Configure::write('IdeHelper.autoCollect', function (array $variable) {
     if ($variable['name'] === 'date') {
         return 'Cake\I18n\DateTime';
     }

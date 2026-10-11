@@ -2,7 +2,7 @@
 
 Worked examples of writing custom class annotators in your CakePHP application.
 
-## `getByUuid()` — Concrete Entity Inline Annotation
+## `getByUuid()`: Concrete Entity Inline Annotation
 
 Imagine you have a method `getByUuid()` for all your tables to look up records
 by their UUID instead of the AIID. The returned result would be "known" by

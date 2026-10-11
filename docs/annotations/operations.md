@@ -8,9 +8,8 @@ Cross-cutting flags and workflows that apply to every annotator subcommand.
 bin/cake annotate all
 ```
 
-By default it runs interactively, asking you for each class type whether to
-continue. You can use `-i` (interactive) to enable interactive mode. It is
-also recommended to make the output more verbose:
+By default it processes all supported class types without prompting. Add `-i`
+to choose each class type interactively, and `-v` for verbose output:
 
 ```bash
 bin/cake annotate all -i -v
@@ -102,7 +101,8 @@ Sometimes you are extending another class. In that case you can use the
 /**
  * @inheritdoc
  */
-class CustomImagesTable extends ImagesTable ...
+class CustomImagesTable extends ImagesTable {
+}
 ```
 
 In this case `CustomImagesTable` extends `ImagesTable` but uses the same
@@ -133,7 +133,7 @@ example. You can also copy `annotate-watcher.cjs` to your app and customize it
 there.
 
 Since this is cross-platform, this is the recommended approach. It is also
-the most performant — only files directly modified are touched. The trade-off
+the most performant: only files directly modified are touched. The trade-off
 is that it might miss a few related templates that are not modified but would
 get updates.
 
@@ -182,7 +182,8 @@ class MyAnnotator extends AbstractAnnotator {
      * @return bool
      */
     public function annotate(string $path): bool {
-        // ...
+        // Inspect the file and write updated annotations here.
+        return false;
     }
 }
 ```
