@@ -56,7 +56,7 @@ value to `null` disables a native task entirely.
 
 Most directives used by the built-in tasks are `Override`. They are also the
 ones supported the longest. For a specific string method argument, an
-`Override` returns a specific object — that covers a lot of CakePHP's
+`Override` returns a specific object: that covers a lot of CakePHP's
 internal magic.
 
 ```php
@@ -98,7 +98,7 @@ $directive = new ExpectedArguments($method, $position, $list);
 ```
 
 Note the escaped quotes around literal string values. To make it cleaner,
-use the `StringName` value object — it auto-quotes on output:
+use the `StringName` value object: it auto-quotes on output:
 
 ```php
 use IdeHelper\ValueObject\StringName;
@@ -166,7 +166,7 @@ $list = [
 $directive = new ExpectedArguments($method, 1, $list);
 ```
 
-Just make sure those argument sets are actually available — this is not
+Just make sure those argument sets are actually available: this is not
 checked for you.
 
 ### ExitPoint
@@ -260,6 +260,6 @@ It allows you to control the quoting of both key and value. The map key here
 is only used for sorting.
 
 ::: info Override-only
-This value object can only be used for the `Override` directive — that's the
+This value object can only be used for the `Override` directive: that's the
 one that actually makes use of associative keys.
 :::

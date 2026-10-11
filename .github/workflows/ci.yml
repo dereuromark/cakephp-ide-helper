@@ -122,3 +122,25 @@ jobs:
 
       - name: Run phpcs
         run: composer cs-check
+
+  documentation:
+    name: Documentation
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: docs/package-lock.json
+      - name: Install documentation dependencies
+        run: npm ci
+        working-directory: docs
+      - name: Audit documentation dependencies
+        run: npm audit --audit-level=low
+        working-directory: docs
+      - name: Build documentation
+        run: npm run docs:build
+        working-directory: docs

@@ -16,7 +16,8 @@ Behaviors and generic code use the following signature:
  * @param \ArrayObject $options Options
  * @return void
  */
-public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void
+public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {
+}
 ```
 
 As long as you only use methods and attributes of the `EntityInterface`
@@ -24,7 +25,7 @@ contract, this is fine.
 
 But in specific Table-class code, you usually also access the entity's
 concrete properties. There the type hint is somewhat a lie. To please the IDE
-and tooling like PHPStan we can at least fix up the doc block — and that is
+and tooling like PHPStan we can at least fix up the doc block: and that is
 what this task does, declaring the `Post` entity to be available and used
 inside.
 
@@ -37,7 +38,8 @@ Inside the concrete `PostsTable` after running the `callbacks` command:
  * @param \ArrayObject $options Options
  * @return void
  */
-public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void
+public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {
+}
 ```
 
 ## Entity Virtual Field Setter/Getter Annotations
@@ -50,7 +52,9 @@ A virtual field will be "linked" to the property it handles:
  *
  * @return int|null
  */
-protected function _getExpectedType(): ?int
+protected function _getExpectedType(): ?int {
+    return null;
+}
 ```
 
 This way you can quick-jump from the property to the getter and vice versa
@@ -73,7 +77,8 @@ class MyCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implements C
      * @return bool
      */
     public function shouldRun(string $path): bool {
-        // ...
+        // Implement the task-specific condition or update here.
+        return false;
     }
 
     /**
@@ -81,7 +86,8 @@ class MyCallbackAnnotatorTask extends AbstractCallbackAnnotatorTask implements C
      * @return bool
      */
     public function annotate(string $path): bool {
-        // ...
+        // Implement the task-specific condition or update here.
+        return false;
     }
 
 }
@@ -91,7 +97,7 @@ Then add it to the config:
 
 ```php
 'IdeHelper' => [
-    'CallbackAnnotatorTasks' => [
+    'callbackAnnotatorTasks' => [
         'MyCallbackAnnotatorTask' => \App\Annotator\CallbackAnnotatorTask\MyCallbackAnnotatorTask::class,
     ],
 ],

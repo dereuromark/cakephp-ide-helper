@@ -73,7 +73,7 @@ $query->orderByDesc('publish_date');
 $query->orderByDesc(Post::FIELD_PUBLISH_DATE);
 ```
 
-This allows for less typing as autocomplete finds it immediately — and for
+This allows for less typing as autocomplete finds it immediately: and for
 usage display (IDE → right-click → get usage). That also means refactoring is
 much easier this way (via the IDE, usually a clean
 one-modification-refactor across the whole project).
@@ -87,7 +87,7 @@ If your project runs on PHP 8.3+, you can enable typed class constants
 Existing untyped field constants with a string value are then upgraded as well.
 
 This task does not clean out removed or renamed fields. You should quickly
-check for usage of the constant — if unused it can be safely removed.
+check for usage of the constant: if unused it can be safely removed.
 :::
 
 ![Fields Autocomplete](/img/fields_autocomplete.png)

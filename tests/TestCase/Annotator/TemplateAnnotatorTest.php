@@ -80,6 +80,7 @@ class TemplateAnnotatorTest extends TestCase {
 		});
 
 		$annotator = $this->_getAnnotatorMock([]);
+		$annotator->expects($this->never())->method('storeFile');
 
 		$variable = [
 			'name' => 'date',
@@ -97,6 +98,7 @@ class TemplateAnnotatorTest extends TestCase {
 		Configure::write('IdeHelper.preemptive', false);
 
 		$annotator = $this->_getAnnotatorMock([]);
+		$annotator->expects($this->never())->method('storeFile');
 
 		$content = '';
 		/** @uses \IdeHelper\Annotator\TemplateAnnotator::_needsViewAnnotation() */

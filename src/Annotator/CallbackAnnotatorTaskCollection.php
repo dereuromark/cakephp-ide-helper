@@ -20,7 +20,7 @@ class CallbackAnnotatorTaskCollection {
 	/**
 	 * @var array<class-string<\IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface>>
 	 */
-	protected array $tasks;
+	protected array $tasks = [];
 
 	/**
 	 * @param array<class-string<\IdeHelper\Annotator\CallbackAnnotatorTask\CallbackAnnotatorTaskInterface>> $tasks
@@ -29,13 +29,7 @@ class CallbackAnnotatorTaskCollection {
 		$defaultTasks = $this->defaultTasks();
 		$tasks += $defaultTasks;
 
-		foreach ($tasks as $task) {
-			if (!$task) {
-				continue;
-			}
-
-			$this->tasks = $tasks;
-		}
+		$this->tasks = array_filter($tasks);
 	}
 
 	/**

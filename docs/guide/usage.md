@@ -11,7 +11,8 @@ Run on your app:
 bin/cake annotate [type]
 ```
 
-By default it prints a diff of the changes plus the number of modified lines.
+The command writes annotations and prints the changes. Add `-d` to preview
+without writing files.
 
 Run on a loaded plugin:
 
@@ -63,7 +64,7 @@ See [Generator](/generator/).
 Rewrite PHP files using configured Illuminator tasks:
 
 ```bash
-bin/cake illuminate code <path>
+bin/cake illuminate code [path]
 ```
 
 Use `-v` for verbose output and `-t` (`--task`) with a comma-separated list to
@@ -85,6 +86,6 @@ Group commands so they are easy to remember and easy to wire into hooks or CI:
 
 That way you only have to remember the wrapper commands:
 
-- `composer setup` — also useful as a Git hook after checkout/pull
-- `composer annotate` — include all your `/plugins/` (the non-vendor ones)
-- `composer illuminate` — include all your `/plugins/` (the non-vendor ones)
+- `composer setup`: also useful as a Git hook after checkout/pull
+- `composer annotate`: include all your `/plugins/` (the non-vendor ones)
+- `composer illuminate`: include all your `/plugins/` (the non-vendor ones)

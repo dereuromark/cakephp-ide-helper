@@ -1,35 +1,40 @@
 # Installation
 
-## Composer
-
-Install as a `require-dev` dependency:
+Install the plugin in your application's development dependencies:
 
 ```bash
 composer require --dev dereuromark/cakephp-ide-helper
 ```
 
-## Plugin Loading
+Composer checks the supported PHP and CakePHP versions against your application.
+See the [package constraints](https://github.com/dereuromark/cakephp-ide-helper/blob/master/composer.json)
+for the current requirements.
 
-Enable the plugin in your `Application.php` or call:
+## Load the commands
 
-```bash
-bin/cake plugin load IdeHelper
+In `src/Application.php`, add this inside `bootstrap()`, after
+`parent::bootstrap()`:
+
+```php
+if (PHP_SAPI === 'cli' && class_exists(\IdeHelper\IdeHelperPlugin::class)) {
+    $this->addPlugin('IdeHelper');
+}
 ```
 
-::: tip Local-only loading
-As a `require-dev` dependency, the plugin should only load for local
-development. Wrap the registration with a check or `try`/`catch`, and ideally
-also restrict it to CLI mode (`if (PHP_SAPI === 'cli')`).
-:::
+This registers the commands for CLI use when the development dependency is
+installed. The class check also permits deployments using `composer install
+--no-dev` to boot without the plugin.
 
-## Verifying the Install
+## Check the commands
 
-Once the plugin is loaded, the following commands become available:
+From the application directory, run:
 
 ```bash
 bin/cake annotate --help
-bin/cake generate --help
-bin/cake illuminate --help
+bin/cake generate code_completion --help
+bin/cake generate phpstorm --help
+bin/cake illuminate code --help
 ```
 
-If those resolve, you are ready to move on to [Usage](./usage).
+Continue with [Getting started](./getting-started) for a first annotation preview
+and IDE setup.

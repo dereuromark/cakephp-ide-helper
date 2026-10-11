@@ -228,4 +228,10 @@ class AnnotateCommandTest extends TestCase {
 		AbstractAnnotator::$stale = false;
 	}
 
+	public function testAllInteractiveCanSkipEveryType(): void {
+		$this->exec('annotate all -d -i', array_fill(0, 9, 'n'));
+		$this->assertExitSuccess();
+		$this->assertOutputContains('Models?');
+	}
+
 }
