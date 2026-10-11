@@ -83,7 +83,7 @@ value type without changing the native property type.
 |-----|------|-------|
 | `illuminatorIndentation` | `string` | Indentation whitespace; defaults to `"\t"`. Use `'    '` for spaces. |
 | `illuminatorTypedConstants` | `bool` | Generate typed class constants (`const string FIELD_X`) in the `EntityField` task; requires PHP 8.3+. Existing untyped field constants are upgraded too. Defaults to `false`. |
-| `IlluminatorTasks` | `array` | Register or replace Illuminator tasks. |
+| `illuminatorTasks` | `array` | Register or replace Illuminator tasks. |
 
 ## Replacing or Disabling Native Tasks
 
@@ -104,4 +104,4 @@ to add a task, or the native class name as the key to replace one:
 ```
 
 The same pattern applies to `classAnnotatorTasks`, `callbackAnnotatorTasks`,
-`generatorTasks`, `codeCompletionTasks`, and `IlluminatorTasks`.
+`generatorTasks`, `codeCompletionTasks`, and `illuminatorTasks`.

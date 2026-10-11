@@ -65,6 +65,8 @@ class ModelAwareClassAnnotatorTask extends AbstractClassAnnotatorTask implements
 			$annotations[] = AnnotationFactory::createOrFail(PropertyAnnotation::TAG, '\\' . $className, '$' . $property);
 		}
 
+		$annotations = $this->filterByTypedProperties($annotations, $this->content);
+
 		return $this->annotateContent($path, $this->content, $annotations);
 	}
 

@@ -29,7 +29,9 @@ class CallbackAnnotatorTaskCollectionTest extends TestCase {
 			TableCallbackAnnotatorTask::class => null,
 			VirtualFieldCallbackAnnotatorTask::class => null,
 		]);
-		$this->assertSame([], (new CallbackAnnotatorTaskCollection())->tasks(new Io(new ConsoleIo()), [], '', ''));
+		$collection = new CallbackAnnotatorTaskCollection();
+		$this->assertSame([], $collection->defaultTasks());
+		$this->assertSame([], $collection->tasks(new Io(new ConsoleIo()), [], '', ''));
 	}
 
 }

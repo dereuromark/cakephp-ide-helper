@@ -25,7 +25,7 @@ contract, this is fine.
 
 But in specific Table-class code, you usually also access the entity's
 concrete properties. There the type hint is somewhat a lie. To please the IDE
-and tooling like PHPStan we can at least fix up the doc block: and that is
+and tooling like PHPStan we can at least fix up the doc block. That is
 what this task does, declaring the `Post` entity to be available and used
 inside.
 

@@ -127,7 +127,7 @@ Then add it to the config:
 
 ```php
 'IdeHelper' => [
-    'IlluminatorTasks' => [
+    'illuminatorTasks' => [
         'MyTask' => \App\Illuminator\Task\MyTask::class,
     ],
 ],
@@ -143,7 +143,7 @@ implementation:
 
 ```php
 'IdeHelper' => [
-    'IlluminatorTasks' => [
+    'illuminatorTasks' => [
         \IdeHelper\Illuminator\Task\FooBarTask::class => \App\Illuminator\Task\MyEnhancedFooBarTask::class,
     ],
 ],

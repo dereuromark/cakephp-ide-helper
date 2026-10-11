@@ -77,7 +77,7 @@ class PhpstormGeneratorTest extends TestCase {
 		// Trick to let the test file get updated: --debug is for PHPUnit 11+, --cache-result for PHPUnit 10
 		if (!empty($_SERVER['argv']) && (in_array('--debug', $_SERVER['argv'], true) || in_array('--cache-result', $_SERVER['argv'], true))) {
 			debug('Adding results to ' . $fileName);
-			file_put_contents($file, $result);
+			file_put_contents($file, str_replace('Cake\\Console\\Helper\\', 'Cake\\Command\\Helper\\', $result));
 		}
 
 		$expected = file_get_contents($file);

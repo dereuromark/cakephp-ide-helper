@@ -52,14 +52,20 @@ class ConsoleHelperTask implements TaskInterface {
 	protected function collectHelpers(): array {
 		$helpers = [];
 
-		$folders = array_merge(App::core('Console/Helper'), AppPath::get('Console/Helper'), App::core('Command/Helper'), AppPath::get('Command/Helper'));
+		$folders = array_merge(App::core('Command/Helper'), AppPath::get('Command/Helper'));
+		if (class_exists('Cake\\Console\\Helper\\ProgressHelper')) {
+			$folders = array_merge(App::core('Console/Helper'), AppPath::get('Console/Helper'), $folders);
+		}
 		foreach ($folders as $folder) {
 			$helpers = $this->addHelpers($helpers, $folder);
 		}
 
 		$plugins = Plugin::all();
 		foreach ($plugins as $plugin) {
-			$folders = array_merge(AppPath::get('Console/Helper', $plugin), AppPath::get('Command/Helper', $plugin));
+			$folders = AppPath::get('Command/Helper', $plugin);
+			if (class_exists('Cake\\Console\\Helper\\ProgressHelper')) {
+				$folders = array_merge(AppPath::get('Console/Helper', $plugin), $folders);
+			}
 			foreach ($folders as $folder) {
 				$helpers = $this->addHelpers($helpers, $folder, $plugin);
 			}
@@ -88,7 +94,11 @@ class ConsoleHelperTask implements TaskInterface {
 				$name = $plugin . '.' . $name;
 			}
 
-			$className = App::className($name, 'Console/Helper', 'Helper') ?? App::className($name, 'Command/Helper', 'Helper');
+			$className = null;
+			if (class_exists('Cake\\Console\\Helper\\ProgressHelper')) {
+				$className = App::className($name, 'Console/Helper', 'Helper');
+			}
+			$className ??= App::className($name, 'Command/Helper', 'Helper');
 			if (!$className) {
 				continue;
 			}

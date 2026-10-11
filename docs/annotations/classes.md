@@ -13,8 +13,10 @@ $this->Articles = $this->fetchTable('Articles');
 ```
 
 A table fetched into a local variable does not create a class property and is
-not annotated as one. Legacy `ModelAwareTrait` classes with `fetchModel()` calls
-are also supported.
+not annotated as one. Legacy `ModelAwareTrait` calls to `fetchModel()` retain their historical
+annotation behavior: the table alias becomes a property annotation even when
+the result is not assigned to a property. Native typed properties do not need
+redundant table property annotations.
 
 ## `Form::execute()`
 

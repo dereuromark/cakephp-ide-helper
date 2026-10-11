@@ -1104,4 +1104,32 @@ abstract class AbstractAnnotator {
 		return $beginningOfLine ?? $index;
 	}
 
+	/**
+	 * Filter out Table property annotations for properties that already have typed declarations.
+	 *
+	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $annotations
+	 * @param string $content
+	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
+	 */
+	protected function filterByTypedProperties(array $annotations, string $content): array {
+		preg_match_all('/(?:protected|public|private)\s+\??[\w\\\\]+\s+\$(\w+)\s*[;=]/', $content, $matches);
+		$typedProperties = $matches[1];
+		if (!$typedProperties) {
+			return $annotations;
+		}
+
+		return array_filter($annotations, function ($annotation) use ($typedProperties) {
+			if (!$annotation instanceof PropertyAnnotation) {
+				return true;
+			}
+			if (!preg_match('#\\\\Model\\\\Table\\\\#', $annotation->getType())) {
+				return true;
+			}
+
+			$property = ltrim($annotation->getProperty(), '$');
+
+			return !in_array($property, $typedProperties, true);
+		});
+	}
+
 }

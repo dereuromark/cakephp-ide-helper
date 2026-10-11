@@ -33,7 +33,7 @@ file and code completion stubs are mainly IDE autocomplete helpers.
 1. [Installation](./installation): Get the plugin set up
 2. [Getting started](./getting-started)
 3. [Usage](./usage): High-level commands and recommended composer scripts
-4. [IDE Support](./ide-support): Tested IDEs and plugins-of-this-plugin
+4. [IDE Support](./ide-support): IDE setup and plugin extensions
 5. [Annotations](/annotations/): Per-class-type annotation reference
 6. [Code Completion](/code-completion/), [Generator](/generator/), [Illuminator](/illuminator/)
 
