@@ -30,7 +30,7 @@ installed. The class check also permits deployments using `composer install
 From the application directory, run:
 
 ```bash
-bin/cake annotate --help
+bin/cake annotate all --help
 bin/cake generate code_completion --help
 bin/cake generate phpstorm --help
 bin/cake illuminate code --help

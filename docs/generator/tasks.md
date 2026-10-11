@@ -4,9 +4,8 @@ The list of built-in tasks shipped with the meta file generator.
 
 ## Plugins
 
-In your `Application.php` you can: after composer-requiring (and refreshing
-the meta file): auto-complete the available plugins for your `addPlugin()`
-calls:
+After installing a plugin and regenerating metadata, your IDE can complete
+the available plugin names in `Application.php` calls to `addPlugin()`:
 
 ```php
     public function bootstrap(): void {
@@ -33,9 +32,9 @@ static factory call is detected and `$users` is hinted as
 for method argument checking and following.
 
 This task also annotates dynamic model factory calls (e.g.
-`$this->getTableLocator()->get('Users')`) and assigned `fetchTable()` calls. Legacy `fetchModel()` calls are also supported.
+`$this->getTableLocator()->get('Users')`) and `fetchTable()` calls. Legacy `fetchModel()` calls are also supported.
 
-![Model Autocomplete loadModel](/img/model_autocomplete_loadmodel.png)
+![Model autocomplete example](/img/model_autocomplete_loadmodel.png)
 
 If you prefer FQCN as the argument, you still get the benefit for the return
 type:

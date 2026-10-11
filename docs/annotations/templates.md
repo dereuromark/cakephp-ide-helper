@@ -41,7 +41,7 @@ To adjust which template extensions are processed, set
 
 ::: info Twig templates
 All template annotating is around PHP templates. Twig templates are not
-supported. Twig usually has its own tooling: but it has serious drawbacks on
+supported. Twig usually has its own tooling, but it has serious drawbacks on
 what this plugin provides: auto-complete and type-hinting as well as IDE
 introspection of variable types.
 :::

@@ -111,4 +111,34 @@ PHP;
 		$this->assertStringNotContainsString('$BarBars', $content);
 	}
 
+	public function testLocatorAwareTypedPropertiesDoNotGetRedundantAnnotations(): void {
+		$source = <<<'PHP'
+<?php
+namespace TestApp\Custom;
+use Cake\ORM\Locator\LocatorAwareTrait;
+use TestApp\Model\Table\FoosTable;
+use Cake\ORM\Table;
+class TypedClass {
+    use LocatorAwareTrait;
+    protected readonly FoosTable $Foos;
+    protected Table $Missing;
+    public function initialize(): void {
+        $this->Foos = $this->fetchTable('Foos');
+        $this->Missing = $this->fetchTable('Missing');
+    }
+}
+PHP;
+		if (!is_dir(TMP . 'src')) {
+			mkdir(TMP . 'src', 0770, true);
+		}
+		$file = TMP . 'src' . DS . 'TypedClass.php';
+		file_put_contents($file, $source);
+		try {
+			$this->_getAnnotatorMock([])->annotate($file);
+			$this->assertStringNotContainsString('@property', file_get_contents($file));
+		} finally {
+			unlink($file);
+		}
+	}
+
 }

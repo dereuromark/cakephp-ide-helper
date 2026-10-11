@@ -45,7 +45,7 @@ class CallbackAnnotatorTaskCollection {
 			}
 		}
 
-		return $tasks;
+		return array_filter($tasks);
 	}
 
 	/**
