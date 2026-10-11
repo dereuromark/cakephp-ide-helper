@@ -22,7 +22,6 @@ class EntityTask extends ModelTask {
 		'has' => 0,
 		'get' => 0,
 		'hasValue' => 0,
-		'isEmpty' => 0,
 		'isDirty' => 0,
 		'getOriginal' => 0,
 		'setDirty' => 0,

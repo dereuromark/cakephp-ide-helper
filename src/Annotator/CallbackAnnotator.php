@@ -47,7 +47,7 @@ class CallbackAnnotator extends AbstractAnnotator {
 	protected function getTasks(string $path, string $content): array {
 		$taskCollection = new CallbackAnnotatorTaskCollection();
 
-		return $taskCollection->tasks($this->_io, $this->_config, $path, $content);
+		return $taskCollection->tasks($this->_io, $this->config, $path, $content);
 	}
 
 }

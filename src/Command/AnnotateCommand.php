@@ -2,8 +2,6 @@
 
 namespace IdeHelper\Command;
 
-use Cake\Console\Arguments;
-use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Cake\Core\Configure;
 use Cake\TestSuite\ConnectionHelper;
@@ -26,7 +24,7 @@ abstract class AnnotateCommand extends Command {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected array $_config = [
+	protected array $config = [
 		'skipTemplatePaths' => [
 			'/templates/Bake/',
 		],
@@ -40,7 +38,7 @@ abstract class AnnotateCommand extends Command {
 
 		$skip = (array)Configure::read('IdeHelper.skipTemplatePaths');
 		if ($skip) {
-			$this->_config['skipTemplatePaths'] = $skip;
+			$this->config['skipTemplatePaths'] = $skip;
 		}
 	}
 
@@ -48,14 +46,14 @@ abstract class AnnotateCommand extends Command {
 	 * E.g.:
 	 * bin/cake upgrade /path/to/app --level=cakephp40
 	 *
-	 * @param \Cake\Console\Arguments $args The command arguments.
-	 * @param \Cake\Console\ConsoleIo $io The console io
 	 *
 	 * @throws \Cake\Console\Exception\StopException
 	 * @return int|null|void The exit code or null for success
 	 */
-	public function execute(Arguments $args, ConsoleIo $io) {
-		parent::execute($args, $io);
+	public function execute() {
+		$args = $this->args;
+		$io = $this->io;
+		parent::execute();
 
 		if ($args->getOption('ci')) {
 			if (!$args->getOption('dry-run') || $args->getOption('interactive')) {

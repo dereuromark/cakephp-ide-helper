@@ -1,14 +1,17 @@
 #  CakePHP IdeHelper Plugin
 
-[![CI](https://github.com/dereuromark/cakephp-ide-helper/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/dereuromark/cakephp-ide-helper/actions/workflows/ci.yml?query=branch%3Amaster)
-[![Coverage Status](https://img.shields.io/codecov/c/github/dereuromark/cakephp-ide-helper/master.svg)](https://app.codecov.io/github/dereuromark/cakephp-ide-helper/tree/master)
+[![CI](https://github.com/dereuromark/cakephp-ide-helper/actions/workflows/ci.yml/badge.svg?branch=cake6)](https://github.com/dereuromark/cakephp-ide-helper/actions/workflows/ci.yml?query=branch%3Acake6)
+[![Coverage Status](https://img.shields.io/codecov/c/github/dereuromark/cakephp-ide-helper/cake6.svg)](https://app.codecov.io/github/dereuromark/cakephp-ide-helper/tree/cake6)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%208-brightgreen.svg?style=flat)](https://phpstan.org/)
 [![Latest Stable Version](https://poser.pugx.org/dereuromark/cakephp-ide-helper/v/stable.svg)](https://packagist.org/packages/dereuromark/cakephp-ide-helper)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.2-8892BF.svg)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.5-8892BF.svg)](https://php.net/)
 [![License](https://poser.pugx.org/dereuromark/cakephp-ide-helper/license.svg)](LICENSE)
 [![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-ide-helper/d/total.svg)](https://packagist.org/packages/dereuromark/cakephp-ide-helper)
 
 IdeHelper plugin for CakePHP applications.
+
+This development branch targets CakePHP 6. Stable 2.x releases support CakePHP 5.
+The published documentation covers the stable CakePHP 5 release. For this development branch, read the [branch documentation](docs/guide/index.md).
 
 Start with [Installation](https://dereuromark.github.io/cakephp-ide-helper/guide/installation),
 then follow [Getting started](https://dereuromark.github.io/cakephp-ide-helper/guide/getting-started).
@@ -86,3 +89,4 @@ See the **[Documentation](https://dereuromark.github.io/cakephp-ide-helper/)** f
 [![PhpStorm logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/PhpStorm.svg)](https://jb.gg/OpenSourceSupport)
 
 They are sponsoring my IDE for my FOSS work on this repository and beyond.
+

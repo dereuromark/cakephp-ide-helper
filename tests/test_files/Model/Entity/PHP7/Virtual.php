@@ -12,7 +12,6 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime|null $modified
  * @property \TestApp\Model\Entity\Wheel[] $wheels
- *
  * @property-read string|null $virtual_one
  * @property-read string $virtual_two
  * @property-read array<int, array<string>> $nested_generic

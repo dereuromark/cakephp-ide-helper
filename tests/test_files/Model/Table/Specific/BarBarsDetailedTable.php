@@ -6,7 +6,6 @@ use Cake\ORM\Table;
 /**
  * @property \Cake\ORM\Association\BelongsTo<\TestApp\Model\Table\FoosTable> $Foos
  * @property \Cake\ORM\Association\BelongsToMany<\Awesome\Model\Table\HousesTable> $Houses
- *
  * @method \TestApp\Model\Entity\BarBar newEmptyEntity()
  * @method \TestApp\Model\Entity\BarBar newEntity(array<string, mixed> $data, array<string, mixed> $options = [])
  * @method \TestApp\Model\Entity\BarBar[] newEntities(array<array<string, mixed>> $data, array<string, mixed> $options = [])
@@ -20,9 +19,6 @@ use Cake\ORM\Table;
  * @method \Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\BarBar> saveManyOrFail(iterable<\TestApp\Model\Entity\BarBar> $entities, array<string, mixed> $options = [])
  * @method \Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\BarBar>|false deleteMany(iterable<\TestApp\Model\Entity\BarBar> $entities, array<string, mixed> $options = [])
  * @method \Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\BarBar> deleteManyOrFail(iterable<\TestApp\Model\Entity\BarBar> $entities, array<string, mixed> $options = [])
- *
- * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @mixin \MyNamespace\MyPlugin\Model\Behavior\MyBehavior
  */
 class BarBarsTable extends Table {
 

@@ -18,8 +18,8 @@ return [
 		'templateExtensions' => [
 			'php',
 		],
-		// How behaviors are annotated into tables: ['mixin', 'extends', true, false, null]
-		'tableBehaviors' => null, // null auto-detects based CakePHP version (>= 5.2.3 for extends) and always adds mixins.
+		// Behavior registry annotations: 'extends', true, false, or null.
+		'tableBehaviors' => null, // null enables registry types; false disables them.
 		'arrayAsGenerics' => false, // Enable to have modern generics syntax (recommended) in doc blocks
 		'objectAsGenerics' => false, // Enable to have modern generics syntax (recommended) in doc blocks
 		'assocsAsGenerics' => false, // Enable to have modern generics syntax (NOT recommended yet) in doc blocks

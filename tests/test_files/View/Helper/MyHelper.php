@@ -5,7 +5,6 @@ use Cake\View\Helper;
 
 /**
  * @extends \Cake\View\Helper<\Cake\View\View>
- *
  * @property \TestApp\View\Helper\HtmlHelper $Html
  * @property \Cake\View\Helper\FormHelper $Form
  * @property \Shim\View\Helper\ConfigureHelper $Configure

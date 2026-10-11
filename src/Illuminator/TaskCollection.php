@@ -26,7 +26,7 @@ class TaskCollection {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected array $_config;
+	protected array $config;
 
 	/**
 	 * @var array<class-string<\IdeHelper\Illuminator\Task\AbstractTask>, class-string<\IdeHelper\Illuminator\Task\AbstractTask>>
@@ -50,7 +50,7 @@ class TaskCollection {
 	 */
 	public function __construct(Io $io, array $config, array $tasks = []) {
 		$this->_io = $io;
-		$this->_config = $config;
+		$this->config = $config;
 
 		$defaultTasks = $this->defaultTasks();
 
@@ -98,7 +98,7 @@ class TaskCollection {
 	 */
 	protected function add($task) {
 		if (is_string($task)) {
-			$task = new $task($this->_config);
+			$task = new $task($this->config);
 		}
 
 		$class = get_class($task);
@@ -174,7 +174,7 @@ class TaskCollection {
 		}
 
 		$this->displayDiff($content, (string)$result);
-		$this->storeFile($path, (string)$result, $this->_config[static::CONFIG_DRY_RUN]);
+		$this->storeFile($path, (string)$result, $this->config[static::CONFIG_DRY_RUN]);
 
 		return true;
 	}

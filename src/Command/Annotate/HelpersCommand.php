@@ -2,7 +2,6 @@
 
 namespace IdeHelper\Command\Annotate;
 
-use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use IdeHelper\Annotator\HelperAnnotator;
 use IdeHelper\Command\AnnotateCommand;
@@ -17,12 +16,12 @@ class HelpersCommand extends AnnotateCommand {
 	}
 
 	/**
-	 * @param \Cake\Console\Arguments $args
-	 * @param \Cake\Console\ConsoleIo $io
 	 * @return int
 	 */
-	public function execute(Arguments $args, ConsoleIo $io): int {
-		parent::execute($args, $io);
+	public function execute(): int {
+		$args = $this->args;
+		$io = $this->io;
+		parent::execute();
 
 		$paths = $this->getPaths('View/Helper');
 		foreach ($paths as $plugin => $pluginPaths) {

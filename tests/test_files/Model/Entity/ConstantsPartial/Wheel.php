@@ -24,7 +24,7 @@ class Wheel extends Entity {
 	const FIELD_WHEELS = 'wheels';
 	const FIELD_VIRTUAL_TWO = 'virtual_two';
 
-	protected array $_virtual = [
+	protected array $virtual = [
 		'virtual_one',
 	];
 

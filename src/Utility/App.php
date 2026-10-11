@@ -31,13 +31,13 @@ class App extends CoreApp {
 			if ($base !== null) {
 				$base = str_replace('/', '\\', rtrim($base, '\\'));
 
-				if (static::_classExistsInBase($fullName, $base)) {
+				if (static::classExistsInBase($fullName, $base)) {
 					/** @var class-string */
 					return $base . $fullName;
 				}
 			}
 
-			if ($plugin || !static::_classExistsInBase($fullName, 'Cake')) {
+			if ($plugin || !static::classExistsInBase($fullName, 'Cake')) {
 				return null;
 			}
 

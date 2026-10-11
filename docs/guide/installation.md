@@ -1,13 +1,16 @@
 # Installation
 
+This branch uses unreleased CakePHP 6 packages. Set `"minimum-stability": "dev"`
+and `"prefer-stable": true` in your application's `composer.json` before installing.
+
 Install the plugin in your application's development dependencies:
 
 ```bash
-composer require --dev dereuromark/cakephp-ide-helper
+composer require --dev dereuromark/cakephp-ide-helper:dev-cake6
 ```
 
 Composer checks the supported PHP and CakePHP versions against your application.
-See the [package constraints](https://github.com/dereuromark/cakephp-ide-helper/blob/master/composer.json)
+See the [package constraints](https://github.com/dereuromark/cakephp-ide-helper/blob/cake6/composer.json)
 for the current requirements.
 
 ## Load the commands

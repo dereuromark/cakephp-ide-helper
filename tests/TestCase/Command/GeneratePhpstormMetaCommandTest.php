@@ -23,12 +23,12 @@ class GeneratePhpstormMetaCommandTest extends TestCase {
 	/**
 	 * @var \Shim\TestSuite\ConsoleOutput
 	 */
-	protected ConsoleOutput $out;
+	protected ConsoleOutput $consoleOut;
 
 	/**
 	 * @var \Shim\TestSuite\ConsoleOutput
 	 */
-	protected ConsoleOutput $err;
+	protected ConsoleOutput $consoleErr;
 
 	/**
 	 * @var \Cake\Console\ConsoleIo
@@ -92,7 +92,7 @@ class GeneratePhpstormMetaCommandTest extends TestCase {
 		$this->exec('generate phpstorm -d');
 		$this->assertOutputContains(' needs updating');
 
-		$this->assertSame(GeneratePhpStormMetaCommand::CODE_CHANGES, $this->_exitCode);
+		$this->assertSame(GeneratePhpStormMetaCommand::CODE_CHANGES, $this->exitCode);
 	}
 
 	/**

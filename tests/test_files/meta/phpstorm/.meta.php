@@ -191,6 +191,7 @@ namespace PHPSTORM_META {
 			'timestamptimezone' => \Cake\Database\Type\DateTimeTimezoneType::class,
 			'tinyinteger' => \Cake\Database\Type\IntegerType::class,
 			'uuid' => \Cake\Database\Type\UuidType::class,
+			'varbinary' => \Cake\Database\Type\BinaryType::class,
 			'year' => \Cake\Database\Type\IntegerType::class,
 		]),
 	);
@@ -228,6 +229,7 @@ namespace PHPSTORM_META {
 		'timestamptimezone',
 		'tinyinteger',
 		'uuid',
+		'varbinary',
 		'year',
 	);
 
@@ -366,12 +368,6 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
-		\Cake\ORM\Entity::isEmpty(),
-		0,
-		argumentsSet('entityFields:Cake\ORM\Entity'),
-	);
-
-	expectedArguments(
 		\Cake\ORM\Entity::setDirty(),
 		0,
 		argumentsSet('entityFields:Cake\ORM\Entity'),
@@ -443,30 +439,6 @@ namespace PHPSTORM_META {
 	);
 
 	override(
-		\Cake\ORM\Table::belongToMany(0),
-		map([
-			'Awesome.Houses' => \Cake\ORM\Association\BelongsToMany::class,
-			'Awesome.Windows' => \Cake\ORM\Association\BelongsToMany::class,
-			'BarBars' => \Cake\ORM\Association\BelongsToMany::class,
-			'BarBarsAbstract' => \Cake\ORM\Association\BelongsToMany::class,
-			'Callbacks' => \Cake\ORM\Association\BelongsToMany::class,
-			'Cars' => \Cake\ORM\Association\BelongsToMany::class,
-			'Controllers.Houses' => \Cake\ORM\Association\BelongsToMany::class,
-			'CustomFinder' => \Cake\ORM\Association\BelongsToMany::class,
-			'Exceptions' => \Cake\ORM\Association\BelongsToMany::class,
-			'Foos' => \Cake\ORM\Association\BelongsToMany::class,
-			'MyNamespace/MyPlugin.My' => \Cake\ORM\Association\BelongsToMany::class,
-			'Relations.Bars' => \Cake\ORM\Association\BelongsToMany::class,
-			'Relations.Foos' => \Cake\ORM\Association\BelongsToMany::class,
-			'Relations.Users' => \Cake\ORM\Association\BelongsToMany::class,
-			'SkipMe' => \Cake\ORM\Association\BelongsToMany::class,
-			'SkipSome' => \Cake\ORM\Association\BelongsToMany::class,
-			'Wheels' => \Cake\ORM\Association\BelongsToMany::class,
-			'WheelsExtra' => \Cake\ORM\Association\BelongsToMany::class,
-		]),
-	);
-
-	override(
 		\Cake\ORM\Table::belongsTo(0),
 		map([
 			'Awesome.Houses' => \Cake\ORM\Association\BelongsTo::class,
@@ -487,6 +459,30 @@ namespace PHPSTORM_META {
 			'SkipSome' => \Cake\ORM\Association\BelongsTo::class,
 			'Wheels' => \Cake\ORM\Association\BelongsTo::class,
 			'WheelsExtra' => \Cake\ORM\Association\BelongsTo::class,
+		]),
+	);
+
+	override(
+		\Cake\ORM\Table::belongsToMany(0),
+		map([
+			'Awesome.Houses' => \Cake\ORM\Association\BelongsToMany::class,
+			'Awesome.Windows' => \Cake\ORM\Association\BelongsToMany::class,
+			'BarBars' => \Cake\ORM\Association\BelongsToMany::class,
+			'BarBarsAbstract' => \Cake\ORM\Association\BelongsToMany::class,
+			'Callbacks' => \Cake\ORM\Association\BelongsToMany::class,
+			'Cars' => \Cake\ORM\Association\BelongsToMany::class,
+			'Controllers.Houses' => \Cake\ORM\Association\BelongsToMany::class,
+			'CustomFinder' => \Cake\ORM\Association\BelongsToMany::class,
+			'Exceptions' => \Cake\ORM\Association\BelongsToMany::class,
+			'Foos' => \Cake\ORM\Association\BelongsToMany::class,
+			'MyNamespace/MyPlugin.My' => \Cake\ORM\Association\BelongsToMany::class,
+			'Relations.Bars' => \Cake\ORM\Association\BelongsToMany::class,
+			'Relations.Foos' => \Cake\ORM\Association\BelongsToMany::class,
+			'Relations.Users' => \Cake\ORM\Association\BelongsToMany::class,
+			'SkipMe' => \Cake\ORM\Association\BelongsToMany::class,
+			'SkipSome' => \Cake\ORM\Association\BelongsToMany::class,
+			'Wheels' => \Cake\ORM\Association\BelongsToMany::class,
+			'WheelsExtra' => \Cake\ORM\Association\BelongsToMany::class,
 		]),
 	);
 
@@ -908,12 +904,6 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
-		\Relations\Model\Entity\Bar::isEmpty(),
-		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Bar'),
-	);
-
-	expectedArguments(
 		\Relations\Model\Entity\Bar::setDirty(),
 		0,
 		argumentsSet('entityFields:Relations\Model\Entity\Bar'),
@@ -963,12 +953,6 @@ namespace PHPSTORM_META {
 
 	expectedArguments(
 		\Relations\Model\Entity\Foo::isDirty(),
-		0,
-		argumentsSet('entityFields:Relations\Model\Entity\Foo'),
-	);
-
-	expectedArguments(
-		\Relations\Model\Entity\Foo::isEmpty(),
 		0,
 		argumentsSet('entityFields:Relations\Model\Entity\Foo'),
 	);
@@ -1028,12 +1012,6 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
-		\Relations\Model\Entity\User::isEmpty(),
-		0,
-		argumentsSet('entityFields:Relations\Model\Entity\User'),
-	);
-
-	expectedArguments(
 		\Relations\Model\Entity\User::setDirty(),
 		0,
 		argumentsSet('entityFields:Relations\Model\Entity\User'),
@@ -1083,12 +1061,6 @@ namespace PHPSTORM_META {
 
 	expectedArguments(
 		\TestApp\Model\Entity\BarBar::isDirty(),
-		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBar'),
-	);
-
-	expectedArguments(
-		\TestApp\Model\Entity\BarBar::isEmpty(),
 		0,
 		argumentsSet('entityFields:TestApp\Model\Entity\BarBar'),
 	);
@@ -1148,12 +1120,6 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
-		\TestApp\Model\Entity\BarBarsAbstract::isEmpty(),
-		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract'),
-	);
-
-	expectedArguments(
 		\TestApp\Model\Entity\BarBarsAbstract::setDirty(),
 		0,
 		argumentsSet('entityFields:TestApp\Model\Entity\BarBarsAbstract'),
@@ -1203,12 +1169,6 @@ namespace PHPSTORM_META {
 
 	expectedArguments(
 		\TestApp\Model\Entity\Car::isDirty(),
-		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Car'),
-	);
-
-	expectedArguments(
-		\TestApp\Model\Entity\Car::isEmpty(),
 		0,
 		argumentsSet('entityFields:TestApp\Model\Entity\Car'),
 	);
@@ -1268,12 +1228,6 @@ namespace PHPSTORM_META {
 	);
 
 	expectedArguments(
-		\TestApp\Model\Entity\Foo::isEmpty(),
-		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Foo'),
-	);
-
-	expectedArguments(
 		\TestApp\Model\Entity\Foo::setDirty(),
 		0,
 		argumentsSet('entityFields:TestApp\Model\Entity\Foo'),
@@ -1323,12 +1277,6 @@ namespace PHPSTORM_META {
 
 	expectedArguments(
 		\TestApp\Model\Entity\Wheel::isDirty(),
-		0,
-		argumentsSet('entityFields:TestApp\Model\Entity\Wheel'),
-	);
-
-	expectedArguments(
-		\TestApp\Model\Entity\Wheel::isEmpty(),
 		0,
 		argumentsSet('entityFields:TestApp\Model\Entity\Wheel'),
 	);

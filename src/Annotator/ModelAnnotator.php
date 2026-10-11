@@ -11,7 +11,6 @@ use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\ExtendsAnnotation;
-use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Console\Io;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
@@ -53,21 +52,12 @@ class ModelAnnotator extends AbstractAnnotator {
 
 		/** @var string|bool|null $tableBehaviors */
 		$tableBehaviors = Configure::read('IdeHelper.tableBehaviors');
-		if ($tableBehaviors === true) {
-			$tableBehaviors = [
-				static::BEHAVIOR_MIXIN,
-				static::BEHAVIOR_EXTENDS,
-			];
+		if ($tableBehaviors === true || $tableBehaviors === null) {
+			$tableBehaviors = [static::BEHAVIOR_EXTENDS];
 		} elseif ($tableBehaviors === false) {
 			$tableBehaviors = [];
-		} elseif ($tableBehaviors === null) {
-			$tableBehaviors = [
-				static::BEHAVIOR_MIXIN,
-			];
-			if (version_compare(Configure::version(), '5.2.3', '>=')) {
-				$tableBehaviors[] = static::BEHAVIOR_EXTENDS;
-			}
 		}
+		$tableBehaviors = array_values(array_diff((array)$tableBehaviors, [static::BEHAVIOR_MIXIN]));
 
 		$this->setConfig(static::TABLE_BEHAVIORS, (array)$tableBehaviors);
 	}
@@ -258,7 +248,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			// itself — so they have their own feature gate via
 			// `supportsEntityTemplateFindFamily()`.
 			$entityTemplateEmitted = $this->supportsEntityTemplate()
-				&& in_array(static::BEHAVIOR_EXTENDS, $this->_config[static::TABLE_BEHAVIORS], true)
+				&& in_array(static::BEHAVIOR_EXTENDS, $this->config[static::TABLE_BEHAVIORS], true)
 				&& ($parentClass === '' || ltrim($parentClass, '\\') === 'Cake\\ORM\\Table');
 			$entityTemplateFindFamily = $entityTemplateEmitted && $this->supportsEntityTemplateFindFamily();
 
@@ -329,8 +319,6 @@ class ModelAnnotator extends AbstractAnnotator {
 
 			$result[] = $annotationObject;
 		}
-
-		$result = $this->addBehaviorMixins($result, $behaviors);
 
 		return $this->addBehaviorExtends($result, $behaviors, $parentClass, $entityClass);
 	}
@@ -421,7 +409,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	 */
 	protected function getBehaviors($table): array {
 		$object = $table->behaviors();
-		$map = $this->invokeProperty($object, '_loaded');
+		$map = $this->invokeProperty($object, 'loaded');
 
 		$behaviors = $this->extractBehaviors($map);
 		/** @phpstan-var class-string<object>|false $parentClass */
@@ -442,7 +430,7 @@ class ModelAnnotator extends AbstractAnnotator {
 			$parent = new $parentClass();
 
 			$object = $parent->behaviors();
-			$map = $this->invokeProperty($object, '_loaded');
+			$map = $this->invokeProperty($object, 'loaded');
 			$this->_cache[$parentClass] = $parentBehaviors = $this->extractBehaviors($map);
 		}
 
@@ -532,37 +520,12 @@ class ModelAnnotator extends AbstractAnnotator {
 	/**
 	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $result
 	 * @param array<string> $behaviors
-	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
-	 */
-	protected function addBehaviorMixins(array $result, array $behaviors): array {
-		if (!in_array(static::BEHAVIOR_MIXIN, $this->_config[static::TABLE_BEHAVIORS], true)) {
-			return $result;
-		}
-
-		foreach ($behaviors as $behavior) {
-			$className = App::className($behavior, 'Model/Behavior', 'Behavior');
-			if (!$className) {
-				$className = App::className($behavior, 'ORM/Behavior', 'Behavior');
-			}
-			if (!$className) {
-				continue;
-			}
-
-			$result[] = AnnotationFactory::createOrFail(MixinAnnotation::TAG, "\\{$className}");
-		}
-
-		return $result;
-	}
-
-	/**
-	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $result
-	 * @param array<string> $behaviors
 	 * @param string $parentClass
 	 * @param string $entityClass
 	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
 	protected function addBehaviorExtends(array $result, array $behaviors, string $parentClass, string $entityClass = ''): array {
-		if (!in_array(static::BEHAVIOR_EXTENDS, $this->_config[static::TABLE_BEHAVIORS], true)) {
+		if (!in_array(static::BEHAVIOR_EXTENDS, $this->config[static::TABLE_BEHAVIORS], true)) {
 			return $result;
 		}
 
@@ -616,7 +579,7 @@ class ModelAnnotator extends AbstractAnnotator {
 	protected function managedTags(array $annotations): array {
 		$tags = parent::managedTags($annotations);
 
-		if (in_array(static::BEHAVIOR_EXTENDS, $this->_config[static::TABLE_BEHAVIORS], true) && !in_array(ExtendsAnnotation::TAG, $tags, true)) {
+		if (in_array(static::BEHAVIOR_EXTENDS, $this->config[static::TABLE_BEHAVIORS], true) && !in_array(ExtendsAnnotation::TAG, $tags, true)) {
 			$tags[] = ExtendsAnnotation::TAG;
 		}
 

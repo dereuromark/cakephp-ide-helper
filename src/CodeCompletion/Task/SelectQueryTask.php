@@ -106,9 +106,9 @@ if (false) {
 		public function disableAutoFields() {}
 
 		/**
-		 * @return static<array<string,mixed>>
+		 * @return ($enable is false ? static<array<string,mixed>> : static<TSubject>)
 		 */
-		public function disableHydration() {}
+		public function enableHydration(bool $enable = true) {}
 
 		/**
 		 * @return ResultSetInterface<array-key, TSubject>

@@ -12,7 +12,6 @@ use TestApp\Model\Entity\Traits\DatePrecisionEntityTrait;
  * @property \Cake\I18n\Date $offer_date
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime|null $modified
- *
  * @property-read string $in_class_virtual
  * @property-read bool $is_date_approximate
  * @property-read string|null $date_precision_string
@@ -22,7 +21,7 @@ class VirtualWithTrait extends Entity {
 
 	use DatePrecisionEntityTrait;
 
-	protected array $_virtual = [
+	protected array $virtual = [
 		'is_date_approximate',
 		'date_precision_string',
 		'date_precision_labels',

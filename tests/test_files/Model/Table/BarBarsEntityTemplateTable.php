@@ -5,17 +5,12 @@ use Cake\ORM\Table;
 
 /**
  * @extends \Cake\ORM\Table<array{My: \MyNamespace\MyPlugin\Model\Behavior\MyBehavior, Timestamp: \Cake\ORM\Behavior\TimestampBehavior}, \TestApp\Model\Entity\BarBar>
- *
  * @property \Cake\ORM\Association\BelongsTo<\TestApp\Model\Table\FoosTable> $Foos
  * @property \Cake\ORM\Association\BelongsToMany<\Awesome\Model\Table\HousesTable> $Houses
- *
  * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\BarBar>|false saveMany(iterable $entities, array $options = [])
  * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\BarBar> saveManyOrFail(iterable $entities, array $options = [])
  * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\BarBar>|false deleteMany(iterable $entities, array $options = [])
  * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\BarBar> deleteManyOrFail(iterable $entities, array $options = [])
- *
- * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @mixin \MyNamespace\MyPlugin\Model\Behavior\MyBehavior
  */
 class BarBarsTable extends Table {
 
