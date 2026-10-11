@@ -320,7 +320,6 @@ class ModelAnnotator extends AbstractAnnotator {
 			$result[] = $annotationObject;
 		}
 
-
 		return $this->addBehaviorExtends($result, $behaviors, $parentClass, $entityClass);
 	}
 
