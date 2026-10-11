@@ -10,9 +10,12 @@
 
 IdeHelper plugin for CakePHP applications.
 
-> Boost your productivity. Avoid mistakes.
+This development branch targets CakePHP 6. Stable 2.x releases support CakePHP 5.
 
-This branch is for use with **CakePHP 6.x** (PHP 8.5+). For details see [version map](https://github.com/dereuromark/cakephp-ide-helper/wiki#cakephp-version-map).
+Start with [Installation](https://dereuromark.github.io/cakephp-ide-helper/guide/installation),
+then follow [Getting started](https://dereuromark.github.io/cakephp-ide-helper/guide/getting-started).
+Composer defines the supported dependencies. For older CakePHP versions see the
+[version map](https://github.com/dereuromark/cakephp-ide-helper/wiki#cakephp-version-map).
 
 ## Features
 
@@ -55,15 +58,10 @@ Supports better IDE usage with Illuminator tasks to enhance existing code:
 - EntityFieldTask adds all entity fields as class constants for easier usage in IDEs
 
 ### IDE support
-This plugin is supposed to work with ANY IDE that supports annotations and code completion.
-IDEs tested so far for 100% compatibility:
-- **[PhpStorm](https://github.com/dereuromark/cakephp-ide-helper/wiki/PHPStorm)** (incl. meta file generator)
-- IntelliJ
-- Atom
-- **[VS Code](https://github.com/dereuromark/cakephp-ide-helper/wiki/Visual-Studio-Code)**
-- ... [Report or PR your IDE of choice here to confirm its full compatibility]
-
-See [Wiki](https://github.com/dereuromark/cakephp-ide-helper/wiki) for details and tips/settings.
+Annotations work in editors and static analyzers that understand PHPDoc.
+PhpStorm and VS Code with Intelephense can also use the generated metadata.
+See [IDE support](https://dereuromark.github.io/cakephp-ide-helper/guide/ide-support)
+for setup links and indexing advice.
 
 ### Plugin with Annotator tasks
 - [CakephpFixtureFactories](https://github.com/dereuromark/cakephp-fixture-factories) for Factory class usage through `@extends`.
@@ -91,8 +89,3 @@ See the **[Documentation](https://dereuromark.github.io/cakephp-ide-helper/)** f
 
 They are sponsoring my IDE for my FOSS work on this repository and beyond.
 
-## CakePHP 6
-
-Development dependencies use the CakePHP 6 migrations on upstream `dev-master`
-branches once merged. Local sibling packages were used to verify the migrations
-together before publication.

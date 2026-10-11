@@ -54,7 +54,7 @@ class CodeCompletionGeneratorTest extends TestCase {
 namespace Cake\ORM;
 
 /**
- * Only for code completion - regenerate using `bin/cake code_completion generate`.
+ * Only for code completion - regenerate using `bin/cake generate code_completion`.
  */
 abstract class BehaviorRegistry extends \Cake\Core\ObjectRegistry {
 
@@ -126,7 +126,7 @@ TXT;
 namespace Cake\ORM\Query;
 
 /**
- * Only for code completion - regenerate using `bin/cake code_completion generate`.
+ * Only for code completion - regenerate using `bin/cake generate code_completion`.
  */
 use Cake\Database\ExpressionInterface;
 use Cake\Datasource\ResultSetInterface;

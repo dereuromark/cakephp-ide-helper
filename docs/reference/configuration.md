@@ -2,7 +2,7 @@
 
 All Configure options live under the `IdeHelper` key in `app.php`. The
 canonical reference with defaults is the `app.example.php` file in the
-plugin's `/config/` directory — that file is the source of truth and can be
+plugin's `/config/` directory: that file is the source of truth and can be
 copy-pasted into your project config.
 
 ## Common Keys at a Glance
@@ -33,7 +33,7 @@ the full set, defaults, and the most up-to-date options, see
 | `propertyTypeMap` | `array` | Map declared property names → inline `@var` types for class annotations. |
 | `annotators` | `array` | Replace or disable native annotators. |
 | `classAnnotatorTasks` | `array` | Register or replace class-annotator tasks. |
-| `CallbackAnnotatorTasks` | `array` | Register or replace callback-annotator tasks. |
+| `callbackAnnotatorTasks` | `array` | Register or replace callback-annotator tasks. |
 
 ## Recommended Static Analysis Defaults
 
@@ -83,7 +83,7 @@ value type without changing the native property type.
 |-----|------|-------|
 | `illuminatorIndentation` | `string` | Indentation whitespace; defaults to `"\t"`. Use `'    '` for spaces. |
 | `illuminatorTypedConstants` | `bool` | Generate typed class constants (`const string FIELD_X`) in the `EntityField` task; requires PHP 8.3+. Existing untyped field constants are upgraded too. Defaults to `false`. |
-| `IlluminatorTasks` | `array` | Register or replace Illuminator tasks. |
+| `illuminatorTasks` | `array` | Register or replace Illuminator tasks. |
 
 ## Replacing or Disabling Native Tasks
 
@@ -103,5 +103,5 @@ to add a task, or the native class name as the key to replace one:
 ],
 ```
 
-The same pattern applies to `classAnnotatorTasks`, `CallbackAnnotatorTasks`,
-`generatorTasks`, `codeCompletionTasks`, and `IlluminatorTasks`.
+The same pattern applies to `classAnnotatorTasks`, `callbackAnnotatorTasks`,
+`generatorTasks`, `codeCompletionTasks`, and `illuminatorTasks`.

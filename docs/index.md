@@ -4,17 +4,17 @@ layout: home
 hero:
   name: cakephp-ide-helper
   text: IDE Helper for CakePHP
-  tagline: Annotations, meta files, code-completion stubs, and Illuminator tasks — boost IDE and static analyzer support, avoid mistakes.
+  tagline: Annotations, metadata, and completion stubs for IDEs and static analyzers.
   image:
     src: /logo.svg
     alt: cakephp-ide-helper
   actions:
     - theme: brand
-      text: Get Started
-      link: /guide/
+      text: Installation
+      link: /guide/installation
     - theme: alt
-      text: Annotations
-      link: /annotations/
+      text: Getting started
+      link: /guide/getting-started
     - theme: alt
       text: View on GitHub
       link: https://github.com/dereuromark/cakephp-ide-helper
@@ -31,11 +31,11 @@ features:
     details: IDE-agnostic stub generation for behaviors and SelectQuery generics, so chained ORM calls keep their types.
   - icon: ⚙️
     title: Illuminator Tasks
-    details: Rewrite source files where annotations are not enough — for example, generate entity field constants automatically.
+    details: Rewrite source files where annotations are not enough, for example, generate entity field constants automatically.
   - icon: 🔁
     title: CI and Watcher Friendly
     details: Run as a CI check (`-d --ci`), pre-commit hook, or live file watcher with chokidar or watchexec.
   - icon: 🧱
     title: Extensible
-    details: Plug in your own annotators, callback tasks, generator tasks, and Illuminator tasks — replace built-ins or add new ones.
+    details: Plug in your own annotators, callback tasks, generator tasks, and Illuminator tasks, replace built-ins or add new ones.
 ---

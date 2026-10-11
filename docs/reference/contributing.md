@@ -1,25 +1,34 @@
 # Contributing
 
-## Basics
+## Run the checks
 
-See the composer scripts:
+Install the development dependencies at the repository root, then run:
 
 ```bash
 composer cs-check
-composer cs-fix
-composer test-setup
 composer test
+composer stan
 ```
 
-## Generator
-
-### New meta file
-
-Run the test with the `--debug` option to generate a new `TMP/.meta.php`:
+Use `composer cs-fix` to apply coding standard fixes. CI also runs Rector:
 
 ```bash
-php phpunit.phar tests/TestCase/Generator/PhpstormGeneratorTest.php --debug
+composer rector-setup
+composer rector
 ```
 
-You can then easily copy it over into the `test_files/` directory and replace
-the existing one.
+`rector-setup` changes the local development dependencies before the dry-run
+check. Review the generated diff if you use `composer rector-fix`.
+
+## Update a metadata fixture
+
+The PhpStorm generator test selects a fixture for the installed CakePHP
+version. To overwrite that selected fixture with the current generated output:
+
+```bash
+vendor/bin/phpunit tests/TestCase/Generator/PhpstormGeneratorTest.php --debug
+```
+
+This writes directly to `tests/test_files/meta/phpstorm/`. Review the fixture
+diff and test against the supported CakePHP versions before committing it.
+An ordinary test run leaves the fixtures unchanged.

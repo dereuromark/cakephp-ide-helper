@@ -4,9 +4,8 @@ The list of built-in tasks shipped with the meta file generator.
 
 ## Plugins
 
-In your `Application.php` you can — after composer-requiring (and refreshing
-the meta file) — auto-complete the available plugins for your `addPlugin()`
-calls:
+After installing a plugin and regenerating metadata, your IDE can complete
+the available plugin names in `Application.php` calls to `addPlugin()`:
 
 ```php
     public function bootstrap(): void {
@@ -33,9 +32,9 @@ static factory call is detected and `$users` is hinted as
 for method argument checking and following.
 
 This task also annotates dynamic model factory calls (e.g.
-`$this->getTableLocator()->get('Users')`) and `loadModel()` usage.
+`$this->getTableLocator()->get('Users')`) and `fetchTable()` calls. Legacy `fetchModel()` calls are also supported.
 
-![Model Autocomplete loadModel](/img/model_autocomplete_loadmodel.png)
+![Model autocomplete example](/img/model_autocomplete_loadmodel.png)
 
 If you prefer FQCN as the argument, you still get the benefit for the return
 type:
@@ -137,15 +136,15 @@ In your bootstrap (app or plugin) you might add additional database `Type`
 classes, or reconfigure existing ones:
 
 ```php
-Type::build('date')->useLocaleParser()->setLocaleFormat('d.m.Y');
-Type::build('datetime')->useLocaleParser()->setLocaleFormat('d.m.Y H:i');
+\Cake\Database\TypeFactory::build('date')->useLocaleParser()->setLocaleFormat('d.m.Y');
+\Cake\Database\TypeFactory::build('datetime')->useLocaleParser()->setLocaleFormat('d.m.Y H:i');
 ```
 
 The IDE recognizes the returned type of class and allows auto-complete here,
-too. Same for `Type::map()` and type strings like `integer`, `string`, etc.:
+too. Same for `TypeFactory::map()` and type strings like `integer`, `string`, etc.:
 
 ```php
-Type::map('decimal', ...);
+\Cake\Database\TypeFactory::map('decimal', \Cake\Database\Type\DecimalType::class);
 ```
 
 ## Elements

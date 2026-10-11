@@ -557,7 +557,7 @@ class TemplateAnnotator extends AbstractAnnotator {
 		$defaultType = Configure::read('IdeHelper.autoCollect');
 		$type = $variable['type'];
 		if ($type === null) {
-			$type = $defaultType;
+			$type = is_string($defaultType) && !is_callable($defaultType) ? $defaultType : 'mixed';
 		}
 
 		if (is_callable($defaultType)) {

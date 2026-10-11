@@ -40,7 +40,7 @@
 		"squizlabs/php_codesniffer": "^3.13 || ^4.0"
 	},
 	"require-dev": {
-		"dereuromark/cakephp-shim": "dev-master",
+		"dereuromark/cakephp-shim": "dev-cake6",
 		"cakephp/migrations": "dev-fix/6.x-cakephp-compatibility",
 		"cakephp/plugin-installer": "^2.0.1",
 		"fig-r/psr2r-sniffer": "@stable",

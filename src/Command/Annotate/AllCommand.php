@@ -43,9 +43,7 @@ class AllCommand extends AnnotateCommand {
 			$types[] = CallbacksCommand::class;
 		}
 
-		if (!$args->getOption('interactive')) {
-			$this->interactive = false;
-		}
+		$this->interactive = (bool)$args->getOption('interactive');
 
 		$changes = false;
 		foreach ($types as $key => $type) {

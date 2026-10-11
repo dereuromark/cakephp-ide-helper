@@ -336,7 +336,7 @@ class ModelAnnotatorTest extends TestCase {
 
 			return $value === $expectedContent;
 		};
-		$annotator->expects($this->atMost(1))->method('storeFile')
+		$annotator->expects($this->atLeastOnce())->method('storeFile')
 			->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'Model/Table/BarBarsAbstractTable.php';
@@ -480,7 +480,7 @@ class ModelAnnotatorTest extends TestCase {
 		$annotator = $this->_getEntityTemplateAnnotatorMock([]);
 
 		$capture = '';
-		$annotator->expects($this->atMost(1))->method('storeFile')
+		$annotator->expects($this->atLeastOnce())->method('storeFile')
 			->with($this->anything(), $this->callback(function ($value) use (&$capture) {
 				$capture = $value;
 
@@ -511,7 +511,7 @@ class ModelAnnotatorTest extends TestCase {
 		$annotator = $this->_getEntityTemplateAnnotatorMock([]);
 
 		$capture = '';
-		$annotator->expects($this->atMost(1))->method('storeFile')
+		$annotator->expects($this->atLeastOnce())->method('storeFile')
 			->with($this->anything(), $this->callback(function ($value) use (&$capture) {
 				$capture = $value;
 
@@ -532,7 +532,11 @@ class ModelAnnotatorTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnnotateRemovesOrphanExtendsForNonGenericParent() {
-		$tmpPath = TMP . 'BarBarsAbstractTableOrphanExtends.php';
+		$tmpDir = TMP . 'orphan-extends' . DS;
+		if (!is_dir($tmpDir)) {
+			mkdir($tmpDir);
+		}
+		$tmpPath = $tmpDir . 'BarBarsAbstractTable.php';
 		$orphan = <<<'PHP'
 			<?php
 			namespace TestApp\Model\Table;
@@ -564,7 +568,7 @@ class ModelAnnotatorTest extends TestCase {
 			$annotator = $this->_getAnnotatorMock([]);
 
 			$capture = '';
-			$annotator->expects($this->atMost(1))->method('storeFile')
+			$annotator->expects($this->atLeastOnce())->method('storeFile')
 				->with($this->anything(), $this->callback(function ($value) use (&$capture) {
 					$capture = $value;
 
@@ -576,6 +580,7 @@ class ModelAnnotatorTest extends TestCase {
 			$this->assertStringNotContainsString('@extends', $capture, 'Orphan extends line was not pruned.');
 		} finally {
 			@unlink($tmpPath);
+			rmdir($tmpDir);
 		}
 	}
 
@@ -591,7 +596,7 @@ class ModelAnnotatorTest extends TestCase {
 		$annotator = $this->_getEntityTemplateAnnotatorMock([]);
 
 		$capture = '';
-		$annotator->expects($this->atMost(1))->method('storeFile')
+		$annotator->expects($this->atLeastOnce())->method('storeFile')
 			->with($this->anything(), $this->callback(function ($value) use (&$capture) {
 				$capture = $value;
 
@@ -823,7 +828,7 @@ class ModelAnnotatorTest extends TestCase {
 		$annotator = $this->_getEntityTemplateAnnotatorMock([]);
 
 		$capture = '';
-		$annotator->expects($this->atMost(1))->method('storeFile')
+		$annotator->expects($this->atLeastOnce())->method('storeFile')
 			->with($this->anything(), $this->callback(function ($value) use (&$capture) {
 				$capture = $value;
 

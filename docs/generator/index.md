@@ -28,6 +28,6 @@ automatically.
 
 ## What's Next
 
-- [Available Tasks](./tasks) — every built-in task and what it covers
-- [Custom Tasks and Directives](./custom-tasks) — add your own tasks, available directives, examples
-- [Operations](./operations) — include/exclude plugins, CI checks, reusing argument sets
+- [Available Tasks](./tasks): every built-in task and what it covers
+- [Custom Tasks and Directives](./custom-tasks): add your own tasks, available directives, examples
+- [Operations](./operations): include/exclude plugins, CI checks, reusing argument sets

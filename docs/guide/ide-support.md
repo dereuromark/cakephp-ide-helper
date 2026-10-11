@@ -1,26 +1,27 @@
 # IDE Support
 
-This plugin is intended to work with **any IDE** that supports annotations and
-code completion. Below is the current state of testing and integration.
+Annotations work in editors and static analyzers that understand PHPDoc.
+[Code completion stubs](/code-completion/) need an editor that indexes the
+application's `tmp/` files.
 
-## Tested IDEs
+## Metadata support
 
-IDEs tested for full compatibility:
+- [PhpStorm setup](https://github.com/dereuromark/cakephp-ide-helper/wiki/PHPStorm)
+- [VS Code with Intelephense](https://github.com/dereuromark/cakephp-ide-helper/wiki/Visual-Studio-Code)
 
-- **[PhpStorm](https://github.com/dereuromark/cakephp-ide-helper/wiki/PHPStorm)** — also supports the meta file generator
-- IntelliJ IDEA
-- Atom
-- **[VS Code](https://github.com/dereuromark/cakephp-ide-helper/wiki/Visual-Studio-Code)** — meta file works via the PHP Intelephense plugin
-- Report or open a PR for your IDE on the [wiki](https://github.com/dereuromark/cakephp-ide-helper/wiki) to confirm full compatibility.
+These editors can use the [metadata generator](/generator/). Reindex the
+generated files if completion does not update. Editor versions and plugins
+can differ in their interpretation of advanced generic annotations; verify
+completion for the types used in your application.
 
 ## Plugins With Meta File Generator Tasks
 
 The following plugins ship Generator tasks that build on top of this plugin:
 
-- [Migrations](https://github.com/cakephp/migrations) — migration file writing (included in IdeHelper directly).
-- [Queue](https://github.com/dereuromark/cakephp-queue) — `QueuedJobsTable::createJob()` usage.
-- [Burzum/CakeServiceLayer](https://github.com/burzum/cakephp-service-layer) — `loadService()` usage.
-- [CakephpFixtureFactories](https://github.com/vierge-noire/cakephp-fixture-factories) — factory class autocomplete.
+- [Migrations](https://github.com/cakephp/migrations): migration file writing (included in IdeHelper directly).
+- [Queue](https://github.com/dereuromark/cakephp-queue): `QueuedJobsTable::createJob()` usage.
+- [Burzum/CakeServiceLayer](https://github.com/burzum/cakephp-service-layer): `loadService()` usage.
+- [CakephpFixtureFactories](https://github.com/vierge-noire/cakephp-fixture-factories): factory class autocomplete.
 
 Add yours via PR.
 
@@ -30,7 +31,7 @@ Add yours via PR.
 
 ## Plugins With Illuminator Tasks
 
-- [StateMachine](https://github.com/spryker/cakephp-statemachine) — syncs states from XML into PHP.
+- [StateMachine](https://github.com/spryker/cakephp-statemachine): syncs states from XML into PHP.
 
 ## Sponsorship
 

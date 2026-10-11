@@ -359,7 +359,7 @@ class ModelAnnotatorSpecificTest extends TestCase {
 
 			return $value === $expectedContent;
 		};
-		$annotator->expects($this->atMost(1))->method('storeFile')
+		$annotator->expects($this->atLeastOnce())->method('storeFile')
 			->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'Model/Table/Specific/BarBarsAbstractTable.php';

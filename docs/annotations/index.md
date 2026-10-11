@@ -22,18 +22,18 @@ See the [Configuration reference](/reference/configuration) for the full list.
 Each class type has its own page covering the dedicated subcommand and the
 options that apply only to that type:
 
-- [Controllers](./controllers) — `bin/cake annotate controllers`
-- [Models](./models) — `bin/cake annotate models` (Tables and Entities)
-- [View, Components, Helpers](./view) — `annotate view`, `annotate components`, `annotate helpers`
-- [Templates](./templates) — `bin/cake annotate templates`
-- [Commands and Routes](./commands) — `bin/cake annotate commands`
-- [Classes](./classes) — class-level annotators (`ModelAware`, `Form::execute()`, `Mailer::send()`, `Test`, custom)
-- [Callbacks](./callbacks) — method-level annotators (`TableCallbackAnnotatorTask`, custom)
+- [Controllers](./controllers): `bin/cake annotate controllers`
+- [Models](./models): `bin/cake annotate models` (Tables and Entities)
+- [View, Components, Helpers](./view): `annotate view`, `annotate components`, `annotate helpers`
+- [Templates](./templates): `bin/cake annotate templates`
+- [Commands and Routes](./commands): `bin/cake annotate commands`
+- [Classes](./classes): class-level annotators (`ModelAware`, `Form::execute()`, `Mailer::send()`, `Test`, custom)
+- [Callbacks](./callbacks): method-level annotators (`TableCallbackAnnotatorTask`, custom)
 
 ## Cross-Cutting
 
-- [Operations](./operations) — running all commands, dry-run, filters, removal, file watcher, CI
-- [Custom Class Annotators](./custom-class-annotator) — full PHP-AST example
+- [Operations](./operations): running all commands, dry-run, filters, removal, file watcher, CI
+- [Custom Class Annotators](./custom-class-annotator): full PHP-AST example
 
 ## Replacing Native Tasks
 

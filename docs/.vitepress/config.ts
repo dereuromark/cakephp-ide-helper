@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   title: 'cakephp-ide-helper',
-  description: 'Annotations, meta files, code-completion, and Illuminator tasks for CakePHP — boost IDE and static analyzer support.',
+  description: 'Annotations, meta files, code-completion, and Illuminator tasks for CakePHP IDE and static analyzer support.',
   base: '/cakephp-ide-helper/',
   cleanUrls: true,
   head: [
@@ -11,7 +11,8 @@ export default defineConfig({
   themeConfig: {
     logo: '/logo.svg',
     nav: [
-      { text: 'Guide', link: '/guide/', activeMatch: '/guide/' },
+      { text: 'Installation', link: '/guide/installation' },
+      { text: 'Getting started', link: '/guide/getting-started' },
       { text: 'Annotations', link: '/annotations/', activeMatch: '/annotations/' },
       { text: 'Code Completion', link: '/code-completion/', activeMatch: '/code-completion/' },
       { text: 'Generator', link: '/generator/', activeMatch: '/generator/' },
@@ -33,8 +34,9 @@ export default defineConfig({
         {
           text: 'Guide',
           items: [
-            { text: 'Introduction', link: '/guide/' },
             { text: 'Installation', link: '/guide/installation' },
+            { text: 'Getting started', link: '/guide/getting-started' },
+            { text: 'Introduction', link: '/guide/' },
             { text: 'Usage', link: '/guide/usage' },
             { text: 'IDE Support', link: '/guide/ide-support' },
             { text: 'Migrating from 4.x', link: '/guide/migration' },
