@@ -1,7 +1,7 @@
 #  CakePHP IdeHelper Plugin
 
-[![CI](https://github.com/dereuromark/cakephp-ide-helper/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/dereuromark/cakephp-ide-helper/actions/workflows/ci.yml?query=branch%3Amaster)
-[![Coverage Status](https://img.shields.io/codecov/c/github/dereuromark/cakephp-ide-helper/master.svg)](https://app.codecov.io/github/dereuromark/cakephp-ide-helper/tree/master)
+[![CI](https://github.com/dereuromark/cakephp-ide-helper/actions/workflows/ci.yml/badge.svg?branch=cake6)](https://github.com/dereuromark/cakephp-ide-helper/actions/workflows/ci.yml?query=branch%3Acake6)
+[![Coverage Status](https://img.shields.io/codecov/c/github/dereuromark/cakephp-ide-helper/cake6.svg)](https://app.codecov.io/github/dereuromark/cakephp-ide-helper/tree/cake6)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%208-brightgreen.svg?style=flat)](https://phpstan.org/)
 [![Latest Stable Version](https://poser.pugx.org/dereuromark/cakephp-ide-helper/v/stable.svg)](https://packagist.org/packages/dereuromark/cakephp-ide-helper)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.5-8892BF.svg)](https://php.net/)
