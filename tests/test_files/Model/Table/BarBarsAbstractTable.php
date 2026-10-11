@@ -17,8 +17,6 @@ namespace TestApp\Model\Table;
  * @method \TestApp\Model\Entity\BarBarsAbstract[]|\Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\BarBarsAbstract> saveManyOrFail(iterable $entities, array $options = [])
  * @method \TestApp\Model\Entity\BarBarsAbstract[]|\Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\BarBarsAbstract>|false deleteMany(iterable $entities, array $options = [])
  * @method \TestApp\Model\Entity\BarBarsAbstract[]|\Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\BarBarsAbstract> deleteManyOrFail(iterable $entities, array $options = [])
- * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @mixin \MyNamespace\MyPlugin\Model\Behavior\MyBehavior
  */
 class BarBarsAbstractTable extends AbstractTable {
 

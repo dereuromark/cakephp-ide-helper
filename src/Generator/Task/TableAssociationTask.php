@@ -21,7 +21,7 @@ class TableAssociationTask extends ModelTask {
 		'\\' . self::CLASS_TABLE . '::belongsTo(0)' => BelongsTo::class,
 		'\\' . self::CLASS_TABLE . '::hasOne(0)' => HasOne::class,
 		'\\' . self::CLASS_TABLE . '::hasMany(0)' => HasMany::class,
-		'\\' . self::CLASS_TABLE . '::belongToMany(0)' => BelongsToMany::class,
+		'\\' . self::CLASS_TABLE . '::belongsToMany(0)' => BelongsToMany::class,
 	];
 
 	/**

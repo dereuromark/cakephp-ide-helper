@@ -8,8 +8,9 @@ bin/cake annotate models
 
 ## Tables
 
-Tables annotate their entity-related methods, their relations, and behavior
-mixins.
+Tables annotate their entity-related methods, relations, and behavior registry
+types. CakePHP 6 no longer proxies behavior methods through tables; call
+`$table->getBehavior('Timestamp')` to access the behavior instance.
 
 A `LocationsTable` class would gain the following doc-block annotations if not
 already present:
@@ -34,7 +35,7 @@ already present:
  * @property \Cake\ORM\Association\HasMany<\App\Model\Table\ImagesTable> $Images
  * @property \Cake\ORM\Association\BelongsTo<\App\Model\Table\UsersTable> $Users
  *
- * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ * @extends \Cake\ORM\Table<array{Timestamp: \Cake\ORM\Behavior\TimestampBehavior}>
  */
 ```
 

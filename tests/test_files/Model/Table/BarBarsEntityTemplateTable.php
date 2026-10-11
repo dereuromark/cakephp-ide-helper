@@ -11,8 +11,6 @@ use Cake\ORM\Table;
  * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\BarBar> saveManyOrFail(iterable $entities, array $options = [])
  * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\BarBar>|false deleteMany(iterable $entities, array $options = [])
  * @method \TestApp\Model\Entity\BarBar[]|\Cake\Datasource\ResultSetInterface<int, \TestApp\Model\Entity\BarBar> deleteManyOrFail(iterable $entities, array $options = [])
- * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @mixin \MyNamespace\MyPlugin\Model\Behavior\MyBehavior
  */
 class BarBarsTable extends Table {
 

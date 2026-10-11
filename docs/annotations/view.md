@@ -48,7 +48,7 @@ A component containing:
     /**
      * @var array
      */
-    protected $components = [
+    protected array $components = [
         'RequestHandler',
         'Flash.Flash',
     ];
@@ -77,7 +77,7 @@ A helper containing:
     /**
      * @var array
      */
-    protected $helpers = [
+    protected array $helpers = [
         'Form',
     ];
 
@@ -87,7 +87,7 @@ A helper containing:
      */
     public function __construct(View $View, array $config = []) {
         parent::__construct($View, $config);
-        $this->_View->loadHelper('Template');
+        $this->view->loadHelper('Template');
     }
 ```
 

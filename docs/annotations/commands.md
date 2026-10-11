@@ -18,7 +18,7 @@ bin/cake annotate commands
     /**
      * @return int
      */
-    public function execute(Arguments $args, ConsoleIo $io): int {
+    public function execute(): int {
         $this->fetchTable('MyPlugin.Wheels');
 
         return static::CODE_SUCCESS;

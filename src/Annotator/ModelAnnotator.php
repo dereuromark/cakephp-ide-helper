@@ -11,7 +11,6 @@ use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use IdeHelper\Annotation\AnnotationFactory;
 use IdeHelper\Annotation\ExtendsAnnotation;
-use IdeHelper\Annotation\MixinAnnotation;
 use IdeHelper\Console\Io;
 use IdeHelper\Utility\App;
 use IdeHelper\Utility\AppPath;
@@ -53,21 +52,12 @@ class ModelAnnotator extends AbstractAnnotator {
 
 		/** @var string|bool|null $tableBehaviors */
 		$tableBehaviors = Configure::read('IdeHelper.tableBehaviors');
-		if ($tableBehaviors === true) {
-			$tableBehaviors = [
-				static::BEHAVIOR_MIXIN,
-				static::BEHAVIOR_EXTENDS,
-			];
+		if ($tableBehaviors === true || $tableBehaviors === null) {
+			$tableBehaviors = [static::BEHAVIOR_EXTENDS];
 		} elseif ($tableBehaviors === false) {
 			$tableBehaviors = [];
-		} elseif ($tableBehaviors === null) {
-			$tableBehaviors = [
-				static::BEHAVIOR_MIXIN,
-			];
-			if (version_compare(Configure::version(), '5.2.3', '>=')) {
-				$tableBehaviors[] = static::BEHAVIOR_EXTENDS;
-			}
 		}
+		$tableBehaviors = array_values(array_diff((array)$tableBehaviors, [static::BEHAVIOR_MIXIN]));
 
 		$this->setConfig(static::TABLE_BEHAVIORS, (array)$tableBehaviors);
 	}
@@ -330,7 +320,6 @@ class ModelAnnotator extends AbstractAnnotator {
 			$result[] = $annotationObject;
 		}
 
-		$result = $this->addBehaviorMixins($result, $behaviors);
 
 		return $this->addBehaviorExtends($result, $behaviors, $parentClass, $entityClass);
 	}
@@ -527,31 +516,6 @@ class ModelAnnotator extends AbstractAnnotator {
 		}
 
 		return new $class($this->_io, ['class' => $entityClass, 'schema' => $schema, 'associations' => $associations] + $this->getConfig());
-	}
-
-	/**
-	 * @param array<\IdeHelper\Annotation\AbstractAnnotation> $result
-	 * @param array<string> $behaviors
-	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
-	 */
-	protected function addBehaviorMixins(array $result, array $behaviors): array {
-		if (!in_array(static::BEHAVIOR_MIXIN, $this->config[static::TABLE_BEHAVIORS], true)) {
-			return $result;
-		}
-
-		foreach ($behaviors as $behavior) {
-			$className = App::className($behavior, 'Model/Behavior', 'Behavior');
-			if (!$className) {
-				$className = App::className($behavior, 'ORM/Behavior', 'Behavior');
-			}
-			if (!$className) {
-				continue;
-			}
-
-			$result[] = AnnotationFactory::createOrFail(MixinAnnotation::TAG, "\\{$className}");
-		}
-
-		return $result;
 	}
 
 	/**
