@@ -1112,7 +1112,7 @@ abstract class AbstractAnnotator {
 	 * @return array<\IdeHelper\Annotation\AbstractAnnotation>
 	 */
 	protected function filterByTypedProperties(array $annotations, string $content): array {
-		preg_match_all('/(?:protected|public|private)\s+\??[\w\\\\]+\s+\$(\w+)\s*[;=]/', $content, $matches);
+		preg_match_all('/(?:protected|public|private)\s+(?:readonly\s+)?\??[\w\\\\]+\s+\$(\w+)\s*[;=]/', $content, $matches);
 		$typedProperties = $matches[1];
 		if (!$typedProperties) {
 			return $annotations;
@@ -1122,7 +1122,7 @@ abstract class AbstractAnnotator {
 			if (!$annotation instanceof PropertyAnnotation) {
 				return true;
 			}
-			if (!preg_match('#\\\\Model\\\\Table\\\\#', $annotation->getType())) {
+			if ($annotation->getType() !== '\\Cake\\ORM\\Table' && !preg_match('#\\\\Model\\\\Table\\\\#', $annotation->getType())) {
 				return true;
 			}
 

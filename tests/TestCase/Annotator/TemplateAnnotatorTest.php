@@ -77,6 +77,18 @@ class TemplateAnnotatorTest extends TestCase {
 		$this->assertSame('int', $typed->getType());
 	}
 
+	public static function declineAutoCollectGuess(array $variable): ?string {
+		return null;
+	}
+
+	public function testAutoCollectCallableStringCanDeclineTypeGuess(): void {
+		Configure::write('IdeHelper.autoCollect', static::class . '::declineAutoCollectGuess');
+		$annotator = $this->_getAnnotatorMock([]);
+		$annotator->expects($this->never())->method('storeFile');
+		$annotation = $this->invokeMethod($annotator, 'getVariableAnnotation', [['name' => 'unknown', 'type' => null]]);
+		$this->assertSame('mixed', $annotation->getType());
+	}
+
 	/**
 	 * @return void
 	 */

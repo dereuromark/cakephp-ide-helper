@@ -117,11 +117,14 @@ PHP;
 namespace TestApp\Custom;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use TestApp\Model\Table\FoosTable;
+use Cake\ORM\Table;
 class TypedClass {
     use LocatorAwareTrait;
-    protected FoosTable $Foos;
+    protected readonly FoosTable $Foos;
+    protected Table $Missing;
     public function initialize(): void {
         $this->Foos = $this->fetchTable('Foos');
+        $this->Missing = $this->fetchTable('Missing');
     }
 }
 PHP;
