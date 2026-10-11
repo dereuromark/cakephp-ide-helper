@@ -335,6 +335,7 @@ class ModelAnnotatorSpecificTest extends TestCase {
 	 */
 	public function testAnnotateSpecificCatchExceptions() {
 		$annotator = $this->_getAnnotatorMock([]);
+		$annotator->expects($this->never())->method('storeFile');
 
 		$path = APP . 'Model/Table/Specific/ExceptionsTable.php';
 		$annotator->annotate($path);
@@ -358,7 +359,7 @@ class ModelAnnotatorSpecificTest extends TestCase {
 
 			return $value === $expectedContent;
 		};
-		$annotator->method('storeFile')
+		$annotator->expects($this->atMost(1))->method('storeFile')
 			->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'Model/Table/Specific/BarBarsAbstractTable.php';

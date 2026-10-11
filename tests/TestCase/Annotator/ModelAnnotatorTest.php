@@ -312,6 +312,7 @@ class ModelAnnotatorTest extends TestCase {
 	 */
 	public function testAnnotateCatchExceptions() {
 		$annotator = $this->_getAnnotatorMock([]);
+		$annotator->expects($this->never())->method('storeFile');
 
 		$path = APP . 'Model/Table/ExceptionsTable.php';
 		$annotator->annotate($path);
@@ -335,7 +336,7 @@ class ModelAnnotatorTest extends TestCase {
 
 			return $value === $expectedContent;
 		};
-		$annotator->method('storeFile')
+		$annotator->expects($this->atMost(1))->method('storeFile')
 			->with($this->anything(), $this->callback($callback));
 
 		$path = APP . 'Model/Table/BarBarsAbstractTable.php';
@@ -479,7 +480,7 @@ class ModelAnnotatorTest extends TestCase {
 		$annotator = $this->_getEntityTemplateAnnotatorMock([]);
 
 		$capture = '';
-		$annotator->method('storeFile')
+		$annotator->expects($this->atMost(1))->method('storeFile')
 			->with($this->anything(), $this->callback(function ($value) use (&$capture) {
 				$capture = $value;
 
@@ -510,7 +511,7 @@ class ModelAnnotatorTest extends TestCase {
 		$annotator = $this->_getEntityTemplateAnnotatorMock([]);
 
 		$capture = '';
-		$annotator->method('storeFile')
+		$annotator->expects($this->atMost(1))->method('storeFile')
 			->with($this->anything(), $this->callback(function ($value) use (&$capture) {
 				$capture = $value;
 
@@ -563,7 +564,7 @@ class ModelAnnotatorTest extends TestCase {
 			$annotator = $this->_getAnnotatorMock([]);
 
 			$capture = '';
-			$annotator->method('storeFile')
+			$annotator->expects($this->atMost(1))->method('storeFile')
 				->with($this->anything(), $this->callback(function ($value) use (&$capture) {
 					$capture = $value;
 
@@ -590,7 +591,7 @@ class ModelAnnotatorTest extends TestCase {
 		$annotator = $this->_getEntityTemplateAnnotatorMock([]);
 
 		$capture = '';
-		$annotator->method('storeFile')
+		$annotator->expects($this->atMost(1))->method('storeFile')
 			->with($this->anything(), $this->callback(function ($value) use (&$capture) {
 				$capture = $value;
 
@@ -822,7 +823,7 @@ class ModelAnnotatorTest extends TestCase {
 		$annotator = $this->_getEntityTemplateAnnotatorMock([]);
 
 		$capture = '';
-		$annotator->method('storeFile')
+		$annotator->expects($this->atMost(1))->method('storeFile')
 			->with($this->anything(), $this->callback(function ($value) use (&$capture) {
 				$capture = $value;
 

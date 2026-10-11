@@ -3,8 +3,6 @@
 namespace IdeHelper\Command;
 
 use Cake\Command\Command;
-use Cake\Console\Arguments;
-use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use IdeHelper\CodeCompletion\CodeCompletionGenerator;
 use IdeHelper\CodeCompletion\TaskCollection;
@@ -19,13 +17,13 @@ class GenerateCodeCompletionCommand extends Command {
 	}
 
 	/**
-	 * @param \Cake\Console\Arguments $args The command arguments.
-	 * @param \Cake\Console\ConsoleIo $io The console io
 	 *
 	 * @throws \Cake\Console\Exception\StopException
 	 * @return int The exit code or null for success
 	 */
-	public function execute(Arguments $args, ConsoleIo $io): int {
+	public function execute(): int {
+		$args = $this->args;
+		$io = $this->io;
 		$codeCompletionGenerator = $this->getGenerator();
 
 		if ($args->getOption('dry-run')) {

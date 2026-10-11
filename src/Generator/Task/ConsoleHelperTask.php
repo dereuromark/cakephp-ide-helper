@@ -52,14 +52,14 @@ class ConsoleHelperTask implements TaskInterface {
 	protected function collectHelpers(): array {
 		$helpers = [];
 
-		$folders = array_merge(App::core('Command/Helper'), AppPath::get('Command/Helper'));
+		$folders = array_merge(App::core('Console/Helper'), AppPath::get('Console/Helper'));
 		foreach ($folders as $folder) {
 			$helpers = $this->addHelpers($helpers, $folder);
 		}
 
 		$plugins = Plugin::all();
 		foreach ($plugins as $plugin) {
-			$folders = AppPath::get('Command/Helper', $plugin);
+			$folders = AppPath::get('Console/Helper', $plugin);
 			foreach ($folders as $folder) {
 				$helpers = $this->addHelpers($helpers, $folder, $plugin);
 			}
@@ -88,7 +88,7 @@ class ConsoleHelperTask implements TaskInterface {
 				$name = $plugin . '.' . $name;
 			}
 
-			$className = App::className($name, 'Command/Helper', 'Helper');
+			$className = App::className($name, 'Console/Helper', 'Helper');
 			if (!$className) {
 				continue;
 			}

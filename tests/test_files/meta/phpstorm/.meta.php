@@ -73,10 +73,10 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\Console\ConsoleIo::helper(0),
 		map([
-			'Banner' => \Cake\Command\Helper\BannerHelper::class,
-			'Progress' => \Cake\Command\Helper\ProgressHelper::class,
-			'Table' => \Cake\Command\Helper\TableHelper::class,
-			'Tree' => \Cake\Command\Helper\TreeHelper::class,
+			'Banner' => \Cake\Console\Helper\BannerHelper::class,
+			'Progress' => \Cake\Console\Helper\ProgressHelper::class,
+			'Table' => \Cake\Console\Helper\TableHelper::class,
+			'Tree' => \Cake\Console\Helper\TreeHelper::class,
 		]),
 	);
 
@@ -191,6 +191,7 @@ namespace PHPSTORM_META {
 			'timestamptimezone' => \Cake\Database\Type\DateTimeTimezoneType::class,
 			'tinyinteger' => \Cake\Database\Type\IntegerType::class,
 			'uuid' => \Cake\Database\Type\UuidType::class,
+			'varbinary' => \Cake\Database\Type\BinaryType::class,
 			'year' => \Cake\Database\Type\IntegerType::class,
 		]),
 	);
@@ -228,6 +229,7 @@ namespace PHPSTORM_META {
 		'timestamptimezone',
 		'tinyinteger',
 		'uuid',
+		'varbinary',
 		'year',
 	);
 

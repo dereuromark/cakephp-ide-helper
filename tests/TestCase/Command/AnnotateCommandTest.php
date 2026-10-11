@@ -153,7 +153,7 @@ class AnnotateCommandTest extends TestCase {
 		$this->skipIf(version_compare(Configure::version(), '5.3.4', '<'), 'Requires CakePHP 5.3.4+ (entity-template support).');
 
 		$this->exec('annotate all -d -v --ci -p Awesome');
-		$this->assertExitSuccess($this->_out->output());
+		$this->assertExitSuccess($this->out->output());
 	}
 
 	/**
@@ -162,7 +162,7 @@ class AnnotateCommandTest extends TestCase {
 	public function testAllCiModeChanges() {
 		$this->exec('annotate all -d -v --ci');
 
-		$this->assertExitCode(AnnotateCommand::CODE_CHANGES, $this->_out->output());
+		$this->assertExitCode(AnnotateCommand::CODE_CHANGES, $this->out->output());
 	}
 
 	/**
@@ -192,7 +192,7 @@ class AnnotateCommandTest extends TestCase {
 		$this->skipIf($subcommand === 'models' && version_compare(Configure::version(), '5.3.4', '<'), 'Models pre-annotation requires CakePHP 5.3.4+.');
 
 		$this->exec('annotate ' . $subcommand . ' -d -v --ci -p Awesome');
-		$this->assertExitSuccess($this->_out->output());
+		$this->assertExitSuccess($this->out->output());
 	}
 
 	/**
@@ -204,7 +204,7 @@ class AnnotateCommandTest extends TestCase {
 	public function testIndividualSubcommandCiModeChanges(string $subcommand): void {
 		$this->exec('annotate ' . $subcommand . ' -d -v --ci');
 
-		$this->assertExitCode(AnnotateCommand::CODE_CHANGES, $this->_out->output());
+		$this->assertExitCode(AnnotateCommand::CODE_CHANGES, $this->out->output());
 	}
 
 	/**

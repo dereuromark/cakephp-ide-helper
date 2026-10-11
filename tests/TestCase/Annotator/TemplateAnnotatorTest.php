@@ -79,7 +79,7 @@ class TemplateAnnotatorTest extends TestCase {
 			return 'mixed';
 		});
 
-		$annotator = $this->_getAnnotatorMock([]);
+		$annotator = new TemplateAnnotator($this->io, []);
 
 		$variable = [
 			'name' => 'date',
@@ -96,7 +96,7 @@ class TemplateAnnotatorTest extends TestCase {
 	public function testNeedsViewAnnotation() {
 		Configure::write('IdeHelper.preemptive', false);
 
-		$annotator = $this->_getAnnotatorMock([]);
+		$annotator = new TemplateAnnotator($this->io, []);
 
 		$content = '';
 		/** @uses \IdeHelper\Annotator\TemplateAnnotator::_needsViewAnnotation() */

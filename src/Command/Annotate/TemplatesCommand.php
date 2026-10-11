@@ -2,7 +2,6 @@
 
 namespace IdeHelper\Command\Annotate;
 
-use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use IdeHelper\Annotator\TemplateAnnotator;
 use IdeHelper\Command\AnnotateCommand;
@@ -17,12 +16,12 @@ class TemplatesCommand extends AnnotateCommand {
 	}
 
 	/**
-	 * @param \Cake\Console\Arguments $args
-	 * @param \Cake\Console\ConsoleIo $io
 	 * @return int
 	 */
-	public function execute(Arguments $args, ConsoleIo $io): int {
-		parent::execute($args, $io);
+	public function execute(): int {
+		$args = $this->args;
+		$io = $this->io;
+		parent::execute();
 
 		$paths = $this->getPaths('templates');
 
@@ -56,7 +55,7 @@ class TemplatesCommand extends AnnotateCommand {
 			}
 
 			if (is_dir($path)) {
-				foreach ($this->_config['skipTemplatePaths'] as $skip) {
+				foreach ($this->config['skipTemplatePaths'] as $skip) {
 					$subFolder = pathinfo($path, PATHINFO_BASENAME);
 					if (!str_contains($subFolder, (string)$skip)) {
 						continue;

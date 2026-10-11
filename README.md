@@ -4,7 +4,7 @@
 [![Coverage Status](https://img.shields.io/codecov/c/github/dereuromark/cakephp-ide-helper/master.svg)](https://app.codecov.io/github/dereuromark/cakephp-ide-helper/tree/master)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%208-brightgreen.svg?style=flat)](https://phpstan.org/)
 [![Latest Stable Version](https://poser.pugx.org/dereuromark/cakephp-ide-helper/v/stable.svg)](https://packagist.org/packages/dereuromark/cakephp-ide-helper)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.2-8892BF.svg)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.5-8892BF.svg)](https://php.net/)
 [![License](https://poser.pugx.org/dereuromark/cakephp-ide-helper/license.svg)](LICENSE)
 [![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-ide-helper/d/total.svg)](https://packagist.org/packages/dereuromark/cakephp-ide-helper)
 
@@ -12,7 +12,7 @@ IdeHelper plugin for CakePHP applications.
 
 > Boost your productivity. Avoid mistakes.
 
-This branch is for use with **CakePHP 5.1+**. For details see [version map](https://github.com/dereuromark/cakephp-ide-helper/wiki#cakephp-version-map).
+This branch is for use with **CakePHP 6.x** (PHP 8.5+). For details see [version map](https://github.com/dereuromark/cakephp-ide-helper/wiki#cakephp-version-map).
 
 ## Features
 
@@ -90,3 +90,9 @@ See the **[Documentation](https://dereuromark.github.io/cakephp-ide-helper/)** f
 [![PhpStorm logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/PhpStorm.svg)](https://jb.gg/OpenSourceSupport)
 
 They are sponsoring my IDE for my FOSS work on this repository and beyond.
+
+## CakePHP 6
+
+Development dependencies use the CakePHP 6 migrations on upstream `dev-master`
+branches once merged. Local sibling packages were used to verify the migrations
+together before publication.

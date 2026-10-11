@@ -173,8 +173,7 @@ class EntityAnnotator extends AbstractAnnotator {
 				// `getForeignKey()` lazily resolves the target through the locator and apps that ran
 				// `allowFallbackClass(false)` (the default in the CakePHP app skeleton) fail with a
 				// MissingTableClassException on the made-up alias.
-				$joinAssociation = new BelongsTo($alias, [
-					'sourceTable' => $table,
+				$joinAssociation = new BelongsTo($alias, $table, [
 					'targetTable' => $table,
 					'foreignKey' => $association->getForeignKey(),
 				]);

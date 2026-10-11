@@ -2,7 +2,7 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 colors="true"
 		 bootstrap="tests/bootstrap.php"
-		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.2/phpunit.xsd">
+		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/13.0/phpunit.xsd">
 	<php>
 		<ini name="memory_limit" value="-1"/>
 		<!-- E_ALL => 32767 -->

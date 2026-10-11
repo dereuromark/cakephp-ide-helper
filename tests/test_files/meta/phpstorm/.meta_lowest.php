@@ -73,9 +73,9 @@ namespace PHPSTORM_META {
 	override(
 		\Cake\Console\ConsoleIo::helper(0),
 		map([
-			'Banner' => \Cake\Command\Helper\BannerHelper::class,
-			'Progress' => \Cake\Command\Helper\ProgressHelper::class,
-			'Table' => \Cake\Command\Helper\TableHelper::class,
+			'Banner' => \Cake\Console\Helper\BannerHelper::class,
+			'Progress' => \Cake\Console\Helper\ProgressHelper::class,
+			'Table' => \Cake\Console\Helper\TableHelper::class,
 		]),
 	);
 

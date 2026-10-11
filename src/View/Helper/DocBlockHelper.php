@@ -85,7 +85,7 @@ class DocBlockHelper extends BakeDocBlockHelper {
 					if (is_array($key)) {
 						$key = implode('-', $key);
 					}
-					$properties = $this->_insertAfter(
+					$properties = $this->insertAfter(
 						$properties,
 						$key,
 						[$property => $this->columnTypeNullable($info, $type)],

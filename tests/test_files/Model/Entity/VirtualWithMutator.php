@@ -12,7 +12,6 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime|null $modified
  * @property string $slug
- *
  * @property-read string $label
  */
 class VirtualWithMutator extends Entity {

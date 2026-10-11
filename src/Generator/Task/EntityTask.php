@@ -93,7 +93,7 @@ class EntityTask extends ModelTask {
 				// Do nothing
 			}
 
-			if (!$fields) {
+			if (!$fields || $entityClass === null) {
 				continue;
 			}
 

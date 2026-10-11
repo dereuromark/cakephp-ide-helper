@@ -2,8 +2,6 @@
 
 namespace IdeHelper\Command\Annotate;
 
-use Cake\Console\Arguments;
-use Cake\Console\ConsoleIo;
 use Cake\Core\App;
 use IdeHelper\Annotator\ViewAnnotator;
 use IdeHelper\Command\AnnotateCommand;
@@ -18,12 +16,12 @@ class ViewCommand extends AnnotateCommand {
 	}
 
 	/**
-	 * @param \Cake\Console\Arguments $args
-	 * @param \Cake\Console\ConsoleIo $io
 	 * @return int
 	 */
-	public function execute(Arguments $args, ConsoleIo $io): int {
-		parent::execute($args, $io);
+	public function execute(): int {
+		$args = $this->args;
+		$io = $this->io;
+		parent::execute();
 
 		if ($args->getOption('plugin') || $args->getOption('filter')) {
 			$io->error('Plugin or filter option not supported for this command');

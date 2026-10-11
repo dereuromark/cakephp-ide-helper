@@ -76,7 +76,7 @@ class ViewAnnotatorTest extends TestCase {
 	 * @return void
 	 */
 	public function testGetHelpers(): void {
-		$annotator = $this->_getAnnotatorMock([]);
+		$annotator = new ViewAnnotator($this->io, []);
 
 		$result = $this->invokeMethod($annotator, 'addExtractedHelpers', [[]]);
 		$expected = [

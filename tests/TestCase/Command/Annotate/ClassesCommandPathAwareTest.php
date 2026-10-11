@@ -130,10 +130,10 @@ class ClassesCommandPathAwareTest extends TestCase {
 		$this->assertExitSuccess();
 
 		$marker = 'tests' . DS . 'fixtures-pathaware';
-		$count = substr_count($this->_out->messages()[0] ?? '', $marker);
+		$count = substr_count($this->out->messages()[0] ?? '', $marker);
 		// Some Cake versions return messages as array; concat for safety:
 		if (!$count) {
-			$count = substr_count(implode("\n", $this->_out->messages()), $marker);
+			$count = substr_count(implode("\n", $this->out->messages()), $marker);
 		}
 		$this->assertSame(
 			1,

@@ -8,7 +8,7 @@ class VirtualWithTrait extends Entity {
 
 	use DatePrecisionEntityTrait;
 
-	protected array $_virtual = [
+	protected array $virtual = [
 		'is_date_approximate',
 		'date_precision_string',
 		'date_precision_labels',

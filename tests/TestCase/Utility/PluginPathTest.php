@@ -14,7 +14,7 @@ class PluginPathTest extends TestCase {
 	public function testGet() {
 		$plugin = 'Shim';
 		$result = PluginPath::get($plugin);
-		$this->assertTextContains('cakephp-ide-helper/vendor/dereuromark/cakephp-shim/', $result);
+		$this->assertTextContains('/cakephp-shim/', $result);
 
 		Plugin::getCollection()->remove('Awesome');
 

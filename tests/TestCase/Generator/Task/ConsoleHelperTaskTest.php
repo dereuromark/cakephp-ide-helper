@@ -32,10 +32,10 @@ class ConsoleHelperTaskTest extends TestCase {
 
 		$map = $directive->toArray()['map'];
 
-		$expected = '\Cake\Command\Helper\ProgressHelper::class';
+		$expected = '\Cake\Console\Helper\ProgressHelper::class';
 		$this->assertSame($expected, (string)$map['Progress']);
 
-		$expected = '\Cake\Command\Helper\TableHelper::class';
+		$expected = '\Cake\Console\Helper\TableHelper::class';
 		$this->assertSame($expected, (string)$map['Table']);
 	}
 

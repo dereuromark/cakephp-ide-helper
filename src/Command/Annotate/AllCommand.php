@@ -2,8 +2,6 @@
 
 namespace IdeHelper\Command\Annotate;
 
-use Cake\Console\Arguments;
-use Cake\Console\ConsoleIo;
 use Cake\Core\App;
 use IdeHelper\Command\AnnotateCommand;
 
@@ -19,12 +17,12 @@ class AllCommand extends AnnotateCommand {
 	}
 
 	/**
-	 * @param \Cake\Console\Arguments $args
-	 * @param \Cake\Console\ConsoleIo $io
 	 * @return int
 	 */
-	public function execute(Arguments $args, ConsoleIo $io): int {
-		parent::execute($args, $io);
+	public function execute(): int {
+		$args = $this->args;
+		$io = $this->io;
+		parent::execute();
 
 		$types = [
 			ModelsCommand::class,
@@ -69,7 +67,9 @@ class AllCommand extends AnnotateCommand {
 			}
 
 			$commandInstance = new $type();
-			$commandInstance->execute($args, $io);
+			$commandInstance->args = $args;
+			$commandInstance->io = $io;
+			$commandInstance->execute();
 
 			if ($this->_annotatorMadeChanges()) {
 				$changes = true;

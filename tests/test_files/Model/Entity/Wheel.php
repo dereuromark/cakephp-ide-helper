@@ -12,12 +12,11 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime|null $modified
  * @property \TestApp\Model\Entity\Wheel[] $wheels
- *
  * @property-read string|null $virtual_one
  */
 class Wheel extends Entity {
 
-	protected array $_virtual = [
+	protected array $virtual = [
 		'virtual_one',
 	];
 

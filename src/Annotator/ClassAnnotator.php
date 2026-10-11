@@ -46,7 +46,7 @@ class ClassAnnotator extends AbstractAnnotator {
 	protected function getTasks(string $content): array {
 		$taskCollection = new ClassAnnotatorTaskCollection();
 
-		return $taskCollection->tasks($this->_io, $this->_config, $content);
+		return $taskCollection->tasks($this->_io, $this->config, $content);
 	}
 
 }
