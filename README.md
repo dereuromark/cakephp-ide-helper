@@ -11,6 +11,7 @@
 IdeHelper plugin for CakePHP applications.
 
 This development branch targets CakePHP 6. Stable 2.x releases support CakePHP 5.
+The published documentation covers the stable CakePHP 5 release. For this development branch, read the [branch documentation](docs/guide/index.md).
 
 Start with [Installation](https://dereuromark.github.io/cakephp-ide-helper/guide/installation),
 then follow [Getting started](https://dereuromark.github.io/cakephp-ide-helper/guide/getting-started).
