@@ -730,6 +730,7 @@ class EntityAnnotatorTest extends TestCase {
 		$schema->addColumn('parent_id', ['type' => 'integer', 'null' => true]);
 		$schema->addColumn('dirty', ['type' => 'string', 'null' => false]);
 		$schema->addColumn('binary_data', ['type' => 'binary', 'null' => true]);
+		$schema->addColumn('varbinary_data', ['type' => 'varbinary', 'null' => false]);
 		$annotator = new EntityAnnotator($this->io, ['schema' => $schema, 'associations' => $table->associations()]);
 		$path = TMP . 'IdeHelperNativeFieldsTestEntity.php';
 		$content = <<<'PHP'
@@ -753,17 +754,18 @@ PHP;
 			$this->assertTrue($annotator->annotate($path));
 			$result = file_get_contents($path);
 			$this->assertStringContainsString('protected int $id;', $result);
-			$this->assertStringContainsString('protected int|null $parent_id;', $result);
-			$this->assertStringContainsString('protected \Cake\I18n\DateTime|null $modified;', $result);
-			$this->assertStringContainsString('protected \TestApp\Model\Entity\Foo|null $parent_foo;', $result);
-			$this->assertStringContainsString('protected array $children;', $result);
+			$this->assertStringContainsString('protected int|null $parent_id = null;', $result);
+			$this->assertStringContainsString('protected \Cake\I18n\DateTime|null $modified = null;', $result);
+			$this->assertStringContainsString('protected \TestApp\Model\Entity\Foo|null $parent_foo = null;', $result);
+			$this->assertStringContainsString('protected array $children = [];', $result);
+			$this->assertStringContainsString('@property string|resource $varbinary_data', $result);
+			$this->assertStringNotContainsString('$varbinary_data;', $result);
 			$this->assertStringContainsString('@var array<\TestApp\Model\Entity\Foo>', $result);
 			$this->assertSame(1, substr_count($result, 'string $name;'));
 			$this->assertStringNotContainsString('protected string $content;', $result);
 			$this->assertStringNotContainsString('protected string $label;', $result);
 			$this->assertStringNotContainsString('protected string $dirty;', $result);
 			$this->assertStringNotContainsString('protected resource', $result);
-			$this->assertStringNotContainsString('$modified = null', $result);
 			$this->assertFalse($annotator->annotate($path), $this->out->output());
 			$this->assertSame($result, file_get_contents($path));
 
@@ -773,6 +775,11 @@ PHP;
 			$this->assertSame(1, $entity->id);
 			$this->assertNull($entity->modified);
 			$this->assertFalse($entity->hasValue('name'));
+			// Unset fields read as their defaults inside the entity, but are not reported as present.
+			$this->assertNull((fn () => $this->parent_id)->call($entity));
+			$this->assertSame([], (fn () => $this->children)->call($entity));
+			$this->assertFalse($entity->has('parent_id'));
+			$this->assertArrayNotHasKey('children', $entity->toArray());
 			$entity->clean();
 			$entity->id = 2;
 			$this->assertTrue($entity->isDirty('id'));
