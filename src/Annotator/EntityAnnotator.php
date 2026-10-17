@@ -154,7 +154,7 @@ class EntityAnnotator extends AbstractAnnotator {
 				continue;
 			}
 			$value = static::getValueNode('@var', $type);
-			$nativeType = isset($value->type) ? $this->nativePropertyType($value->type) : null;
+			$nativeType = property_exists($value, 'type') && $value->type !== null ? $this->nativePropertyType($value->type) : null;
 			if ($nativeType === null) {
 				continue;
 			}
