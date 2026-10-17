@@ -52,6 +52,7 @@ class EntityAnnotator extends AbstractAnnotator {
 		'array' => 'array',
 		'json' => 'array',
 		'binaryuuid' => 'string',
+		'varbinary' => 'string|resource',
 	];
 
 	/**
@@ -163,7 +164,7 @@ class EntityAnnotator extends AbstractAnnotator {
 			if ($type !== $nativeType || str_contains($nativeType, 'array')) {
 				$declarations .= $indent . '/**' . $eol . $indent . ' * @var ' . $type . $eol . $indent . ' */' . $eol;
 			}
-			$declarations .= $indent . 'protected ' . $nativeType . ' $' . $name . ';' . $eol;
+			$declarations .= $indent . 'protected ' . $nativeType . ' $' . $name . $this->nativePropertyDefault($nativeType) . ';' . $eol;
 			$this->_counter[static::COUNT_ADDED]++;
 		}
 		if ($declarations === '') {
@@ -173,6 +174,25 @@ class EntityAnnotator extends AbstractAnnotator {
 		$offset = strpos($content, '{', $class->name->getEndFilePos()) + 1;
 
 		return substr_replace($content, $eol . $declarations, $offset, 0);
+	}
+
+	/**
+	 * Initialize nullable and array declarations, so that entity code reading a field which was not
+	 * selected or contained gets `null` or `[]` instead of an "accessed before initialization" error.
+	 * Defaults are not marked as assigned, so `has()` and `toArray()` still ignore unset fields.
+	 *
+	 * @param string $nativeType
+	 * @return string
+	 */
+	protected function nativePropertyDefault(string $nativeType): string {
+		if ($nativeType === 'mixed' || in_array('null', explode('|', $nativeType), true)) {
+			return ' = null';
+		}
+		if ($nativeType === 'array') {
+			return ' = []';
+		}
+
+		return '';
 	}
 
 	/**
