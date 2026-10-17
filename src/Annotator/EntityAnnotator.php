@@ -18,6 +18,15 @@ use IdeHelper\Annotator\Traits\UseStatementsTrait;
 use IdeHelper\Utility\App;
 use IdeHelper\View\Helper\DocBlockHelper;
 use PHP_CodeSniffer\Files\File;
+use PhpParser\Node\Stmt\Class_;
+use PhpParser\NodeFinder;
+use PhpParser\ParserFactory;
+use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\GenericTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\NullableTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\TypeNode;
+use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionNamedType;
@@ -46,6 +55,18 @@ class EntityAnnotator extends AbstractAnnotator {
 	];
 
 	/**
+	 * Real fields eligible for native declarations during this pass.
+	 *
+	 * @var array<string, string>
+	 */
+	protected array $nativePropertyTypes = [];
+
+	/**
+	 * @var array<string>
+	 */
+	protected array $declaredProperties = [];
+
+	/**
 	 * @param string $path Path to file.
 	 * @throws \RuntimeException
 	 * @return bool
@@ -64,12 +85,145 @@ class EntityAnnotator extends AbstractAnnotator {
 		$helper = new DocBlockHelper(new View());
 		$propertyHintMap = $this->propertyHintMap($content, $helper, $name);
 
+		$this->nativePropertyTypes = [];
+		$this->declaredProperties = [];
+		if (Configure::read('IdeHelper.entityNativeProperties')) {
+			$this->nativePropertyTypes = array_intersect_key($propertyHintMap, array_flip($this->realFields()));
+			$className = $this->getConfig('class') ?: App::className(
+				($this->getConfig(static::CONFIG_PLUGIN) ? $this->getConfig(static::CONFIG_PLUGIN) . '.' : '') . $name,
+				'Model/Entity',
+			);
+			// Includes infrastructure fields, inherited declarations and trait properties.
+			$reflection = new ReflectionClass($className && class_exists($className) ? $className : Entity::class);
+			foreach ($reflection->getProperties() as $property) {
+				$this->declaredProperties[] = $property->getName();
+			}
+			// Keep legacy accessor-backed fields dynamic.
+			$accessors = $this->buildVirtualPropertyHintTypeMap($content) + $this->buildInheritedVirtualPropertyHintTypeMap($name);
+			$this->nativePropertyTypes = array_diff_key($this->nativePropertyTypes, $accessors);
+		}
+
 		$virtualFields = $this->readOnlyVirtualFields($name, $content);
 		// For BC reasons we cannot pass it as 3rd param, so we transport it on the helper as setter/getter
 		$helper->setVirtualFields($virtualFields);
 		$annotations = $this->buildAnnotations($propertyHintMap, $helper);
 
 		return $this->annotateContent($path, $content, $annotations);
+	}
+
+	/**
+	 * Add missing native declarations without changing existing user code.
+	 * Class annotations remain useful for magic writes and collection element types.
+	 *
+	 * @param string $content
+	 * @return string
+	 */
+	protected function finalizeContent(string $content): string {
+		if (!$this->nativePropertyTypes) {
+			return $content;
+		}
+
+		$parser = (new ParserFactory())->createForNewestSupportedVersion();
+		$nodes = $parser->parse($content);
+		$class = (new NodeFinder())->findFirstInstanceOf($nodes ?? [], Class_::class);
+		if (!$class instanceof Class_ || !$class->name) {
+			return $content;
+		}
+
+		$existing = array_fill_keys($this->declaredProperties, true);
+		foreach ($class->getProperties() as $property) {
+			foreach ($property->props as $prop) {
+				$existing[$prop->name->toString()] = true;
+			}
+		}
+
+		$eol = str_contains($content, "\r\n") ? "\r\n" : "\n";
+		$indent = "\t";
+		foreach ($class->stmts as $statement) {
+			$lineStart = strrpos(substr($content, 0, $statement->getStartFilePos()), "\n");
+			$prefix = substr($content, $lineStart === false ? 0 : $lineStart + 1, $statement->getStartFilePos() - ($lineStart === false ? 0 : $lineStart + 1));
+			if (preg_match('/^[ \t]+$/', $prefix)) {
+				$indent = $prefix;
+
+				break;
+			}
+		}
+		$declarations = '';
+		foreach ($this->nativePropertyTypes as $name => $type) {
+			if (isset($existing[$name]) || !preg_match('/^[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*$/', $name)) {
+				continue;
+			}
+			$value = static::getValueNode('@var', $type);
+			$nativeType = property_exists($value, 'type') && $value->type !== null ? $this->nativePropertyType($value->type) : null;
+			if ($nativeType === null) {
+				continue;
+			}
+
+			$declarations .= $eol;
+			if ($type !== $nativeType || str_contains($nativeType, 'array')) {
+				$declarations .= $indent . '/**' . $eol . $indent . ' * @var ' . $type . $eol . $indent . ' */' . $eol;
+			}
+			$declarations .= $indent . 'protected ' . $nativeType . ' $' . $name . ';' . $eol;
+			$this->_counter[static::COUNT_ADDED]++;
+		}
+		if ($declarations === '') {
+			return $content;
+		}
+
+		$offset = strpos($content, '{', $class->name->getEndFilePos()) + 1;
+
+		return substr_replace($content, $eol . $declarations, $offset, 0);
+	}
+
+	/**
+	 * Reduce PHPDoc types to legal property types, preserving richer types in @var.
+	 * Unsupported types (for example resource) keep their dynamic field storage.
+	 *
+	 * @param \PHPStan\PhpDocParser\Ast\Type\TypeNode $type
+	 * @return string|null
+	 */
+	protected function nativePropertyType(TypeNode $type): ?string {
+		if ($type instanceof ArrayTypeNode) {
+			return 'array';
+		}
+		if ($type instanceof GenericTypeNode) {
+			if (in_array($type->type->name, ['array', 'list', 'non-empty-array', 'non-empty-list'], true)) {
+				return 'array';
+			}
+
+			return $this->nativePropertyType($type->type);
+		}
+		if ($type instanceof NullableTypeNode) {
+			$inner = $this->nativePropertyType($type->type);
+
+			return $inner === null ? null : ($inner === 'mixed' ? 'mixed' : $inner . '|null');
+		}
+		if ($type instanceof UnionTypeNode) {
+			$parts = [];
+			foreach ($type->types as $part) {
+				$native = $this->nativePropertyType($part);
+				if ($native === null) {
+					return null;
+				}
+				$parts[] = $native;
+			}
+			if (in_array('mixed', $parts, true)) {
+				return 'mixed';
+			}
+
+			return implode('|', array_unique($parts));
+		}
+		if ($type instanceof IdentifierTypeNode) {
+			$name = $type->name;
+			if (in_array($name, ['int', 'float', 'string', 'bool', 'array', 'object', 'iterable', 'mixed', 'null', 'false', 'true'], true)) {
+				return $name;
+			}
+			if (str_starts_with($name, '\\')) {
+				return $name;
+			}
+		}
+
+		return null;
 	}
 
 	/**

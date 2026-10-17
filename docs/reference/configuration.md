@@ -19,6 +19,7 @@ the full set, defaults, and the most up-to-date options, see
 | `genericsInParam` | `false \| true \| 'detailed'` | Tri-state for table method param types. See [Models](/annotations/models). |
 | `tableEntityQuery` | `bool` | Expose entity-aware `find()` return type on tables. |
 | `prefixes` | `array` | Whitelist of controller subfolder prefixes. |
+| `entityNativeProperties` | `bool` | Add native typed entity properties for fields and associations (default `false`). See [Models](/annotations/models#native-entity-properties). |
 | `typeMap` | `array` | Map DB types → PHP types for entity property annotations. |
 | `nullableMap` | `array` | Map DB types → nullability flag. |
 | `includedPlugins` | `array \| true` | Plugins to include when annotating helpers in `AppView`. |

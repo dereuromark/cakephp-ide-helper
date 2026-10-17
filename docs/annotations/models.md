@@ -219,3 +219,42 @@ Pure virtual fields are annotated with the `@property-read` tag instead of
 neither a real DB column / association behind it nor a matching `_set...()`
 mutator. If you do add a `_set...()` mutator (or the name also maps to a real
 column), the field stays writable and keeps the plain `@property` tag.
+
+### Native entity properties
+
+CakePHP 6 can store fields and associations in native PHP properties. To have
+`bin/cake annotate models` add missing declarations, enable:
+
+```php
+'IdeHelper' => [
+    'entityNativeProperties' => true,
+],
+```
+
+For example, a non-nullable ID and a has-many association become:
+
+```php
+protected int $id;
+
+/**
+ * @var \App\Model\Entity\Comment[]
+ */
+protected array $comments;
+```
+
+The option defaults to `false`. Types and nullability follow the same schema,
+association and type-map settings as entity annotations. Properties have no
+default value, so unloaded fields stay uninitialized, including nullable fields.
+Collection element types remain in `@var` docblocks; class `@property` annotations
+are retained for magic access.
+
+Existing declarations (including inherited and trait properties) are preserved.
+Computed virtual fields, fields with legacy `_get*` accessors, infrastructure
+property names, and types PHP cannot declare (such as `resource`) keep dynamic
+storage and their annotations. Synthetic `_joinData` hints also remain annotations.
+Generated properties are only added: subsequent runs do not change or delete
+existing declarations, even with `--remove`. Dry runs show changes without writing.
+
+Within entity methods, use `$this->set('field', $value)` to preserve dirty tracking
+and mutators when changing native properties. Direct `$this->field = $value`
+assignments inside the entity bypass magic `__set()`.
