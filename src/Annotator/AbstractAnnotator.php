@@ -272,6 +272,8 @@ abstract class AbstractAnnotator {
 			$newContent = $this->addNewDocBlock($file, $beginningOfLineIndex, $annotations);
 		}
 
+		$newContent = $this->finalizeContent($newContent);
+
 		if ($newContent === $content) {
 			$this->reportSkipped($path);
 
@@ -288,6 +290,16 @@ abstract class AbstractAnnotator {
 		$this->report();
 
 		return true;
+	}
+
+	/**
+	 * Apply class-body changes before diffing and storing the annotated content.
+	 *
+	 * @param string $content
+	 * @return string
+	 */
+	protected function finalizeContent(string $content): string {
+		return $content;
 	}
 
 	/**

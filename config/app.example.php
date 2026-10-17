@@ -39,6 +39,8 @@ return [
 		'testClassPatterns' => [],
 		// Inline `@var` annotations for declared properties by property name. Default [].
 		'propertyTypeMap' => [],
+		// Add missing CakePHP 6 protected typed properties for entity fields and associations. Default false.
+		'entityNativeProperties' => false,
 		// Custom Entity field type mapping
 		'typeMap' => [],
 		// Per-type override map for nullable column annotations: set `'someType' => false` to suppress the `|null` suffix. Default [].

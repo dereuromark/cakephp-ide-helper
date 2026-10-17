@@ -11,6 +11,7 @@ use Cake\View\View;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Annotator\EntityAnnotator;
 use IdeHelper\Console\Io;
+use IdeHelper\Test\Generated\IdeHelperNativeFieldsTestEntity;
 use IdeHelper\View\Helper\DocBlockHelper;
 use Shim\TestSuite\ConsoleOutput;
 use Shim\TestSuite\TestTrait;
@@ -714,6 +715,127 @@ class EntityAnnotatorTest extends TestCase {
 		$output = $this->out->output();
 
 		$this->assertTextContains('   -> 1 annotation skipped', $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testNativeProperties(): void {
+		Configure::write('IdeHelper.entityNativeProperties', true);
+		Configure::write('IdeHelper.arrayAsGenerics', true);
+		$table = TableRegistry::getTableLocator()->get('Foos');
+		$table->belongsTo('ParentFoos', ['targetTable' => $table, 'foreignKey' => 'parent_id', 'propertyName' => 'parent_foo']);
+		$table->hasMany('ChildFoos', ['targetTable' => $table, 'foreignKey' => 'parent_id', 'propertyName' => 'children']);
+		$schema = $table->getSchema();
+		$schema->addColumn('parent_id', ['type' => 'integer', 'null' => true]);
+		$schema->addColumn('dirty', ['type' => 'string', 'null' => false]);
+		$schema->addColumn('binary_data', ['type' => 'binary', 'null' => true]);
+		$annotator = new EntityAnnotator($this->io, ['schema' => $schema, 'associations' => $table->associations()]);
+		$path = TMP . 'IdeHelperNativeFieldsTestEntity.php';
+		$content = <<<'PHP'
+<?php
+namespace IdeHelper\Test\Generated;
+
+class IdeHelperNativeFieldsTestEntity extends \Cake\ORM\Entity {
+	protected string $name;
+
+	protected function _getContent(): string {
+		return 'computed';
+	}
+
+	protected function _getLabel(): string {
+		return 'label';
+	}
+}
+PHP;
+		file_put_contents($path, $content);
+		try {
+			$this->assertTrue($annotator->annotate($path));
+			$result = file_get_contents($path);
+			$this->assertStringContainsString('protected int $id;', $result);
+			$this->assertStringContainsString('protected int|null $parent_id;', $result);
+			$this->assertStringContainsString('protected \Cake\I18n\DateTime|null $modified;', $result);
+			$this->assertStringContainsString('protected \TestApp\Model\Entity\Foo|null $parent_foo;', $result);
+			$this->assertStringContainsString('protected array $children;', $result);
+			$this->assertStringContainsString('@var array<\TestApp\Model\Entity\Foo>', $result);
+			$this->assertSame(1, substr_count($result, 'string $name;'));
+			$this->assertStringNotContainsString('protected string $content;', $result);
+			$this->assertStringNotContainsString('protected string $label;', $result);
+			$this->assertStringNotContainsString('protected string $dirty;', $result);
+			$this->assertStringNotContainsString('protected resource', $result);
+			$this->assertStringNotContainsString('$modified = null', $result);
+			$this->assertFalse($annotator->annotate($path), $this->out->output());
+			$this->assertSame($result, file_get_contents($path));
+
+			// Exercise the generated code against CakePHP's property storage and magic writes.
+			require $path;
+			$entity = new IdeHelperNativeFieldsTestEntity(['id' => 1, 'modified' => null]);
+			$this->assertSame(1, $entity->id);
+			$this->assertNull($entity->modified);
+			$this->assertFalse($entity->hasValue('name'));
+			$entity->clean();
+			$entity->id = 2;
+			$this->assertTrue($entity->isDirty('id'));
+			$this->assertSame(1, $entity->getOriginal('id'));
+		} finally {
+			unlink($path);
+		}
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testNativePropertiesDryRunAndSkip(): void {
+		Configure::write('IdeHelper.entityNativeProperties', true);
+		$table = TableRegistry::getTableLocator()->get('Foos');
+		$annotator = new EntityAnnotator($this->io, [
+			'schema' => $table->getSchema(),
+			'associations' => $table->associations(),
+			AbstractAnnotator::CONFIG_DRY_RUN => true,
+		]);
+		$path = TMP . 'NativeDryRun.php';
+		$content = "<?php\nnamespace IdeHelper\\Test\\Generated;\n\nclass NativeDryRun extends \\Cake\\ORM\\Entity {\n}\n";
+		file_put_contents($path, $content);
+		try {
+			$this->assertTrue($annotator->annotate($path));
+			$this->assertSame($content, file_get_contents($path));
+			$this->assertStringContainsString('protected int $id;', $this->out->output());
+
+			$content = str_replace('class NativeDryRun', "/**\n * @inheritDoc\n */\nclass NativeDryRun", $content);
+			file_put_contents($path, $content);
+			$annotator->setConfig(AbstractAnnotator::CONFIG_DRY_RUN, false);
+			$this->assertFalse($annotator->annotate($path), $this->out->output());
+			$this->assertSame($content, file_get_contents($path));
+		} finally {
+			unlink($path);
+		}
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testNativePropertiesRespectInheritedDeclarations(): void {
+		Configure::write('IdeHelper.entityNativeProperties', true);
+		$parent = new class extends \Cake\ORM\Entity {
+			protected string $name;
+		};
+		$table = TableRegistry::getTableLocator()->get('Foos');
+		$annotator = new EntityAnnotator($this->io, [
+			'class' => get_class($parent),
+			'schema' => $table->getSchema(),
+			'associations' => $table->associations(),
+		]);
+		$path = TMP . 'NativeInherited.php';
+		file_put_contents($path, "<?php\nnamespace IdeHelper\\Test\\Generated;\n\nclass NativeInherited extends \\Cake\\ORM\\Entity {\n    protected int \$custom;\n}\n");
+		try {
+			$this->assertTrue($annotator->annotate($path));
+			$result = file_get_contents($path);
+			$this->assertStringNotContainsString('protected string $name;', $result);
+			$this->assertStringContainsString('    protected int $id;', $result);
+			$this->assertStringContainsString('    protected int $custom;', $result);
+		} finally {
+			unlink($path);
+		}
 	}
 
 	/**
