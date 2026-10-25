@@ -111,8 +111,8 @@ class DocBlockHelper extends BakeDocBlockHelper {
 	public function associatedEntityTypeToHintType(string $type, Association $association): string {
 		$annotationType = $association->type();
 		if (
-			$annotationType === Association::MANY_TO_MANY ||
-			$annotationType === Association::ONE_TO_MANY
+			$annotationType === Association::MANY_TO_MANY
+			|| $annotationType === Association::ONE_TO_MANY
 		) {
 			return GenericString::generate($type);
 		}

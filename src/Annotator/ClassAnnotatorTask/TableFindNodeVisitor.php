@@ -47,8 +47,8 @@ class TableFindNodeVisitor extends NodeVisitorAbstract {
 
 		// Check for ->first() or ->firstOrFail()
 		if (
-			!$methodCall->name instanceof Node\Identifier ||
-			!in_array($methodCall->name->toString(), ['first', 'firstOrFail'], true)
+			!$methodCall->name instanceof Node\Identifier
+			|| !in_array($methodCall->name->toString(), ['first', 'firstOrFail'], true)
 		) {
 			return null;
 		}
@@ -96,10 +96,10 @@ class TableFindNodeVisitor extends NodeVisitorAbstract {
 
 		// Should now be at $this->TableName
 		if (
-			$expr instanceof Node\Expr\PropertyFetch &&
-			$expr->var instanceof Node\Expr\Variable &&
-			$expr->var->name === 'this' &&
-			$expr->name instanceof Node\Identifier
+			$expr instanceof Node\Expr\PropertyFetch
+			&& $expr->var instanceof Node\Expr\Variable
+			&& $expr->var->name === 'this'
+			&& $expr->name instanceof Node\Identifier
 		) {
 			return $expr->name->toString();
 		}
