@@ -459,6 +459,13 @@ class ModelAnnotator extends AbstractAnnotator {
 		foreach ($map as $name => $behavior) {
 			$behaviorClassName = get_class($behavior) ?: '';
 			$behaviorName = $this->resolveBehaviorName($behaviorClassName, $name);
+			if ($behaviorName === null) {
+				// Not in a `Model\Behavior` or `ORM\Behavior` namespace: keep the FQCN, `App::className()` resolves it as is.
+				$result[$name] = $behaviorClassName;
+
+				continue;
+			}
+
 			$pluginName = $this->resolvePluginName($behaviorClassName, $name);
 			if ($pluginName) {
 				$pluginName .= '.';

@@ -609,6 +609,57 @@ class ModelAnnotatorTest extends TestCase {
 	}
 
 	/**
+	 * A behavior outside a `Model\Behavior` / `ORM\Behavior` namespace, loaded by its FQCN,
+	 * gets its `@mixin` and its `@extends` entry.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateWithFqcnBehavior() {
+		$annotator = $this->_getEntityTemplateAnnotatorMock([]);
+
+		$expectedContent = str_replace("\r\n", "\n", file_get_contents(TEST_FILES . 'Model/Table/StampsTable.php'));
+		$callback = function ($value) use ($expectedContent) {
+			$value = str_replace(["\r\n", "\r"], "\n", $value);
+			if ($value !== $expectedContent) {
+				$this->_displayDiff($expectedContent, $value);
+			}
+
+			return $value === $expectedContent;
+		};
+		$annotator->expects($this->once())->method('storeFile')->with($this->anything(), $this->callback($callback));
+
+		$annotator->annotate(APP . 'Model/Table/StampsTable.php');
+	}
+
+	/**
+	 * Existing `@mixin` / `@extends` annotations of a behavior outside a `Model\Behavior`
+	 * namespace must not be reported as outdated and removed.
+	 *
+	 * @return void
+	 */
+	public function testAnnotateKeepsExistingFqcnBehaviorAnnotations() {
+		$tmpDir = TMP . 'fqcn-behavior' . DS;
+		if (!is_dir($tmpDir)) {
+			mkdir($tmpDir);
+		}
+		$tmpPath = $tmpDir . 'StampsTable.php';
+		copy(TEST_FILES . 'Model/Table/StampsTable.php', $tmpPath);
+
+		try {
+			$annotator = $this->_getEntityTemplateAnnotatorMock([]);
+			$annotator->expects($this->never())->method('storeFile');
+
+			$annotator->annotate($tmpPath);
+
+			$output = $this->out->output();
+			$this->assertStringNotContainsString('removed', $output);
+		} finally {
+			@unlink($tmpPath);
+			rmdir($tmpDir);
+		}
+	}
+
+	/**
 	 * Regression: in `concreteEntitiesInParam` mode the `save()` and `saveOrFail()`
 	 * overrides narrow `$entity` to the concrete entity class, which the parent's
 	 * `EntityInterface` param does not provide. Keep the overrides when this

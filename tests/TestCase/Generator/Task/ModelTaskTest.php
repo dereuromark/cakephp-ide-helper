@@ -53,6 +53,7 @@ class ModelTaskTest extends TestCase {
 			'Relations.Users' => '\Relations\Model\Table\UsersTable::class',
 			'SkipMe' => '\TestApp\Model\Table\SkipMeTable::class',
 			'SkipSome' => '\TestApp\Model\Table\SkipSomeTable::class',
+			'Stamps' => '\TestApp\Model\Table\StampsTable::class',
 			'Wheels' => '\TestApp\Model\Table\WheelsTable::class',
 			'WheelsExtra' => '\TestApp\Model\Table\WheelsExtraTable::class',
 		];
