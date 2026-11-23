@@ -53,6 +53,7 @@ class TableAssociationTaskTest extends TestCase {
 			'Relations.Users' => '\Cake\ORM\Association\BelongsTo::class',
 			'SkipMe' => '\Cake\ORM\Association\BelongsTo::class',
 			'SkipSome' => '\Cake\ORM\Association\BelongsTo::class',
+			'Stamps' => '\Cake\ORM\Association\BelongsTo::class',
 			'Wheels' => '\Cake\ORM\Association\BelongsTo::class',
 			'WheelsExtra' => '\Cake\ORM\Association\BelongsTo::class',
 		];
